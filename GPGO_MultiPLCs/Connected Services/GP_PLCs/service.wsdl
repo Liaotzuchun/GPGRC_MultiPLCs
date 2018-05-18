@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PLCViewModel" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetNamedPipeBinding_IGPService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IGPService_Initial_InputMessage">
+    <wsdl:part name="parameters" element="tns:Initial" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_CheckSignal_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckSignal" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Set_M_InputMessage">
+    <wsdl:part name="parameters" element="tns:Set_M" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Set_D_InputMessage">
+    <wsdl:part name="parameters" element="tns:Set_D" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Set_Int_InputMessage">
+    <wsdl:part name="parameters" element="tns:Set_Int" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Set_String_InputMessage">
+    <wsdl:part name="parameters" element="tns:Set_String" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Get_M_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_M" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Get_M_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_MResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Get_D_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_D" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Get_D_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_DResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Status_Changed_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:Status_Changed" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_M_Changed_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:M_Changed" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_D_Changed_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:D_Changed" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="IGPService">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Initial">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Initial" message="tns:IGPService_Initial_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CheckSignal">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/CheckSignal" message="tns:IGPService_CheckSignal_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_M">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_M" message="tns:IGPService_Set_M_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_D">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_D" message="tns:IGPService_Set_D_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Int">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Int" message="tns:IGPService_Set_Int_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_String">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_String" message="tns:IGPService_Set_String_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_M">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_M" message="tns:IGPService_Get_M_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_MResponse" message="tns:IGPService_Get_M_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_D">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_D" message="tns:IGPService_Get_D_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_DResponse" message="tns:IGPService_Get_D_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Status_Changed">
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Status_Changed" message="tns:IGPService_Status_Changed_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="M_Changed">
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/M_Changed" message="tns:IGPService_M_Changed_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="D_Changed">
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/D_Changed" message="tns:IGPService_D_Changed_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetNamedPipeBinding_IGPService" type="tns:IGPService">
+    <wsp:PolicyReference URI="#NetNamedPipeBinding_IGPService_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/named-pipe" />
+    <wsdl:operation name="Initial">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Initial" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="CheckSignal">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/CheckSignal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Set_M">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Set_M" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Set_D">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Set_D" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Set_Int">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Set_Int" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Set_String">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Set_String" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Get_M">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Get_M" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_D">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Get_D" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Status_Changed">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Status_Changed" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="M_Changed">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/M_Changed" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="D_Changed">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/D_Changed" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PLCViewModel">
+    <wsdl:port name="NetNamedPipeBinding_IGPService" binding="tns:NetNamedPipeBinding_IGPService">
+      <soap12:address location="net.pipe://localhost/GP_PLCs_Services" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.pipe://localhost/GP_PLCs_Services</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
