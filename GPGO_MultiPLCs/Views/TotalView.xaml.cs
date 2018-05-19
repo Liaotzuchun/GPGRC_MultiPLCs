@@ -12,17 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GPGO_MultiPLCs.Helpers;
-using Newtonsoft.Json;
 
-namespace GPGO_MultiPLCs
+namespace GPGO_MultiPLCs.Views
 {
     /// <summary>
-    /// MainWindow.xaml 的互動邏輯
+    /// TotalView.xaml 的互動邏輯
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TotalView : UserControl
     {
-        public MainWindow()
+        public TotalView()
         {
             InitializeComponent();
         }

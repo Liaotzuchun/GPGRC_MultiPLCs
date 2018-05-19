@@ -83,6 +83,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\PLC_Data.cs" />
+    <Compile Include="ViewModels\MainWindow_ViewModel.cs" />
+    <Compile Include="Views\TotalView.xaml.cs">
+      <DependentUpon>TotalView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -96,12 +101,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connector.cs" />
     <Compile Include="Helpers\ErrorRecoder.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\IDialogService.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\TwoKeyDictionary.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
+    <Compile Include="ViewModels\TotalView_ViewModel.cs" />
     <Compile Include="Views\Helpers\DataGridBehavior.cs" />
     <Compile Include="Views\Helpers\TextBoxFocusBehavior.cs" />
     <Compile Include="Views\Helpers\UniformGrid_M.cs" />
@@ -110,6 +117,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\TotalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -167,8 +178,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="Views\Converters\" />
     <Folder Include="Views\Resources\" />
   </ItemGroup>
