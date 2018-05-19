@@ -102,6 +102,10 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\TwoKeyDictionary.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
+    <Compile Include="Views\Helpers\DataGridBehavior.cs" />
+    <Compile Include="Views\Helpers\TextBoxFocusBehavior.cs" />
+    <Compile Include="Views\Helpers\UniformGrid_M.cs" />
+    <Compile Include="Views\Helpers\ValidationRules.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -165,6 +169,8 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\Converters\" />
+    <Folder Include="Views\Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GP.ico" />
