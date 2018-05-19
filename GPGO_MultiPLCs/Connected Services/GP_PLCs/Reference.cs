@@ -27,6 +27,18 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/CheckSignal")]
         System.Threading.Tasks.Task CheckSignalAsync();
         
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/SetReadList")]
+        void SetReadList(int index, string[] list);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/SetReadList")]
+        System.Threading.Tasks.Task SetReadListAsync(int index, string[] list);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/SetReadLists")]
+        void SetReadLists(string[][] list);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/SetReadLists")]
+        System.Threading.Tasks.Task SetReadListsAsync(string[][] list);
+        
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_M")]
         void Set_M(int index, System.Collections.Generic.Dictionary<int, bool> devs);
         
@@ -119,6 +131,22 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         
         public System.Threading.Tasks.Task CheckSignalAsync() {
             return base.Channel.CheckSignalAsync();
+        }
+        
+        public void SetReadList(int index, string[] list) {
+            base.Channel.SetReadList(index, list);
+        }
+        
+        public System.Threading.Tasks.Task SetReadListAsync(int index, string[] list) {
+            return base.Channel.SetReadListAsync(index, list);
+        }
+        
+        public void SetReadLists(string[][] list) {
+            base.Channel.SetReadLists(list);
+        }
+        
+        public System.Threading.Tasks.Task SetReadListsAsync(string[][] list) {
+            return base.Channel.SetReadListsAsync(list);
         }
         
         public void Set_M(int index, System.Collections.Generic.Dictionary<int, bool> devs) {

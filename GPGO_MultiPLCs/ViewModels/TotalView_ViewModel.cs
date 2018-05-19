@@ -16,17 +16,32 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         void IGPServiceCallback.Status_Changed(int index, bool val)
         {
-
+            if (index < PLC_Count)
+            {
+                PLC_In_All[index].Status = val;
+            }
         }
 
         void IGPServiceCallback.M_Changed(int index, Dictionary<int, bool> val)
         {
-
+            if (index < PLC_Count)
+            {
+                foreach (var v in val)
+                {
+                    PLC_In_All[index].M_Values[v.Key] = v.Value;
+                }
+            }
         }
 
         void IGPServiceCallback.D_Changed(int index, Dictionary<int, short> val)
         {
-
+            if (index < PLC_Count)
+            {
+                foreach (var v in val)
+                {
+                    PLC_In_All[index].D_Values[v.Key] = v.Value;
+                }
+            }
         }
 
         private const int PLC_Count = 20;
@@ -65,6 +80,8 @@ namespace GPGO_MultiPLCs.ViewModels
         public TotalView_ViewModel()
         {
             site = new InstanceContext(this);
+
+            PLC_In_All = new PLC_Data[PLC_Count];
 
             Checker = new Timer(o =>
                                 {
@@ -131,6 +148,25 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
 
                 PLC_Client.CheckSignal();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool SetReadLists(string[][] list)
+        {
+            try
+            {
+                if (PLC_Client.State != CommunicationState.Opened)
+                {
+                    return false;
+                }
+
+                PLC_Client.SetReadLists(list);
 
                 return true;
             }
