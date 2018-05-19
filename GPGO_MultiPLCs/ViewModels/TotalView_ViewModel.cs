@@ -18,7 +18,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             if (index < PLC_Count)
             {
-                PLC_In_All[index].Status = val;
+                PLC_In_All[index].OnlineStatus = val;
             }
         }
 
@@ -82,6 +82,11 @@ namespace GPGO_MultiPLCs.ViewModels
             site = new InstanceContext(this);
 
             PLC_In_All = new PLC_Data[PLC_Count];
+
+            //for (var i = 0; i < PLC_Count; i++)
+            //{
+            //    PLC_In_All = new PLC_Data();
+            //}
 
             Checker = new Timer(o =>
                                 {
