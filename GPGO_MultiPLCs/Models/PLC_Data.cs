@@ -8,15 +8,14 @@ namespace GPGO_MultiPLCs.Models
 {
     public class PLC_Data : ViewModelBase
     {
+        private readonly Stopwatch sw = new Stopwatch();
         private bool _IsProcessing;
-        private bool _OnlineStatus;
         private double _NowTemperature;
-        public bool IsRecording;
+        private bool _OnlineStatus;
         public CancellationTokenSource CTS;
         public TwoKeyDictionary<DataNames, int, short> D_Values;
+        public bool IsRecording;
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;
-
-        private readonly Stopwatch sw = new Stopwatch();
 
         public bool OnlineStatus
         {
@@ -63,13 +62,13 @@ namespace GPGO_MultiPLCs.Models
                 D_Values.Add(loc.Key, int.Parse(loc.Value.Substring(1)), 0);
             }
 
-            M_Values.UpdatedEvent += e =>
-                                     {
-                                     };
+            M_Values.Key1UpdatedEvent += (key, val) =>
+                                         {
+                                         };
 
-            D_Values.UpdatedEvent += e =>
-                                     {
-                                     };
+            D_Values.Key1UpdatedEvent += (key, val) =>
+                                         {
+                                         };
         }
 
         public void ResetStopTokenSource()
