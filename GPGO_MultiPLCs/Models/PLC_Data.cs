@@ -47,19 +47,19 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public PLC_Data(Dictionary<SignalNames, string> M_MapList, Dictionary<DataNames, string> D_MapList)
+        public PLC_Data(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList)
         {
             M_Values = new TwoKeyDictionary<SignalNames, int, bool>();
             D_Values = new TwoKeyDictionary<DataNames, int, short>();
 
             foreach (var loc in M_MapList)
             {
-                M_Values.Add(loc.Key, int.Parse(loc.Value.Substring(1)), false);
+                M_Values.Add(loc.Key, loc.Value, false);
             }
 
             foreach (var loc in D_MapList)
             {
-                D_Values.Add(loc.Key, int.Parse(loc.Value.Substring(1)), 0);
+                D_Values.Add(loc.Key, loc.Value, 0);
             }
 
             M_Values.Key1UpdatedEvent += (key, val) =>
