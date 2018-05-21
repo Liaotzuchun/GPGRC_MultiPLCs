@@ -1,26 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GPGO_MultiPLCs.Models
+﻿namespace GPGO_MultiPLCs.Models
 {
     public enum SignalNames
     {
         程式結束,
         加熱門未關,
         緊急停止,
+        溫控器低溫異常,
+        電源反相,
         OTP超溫異常,
         循環風車過載,
+        冷卻進氣風車異常,
         超溫警報,
         停止後未開門,
         循環風車INV異常,
-        升恆溫逾時
+        充氮氣逾時,
+        門未關定位異常,
+        升恆溫逾時,
+        手動模式,
+        自動模式,
+        自動停止,
+        自動啟動
     }
 
     public enum DataNames
     {
+        配方名稱_01,
+        配方名稱_02,
+        配方名稱_03,
+        配方名稱_04,
+        配方名稱_05,
+        配方名稱_06,
+        配方名稱_07,
+        配方名稱_08,
+        配方名稱_09,
+        配方名稱_10,
         目標溫度_1,
         目標溫度_2,
         目標溫度_3,
@@ -54,6 +67,18 @@ namespace GPGO_MultiPLCs.Models
         恆溫時間_7,
         恆溫時間_8,
         降溫溫度,
-        使用段速
+        充氣時間,
+        使用段速,
+        爐內溫度_1,
+        爐內溫度_2,
+        爐內溫度_3,
+        爐內溫度_4,
+        爐內溫度_5,
+        爐內溫度_6,
+        爐內溫度_7,
+        爐內溫度_8,
+        溫控器溫度,
+        片段剩餘時間,
+        總剩餘時間
     }
 }
