@@ -7,8 +7,6 @@ namespace GPGO_MultiPLCs.Helpers
     {
         public delegate void Key1Updated(TKey1 name, TValue value);
 
-        public event Key1Updated Key1UpdatedEvent;
-
         public Dictionary<TKey1, TValue> Key1Dictionary = new Dictionary<TKey1, TValue>();
 
         public Dictionary<TKey2, TKey1> Key2Dictionary = new Dictionary<TKey2, TKey1>();
@@ -34,6 +32,8 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
+        public event Key1Updated Key1UpdatedEvent;
+
         public IEnumerable<KeyValuePair<TKey1, TValue>> GetKeyValuePairsOfKey1()
         {
             return Key1Dictionary.ToList();
@@ -44,6 +44,16 @@ namespace GPGO_MultiPLCs.Helpers
             var r = from s in Key2Dictionary join f in Key1Dictionary on s.Value equals f.Key select new KeyValuePair<TKey2, TValue>(s.Key, f.Value);
 
             return r;
+        }
+
+        public IEnumerable<TValue> GetValues(IEnumerable<TKey1> keys)
+        {
+            return keys.Select(key => Key1Dictionary[key]);
+        }
+
+        public IEnumerable<TValue> GetValues(IEnumerable<TKey2> keys)
+        {
+            return keys.Select(key => Key1Dictionary[Key2Dictionary[key]]);
         }
 
         public void Add(TKey1 Key1, TKey2 Key2, TValue value)

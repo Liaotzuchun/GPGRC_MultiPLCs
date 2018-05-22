@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading;
@@ -43,7 +42,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         private const int PLC_Count = 20;
-        private readonly AsyncOperation AO = AsyncOperationManager.CreateOperation(null);
+        private const int Check_Dev = 21; //心跳信號位置
         private readonly Timer Checker;
         private readonly InstanceContext site;
         private bool _Gate_Status;
@@ -83,6 +82,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             var M_List = new Dictionary<SignalNames, int>
                          {
+                             { SignalNames.PC_ByPass, 20 },
                              { SignalNames.自動模式, 50 },
                              { SignalNames.自動啟動, 51 },
                              { SignalNames.自動停止, 52 },
@@ -115,73 +115,90 @@ namespace GPGO_MultiPLCs.ViewModels
                              { DataNames.爐內溫度_5, 384 },
                              { DataNames.爐內溫度_6, 385 },
                              { DataNames.爐內溫度_7, 386 },
-                             { DataNames.爐內溫度_8, 387 },
-                             { DataNames.目標溫度_1, 712 },
-                             { DataNames.升溫時間_1, 713 },
-                             { DataNames.恆溫溫度_1, 714 },
-                             { DataNames.恆溫時間_1, 715 },
-                             { DataNames.目標溫度_2, 716 },
-                             { DataNames.升溫時間_2, 717 },
-                             { DataNames.恆溫溫度_2, 718 },
-                             { DataNames.恆溫時間_2, 719 },
-                             { DataNames.目標溫度_3, 720 },
-                             { DataNames.升溫時間_3, 721 },
-                             { DataNames.恆溫溫度_3, 722 },
-                             { DataNames.恆溫時間_3, 723 },
-                             { DataNames.目標溫度_4, 724 },
-                             { DataNames.升溫時間_4, 725 },
-                             { DataNames.恆溫溫度_4, 726 },
-                             { DataNames.恆溫時間_4, 727 },
-                             { DataNames.目標溫度_5, 728 },
-                             { DataNames.升溫時間_5, 729 },
-                             { DataNames.恆溫溫度_5, 730 },
-                             { DataNames.恆溫時間_5, 731 },
-                             { DataNames.目標溫度_6, 732 },
-                             { DataNames.升溫時間_6, 733 },
-                             { DataNames.恆溫溫度_6, 734 },
-                             { DataNames.恆溫時間_6, 735 },
-                             { DataNames.目標溫度_7, 736 },
-                             { DataNames.升溫時間_7, 737 },
-                             { DataNames.恆溫溫度_7, 738 },
-                             { DataNames.恆溫時間_7, 739 },
-                             { DataNames.目標溫度_8, 740 },
-                             { DataNames.升溫時間_8, 741 },
-                             { DataNames.恆溫溫度_8, 742 },
-                             { DataNames.恆溫時間_8, 743 },
-                             { DataNames.降溫溫度, 745 },
-                             { DataNames.充氣時間, 747 },
-                             { DataNames.使用段速, 749 }
+                             { DataNames.爐內溫度_8, 387 }
                          };
+
+            var Recipe_List = new Dictionary<DataNames, int>
+                              {
+                                  { DataNames.目標溫度_1, 712 },
+                                  { DataNames.升溫時間_1, 713 },
+                                  { DataNames.恆溫溫度_1, 714 },
+                                  { DataNames.恆溫時間_1, 715 },
+                                  { DataNames.目標溫度_2, 716 },
+                                  { DataNames.升溫時間_2, 717 },
+                                  { DataNames.恆溫溫度_2, 718 },
+                                  { DataNames.恆溫時間_2, 719 },
+                                  { DataNames.目標溫度_3, 720 },
+                                  { DataNames.升溫時間_3, 721 },
+                                  { DataNames.恆溫溫度_3, 722 },
+                                  { DataNames.恆溫時間_3, 723 },
+                                  { DataNames.目標溫度_4, 724 },
+                                  { DataNames.升溫時間_4, 725 },
+                                  { DataNames.恆溫溫度_4, 726 },
+                                  { DataNames.恆溫時間_4, 727 },
+                                  { DataNames.目標溫度_5, 728 },
+                                  { DataNames.升溫時間_5, 729 },
+                                  { DataNames.恆溫溫度_5, 730 },
+                                  { DataNames.恆溫時間_5, 731 },
+                                  { DataNames.目標溫度_6, 732 },
+                                  { DataNames.升溫時間_6, 733 },
+                                  { DataNames.恆溫溫度_6, 734 },
+                                  { DataNames.恆溫時間_6, 735 },
+                                  { DataNames.目標溫度_7, 736 },
+                                  { DataNames.升溫時間_7, 737 },
+                                  { DataNames.恆溫溫度_7, 738 },
+                                  { DataNames.恆溫時間_7, 739 },
+                                  { DataNames.目標溫度_8, 740 },
+                                  { DataNames.升溫時間_8, 741 },
+                                  { DataNames.恆溫溫度_8, 742 },
+                                  { DataNames.恆溫時間_8, 743 },
+                                  { DataNames.降溫溫度, 745 },
+                                  { DataNames.充氣時間, 747 },
+                                  { DataNames.使用段數, 749 },
+                                  { DataNames.配方名稱_01, 750 },
+                                  { DataNames.配方名稱_02, 751 },
+                                  { DataNames.配方名稱_03, 752 },
+                                  { DataNames.配方名稱_04, 753 },
+                                  { DataNames.配方名稱_05, 754 },
+                                  { DataNames.配方名稱_06, 755 },
+                                  { DataNames.配方名稱_07, 756 },
+                                  { DataNames.配方名稱_08, 757 },
+                                  { DataNames.配方名稱_09, 758 },
+                                  { DataNames.配方名稱_10, 759 },
+                                  { DataNames.配方名稱_11, 760 },
+                                  { DataNames.配方名稱_12, 761 },
+                                  { DataNames.配方名稱_13, 762 }
+                              };
 
             for (var i = 0; i < PLC_Count; i++)
             {
-                PLC_In_All[i] = new PLC_Data(M_List, D_List);
+                PLC_In_All[i] = new PLC_Data(M_List, D_List, Recipe_List);
             }
 
             var namelists = M_List.Values.OrderBy(x => x).Select(x => "M" + x.ToString()).Concat(D_List.Values.OrderBy(x => x).Select(x => "D" + x.ToString())).ToList();
             var namearray = new[]
-            {
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-                namelists.ToArray(),
-            };
+                            {
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray(),
+                                namelists.ToArray()
+                            };
 
             Checker = new Timer(o =>
                                 {
@@ -197,7 +214,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         Gate_Status = false;
                                     }
 
-                                    Checker.Change(90, Timeout.Infinite);
+                                    Checker.Change(150, Timeout.Infinite);
                                 },
                                 null,
                                 0,
@@ -266,7 +283,7 @@ namespace GPGO_MultiPLCs.ViewModels
                     return false;
                 }
 
-                PLC_Client.CheckSignal();
+                PLC_Client.CheckSignal(Check_Dev);
 
                 return true;
             }

@@ -104,7 +104,7 @@ namespace GPGO_MultiPLCs.Helpers
             return val;
         }
 
-        public static string ASCIIfromShorts(this short[] vals)
+        public static string ASCIIfromShorts(this IEnumerable<short> vals)
         {
             var bytes = new List<byte>();
             foreach (var val in vals)
@@ -139,7 +139,7 @@ namespace GPGO_MultiPLCs.Helpers
             return vals.ToArray();
         }
 
-        public static string UTF8fromShorts(this short[] vals)
+        public static string UTF8fromShorts(this IEnumerable<short> vals)
         {
             var bytes = new List<byte>();
             foreach (var val in vals)

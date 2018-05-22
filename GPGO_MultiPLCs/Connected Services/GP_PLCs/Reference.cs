@@ -22,10 +22,10 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         System.Threading.Tasks.Task InitialAsync();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/CheckSignal")]
-        void CheckSignal();
+        void CheckSignal(int dev);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/CheckSignal")]
-        System.Threading.Tasks.Task CheckSignalAsync();
+        System.Threading.Tasks.Task CheckSignalAsync(int dev);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/SetReadList")]
         void SetReadList(int index, string[] list);
@@ -125,12 +125,12 @@ namespace GPGO_MultiPLCs.GP_PLCs {
             return base.Channel.InitialAsync();
         }
         
-        public void CheckSignal() {
-            base.Channel.CheckSignal();
+        public void CheckSignal(int dev) {
+            base.Channel.CheckSignal(dev);
         }
         
-        public System.Threading.Tasks.Task CheckSignalAsync() {
-            return base.Channel.CheckSignalAsync();
+        public System.Threading.Tasks.Task CheckSignalAsync(int dev) {
+            return base.Channel.CheckSignalAsync(dev);
         }
         
         public void SetReadList(int index, string[] list) {
