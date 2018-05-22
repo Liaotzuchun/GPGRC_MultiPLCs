@@ -104,7 +104,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\NamesEnum.cs" />
+    <Compile Include="Models\PanelInfo.cs" />
     <Compile Include="Models\PLC_Data.cs" />
+    <Compile Include="Models\Record_Info.cs" />
     <Compile Include="ViewModels\MainWindow_ViewModel.cs" />
     <Compile Include="Views\TotalView.xaml.cs">
       <DependentUpon>TotalView.xaml</DependentUpon>

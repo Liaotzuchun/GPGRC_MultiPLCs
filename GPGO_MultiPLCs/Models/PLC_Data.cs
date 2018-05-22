@@ -437,14 +437,14 @@ namespace GPGO_MultiPLCs.Models
         public bool AutoMode_Start => M_Values[SignalNames.自動啟動];
         public bool PC_ByPass => M_Values[SignalNames.PC_ByPass];
         public double ThermostatTemperature => D_Values[DataNames.溫控器溫度] * 0.1;
-        public short FurnaceTemperature_1 => D_Values[DataNames.爐內溫度_1];
-        public short FurnaceTemperature_2 => D_Values[DataNames.爐內溫度_2];
-        public short FurnaceTemperature_3 => D_Values[DataNames.爐內溫度_3];
-        public short FurnaceTemperature_4 => D_Values[DataNames.爐內溫度_4];
-        public short FurnaceTemperature_5 => D_Values[DataNames.爐內溫度_5];
-        public short FurnaceTemperature_6 => D_Values[DataNames.爐內溫度_6];
-        public short FurnaceTemperature_7 => D_Values[DataNames.爐內溫度_7];
-        public short FurnaceTemperature_8 => D_Values[DataNames.爐內溫度_8];
+        public short OvenTemperature_1 => D_Values[DataNames.爐內溫度_1];
+        public short OvenTemperature_2 => D_Values[DataNames.爐內溫度_2];
+        public short OvenTemperature_3 => D_Values[DataNames.爐內溫度_3];
+        public short OvenTemperature_4 => D_Values[DataNames.爐內溫度_4];
+        public short OvenTemperature_5 => D_Values[DataNames.爐內溫度_5];
+        public short OvenTemperature_6 => D_Values[DataNames.爐內溫度_6];
+        public short OvenTemperature_7 => D_Values[DataNames.爐內溫度_7];
+        public short OvenTemperature_8 => D_Values[DataNames.爐內溫度_8];
         public short Fragment_RemainingTime => D_Values[DataNames.片段剩餘時間];
         public short Total_RemainingTime => D_Values[DataNames.總剩餘時間];
         #endregion
@@ -500,7 +500,7 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
-        public async Task<List<double>> StartRecoder()
+        public async Task<List<Record_Info>> StartRecoder()
         {
             if (IsRecording)
             {
@@ -510,7 +510,7 @@ namespace GPGO_MultiPLCs.Models
             IsRecording = true;
             var val = await Task.Factory.StartNew(() =>
                                                   {
-                                                      var list = new List<double>();
+                                                      var list = new List<Record_Info>();
                                                       var n = 0;
                                                       sw.Restart();
 
@@ -518,7 +518,18 @@ namespace GPGO_MultiPLCs.Models
                                                       {
                                                           if (sw.ElapsedMilliseconds >= n * 60000)
                                                           {
-                                                              //list.Add(_NowTemperature);
+                                                              list.Add(new Record_Info
+                                                              {
+                                                                  ThermostatTemperature = ThermostatTemperature,
+                                                                  OvenTemperature_1 = OvenTemperature_1,
+                                                                  OvenTemperature_2 = OvenTemperature_2,
+                                                                  OvenTemperature_3 = OvenTemperature_3,
+                                                                  OvenTemperature_4 = OvenTemperature_4,
+                                                                  OvenTemperature_5 = OvenTemperature_5,
+                                                                  OvenTemperature_6 = OvenTemperature_6,
+                                                                  OvenTemperature_7 = OvenTemperature_7,
+                                                                  OvenTemperature_8 = OvenTemperature_8
+                                                              });
 
                                                               n++;
                                                           }
