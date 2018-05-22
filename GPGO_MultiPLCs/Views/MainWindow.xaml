@@ -24,6 +24,6 @@
             Grid.Column="1"
             Margin="8"
             Source="/GPGO_MultiPLCs;component/GPS.png" />
-        <view:TotalView DataContext="{Binding TotalVM, Source={StaticResource Connector}, Mode=OneWay}" />
+        <view:TotalView DataContext="{Binding TotalVM, Source={StaticResource Connector}, Mode=OneWay}" Grid.Row="1" />
     </Grid>
 </Window>

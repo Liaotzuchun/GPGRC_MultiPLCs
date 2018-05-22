@@ -46,11 +46,26 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly Timer Checker;
         private readonly InstanceContext site;
         private bool _Gate_Status;
-
-        private int _ViewIndex;
+        private int _Index;
+        private int _ViewIndex = -1;
         private GPServiceClient PLC_Client;
 
-        public PLC_Data[] PLC_In_All;
+        public PLC_Data[] PLC_In_All { get; }
+        public RelayCommand BackCommand { get; }
+
+        public int Index
+        {
+            get => _Index;
+            set
+            {
+                _Index = value;
+                NotifyPropertyChanged();
+                if (value == 0)
+                {
+                    ViewIndex = -1;
+                }
+            }
+        }
 
         public int ViewIndex
         {
@@ -59,6 +74,11 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _ViewIndex = value;
                 NotifyPropertyChanged();
+                if (value > -1)
+                {
+                    NotifyPropertyChanged(nameof(PLC_In_Focused));
+                    Index = 1;
+                }
             }
         }
 
@@ -77,6 +97,11 @@ namespace GPGO_MultiPLCs.ViewModels
         public TotalView_ViewModel()
         {
             site = new InstanceContext(this);
+
+            BackCommand = new RelayCommand(o =>
+                                           {
+                                               Index = o is int i ? i : 0;
+                                           });
 
             PLC_In_All = new PLC_Data[PLC_Count];
 
@@ -108,6 +133,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              { DataNames.溫控器溫度, 130 },
                              { DataNames.片段剩餘時間, 132 },
                              { DataNames.總剩餘時間, 134 },
+                             { DataNames.目前段數, 140 },
                              { DataNames.爐內溫度_1, 380 },
                              { DataNames.爐內溫度_2, 381 },
                              { DataNames.爐內溫度_3, 382 },
@@ -172,7 +198,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             for (var i = 0; i < PLC_Count; i++)
             {
-                PLC_In_All[i] = new PLC_Data(M_List, D_List, Recipe_List);
+                PLC_In_All[i] = new PLC_Data(i + 1, M_List, D_List, Recipe_List);
             }
 
             var namelists = M_List.Values.OrderBy(x => x).Select(x => "M" + x.ToString()).Concat(D_List.Values.OrderBy(x => x).Select(x => "D" + x.ToString())).ToList();

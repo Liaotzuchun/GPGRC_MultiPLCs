@@ -10,13 +10,116 @@ namespace GPGO_MultiPLCs.Models
     {
         private readonly Stopwatch sw = new Stopwatch();
         private bool _OnlineStatus;
+        public int StationNumber { get; }
         public CancellationTokenSource CTS;
         public TwoKeyDictionary<DataNames, int, short> D_Values;
         public bool IsRecording;
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;
         public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
 
+        public ProcessInfo Process_Info { get; }
+
+        public bool OnlineStatus
+        {
+            get => _OnlineStatus;
+            set
+            {
+                _OnlineStatus = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public PLC_Data(int index, Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList)
+        {
+            StationNumber = index;
+            Process_Info = new ProcessInfo();
+            M_Values = new TwoKeyDictionary<SignalNames, int, bool>();
+            D_Values = new TwoKeyDictionary<DataNames, int, short>();
+            Recipe_Values = new TwoKeyDictionary<DataNames, int, short>();
+
+            foreach (var loc in M_MapList)
+            {
+                M_Values.Add(loc.Key, loc.Value, false);
+            }
+
+            foreach (var loc in D_MapList)
+            {
+                D_Values.Add(loc.Key, loc.Value, 0);
+            }
+
+            foreach (var loc in Recipe_MapList)
+            {
+                Recipe_Values.Add(loc.Key, loc.Value, 0);
+            }
+
+            M_Values.Key1UpdatedEvent += (key, val) =>
+                                         {
+                                         };
+
+            D_Values.Key1UpdatedEvent += (key, val) =>
+                                         {
+                                         };
+        }
+
+        public void ResetStopTokenSource()
+        {
+            CTS?.Dispose();
+
+            CTS = new CancellationTokenSource();
+            //CTS.Token.Register(() =>
+            //{
+            //
+            //});
+        }
+
+        public async Task<List<Record_Info>> StartRecoder(long cycle_ms, CancellationToken ct)
+        {
+            if (IsRecording)
+            {
+                return null;
+            }
+
+            IsRecording = true;
+            var val = await Task.Factory.StartNew(() =>
+                                                  {
+                                                      var list = new List<Record_Info>();
+                                                      var n = 0;
+                                                      sw.Restart();
+
+                                                      while (!ct.IsCancellationRequested)
+                                                      {
+                                                          if (sw.ElapsedMilliseconds >= n * cycle_ms)
+                                                          {
+                                                              list.Add(new Record_Info
+                                                                       {
+                                                                           ThermostatTemperature = ThermostatTemperature,
+                                                                           OvenTemperature_1 = OvenTemperature_1,
+                                                                           OvenTemperature_2 = OvenTemperature_2,
+                                                                           OvenTemperature_3 = OvenTemperature_3,
+                                                                           OvenTemperature_4 = OvenTemperature_4,
+                                                                           OvenTemperature_5 = OvenTemperature_5,
+                                                                           OvenTemperature_6 = OvenTemperature_6,
+                                                                           OvenTemperature_7 = OvenTemperature_7,
+                                                                           OvenTemperature_8 = OvenTemperature_8
+                                                                       });
+
+                                                              n++;
+                                                          }
+
+                                                          Thread.Sleep(1);
+                                                      }
+
+                                                      sw.Stop();
+
+                                                      return list;
+                                                  },
+                                                  TaskCreationOptions.LongRunning);
+
+            return val;
+        }
+
         #region 生產配方
+
         public string RecipeName
         {
             get => new[]
@@ -411,9 +514,11 @@ namespace GPGO_MultiPLCs.Models
                 NotifyPropertyChanged();
             }
         }
+
         #endregion
 
         #region 警告
+
         public bool ProgramStop => M_Values[SignalNames.程式結束];
         public bool DoorNotClosed => M_Values[SignalNames.加熱門未關];
         public bool EmergencyStopd => M_Values[SignalNames.緊急停止];
@@ -428,9 +533,11 @@ namespace GPGO_MultiPLCs.Models
         public bool FillingTimeExceeded => M_Values[SignalNames.充氮氣逾時];
         public bool DoorNotClosed_AbnormalPositioning => M_Values[SignalNames.門未關定位異常];
         public bool HeatingTimeExceeded => M_Values[SignalNames.升恆溫逾時];
+
         #endregion
 
-        #region 狀態
+        #region 機台狀態
+
         public bool ManualMode => M_Values[SignalNames.手動模式];
         public bool AutoMode => M_Values[SignalNames.自動模式];
         public bool AutoMode_Stop => M_Values[SignalNames.自動停止];
@@ -447,101 +554,7 @@ namespace GPGO_MultiPLCs.Models
         public short OvenTemperature_8 => D_Values[DataNames.爐內溫度_8];
         public short Fragment_RemainingTime => D_Values[DataNames.片段剩餘時間];
         public short Total_RemainingTime => D_Values[DataNames.總剩餘時間];
+
         #endregion
-
-        public bool OnlineStatus
-        {
-            get => _OnlineStatus;
-            set
-            {
-                _OnlineStatus = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public PLC_Data(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList)
-        {
-            M_Values = new TwoKeyDictionary<SignalNames, int, bool>();
-            D_Values = new TwoKeyDictionary<DataNames, int, short>();
-            Recipe_Values = new TwoKeyDictionary<DataNames, int, short>();
-
-            foreach (var loc in M_MapList)
-            {
-                M_Values.Add(loc.Key, loc.Value, false);
-            }
-
-            foreach (var loc in D_MapList)
-            {
-                D_Values.Add(loc.Key, loc.Value, 0);
-            }
-
-            foreach (var loc in Recipe_MapList)
-            {
-                Recipe_Values.Add(loc.Key, loc.Value, 0);
-            }
-
-            M_Values.Key1UpdatedEvent += (key, val) =>
-                                         {
-                                         };
-
-            D_Values.Key1UpdatedEvent += (key, val) =>
-                                         {
-                                         };
-        }
-
-        public void ResetStopTokenSource()
-        {
-            CTS?.Dispose();
-
-            CTS = new CancellationTokenSource();
-            //CTS.Token.Register(() =>
-            //{
-            //
-            //});
-        }
-
-        public async Task<List<Record_Info>> StartRecoder()
-        {
-            if (IsRecording)
-            {
-                return null;
-            }
-
-            IsRecording = true;
-            var val = await Task.Factory.StartNew(() =>
-                                                  {
-                                                      var list = new List<Record_Info>();
-                                                      var n = 0;
-                                                      sw.Restart();
-
-                                                      while (!CTS.IsCancellationRequested)
-                                                      {
-                                                          if (sw.ElapsedMilliseconds >= n * 60000)
-                                                          {
-                                                              list.Add(new Record_Info
-                                                              {
-                                                                  ThermostatTemperature = ThermostatTemperature,
-                                                                  OvenTemperature_1 = OvenTemperature_1,
-                                                                  OvenTemperature_2 = OvenTemperature_2,
-                                                                  OvenTemperature_3 = OvenTemperature_3,
-                                                                  OvenTemperature_4 = OvenTemperature_4,
-                                                                  OvenTemperature_5 = OvenTemperature_5,
-                                                                  OvenTemperature_6 = OvenTemperature_6,
-                                                                  OvenTemperature_7 = OvenTemperature_7,
-                                                                  OvenTemperature_8 = OvenTemperature_8
-                                                              });
-
-                                                              n++;
-                                                          }
-                                                      }
-
-                                                      sw.Stop();
-
-                                                      return list;
-                                                  },
-                                                  TaskCreationOptions.LongRunning);
-
-            return val;
-        }
     }
 }
