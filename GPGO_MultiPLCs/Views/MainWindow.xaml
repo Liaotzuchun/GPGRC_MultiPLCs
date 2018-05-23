@@ -5,13 +5,13 @@
         xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="GPGO"
-        AllowsTransparency="True"
-        Background="{DynamicResource WindowBackgroundBrush2}"
+        Background="{DynamicResource LightColorBrush}"
         DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
         Icon="/GPGO_MultiPLCs;component/GP.ico"
-        ResizeMode="NoResize"
+        SnapsToDevicePixels="True"
+        WindowStartupLocation="Manual"
         WindowState="Maximized"
-        WindowStyle="None"
+        WindowStyle="ThreeDBorderWindow"
         mc:Ignorable="d">
 
     <Grid>
@@ -23,11 +23,32 @@
             <RowDefinition Height="80" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border Grid.Column="1" Background="{StaticResource LightColorBrush}">
+        <Grid>
+
+        </Grid>
+        <Border Grid.Column="1"
+                Background="{StaticResource LightColorBrush}">
             <Image Margin="8"
                    Source="/GPGO_MultiPLCs;component/GPS.png" />
         </Border>
         <local:TotalView Grid.Row="1"
                          DataContext="{Binding TotalVM, Source={StaticResource Connector}, Mode=OneWay}" />
+        <Grid Grid.Row="1"
+              Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <GroupBox Header="系統資訊" />
+            <GroupBox Grid.Row="1"
+                      Header="系統功能">
+                <UniformGrid Columns="1">
+                    <Button FontSize="20">權限管理</Button>
+                    <Button FontSize="20">配方管理</Button>
+                    <Button FontSize="20">生產履歷</Button>
+                    <Button FontSize="20">資訊快照</Button>
+                </UniformGrid>
+            </GroupBox>
+        </Grid>
     </Grid>
 </Window>

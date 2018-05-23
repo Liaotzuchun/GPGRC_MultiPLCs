@@ -8,47 +8,230 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:TotalView_ViewModel}"
-             d:DesignHeight="450"
+             d:DesignHeight="200"
              d:DesignWidth="800"
+             Background="{StaticResource WindowBackgroundBrush2}"
+             SnapsToDevicePixels="True"
              mc:Ignorable="d">
     <Grid>
-        <TabControl SelectedIndex="{Binding Index, Mode=TwoWay}">
+        <TabControl Margin="4"
+                    SelectedIndex="{Binding Index, Mode=TwoWay}">
             <TabItem Width="0"
                      Height="0">
                 <ListBox ItemsSource="{Binding PLC_In_All, Mode=OneTime}"
                          SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="1" />
+                            <UniformGrid Columns="2" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="m:PLC_Data">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="8"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{Binding StationNumber, Mode=OneWay, StringFormat=第 \{0:D\} 站}" />
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding OnlineStatus, Mode=OneWay}"
-                                                             Value="true">
-                                                    <Setter Property="Text" Value="線上" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding OnlineStatus, Mode=OneWay}"
-                                                             Value="false">
-                                                    <Setter Property="Text" Value="離線" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
+                            <TabControl Style="{StaticResource NoHeaderTabControl}">
+                                <TabItem>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="設備碼" />
+                                        </Border>
+                                        <Border Grid.Column="1"
+                                                Background="{StaticResource LightBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Process_Info.MachineCode, Mode=OneWay}" />
+                                        </Border>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="2"
+                                                Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="配方" />
+                                        </Border>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="3"
+                                                Background="{StaticResource LightBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding RecipeName, Mode=OneWay}" />
+                                        </Border>
+                                        <Button Grid.Row="1"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Content="加入生產" />
+                                        <Button Grid.Row="1"
+                                                Grid.Column="2"
+                                                Grid.ColumnSpan="2"
+                                                Content="變更配方" />
+                                    </Grid>
+                                </TabItem>
+                                <TabItem>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="台車碼" />
+                                        </Border>
+                                        <Border Grid.Column="1"
+                                                Background="{StaticResource LightBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Process_Info.TrolleyCode, Mode=OneWay}" />
+                                        </Border>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="2"
+                                                Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="工單碼" />
+                                        </Border>
+                                        <Border Grid.Row="0"
+                                                Grid.Column="3"
+                                                Background="{StaticResource LightBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Process_Info.OrderCode, Mode=OneWay}" />
+                                        </Border>
+                                        <Border Grid.Row="1"
+                                                Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="製造序" />
+                                        </Border>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="1"
+                                                Background="{StaticResource LightBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Process_Info.ProcessNumber, Mode=OneWay}" />
+                                        </Border>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="2"
+                                                Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="張數" />
+                                        </Border>
+                                        <Border Grid.Row="1"
+                                                Grid.Column="3"
+                                                Background="{StaticResource LightBrush}">
+                                            <StackPanel HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Process_Info.ProcessCount, Mode=OneWay}" />
+                                                <TextBlock Text=" / " />
+                                                <TextBlock Text="{Binding Process_Info.OrderCount, Mode=OneWay}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <Border Grid.Row="2"
+                                                Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="狀態" />
+                                        </Border>
+                                        <ProgressBar x:Name="Progress"
+                                                     Grid.Row="2"
+                                                     Grid.Column="1"
+                                                     Grid.ColumnSpan="3"
+                                                     Value="{Binding Progress, Mode=OneWay}" />
+                                        <TextBlock x:Name="ProgressString"
+                                                   Grid.Row="2"
+                                                   Grid.Column="1"
+                                                   Grid.ColumnSpan="3"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding ProgressString, Mode=OneWay}" />
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding ProgressString, Mode=OneWay}"
+                                             Value="升溫中">
+                                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
+                                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                    <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ProgressString, Mode=OneWay}"
+                                             Value="恆溫中">
+                                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
+                                    <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ProgressString, Mode=OneWay}"
+                                             Value="降溫中">
+                                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
+                                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                                    <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <Setter Property="OverridesDefaultStyle" Value="true" />
+                            <Setter Property="SnapsToDevicePixels" Value="true" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Grid Margin="1"
+                                              d:DataContext="{d:DesignInstance m:PLC_Data}"
+                                              Background="{StaticResource LightColorBrush}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Background="{StaticResource ErrorBrush}" />
+                                            <Border Background="{StaticResource OKBrush}"
+                                                    Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
+                                            <Border Background="{StaticResource WorkingBrush}"
+                                                    Visibility="{Binding IsRecording, Mode=OneWay, Converter={StaticResource BoolVis}}" />
+                                            <TextBlock x:Name="StationNumber"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="48"
+                                                       Text="{Binding StationNumber, Mode=OneWay}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsRecording, Mode=OneWay}"
+                                                                         Value="true">
+                                                                <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <ContentPresenter x:Name="CP"
+                                                              Grid.Column="1"
+                                                              TextElement.Foreground="{StaticResource BaseForeground}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                 </ListBox>
             </TabItem>
             <TabItem Width="0"

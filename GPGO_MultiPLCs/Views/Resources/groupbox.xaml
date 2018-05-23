@@ -18,7 +18,7 @@
                 <ControlTemplate TargetType="GroupBox">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20" />
+                            <RowDefinition Height="24" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0"
@@ -40,7 +40,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="0,0,0,0">
-                            <ContentPresenter Margin="4" />
+                            <ContentPresenter />
                         </Border>
                     </Grid>
                 </ControlTemplate>

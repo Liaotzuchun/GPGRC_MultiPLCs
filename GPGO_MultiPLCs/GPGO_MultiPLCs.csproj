@@ -117,7 +117,6 @@
     <Compile Include="Views\Helpers\BindableBinding.cs" />
     <Compile Include="Views\Helpers\Converters.cs" />
     <Compile Include="Views\Helpers\MultiValueConverters.cs" />
-    <Compile Include="Views\Helpers\Toggles.cs" />
     <Compile Include="Views\TotalView.xaml.cs">
       <DependentUpon>TotalView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +164,10 @@
     <Page Include="Views\Resources\combobox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Resources\datagrid.xaml">
       <Generator>MSBuild:Compile</Generator>

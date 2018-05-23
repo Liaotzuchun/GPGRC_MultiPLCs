@@ -10,9 +10,10 @@ namespace GPGO_MultiPLCs.Models
     {
         private readonly Stopwatch sw = new Stopwatch();
         private bool _OnlineStatus;
+        private bool _IsRecording;
+
         public CancellationTokenSource CTS;
         public TwoKeyDictionary<DataNames, int, short> D_Values;
-        public bool IsRecording;
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;
         public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
         public int StationNumber { get; }
@@ -26,6 +27,39 @@ namespace GPGO_MultiPLCs.Models
             {
                 _OnlineStatus = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        public bool IsRecording
+        {
+            get => _IsRecording;
+            set
+            {
+                _IsRecording = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double Progress
+        {
+            get
+            {
+                var val = (double)CurrentSegment / UsedSegmentCounts;
+
+                return double.IsNaN(val) || double.IsInfinity(val) ? 0.0 : val;
+            }
+        }
+
+        public string ProgressString
+        {
+            get
+            {
+                if(CurrentSegment > UsedSegmentCounts)
+                {
+                    return "降溫中";
+                }
+
+                return CurrentSegment % 2 == 0 ? "恆溫中" : "升溫中";
             }
         }
 

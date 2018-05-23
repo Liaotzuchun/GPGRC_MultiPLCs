@@ -10,7 +10,6 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Margin" Value="1" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">

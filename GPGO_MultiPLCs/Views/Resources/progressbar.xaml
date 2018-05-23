@@ -68,15 +68,13 @@
            TargetType="{x:Type ProgressBar}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                <Setter Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
                 <Setter Property="Template" Value="{StaticResource HPBAR}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                <Setter Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
                 <Setter Property="Template" Value="{StaticResource VPBAR}" />
             </Trigger>
         </Style.Triggers>

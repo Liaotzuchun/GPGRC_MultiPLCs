@@ -2,8 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views">
 
-    <local:BoolNotVis x:Key="BoolNotVis" />
-
     <Style TargetType="ToggleButton">
         <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
@@ -96,7 +94,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
-    <Style TargetType="{x:Type local:ToggleText}">
+    <Style x:Key="ToggleText"
+           TargetType="ToggleButton">
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0,0,0,2" />
@@ -107,7 +106,7 @@
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:ToggleText}">
+                <ControlTemplate TargetType="ToggleButton">
                     <Border x:Name="Border"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -135,7 +134,8 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type local:ToggleSwich}">
+    <Style x:Key="ToggleSwich"
+           TargetType="ToggleButton">
         <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -144,11 +144,10 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="1" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:ToggleSwich}">
+                <ControlTemplate TargetType="ToggleButton">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="25" />
