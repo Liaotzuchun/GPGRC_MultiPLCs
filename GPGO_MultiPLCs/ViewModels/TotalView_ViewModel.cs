@@ -46,8 +46,8 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly Timer Checker;
         private readonly InstanceContext site;
         private bool _Gate_Status;
-        private int _Index;
-        private int _ViewIndex = -1;
+        private int _Index; //Tab頁面的index
+        private int _ViewIndex = -1; //選取PLC的index
         private GPServiceClient PLC_Client;
 
         public PLC_Data[] PLC_In_All { get; }

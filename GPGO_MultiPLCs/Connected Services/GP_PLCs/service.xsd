@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:element name="Initial">
     <xs:complexType>
@@ -17,14 +19,16 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list" nillable="true" type="q1:ArrayOfstring" />
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list"
+                    nillable="true" type="q1:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SetReadLists">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list" nillable="true" type="q2:ArrayOfArrayOfstring" />
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list"
+                    nillable="true" type="q2:ArrayOfArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -32,7 +36,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q3:ArrayOfKeyValueOfintboolean" />
+        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs"
+                    nillable="true" type="q3:ArrayOfKeyValueOfintboolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -40,7 +45,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q4:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs"
+                    nillable="true" type="q4:ArrayOfKeyValueOfintshort" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -66,14 +72,16 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q5:ArrayOfint" />
+        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs"
+                    nillable="true" type="q5:ArrayOfint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Get_MResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_MResult" nillable="true" type="q6:ArrayOfKeyValueOfintboolean" />
+        <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0"
+                    name="Get_MResult" nillable="true" type="q6:ArrayOfKeyValueOfintboolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -81,14 +89,16 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q7:ArrayOfint" />
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs"
+                    nillable="true" type="q7:ArrayOfint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Get_DResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_DResult" nillable="true" type="q8:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0"
+                    name="Get_DResult" nillable="true" type="q8:ArrayOfKeyValueOfintshort" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -104,7 +114,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val" nillable="true" type="q9:ArrayOfKeyValueOfintboolean" />
+        <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val"
+                    nillable="true" type="q9:ArrayOfKeyValueOfintboolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -112,7 +123,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val" nillable="true" type="q10:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val"
+                    nillable="true" type="q10:ArrayOfKeyValueOfintshort" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GPGO_MultiPLCs.ViewModels;
+﻿using GPGO_MultiPLCs.ViewModels;
 
 namespace GPGO_MultiPLCs
 {

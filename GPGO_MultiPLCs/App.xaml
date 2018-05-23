@@ -5,6 +5,37 @@
              StartupUri="Views/MainWindow.xaml">
 
     <Application.Resources>
-        <local:Connector x:Key="Connector" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views/Resources\Shared.xaml" />
+                <ResourceDictionary Source="Views/Resources\Button.xaml" />
+                <ResourceDictionary Source="Views/Resources\CheckBox.xaml" />
+                <ResourceDictionary Source="Views/Resources\RadioButton.xaml" />
+                <ResourceDictionary Source="Views/Resources\ComboBox.xaml" />
+                <ResourceDictionary Source="Views/Resources\ListBox.xaml" />
+                <ResourceDictionary Source="Views/Resources\Menu.xaml" />
+                <ResourceDictionary Source="Views/Resources\ScrollBar.xaml" />
+                <ResourceDictionary Source="Views/Resources\Expander.xaml" />
+                <ResourceDictionary Source="Views/Resources\GroupBox.xaml" />
+                <ResourceDictionary Source="Views/Resources\Label.xaml" />
+                <ResourceDictionary Source="Views/Resources\TabControl.xaml" />
+                <ResourceDictionary Source="Views/Resources\ProgressBar.xaml" />
+                <ResourceDictionary Source="Views/Resources/slider.xaml" />
+                <ResourceDictionary Source="Views/Resources/textbox.xaml" />
+                <ResourceDictionary Source="Views/Resources/tooltip.xaml" />
+                <ResourceDictionary Source="Views/Resources/treeview.xaml" />
+                <ResourceDictionary Source="Views/Resources/scrollviewer.xaml" />
+                <ResourceDictionary Source="Views/Resources/toolbar.xaml" />
+                <ResourceDictionary Source="Views/Resources/statusbar.xaml" />
+                <ResourceDictionary Source="Views/Resources/window.xaml" />
+                <ResourceDictionary Source="Views/Resources/navigationwindow.xaml" />
+                <ResourceDictionary Source="Views/Resources/datagrid.xaml" />
+                <ResourceDictionary Source="Views/Resources/togglebutton.xaml" />
+                <ResourceDictionary Source="Views/Resources/Thumb.xaml" />
+                <ResourceDictionary Source="Views/Resources/calendar.xaml" />
+                <ResourceDictionary Source="Views/Resources/datepicker.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:Connector x:Key="Connector" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -10,12 +10,12 @@ namespace GPGO_MultiPLCs.Models
     {
         private readonly Stopwatch sw = new Stopwatch();
         private bool _OnlineStatus;
-        public int StationNumber { get; }
         public CancellationTokenSource CTS;
         public TwoKeyDictionary<DataNames, int, short> D_Values;
         public bool IsRecording;
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;
         public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
+        public int StationNumber { get; }
 
         public ProcessInfo Process_Info { get; }
 

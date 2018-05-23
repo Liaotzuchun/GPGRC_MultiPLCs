@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace GPGO_MultiPLCs.Views.Helpers
+namespace GPGO_MultiPLCs.Views
 {
     public class ValueIsDouble : ValidationRule
     {

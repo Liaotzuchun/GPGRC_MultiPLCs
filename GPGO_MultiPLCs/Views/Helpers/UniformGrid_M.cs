@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls.Primitives;
 
-namespace GPGO_MultiPLCs.Views.Helpers
+namespace GPGO_MultiPLCs.Views
 {
     public class UniformGrid_M : UniformGrid
     {
