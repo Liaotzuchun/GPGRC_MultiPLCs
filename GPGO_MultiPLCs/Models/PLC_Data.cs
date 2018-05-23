@@ -505,7 +505,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short UsedNumbers
+        public short UsedSegmentCounts
         {
             get => Recipe_Values[DataNames.使用段數];
             set
@@ -552,8 +552,9 @@ namespace GPGO_MultiPLCs.Models
         public short OvenTemperature_6 => D_Values[DataNames.爐內溫度_6];
         public short OvenTemperature_7 => D_Values[DataNames.爐內溫度_7];
         public short OvenTemperature_8 => D_Values[DataNames.爐內溫度_8];
-        public short Fragment_RemainingTime => D_Values[DataNames.片段剩餘時間];
+        public short Segment_RemainingTime => D_Values[DataNames.片段剩餘時間];
         public short Total_RemainingTime => D_Values[DataNames.總剩餘時間];
+        public short CurrentSegment => D_Values[DataNames.目前段數];
 
         #endregion
     }
