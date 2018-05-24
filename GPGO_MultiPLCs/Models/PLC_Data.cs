@@ -3,6 +3,9 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -17,6 +20,7 @@ namespace GPGO_MultiPLCs.Models
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;
         public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
         public int StationNumber { get; }
+        public PlotModel RecordView { get; }
 
         public ProcessInfo Process_Info { get; }
 
@@ -59,7 +63,7 @@ namespace GPGO_MultiPLCs.Models
         {
             get
             {
-                if (IsCooling && CurrentSegment >= UsedSegmentCounts)
+                if (IsCooling && CurrentSegment >= UsedSegmentCounts * 2)
                 {
                     return "降溫中";
                 }
@@ -70,6 +74,68 @@ namespace GPGO_MultiPLCs.Models
 
         public PLC_Data(int index, Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList)
         {
+            RecordView = new PlotModel { DefaultFont = "Microsoft JhengHei", PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0), PlotMargins = new OxyThickness(50, 20, 30, 40) };
+
+            var YAxis = new LinearAxis
+                        {
+                            TitleColor = OxyColors.White,
+                            Title = "溫度",
+                            Unit = "°C",
+                            TickStyle = TickStyle.Inside,
+                            MajorGridlineStyle = LineStyle.Solid,
+                            MajorStep = 50,
+                            MinorGridlineStyle = LineStyle.None,
+                            MinorStep = 10,
+                            AxislineStyle = LineStyle.Solid,
+                            AxislineColor = OxyColors.White,
+                            MajorGridlineColor = OxyColors.White,
+                            MinorGridlineColor = OxyColors.White,
+                            TicklineColor = OxyColors.White,
+                            ExtraGridlineColor = OxyColors.White,
+                            TextColor = OxyColors.White,
+                            Maximum = 600,
+                            Minimum = 0
+                        };
+
+            var TimeAxis = new TimeSpanAxis
+                           {
+                               TitleColor = OxyColors.White,
+                               Title = "歷時",
+                               Unit = "分鐘",
+                               MinimumPadding = 0,
+                               MaximumPadding = 0,
+                               TickStyle = TickStyle.Inside,
+                               MajorGridlineStyle = LineStyle.Dot,
+                               MajorStep = 60 * 10,
+                               MinorGridlineStyle = LineStyle.None,
+                               MinorStep = 60,
+                               Position = AxisPosition.Bottom,
+                               AxislineStyle = LineStyle.Solid,
+                               AxislineColor = OxyColors.White,
+                               MajorGridlineColor = OxyColors.White,
+                               MinorGridlineColor = OxyColors.White,
+                               TicklineColor = OxyColors.White,
+                               ExtraGridlineColor = OxyColors.White,
+                               TextColor = OxyColors.White,
+                               StringFormat = "hh:mm",
+                               Maximum = 60 * 60 * 3,
+                               Minimum = 0
+                           };
+
+            var lineSeries = new LineSeries
+                             {
+                                 Color = OxyColors.Yellow,
+                                 StrokeThickness = 1,
+                                 LineStyle = LineStyle.Solid,
+                                 MarkerFill = OxyColors.White,
+                                 MarkerType = MarkerType.None,
+                                 MarkerSize = 1
+                             };
+
+            RecordView.Axes.Add(YAxis);
+            RecordView.Axes.Add(TimeAxis);
+            RecordView.Series.Add(lineSeries);
+
             StationNumber = index;
             Process_Info = new ProcessInfo();
             M_Values = new TwoKeyDictionary<SignalNames, int, bool>();

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:m="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oxy="http://oxyplot.org/wpf"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:TotalView_ViewModel}"
              d:DesignHeight="600"
@@ -14,11 +15,11 @@
              mc:Ignorable="d">
 
     <Grid>
-        <TabControl Margin="4"
-                    SelectedIndex="{Binding Index, Mode=TwoWay}">
-            <TabItem Width="0"
-                     Height="0">
-                <ListBox ItemsSource="{Binding PLC_In_All, Mode=OneTime}"
+        <TabControl SelectedIndex="{Binding Index, Mode=TwoWay}"
+                    Style="{StaticResource NoHeaderTabControl}">
+            <TabItem>
+                <ListBox Margin="1"
+                         ItemsSource="{Binding PLC_In_All, Mode=OneTime}"
                          SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -46,7 +47,7 @@
                                                        Text="設備碼" />
                                         </Border>
                                         <Border Grid.Column="1"
-                                                Background="{StaticResource LightBrush}">
+                                                Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding Process_Info.MachineCode, Mode=OneWay}" />
@@ -60,7 +61,7 @@
                                         </Border>
                                         <Border Grid.Row="0"
                                                 Grid.Column="3"
-                                                Background="{StaticResource LightBrush}">
+                                                Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding RecipeName, Mode=OneWay}" />
@@ -94,7 +95,7 @@
                                                        Text="台車碼" />
                                         </Border>
                                         <Border Grid.Column="1"
-                                                Background="{StaticResource LightBrush}">
+                                                Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding Process_Info.TrolleyCode, Mode=OneWay}" />
@@ -108,7 +109,7 @@
                                         </Border>
                                         <Border Grid.Row="0"
                                                 Grid.Column="3"
-                                                Background="{StaticResource LightBrush}">
+                                                Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding Process_Info.OrderCode, Mode=OneWay}" />
@@ -121,7 +122,7 @@
                                         </Border>
                                         <Border Grid.Row="1"
                                                 Grid.Column="1"
-                                                Background="{StaticResource LightBrush}">
+                                                Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding Process_Info.ProcessNumber, Mode=OneWay}" />
@@ -135,7 +136,7 @@
                                         </Border>
                                         <Border Grid.Row="1"
                                                 Grid.Column="3"
-                                                Background="{StaticResource LightBrush}">
+                                                Background="{StaticResource LightColorBrush}">
                                             <StackPanel HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         Orientation="Horizontal">
@@ -233,8 +234,7 @@
                     </ListBox.ItemContainerStyle>
                 </ListBox>
             </TabItem>
-            <TabItem Width="0"
-                     Height="0">
+            <TabItem>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
@@ -268,18 +268,438 @@
                     <Grid Grid.Row="1"
                           DataContext="{Binding PLC_In_Focused, Mode=OneWay}">
                         <Grid.RowDefinitions>
-                            <RowDefinition />
+                            <RowDefinition Height="1.5*" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <UniformGrid Rows="1">
-                            <GroupBox Header="配方參數" />
-                            <GroupBox Header="設備狀態"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Background="{StaticResource WindowBackgroundBrush3}"
+                                      Header="配方參數">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="70" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.ColumnSpan="2"
+                                            Background="{StaticResource LightColorBrush}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding RecipeName, Mode=OneWay}" />
+                                    </Border>
+                                    <Border Grid.Column="2"
+                                            Height="{Binding ActualHeight, ElementName=b1, Mode=OneWay}"
+                                            Background="{StaticResource WindowBackgroundBrush2}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="使用段數" />
+                                    </Border>
+                                    <Border Grid.Column="3"
+                                            Background="{StaticResource LightColorBrush}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
+                                    </Border>
+                                    <Border Grid.Column="4"
+                                            Height="{Binding ActualHeight, ElementName=b1, Mode=OneWay}"
+                                            Background="{StaticResource WindowBackgroundBrush2}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="降溫溫度" />
+                                    </Border>
+                                    <Border Grid.Column="5"
+                                            Background="{StaticResource LightColorBrush}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>
+                                    <Border Grid.Column="6"
+                                            Height="{Binding ActualHeight, ElementName=b1, Mode=OneWay}"
+                                            Background="{StaticResource WindowBackgroundBrush2}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="充氮氣時間" />
+                                    </Border>
+                                    <Border Grid.Column="7"
+                                            Background="{StaticResource LightColorBrush}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding InflatingTime, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                    </Border>
+                                    <UniformGrid Grid.Row="1"
+                                                 Columns="1">
+                                        <Border x:Name="b1"
+                                                Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="目標溫度1" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="目標溫度2" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="目標溫度3" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="目標溫度4" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="目標溫度5" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="目標溫度6" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="目標溫度7" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="目標溫度8" />
+                                        </Border>
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Row="1"
+                                                 Grid.Column="1"
+                                                 Columns="1">
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding TargetTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding TargetTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Row="1"
+                                                 Grid.Column="2"
+                                                 Columns="1">
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="升溫時間1" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="升溫時間2" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="升溫時間3" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="升溫時間4" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="升溫時間5" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="升溫時間6" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="升溫時間7" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="升溫時間8" />
+                                        </Border>
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Row="1"
+                                                 Grid.Column="3"
+                                                 Columns="1">
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding HeatingTime_1, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding HeatingTime_2, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding HeatingTime_3, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding HeatingTime_4, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding HeatingTime_5, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding HeatingTime_6, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding HeatingTime_7, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding HeatingTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Row="1"
+                                                 Grid.Column="4"
+                                                 Columns="1">
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫溫度1" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫溫度2" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫溫度3" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫溫度4" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫溫度5" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫溫度6" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫溫度7" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫溫度8" />
+                                        </Border>
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Row="1"
+                                                 Grid.Column="5"
+                                                 Columns="1">
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                        </Border>
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Row="1"
+                                                 Grid.Column="6"
+                                                 Columns="1">
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫時間1" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫時間2" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫時間3" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫時間4" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫時間5" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫時間6" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫時間7" />
+                                        </Border>
+                                        <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="恆溫時間8" />
+                                        </Border>
+                                    </UniformGrid>
+                                    <UniformGrid Grid.Row="1"
+                                                 Grid.Column="7"
+                                                 Columns="1">
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTime_1, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTime_2, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTime_3, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTime_4, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTime_5, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTime_6, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTime_7, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding ConstantTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                        </Border>
+                                    </UniformGrid>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Grid.Column="1"
+                                      Header="設備狀態"
                                       IsHitTestVisible="False">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="75" />
+                                        <ColumnDefinition Width="70" />
                                         <ColumnDefinition />
-                                        <ColumnDefinition Width="75" />
+                                        <ColumnDefinition Width="70" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <UniformGrid Columns="1">
@@ -331,47 +751,47 @@
                                     </UniformGrid>
                                     <UniformGrid Grid.Column="1"
                                                  Columns="1">
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding OvenTemperature_1, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding OvenTemperature_2, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding OvenTemperature_3, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding OvenTemperature_4, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding OvenTemperature_5, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding OvenTemperature_6, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding OvenTemperature_7, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="{Binding OvenTemperature_8, Mode=OneWay, StringFormat=\{0:D\} °C}" />
@@ -417,7 +837,7 @@
                                     </UniformGrid>
                                     <UniformGrid Grid.Column="3"
                                                  Columns="1">
-                                        <Border Background="{StaticResource LightBrush}">
+                                        <Border Background="{StaticResource LightColorBrush}">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        Text="手動模式">
@@ -441,22 +861,22 @@
                                                 </TextBlock.Style>
                                             </TextBlock>
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
-                                            <CheckBox Margin="6"
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <CheckBox Height="20"
                                                       Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                       IsChecked="{Binding ProgramStop, Mode=OneWay}"
                                                       Style="{StaticResource SignalView}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
-                                            <CheckBox Margin="6"
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <CheckBox Height="20"
                                                       Background="{StaticResource ErrorBrush}"
                                                       BorderBrush="{StaticResource ErrorBorderBrush}"
                                                       Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                       IsChecked="{Binding EmergencyStop, Mode=OneWay}"
                                                       Style="{StaticResource SignalView}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
-                                            <CheckBox Margin="6"
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <CheckBox Height="20"
                                                       Background="{StaticResource ErrorBrush}"
                                                       BorderBrush="{StaticResource ErrorBorderBrush}"
                                                       Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -473,8 +893,8 @@
                                                 </CheckBox.IsChecked>
                                             </CheckBox>
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
-                                            <CheckBox Margin="6"
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <CheckBox Height="20"
                                                       Background="{StaticResource ErrorBrush}"
                                                       BorderBrush="{StaticResource ErrorBorderBrush}"
                                                       Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -491,16 +911,16 @@
                                                 </CheckBox.IsChecked>
                                             </CheckBox>
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
-                                            <CheckBox Margin="6"
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <CheckBox Height="20"
                                                       Background="{StaticResource ErrorBrush}"
                                                       BorderBrush="{StaticResource ErrorBorderBrush}"
                                                       Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                       IsChecked="{Binding FillingTimeExceeded, Mode=OneWay}"
                                                       Style="{StaticResource SignalView}" />
                                         </Border>
-                                        <Border Background="{StaticResource LightBrush}">
-                                            <CheckBox Margin="6"
+                                        <Border Background="{StaticResource LightColorBrush}">
+                                            <CheckBox Height="20"
                                                       Background="{StaticResource ErrorBrush}"
                                                       BorderBrush="{StaticResource ErrorBorderBrush}"
                                                       Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -510,9 +930,20 @@
                                     </UniformGrid>
                                 </Grid>
                             </GroupBox>
-                        </UniformGrid>
+                        </Grid>
                         <GroupBox Grid.Row="1"
-                                  Header="生產紀錄" />
+                                  Header="生產紀錄">
+                            <TabControl Style="{StaticResource NoHeaderTabControl}">
+                                <TabItem>
+                                    <oxy:PlotView Background="{StaticResource WindowBackgroundBrush}"
+                                                  Model="{Binding RecordView, Mode=OneWay}" />
+                                </TabItem>
+                                <TabItem>
+                                    <!--<oxy:PlotView Background="{StaticResource WindowBackgroundBrush}"
+                                                  Model="{Binding RecordView, Mode=OneWay}" />-->
+                                </TabItem>
+                            </TabControl>
+                        </GroupBox>
                     </Grid>
                 </Grid>
             </TabItem>

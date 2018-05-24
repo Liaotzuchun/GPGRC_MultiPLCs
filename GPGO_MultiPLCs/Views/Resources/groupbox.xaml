@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="GroupBox">
-        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
-        <Setter Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush3}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
         <Setter Property="HeaderTemplate">
@@ -22,21 +22,16 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0"
-                                Background="{StaticResource WindowBackgroundBrush3}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
                                 CornerRadius="0,0,0,0">
-                            <ContentControl FontSize="14"
-                                            Foreground="White">
-                                <ContentPresenter HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  ContentSource="Header"
-                                                  RecognizesAccessKey="True" />
-                            </ContentControl>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True"
+                                              TextElement.Foreground="White" />
                         </Border>
                         <Border Grid.Row="1"
                                 Padding="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="0,0,0,0">
