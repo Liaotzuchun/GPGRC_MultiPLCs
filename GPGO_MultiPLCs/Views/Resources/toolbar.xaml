@@ -4,7 +4,7 @@
     <Style x:Key="ToolBarButtonBaseStyle"
            TargetType="{x:Type ButtonBase}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
@@ -18,26 +18,26 @@
                                           RecognizesAccessKey="True" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocused" Value="true">
+                        <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}" />
                             <Setter TargetName="Border" Property="BorderBrush"
                                     Value="{StaticResource NormalBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
+                        <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
+                        <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
                             <Setter TargetName="Border" Property="BorderBrush"
                                     Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="CheckBox.IsChecked" Value="true">
+                        <Trigger Property="CheckBox.IsChecked" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
                             <Setter TargetName="Border" Property="BorderBrush"
                                     Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                             <Setter TargetName="Border" Property="Background"
                                     Value="{StaticResource DisabledBackgroundBrush}" />
@@ -65,7 +65,7 @@
 
     <Style x:Key="{x:Static ToolBar.TextBoxStyleKey}"
            TargetType="{x:Type TextBox}">
-        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="AllowDrop" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -98,7 +98,7 @@
            TargetType="{x:Type Thumb}">
         <Setter Property="Cursor" Value="SizeAll" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -130,7 +130,7 @@
     <Style x:Key="ToolBarOverflowButtonStyle"
            TargetType="{x:Type ToggleButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -147,16 +147,16 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
+                        <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource DarkBrush}" />
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="true">
+                        <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource DarkBrush}" />
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="true">
+                        <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource DarkBrush}" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Arrow" Property="Fill" Value="#AAA" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -168,7 +168,7 @@
     <Style x:Key="{x:Type ToolBar}"
            TargetType="{x:Type ToolBar}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToolBar}">
@@ -214,10 +214,10 @@
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsOverflowOpen" Value="true">
-                            <Setter TargetName="ToolBarThumb" Property="IsEnabled" Value="false" />
+                        <Trigger Property="IsOverflowOpen" Value="True">
+                            <Setter TargetName="ToolBarThumb" Property="IsEnabled" Value="False" />
                         </Trigger>
-                        <Trigger Property="ToolBarTray.IsLocked" Value="true">
+                        <Trigger Property="ToolBarTray.IsLocked" Value="True">
                             <Setter TargetName="ToolBarThumb" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>

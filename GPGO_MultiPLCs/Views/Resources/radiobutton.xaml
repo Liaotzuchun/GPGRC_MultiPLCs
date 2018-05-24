@@ -5,7 +5,7 @@
            TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
@@ -127,7 +127,7 @@
                         </VisualStateManager.VisualStateGroups>
                     </BulletDecorator>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="false">
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                             <!--<Setter TargetName="Border1" Property="Opacity" Value="1" />
                             <Setter TargetName="Border3" Property="Opacity" Value="1" />-->

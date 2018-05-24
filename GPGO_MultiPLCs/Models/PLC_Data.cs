@@ -560,7 +560,7 @@ namespace GPGO_MultiPLCs.Models
 
         public bool ProgramStop => M_Values[SignalNames.程式結束];
         public bool DoorNotClosed => M_Values[SignalNames.加熱門未關];
-        public bool EmergencyStopd => M_Values[SignalNames.緊急停止];
+        public bool EmergencyStop => M_Values[SignalNames.緊急停止];
         public bool LowTemperature => M_Values[SignalNames.溫控器低溫異常];
         public bool PowerInversion => M_Values[SignalNames.電源反相];
         public bool OTP_TemperatureError => M_Values[SignalNames.OTP超溫異常];

@@ -20,7 +20,7 @@
     </Style>
 
     <Style TargetType="{x:Type ContextMenu}">
-        <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+        <Setter Property="Grid.IsSharedSizeScope" Value="True" />
         <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
@@ -34,7 +34,7 @@
                                     KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasDropShadow" Value="true">
+                        <Trigger Property="HasDropShadow" Value="True">
                             <Setter TargetName="Border" Property="CornerRadius" Value="0" />
                             <Setter TargetName="Border" Property="Padding" Value="0,3,0,3" />
                         </Trigger>
@@ -85,7 +85,7 @@
                                           VerticalAlignment="Center" />
                     </DockPanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsPressed" Value="true">
+                        <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="B1" Property="Fill"
                                     Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" />
                             <Setter TargetName="ContentContainer" Property="Margin" Value="3,3,1,1" />
@@ -216,14 +216,14 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsSuspendingPopupAnimation" Value="true">
+            <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
             </Trigger>
-            <Trigger Property="IsHighlighted" Value="true">
+            <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
             </Trigger>
-            <Trigger Property="IsSubmenuOpen" Value="true">
+            <Trigger Property="IsSubmenuOpen" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
             </Trigger>
@@ -247,7 +247,7 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsHighlighted" Value="true">
+            <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
             </Trigger>
@@ -304,18 +304,18 @@
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
-            <Trigger Property="IsChecked" Value="true">
+            <Trigger Property="IsChecked" Value="True">
                 <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
             </Trigger>
-            <Trigger Property="IsCheckable" Value="true">
+            <Trigger Property="IsCheckable" Value="True">
                 <Setter TargetName="Check" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
-            <Trigger Property="IsHighlighted" Value="true">
+            <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
             </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
+            <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -375,7 +375,7 @@
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            <Trigger Property="IsHighlighted" Value="true">
+            <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
             </Trigger>
@@ -383,7 +383,7 @@
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0" />
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3" />
             </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
+            <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -394,7 +394,7 @@
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Style.Triggers>
             <Trigger Property="Role" Value="TopLevelHeader">
-                <Setter Property="Grid.IsSharedSizeScope" Value="true" />
+                <Setter Property="Grid.IsSharedSizeScope" Value="True" />
                 <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}" />
             </Trigger>
             <Trigger Property="Role" Value="TopLevelItem">

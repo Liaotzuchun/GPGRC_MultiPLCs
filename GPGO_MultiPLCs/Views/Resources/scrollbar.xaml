@@ -3,8 +3,8 @@
 
     <Style x:Key="ScrollBarLineButton"
            TargetType="{x:Type RepeatButton}">
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -80,16 +80,16 @@
 
     <Style x:Key="ScrollBarPageButton"
            TargetType="{x:Type RepeatButton}">
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="IsTabStop" Value="false" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
     </Style>
 
     <Style x:Key="ScrollBarThumb"
            TargetType="{x:Type Thumb}">
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="IsTabStop" Value="false" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -152,9 +152,9 @@
 
     <Style x:Key="HScrollBarThumb"
            TargetType="{x:Type Thumb}">
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="IsTabStop" Value="false" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -303,7 +303,7 @@
 
     <Style x:Key="{x:Type ScrollBar}"
            TargetType="{x:Type ScrollBar}">
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Height" Value="16" />

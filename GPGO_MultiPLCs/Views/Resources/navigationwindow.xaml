@@ -5,7 +5,7 @@
            TargetType="Button">
         <Setter Property="Command" Value="NavigationCommands.BrowseBack" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -33,11 +33,11 @@
                             <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DarkBrush}" />
                             <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DarkBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
+                        <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource PressedBrush}" />
                             <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource DisabledForegroundBrush}" />
                             <Setter TargetName="Ellipse" Property="Fill"
                                     Value="{StaticResource DisabledBackgroundBrush}" />
@@ -51,9 +51,9 @@
     <Style x:Key="NavWinMenu"
            TargetType="Menu">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="IsMainMenu" Value="false" />
+        <Setter Property="IsMainMenu" Value="False" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Menu">
@@ -66,7 +66,7 @@
     <Style x:Key="NavWinHeaderMenuItem"
            TargetType="MenuItem">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="MenuItem">
@@ -110,16 +110,16 @@
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsHighlighted" Value="true">
+                        <Trigger Property="IsHighlighted" Value="True">
                             <Setter TargetName="HighlightBorder" Property="Visibility" Value="Visible" />
                         </Trigger>
-                        <Trigger Property="IsSubmenuOpen" Value="true">
+                        <Trigger Property="IsSubmenuOpen" Value="True">
                             <Setter TargetName="HighlightBorder" Property="Background"
                                     Value="{StaticResource PressedBrush}" />
                             <Setter TargetName="HighlightBorder" Property="BorderBrush"
                                     Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
+                        <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -138,7 +138,7 @@
         <Setter Property="Header" Value="{Binding Path=(JournalEntry.Name)}" />
         <Setter Property="JournalEntryUnifiedViewConverter.JournalEntryPosition"
                 Value="{Binding (JournalEntryUnifiedViewConverter.JournalEntryPosition)}" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
@@ -160,12 +160,12 @@
                         <Trigger Property="JournalEntryUnifiedViewConverter.JournalEntryPosition" Value="Current">
                             <Setter TargetName="Glyph" Property="Data" Value="M 0,5 L 2.5,8 L 7,3 " />
                         </Trigger>
-                        <Trigger Property="IsHighlighted" Value="true">
+                        <Trigger Property="IsHighlighted" Value="True">
                             <Setter TargetName="Panel" Property="Background" Value="{StaticResource DarkBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="MenuItem.IsHighlighted" Value="true" />
+                                <Condition Property="MenuItem.IsHighlighted" Value="True" />
                                 <Condition Property="JournalEntryUnifiedViewConverter.JournalEntryPosition"
                                            Value="Forward" />
                             </MultiTrigger.Conditions>
@@ -175,7 +175,7 @@
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="MenuItem.IsHighlighted" Value="true" />
+                                <Condition Property="MenuItem.IsHighlighted" Value="True" />
                                 <Condition Property="JournalEntryUnifiedViewConverter.JournalEntryPosition"
                                            Value="Back" />
                             </MultiTrigger.Conditions>
@@ -268,10 +268,10 @@
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="CanGoForward" Value="false" />
-                                <Condition Property="CanGoBack" Value="false" />
+                                <Condition Property="CanGoForward" Value="False" />
+                                <Condition Property="CanGoBack" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="NavMenu" Property="IsEnabled" Value="false" />
+                            <Setter TargetName="NavMenu" Property="IsEnabled" Value="False" />
                         </MultiTrigger>
                         <Trigger Property="ResizeMode" Value="CanResizeWithGrip">
                             <Setter TargetName="WindowResizeGrip" Property="Visibility" Value="Visible" />

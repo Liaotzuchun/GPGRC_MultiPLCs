@@ -3,9 +3,9 @@
 
     <Style x:Key="SliderButtonStyle0"
            TargetType="{x:Type RepeatButton}">
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="IsTabStop" Value="false" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -18,9 +18,9 @@
 
     <Style x:Key="SliderButtonStyle"
            TargetType="{x:Type RepeatButton}">
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="IsTabStop" Value="false" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -88,7 +88,7 @@
 
     <Style x:Key="SliderThumbStyle"
            TargetType="{x:Type Thumb}">
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -239,7 +239,7 @@
                 <Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
                 <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
             </Trigger>
-            <Trigger Property="IsSelectionRangeEnabled" Value="true">
+            <Trigger Property="IsSelectionRangeEnabled" Value="True">
                 <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
@@ -316,7 +316,7 @@
                 <Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
                 <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
             </Trigger>
-            <Trigger Property="IsSelectionRangeEnabled" Value="true">
+            <Trigger Property="IsSelectionRangeEnabled" Value="True">
                 <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
@@ -327,7 +327,7 @@
     </ControlTemplate>
 
     <Style TargetType="{x:Type Slider}">
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SelectionEnd" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Value}" />
         <Setter Property="SelectionStart" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Minimum}" />
         <Style.Triggers>

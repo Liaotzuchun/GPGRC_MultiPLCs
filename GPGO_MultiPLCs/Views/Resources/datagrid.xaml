@@ -43,7 +43,7 @@
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="{StaticResource PressedBrush}" />
             </Trigger>-->
-            <Trigger Property="IsEnabled" Value="false">
+            <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
                 <Setter Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />

@@ -3,7 +3,7 @@
 
     <Style x:Key="{x:Type TextBox}"
            TargetType="{x:Type TextBoxBase}">
-        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="AllowDrop" Value="True" />
         <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -30,7 +30,7 @@
                             <Setter Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="true">
+                        <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -46,14 +46,14 @@
         <Style.Resources>
             <Style x:Key="{x:Type FlowDocument}"
                    TargetType="{x:Type FlowDocument}">
-                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="OverridesDefaultStyle" Value="True" />
             </Style>
         </Style.Resources>
     </Style>
 
     <Style x:Key="{x:Type PasswordBox}"
            TargetType="{x:Type PasswordBox}">
-        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="AllowDrop" Value="True" />
         <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource NormalBrush}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -61,7 +61,7 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="MinHeight" Value="20" />
         <Setter Property="MinWidth" Value="120" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="PasswordChar" Value="*" />
         <Setter Property="Template">
             <Setter.Value>
@@ -82,7 +82,7 @@
                             <Setter TargetName="Border" Property="BorderBrush"
                                     Value="{StaticResource DisabledBorderBrush}" />
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="true">
+                        <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="Border" Property="BorderBrush"
                                     Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>

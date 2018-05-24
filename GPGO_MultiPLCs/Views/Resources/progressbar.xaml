@@ -21,7 +21,7 @@
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="false">
+            <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="PART_Indicator" Property="Background"
                         Value="{StaticResource DisabledBackgroundBrush}" />
                 <Setter TargetName="PART_Indicator" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
@@ -54,7 +54,7 @@
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="false">
+            <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="PART_Indicator" Property="Background"
                         Value="{StaticResource DisabledBackgroundBrush}" />
                 <Setter TargetName="PART_Indicator" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />

@@ -112,42 +112,42 @@
                                         Grid.ColumnSpan="2" />
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsExpanded" Value="false">
+                        <Trigger Property="IsExpanded" Value="False">
                             <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
                         </Trigger>
-                        <Trigger Property="HasItems" Value="false">
+                        <Trigger Property="HasItems" Value="False">
                             <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="HasHeader" Value="false" />
+                                <Condition Property="HasHeader" Value="False" />
                                 <Condition Property="Width" Value="Auto" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="PART_Header" Property="MinWidth" Value="75" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="HasHeader" Value="false" />
+                                <Condition Property="HasHeader" Value="False" />
                                 <Condition Property="Height" Value="Auto" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="PART_Header" Property="MinHeight" Value="19" />
                         </MultiTrigger>
-                        <Trigger Property="IsSelected" Value="true">
+                        <Trigger Property="IsSelected" Value="True">
                             <Setter Property="FontStyle" Value="Italic" />
                             <Setter Property="FontWeight" Value="Bold" />
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource PressedBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="true" />
-                                <Condition Property="IsSelectionActive" Value="false" />
+                                <Condition Property="IsSelected" Value="True" />
+                                <Condition Property="IsSelectionActive" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource PressedBrush}" />
                             <!--  Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />  -->
                             <!--<Setter Property="Foreground"
                   Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />-->
                         </MultiTrigger>
-                        <Trigger Property="IsEnabled" Value="false">
+                        <Trigger Property="IsEnabled" Value="False">
                             <!--<Setter Property="Foreground"
                   Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />-->
                         </Trigger>

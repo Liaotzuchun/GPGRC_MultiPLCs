@@ -4,7 +4,7 @@
     <Style x:Key="{x:Type ToolTip}"
            TargetType="ToolTip">
         <Setter Property="HasDropShadow" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
@@ -19,7 +19,7 @@
                                           VerticalAlignment="Top" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasDropShadow" Value="true">
+                        <Trigger Property="HasDropShadow" Value="True">
                             <Setter TargetName="Border" Property="CornerRadius" Value="0" />
                         </Trigger>
                     </ControlTemplate.Triggers>

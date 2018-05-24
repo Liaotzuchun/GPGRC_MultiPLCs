@@ -6,4 +6,6 @@
     <local:GetDayofDate x:Key="GetDayofDate" />
     <local:BoolVis x:Key="BoolVis" />
     <local:BoolNotVis x:Key="BoolNotVis" />
+    <local:MultiAnyTrueConverter x:Key="MultiAnyTrueConverter" />
+    <local:NullVis x:Key="NullVis" />
 </ResourceDictionary>

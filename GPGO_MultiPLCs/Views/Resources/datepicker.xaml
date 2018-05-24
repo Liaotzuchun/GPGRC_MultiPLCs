@@ -108,7 +108,7 @@
     </Style>
 
     <Style TargetType="{x:Type DatePickerTextBox}">
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -132,7 +132,7 @@
         <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="IsTodayHighlighted" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="SelectedDateFormat" Value="Short" />
         <Setter Property="Template">
