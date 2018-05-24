@@ -11,6 +11,7 @@ namespace GPGO_MultiPLCs.Models
 {
     public class PLC_Data : ViewModelBase
     {
+        private readonly LineSeries[] LineSeries = new LineSeries[9];
         private readonly Stopwatch sw = new Stopwatch();
         private bool _IsRecording;
         private bool _OnlineStatus;
@@ -74,32 +75,45 @@ namespace GPGO_MultiPLCs.Models
 
         public PLC_Data(int index, Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList)
         {
-            RecordView = new PlotModel { DefaultFont = "Microsoft JhengHei", PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0), PlotMargins = new OxyThickness(50, 20, 30, 40) };
+            RecordView = new PlotModel
+                         {
+                             PlotAreaBackground = OxyColor.FromRgb(102, 128, 115),
+                             DefaultFont = "Microsoft JhengHei",
+                             PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
+                             PlotMargins = new OxyThickness(50, 0, 30, 40),
+                             LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                             LegendPlacement = LegendPlacement.Outside,
+                             LegendPosition = LegendPosition.TopCenter,
+                             LegendMaxHeight = 30
+                         };
+
+            var color = OxyColor.FromRgb(50, 70, 60);
 
             var YAxis = new LinearAxis
                         {
-                            TitleColor = OxyColors.White,
+                            TitleColor = color,
                             Title = "溫度",
                             Unit = "°C",
                             TickStyle = TickStyle.Inside,
                             MajorGridlineStyle = LineStyle.Solid,
-                            MajorStep = 50,
+                            MajorStep = 100,
                             MinorGridlineStyle = LineStyle.None,
+                            MinorTickSize = 0,
                             MinorStep = 10,
                             AxislineStyle = LineStyle.Solid,
-                            AxislineColor = OxyColors.White,
-                            MajorGridlineColor = OxyColors.White,
-                            MinorGridlineColor = OxyColors.White,
-                            TicklineColor = OxyColors.White,
-                            ExtraGridlineColor = OxyColors.White,
-                            TextColor = OxyColors.White,
+                            AxislineColor = color,
+                            MajorGridlineColor = color,
+                            MinorGridlineColor = color,
+                            TicklineColor = color,
+                            ExtraGridlineColor = color,
+                            TextColor = color,
                             Maximum = 600,
                             Minimum = 0
                         };
 
             var TimeAxis = new TimeSpanAxis
                            {
-                               TitleColor = OxyColors.White,
+                               TitleColor = color,
                                Title = "歷時",
                                Unit = "分鐘",
                                MinimumPadding = 0,
@@ -111,33 +125,213 @@ namespace GPGO_MultiPLCs.Models
                                MinorStep = 60,
                                Position = AxisPosition.Bottom,
                                AxislineStyle = LineStyle.Solid,
-                               AxislineColor = OxyColors.White,
-                               MajorGridlineColor = OxyColors.White,
-                               MinorGridlineColor = OxyColors.White,
-                               TicklineColor = OxyColors.White,
-                               ExtraGridlineColor = OxyColors.White,
-                               TextColor = OxyColors.White,
+                               AxislineColor = color,
+                               MajorGridlineColor = color,
+                               MinorGridlineColor = color,
+                               TicklineColor = color,
+                               ExtraGridlineColor = color,
+                               TextColor = color,
                                StringFormat = "hh:mm",
                                Maximum = 60 * 60 * 3,
                                Minimum = 0
                            };
 
-            var lineSeries = new LineSeries
-                             {
-                                 Color = OxyColors.Yellow,
-                                 StrokeThickness = 1,
-                                 LineStyle = LineStyle.Solid,
-                                 MarkerFill = OxyColors.White,
-                                 MarkerType = MarkerType.None,
-                                 MarkerSize = 1
-                             };
+            LineSeries[0] = new LineSeries
+                            {
+                                Title = nameof(DataNames.爐內溫度_1),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
+
+            LineSeries[1] = new LineSeries
+                            {
+                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
+                                Title = nameof(DataNames.爐內溫度_2),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
+
+            LineSeries[2] = new LineSeries
+                            {
+                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
+                                Title = nameof(DataNames.爐內溫度_3),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
+
+            LineSeries[3] = new LineSeries
+                            {
+                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
+                                Title = nameof(DataNames.爐內溫度_4),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
+
+            LineSeries[4] = new LineSeries
+                            {
+                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
+                                Title = nameof(DataNames.爐內溫度_5),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
+
+            LineSeries[5] = new LineSeries
+                            {
+                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
+                                Title = nameof(DataNames.爐內溫度_6),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
+
+            LineSeries[6] = new LineSeries
+                            {
+                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
+                                Title = nameof(DataNames.爐內溫度_7),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
+
+            LineSeries[7] = new LineSeries
+                            {
+                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
+                                Title = nameof(DataNames.爐內溫度_8),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
+
+            LineSeries[8] = new LineSeries
+                            {
+                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
+                                Title = nameof(DataNames.溫控器溫度),
+                                StrokeThickness = 2,
+                                LineStyle = LineStyle.Solid,
+                                MarkerFill = OxyColors.White,
+                                MarkerType = MarkerType.None,
+                                MarkerSize = 1
+                            };
 
             RecordView.Axes.Add(YAxis);
             RecordView.Axes.Add(TimeAxis);
-            RecordView.Series.Add(lineSeries);
+            foreach (var ls in LineSeries)
+            {
+                RecordView.Series.Add(ls);
+            }
 
             StationNumber = index;
             Process_Info = new ProcessInfo();
+
+            var M_Map = new Dictionary<SignalNames, string>
+                        {
+                            { SignalNames.PC_ByPass, nameof(PC_ByPass) },
+                            { SignalNames.自動模式, nameof(AutoMode) },
+                            { SignalNames.自動啟動, nameof(AutoMode_Start) },
+                            { SignalNames.自動停止, nameof(AutoMode_Stop) },
+                            { SignalNames.手動模式, nameof(ManualMode) },
+                            { SignalNames.降溫中, nameof(IsCooling) },
+                            { SignalNames.程式結束, nameof(ProgramStop) },
+                            { SignalNames.加熱門未關, nameof(DoorNotClosed) },
+                            { SignalNames.緊急停止, nameof(EmergencyStop) },
+                            { SignalNames.溫控器低溫異常, nameof(LowTemperature) },
+                            { SignalNames.電源反相, nameof(PowerInversion) },
+                            { SignalNames.OTP超溫異常, nameof(OTP_TemperatureError) },
+                            { SignalNames.循環風車過載, nameof(CirculatingFanOverload) },
+                            { SignalNames.冷卻進氣風車異常, nameof(CoolingFanAbnormal) },
+                            { SignalNames.超溫警報, nameof(OverTemperatureAlarm) },
+                            { SignalNames.停止後未開門, nameof(DoorNotOpen) },
+                            { SignalNames.循環風車INV異常, nameof(CirculatingFanInversion) },
+                            { SignalNames.充氮氣逾時, nameof(InflatingTimeExceeded) },
+                            { SignalNames.門未關定位異常, nameof(DoorNotClosed_AbnormalPositioning) },
+                            { SignalNames.升恆溫逾時, nameof(HeatingTimeExceeded) }
+                        };
+
+            var D_Map = new Dictionary<DataNames, string>
+                        {
+                            { DataNames.溫控器溫度, nameof(ThermostatTemperature) },
+                            { DataNames.片段剩餘時間, nameof(Segment_RemainingTime) },
+                            { DataNames.總剩餘時間, nameof(Total_RemainingTime) },
+                            { DataNames.目前段數, nameof(CurrentSegment) },
+                            { DataNames.爐內溫度_1, nameof(OvenTemperature_1) },
+                            { DataNames.爐內溫度_2, nameof(OvenTemperature_2) },
+                            { DataNames.爐內溫度_3, nameof(OvenTemperature_3) },
+                            { DataNames.爐內溫度_4, nameof(OvenTemperature_4) },
+                            { DataNames.爐內溫度_5, nameof(OvenTemperature_5) },
+                            { DataNames.爐內溫度_6, nameof(OvenTemperature_6) },
+                            { DataNames.爐內溫度_7, nameof(OvenTemperature_7) },
+                            { DataNames.爐內溫度_8, nameof(OvenTemperature_8) },
+                            { DataNames.目標溫度_1, nameof(TargetTemperature_1) },
+                            { DataNames.升溫時間_1, nameof(HeatingTime_1) },
+                            { DataNames.恆溫溫度_1, nameof(ConstantTemperature_1) },
+                            { DataNames.恆溫時間_1, nameof(ConstantTime_1) },
+                            { DataNames.目標溫度_2, nameof(TargetTemperature_2) },
+                            { DataNames.升溫時間_2, nameof(HeatingTime_2) },
+                            { DataNames.恆溫溫度_2, nameof(ConstantTemperature_2) },
+                            { DataNames.恆溫時間_2, nameof(ConstantTime_2) },
+                            { DataNames.目標溫度_3, nameof(TargetTemperature_3) },
+                            { DataNames.升溫時間_3, nameof(HeatingTime_3) },
+                            { DataNames.恆溫溫度_3, nameof(ConstantTemperature_3) },
+                            { DataNames.恆溫時間_3, nameof(ConstantTime_3) },
+                            { DataNames.目標溫度_4, nameof(TargetTemperature_4) },
+                            { DataNames.升溫時間_4, nameof(HeatingTime_4) },
+                            { DataNames.恆溫溫度_4, nameof(ConstantTemperature_4) },
+                            { DataNames.恆溫時間_4, nameof(ConstantTime_4) },
+                            { DataNames.目標溫度_5, nameof(TargetTemperature_5) },
+                            { DataNames.升溫時間_5, nameof(HeatingTime_5) },
+                            { DataNames.恆溫溫度_5, nameof(ConstantTemperature_5) },
+                            { DataNames.恆溫時間_5, nameof(ConstantTime_5) },
+                            { DataNames.目標溫度_6, nameof(TargetTemperature_6) },
+                            { DataNames.升溫時間_6, nameof(HeatingTime_6) },
+                            { DataNames.恆溫溫度_6, nameof(ConstantTemperature_6) },
+                            { DataNames.恆溫時間_6, nameof(ConstantTime_6) },
+                            { DataNames.目標溫度_7, nameof(TargetTemperature_7) },
+                            { DataNames.升溫時間_7, nameof(HeatingTime_7) },
+                            { DataNames.恆溫溫度_7, nameof(ConstantTemperature_7) },
+                            { DataNames.恆溫時間_7, nameof(ConstantTime_7) },
+                            { DataNames.目標溫度_8, nameof(TargetTemperature_8) },
+                            { DataNames.升溫時間_8, nameof(HeatingTime_8) },
+                            { DataNames.恆溫溫度_8, nameof(ConstantTemperature_8) },
+                            { DataNames.恆溫時間_8, nameof(ConstantTime_8) },
+                            { DataNames.降溫溫度, nameof(CoolingTemperature) },
+                            { DataNames.充氣時間, nameof(InflatingTime) },
+                            { DataNames.使用段數, nameof(UsedSegmentCounts) },
+                            { DataNames.配方名稱_01, nameof(RecipeName) },
+                            { DataNames.配方名稱_02, nameof(RecipeName) },
+                            { DataNames.配方名稱_03, nameof(RecipeName) },
+                            { DataNames.配方名稱_04, nameof(RecipeName) },
+                            { DataNames.配方名稱_05, nameof(RecipeName) },
+                            { DataNames.配方名稱_06, nameof(RecipeName) },
+                            { DataNames.配方名稱_07, nameof(RecipeName) },
+                            { DataNames.配方名稱_08, nameof(RecipeName) },
+                            { DataNames.配方名稱_09, nameof(RecipeName) },
+                            { DataNames.配方名稱_10, nameof(RecipeName) },
+                            { DataNames.配方名稱_11, nameof(RecipeName) },
+                            { DataNames.配方名稱_12, nameof(RecipeName) },
+                            { DataNames.配方名稱_13, nameof(RecipeName) }
+                        };
+
             M_Values = new TwoKeyDictionary<SignalNames, int, bool>();
             D_Values = new TwoKeyDictionary<DataNames, int, short>();
             Recipe_Values = new TwoKeyDictionary<DataNames, int, short>();
@@ -157,12 +351,14 @@ namespace GPGO_MultiPLCs.Models
                 Recipe_Values.Add(loc.Key, loc.Value, 0);
             }
 
-            M_Values.Key1UpdatedEvent += (key, val) =>
+            M_Values.Key1UpdatedEvent += key =>
                                          {
+                                             NotifyPropertyChanged(M_Map[key]);
                                          };
 
-            D_Values.Key1UpdatedEvent += (key, val) =>
+            D_Values.Key1UpdatedEvent += key =>
                                          {
+                                             NotifyPropertyChanged(D_Map[key]);
                                          };
         }
 
@@ -635,7 +831,7 @@ namespace GPGO_MultiPLCs.Models
         public bool OverTemperatureAlarm => M_Values[SignalNames.超溫警報];
         public bool DoorNotOpen => M_Values[SignalNames.停止後未開門];
         public bool CirculatingFanInversion => M_Values[SignalNames.循環風車INV異常];
-        public bool FillingTimeExceeded => M_Values[SignalNames.充氮氣逾時];
+        public bool InflatingTimeExceeded => M_Values[SignalNames.充氮氣逾時];
         public bool DoorNotClosed_AbnormalPositioning => M_Values[SignalNames.門未關定位異常];
         public bool HeatingTimeExceeded => M_Values[SignalNames.升恆溫逾時];
 
