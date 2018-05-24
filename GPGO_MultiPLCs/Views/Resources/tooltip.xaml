@@ -21,7 +21,6 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasDropShadow" Value="true">
                             <Setter TargetName="Border" Property="CornerRadius" Value="0" />
-                            <Setter TargetName="Border" Property="SnapsToDevicePixels" Value="true" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -7,7 +7,6 @@
         <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
         <Setter Property="Margin" Value="1" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -35,11 +34,6 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="1">
-                                    <!--<Path x:Name="CheckMark" Width="14" Height="14" SnapsToDevicePixels="True"  StrokeThickness="2" Stroke="{StaticResource EnergyBrush}" Fill="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Path.Data>
-                                        <EllipseGeometry Center="7,7" RadiusX="6" RadiusY="6" />
-                                    </Path.Data>
-                                </Path>-->
                                     <Border x:Name="CheckMark"
                                             Background="{Binding Background, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                             Opacity="0" />

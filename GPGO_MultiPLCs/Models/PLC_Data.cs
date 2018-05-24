@@ -9,8 +9,8 @@ namespace GPGO_MultiPLCs.Models
     public class PLC_Data : ViewModelBase
     {
         private readonly Stopwatch sw = new Stopwatch();
-        private bool _OnlineStatus;
         private bool _IsRecording;
+        private bool _OnlineStatus;
 
         public CancellationTokenSource CTS;
         public TwoKeyDictionary<DataNames, int, short> D_Values;
@@ -46,7 +46,12 @@ namespace GPGO_MultiPLCs.Models
             {
                 var val = (double)CurrentSegment / UsedSegmentCounts;
 
-                return double.IsNaN(val) || double.IsInfinity(val) ? 0.0 : val;
+                if (double.IsNaN(val) || double.IsInfinity(val) || val < 0.0)
+                {
+                    return 0.0;
+                }
+
+                return val > 1.0 ? 1.0 : val;
             }
         }
 
@@ -54,7 +59,7 @@ namespace GPGO_MultiPLCs.Models
         {
             get
             {
-                if(CurrentSegment > UsedSegmentCounts)
+                if (IsCooling && CurrentSegment >= UsedSegmentCounts)
                 {
                     return "降溫中";
                 }
@@ -572,6 +577,7 @@ namespace GPGO_MultiPLCs.Models
 
         #region 機台狀態
 
+        public bool IsCooling => M_Values[SignalNames.降溫中];
         public bool ManualMode => M_Values[SignalNames.手動模式];
         public bool AutoMode => M_Values[SignalNames.自動模式];
         public bool AutoMode_Stop => M_Values[SignalNames.自動停止];

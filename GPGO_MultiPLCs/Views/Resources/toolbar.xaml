@@ -5,7 +5,6 @@
            TargetType="{x:Type ButtonBase}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ButtonBase}">
@@ -70,7 +69,6 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
@@ -104,8 +102,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border Background="Transparent"
-                            SnapsToDevicePixels="True">
+                    <Border Background="Transparent">
                         <Rectangle Margin="0,2">
                             <Rectangle.Fill>
                                 <DrawingBrush TileMode="Tile"
@@ -139,8 +136,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border Name="Bd"
                             Background="Transparent"
-                            CornerRadius="0,0,0,0"
-                            SnapsToDevicePixels="true">
+                            CornerRadius="0,0,0,0">
                         <Grid>
                             <Path Name="Arrow"
                                   Margin="2,3"
@@ -173,7 +169,6 @@
            TargetType="{x:Type ToolBar}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToolBar}">

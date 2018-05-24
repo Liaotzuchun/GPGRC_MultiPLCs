@@ -4,7 +4,6 @@
     <Style x:Key="{x:Type StatusBar}"
            TargetType="{x:Type StatusBar}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type StatusBar}">
@@ -20,7 +19,6 @@
     <Style x:Key="{x:Static StatusBar.SeparatorStyleKey}"
            TargetType="{x:Type Separator}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">

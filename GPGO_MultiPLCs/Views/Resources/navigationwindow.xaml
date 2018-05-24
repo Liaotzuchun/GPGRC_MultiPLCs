@@ -106,7 +106,6 @@
                                   VerticalAlignment="Center"
                                   Data="M 0 0 L 4 4 L 8 0 Z"
                                   Fill="{StaticResource GlyphBrush}"
-                                  SnapsToDevicePixels="false"
                                   StrokeLineJoin="Round" />
                         </Grid>
                     </Grid>
@@ -144,14 +143,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Grid Name="Panel"
-                          Background="Transparent"
-                          SnapsToDevicePixels="true">
+                          Background="Transparent">
                         <Path Name="Glyph"
                               Width="10"
                               Height="10"
                               Margin="7,5"
                               HorizontalAlignment="Left"
-                              SnapsToDevicePixels="false"
                               Stroke="{StaticResource GlyphBrush}"
                               StrokeEndLineCap="Triangle"
                               StrokeStartLineCap="Triangle"
@@ -197,7 +194,6 @@
     <Style x:Key="{x:Type NavigationWindow}"
            TargetType="NavigationWindow">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="NavigationWindow">
@@ -243,7 +239,6 @@
                                   Data="M22.5767,21.035 Q27,19.37 31.424,21.035 A12.5,12.5,0,0,0,53.5,13 A12.5,12.5,0,0,0,37.765,0.926 Q27,4.93 16.235,0.926 A12.5,12.5,0,0,0,0.5,13 A12.5,12.5,0,0,0,22.5767,21.035 z"
                                   Fill="{StaticResource NormalBrush}"
                                   IsHitTestVisible="False"
-                                  SnapsToDevicePixels="False"
                                   Stroke="{StaticResource LightBorderBrush}"
                                   StrokeThickness="1" />
                             <Button Grid.Column="0"

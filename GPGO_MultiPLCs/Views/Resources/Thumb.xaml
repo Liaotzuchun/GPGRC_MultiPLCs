@@ -7,7 +7,6 @@
         <Setter Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">

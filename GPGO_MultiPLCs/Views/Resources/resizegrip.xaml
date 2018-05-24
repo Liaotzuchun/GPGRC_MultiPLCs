@@ -9,8 +9,7 @@
                 <ControlTemplate TargetType="{x:Type ResizeGrip}">
                     <Border Width="16"
                             Height="16"
-                            Background="Transparent"
-                            SnapsToDevicePixels="True">
+                            Background="Transparent">
                         <Rectangle Margin="2">
                             <Rectangle.Fill>
                                 <DrawingBrush TileMode="Tile"

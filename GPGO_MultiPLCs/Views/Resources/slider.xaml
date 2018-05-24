@@ -6,7 +6,6 @@
         <Setter Property="Focusable" Value="false" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -22,7 +21,6 @@
         <Setter Property="Focusable" Value="false" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -91,7 +89,6 @@
     <Style x:Key="SliderThumbStyle"
            TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
@@ -168,7 +165,7 @@
                      Height="5"
                      Fill="{StaticResource GlyphBrush}"
                      Placement="Top"
-                     SnapsToDevicePixels="True"
+
                      Visibility="Collapsed" />
             <Border Name="TrackBackground"
                     Grid.Row="1"
@@ -228,7 +225,7 @@
                      Height="5"
                      Fill="{StaticResource GlyphBrush}"
                      Placement="Bottom"
-                     SnapsToDevicePixels="True"
+
                      Visibility="Collapsed" />
         </Grid>
         <ControlTemplate.Triggers>
@@ -265,7 +262,7 @@
                      Width="5"
                      Fill="{StaticResource GlyphBrush}"
                      Placement="Left"
-                     SnapsToDevicePixels="True"
+
                      Visibility="Collapsed" />
             <Border Name="TrackBackground"
                     Grid.Column="1"
@@ -305,7 +302,7 @@
                      Width="5"
                      Fill="{StaticResource GlyphBrush}"
                      Placement="Right"
-                     SnapsToDevicePixels="True"
+
                      Visibility="Collapsed" />
         </Grid>
         <ControlTemplate.Triggers>
@@ -333,7 +330,6 @@
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="SelectionEnd" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Value}" />
         <Setter Property="SelectionStart" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Minimum}" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush4}" />

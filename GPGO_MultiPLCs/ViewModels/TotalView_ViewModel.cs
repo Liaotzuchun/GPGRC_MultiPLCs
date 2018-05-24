@@ -112,6 +112,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              { SignalNames.自動啟動, 51 },
                              { SignalNames.自動停止, 52 },
                              { SignalNames.手動模式, 60 },
+                             { SignalNames.降溫中, 208 },
                              { SignalNames.程式結束, 209 },
                              { SignalNames.加熱門未關, 250 },
                              { SignalNames.緊急停止, 700 },

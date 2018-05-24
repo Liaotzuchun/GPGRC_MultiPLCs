@@ -23,9 +23,7 @@
             <RowDefinition Height="80" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid>
-
-        </Grid>
+        <Grid />
         <Border Grid.Column="1"
                 Background="{StaticResource LightColorBrush}">
             <Image Margin="8"

@@ -12,7 +12,6 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
@@ -64,7 +63,6 @@
         <Setter Property="MinWidth" Value="120" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="PasswordChar" Value="*" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type PasswordBox}">

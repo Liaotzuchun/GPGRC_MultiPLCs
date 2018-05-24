@@ -3,7 +3,8 @@
     public enum SignalNames
     {
         //PLC->PC
-        //警報
+        //警報/提示
+        降溫中,
         程式結束,
         加熱門未關,
         緊急停止,

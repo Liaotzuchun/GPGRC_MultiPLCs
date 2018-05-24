@@ -67,7 +67,6 @@
     <Style x:Key="{x:Type ProgressBar}"
            TargetType="{x:Type ProgressBar}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
         <Style.Triggers>
