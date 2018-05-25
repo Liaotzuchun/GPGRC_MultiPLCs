@@ -23,6 +23,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public MainWindow_ViewModel()
         {
+            var color = OxyColor.FromRgb(50, 70, 60);
+
             HistogramView = new PlotModel
                             {
                                 PlotAreaBackground = OxyColor.FromArgb(0, 0, 0, 0),
@@ -31,9 +33,21 @@ namespace GPGO_MultiPLCs.ViewModels
                                 PlotMargins = new OxyThickness(20, 10, 10, 20)
                             };
 
-            var color = OxyColor.FromRgb(50, 70, 60);
+            var categoryAxis1 = new CategoryAxis
+                                {
+                                    MajorGridlineColor = color,
+                                    MinorGridlineColor = color,
+                                    TicklineColor = color,
+                                    ExtraGridlineColor = color,
+                                    TextColor = color,
+                                    TickStyle = TickStyle.Inside,
+                                    AxislineStyle = LineStyle.Solid,
+                                    AxislineColor = color,
+                                    GapWidth = 0,
+                                    MinorStep = 1,
+                                    Position = AxisPosition.Left
+                                };
 
-            var categoryAxis1 = new CategoryAxis { TickStyle = TickStyle.Inside, AxislineStyle = LineStyle.Solid, AxislineColor = color, GapWidth = 0, MinorStep = 1, Position = AxisPosition.Left };
             categoryAxis1.ActualLabels.Add("1");
             categoryAxis1.ActualLabels.Add("2");
             categoryAxis1.ActualLabels.Add("3");
@@ -54,6 +68,7 @@ namespace GPGO_MultiPLCs.ViewModels
             categoryAxis1.ActualLabels.Add("18");
             categoryAxis1.ActualLabels.Add("19");
             categoryAxis1.ActualLabels.Add("20");
+            categoryAxis1.ActualLabels.Reverse();
 
             var XAxis = new LinearAxis
                         {

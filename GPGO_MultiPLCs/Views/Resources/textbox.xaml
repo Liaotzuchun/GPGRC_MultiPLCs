@@ -4,7 +4,7 @@
     <Style x:Key="{x:Type TextBox}"
            TargetType="{x:Type TextBoxBase}">
         <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
+        <Setter Property="Background" Value="{StaticResource LightBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />

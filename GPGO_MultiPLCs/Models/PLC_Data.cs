@@ -75,19 +75,20 @@ namespace GPGO_MultiPLCs.Models
 
         public PLC_Data(int index, Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList)
         {
+            var color = OxyColor.FromRgb(50, 70, 60);
+
             RecordView = new PlotModel
                          {
                              PlotAreaBackground = OxyColor.FromRgb(102, 128, 115),
                              DefaultFont = "Microsoft JhengHei",
                              PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
                              PlotMargins = new OxyThickness(50, 0, 30, 40),
+                             LegendTextColor = color,
                              LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
                              LegendPlacement = LegendPlacement.Outside,
                              LegendPosition = LegendPosition.TopCenter,
                              LegendMaxHeight = 30
                          };
-
-            var color = OxyColor.FromRgb(50, 70, 60);
 
             var YAxis = new LinearAxis
                         {

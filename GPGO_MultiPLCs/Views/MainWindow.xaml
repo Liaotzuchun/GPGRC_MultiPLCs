@@ -79,10 +79,10 @@
                 <local:TotalView DataContext="{Binding TotalVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
             <TabItem>
-                <local:RecipeControl DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}" />
+                <local:RecipeControl DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}" Margin="4"/>
             </TabItem>
             <TabItem>
-                <local:TraceabilityView DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" />
+                <local:TraceabilityView DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" Margin="4"/>
             </TabItem>
         </TabControl>
         <GroupBox Grid.Row="1"

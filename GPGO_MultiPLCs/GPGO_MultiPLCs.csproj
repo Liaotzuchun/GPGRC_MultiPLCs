@@ -125,6 +125,9 @@
     <Compile Include="Views\Helpers\BindableBinding.cs" />
     <Compile Include="Views\Helpers\Converters.cs" />
     <Compile Include="Views\Helpers\MultiValueConverters.cs" />
+    <Compile Include="Views\Helpers\RangeSlider.xaml.cs">
+      <DependentUpon>RangeSlider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RecipeControl.xaml.cs">
       <DependentUpon>RecipeControl.xaml</DependentUpon>
     </Compile>
@@ -135,6 +138,10 @@
       <DependentUpon>TraceabilityView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\GlobalDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Helpers\RangeSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
