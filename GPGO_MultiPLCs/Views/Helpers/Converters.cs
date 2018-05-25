@@ -261,6 +261,19 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
+    public class IsEqualValue : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return System.Convert.ToInt32(value) == System.Convert.ToInt32(parameter);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return System.Convert.ToBoolean(value) ? System.Convert.ToInt32(parameter) : 0;
+        }
+    }
+
     public class IsLessThanValue : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -8,4 +8,5 @@
     <local:BoolNotVis x:Key="BoolNotVis" />
     <local:MultiAnyTrueConverter x:Key="MultiAnyTrueConverter" />
     <local:NullVis x:Key="NullVis" />
+    <local:IsEqualValue x:Key="IsEqualValue" />
 </ResourceDictionary>
