@@ -154,7 +154,7 @@
                                                Grid.Column="0"
                                                HorizontalContentAlignment="Center"
                                                VerticalContentAlignment="Center"
-                                               Background="{StaticResource LightColorBrush}"
+                                               Background="{StaticResource LightBrush}"
                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                BorderThickness="0"
                                                Focusable="False"

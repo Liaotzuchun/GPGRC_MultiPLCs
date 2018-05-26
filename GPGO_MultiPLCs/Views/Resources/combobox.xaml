@@ -10,7 +10,7 @@
             </Grid.ColumnDefinitions>
             <Border x:Name="Border2"
                     Grid.Column="0"
-                    Background="{StaticResource LightColorBrush}"
+                    Background="{StaticResource LightBrush}"
                     BorderBrush="{StaticResource NormalBorderBrush}"
                     BorderThickness="1"
                     CornerRadius="0,0,0,0" />
@@ -162,7 +162,7 @@
                                   MinWidth="{TemplateBinding ActualWidth}"
                                   MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <Border x:Name="DropDownBorder"
-                                        Background="{StaticResource LightColorBrush}"
+                                        Background="{StaticResource LightBrush}"
                                         BorderBrush="{StaticResource NormalBorderBrush}"
                                         BorderThickness="1" />
                                 <ScrollViewer Margin="4">
