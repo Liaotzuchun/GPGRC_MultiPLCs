@@ -11,12 +11,13 @@ namespace GPGO_MultiPLCs.ViewModels
     public class RecipeControl_ViewModel : ViewModelBase
     {
         private readonly MongoClient Mongo_Client;
-
-        private PLC_Recipe _Selected_PLC_Recipe;
-        private List<PLC_Recipe> _Recipes;
         private string _SearchName;
+        private PLC_Recipe _Selected_PLC_Recipe;
         private bool _Standby;
         private string _TypedName;
+
+        private List<PLC_Recipe> _ViewRecipes;
+        private List<PLC_Recipe> Recipes;
 
         public PLC_Recipe Selected_PLC_Recipe
         {
@@ -28,12 +29,12 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public List<PLC_Recipe> Recipes
+        public List<PLC_Recipe> ViewRecipes
         {
-            get => _Recipes;
+            get => _ViewRecipes;
             set
             {
-                _Recipes = value;
+                _ViewRecipes = value;
                 NotifyPropertyChanged();
             }
         }
@@ -53,6 +54,7 @@ namespace GPGO_MultiPLCs.ViewModels
             get => _TypedName;
             set
             {
+                value = value.Replace(" ", "_");
                 _TypedName = value.Length > 8 ? value.Substring(0, 8) : value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(Load_Enable));
@@ -66,14 +68,15 @@ namespace GPGO_MultiPLCs.ViewModels
             get => _SearchName;
             set
             {
+                value = value.Replace(" ", "_");
                 _SearchName = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public bool Load_Enable => !string.IsNullOrEmpty(_TypedName) && _Recipes != null && _Recipes.Any(x => x.RecipeName == _TypedName);
+        public bool Load_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes != null && Recipes.Any(x => x.RecipeName == _TypedName);
 
-        public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && _Recipes.All(x => x.RecipeName != _TypedName);
+        public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
 
         public bool Delete_Enable => Load_Enable && !_Selected_PLC_Recipe.Used_Stations.Any();
 
@@ -109,18 +112,19 @@ namespace GPGO_MultiPLCs.ViewModels
                                            });
 
             ResetCommand = new RelayCommand(async e =>
-                                           {
-                                               if (string.IsNullOrEmpty(_TypedName))
-                                               {
-                                                   return;
-                                               }
+                                            {
+                                                if (string.IsNullOrEmpty(_TypedName))
+                                                {
+                                                    return;
+                                                }
 
-                                               await Load(_TypedName);
-                                           });
+                                                await Load(_TypedName);
+                                            });
 
             AddCommand = new RelayCommand(async e =>
                                           {
                                               await Save(_TypedName);
+                                              SearchName = "";
 
                                               await RefreshList();
                                           });
@@ -148,7 +152,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                {
                                                    if ((int)e > -1)
                                                    {
-                                                       Selected_PLC_Recipe = _Recipes.ElementAtOrDefault((int)e);
+                                                       Selected_PLC_Recipe = _ViewRecipes.ElementAtOrDefault((int)e);
                                                        TypedName = Selected_PLC_Recipe?.RecipeName;
                                                    }
                                                });
@@ -226,8 +230,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 var db = Mongo_Client.GetDatabase("GP");
                 var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
 
-                Recipes = string.IsNullOrEmpty(_SearchName) ? await (await Sets.FindAsync(x => true)).ToListAsync() :
-                              await (await Sets.FindAsync(x => x.RecipeName.ToLower().Contains(_SearchName.ToLower()))).ToListAsync();
+                Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
+                ViewRecipes = Recipes.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
             }
             catch (Exception)
             {

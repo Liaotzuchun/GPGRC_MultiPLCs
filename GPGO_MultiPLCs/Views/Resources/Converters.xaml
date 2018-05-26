@@ -1,6 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views">
 
     <local:RatioValue x:Key="RatioValue" />
     <local:GetDayofDate x:Key="GetDayofDate" />
@@ -10,4 +11,6 @@
     <local:MultiBooleanConverter x:Key="MultiBooleanConverter" />
     <local:NullVis x:Key="NullVis" />
     <local:IsEqualValue x:Key="IsEqualValue" />
+    <local:NullEnableValue x:Key="NullEnableValue" />
+    <local:BoolNot x:Key="BoolNot" />
 </ResourceDictionary>

@@ -62,9 +62,18 @@
             </Grid>
             <UniformGrid Grid.Column="1"
                          Rows="1">
-                <ToggleButton FontSize="20" IsChecked="{Binding ViewIndex, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}">生產頁面</ToggleButton>
-                <ToggleButton FontSize="20" IsChecked="{Binding ViewIndex, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}">配方管理</ToggleButton>
-                <ToggleButton FontSize="20" IsChecked="{Binding ViewIndex, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}">生產履歷</ToggleButton>
+                <ToggleButton FontSize="20"
+                              IsChecked="{Binding ViewIndex, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}">
+                    生產頁面
+                </ToggleButton>
+                <ToggleButton FontSize="20"
+                              IsChecked="{Binding ViewIndex, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}">
+                    配方管理
+                </ToggleButton>
+                <ToggleButton FontSize="20"
+                              IsChecked="{Binding ViewIndex, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}">
+                    生產履歷
+                </ToggleButton>
             </UniformGrid>
         </Grid>
         <Border Grid.Column="1"
@@ -73,16 +82,18 @@
                    Source="/GPGO_MultiPLCs;component/GPS.png" />
         </Border>
         <TabControl Grid.Row="1"
-                    SelectedIndex="{Binding ViewIndex, Mode=TwoWay}"
+                    SelectedIndex="{Binding ViewIndex, Mode=OneWay}"
                     Style="{StaticResource NoHeaderTabControl}">
             <TabItem>
                 <local:TotalView DataContext="{Binding TotalVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
             <TabItem>
-                <local:RecipeControl DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}" Margin="4"/>
+                <local:RecipeControl DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}"
+                                     Margin="4" />
             </TabItem>
             <TabItem>
-                <local:TraceabilityView DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" Margin="4"/>
+                <local:TraceabilityView DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}"
+                                        Margin="4" />
             </TabItem>
         </TabControl>
         <GroupBox Grid.Row="1"

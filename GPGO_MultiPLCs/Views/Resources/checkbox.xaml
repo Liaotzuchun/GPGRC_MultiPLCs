@@ -14,8 +14,9 @@
                                      VerticalAlignment="Stretch"
                                      Background="Transparent">
                         <BulletDecorator.Bullet>
-                            <Grid Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                  Height="{Binding Width, RelativeSource={RelativeSource Self}}">
+                            <Grid
+                                Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                Height="{Binding Width, RelativeSource={RelativeSource Self}}">
                                 <Border x:Name="b1"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="1,1,0,1" />

@@ -200,22 +200,28 @@
                                 <DataTrigger
                                     Binding="{Binding ProgressString, Mode=OneWay}"
                                     Value="升溫中">
-                                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
-                                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                    <Setter TargetName="Progress" Property="Background"
+                                            Value="{StaticResource ErrorBrush}" />
+                                    <Setter TargetName="Progress" Property="BorderBrush"
+                                            Value="{StaticResource ErrorBorderBrush}" />
                                     <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding ProgressString, Mode=OneWay}"
                                     Value="恆溫中">
-                                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
-                                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
+                                    <Setter TargetName="Progress" Property="Background"
+                                            Value="{StaticResource WorkingBrush}" />
+                                    <Setter TargetName="Progress" Property="BorderBrush"
+                                            Value="{StaticResource WorkingBorderBrush}" />
                                     <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding ProgressString, Mode=OneWay}"
                                     Value="降溫中">
-                                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
-                                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                                    <Setter TargetName="Progress" Property="Background"
+                                            Value="{StaticResource PressedBrush}" />
+                                    <Setter TargetName="Progress" Property="BorderBrush"
+                                            Value="{StaticResource PressedBorderBrush}" />
                                     <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
@@ -233,7 +239,8 @@
                                             d:DataContext="{d:DesignInstance m:PLC_Data}"
                                             Background="{StaticResource LightColorBrush}">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <ColumnDefinition
+                                                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                                 <ColumnDefinition />
                                             </Grid.ColumnDefinitions>
                                             <Border Background="{StaticResource DisabledBackgroundBrush}" />
@@ -261,7 +268,8 @@
                                                             <DataTrigger
                                                                 Binding="{Binding IsRecording, Mode=OneWay}"
                                                                 Value="True">
-                                                                <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                                                <Setter Property="Foreground"
+                                                                        Value="{StaticResource BaseForeground}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -1103,7 +1111,9 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Content="返回總覽">
+                        <Button
+                            Content="返回總覽"
+                            FontSize="16">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction
@@ -1120,7 +1130,9 @@
                             SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="m:PLC_Data">
-                                    <TextBlock Text="{Binding StationNumber, Mode=OneWay, StringFormat=第 \{0:D\} 站}" />
+                                    <TextBlock
+                                        FontSize="16"
+                                        Text="{Binding StationNumber, Mode=OneWay, StringFormat=第 \{0:D\} 站}" />
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
