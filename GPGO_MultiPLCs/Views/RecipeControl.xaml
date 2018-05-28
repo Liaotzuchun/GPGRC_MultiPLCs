@@ -814,8 +814,8 @@
                                 Value="{Binding ConstantTime_6, Mode=OneWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0,4,2"
-                                VerticalAlignment="Bottom"
+                        <Slider Margin="4,0"
+                                VerticalAlignment="Center"
                                 IsMoveToPointEnabled="True"
                                 IsSnapToTickEnabled="True"
                                 SmallChange="1"

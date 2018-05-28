@@ -21,7 +21,7 @@ namespace GPGO_MultiPLCs.Models
         private int _ProcessCount;
         private int _ProcessNumber;
         private string _ProduceCode;
-        private List<Record_Info> _RecordTemperatures;
+        private List<Record_Temperatures> _RecordTemperatures;
         private string _Side;
         private DateTime _StartTime;
         private double _TargetOvenTemperature;
@@ -29,7 +29,7 @@ namespace GPGO_MultiPLCs.Models
         private string _TrolleyCode;
         private short _WarmingTime;
 
-        public List<Record_Info> RecordTemperatures
+        public List<Record_Temperatures> RecordTemperatures
         {
             get => _RecordTemperatures;
             set

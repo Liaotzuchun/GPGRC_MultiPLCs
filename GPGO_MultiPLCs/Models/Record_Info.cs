@@ -3,7 +3,7 @@
 namespace GPGO_MultiPLCs.Models
 {
     [BsonIgnoreExtraElements]
-    public class Record_Info
+    public class Record_Temperatures
     {
         public short OvenTemperature_1 { get; set; }
         public short OvenTemperature_2 { get; set; }

@@ -374,7 +374,7 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
-        public async Task<List<Record_Info>> StartRecoder(long cycle_ms, CancellationToken ct)
+        public async Task<List<Record_Temperatures>> StartRecoder(long cycle_ms, CancellationToken ct)
         {
             if (IsRecording)
             {
@@ -384,7 +384,7 @@ namespace GPGO_MultiPLCs.Models
             IsRecording = true;
             var val = await Task.Factory.StartNew(() =>
                                                   {
-                                                      var list = new List<Record_Info>();
+                                                      var list = new List<Record_Temperatures>();
                                                       var n = 0;
                                                       sw.Restart();
 
@@ -392,7 +392,7 @@ namespace GPGO_MultiPLCs.Models
                                                       {
                                                           if (sw.ElapsedMilliseconds >= n * cycle_ms)
                                                           {
-                                                              list.Add(new Record_Info
+                                                              list.Add(new Record_Temperatures
                                                                        {
                                                                            ThermostatTemperature = ThermostatTemperature,
                                                                            OvenTemperature_1 = OvenTemperature_1,
