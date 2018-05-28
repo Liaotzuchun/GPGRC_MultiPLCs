@@ -31,7 +31,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="m:PLC_Data">
                             <TabControl Style="{StaticResource NoHeaderTabControl}">
-                                <TabItem>
+                                <TabItem FontSize="16">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="50" />

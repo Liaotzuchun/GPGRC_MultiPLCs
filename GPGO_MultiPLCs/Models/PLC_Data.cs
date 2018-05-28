@@ -87,7 +87,8 @@ namespace GPGO_MultiPLCs.Models
                              LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
                              LegendPlacement = LegendPlacement.Outside,
                              LegendPosition = LegendPosition.TopCenter,
-                             LegendMaxHeight = 30
+                             LegendMaxHeight = 30,
+                             LegendFontSize = 14
                          };
 
             var YAxis = new LinearAxis
