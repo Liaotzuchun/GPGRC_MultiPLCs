@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -44,7 +45,7 @@ namespace GPGO_MultiPLCs.Models
         private double _TargetTemperature_7;
         private double _TargetTemperature_8;
         private DateTime _Updated;
-        private List<int> _Used_Stations = new List<int>();
+        private int _Used_Stations; // 32個bit bool轉換成int32，亦即可支援32個站的配方使用列表
         private short _UsedSegmentCounts;
 
         [BsonId]
@@ -408,7 +409,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public List<int> Used_Stations
+        public int Used_Stations
         {
             get => _Used_Stations;
             set
@@ -425,6 +426,25 @@ namespace GPGO_MultiPLCs.Models
             {
                 _Updated = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        [BsonIgnore]
+        public string Stations_String
+        {
+            get
+            {
+                var bits = _Used_Stations.IntToBits();
+                var list = new List<string>();
+                for (var i = 0; i < bits.Length; i++)
+                {
+                    if (bits[i])
+                    {
+                        list.Add(i.ToString());
+                    }
+                }
+
+                return string.Join(", ", list);
             }
         }
 
@@ -470,6 +490,16 @@ namespace GPGO_MultiPLCs.Models
                        TargetTemperature_8 = _TargetTemperature_8,
                        UsedSegmentCounts = _UsedSegmentCounts
                    };
+        }
+
+        public void SetUsedStations(bool[] s)
+        {
+            Used_Stations = s.BitsToInt();
+        }
+
+        public bool[] GetStations()
+        {
+            return _Used_Stations.IntToBits();
         }
     }
 }

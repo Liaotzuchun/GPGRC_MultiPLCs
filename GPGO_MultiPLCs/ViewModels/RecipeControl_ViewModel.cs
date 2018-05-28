@@ -78,7 +78,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
 
-        public bool Delete_Enable => Load_Enable && !_Selected_PLC_Recipe.Used_Stations.Any();
+        public bool Delete_Enable => Load_Enable && _Selected_PLC_Recipe.Used_Stations == 0;
 
         public RelayCommand InitialLoadCommand { get; }
         public RelayCommand SaveCommand { get; }
