@@ -8,7 +8,40 @@ namespace GPGO_MultiPLCs.Helpers
 {
     public static class Extensions
     {
-        private static readonly short[] bitnum = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384 };
+        private static readonly int[] bitnum =
+        {
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64,
+            128,
+            256,
+            512,
+            1024,
+            2048,
+            4096,
+            8192,
+            16384,
+            32768,
+            65536,
+            131072,
+            262144,
+            524288,
+            1048576,
+            2097152,
+            4194304,
+            8388608,
+            16777216,
+            33554432,
+            67108864,
+            134217728,
+            268435456,
+            536870912,
+            1073741824
+        };
 
         public static byte[] ShortToBitBytes(this short val)
         {
@@ -32,13 +65,37 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
+        public static byte[] IntToBitBytes(this int val)
+        {
+            var _val = (long)val;
+            var bits = new byte[32];
+
+            if (_val < 0)
+            {
+                bits[31] = 1;
+                _val += 2147483648;
+            }
+
+            for (var i = 30; i >= 0; i--)
+            {
+                if ((_val & bitnum[i]) > 0)
+                {
+                    bits[i] = 1;
+                }
+            }
+
+            return bits;
+        }
+
         public static short BitBytesToShort(this byte[] bits)
         {
-            short val = 0;
+            var val = 0;
 
             if (bits.Length != 16)
             {
-                return val;
+                var temp = new byte[16];
+                Array.Copy(bits, temp, bits.Length);
+                bits = temp;
             }
 
             for (var i = 0; i < 15; i++)
@@ -51,10 +108,37 @@ namespace GPGO_MultiPLCs.Helpers
 
             if (bits[15] > 0)
             {
-                val = (short)(val - 32768);
+                val = val - 32768;
             }
 
-            return val;
+            return (short)val;
+        }
+
+        public static int BitBytesToInt(this byte[] bits)
+        {
+            long val = 0;
+
+            if (bits.Length != 32)
+            {
+                var temp = new byte[32];
+                Array.Copy(bits, temp, bits.Length);
+                bits = temp;
+            }
+
+            for (var i = 0; i < 31; i++)
+            {
+                if (bits[i] > 0)
+                {
+                    val += bitnum[i];
+                }
+            }
+
+            if (bits[31] > 0)
+            {
+                val = val - 2147483648;
+            }
+
+            return (int)val;
         }
 
         public static bool[] ShortToBits(this short val)
@@ -79,13 +163,37 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
+        public static bool[] IntToBits(this int val)
+        {
+            var _val = (long)val;
+            var bits = new bool[32];
+
+            if (_val < 0)
+            {
+                bits[31] = true;
+                _val += 2147483648;
+            }
+
+            for (var i = 30; i >= 0; i--)
+            {
+                if ((_val & bitnum[i]) > 0)
+                {
+                    bits[i] = true;
+                }
+            }
+
+            return bits;
+        }
+
         public static short BitsToShort(this bool[] bits)
         {
-            short val = 0;
+            var val = 0;
 
             if (bits.Length != 16)
             {
-                return val;
+                var temp = new bool[16];
+                Array.Copy(bits, temp, bits.Length);
+                bits = temp;
             }
 
             for (var i = 0; i < 15; i++)
@@ -98,10 +206,37 @@ namespace GPGO_MultiPLCs.Helpers
 
             if (bits[15])
             {
-                val = (short)(val - 32768);
+                val = val - 32768;
             }
 
-            return val;
+            return (short)val;
+        }
+
+        public static int BitsToInt(this bool[] bits)
+        {
+            long val = 0;
+
+            if (bits.Length != 32)
+            {
+                var temp = new bool[32];
+                Array.Copy(bits, temp, bits.Length);
+                bits = temp;
+            }
+
+            for (var i = 0; i < 31; i++)
+            {
+                if (bits[i])
+                {
+                    val += bitnum[i];
+                }
+            }
+
+            if (bits[31])
+            {
+                val = val - 2147483648;
+            }
+
+            return (int)val;
         }
 
         public static string ASCIIfromShorts(this IEnumerable<short> vals)
