@@ -10,6 +10,9 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class RecipeControl_ViewModel : ViewModelBase
     {
+        public delegate void ListUpdated(List<PLC_Recipe> list);
+        public event ListUpdated ListUpdatedEvent;
+
         private readonly MongoClient Mongo_Client;
         private string _SearchName;
         private PLC_Recipe _Selected_PLC_Recipe;
@@ -232,6 +235,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
                 ViewRecipes = Recipes.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
+
+                if(Recipes!=null && Recipes.Count > 0)
+                {
+                    ListUpdatedEvent?.Invoke(Recipes);
+                }
             }
             catch (Exception)
             {

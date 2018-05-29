@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceProcess;
+using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
@@ -30,9 +31,28 @@ namespace GPGO_MultiPLCs
 
             DialogVM = new GlobalDialog_ViewModel();
             MainVM = new MainWindow_ViewModel();
-            TotalVM = new TotalView_ViewModel();
+            TotalVM = new TotalView_ViewModel(DialogVM);
             RecipeVM = new RecipeControl_ViewModel(Mongo, DialogVM);
             TraceVM = new TraceabilityView_ViewModel();
+
+            RecipeVM.ListUpdatedEvent += list =>
+                                         {
+                                             foreach (var recipe in list)
+                                             {
+                                                 if (recipe.Used_Stations != 0)
+                                                 {
+                                                     var stations = recipe.Used_Stations.IntToBits();
+
+                                                     for (var i = 0; i < stations.Length; i++)
+                                                     {
+                                                         if (stations[i])
+                                                         {
+                                                             TotalVM.SetRecipe(i, recipe);
+                                                         }
+                                                     }
+                                                 }
+                                             }
+                                         };
         }
     }
 }

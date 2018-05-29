@@ -41,9 +41,7 @@ namespace GPGO_MultiPLCs.Helpers
 
         public IEnumerable<KeyValuePair<TKey2, TValue>> GetKeyValuePairsOfKey2()
         {
-            var r = from s in Key2Dictionary join f in Key1Dictionary on s.Value equals f.Key select new KeyValuePair<TKey2, TValue>(s.Key, f.Value);
-
-            return r;
+            return Key2Dictionary.Select(x => new KeyValuePair<TKey2, TValue>(x.Key, Key1Dictionary[x.Value]));
         }
 
         public IEnumerable<TValue> GetValues(IEnumerable<TKey1> keys)

@@ -21,7 +21,7 @@
             <TabItem>
                 <ListBox
                     Margin="3"
-                    ItemsSource="{Binding PLC_In_All, Mode=OneTime}"
+                    ItemsSource="{Binding PLC_All, Mode=OneTime}"
                     SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -1126,7 +1126,7 @@
                             Grid.Column="1"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            ItemsSource="{Binding PLC_In_All, Mode=OneTime}"
+                            ItemsSource="{Binding PLC_All, Mode=OneTime}"
                             SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="m:PLC_Data">
