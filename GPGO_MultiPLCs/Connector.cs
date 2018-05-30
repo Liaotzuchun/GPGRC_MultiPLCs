@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceProcess;
-using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
@@ -39,16 +38,11 @@ namespace GPGO_MultiPLCs
                                          {
                                              foreach (var recipe in list)
                                              {
-                                                 if (recipe.Used_Stations != 0)
+                                                 for (var i = 0; i < recipe.Used_Stations.Length; i++)
                                                  {
-                                                     var stations = recipe.Used_Stations.IntToBits();
-
-                                                     for (var i = 0; i < stations.Length; i++)
+                                                     if (recipe.Used_Stations[i])
                                                      {
-                                                         if (stations[i])
-                                                         {
-                                                             TotalVM.SetRecipe(i, recipe);
-                                                         }
+                                                         TotalVM.SetRecipe(i, recipe);
                                                      }
                                                  }
                                              }

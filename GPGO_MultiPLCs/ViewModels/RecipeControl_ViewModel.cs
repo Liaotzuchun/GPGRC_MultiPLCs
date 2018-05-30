@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
+using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class RecipeControl_ViewModel : ViewModelBase
     {
         public delegate void ListUpdated(List<PLC_Recipe> list);
-        public event ListUpdated ListUpdatedEvent;
 
         private readonly MongoClient Mongo_Client;
         private string _SearchName;
@@ -28,7 +28,17 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _Selected_PLC_Recipe = value;
+
+                if (_Selected_PLC_Recipe != null)
+                {
+                    _TypedName = _Selected_PLC_Recipe.RecipeName;
+                    NotifyPropertyChanged(nameof(TypedName));
+                }
+
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(Load_Enable));
+                NotifyPropertyChanged(nameof(Add_Enable));
+                NotifyPropertyChanged(nameof(Delete_Enable));
             }
         }
 
@@ -58,7 +68,11 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 value = value.Replace(" ", "_");
-                _TypedName = value.Length > 8 ? value.Substring(0, 8) : value;
+                _TypedName = value.Length > 26 ? value.Substring(0, 26) : value;
+
+                _Selected_PLC_Recipe = Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName);
+                NotifyPropertyChanged(nameof(Selected_PLC_Recipe));
+
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(Load_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
@@ -81,14 +95,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
 
-        public bool Delete_Enable => Load_Enable && _Selected_PLC_Recipe.Used_Stations == 0;
+        public bool Delete_Enable => Load_Enable && _Selected_PLC_Recipe.Used_Stations.Any(x => x);
 
         public RelayCommand InitialLoadCommand { get; }
         public RelayCommand SaveCommand { get; }
         public RelayCommand ResetCommand { get; }
         public RelayCommand AddCommand { get; }
         public RelayCommand DeleteCommand { get; }
-        public RelayCommand SelectedCommand { get; }
         public RelayCommand RefreshCommand { get; }
 
         public RecipeControl_ViewModel(MongoClient mongo, IDialogService dialog)
@@ -151,20 +164,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  Standby = true;
                                              });
 
-            SelectedCommand = new RelayCommand(e =>
-                                               {
-                                                   if ((int)e > -1)
-                                                   {
-                                                       Selected_PLC_Recipe = _ViewRecipes.ElementAtOrDefault((int)e);
-                                                       TypedName = Selected_PLC_Recipe?.RecipeName;
-                                                   }
-                                               });
-
             RefreshCommand = new RelayCommand(async e =>
                                               {
                                                   await RefreshList();
                                               });
         }
+
+        public event ListUpdated ListUpdatedEvent;
 
         public event Action RecipeLoadedEvent;
 
@@ -172,12 +178,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Standby = false;
 
-            if (!string.IsNullOrEmpty(name))
-            {
-                return;
-            }
-
-            var TempSet = Selected_PLC_Recipe == null ? new PLC_Recipe() : Selected_PLC_Recipe.Copy();
+            var TempSet = Selected_PLC_Recipe == null ? new PLC_Recipe(name) : Selected_PLC_Recipe.Copy();
 
             if (Mongo_Client != null)
             {
@@ -233,16 +234,18 @@ namespace GPGO_MultiPLCs.ViewModels
                 var db = Mongo_Client.GetDatabase("GP");
                 var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
 
+                TypedName = "";
                 Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
                 ViewRecipes = Recipes.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
 
-                if(Recipes!=null && Recipes.Count > 0)
+                if (Recipes != null && Recipes.Count > 0)
                 {
                     ListUpdatedEvent?.Invoke(Recipes);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorRecoder.RecordError(ex);
             }
         }
     }

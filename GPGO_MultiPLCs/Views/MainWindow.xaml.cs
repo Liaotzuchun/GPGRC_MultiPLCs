@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace GPGO_MultiPLCs
 {
@@ -10,6 +11,11 @@ namespace GPGO_MultiPLCs
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Panel.SetZIndex(PopGrid, 100);
         }
     }
 }

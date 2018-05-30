@@ -13,7 +13,7 @@
         WindowStartupLocation="Manual"
         WindowState="Maximized"
         WindowStyle="ThreeDBorderWindow"
-        mc:Ignorable="d">
+        mc:Ignorable="d" Loaded="Window_Loaded">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,6 +24,11 @@
             <RowDefinition Height="78" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <Grid x:Name="PopGrid"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2">
+            <local:GlobalDialog DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}" />
+        </Grid>
         <Grid Background="{StaticResource LightColorBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
@@ -82,18 +87,20 @@
                    Source="/GPGO_MultiPLCs;component/GPS.png" />
         </Border>
         <TabControl Grid.Row="1"
-                    SelectedIndex="{Binding ViewIndex, Mode=OneWay}"
-                    Style="{StaticResource NoHeaderTabControl}">
-            <TabItem>
+                    SelectedIndex="{Binding ViewIndex, Mode=OneWay}">
+            <TabItem Width="0"
+                     Height="0">
                 <local:TotalView DataContext="{Binding TotalVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
-            <TabItem>
-                <local:RecipeControl DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}"
-                                     Margin="4" />
+            <TabItem Width="0"
+                     Height="0">
+                <local:RecipeControl Margin="4"
+                                     DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
-            <TabItem>
-                <local:TraceabilityView DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}"
-                                        Margin="4" />
+            <TabItem Width="0"
+                     Height="0">
+                <local:TraceabilityView Margin="4"
+                                        DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
         </TabControl>
         <GroupBox Grid.Row="1"

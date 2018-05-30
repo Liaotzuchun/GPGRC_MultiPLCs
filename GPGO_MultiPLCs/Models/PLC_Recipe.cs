@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -9,6 +8,13 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : ViewModelBase
     {
+        public double Temperature_Min => 40.0;
+        public double Temperature_Max => 240.0;
+        public short Time_Min => 1;
+        public short Time_Max => 600;
+        public short SegmentCounts_Min => 1;
+        public short SegmentCounts_Max => 8;
+
         private double _ConstantTemperature_1;
         private double _ConstantTemperature_2;
         private double _ConstantTemperature_3;
@@ -45,7 +51,7 @@ namespace GPGO_MultiPLCs.Models
         private double _TargetTemperature_7;
         private double _TargetTemperature_8;
         private DateTime _Updated;
-        private int _Used_Stations; // 32個bit bool轉換成int32，亦即可支援32個站的配方使用列表
+        private bool[] _Used_Stations = new bool[20];
         private short _UsedSegmentCounts;
 
         [BsonId]
@@ -409,7 +415,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public int Used_Stations
+        public bool[] Used_Stations
         {
             get => _Used_Stations;
             set
@@ -429,23 +435,45 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [BsonIgnore]
-        public string Stations_String
+        public PLC_Recipe(string name = "")
         {
-            get
-            {
-                var bits = _Used_Stations.IntToBits();
-                var list = new List<string>();
-                for (var i = 0; i < bits.Length; i++)
-                {
-                    if (bits[i])
-                    {
-                        list.Add(i.ToString());
-                    }
-                }
-
-                return string.Join(", ", list);
-            }
+            Updated = DateTime.Now;
+            RecipeName = string.IsNullOrEmpty(name) ? Updated.Ticks.ToString() : name;
+            ConstantTemperature_1 = 200;
+            ConstantTemperature_2 = 200;
+            ConstantTemperature_3 = 200;
+            ConstantTemperature_4 = 200;
+            ConstantTemperature_5 = 200;
+            ConstantTemperature_6 = 200;
+            ConstantTemperature_7 = 200;
+            ConstantTemperature_8 = 200;
+            ConstantTime_1 = 10;
+            ConstantTime_2 = 10;
+            ConstantTime_3 = 10;
+            ConstantTime_4 = 10;
+            ConstantTime_5 = 10;
+            ConstantTime_6 = 10;
+            ConstantTime_7 = 10;
+            ConstantTime_8 = 10;
+            CoolingTemperature = 40;
+            HeatingTime_1 = 10;
+            HeatingTime_2 = 10;
+            HeatingTime_3 = 10;
+            HeatingTime_4 = 10;
+            HeatingTime_5 = 10;
+            HeatingTime_6 = 10;
+            HeatingTime_7 = 10;
+            HeatingTime_8 = 10;
+            InflatingTime = 10;
+            TargetTemperature_1 = 200;
+            TargetTemperature_2 = 200;
+            TargetTemperature_3 = 200;
+            TargetTemperature_4 = 200;
+            TargetTemperature_5 = 200;
+            TargetTemperature_6 = 200;
+            TargetTemperature_7 = 200;
+            TargetTemperature_8 = 200;
+            UsedSegmentCounts = 8;
         }
 
         public PLC_Recipe Copy()
@@ -490,16 +518,6 @@ namespace GPGO_MultiPLCs.Models
                        TargetTemperature_8 = _TargetTemperature_8,
                        UsedSegmentCounts = _UsedSegmentCounts
                    };
-        }
-
-        public void SetUsedStations(bool[] s)
-        {
-            Used_Stations = s.BitsToInt();
-        }
-
-        public bool[] GetStations()
-        {
-            return _Used_Stations.IntToBits();
         }
     }
 }

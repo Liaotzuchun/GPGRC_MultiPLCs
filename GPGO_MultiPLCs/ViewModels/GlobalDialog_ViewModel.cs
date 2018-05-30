@@ -10,13 +10,13 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public async Task<bool> Show(string msg, bool support_cancel)
         {
+            Result = false;
             SupportCancel = support_cancel;
             Message = msg;
             IsShown = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            Result = false;
                                             Lock.WaitOne(9000);
                                         },
                                         TaskCreationOptions.LongRunning);
