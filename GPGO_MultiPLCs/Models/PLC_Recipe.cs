@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -8,13 +7,6 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : ViewModelBase
     {
-        public double Temperature_Min => 40.0;
-        public double Temperature_Max => 240.0;
-        public short Time_Min => 1;
-        public short Time_Max => 600;
-        public short SegmentCounts_Min => 1;
-        public short SegmentCounts_Max => 8;
-
         private double _ConstantTemperature_1;
         private double _ConstantTemperature_2;
         private double _ConstantTemperature_3;
@@ -53,6 +45,12 @@ namespace GPGO_MultiPLCs.Models
         private DateTime _Updated;
         private bool[] _Used_Stations = new bool[20];
         private short _UsedSegmentCounts;
+        public double Temperature_Min => 40.0;
+        public double Temperature_Max => 240.0;
+        public short Time_Min => 1;
+        public short Time_Max => 600;
+        public short SegmentCounts_Min => 1;
+        public short SegmentCounts_Max => 8;
 
         [BsonId]
         public string RecipeName

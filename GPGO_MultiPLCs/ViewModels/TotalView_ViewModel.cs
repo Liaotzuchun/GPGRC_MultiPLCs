@@ -267,6 +267,51 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public void SetRecipe(int index, PLC_Recipe recipe)
+        {
+            PLC_All[index].RecipeName = recipe.RecipeName;
+            PLC_All[index].TargetTemperature_1 = recipe.TargetTemperature_1;
+            PLC_All[index].TargetTemperature_2 = recipe.TargetTemperature_2;
+            PLC_All[index].TargetTemperature_3 = recipe.TargetTemperature_3;
+            PLC_All[index].TargetTemperature_4 = recipe.TargetTemperature_4;
+            PLC_All[index].TargetTemperature_5 = recipe.TargetTemperature_5;
+            PLC_All[index].TargetTemperature_6 = recipe.TargetTemperature_6;
+            PLC_All[index].TargetTemperature_7 = recipe.TargetTemperature_7;
+            PLC_All[index].TargetTemperature_8 = recipe.TargetTemperature_8;
+            PLC_All[index].HeatingTime_1 = recipe.HeatingTime_1;
+            PLC_All[index].HeatingTime_2 = recipe.HeatingTime_2;
+            PLC_All[index].HeatingTime_3 = recipe.HeatingTime_3;
+            PLC_All[index].HeatingTime_4 = recipe.HeatingTime_4;
+            PLC_All[index].HeatingTime_5 = recipe.HeatingTime_5;
+            PLC_All[index].HeatingTime_6 = recipe.HeatingTime_6;
+            PLC_All[index].HeatingTime_7 = recipe.HeatingTime_7;
+            PLC_All[index].HeatingTime_8 = recipe.HeatingTime_8;
+            PLC_All[index].ConstantTemperature_1 = recipe.ConstantTemperature_1;
+            PLC_All[index].ConstantTemperature_2 = recipe.ConstantTemperature_2;
+            PLC_All[index].ConstantTemperature_3 = recipe.ConstantTemperature_3;
+            PLC_All[index].ConstantTemperature_4 = recipe.ConstantTemperature_4;
+            PLC_All[index].ConstantTemperature_5 = recipe.ConstantTemperature_5;
+            PLC_All[index].ConstantTemperature_6 = recipe.ConstantTemperature_6;
+            PLC_All[index].ConstantTemperature_7 = recipe.ConstantTemperature_7;
+            PLC_All[index].ConstantTemperature_8 = recipe.ConstantTemperature_8;
+            PLC_All[index].ConstantTime_1 = recipe.ConstantTime_1;
+            PLC_All[index].ConstantTime_2 = recipe.ConstantTime_2;
+            PLC_All[index].ConstantTime_3 = recipe.ConstantTime_3;
+            PLC_All[index].ConstantTime_4 = recipe.ConstantTime_4;
+            PLC_All[index].ConstantTime_5 = recipe.ConstantTime_5;
+            PLC_All[index].ConstantTime_6 = recipe.ConstantTime_6;
+            PLC_All[index].ConstantTime_7 = recipe.ConstantTime_7;
+            PLC_All[index].ConstantTime_8 = recipe.ConstantTime_8;
+            PLC_All[index].CoolingTemperature = recipe.CoolingTemperature;
+            PLC_All[index].InflatingTime = recipe.InflatingTime;
+            PLC_All[index].UsedSegmentCounts = recipe.UsedSegmentCounts;
+
+            if (PLC_Client.State == CommunicationState.Opened)
+            {
+                PLC_Client.Set_D(index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+            }
+        }
+
         private bool Connect()
         {
             try
@@ -317,51 +362,6 @@ namespace GPGO_MultiPLCs.ViewModels
             catch (Exception)
             {
                 return false;
-            }
-        }
-
-        public void SetRecipe(int index, PLC_Recipe recipe)
-        {
-            PLC_All[index].RecipeName = recipe.RecipeName;
-            PLC_All[index].TargetTemperature_1 = recipe.TargetTemperature_1;
-            PLC_All[index].TargetTemperature_2 = recipe.TargetTemperature_2;
-            PLC_All[index].TargetTemperature_3 = recipe.TargetTemperature_3;
-            PLC_All[index].TargetTemperature_4 = recipe.TargetTemperature_4;
-            PLC_All[index].TargetTemperature_5 = recipe.TargetTemperature_5;
-            PLC_All[index].TargetTemperature_6 = recipe.TargetTemperature_6;
-            PLC_All[index].TargetTemperature_7 = recipe.TargetTemperature_7;
-            PLC_All[index].TargetTemperature_8 = recipe.TargetTemperature_8;
-            PLC_All[index].HeatingTime_1 = recipe.HeatingTime_1;
-            PLC_All[index].HeatingTime_2 = recipe.HeatingTime_2;
-            PLC_All[index].HeatingTime_3 = recipe.HeatingTime_3;
-            PLC_All[index].HeatingTime_4 = recipe.HeatingTime_4;
-            PLC_All[index].HeatingTime_5 = recipe.HeatingTime_5;
-            PLC_All[index].HeatingTime_6 = recipe.HeatingTime_6;
-            PLC_All[index].HeatingTime_7 = recipe.HeatingTime_7;
-            PLC_All[index].HeatingTime_8 = recipe.HeatingTime_8;
-            PLC_All[index].ConstantTemperature_1 = recipe.ConstantTemperature_1;
-            PLC_All[index].ConstantTemperature_2 = recipe.ConstantTemperature_2;
-            PLC_All[index].ConstantTemperature_3 = recipe.ConstantTemperature_3;
-            PLC_All[index].ConstantTemperature_4 = recipe.ConstantTemperature_4;
-            PLC_All[index].ConstantTemperature_5 = recipe.ConstantTemperature_5;
-            PLC_All[index].ConstantTemperature_6 = recipe.ConstantTemperature_6;
-            PLC_All[index].ConstantTemperature_7 = recipe.ConstantTemperature_7;
-            PLC_All[index].ConstantTemperature_8 = recipe.ConstantTemperature_8;
-            PLC_All[index].ConstantTime_1 = recipe.ConstantTime_1;
-            PLC_All[index].ConstantTime_2 = recipe.ConstantTime_2;
-            PLC_All[index].ConstantTime_3 = recipe.ConstantTime_3;
-            PLC_All[index].ConstantTime_4 = recipe.ConstantTime_4;
-            PLC_All[index].ConstantTime_5 = recipe.ConstantTime_5;
-            PLC_All[index].ConstantTime_6 = recipe.ConstantTime_6;
-            PLC_All[index].ConstantTime_7 = recipe.ConstantTime_7;
-            PLC_All[index].ConstantTime_8 = recipe.ConstantTime_8;
-            PLC_All[index].CoolingTemperature = recipe.CoolingTemperature;
-            PLC_All[index].InflatingTime = recipe.InflatingTime;
-            PLC_All[index].UsedSegmentCounts = recipe.UsedSegmentCounts;
-
-            if (PLC_Client.State == CommunicationState.Opened)
-            {
-                PLC_Client.Set_D(index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
             }
         }
     }

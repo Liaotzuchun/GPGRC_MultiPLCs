@@ -1,21 +1,23 @@
-﻿<UserControl x:Class="GPGO_MultiPLCs.Views.RecipeControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
-             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-             d:DataContext="{d:DesignInstance vm:RecipeControl_ViewModel}"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             Foreground="{StaticResource BaseForeground}"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="GPGO_MultiPLCs.Views.RecipeControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+    xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+    d:DataContext="{d:DesignInstance vm:RecipeControl_ViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Foreground="{StaticResource BaseForeground}"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Style x:Key="ColumnHeaderStyle"
-               TargetType="DataGridColumnHeader">
+        <Style
+            x:Key="ColumnHeaderStyle"
+            TargetType="DataGridColumnHeader">
             <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
             <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
@@ -24,20 +26,23 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                        <Border Margin="{TemplateBinding Margin}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter Margin="4"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" />
+                        <Border
+                            Margin="{TemplateBinding Margin}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                Margin="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="DataGridCellStyle"
-               TargetType="{x:Type DataGridCell}">
+        <Style
+            x:Key="DataGridCellStyle"
+            TargetType="{x:Type DataGridCell}">
             <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
             <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
             <Setter Property="BorderThickness" Value="0" />
@@ -46,12 +51,14 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridCell}">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter Margin="4"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" />
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                Margin="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -63,8 +70,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="RowHeaderStyle"
-               TargetType="DataGridRowHeader">
+        <Style
+            x:Key="RowHeaderStyle"
+            TargetType="DataGridRowHeader">
             <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
             <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
@@ -72,20 +80,23 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                        <Border Width="25"
-                                Margin="{TemplateBinding Margin}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" />
+                        <Border
+                            Width="25"
+                            Margin="{TemplateBinding Margin}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="DataGridRowStyle"
-               TargetType="{x:Type DataGridRow}">
+        <Style
+            x:Key="DataGridRowStyle"
+            TargetType="{x:Type DataGridRow}">
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
             <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
             <Style.Triggers>
@@ -98,8 +109,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="DataGridStyle"
-               TargetType="{x:Type DataGrid}">
+        <Style
+            x:Key="DataGridStyle"
+            TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush6}" />
             <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}" />
             <Setter Property="ColumnHeaderStyle" Value="{StaticResource ColumnHeaderStyle}" />
@@ -108,9 +120,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGrid}">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                             <ScrollViewer Focusable="False">
                                 <ScrollViewer.Template>
                                     <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -125,39 +138,46 @@
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
-                                            <Border Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,0,1,1"
-                                                    Focusable="False"
-                                                    Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter"
-                                                                            Grid.Column="1"
-                                                                            Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
-                                                                    Grid.Row="1"
-                                                                    Grid.ColumnSpan="2"
-                                                                    CanContentScroll="{TemplateBinding CanContentScroll}" />
-                                            <ScrollBar x:Name="PART_VerticalScrollBar"
-                                                       Grid.Row="1"
-                                                       Grid.Column="2"
-                                                       Maximum="{TemplateBinding ScrollableHeight}"
-                                                       Orientation="Vertical"
-                                                       ViewportSize="{TemplateBinding ViewportHeight}"
-                                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                                                       Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
-                                            <Grid Grid.Row="2"
-                                                  Grid.Column="1">
+                                            <Border
+                                                Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="0,0,1,1"
+                                                Focusable="False"
+                                                Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                            <DataGridColumnHeadersPresenter
+                                                x:Name="PART_ColumnHeadersPresenter"
+                                                Grid.Column="1"
+                                                Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                            <ScrollContentPresenter
+                                                x:Name="PART_ScrollContentPresenter"
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="2"
+                                                CanContentScroll="{TemplateBinding CanContentScroll}" />
+                                            <ScrollBar
+                                                x:Name="PART_VerticalScrollBar"
+                                                Grid.Row="1"
+                                                Grid.Column="2"
+                                                Maximum="{TemplateBinding ScrollableHeight}"
+                                                Orientation="Vertical"
+                                                ViewportSize="{TemplateBinding ViewportHeight}"
+                                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                                Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            <Grid
+                                                Grid.Row="2"
+                                                Grid.Column="1">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                    <ColumnDefinition
+                                                        Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <ScrollBar x:Name="PART_HorizontalScrollBar"
-                                                           Grid.Column="1"
-                                                           Maximum="{TemplateBinding ScrollableWidth}"
-                                                           Orientation="Horizontal"
-                                                           ViewportSize="{TemplateBinding ViewportWidth}"
-                                                           Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                                                           Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                                <ScrollBar
+                                                    x:Name="PART_HorizontalScrollBar"
+                                                    Grid.Column="1"
+                                                    Maximum="{TemplateBinding ScrollableWidth}"
+                                                    Orientation="Horizontal"
+                                                    ViewportSize="{TemplateBinding ViewportWidth}"
+                                                    Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                                    Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                             </Grid>
                                         </Grid>
                                     </ControlTemplate>
@@ -173,87 +193,614 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1.5*" />
+            <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <GroupBox Margin="0,0,4,0"
-                  Background="{StaticResource WindowBackgroundBrush3}"
-                  DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}"
-                  Header="{Binding RecipeName, Mode=OneWay}"
-                  IsEnabled="{Binding Converter={StaticResource NullEnableValue}}">
+        <GroupBox
+            Margin="0,0,4,0"
+            Background="{StaticResource WindowBackgroundBrush3}"
+            DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}"
+            Header="{Binding RecipeName, Mode=OneWay}"
+            IsEnabled="{Binding Converter={StaticResource NullEnableValue}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="70" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="{Binding ActualHeight, ElementName=b1, Mode=OneWay}" />
                     <RowDefinition Height="{Binding ActualHeight, ElementName=b1, Mode=OneWay}" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Border Grid.RowSpan="2"
-                        Background="{StaticResource WindowBackgroundBrush2}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="使用段數" />
+                <Border
+                    Grid.RowSpan="2"
+                    Background="{StaticResource WindowBackgroundBrush2}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="使用段數" />
                 </Border>
-                <Border Grid.RowSpan="2"
-                        Grid.Column="1"
-                        Background="{StaticResource LightColorBrush}">
-                    <Slider Margin="4,0"
+                <Border
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Background="{StaticResource LightColorBrush}">
+                    <Slider
+                        Margin="4,0"
+                        VerticalAlignment="Center"
+                        IsMoveToPointEnabled="True"
+                        IsSnapToTickEnabled="True"
+                        LargeChange="1"
+                        Maximum="{Binding SegmentCounts_Max, Mode=OneWay}"
+                        Minimum="{Binding SegmentCounts_Min, Mode=OneWay}"
+                        SmallChange="1"
+                        Value="{Binding UsedSegmentCounts, Mode=TwoWay}" />
+                </Border>
+                <Border
+                    Grid.RowSpan="2"
+                    Grid.Column="2"
+                    Background="{StaticResource LightColorBrush}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
+                </Border>
+                <Border
+                    Grid.Column="3"
+                    Background="{StaticResource WindowBackgroundBrush2}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="降溫溫度" />
+                </Border>
+                <Border
+                    Grid.Column="4"
+                    Background="{StaticResource LightColorBrush}">
+                    <Slider
+                        Margin="4,0"
+                        VerticalAlignment="Center"
+                        IsMoveToPointEnabled="True"
+                        IsSnapToTickEnabled="True"
+                        Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                        Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                        Value="{Binding CoolingTemperature, Mode=TwoWay}" />
+                </Border>
+                <Border
+                    Grid.Column="5"
+                    Background="{StaticResource LightColorBrush}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Background="{StaticResource WindowBackgroundBrush2}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="充氮氣時間" />
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Background="{StaticResource LightColorBrush}">
+                    <Slider
+                        Margin="4,0"
+                        VerticalAlignment="Center"
+                        IsMoveToPointEnabled="True"
+                        IsSnapToTickEnabled="True"
+                        Maximum="{Binding Time_Max, Mode=OneWay}"
+                        Minimum="{Binding Time_Min, Mode=OneWay}"
+                        SmallChange="1"
+                        TickFrequency="1"
+                        Value="{Binding InflatingTime, Mode=TwoWay}" />
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    Background="{StaticResource LightColorBrush}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{Binding InflatingTime, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                </Border>
+                <UniformGrid
+                    Grid.Row="2"
+                    Columns="1">
+                    <Border
+                        x:Name="b1"
+                        Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
-                            IsSnapToTickEnabled="True"
-                            LargeChange="1"
-                            Maximum="{Binding SegmentCounts_Max, Mode=OneWay}"
-                            Minimum="{Binding SegmentCounts_Min, Mode=OneWay}"
-                            SmallChange="1"
-                            Value="{Binding UsedSegmentCounts, Mode=TwoWay}" />
-                </Border>
-                <Border Grid.RowSpan="2"
-                        Grid.Column="2"
-                        Background="{StaticResource LightColorBrush}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
-                </Border>
-                <Border Grid.Column="3"
-                        Background="{StaticResource WindowBackgroundBrush2}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="降溫溫度" />
-                </Border>
-                <Border Grid.Column="4"
-                        Background="{StaticResource LightColorBrush}">
-                    <Slider Margin="4,0"
+                            Text="目標溫度1" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="目標溫度2" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="目標溫度3" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="目標溫度4" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="目標溫度5" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="目標溫度6" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="目標溫度7" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="目標溫度8" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫溫度1" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫溫度2" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫溫度3" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫溫度4" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫溫度5" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫溫度6" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫溫度7" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫溫度8" />
+                    </Border>
+                </UniformGrid>
+                <UniformGrid
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Columns="1">
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
                             VerticalAlignment="Center"
                             IsMoveToPointEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                            Value="{Binding CoolingTemperature, Mode=TwoWay}" />
-                </Border>
-                <Border Grid.Column="5"
-                        Background="{StaticResource LightColorBrush}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:D\} °C}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="3"
-                        Background="{StaticResource WindowBackgroundBrush2}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="充氮氣時間" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="4"
-                        Background="{StaticResource LightColorBrush}">
-                    <Slider Margin="4,0"
+                            TickFrequency="0.1"
+                            Value="{Binding TargetTemperature_1, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding TargetTemperature_2, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding TargetTemperature_3, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding TargetTemperature_4, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding TargetTemperature_5, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding TargetTemperature_6, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding TargetTemperature_7, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding TargetTemperature_8, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding ConstantTemperature_1, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding ConstantTemperature_2, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding ConstantTemperature_3, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding ConstantTemperature_4, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding ConstantTemperature_5, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding ConstantTemperature_6, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding ConstantTemperature_7, Mode=TwoWay}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                            Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                            TickFrequency="0.1"
+                            Value="{Binding ConstantTemperature_8, Mode=TwoWay}" />
+                    </Border>
+                </UniformGrid>
+                <UniformGrid
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Columns="1">
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding TargetTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding TargetTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                </UniformGrid>
+                <UniformGrid
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Columns="1">
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="升溫時間1" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="升溫時間2" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="升溫時間3" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="升溫時間4" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="升溫時間5" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="升溫時間6" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="升溫時間7" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="升溫時間8" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫時間1" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫時間2" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫時間3" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫時間4" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫時間5" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫時間6" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫時間7" />
+                    </Border>
+                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="恆溫時間8" />
+                    </Border>
+                </UniformGrid>
+                <UniformGrid
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Columns="1">
+                    <Border Background="{StaticResource LightColorBrush}">
+                        <Slider
+                            Margin="4,0"
                             VerticalAlignment="Center"
                             IsMoveToPointEnabled="True"
                             IsSnapToTickEnabled="True"
@@ -261,699 +808,295 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding InflatingTime, Mode=TwoWay}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="5"
-                        Background="{StaticResource LightColorBrush}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding InflatingTime, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                </Border>
-                <UniformGrid Grid.Row="2"
-                             Columns="1">
-                    <Border x:Name="b1"
-                            Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="目標溫度1" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="目標溫度2" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="目標溫度3" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="目標溫度4" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="目標溫度5" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="目標溫度6" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="目標溫度7" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="目標溫度8" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫溫度1" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫溫度2" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫溫度3" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫溫度4" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫溫度5" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫溫度6" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫溫度7" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫溫度8" />
-                    </Border>
-                </UniformGrid>
-                <UniformGrid Grid.Row="2"
-                             Grid.Column="1"
-                             Columns="1">
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding TargetTemperature_1, Mode=TwoWay}" />
+                            Value="{Binding HeatingTime_1, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding TargetTemperature_2, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding HeatingTime_2, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding TargetTemperature_3, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding HeatingTime_3, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding TargetTemperature_4, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding HeatingTime_4, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding TargetTemperature_5, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding HeatingTime_5, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding TargetTemperature_6, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding HeatingTime_6, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding TargetTemperature_7, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding HeatingTime_7, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding TargetTemperature_8, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding HeatingTime_8, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding ConstantTemperature_1, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding ConstantTime_1, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding ConstantTemperature_2, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding ConstantTime_2, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding ConstantTemperature_3, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding ConstantTime_3, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding ConstantTemperature_4, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding ConstantTime_4, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding ConstantTemperature_5, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding ConstantTime_5, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding ConstantTemperature_6, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding ConstantTime_6, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding ConstantTemperature_7, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding ConstantTime_7, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                TickFrequency="0.1"
-                                Value="{Binding ConstantTemperature_8, Mode=TwoWay}" />
+                        <Slider
+                            Margin="4,0"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            IsSnapToTickEnabled="True"
+                            Maximum="{Binding Time_Max, Mode=OneWay}"
+                            Minimum="{Binding Time_Min, Mode=OneWay}"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            Value="{Binding ConstantTime_8, Mode=TwoWay}" />
                     </Border>
                 </UniformGrid>
-                <UniformGrid Grid.Row="2"
-                             Grid.Column="2"
-                             Columns="1">
+                <UniformGrid
+                    Grid.Row="2"
+                    Grid.Column="5"
+                    Columns="1">
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding HeatingTime_1, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding HeatingTime_2, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding HeatingTime_3, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding HeatingTime_4, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding HeatingTime_5, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TargetTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding HeatingTime_6, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TargetTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding HeatingTime_7, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding HeatingTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTime_1, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTime_2, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTime_3, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTime_4, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTime_5, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTime_6, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                    </Border>
-                </UniformGrid>
-                <UniformGrid Grid.Row="2"
-                             Grid.Column="3"
-                             Columns="1">
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="升溫時間1" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="升溫時間2" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="升溫時間3" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="升溫時間4" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="升溫時間5" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="升溫時間6" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="升溫時間7" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="升溫時間8" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫時間1" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫時間2" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫時間3" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫時間4" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫時間5" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫時間6" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫時間7" />
-                    </Border>
-                    <Border Background="{StaticResource WindowBackgroundBrush2}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="恆溫時間8" />
-                    </Border>
-                </UniformGrid>
-                <UniformGrid Grid.Row="2"
-                             Grid.Column="4"
-                             Columns="1">
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding HeatingTime_1, Mode=TwoWay}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTime_7, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding HeatingTime_2, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding HeatingTime_3, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding HeatingTime_4, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding HeatingTime_5, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding HeatingTime_6, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding HeatingTime_7, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding HeatingTime_8, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding ConstantTime_1, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding ConstantTime_2, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding ConstantTime_3, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding ConstantTime_4, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding ConstantTime_5, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding ConstantTime_6, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding ConstantTime_7, Mode=TwoWay}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <Slider Margin="4,0"
-                                VerticalAlignment="Center"
-                                IsMoveToPointEnabled="True"
-                                IsSnapToTickEnabled="True"
-                                Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                Value="{Binding ConstantTime_8, Mode=TwoWay}" />
-                    </Border>
-                </UniformGrid>
-                <UniformGrid Grid.Row="2"
-                             Grid.Column="5"
-                             Columns="1">
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding HeatingTime_1, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding HeatingTime_2, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding HeatingTime_3, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding HeatingTime_4, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding HeatingTime_5, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding HeatingTime_6, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding HeatingTime_7, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding HeatingTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTime_1, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTime_2, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTime_3, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTime_4, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTime_5, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTime_6, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTime_7, Mode=OneWay, StringFormat=\{0:D\} 分}" />
-                    </Border>
-                    <Border Background="{StaticResource LightColorBrush}">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ConstantTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ConstantTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
                 </UniformGrid>
             </Grid>
         </GroupBox>
-        <Grid Grid.Column="1"
-              IsEnabled="{Binding Standby, Mode=OneWay}">
+        <Grid
+            Grid.Column="1"
+            IsEnabled="{Binding Standby, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="80" />
                 <RowDefinition />
@@ -969,58 +1112,67 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.RowSpan="2"
-                        Content="儲存配方"
-                        IsEnabled="{Binding Save_Enable, Mode=OneWay}">
+                <Button
+                    Grid.RowSpan="2"
+                    Content="儲存配方"
+                    IsEnabled="{Binding Save_Enable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SaveCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Border Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush2}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="配方名稱" />
+                <Border
+                    Grid.Column="1"
+                    Background="{StaticResource WindowBackgroundBrush2}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="配方名稱" />
                 </Border>
-                <TextBox Grid.Column="2"
-                         HorizontalContentAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         Foreground="Blue"
-                         Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
-                <Border Grid.Row="1"
-                        Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush2}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="配方搜尋" />
+                <TextBox
+                    Grid.Column="2"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Foreground="Blue"
+                    Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Background="{StaticResource WindowBackgroundBrush2}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="配方搜尋" />
                 </Border>
-                <TextBox Grid.Row="1"
-                         Grid.Column="2"
-                         HorizontalContentAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         Foreground="Blue"
-                         Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Foreground="Blue"
+                    Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction Command="{Binding RefreshCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
-                <Button Grid.Column="3"
-                        Content="新增"
-                        IsEnabled="{Binding Add_Enable, Mode=OneWay}">
+                <Button
+                    Grid.Column="3"
+                    Content="新增"
+                    IsEnabled="{Binding Add_Enable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding AddCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Grid.Row="1"
-                        Grid.Column="3"
-                        Content="刪除"
-                        IsEnabled="{Binding Delete_Enable, Mode=OneWay}">
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Content="刪除"
+                    IsEnabled="{Binding Delete_Enable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding DeleteCommand, Mode=OneTime}" />
@@ -1028,89 +1180,112 @@
                     </i:Interaction.Triggers>
                 </Button>
             </Grid>
-            <DataGrid x:Name="DG"
-                      Grid.Row="1"
-                      Margin="0,4,0,0"
-                      local:DataGridBehavior.DisplayRowNumber="True"
-                      AutoGenerateColumns="False"
-                      BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                      BorderThickness="0"
-                      CanUserReorderColumns="False"
-                      CanUserResizeColumns="False"
-                      CanUserResizeRows="False"
-                      CanUserSortColumns="False"
-                      Focusable="False"
-                      HorizontalGridLinesBrush="{StaticResource WindowBackgroundBrush4}"
-                      IsReadOnly="True"
-                      IsSynchronizedWithCurrentItem="False"
-                      ItemsSource="{Binding ViewRecipes, Mode=OneWay}"
-                      SelectedItem="{Binding Selected_PLC_Recipe, Mode=TwoWay}"
-                      SelectionMode="Single"
-                      Style="{StaticResource DataGridStyle}"
-                      VerticalGridLinesBrush="{StaticResource WindowBackgroundBrush4}">
+            <DataGrid
+                x:Name="DG"
+                Grid.Row="1"
+                Margin="0,4,0,0"
+                local:DataGridBehavior.DisplayRowNumber="True"
+                AutoGenerateColumns="False"
+                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                BorderThickness="0"
+                CanUserReorderColumns="False"
+                CanUserResizeColumns="False"
+                CanUserResizeRows="False"
+                CanUserSortColumns="False"
+                Focusable="False"
+                HorizontalGridLinesBrush="{StaticResource WindowBackgroundBrush4}"
+                IsReadOnly="True"
+                IsSynchronizedWithCurrentItem="False"
+                ItemsSource="{Binding ViewRecipes, Mode=OneWay}"
+                SelectedItem="{Binding Selected_PLC_Recipe, Mode=TwoWay}"
+                SelectionMode="Single"
+                Style="{StaticResource DataGridStyle}"
+                VerticalGridLinesBrush="{StaticResource WindowBackgroundBrush4}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding InitialLoadCommand, Mode=OneTime}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="160"
-                                        Binding="{Binding RecipeName, Mode=OneWay}"
-                                        Header="配方名稱" />
-                    <DataGridTemplateColumn Width="*"
-                                            Header="目前使用">
+                    <DataGridTemplateColumn
+                        Width="1*"
+                        Header="配方名稱">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:PLC_Recipe">
-                                <ListBox AlternationCount="{Binding Items.Count, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                                         IsHitTestVisible="False"
-                                         ItemsSource="{Binding Used_Stations, Mode=OneWay}">
-                                    <ListBox.Template>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding RecipeName, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn
+                        Width="150"
+                        Header="更新時間">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:PLC_Recipe">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Updated, Mode=OneWay, StringFormat=\{0:G\}, ConverterCulture=zh-TW}"
+                                    TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn
+                        Width="200"
+                        Header="目前使用">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:PLC_Recipe">
+                                <ItemsControl
+                                    AlternationCount="{Binding Items.Count, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                    ItemsSource="{Binding Used_Stations, Mode=OneWay}">
+                                    <ItemsControl.Template>
                                         <ControlTemplate>
-                                            <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,0,1,1">
+                                            <Border
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="0,0,1,1">
                                                 <ItemsPresenter />
                                             </Border>
                                         </ControlTemplate>
-                                    </ListBox.Template>
-                                    <ListBox.ItemContainerStyle>
-                                        <Style TargetType="ListBoxItem">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="ListBoxItem">
-                                                        <ContentPresenter />
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ListBox.ItemContainerStyle>
-                                    <ListBox.ItemsPanel>
+                                    </ItemsControl.Template>
+                                    <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <UniformGrid Rows="2" />
+                                            <local:UniformGridWithOrientation
+                                                Orientation="Vertical"
+                                                Rows="2" />
                                         </ItemsPanelTemplate>
-                                    </ListBox.ItemsPanel>
-                                    <ListBox.ItemTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Background="{StaticResource LightBrush}" BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="1,1,0,0">
+                                            <Border
+                                                Background="{StaticResource LightBrush}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1,1,0,0">
                                                 <Border.Style>
                                                     <Style TargetType="Border">
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Mode=OneWay}"
-                                                                         Value="True">
-                                                                <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
+                                                            <DataTrigger
+                                                                Binding="{Binding Mode=OneWay}"
+                                                                Value="True">
+                                                                <Setter Property="Background"
+                                                                        Value="{StaticResource WorkingBrush}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Border.Style>
-                                                <TextBlock Margin="4"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           Foreground="{StaticResource BaseForeground}"
-                                                           Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                                <Viewbox
+                                                    Margin="2"
+                                                    StretchDirection="DownOnly">
+                                                    <TextBlock
+                                                        Foreground="{StaticResource BaseForeground}"
+                                                        Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                                </Viewbox>
                                             </Border>
                                         </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

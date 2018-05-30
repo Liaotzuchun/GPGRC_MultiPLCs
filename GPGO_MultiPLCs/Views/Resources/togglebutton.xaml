@@ -1,6 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views">
 
     <Style TargetType="ToggleButton">
         <Setter Property="Background" Value="{StaticResource NormalBrush}" />
@@ -20,24 +21,28 @@
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Border x:Name="b2"
-                                Grid.Row="1"
-                                Height="0"
-                                Background="{StaticResource WorkingBrush}" />
-                        <Border x:Name="Border"
-                                Background="{StaticResource NormalBrush}"
-                                BorderBrush="{StaticResource NormalBorderBrush}"
-                                BorderThickness="1" />
-                        <Border Grid.RowSpan="2"
-                                Background="{StaticResource DisabledBackgroundBrush}"
-                                BorderBrush="{StaticResource DisabledBorderBrush}"
-                                BorderThickness="1"
-                                IsEnabled="{TemplateBinding IsEnabled}"
-                                Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource Self}}" />
-                        <ContentPresenter Grid.RowSpan="2"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          RecognizesAccessKey="True" />
+                        <Border
+                            x:Name="b2"
+                            Grid.Row="1"
+                            Height="0"
+                            Background="{StaticResource WorkingBrush}" />
+                        <Border
+                            x:Name="Border"
+                            Background="{StaticResource NormalBrush}"
+                            BorderBrush="{StaticResource NormalBorderBrush}"
+                            BorderThickness="1" />
+                        <Border
+                            Grid.RowSpan="2"
+                            Background="{StaticResource DisabledBackgroundBrush}"
+                            BorderBrush="{StaticResource DisabledBorderBrush}"
+                            BorderThickness="1"
+                            IsEnabled="{TemplateBinding IsEnabled}"
+                            Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource Self}}" />
+                        <ContentPresenter
+                            Grid.RowSpan="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RecognizesAccessKey="True" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.Transitions>
@@ -46,15 +51,19 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                      Storyboard.TargetProperty="Background.Color">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{Binding Source={StaticResource DarkBrush}, Path=Color}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="Background.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{Binding Source={StaticResource DarkBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                      Storyboard.TargetProperty="BorderBrush.Color">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{Binding Source={StaticResource DarkBorderBrush}, Path=Color}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="BorderBrush.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{Binding Source={StaticResource DarkBorderBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -62,20 +71,26 @@
                                 <VisualState x:Name="UnChecked" />
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="b2"
-                                                                       Storyboard.TargetProperty="Height">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="4" />
+                                        <DoubleAnimationUsingKeyFrames
+                                            Storyboard.TargetName="b2"
+                                            Storyboard.TargetProperty="Height">
+                                            <EasingDoubleKeyFrame
+                                                KeyTime="0"
+                                                Value="4" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                      Storyboard.TargetProperty="Background.Color">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{Binding Source={StaticResource PressedBrush}, Path=Color}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="Background.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{Binding Source={StaticResource PressedBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                      Storyboard.TargetProperty="BorderBrush.Color">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{Binding Source={StaticResource PressedBorderBrush}, Path=Color}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="BorderBrush.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{Binding Source={StaticResource PressedBorderBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -93,8 +108,9 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="ToggleText"
-           TargetType="ToggleButton">
+    <Style
+        x:Key="ToggleText"
+        TargetType="ToggleButton">
         <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0,0,0,2" />
@@ -105,15 +121,17 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Border x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="0">
-                        <ContentPresenter Margin="0,0,0,-2"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          RecognizesAccessKey="True" />
+                    <Border
+                        x:Name="Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="0">
+                        <ContentPresenter
+                            Margin="0,0,0,-2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RecognizesAccessKey="True" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -132,8 +150,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ToggleSwich"
-           TargetType="ToggleButton">
+    <Style
+        x:Key="ToggleSwich"
+        TargetType="ToggleButton">
         <Setter Property="Background" Value="{StaticResource NormalBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -152,21 +171,24 @@
                             <ColumnDefinition Width="25" />
                         </Grid.ColumnDefinitions>
                         <Border Background="{StaticResource ErrorBrush}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="9"
-                                       FontWeight="Bold"
-                                       Foreground="White"
-                                       Text="OFF" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="9"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="OFF" />
                         </Border>
-                        <Border Grid.Column="2"
-                                Background="{StaticResource OKBrush}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="9"
-                                       FontWeight="Bold"
-                                       Foreground="White"
-                                       Text="ON" />
+                        <Border
+                            Grid.Column="2"
+                            Background="{StaticResource OKBrush}">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="9"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Text="ON" />
                         </Border>
                         <Grid Grid.ColumnSpan="3">
                             <Grid.ColumnDefinitions>
@@ -174,28 +196,33 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Border x:Name="Border1"
-                                    Width="25"
-                                    Background="Transparent" />
-                            <Border x:Name="Border2"
-                                    Grid.Column="2"
-                                    Width="0"
-                                    Background="Transparent" />
-                            <Border x:Name="Border3"
-                                    Grid.Column="1"
-                                    Background="{StaticResource NormalBrush}"
-                                    BorderBrush="{StaticResource NormalBorderBrush}"
-                                    BorderThickness="1" />
-                            <Border Grid.Column="1"
-                                    Background="{StaticResource DisabledBackgroundBrush}"
-                                    BorderBrush="{StaticResource DisabledBorderBrush}"
-                                    BorderThickness="1"
-                                    IsEnabled="{TemplateBinding IsEnabled}"
-                                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource Self}}" />
-                            <ContentPresenter Grid.Column="1"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              RecognizesAccessKey="True" />
+                            <Border
+                                x:Name="Border1"
+                                Width="25"
+                                Background="Transparent" />
+                            <Border
+                                x:Name="Border2"
+                                Grid.Column="2"
+                                Width="0"
+                                Background="Transparent" />
+                            <Border
+                                x:Name="Border3"
+                                Grid.Column="1"
+                                Background="{StaticResource NormalBrush}"
+                                BorderBrush="{StaticResource NormalBorderBrush}"
+                                BorderThickness="1" />
+                            <Border
+                                Grid.Column="1"
+                                Background="{StaticResource DisabledBackgroundBrush}"
+                                BorderBrush="{StaticResource DisabledBorderBrush}"
+                                BorderThickness="1"
+                                IsEnabled="{TemplateBinding IsEnabled}"
+                                Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource Self}}" />
+                            <ContentPresenter
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                RecognizesAccessKey="True" />
                         </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -205,16 +232,20 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border3"
-                                                                      Storyboard.TargetProperty="Background.Color"
-                                                                      Duration="0:0:0.12">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{Binding Source={StaticResource DarkBrush}, Path=Color}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border3"
+                                            Storyboard.TargetProperty="Background.Color"
+                                            Duration="0:0:0.12">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{Binding Source={StaticResource DarkBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border3"
-                                                                      Storyboard.TargetProperty="BorderBrush.Color">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{Binding Source={StaticResource DarkBorderBrush}, Path=Color}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border3"
+                                            Storyboard.TargetProperty="BorderBrush.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{Binding Source={StaticResource DarkBorderBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -222,33 +253,41 @@
                                 <VisualState x:Name="UnChecked" />
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border1"
-                                                                       Storyboard.TargetProperty="Width">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="0">
+                                        <DoubleAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border1"
+                                            Storyboard.TargetProperty="Width">
+                                            <EasingDoubleKeyFrame
+                                                KeyTime="0"
+                                                Value="0">
                                                 <EasingDoubleKeyFrame.EasingFunction>
                                                     <CubicEase EasingMode="EaseOut" />
                                                 </EasingDoubleKeyFrame.EasingFunction>
                                             </EasingDoubleKeyFrame>
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border2"
-                                                                       Storyboard.TargetProperty="Width">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="25">
+                                        <DoubleAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border2"
+                                            Storyboard.TargetProperty="Width">
+                                            <EasingDoubleKeyFrame
+                                                KeyTime="0"
+                                                Value="25">
                                                 <EasingDoubleKeyFrame.EasingFunction>
                                                     <CubicEase EasingMode="EaseOut" />
                                                 </EasingDoubleKeyFrame.EasingFunction>
                                             </EasingDoubleKeyFrame>
                                         </DoubleAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border3"
-                                                                      Storyboard.TargetProperty="Background.Color">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{Binding Source={StaticResource PressedBrush}, Path=Color}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border3"
+                                            Storyboard.TargetProperty="Background.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{Binding Source={StaticResource PressedBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border3"
-                                                                      Storyboard.TargetProperty="BorderBrush.Color">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                                                 Value="{Binding Source={StaticResource PressedBorderBrush}, Path=Color}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border3"
+                                            Storyboard.TargetProperty="BorderBrush.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{Binding Source={StaticResource PressedBorderBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

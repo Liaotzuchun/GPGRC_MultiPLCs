@@ -37,9 +37,10 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <ToggleButton Style="{StaticResource ToggleSwich}"
-                                  x:Name="TotalTB"
-                                  Content="全部站點" />
+                    <ToggleButton
+                        x:Name="TotalTB"
+                        Content="全部站點"
+                        Style="{StaticResource ToggleSwich}" />
                     <ComboBox
                         Grid.Row="1"
                         IsEnabled="{Binding IsChecked, Converter={StaticResource BoolNot}, ElementName=TotalTB, Mode=OneWay}" />
