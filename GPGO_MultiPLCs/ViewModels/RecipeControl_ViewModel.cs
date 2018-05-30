@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
-using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -36,7 +35,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
 
                 NotifyPropertyChanged();
-                NotifyPropertyChanged(nameof(Load_Enable));
+                NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
                 NotifyPropertyChanged(nameof(Delete_Enable));
             }
@@ -74,7 +73,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged(nameof(Selected_PLC_Recipe));
 
                 NotifyPropertyChanged();
-                NotifyPropertyChanged(nameof(Load_Enable));
+                NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
                 NotifyPropertyChanged(nameof(Delete_Enable));
             }
@@ -91,11 +90,11 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public bool Load_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes != null && Recipes.Any(x => x.RecipeName == _TypedName);
+        public bool Save_Enable => _Selected_PLC_Recipe != null;
 
         public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
 
-        public bool Delete_Enable => Load_Enable && _Selected_PLC_Recipe.Used_Stations.Any(x => x);
+        public bool Delete_Enable => _Selected_PLC_Recipe != null && !_Selected_PLC_Recipe.Used_Stations.Any(x => x);
 
         public RelayCommand InitialLoadCommand { get; }
         public RelayCommand SaveCommand { get; }

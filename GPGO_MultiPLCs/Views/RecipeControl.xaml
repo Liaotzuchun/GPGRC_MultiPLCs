@@ -969,15 +969,15 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
-                <Button Content="儲存配方">
+                <Button Grid.RowSpan="2"
+                        Content="儲存配方"
+                        IsEnabled="{Binding Save_Enable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SaveCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Grid.Row="1"
-                        Content="讀取PLC" />
                 <Border Grid.Column="1"
                         Background="{StaticResource WindowBackgroundBrush2}">
                     <TextBlock HorizontalAlignment="Center"
@@ -1061,308 +1061,56 @@
                                             Header="目前使用">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:PLC_Recipe">
-                                <UniformGrid Rows="2">
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[0], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="1" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[1], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="2" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[2], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="3" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[3], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="4" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[4], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="5" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[5], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="6" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[6], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="7" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[7], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="8" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[8], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="9" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[9], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="10" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[10], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="11" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[11], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="12" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[12], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="13" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[13], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="14" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[14], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="15" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[15], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="16" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[16], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="17" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[17], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="18" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[18], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="19" />
-                                    </Border>
-                                    <Border>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Used_Stations[19], Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="20" />
-                                    </Border>
-                                </UniformGrid>
+                                <ListBox AlternationCount="{Binding Items.Count, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                         IsHitTestVisible="False"
+                                         ItemsSource="{Binding Used_Stations, Mode=OneWay}">
+                                    <ListBox.Template>
+                                        <ControlTemplate>
+                                            <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,1">
+                                                <ItemsPresenter />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </ListBox.Template>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <ContentPresenter />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Rows="2" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{StaticResource LightBrush}" BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,1,0,0">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Mode=OneWay}"
+                                                                         Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <TextBlock Margin="4"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="{StaticResource BaseForeground}"
+                                                           Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

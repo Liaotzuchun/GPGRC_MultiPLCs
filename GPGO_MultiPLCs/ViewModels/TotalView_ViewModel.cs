@@ -199,7 +199,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             for (var i = 0; i < PLC_Count; i++)
             {
-                PLC_All[i] = new PLC_Data(i + 1, M_List, D_List, Recipe_List);
+                PLC_All[i] = new PLC_Data(M_List, D_List, Recipe_List);
             }
 
             var namelists = M_List.Values.OrderBy(x => x).Select(x => "M" + x.ToString()).Concat(D_List.Values.OrderBy(x => x).Select(x => "D" + x.ToString())).ToList();

@@ -12,4 +12,5 @@
     <local:IsEqualValue x:Key="IsEqualValue" />
     <local:NullEnableValue x:Key="NullEnableValue" />
     <local:BoolNot x:Key="BoolNot" />
+    <local:AddValue x:Key="AddValue" />
 </ResourceDictionary>

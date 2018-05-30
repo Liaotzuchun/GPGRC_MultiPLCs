@@ -20,7 +20,6 @@ namespace GPGO_MultiPLCs.Models
         public TwoKeyDictionary<DataNames, int, short> D_Values;
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;
         public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
-        public int StationNumber { get; }
         public PlotModel RecordView { get; }
 
         public ProcessInfo Process_Info { get; }
@@ -73,7 +72,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public PLC_Data(int index, Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList)
+        public PLC_Data(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList)
         {
             var color = OxyColor.FromRgb(50, 70, 60);
 
@@ -243,7 +242,6 @@ namespace GPGO_MultiPLCs.Models
                 RecordView.Series.Add(ls);
             }
 
-            StationNumber = index;
             Process_Info = new ProcessInfo();
 
             var M_Map = new Dictionary<SignalNames, string>
