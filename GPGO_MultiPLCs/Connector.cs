@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceProcess;
+using System.Threading.Tasks;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
@@ -34,18 +35,21 @@ namespace GPGO_MultiPLCs
             RecipeVM = new RecipeControl_ViewModel(Mongo, DialogVM);
             TraceVM = new TraceabilityView_ViewModel();
 
-            RecipeVM.ListUpdatedEvent += list =>
+            RecipeVM.ListUpdatedEvent += async list =>
                                          {
-                                             foreach (var recipe in list)
-                                             {
-                                                 for (var i = 0; i < recipe.Used_Stations.Length; i++)
-                                                 {
-                                                     if (recipe.Used_Stations[i])
-                                                     {
-                                                         TotalVM.SetRecipe(i, recipe);
-                                                     }
-                                                 }
-                                             }
+                                             await Task.Factory.StartNew(() =>
+                                                                         {
+                                                                             foreach (var recipe in list)
+                                                                             {
+                                                                                 for (var i = 0; i < recipe.Used_Stations.Length; i++)
+                                                                                 {
+                                                                                     if (recipe.Used_Stations[i])
+                                                                                     {
+                                                                                         TotalVM.SetRecipe(i, recipe);
+                                                                                     }
+                                                                                 }
+                                                                             }
+                                                                         });
                                          };
         }
     }

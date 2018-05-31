@@ -438,7 +438,7 @@ namespace GPGO_MultiPLCs.Models
                        Recipe_Values[DataNames.配方名稱_11],
                        Recipe_Values[DataNames.配方名稱_12],
                        Recipe_Values[DataNames.配方名稱_13]
-                   }.ASCIIfromShorts();
+                   }.ASCIIfromShorts().Trim();
             set
             {
                 if (value.Length > 26)

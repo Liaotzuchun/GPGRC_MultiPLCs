@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:RecipeControl_ViewModel}"
     d:DesignHeight="450"
@@ -81,12 +82,11 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
                         <Border
-                            Width="25"
-                            Margin="{TemplateBinding Margin}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                             <ContentPresenter
+                                Margin="4"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center" />
                         </Border>
@@ -160,14 +160,13 @@
                                                 Maximum="{TemplateBinding ScrollableHeight}"
                                                 Orientation="Vertical"
                                                 ViewportSize="{TemplateBinding ViewportHeight}"
-                                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                                Visibility="Visible"
                                                 Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                             <Grid
                                                 Grid.Row="2"
                                                 Grid.Column="1">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition
-                                                        Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
                                                 <ScrollBar
@@ -231,7 +230,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
-                        IsMoveToPointEnabled="True"
+                        IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         LargeChange="1"
                         Maximum="{Binding SegmentCounts_Max, Mode=OneWay}"
@@ -262,7 +261,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
-                        IsMoveToPointEnabled="True"
+                        IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
                         Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -292,7 +291,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
-                        IsMoveToPointEnabled="True"
+                        IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
                         Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -419,7 +418,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -430,7 +429,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -441,7 +440,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -452,7 +451,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -463,7 +462,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -474,7 +473,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -485,7 +484,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -496,7 +495,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -507,7 +506,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -518,7 +517,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -529,7 +528,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -540,7 +539,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -551,7 +550,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -562,7 +561,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -573,7 +572,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -584,7 +583,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
@@ -802,7 +801,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -814,7 +813,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -826,7 +825,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -838,7 +837,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -850,7 +849,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -862,7 +861,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -874,7 +873,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -886,7 +885,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -898,7 +897,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -910,7 +909,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -922,7 +921,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -934,7 +933,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -946,7 +945,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -958,7 +957,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -970,7 +969,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -982,7 +981,7 @@
                         <Slider
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            IsMoveToPointEnabled="True"
+                            IsSelectionRangeEnabled="True"
                             IsSnapToTickEnabled="True"
                             Maximum="{Binding Time_Max, Mode=OneWay}"
                             Minimum="{Binding Time_Min, Mode=OneWay}"
@@ -1208,7 +1207,7 @@
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn
-                        Width="1*"
+                        Width="*"
                         Header="配方名稱">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:PLC_Recipe">
@@ -1221,21 +1220,26 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn
-                        Width="150"
+                        Width="Auto"
                         Header="更新時間">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:PLC_Recipe">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding Updated, Mode=OneWay, StringFormat=\{0:G\}, ConverterCulture=zh-TW}"
-                                    TextWrapping="Wrap" />
+                                <StackPanel Margin="4,0">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Updated, Mode=OneWay, StringFormat={}{0:yyyy/MM/dd}}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Updated, Mode=OneWay, StringFormat={}{0:HH:mm:ss}}" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn
-                        Width="200"
-                        Header="目前使用">
+                        Width="Auto"
+                        Header="目前使用站點">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:PLC_Recipe">
                                 <ItemsControl
@@ -1259,30 +1263,28 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border
-                                                Background="{StaticResource LightBrush}"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                BorderThickness="1,1,0,0">
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Style.Triggers>
-                                                            <DataTrigger
-                                                                Binding="{Binding Mode=OneWay}"
-                                                                Value="True">
-                                                                <Setter Property="Background"
-                                                                        Value="{StaticResource WorkingBrush}" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                                <Viewbox
-                                                    Margin="2"
-                                                    StretchDirection="DownOnly">
-                                                    <TextBlock
-                                                        Foreground="{StaticResource BaseForeground}"
-                                                        Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-                                                </Viewbox>
-                                            </Border>
+                                            <Grid>
+                                                <Border
+                                                    x:Name="Border"
+                                                    Background="{StaticResource LightBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,1,0,0">
+                                                    <Viewbox
+                                                        Margin="2"
+                                                        StretchDirection="DownOnly">
+                                                        <TextBlock
+                                                            Foreground="{StaticResource BaseForeground}"
+                                                            Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                                    </Viewbox>
+                                                </Border>
+                                            </Grid>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Mode=OneWay}"
+                                                    Value="True">
+                                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
