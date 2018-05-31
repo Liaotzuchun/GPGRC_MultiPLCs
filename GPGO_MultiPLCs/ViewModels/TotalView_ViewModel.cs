@@ -53,6 +53,9 @@ namespace GPGO_MultiPLCs.ViewModels
         private int _ViewIndex = -1; //選取PLC的index
         private GPServiceClient PLC_Client;
 
+        public delegate void WantRecipeHandler(int index, string recipe);
+        public event WantRecipeHandler WantRecipe;
+
         public PLC_Data[] PLC_All { get; }
         public RelayCommand BackCommand { get; }
         public PlotModel HistogramView { get; set; }
@@ -206,6 +209,11 @@ namespace GPGO_MultiPLCs.ViewModels
             for (var i = 0; i < PLC_Count; i++)
             {
                 PLC_All[i] = new PLC_Data(M_List, D_List, Recipe_List);
+                var j = i;
+                PLC_All[i].SwitchRecipeEvent += recipe =>
+                                                {
+                                                    WantRecipe?.Invoke(j, recipe);
+                                                };
             }
 
             var namelists = M_List.Values.OrderBy(x => x).Select(x => "M" + x.ToString()).Concat(D_List.Values.OrderBy(x => x).Select(x => "D" + x.ToString())).ToList();
@@ -374,6 +382,14 @@ namespace GPGO_MultiPLCs.ViewModels
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        public void SetRecipeNames(ICollection<string> names)
+        {
+            foreach (var plc in PLC_All)
+            {
+                plc.Recipe_Names = names;
             }
         }
 

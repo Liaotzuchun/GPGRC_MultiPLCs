@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.ViewModels;
@@ -37,6 +38,8 @@ namespace GPGO_MultiPLCs
 
             RecipeVM.ListUpdatedEvent += async list =>
                                          {
+                                             TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
+
                                              await Task.Factory.StartNew(() =>
                                                                          {
                                                                              foreach (var recipe in list)
@@ -51,6 +54,11 @@ namespace GPGO_MultiPLCs
                                                                              }
                                                                          });
                                          };
+
+            TotalVM.WantRecipe += async (i, recipe) =>
+                                  {
+                                      TotalVM.SetRecipe(i, await RecipeVM.GetRecipe(i, recipe));
+                                  };
         }
     }
 }

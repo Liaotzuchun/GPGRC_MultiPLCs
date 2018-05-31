@@ -20,7 +20,6 @@
                                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                 Height="{Binding Width, RelativeSource={RelativeSource Self}}">
                                 <Border
-                                    x:Name="b1"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,1" />
                                 <Border
@@ -196,51 +195,12 @@
                             VerticalAlignment="Center"
                             RecognizesAccessKey="True"
                             Visibility="{Binding Content, Converter={StaticResource NullVis}, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition GeneratedDuration="0:0:0.06" />
-                                    <VisualTransition
-                                        GeneratedDuration="0"
-                                        To="Checked" />
-                                </VisualStateGroup.Transitions>
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="UnChecked">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames
-                                            Storyboard.TargetName="CheckMark"
-                                            Storyboard.TargetProperty="Opacity">
-                                            <EasingDoubleKeyFrame
-                                                KeyTime="0"
-                                                Value="0" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground.Color">
-                                            <EasingColorKeyFrame
-                                                KeyTime="0"
-                                                Value="{Binding Color, Source={StaticResource BaseForeground}}" />
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Checked">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames
-                                            Storyboard.TargetName="CheckMark"
-                                            Storyboard.TargetProperty="Opacity">
-                                            <EasingDoubleKeyFrame
-                                                KeyTime="0"
-                                                Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground.Color">
-                                            <EasingColorKeyFrame
-                                                KeyTime="0"
-                                                Value="White" />
-                                        </ColorAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Indeterminate" />
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckMark" Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

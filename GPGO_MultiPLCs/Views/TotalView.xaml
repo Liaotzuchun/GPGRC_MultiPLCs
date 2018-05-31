@@ -72,13 +72,12 @@
                                         <TabItem
                                             Width="0"
                                             Height="0"
-                                            FontSize="16">
+                                            FontSize="14">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="50" />
                                                     <ColumnDefinition />
-                                                    <ColumnDefinition Width="50" />
-                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition />
@@ -91,7 +90,7 @@
                                                         Text="設備碼" />
                                                 </Border>
                                                 <Border
-                                                    x:Name="b1"
+                                                    x:Name="Border"
                                                     Grid.Column="1"
                                                     Background="{StaticResource LightColorBrush}">
                                                     <TextBlock
@@ -100,34 +99,36 @@
                                                         Text="{Binding Process_Info.MachineCode, Mode=OneWay}" />
                                                 </Border>
                                                 <Border
-                                                    Grid.Row="0"
-                                                    Grid.Column="2"
+                                                    Grid.Row="1"
                                                     Background="{StaticResource WindowBackgroundBrush2}">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         Text="配方" />
                                                 </Border>
-                                                <Border
+                                                <ComboBox
+                                                    x:Name="CB"
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
+                                                    SelectedItem="{Binding Selected_Name, Mode=TwoWay}" />
+                                                <!--<Border
                                                     Grid.Column="3"
-                                                    Width="{Binding ActualWidth, ElementName=b1, Mode=OneWay}"
+                                                    Width="{Binding ActualWidth, ElementName=Border, Mode=OneWay}"
                                                     Background="{StaticResource LightColorBrush}">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         Text="{Binding RecipeName, Mode=OneWay}"
                                                         TextTrimming="CharacterEllipsis" />
-                                                </Border>
+                                                </Border>-->
                                                 <Button
-                                                    Grid.Row="1"
-                                                    Grid.Column="0"
-                                                    Grid.ColumnSpan="2"
-                                                    Content="加入生產" />
-                                                <Button
-                                                    Grid.Row="1"
+                                                    Grid.Row="0"
+                                                    Grid.RowSpan="2"
                                                     Grid.Column="2"
-                                                    Grid.ColumnSpan="2"
-                                                    Content="變更配方" />
+                                                    Padding="10,0"
+                                                    Content="加入生產"
+                                                    FontSize="16" />
                                             </Grid>
                                         </TabItem>
                                         <TabItem
@@ -354,7 +355,6 @@
                                     </Border>
                                     <Border
                                         Grid.Column="4"
-                                        Height="{Binding ActualHeight, ElementName=b1, Mode=OneWay}"
                                         Background="{StaticResource WindowBackgroundBrush2}">
                                         <TextBlock
                                             HorizontalAlignment="Center"
@@ -371,7 +371,6 @@
                                     </Border>
                                     <Border
                                         Grid.Column="6"
-                                        Height="{Binding ActualHeight, ElementName=b1, Mode=OneWay}"
                                         Background="{StaticResource WindowBackgroundBrush2}">
                                         <TextBlock
                                             HorizontalAlignment="Center"
@@ -989,13 +988,66 @@
                                         Grid.Column="3"
                                         Columns="1">
                                         <Border Background="{StaticResource LightColorBrush}">
-                                            <TextBlock
+                                            <TabControl
+                                                Margin="4"
+                                                SelectedIndex="{Binding AutoMode, Mode=OneWay}">
+                                                <TabItem
+                                                    Width="0"
+                                                    Height="0">
+                                                    <Border
+                                                        Background="{StaticResource OKBrush}"
+                                                        BorderBrush="{StaticResource OKBorderBrush}"
+                                                        BorderThickness="1">
+                                                        <TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Foreground="White"
+                                                            Text="手動" />
+                                                    </Border>
+                                                </TabItem>
+                                                <TabItem
+                                                    Width="0"
+                                                    Height="0">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition Width="8" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border
+                                                            Background="{StaticResource PressedBrush}"
+                                                            BorderBrush="{StaticResource PressedBorderBrush}"
+                                                            BorderThickness="1">
+                                                            <TextBlock
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="White"
+                                                                Text="自動" />
+                                                        </Border>
+                                                        <Border
+                                                            Grid.Column="1"
+                                                            Background="{StaticResource DisabledBackgroundBrush}"
+                                                            BorderBrush="{StaticResource DisabledBorderBrush}"
+                                                            BorderThickness="1" />
+                                                        <Border
+                                                            Grid.Column="1"
+                                                            Background="{StaticResource WorkingBrush}"
+                                                            BorderBrush="{StaticResource WorkingBorderBrush}"
+                                                            BorderThickness="1"
+                                                            Visibility="{Binding AutoMode_Start, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                    </Grid>
+                                                </TabItem>
+                                            </TabControl>
+                                            <!--<TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="手動模式">
+                                                VerticalAlignment="Center">
                                                 <TextBlock.Style>
                                                     <Style TargetType="TextBlock">
                                                         <Style.Triggers>
+                                                            <DataTrigger
+                                                                Binding="{Binding ManualMode, Mode=OneWay}"
+                                                                Value="True">
+                                                                <Setter Property="Text" Value="手動模式" />
+                                                            </DataTrigger>
                                                             <DataTrigger
                                                                 Binding="{Binding AutoMode, Mode=OneWay}"
                                                                 Value="True">
@@ -1014,7 +1066,7 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBlock.Style>
-                                            </TextBlock>
+                                            </TextBlock>-->
                                         </Border>
                                         <Border Background="{StaticResource LightColorBrush}">
                                             <CheckBox

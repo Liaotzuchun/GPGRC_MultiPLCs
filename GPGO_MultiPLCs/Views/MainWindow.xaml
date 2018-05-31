@@ -61,6 +61,7 @@
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        FontSize="16"
                         Foreground="White"
                         Text="PLC Gate" />
                 </Grid>

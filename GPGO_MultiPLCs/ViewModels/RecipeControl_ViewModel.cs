@@ -97,6 +97,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public bool Delete_Enable => _Selected_PLC_Recipe != null && !_Selected_PLC_Recipe.Used_Stations.Any(x => x);
 
         public RelayCommand InitialLoadCommand { get; }
+        public RelayCommand SelectedCommand { get; }
         public RelayCommand SaveCommand { get; }
         public RelayCommand ResetCommand { get; }
         public RelayCommand AddCommand { get; }
@@ -117,6 +118,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                       Standby = true;
                                                   });
+
+            SelectedCommand = new RelayCommand(e =>
+                                               {
+                                                   Selected_PLC_Recipe = ((PLC_Recipe)e).Copy();
+                                               });
 
             SaveCommand = new RelayCommand(async e =>
                                            {
@@ -172,6 +178,37 @@ namespace GPGO_MultiPLCs.ViewModels
         public event ListUpdated ListUpdatedEvent;
 
         public event Action RecipeLoadedEvent;
+
+        public async Task<PLC_Recipe> GetRecipe(int index, string name)
+        {
+            try
+            {
+                var db = Mongo_Client.GetDatabase("GP");
+                var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
+
+                foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
+                {
+                    recipe.Used_Stations[index] = false;
+                    await Sets.ReplaceOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), recipe, new UpdateOptions { IsUpsert = true });
+                }
+
+                var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
+
+                if (result != null)
+                {
+                    result.Used_Stations[index] = true;
+                }
+
+                await Sets.ReplaceOneAsync(x => x.RecipeName.Equals(result.RecipeName), result, new UpdateOptions { IsUpsert = true });
+                Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                ErrorRecoder.RecordError(ex);
+            }
+
+            return Recipes.FirstOrDefault(x => x.RecipeName == name);
+        }
 
         private async Task Save(string name)
         {
@@ -236,15 +273,17 @@ namespace GPGO_MultiPLCs.ViewModels
                 TypedName = "";
                 Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
                 ViewRecipes = Recipes.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
-
-                if (Recipes != null && Recipes.Count > 0)
-                {
-                    ListUpdatedEvent?.Invoke(Recipes);
-                }
             }
             catch (Exception ex)
             {
                 ErrorRecoder.RecordError(ex);
+            }
+            finally
+            {
+                if (Recipes != null && Recipes.Count > 0)
+                {
+                    ListUpdatedEvent?.Invoke(Recipes);
+                }
             }
         }
     }

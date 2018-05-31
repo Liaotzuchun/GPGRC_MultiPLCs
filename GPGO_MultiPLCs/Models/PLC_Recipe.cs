@@ -514,7 +514,8 @@ namespace GPGO_MultiPLCs.Models
                        TargetTemperature_6 = _TargetTemperature_6,
                        TargetTemperature_7 = _TargetTemperature_7,
                        TargetTemperature_8 = _TargetTemperature_8,
-                       UsedSegmentCounts = _UsedSegmentCounts
+                       UsedSegmentCounts = _UsedSegmentCounts,
+                       Used_Stations = _Used_Stations
                    };
         }
     }

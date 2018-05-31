@@ -15,13 +15,17 @@ namespace GPGO_MultiPLCs.Models
         private readonly Stopwatch sw = new Stopwatch();
         private bool _IsRecording;
         private bool _OnlineStatus;
+        private ICollection<string> _Recipe_Names;
+        private string _Selected_Name;
+
+        public delegate void SwitchRecipeEventHandler(string recipe);
+        public event SwitchRecipeEventHandler SwitchRecipeEvent;
 
         public CancellationTokenSource CTS;
         public TwoKeyDictionary<DataNames, int, short> D_Values;
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;
         public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
         public PlotModel RecordView { get; }
-
         public ProcessInfo Process_Info { get; }
 
         public bool OnlineStatus
@@ -41,6 +45,27 @@ namespace GPGO_MultiPLCs.Models
             {
                 _IsRecording = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        public ICollection<string> Recipe_Names
+        {
+            get => _Recipe_Names;
+            set
+            {
+                _Recipe_Names = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Selected_Name
+        {
+            get => _Selected_Name;
+            set
+            {
+                _Selected_Name = value;
+                NotifyPropertyChanged();
+                SwitchRecipeEvent?.Invoke(_Selected_Name);
             }
         }
 
@@ -463,6 +488,9 @@ namespace GPGO_MultiPLCs.Models
                 Recipe_Values[DataNames.配方名稱_13] = vals[12];
 
                 NotifyPropertyChanged(nameof(RecipeName));
+
+                _Selected_Name = value;
+                NotifyPropertyChanged(nameof(Selected_Name));
             }
         }
 
