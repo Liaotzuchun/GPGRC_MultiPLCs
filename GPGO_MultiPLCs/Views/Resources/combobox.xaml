@@ -11,26 +11,21 @@
                 <ColumnDefinition Width="20" />
             </Grid.ColumnDefinitions>
             <Border
-                x:Name="Border2"
-                Grid.Column="0"
-                Background="{StaticResource LightBrush}"
-                BorderBrush="{StaticResource NormalBorderBrush}"
-                BorderThickness="1"
-                CornerRadius="0,0,0,0" />
-            <Border
                 x:Name="Border"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="0,0,0,0" />
+            <Path
+                x:Name="Arrow"
                 Grid.Column="1"
-                Background="{StaticResource NormalBrush}"
-                BorderBrush="{StaticResource NormalBorderBrush}"
-                BorderThickness="0,1,1,1"
-                CornerRadius="0">
-                <Path
-                    x:Name="Arrow"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Data="M 0 0 L 4 4 L 8 0 Z"
-                    Fill="{StaticResource GlyphBrush}" />
-            </Border>
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Data="M 0 0 L 4 4 L 8 0 Z"
+                Fill="{StaticResource NormalBrush}"
+                Stroke="{StaticResource NormalBorderBrush}" />
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualStateGroup.Transitions>
@@ -47,18 +42,18 @@
                                 Storyboard.TargetProperty="Background.Color">
                                 <EasingColorKeyFrame
                                     KeyTime="0"
+                                    Value="{Binding Source={StaticResource LightBrush}, Path=Color}" />
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames
+                                Storyboard.TargetName="Arrow"
+                                Storyboard.TargetProperty="Fill.Color">
+                                <EasingColorKeyFrame
+                                    KeyTime="0"
                                     Value="{Binding Source={StaticResource DarkBrush}, Path=Color}" />
                             </ColorAnimationUsingKeyFrames>
                             <ColorAnimationUsingKeyFrames
-                                Storyboard.TargetName="Border"
-                                Storyboard.TargetProperty="BorderBrush.Color">
-                                <EasingColorKeyFrame
-                                    KeyTime="0"
-                                    Value="{Binding Source={StaticResource DarkBorderBrush}, Path=Color}" />
-                            </ColorAnimationUsingKeyFrames>
-                            <ColorAnimationUsingKeyFrames
-                                Storyboard.TargetName="Border2"
-                                Storyboard.TargetProperty="BorderBrush.Color">
+                                Storyboard.TargetName="Arrow"
+                                Storyboard.TargetProperty="Stroke.Color">
                                 <EasingColorKeyFrame
                                     KeyTime="0"
                                     Value="{Binding Source={StaticResource DarkBorderBrush}, Path=Color}" />
@@ -68,22 +63,15 @@
                     <VisualState x:Name="Checked">
                         <Storyboard>
                             <ColorAnimationUsingKeyFrames
-                                Storyboard.TargetName="Border"
-                                Storyboard.TargetProperty="Background.Color">
+                                Storyboard.TargetName="Arrow"
+                                Storyboard.TargetProperty="Fill.Color">
                                 <EasingColorKeyFrame
                                     KeyTime="0"
                                     Value="{Binding Source={StaticResource PressedBrush}, Path=Color}" />
                             </ColorAnimationUsingKeyFrames>
                             <ColorAnimationUsingKeyFrames
-                                Storyboard.TargetName="Border"
-                                Storyboard.TargetProperty="BorderBrush.Color">
-                                <EasingColorKeyFrame
-                                    KeyTime="0"
-                                    Value="{Binding Source={StaticResource PressedBorderBrush}, Path=Color}" />
-                            </ColorAnimationUsingKeyFrames>
-                            <ColorAnimationUsingKeyFrames
-                                Storyboard.TargetName="Border2"
-                                Storyboard.TargetProperty="BorderBrush.Color">
+                                Storyboard.TargetName="Arrow"
+                                Storyboard.TargetProperty="Stroke.Color">
                                 <EasingColorKeyFrame
                                     KeyTime="0"
                                     Value="{Binding Source={StaticResource PressedBorderBrush}, Path=Color}" />
@@ -107,15 +95,15 @@
                                     Value="{Binding Source={StaticResource DisabledBorderBrush}, Path=Color}" />
                             </ColorAnimationUsingKeyFrames>
                             <ColorAnimationUsingKeyFrames
-                                Storyboard.TargetName="Border2"
-                                Storyboard.TargetProperty="Background.Color">
+                                Storyboard.TargetName="Arrow"
+                                Storyboard.TargetProperty="Fill.Color">
                                 <EasingColorKeyFrame
                                     KeyTime="0"
                                     Value="{Binding Source={StaticResource DisabledBackgroundBrush}, Path=Color}" />
                             </ColorAnimationUsingKeyFrames>
                             <ColorAnimationUsingKeyFrames
-                                Storyboard.TargetName="Border2"
-                                Storyboard.TargetProperty="BorderBrush.Color">
+                                Storyboard.TargetName="Arrow"
+                                Storyboard.TargetProperty="Stroke.Color">
                                 <EasingColorKeyFrame
                                     KeyTime="0"
                                     Value="{Binding Source={StaticResource DisabledBorderBrush}, Path=Color}" />
@@ -145,6 +133,9 @@
     <Style
         x:Key="{x:Type ComboBox}"
         TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource LightBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
@@ -154,13 +145,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="20" />
-                        </Grid.ColumnDefinitions>
                         <ToggleButton
                             Name="ToggleButton"
-                            Grid.ColumnSpan="2"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             ClickMode="Press"
                             Focusable="false"
                             IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
@@ -200,7 +189,7 @@
                                     Background="{StaticResource LightBrush}"
                                     BorderBrush="{StaticResource NormalBorderBrush}"
                                     BorderThickness="1" />
-                                <ScrollViewer Margin="4">
+                                <ScrollViewer>
                                     <StackPanel
                                         IsItemsHost="True"
                                         KeyboardNavigation.DirectionalNavigation="Contained" />
@@ -221,7 +210,7 @@
                         </Trigger>
                         <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                             <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0" />
-                            <!--<Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />-->
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2" />
                         </Trigger>
                         <Trigger Property="IsEditable" Value="True">
                             <Setter Property="IsTabStop" Value="False" />
@@ -247,9 +236,9 @@
                         Name="Border"
                         Background="Transparent"
                         BorderBrush="Transparent"
-                        BorderThickness="0">
+                        BorderThickness="1">
                         <ContentPresenter
-                            Margin="2"
+                            Margin="4,8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
                         <VisualStateManager.VisualStateGroups>

@@ -110,6 +110,8 @@
                                                     x:Name="CB"
                                                     Grid.Row="1"
                                                     Grid.Column="1"
+                                                    Background="{StaticResource LightColorBrush}"
+                                                    BorderThickness="0"
                                                     ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
                                                     SelectedItem="{Binding Selected_Name, Mode=TwoWay}" />
                                                 <!--<Border
