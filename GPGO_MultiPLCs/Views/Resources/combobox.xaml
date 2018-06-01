@@ -63,6 +63,13 @@
                     <VisualState x:Name="Checked">
                         <Storyboard>
                             <ColorAnimationUsingKeyFrames
+                                Storyboard.TargetName="Border"
+                                Storyboard.TargetProperty="Background.Color">
+                                <EasingColorKeyFrame
+                                    KeyTime="0"
+                                    Value="White" />
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames
                                 Storyboard.TargetName="Arrow"
                                 Storyboard.TargetProperty="Fill.Color">
                                 <EasingColorKeyFrame
@@ -187,7 +194,7 @@
                                 <Border
                                     x:Name="DropDownBorder"
                                     Background="{StaticResource LightBrush}"
-                                    BorderBrush="{StaticResource NormalBorderBrush}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1" />
                                 <ScrollViewer>
                                     <StackPanel

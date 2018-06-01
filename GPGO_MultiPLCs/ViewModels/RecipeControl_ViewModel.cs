@@ -146,8 +146,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                           {
                                               await Save(_TypedName);
                                               SearchName = "";
-
-                                              await RefreshList();
                                           });
 
             DeleteCommand = new RelayCommand(async e =>

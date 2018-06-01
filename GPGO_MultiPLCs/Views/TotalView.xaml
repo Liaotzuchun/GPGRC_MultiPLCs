@@ -100,7 +100,9 @@
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
-                                                    Background="{StaticResource WindowBackgroundBrush2}">
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,0,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
@@ -111,7 +113,7 @@
                                                     Grid.Row="1"
                                                     Grid.Column="1"
                                                     Background="{StaticResource LightColorBrush}"
-                                                    BorderThickness="0"
+                                                    BorderThickness="0,1,0,0"
                                                     ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
                                                     SelectedItem="{Binding Selected_Name, Mode=TwoWay}" />
                                                 <!--<Border
