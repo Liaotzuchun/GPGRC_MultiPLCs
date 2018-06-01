@@ -1015,6 +1015,7 @@
                                                         <TextBlock
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
+                                                            FontSize="16"
                                                             Foreground="White"
                                                             Text="手動" />
                                                     </Border>
@@ -1034,6 +1035,7 @@
                                                             <TextBlock
                                                                 HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center"
+                                                                FontSize="16"
                                                                 Foreground="White"
                                                                 Text="自動" />
                                                         </Border>

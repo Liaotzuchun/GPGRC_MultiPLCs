@@ -1070,13 +1070,7 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     Foreground="Blue"
-                    Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TextChanged">
-                            <i:InvokeCommandAction Command="{Binding RefreshCommand, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </TextBox>
+                    Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
                     Grid.Column="3"
                     Content="新增"
@@ -1206,10 +1200,8 @@
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
-                            <DataTrigger
-                                Binding="{Binding Selected_PLC_Recipe, FallbackValue=0, Mode=OneWay}"
-                                Value="0">
-                                <Setter Property="SelectedIndex" Value="-1" />
+                            <DataTrigger Binding="{Binding Selected_PLC_Recipe, Mode=OneWay}" Value="{x:Null}">
+                                <Setter Property="SelectedIndex" Value="-1"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

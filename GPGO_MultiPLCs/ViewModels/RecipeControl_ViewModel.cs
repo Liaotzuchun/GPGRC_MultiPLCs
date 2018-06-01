@@ -68,11 +68,10 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 value = value.Replace(" ", "_");
                 _TypedName = value.Length > 26 ? value.Substring(0, 26) : value;
+                NotifyPropertyChanged();
 
                 _Selected_PLC_Recipe = Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName);
                 NotifyPropertyChanged(nameof(Selected_PLC_Recipe));
-
-                NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
                 NotifyPropertyChanged(nameof(Delete_Enable));
@@ -87,6 +86,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 value = value.Replace(" ", "_");
                 _SearchName = value;
                 NotifyPropertyChanged();
+
+                TypedName = "";
+                ViewRecipes = Recipes?.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
             }
         }
 
@@ -102,7 +104,6 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ResetCommand { get; }
         public RelayCommand AddCommand { get; }
         public RelayCommand DeleteCommand { get; }
-        public RelayCommand RefreshCommand { get; }
 
         public RecipeControl_ViewModel(MongoClient mongo, IDialogService dialog)
         {
@@ -169,11 +170,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  Standby = true;
                                              });
-
-            RefreshCommand = new RelayCommand(async e =>
-                                              {
-                                                  await RefreshList();
-                                              });
         }
 
         public event ListUpdated ListUpdatedEvent;
