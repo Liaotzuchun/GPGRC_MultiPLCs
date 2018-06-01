@@ -11,15 +11,14 @@ namespace GPGO_MultiPLCs.Models
 {
     public class PLC_Data : ViewModelBase
     {
+        public delegate void SwitchRecipeEventHandler(string recipe);
+
         private readonly LineSeries[] LineSeries = new LineSeries[9];
         private readonly Stopwatch sw = new Stopwatch();
         private bool _IsRecording;
         private bool _OnlineStatus;
         private ICollection<string> _Recipe_Names;
         private string _Selected_Name;
-
-        public delegate void SwitchRecipeEventHandler(string recipe);
-        public event SwitchRecipeEventHandler SwitchRecipeEvent;
 
         public CancellationTokenSource CTS;
         public TwoKeyDictionary<DataNames, int, short> D_Values;
@@ -387,6 +386,8 @@ namespace GPGO_MultiPLCs.Models
                                          };
         }
 
+        public event SwitchRecipeEventHandler SwitchRecipeEvent;
+
         public void ResetStopTokenSource()
         {
             CTS?.Dispose();
@@ -463,7 +464,8 @@ namespace GPGO_MultiPLCs.Models
                        Recipe_Values[DataNames.配方名稱_11],
                        Recipe_Values[DataNames.配方名稱_12],
                        Recipe_Values[DataNames.配方名稱_13]
-                   }.ASCIIfromShorts().Trim();
+                   }.ASCIIfromShorts()
+                    .Trim();
             set
             {
                 if (value.Length > 26)

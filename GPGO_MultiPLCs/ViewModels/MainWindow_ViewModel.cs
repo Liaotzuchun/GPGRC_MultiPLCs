@@ -15,10 +15,5 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged();
             }
         }
-
-        public MainWindow_ViewModel()
-        {
-
-        }
     }
 }

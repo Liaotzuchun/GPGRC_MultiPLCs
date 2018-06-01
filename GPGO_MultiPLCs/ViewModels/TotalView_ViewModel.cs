@@ -44,6 +44,8 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public delegate void WantRecipeHandler(int index, string recipe);
+
         private const int PLC_Count = 20;
         private const int Check_Dev = 21; //心跳信號位置
         private readonly Timer Checker;
@@ -52,9 +54,6 @@ namespace GPGO_MultiPLCs.ViewModels
         private int _Index; //Tab頁面的index
         private int _ViewIndex = -1; //選取PLC的index
         private GPServiceClient PLC_Client;
-
-        public delegate void WantRecipeHandler(int index, string recipe);
-        public event WantRecipeHandler WantRecipe;
 
         public PLC_Data[] PLC_All { get; }
         public RelayCommand BackCommand { get; }
@@ -268,6 +267,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                 Timeout.Infinite);
         }
 
+        public event WantRecipeHandler WantRecipe;
+
         public bool SetReadLists(string[][] list)
         {
             try
@@ -332,6 +333,91 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public void SetRecipeNames(ICollection<string> names)
+        {
+            foreach (var plc in PLC_All)
+            {
+                plc.Recipe_Names = names;
+            }
+        }
+
+        public void IniPlotView()
+        {
+            var color = OxyColor.FromRgb(50, 70, 60);
+
+            HistogramView = new PlotModel
+                            {
+                                PlotAreaBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                                DefaultFont = "Microsoft JhengHei",
+                                PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
+                                PlotMargins = new OxyThickness(20, 10, 10, 20)
+                            };
+
+            var categoryAxis1 = new CategoryAxis
+                                {
+                                    MajorGridlineColor = color,
+                                    MinorGridlineColor = color,
+                                    TicklineColor = color,
+                                    ExtraGridlineColor = color,
+                                    TextColor = color,
+                                    TickStyle = TickStyle.Inside,
+                                    AxislineStyle = LineStyle.Solid,
+                                    AxislineColor = color,
+                                    GapWidth = 0,
+                                    MinorStep = 1,
+                                    Position = AxisPosition.Left
+                                };
+
+            categoryAxis1.ActualLabels.Add("1");
+            categoryAxis1.ActualLabels.Add("2");
+            categoryAxis1.ActualLabels.Add("3");
+            categoryAxis1.ActualLabels.Add("4");
+            categoryAxis1.ActualLabels.Add("5");
+            categoryAxis1.ActualLabels.Add("6");
+            categoryAxis1.ActualLabels.Add("7");
+            categoryAxis1.ActualLabels.Add("8");
+            categoryAxis1.ActualLabels.Add("9");
+            categoryAxis1.ActualLabels.Add("10");
+            categoryAxis1.ActualLabels.Add("11");
+            categoryAxis1.ActualLabels.Add("12");
+            categoryAxis1.ActualLabels.Add("13");
+            categoryAxis1.ActualLabels.Add("14");
+            categoryAxis1.ActualLabels.Add("15");
+            categoryAxis1.ActualLabels.Add("16");
+            categoryAxis1.ActualLabels.Add("17");
+            categoryAxis1.ActualLabels.Add("18");
+            categoryAxis1.ActualLabels.Add("19");
+            categoryAxis1.ActualLabels.Add("20");
+            categoryAxis1.ActualLabels.Reverse();
+
+            var XAxis = new LinearAxis
+                        {
+                            MinimumPadding = 0,
+                            MaximumPadding = 0,
+                            TickStyle = TickStyle.Inside,
+                            MajorGridlineStyle = LineStyle.None,
+                            MajorStep = 100,
+                            MinorGridlineStyle = LineStyle.None,
+                            MinorTickSize = 0,
+                            MinorStep = 100,
+                            Position = AxisPosition.Bottom,
+                            AxislineStyle = LineStyle.Solid,
+                            AxislineColor = color,
+                            MajorGridlineColor = color,
+                            MinorGridlineColor = color,
+                            TicklineColor = color,
+                            ExtraGridlineColor = color,
+                            TextColor = color,
+                            Minimum = 0
+                        };
+
+            var barSeries1 = new BarSeries { LabelFormatString = "{0}", ValueField = "Value" };
+
+            HistogramView.Axes.Add(categoryAxis1);
+            HistogramView.Axes.Add(XAxis);
+            HistogramView.Series.Add(barSeries1);
+        }
+
         private bool Connect()
         {
             try
@@ -383,91 +469,6 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 return false;
             }
-        }
-
-        public void SetRecipeNames(ICollection<string> names)
-        {
-            foreach (var plc in PLC_All)
-            {
-                plc.Recipe_Names = names;
-            }
-        }
-
-        public void IniPlotView()
-        {
-                        var color = OxyColor.FromRgb(50, 70, 60);
-
-            HistogramView = new PlotModel
-            {
-                PlotAreaBackground = OxyColor.FromArgb(0, 0, 0, 0),
-                DefaultFont = "Microsoft JhengHei",
-                PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
-                PlotMargins = new OxyThickness(20, 10, 10, 20)
-            };
-
-            var categoryAxis1 = new CategoryAxis
-            {
-                MajorGridlineColor = color,
-                MinorGridlineColor = color,
-                TicklineColor = color,
-                ExtraGridlineColor = color,
-                TextColor = color,
-                TickStyle = TickStyle.Inside,
-                AxislineStyle = LineStyle.Solid,
-                AxislineColor = color,
-                GapWidth = 0,
-                MinorStep = 1,
-                Position = AxisPosition.Left
-            };
-
-            categoryAxis1.ActualLabels.Add("1");
-            categoryAxis1.ActualLabels.Add("2");
-            categoryAxis1.ActualLabels.Add("3");
-            categoryAxis1.ActualLabels.Add("4");
-            categoryAxis1.ActualLabels.Add("5");
-            categoryAxis1.ActualLabels.Add("6");
-            categoryAxis1.ActualLabels.Add("7");
-            categoryAxis1.ActualLabels.Add("8");
-            categoryAxis1.ActualLabels.Add("9");
-            categoryAxis1.ActualLabels.Add("10");
-            categoryAxis1.ActualLabels.Add("11");
-            categoryAxis1.ActualLabels.Add("12");
-            categoryAxis1.ActualLabels.Add("13");
-            categoryAxis1.ActualLabels.Add("14");
-            categoryAxis1.ActualLabels.Add("15");
-            categoryAxis1.ActualLabels.Add("16");
-            categoryAxis1.ActualLabels.Add("17");
-            categoryAxis1.ActualLabels.Add("18");
-            categoryAxis1.ActualLabels.Add("19");
-            categoryAxis1.ActualLabels.Add("20");
-            categoryAxis1.ActualLabels.Reverse();
-
-            var XAxis = new LinearAxis
-            {
-                MinimumPadding = 0,
-                MaximumPadding = 0,
-                TickStyle = TickStyle.Inside,
-                MajorGridlineStyle = LineStyle.None,
-                MajorStep = 100,
-                MinorGridlineStyle = LineStyle.None,
-                MinorTickSize = 0,
-                MinorStep = 100,
-                Position = AxisPosition.Bottom,
-                AxislineStyle = LineStyle.Solid,
-                AxislineColor = color,
-                MajorGridlineColor = color,
-                MinorGridlineColor = color,
-                TicklineColor = color,
-                ExtraGridlineColor = color,
-                TextColor = color,
-                Minimum = 0
-            };
-
-            var barSeries1 = new BarSeries { LabelFormatString = "{0}", ValueField = "Value" };
-
-            HistogramView.Axes.Add(categoryAxis1);
-            HistogramView.Axes.Add(XAxis);
-            HistogramView.Series.Add(barSeries1);
         }
     }
 }

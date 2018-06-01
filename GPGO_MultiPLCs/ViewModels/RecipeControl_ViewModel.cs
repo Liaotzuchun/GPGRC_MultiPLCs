@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
-using MongoDB.Bson.Serialization;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -122,7 +121,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
             SelectedCommand = new RelayCommand(e =>
                                                {
-                                                   Selected_PLC_Recipe = ((PLC_Recipe)e).Copy();
+                                                   if (e != null)
+                                                   {
+                                                       Selected_PLC_Recipe = ((PLC_Recipe)e).Copy();
+                                                   }
                                                });
 
             SaveCommand = new RelayCommand(async e =>
@@ -182,27 +184,26 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
 
-            try
+            if (result != null)
             {
-                var db = Mongo_Client.GetDatabase("GP");
-                var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
-
-                foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
+                try
                 {
-                    recipe.Used_Stations[index] = false;
-                    await Sets.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, recipe.Used_Stations));
-                }
+                    var db = Mongo_Client.GetDatabase("GP");
+                    var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
 
-                if (result != null)
-                {
+                    foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
+                    {
+                        recipe.Used_Stations[index] = false;
+                        await Sets.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, recipe.Used_Stations));
+                    }
+
                     result.Used_Stations[index] = true;
+                    await Sets.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, result.Used_Stations));
                 }
-
-                await Sets.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, result.Used_Stations));
-            }
-            catch (Exception ex)
-            {
-                ErrorRecoder.RecordError(ex);
+                catch (Exception ex)
+                {
+                    ErrorRecoder.RecordError(ex);
+                }
             }
 
             return result;
