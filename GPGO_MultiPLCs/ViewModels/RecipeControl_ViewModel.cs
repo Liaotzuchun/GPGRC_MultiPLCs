@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
+using MongoDB.Bson.Serialization;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -179,6 +180,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async Task<PLC_Recipe> GetRecipe(int index, string name)
         {
+            var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
+
             try
             {
                 var db = Mongo_Client.GetDatabase("GP");
@@ -187,25 +190,22 @@ namespace GPGO_MultiPLCs.ViewModels
                 foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
                 {
                     recipe.Used_Stations[index] = false;
-                    await Sets.ReplaceOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), recipe, new UpdateOptions { IsUpsert = true });
+                    await Sets.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, recipe.Used_Stations));
                 }
-
-                var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
 
                 if (result != null)
                 {
                     result.Used_Stations[index] = true;
                 }
 
-                await Sets.ReplaceOneAsync(x => x.RecipeName.Equals(result.RecipeName), result, new UpdateOptions { IsUpsert = true });
-                Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
+                await Sets.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, result.Used_Stations));
             }
             catch (Exception ex)
             {
                 ErrorRecoder.RecordError(ex);
             }
 
-            return Recipes.FirstOrDefault(x => x.RecipeName == name);
+            return result;
         }
 
         private async Task Save(string name)
