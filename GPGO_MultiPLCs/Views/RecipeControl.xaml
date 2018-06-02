@@ -1094,7 +1094,6 @@
                 </Button>
             </Grid>
             <DataGrid
-                x:Name="DG"
                 Grid.Row="1"
                 Margin="0,4,0,0"
                 local:DataGridBehavior.DisplayRowNumber="True"
@@ -1110,16 +1109,12 @@
                 IsReadOnly="True"
                 IsSynchronizedWithCurrentItem="False"
                 ItemsSource="{Binding ViewRecipes, Mode=OneWay}"
+                SelectedItem="{Binding Selected_PLC_Recipe, Mode=TwoWay}"
                 SelectionMode="Single"
                 VerticalGridLinesBrush="{StaticResource WindowBackgroundBrush4}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding InitialLoadCommand, Mode=OneTime}" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction
-                            Command="{Binding SelectedCommand, Mode=OneTime}"
-                            CommandParameter="{Binding SelectedItem, Mode=OneWay, ElementName=DG}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <DataGrid.Style>
@@ -1200,8 +1195,10 @@
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Selected_PLC_Recipe, Mode=OneWay}" Value="{x:Null}">
-                                <Setter Property="SelectedIndex" Value="-1"/>
+                            <DataTrigger
+                                Binding="{Binding Selected_PLC_Recipe, Mode=OneWay}"
+                                Value="{x:Null}">
+                                <Setter Property="SelectedIndex" Value="-1" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

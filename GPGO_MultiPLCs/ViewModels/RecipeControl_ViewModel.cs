@@ -17,7 +17,6 @@ namespace GPGO_MultiPLCs.ViewModels
         private PLC_Recipe _Selected_PLC_Recipe;
         private bool _Standby;
         private string _TypedName;
-
         private List<PLC_Recipe> _ViewRecipes;
         private List<PLC_Recipe> Recipes;
 
@@ -26,7 +25,7 @@ namespace GPGO_MultiPLCs.ViewModels
             get => _Selected_PLC_Recipe;
             set
             {
-                _Selected_PLC_Recipe = value;
+                _Selected_PLC_Recipe = value?.Copy();
 
                 if (_Selected_PLC_Recipe != null)
                 {
@@ -70,7 +69,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 _TypedName = value.Length > 26 ? value.Substring(0, 26) : value;
                 NotifyPropertyChanged();
 
-                _Selected_PLC_Recipe = Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName);
+                _Selected_PLC_Recipe = Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
                 NotifyPropertyChanged(nameof(Selected_PLC_Recipe));
                 NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
@@ -99,7 +98,6 @@ namespace GPGO_MultiPLCs.ViewModels
         public bool Delete_Enable => _Selected_PLC_Recipe != null && !_Selected_PLC_Recipe.Used_Stations.Any(x => x);
 
         public RelayCommand InitialLoadCommand { get; }
-        public RelayCommand SelectedCommand { get; }
         public RelayCommand SaveCommand { get; }
         public RelayCommand ResetCommand { get; }
         public RelayCommand AddCommand { get; }
@@ -119,14 +117,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                       Standby = true;
                                                   });
-
-            SelectedCommand = new RelayCommand(e =>
-                                               {
-                                                   if (e != null)
-                                                   {
-                                                       Selected_PLC_Recipe = ((PLC_Recipe)e).Copy();
-                                                   }
-                                               });
 
             SaveCommand = new RelayCommand(async e =>
                                            {
