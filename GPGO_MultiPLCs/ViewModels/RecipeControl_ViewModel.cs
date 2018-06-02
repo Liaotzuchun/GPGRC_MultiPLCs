@@ -14,29 +14,37 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private readonly MongoClient Mongo_Client;
         private string _SearchName;
+        private int _Selected_PLC_Recipe_Index;
         private PLC_Recipe _Selected_PLC_Recipe;
         private bool _Standby;
         private string _TypedName;
         private List<PLC_Recipe> _ViewRecipes;
         private List<PLC_Recipe> Recipes;
 
+        public int Selected_PLC_Recipe_Index
+        {
+            get => _Selected_PLC_Recipe_Index;
+            set
+            {
+                _Selected_PLC_Recipe_Index = value;
+
+                if (_Selected_PLC_Recipe_Index > -1)
+                {
+                    var recipe = _ViewRecipes[_Selected_PLC_Recipe_Index];
+                    TypedName = recipe.RecipeName;
+                }
+
+                NotifyPropertyChanged();
+            }
+        }
+
         public PLC_Recipe Selected_PLC_Recipe
         {
             get => _Selected_PLC_Recipe;
             set
             {
-                _Selected_PLC_Recipe = value?.Copy();
-
-                if (_Selected_PLC_Recipe != null)
-                {
-                    _TypedName = _Selected_PLC_Recipe.RecipeName;
-                    NotifyPropertyChanged(nameof(TypedName));
-                }
-
+                _Selected_PLC_Recipe = value;
                 NotifyPropertyChanged();
-                NotifyPropertyChanged(nameof(Save_Enable));
-                NotifyPropertyChanged(nameof(Add_Enable));
-                NotifyPropertyChanged(nameof(Delete_Enable));
             }
         }
 
@@ -69,8 +77,23 @@ namespace GPGO_MultiPLCs.ViewModels
                 _TypedName = value.Length > 26 ? value.Substring(0, 26) : value;
                 NotifyPropertyChanged();
 
-                _Selected_PLC_Recipe = Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
-                NotifyPropertyChanged(nameof(Selected_PLC_Recipe));
+                if (_ViewRecipes != null)
+                {
+                    var index = -1;
+                    for (var i = 0; i < _ViewRecipes.Count; i++)
+                    {
+                        if (_ViewRecipes[i].RecipeName == _TypedName)
+                        {
+                            index = i;
+                        }
+                    }
+
+                    _Selected_PLC_Recipe_Index = index;
+                    NotifyPropertyChanged(nameof(Selected_PLC_Recipe_Index));
+                }
+
+                Selected_PLC_Recipe = Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
+
                 NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
                 NotifyPropertyChanged(nameof(Delete_Enable));
@@ -234,7 +257,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                     if (temp.Count > 0)
                     {
-                        Selected_PLC_Recipe = temp[0];
+                        TypedName = temp[0].RecipeName;
 
                         RecipeLoadedEvent?.Invoke();
                     }
