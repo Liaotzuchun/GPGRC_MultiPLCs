@@ -77,20 +77,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 _TypedName = value.Length > 26 ? value.Substring(0, 26) : value;
                 NotifyPropertyChanged();
 
-                if (_ViewRecipes != null)
-                {
-                    var index = -1;
-                    for (var i = 0; i < _ViewRecipes.Count; i++)
-                    {
-                        if (_ViewRecipes[i].RecipeName == _TypedName)
-                        {
-                            index = i;
-                        }
-                    }
-
-                    _Selected_PLC_Recipe_Index = index;
-                    NotifyPropertyChanged(nameof(Selected_PLC_Recipe_Index));
-                }
+                _Selected_PLC_Recipe_Index = _ViewRecipes?.FindIndex(x => x.RecipeName == _TypedName) ?? -1;
+                NotifyPropertyChanged(nameof(Selected_PLC_Recipe_Index));
 
                 Selected_PLC_Recipe = Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
 
