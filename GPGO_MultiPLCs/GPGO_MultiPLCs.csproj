@@ -166,7 +166,6 @@
     <Compile Include="Helpers\TwoKeyDictionary.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Compile Include="ViewModels\TotalView_ViewModel.cs" />
-    <Compile Include="Views\Helpers\DataGridBehavior.cs" />
     <Compile Include="Views\Helpers\TextBoxFocusBehavior.cs" />
     <Compile Include="Views\Helpers\UniformGrid_Custom.cs" />
     <Compile Include="Views\Helpers\ValidationRules.cs" />

@@ -71,7 +71,7 @@
         <Style
             x:Key="RowHeaderStyle"
             TargetType="DataGridRowHeader">
-            <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
             <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
             <Setter Property="BorderThickness" Value="0,0,1,1" />
             <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
@@ -82,15 +82,16 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter
-                                Margin="4"
+                            <TextBlock
+                                Margin="4,0"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
+                                VerticalAlignment="Center"
+                                Text="{Binding (FrameworkElement.TemplatedParent).(DataGridRow.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
+            <!--<Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{StaticResource DarkBrush}" />
                     <Setter Property="Foreground" Value="White" />
@@ -99,7 +100,7 @@
                     <Setter Property="Background" Value="{StaticResource PressedBrush}" />
                     <Setter Property="Foreground" Value="White" />
                 </Trigger>
-            </Style.Triggers>
+            </Style.Triggers>-->
         </Style>
         <Style
             x:Key="DataGridRowStyle"
@@ -1106,7 +1107,7 @@
             <DataGrid
                 Grid.Row="1"
                 Margin="0,4,0,0"
-                local:DataGridBehavior.DisplayRowNumber="True"
+                AlternationCount="{Binding Items.Count, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 AutoGenerateColumns="False"
                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                 BorderThickness="0"
@@ -1157,6 +1158,7 @@
                                                         </Grid.RowDefinitions>
                                                         <Border
                                                             Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                            Background="{StaticResource WindowBackgroundBrush2}"
                                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                             BorderThickness="0,0,1,1"
                                                             Focusable="False"
