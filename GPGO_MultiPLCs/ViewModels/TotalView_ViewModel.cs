@@ -100,7 +100,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public PLC_Data PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
 
-        public TotalView_ViewModel(IDialogService dialog)
+        public TotalView_ViewModel(IDialogService<string> dialog)
         {
             IniPlotView();
 

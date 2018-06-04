@@ -11,16 +11,18 @@
     Visibility="{Binding IsShown, Mode=OneWay}"
     mc:Ignorable="d">
 
-    <TabControl>
-        <TabItem
-            Width="0"
-            Height="0">
-            <Border Background="#7FFFFFFF">
+    <Border Background="#7F333333">
+        <TabControl
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <TabItem
+                Width="0"
+                Height="0">
                 <Border
                     Width="400"
                     Height="200"
-                    Background="White"
-                    BorderBrush="Gray"
+                    Background="{StaticResource LightColorBrush}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="1">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -28,8 +30,8 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Border
-                            Background="Gold"
-                            BorderBrush="Gray"
+                            Background="{StaticResource WorkingBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="0,0,0,1">
                             <TextBlock
                                 HorizontalAlignment="Center"
@@ -78,7 +80,69 @@
                         </Grid>
                     </Grid>
                 </Border>
-            </Border>
-        </TabItem>
-    </TabControl>
+            </TabItem>
+            <TabItem
+                Width="0"
+                Height="0">
+                <Border
+                    Width="400"
+                    Height="200"
+                    Background="{StaticResource LightColorBrush}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Background="{StaticResource WindowBackgroundBrush3}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1" />
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Viewbox Margin="20,8,20,4">
+                                <TextBlock
+                                    Text="{Binding Message, Mode=OneWay}"
+                                    TextAlignment="Center"
+                                    TextWrapping="WrapWithOverflow" />
+                            </Viewbox>
+                            <TextBox Grid.Row="1" Margin="20,4"/>
+                            <StackPanel
+                                Grid.Row="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                TextElement.FontSize="20">
+                                <Button
+                                    Margin="4,8"
+                                    Padding="12,8"
+                                    Content="確定">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding OkayCommand, Mode=OneTime}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                                <Button
+                                    Margin="4,8"
+                                    Padding="12,8"
+                                    Content="取消">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding CancelCommand, Mode=OneTime}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </TabItem>
+        </TabControl>
+    </Border>
 </UserControl>

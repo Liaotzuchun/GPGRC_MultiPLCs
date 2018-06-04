@@ -114,7 +114,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand AddCommand { get; }
         public RelayCommand DeleteCommand { get; }
 
-        public RecipeControl_ViewModel(MongoClient mongo, IDialogService dialog)
+        public RecipeControl_ViewModel(MongoClient mongo, IDialogService<string> dialog)
         {
             Mongo_Client = mongo;
             InitialLoadCommand = new RelayCommand(async e =>
