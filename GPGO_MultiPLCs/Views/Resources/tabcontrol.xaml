@@ -137,6 +137,7 @@
         x:Key="RightTabItem"
         TargetType="{x:Type TabItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -165,15 +166,12 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Panel.ZIndex" Value="100" />
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-                            <Setter TargetName="Border" Property="Background"
-                                    Value="{StaticResource DisabledBackgroundBrush}" />
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource DisabledBorderBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -187,6 +185,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">

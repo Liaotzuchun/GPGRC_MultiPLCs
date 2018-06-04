@@ -12,8 +12,11 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public async Task<(bool result, string intput)> ShowWithIntput(string msg)
         {
-            Result = false;
+            Intput = "";
+            ConditionResult = null;
+            EnterResult = false;
             SupportCancel = true;
+            WithIntput = true;
             Message = msg;
             IsShown = Visibility.Visible;
 
@@ -25,55 +28,61 @@ namespace GPGO_MultiPLCs.ViewModels
 
             IsShown = Visibility.Collapsed;
 
-            return (Result, _Intput);
+            return (EnterResult, Intput);
         }
 
-        public async Task<(bool result, string intput)> ShowWithIntput(string msg, string condition)
+        public async Task<(bool result, string intput)> ShowWithIntput(string msg, Func<string, (bool result, string error_msg)> condition)
         {
-            Result = false;
+            Title = "";
+            Intput = "";
+            ConditionResult = null;
+            EnterResult = false;
             SupportCancel = true;
+            WithIntput = true;
             Message = msg;
             IsShown = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            do
+                                            while (true)
                                             {
                                                 Lock.WaitOne(30000);
-                                            } while (Result && _Intput != condition);
+
+                                                var (result, error_msg) = condition(_Intput);
+
+                                                if (EnterResult)
+                                                {
+                                                    ConditionResult = result;
+                                                }
+
+                                                if (_ConditionResult != null && EnterResult && !_ConditionResult.Value)
+                                                {
+                                                    Title = error_msg;
+                                                    Intput = "";
+                                                }
+                                                else
+                                                {
+                                                    if (EnterResult)
+                                                    {
+                                                        Thread.Sleep(450);
+                                                    }
+
+                                                    break;
+                                                }
+                                            }
                                         },
                                         TaskCreationOptions.LongRunning);
 
             IsShown = Visibility.Collapsed;
 
-            return (Result && _Intput == condition, _Intput);
-        }
-
-        public async Task<(bool result, string intput)> ShowWithIntput(string msg, IEnumerable<string> conditions)
-        {
-            Result = false;
-            SupportCancel = true;
-            Message = msg;
-            IsShown = Visibility.Visible;
-
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            do
-                                            {
-                                                Lock.WaitOne(30000);
-                                            } while (Result && conditions.All(x => x != _Intput));
-                                        },
-                                        TaskCreationOptions.LongRunning);
-
-            IsShown = Visibility.Collapsed;
-
-            return (Result && conditions.Any(x => x == _Intput), _Intput);
+            return (_ConditionResult != null && EnterResult && _ConditionResult.Value, Intput);
         }
 
         public async Task<bool> Show(string msg, bool support_cancel)
         {
-            Result = false;
+            EnterResult = false;
             SupportCancel = support_cancel;
+            WithIntput = false;
             Message = msg;
             IsShown = Visibility.Visible;
 
@@ -85,12 +94,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
             IsShown = Visibility.Collapsed;
 
-            return Result;
+            return EnterResult;
         }
 
         public async Task Show(string msg, TimeSpan delay)
         {
             Message = msg;
+            WithIntput = false;
             IsShown = Visibility.Visible;
 
             await Task.Delay(delay);
@@ -98,14 +108,26 @@ namespace GPGO_MultiPLCs.ViewModels
             IsShown = Visibility.Collapsed;
         }
 
+        private bool EnterResult;
         private readonly AutoResetEvent Lock;
         private bool _EnterEnable;
-        private string _Intput;
+        private string _Intput = "";
+        private string _Title = "";
         private Visibility _IsShown = Visibility.Collapsed;
         private string _Message;
-        private bool Result;
-
+        private bool _WithIntput;
+        private bool? _ConditionResult;
         private bool _SupportCancel;
+
+        public bool? ConditionResult
+        {
+            get => _ConditionResult;
+            set
+            {
+                _ConditionResult = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public bool SupportCancel
         {
@@ -123,6 +145,15 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _Intput = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public string Title
+        {
+            get => _Title;
+            set
+            {
+                _Title = value;
                 NotifyPropertyChanged();
             }
         }
@@ -157,6 +188,16 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public bool WithIntput
+        {
+            get => _WithIntput;
+            set
+            {
+                _WithIntput = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public RelayCommand OkayCommand { get; }
         public RelayCommand CancelCommand { get; }
 
@@ -166,13 +207,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
             OkayCommand = new RelayCommand(e =>
                                            {
-                                               Result = true;
+                                               EnterResult = true;
                                                Lock.Set();
                                            });
 
             CancelCommand = new RelayCommand(e =>
                                              {
-                                                 Result = false;
+                                                 EnterResult = false;
                                                  Lock.Set();
                                              });
         }

@@ -8,9 +8,7 @@ namespace GPGO_MultiPLCs.Helpers
     {
         Task<(bool result, T intput)> ShowWithIntput(string msg);
 
-        Task<(bool result, T intput)> ShowWithIntput(string msg, T condition);
-
-        Task<(bool result, T intput)> ShowWithIntput(string msg, IEnumerable<T> conditions);
+        Task<(bool result, T intput)> ShowWithIntput(string msg, Func<T, (bool result, string error_msg)> condition_fun);
 
         Task<bool> Show(string msg, bool support_cancel);
 

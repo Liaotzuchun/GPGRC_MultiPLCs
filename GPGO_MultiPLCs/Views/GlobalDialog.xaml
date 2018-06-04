@@ -14,16 +14,15 @@
     <Border Background="#7F333333">
         <TabControl
             HorizontalAlignment="Center"
-            VerticalAlignment="Center">
+            VerticalAlignment="Center"
+            SelectedIndex="{Binding WithIntput, Mode=OneWay}">
             <TabItem
                 Width="0"
                 Height="0">
                 <Border
                     Width="400"
                     Height="200"
-                    Background="{StaticResource LightColorBrush}"
-                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                    BorderThickness="1">
+                    Background="{StaticResource LightColorBrush}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
@@ -31,8 +30,8 @@
                         </Grid.RowDefinitions>
                         <Border
                             Background="{StaticResource WorkingBrush}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,0,1">
+                            BorderBrush="{StaticResource WorkingBorderBrush}"
+                            BorderThickness="1">
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
@@ -87,18 +86,44 @@
                 <Border
                     Width="400"
                     Height="200"
-                    Background="{StaticResource LightColorBrush}"
-                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                    BorderThickness="1">
+                    Background="{StaticResource LightColorBrush}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Border
-                            Background="{StaticResource WindowBackgroundBrush3}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,0,1" />
+                            Background="{StaticResource WorkingBrush}"
+                            BorderBrush="{StaticResource WorkingBorderBrush}"
+                            BorderThickness="1" />
+                        <Border
+                            BorderThickness="1"
+                            Visibility="{Binding ConditionResult, Mode=OneWay, Converter={StaticResource NullVis}}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding ConditionResult, Mode=OneWay}"
+                                            Value="False">
+                                            <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
+                                            <Setter Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding ConditionResult, Mode=OneWay}"
+                                            Value="True">
+                                            <Setter Property="Background" Value="{StaticResource OKBrush}" />
+                                            <Setter Property="BorderBrush" Value="{StaticResource OKBorderBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Foreground="White"
+                                Text="{Binding Title, Mode=OneWay}" />
+                        </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -111,7 +136,13 @@
                                     TextAlignment="Center"
                                     TextWrapping="WrapWithOverflow" />
                             </Viewbox>
-                            <TextBox Grid.Row="1" Margin="20,4"/>
+                            <TextBox
+                                x:Name="Intput"
+                                Grid.Row="1"
+                                Margin="20,4"
+                                FontSize="20"
+                                IsVisibleChanged="Intput_IsVisibleChanged"
+                                Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <StackPanel
                                 Grid.Row="2"
                                 HorizontalAlignment="Center"

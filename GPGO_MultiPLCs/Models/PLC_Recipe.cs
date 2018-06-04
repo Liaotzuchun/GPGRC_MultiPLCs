@@ -7,14 +7,14 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : ViewModelBase
     {
-        private double _ConstantTemperature_1;
-        private double _ConstantTemperature_2;
-        private double _ConstantTemperature_3;
-        private double _ConstantTemperature_4;
-        private double _ConstantTemperature_5;
-        private double _ConstantTemperature_6;
-        private double _ConstantTemperature_7;
-        private double _ConstantTemperature_8;
+        private double _ThermostaticTemperature_1;
+        private double _ThermostaticTemperature_2;
+        private double _ThermostaticTemperature_3;
+        private double _ThermostaticTemperature_4;
+        private double _ThermostaticTemperature_5;
+        private double _ThermostaticTemperature_6;
+        private double _ThermostaticTemperature_7;
+        private double _ThermostaticTemperature_8;
         private short _ConstantTime_1;
         private short _ConstantTime_2;
         private short _ConstantTime_3;
@@ -143,82 +143,82 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_1
+        public double ThermostaticTemperature_1
         {
-            get => _ConstantTemperature_1;
+            get => _ThermostaticTemperature_1;
             set
             {
-                _ConstantTemperature_1 = value;
+                _ThermostaticTemperature_1 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public double ConstantTemperature_2
+        public double ThermostaticTemperature_2
         {
-            get => _ConstantTemperature_2;
+            get => _ThermostaticTemperature_2;
             set
             {
-                _ConstantTemperature_2 = value;
+                _ThermostaticTemperature_2 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public double ConstantTemperature_3
+        public double ThermostaticTemperature_3
         {
-            get => _ConstantTemperature_3;
+            get => _ThermostaticTemperature_3;
             set
             {
-                _ConstantTemperature_3 = value;
+                _ThermostaticTemperature_3 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public double ConstantTemperature_4
+        public double ThermostaticTemperature_4
         {
-            get => _ConstantTemperature_4;
+            get => _ThermostaticTemperature_4;
             set
             {
-                _ConstantTemperature_4 = value;
+                _ThermostaticTemperature_4 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public double ConstantTemperature_5
+        public double ThermostaticTemperature_5
         {
-            get => _ConstantTemperature_5;
+            get => _ThermostaticTemperature_5;
             set
             {
-                _ConstantTemperature_5 = value;
+                _ThermostaticTemperature_5 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public double ConstantTemperature_6
+        public double ThermostaticTemperature_6
         {
-            get => _ConstantTemperature_6;
+            get => _ThermostaticTemperature_6;
             set
             {
-                _ConstantTemperature_6 = value;
+                _ThermostaticTemperature_6 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public double ConstantTemperature_7
+        public double ThermostaticTemperature_7
         {
-            get => _ConstantTemperature_7;
+            get => _ThermostaticTemperature_7;
             set
             {
-                _ConstantTemperature_7 = value;
+                _ThermostaticTemperature_7 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public double ConstantTemperature_8
+        public double ThermostaticTemperature_8
         {
-            get => _ConstantTemperature_8;
+            get => _ThermostaticTemperature_8;
             set
             {
-                _ConstantTemperature_8 = value;
+                _ThermostaticTemperature_8 = value;
                 NotifyPropertyChanged();
             }
         }
@@ -437,14 +437,14 @@ namespace GPGO_MultiPLCs.Models
         {
             Updated = DateTime.Now;
             RecipeName = string.IsNullOrEmpty(name) ? Updated.Ticks.ToString() : name;
-            ConstantTemperature_1 = 200;
-            ConstantTemperature_2 = 200;
-            ConstantTemperature_3 = 200;
-            ConstantTemperature_4 = 200;
-            ConstantTemperature_5 = 200;
-            ConstantTemperature_6 = 200;
-            ConstantTemperature_7 = 200;
-            ConstantTemperature_8 = 200;
+            ThermostaticTemperature_1 = 200;
+            ThermostaticTemperature_2 = 200;
+            ThermostaticTemperature_3 = 200;
+            ThermostaticTemperature_4 = 200;
+            ThermostaticTemperature_5 = 200;
+            ThermostaticTemperature_6 = 200;
+            ThermostaticTemperature_7 = 200;
+            ThermostaticTemperature_8 = 200;
             ConstantTime_1 = 10;
             ConstantTime_2 = 10;
             ConstantTime_3 = 10;
@@ -480,14 +480,14 @@ namespace GPGO_MultiPLCs.Models
                    {
                        Updated = DateTime.Now,
                        RecipeName = _RecipeName,
-                       ConstantTemperature_1 = _ConstantTemperature_1,
-                       ConstantTemperature_2 = _ConstantTemperature_2,
-                       ConstantTemperature_3 = _ConstantTemperature_3,
-                       ConstantTemperature_4 = _ConstantTemperature_4,
-                       ConstantTemperature_5 = _ConstantTemperature_5,
-                       ConstantTemperature_6 = _ConstantTemperature_6,
-                       ConstantTemperature_7 = _ConstantTemperature_7,
-                       ConstantTemperature_8 = _ConstantTemperature_8,
+                       ThermostaticTemperature_1 = _ThermostaticTemperature_1,
+                       ThermostaticTemperature_2 = _ThermostaticTemperature_2,
+                       ThermostaticTemperature_3 = _ThermostaticTemperature_3,
+                       ThermostaticTemperature_4 = _ThermostaticTemperature_4,
+                       ThermostaticTemperature_5 = _ThermostaticTemperature_5,
+                       ThermostaticTemperature_6 = _ThermostaticTemperature_6,
+                       ThermostaticTemperature_7 = _ThermostaticTemperature_7,
+                       ThermostaticTemperature_8 = _ThermostaticTemperature_8,
                        ConstantTime_1 = _ConstantTime_1,
                        ConstantTime_2 = _ConstantTime_2,
                        ConstantTime_3 = _ConstantTime_3,

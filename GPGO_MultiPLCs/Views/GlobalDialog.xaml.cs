@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views
 {
@@ -10,6 +12,14 @@ namespace GPGO_MultiPLCs.Views
         public GlobalDialog()
         {
             InitializeComponent();
+        }
+
+        private void Intput_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            if(Intput.IsVisible)
+            {
+                Keyboard.Focus(Intput);
+            }
         }
     }
 }

@@ -442,7 +442,7 @@
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
                             TickFrequency="0.1"
-                            Value="{Binding ConstantTemperature_1, Mode=TwoWay}" />
+                            Value="{Binding ThermostaticTemperature_1, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <Slider
@@ -453,7 +453,7 @@
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
                             TickFrequency="0.1"
-                            Value="{Binding ConstantTemperature_2, Mode=TwoWay}" />
+                            Value="{Binding ThermostaticTemperature_2, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <Slider
@@ -464,7 +464,7 @@
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
                             TickFrequency="0.1"
-                            Value="{Binding ConstantTemperature_3, Mode=TwoWay}" />
+                            Value="{Binding ThermostaticTemperature_3, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <Slider
@@ -475,7 +475,7 @@
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
                             TickFrequency="0.1"
-                            Value="{Binding ConstantTemperature_4, Mode=TwoWay}" />
+                            Value="{Binding ThermostaticTemperature_4, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <Slider
@@ -486,7 +486,7 @@
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
                             TickFrequency="0.1"
-                            Value="{Binding ConstantTemperature_5, Mode=TwoWay}" />
+                            Value="{Binding ThermostaticTemperature_5, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <Slider
@@ -497,7 +497,7 @@
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
                             TickFrequency="0.1"
-                            Value="{Binding ConstantTemperature_6, Mode=TwoWay}" />
+                            Value="{Binding ThermostaticTemperature_6, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <Slider
@@ -508,7 +508,7 @@
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
                             TickFrequency="0.1"
-                            Value="{Binding ConstantTemperature_7, Mode=TwoWay}" />
+                            Value="{Binding ThermostaticTemperature_7, Mode=TwoWay}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <Slider
@@ -519,7 +519,7 @@
                             Maximum="{Binding Temperature_Max, Mode=OneWay}"
                             Minimum="{Binding Temperature_Min, Mode=OneWay}"
                             TickFrequency="0.1"
-                            Value="{Binding ConstantTemperature_8, Mode=TwoWay}" />
+                            Value="{Binding ThermostaticTemperature_8, Mode=TwoWay}" />
                     </Border>
                 </UniformGrid>
                 <UniformGrid
@@ -578,49 +578,49 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ConstantTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            Text="{Binding ThermostaticTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ConstantTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            Text="{Binding ThermostaticTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ConstantTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            Text="{Binding ThermostaticTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ConstantTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            Text="{Binding ThermostaticTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ConstantTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            Text="{Binding ThermostaticTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ConstantTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            Text="{Binding ThermostaticTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ConstantTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            Text="{Binding ThermostaticTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
                     <Border Background="{StaticResource LightColorBrush}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ConstantTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            Text="{Binding ThermostaticTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
                 </UniformGrid>
                 <UniformGrid

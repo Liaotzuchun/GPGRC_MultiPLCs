@@ -207,7 +207,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             for (var i = 0; i < PLC_Count; i++)
             {
-                PLC_All[i] = new PLC_Data(M_List, D_List, Recipe_List);
+                PLC_All[i] = new PLC_Data(M_List, D_List, Recipe_List, dialog);
                 var j = i;
                 PLC_All[i].SwitchRecipeEvent += recipe =>
                                                 {
@@ -307,14 +307,14 @@ namespace GPGO_MultiPLCs.ViewModels
             PLC_All[index].HeatingTime_6 = recipe.HeatingTime_6;
             PLC_All[index].HeatingTime_7 = recipe.HeatingTime_7;
             PLC_All[index].HeatingTime_8 = recipe.HeatingTime_8;
-            PLC_All[index].ConstantTemperature_1 = recipe.ConstantTemperature_1;
-            PLC_All[index].ConstantTemperature_2 = recipe.ConstantTemperature_2;
-            PLC_All[index].ConstantTemperature_3 = recipe.ConstantTemperature_3;
-            PLC_All[index].ConstantTemperature_4 = recipe.ConstantTemperature_4;
-            PLC_All[index].ConstantTemperature_5 = recipe.ConstantTemperature_5;
-            PLC_All[index].ConstantTemperature_6 = recipe.ConstantTemperature_6;
-            PLC_All[index].ConstantTemperature_7 = recipe.ConstantTemperature_7;
-            PLC_All[index].ConstantTemperature_8 = recipe.ConstantTemperature_8;
+            PLC_All[index].ThermostaticTemperature_1 = recipe.ThermostaticTemperature_1;
+            PLC_All[index].ThermostaticTemperature_2 = recipe.ThermostaticTemperature_2;
+            PLC_All[index].ThermostaticTemperature_3 = recipe.ThermostaticTemperature_3;
+            PLC_All[index].ThermostaticTemperature_4 = recipe.ThermostaticTemperature_4;
+            PLC_All[index].ThermostaticTemperature_5 = recipe.ThermostaticTemperature_5;
+            PLC_All[index].ThermostaticTemperature_6 = recipe.ThermostaticTemperature_6;
+            PLC_All[index].ThermostaticTemperature_7 = recipe.ThermostaticTemperature_7;
+            PLC_All[index].ThermostaticTemperature_8 = recipe.ThermostaticTemperature_8;
             PLC_All[index].ConstantTime_1 = recipe.ConstantTime_1;
             PLC_All[index].ConstantTime_2 = recipe.ConstantTime_2;
             PLC_All[index].ConstantTime_3 = recipe.ConstantTime_3;

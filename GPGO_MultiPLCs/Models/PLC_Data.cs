@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls.Primitives;
 using GPGO_MultiPLCs.Helpers;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -26,6 +27,7 @@ namespace GPGO_MultiPLCs.Models
         public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
         public PlotModel RecordView { get; }
         public ProcessInfo Process_Info { get; }
+        public RelayCommand CheckInCommand { get; }
 
         public bool OnlineStatus
         {
@@ -92,12 +94,46 @@ namespace GPGO_MultiPLCs.Models
                     return "降溫中";
                 }
 
-                return CurrentSegment % 2 == 0 ? "恆溫中" : "升溫中";
+                return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? "準備中" : "恆溫中" : "升溫中";
             }
         }
 
-        public PLC_Data(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList)
+        public PLC_Data(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
         {
+            CheckInCommand = new RelayCommand(async o =>
+                                              {
+                                                  var (result1, intput1) = await dialog.ShowWithIntput("請輸入操作人員ID",
+                                                                                                       x =>
+                                                                                                       {
+                                                                                                           var str = x.Trim();
+                                                                                                           return (str.Length > 0 && str.Length < 8, "字數錯誤，請重試!");
+                                                                                                       });
+
+                                                  if (result1)
+                                                  {
+                                                      var (result2, intput2) = await dialog.ShowWithIntput("請輸入台車Code",
+                                                                                                           x =>
+                                                                                                           {
+                                                                                                               var str = x.Trim();
+                                                                                                               return (str.Length > 0 && str.Length < 4, "字數錯誤，請重試!");
+                                                                                                           });
+
+                                                      if (result2)
+                                                      {
+                                                          Process_Info.OperatorID = intput1;
+                                                          Process_Info.TrolleyCode = intput2;
+                                                      }
+                                                      else
+                                                      {
+                                                          ((ToggleButton)o).IsChecked = false;
+                                                      }
+                                                  }
+                                                  else
+                                                  {
+                                                      ((ToggleButton)o).IsChecked = false;
+                                                  }
+                                              });
+
             var color = OxyColor.FromRgb(50, 70, 60);
 
             RecordView = new PlotModel
@@ -308,35 +344,35 @@ namespace GPGO_MultiPLCs.Models
                             { DataNames.爐內溫度_8, nameof(OvenTemperature_8) },
                             { DataNames.目標溫度_1, nameof(TargetTemperature_1) },
                             { DataNames.升溫時間_1, nameof(HeatingTime_1) },
-                            { DataNames.恆溫溫度_1, nameof(ConstantTemperature_1) },
+                            { DataNames.恆溫溫度_1, nameof(ThermostaticTemperature_1) },
                             { DataNames.恆溫時間_1, nameof(ConstantTime_1) },
                             { DataNames.目標溫度_2, nameof(TargetTemperature_2) },
                             { DataNames.升溫時間_2, nameof(HeatingTime_2) },
-                            { DataNames.恆溫溫度_2, nameof(ConstantTemperature_2) },
+                            { DataNames.恆溫溫度_2, nameof(ThermostaticTemperature_2) },
                             { DataNames.恆溫時間_2, nameof(ConstantTime_2) },
                             { DataNames.目標溫度_3, nameof(TargetTemperature_3) },
                             { DataNames.升溫時間_3, nameof(HeatingTime_3) },
-                            { DataNames.恆溫溫度_3, nameof(ConstantTemperature_3) },
+                            { DataNames.恆溫溫度_3, nameof(ThermostaticTemperature_3) },
                             { DataNames.恆溫時間_3, nameof(ConstantTime_3) },
                             { DataNames.目標溫度_4, nameof(TargetTemperature_4) },
                             { DataNames.升溫時間_4, nameof(HeatingTime_4) },
-                            { DataNames.恆溫溫度_4, nameof(ConstantTemperature_4) },
+                            { DataNames.恆溫溫度_4, nameof(ThermostaticTemperature_4) },
                             { DataNames.恆溫時間_4, nameof(ConstantTime_4) },
                             { DataNames.目標溫度_5, nameof(TargetTemperature_5) },
                             { DataNames.升溫時間_5, nameof(HeatingTime_5) },
-                            { DataNames.恆溫溫度_5, nameof(ConstantTemperature_5) },
+                            { DataNames.恆溫溫度_5, nameof(ThermostaticTemperature_5) },
                             { DataNames.恆溫時間_5, nameof(ConstantTime_5) },
                             { DataNames.目標溫度_6, nameof(TargetTemperature_6) },
                             { DataNames.升溫時間_6, nameof(HeatingTime_6) },
-                            { DataNames.恆溫溫度_6, nameof(ConstantTemperature_6) },
+                            { DataNames.恆溫溫度_6, nameof(ThermostaticTemperature_6) },
                             { DataNames.恆溫時間_6, nameof(ConstantTime_6) },
                             { DataNames.目標溫度_7, nameof(TargetTemperature_7) },
                             { DataNames.升溫時間_7, nameof(HeatingTime_7) },
-                            { DataNames.恆溫溫度_7, nameof(ConstantTemperature_7) },
+                            { DataNames.恆溫溫度_7, nameof(ThermostaticTemperature_7) },
                             { DataNames.恆溫時間_7, nameof(ConstantTime_7) },
                             { DataNames.目標溫度_8, nameof(TargetTemperature_8) },
                             { DataNames.升溫時間_8, nameof(HeatingTime_8) },
-                            { DataNames.恆溫溫度_8, nameof(ConstantTemperature_8) },
+                            { DataNames.恆溫溫度_8, nameof(ThermostaticTemperature_8) },
                             { DataNames.恆溫時間_8, nameof(ConstantTime_8) },
                             { DataNames.降溫溫度, nameof(CoolingTemperature) },
                             { DataNames.充氣時間, nameof(InflatingTime) },
@@ -576,7 +612,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_1
+        public double ThermostaticTemperature_1
         {
             get => Recipe_Values[DataNames.恆溫溫度_1] * 0.1;
             set
@@ -586,7 +622,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_2
+        public double ThermostaticTemperature_2
         {
             get => Recipe_Values[DataNames.恆溫溫度_2] * 0.1;
             set
@@ -596,7 +632,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_3
+        public double ThermostaticTemperature_3
         {
             get => Recipe_Values[DataNames.恆溫溫度_3] * 0.1;
             set
@@ -606,7 +642,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_4
+        public double ThermostaticTemperature_4
         {
             get => Recipe_Values[DataNames.恆溫溫度_4] * 0.1;
             set
@@ -616,7 +652,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_5
+        public double ThermostaticTemperature_5
         {
             get => Recipe_Values[DataNames.恆溫溫度_5] * 0.1;
             set
@@ -626,7 +662,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_6
+        public double ThermostaticTemperature_6
         {
             get => Recipe_Values[DataNames.恆溫溫度_6] * 0.1;
             set
@@ -636,7 +672,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_7
+        public double ThermostaticTemperature_7
         {
             get => Recipe_Values[DataNames.恆溫溫度_7] * 0.1;
             set
@@ -646,7 +682,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double ConstantTemperature_8
+        public double ThermostaticTemperature_8
         {
             get => Recipe_Values[DataNames.恆溫溫度_8] * 0.1;
             set
