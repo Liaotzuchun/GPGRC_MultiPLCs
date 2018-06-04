@@ -14,9 +14,9 @@ namespace GPGO_MultiPLCs.Views
             InitializeComponent();
         }
 
-        private void Intput_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        private void Intput_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if(Intput.IsVisible)
+            if (Intput.IsVisible)
             {
                 Keyboard.Focus(Intput);
             }

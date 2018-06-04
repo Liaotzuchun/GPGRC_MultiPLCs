@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -108,16 +106,17 @@ namespace GPGO_MultiPLCs.ViewModels
             IsShown = Visibility.Collapsed;
         }
 
-        private bool EnterResult;
         private readonly AutoResetEvent Lock;
+        private bool? _ConditionResult;
         private bool _EnterEnable;
         private string _Intput = "";
-        private string _Title = "";
         private Visibility _IsShown = Visibility.Collapsed;
         private string _Message;
-        private bool _WithIntput;
-        private bool? _ConditionResult;
         private bool _SupportCancel;
+        private string _Title = "";
+        private bool _WithIntput;
+
+        private bool EnterResult;
 
         public bool? ConditionResult
         {
@@ -148,6 +147,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged();
             }
         }
+
         public string Title
         {
             get => _Title;

@@ -102,7 +102,11 @@ namespace GPGO_MultiPLCs.Models
         {
             CheckInCommand = new RelayCommand(async o =>
                                               {
-                                                  var (result1, intput1) = await dialog.ShowWithIntput("請輸入操作人員ID",
+                                                  var obj = (List<object>)o;
+                                                  var tb = (ToggleButton)obj[0];
+                                                  var para = (string)obj[1];
+
+                                                  var (result1, intput1) = await dialog.ShowWithIntput("第" + para + "站，輸入操作人員ID",
                                                                                                        x =>
                                                                                                        {
                                                                                                            var str = x.Trim();
@@ -111,7 +115,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                   if (result1)
                                                   {
-                                                      var (result2, intput2) = await dialog.ShowWithIntput("請輸入台車Code",
+                                                      var (result2, intput2) = await dialog.ShowWithIntput("第" + para + "站，輸入台車Code",
                                                                                                            x =>
                                                                                                            {
                                                                                                                var str = x.Trim();
@@ -125,12 +129,12 @@ namespace GPGO_MultiPLCs.Models
                                                       }
                                                       else
                                                       {
-                                                          ((ToggleButton)o).IsChecked = false;
+                                                          tb.IsChecked = false;
                                                       }
                                                   }
                                                   else
                                                   {
-                                                      ((ToggleButton)o).IsChecked = false;
+                                                      tb.IsChecked = false;
                                                   }
                                               });
 

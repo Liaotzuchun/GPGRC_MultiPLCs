@@ -7,14 +7,6 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : ViewModelBase
     {
-        private double _ThermostaticTemperature_1;
-        private double _ThermostaticTemperature_2;
-        private double _ThermostaticTemperature_3;
-        private double _ThermostaticTemperature_4;
-        private double _ThermostaticTemperature_5;
-        private double _ThermostaticTemperature_6;
-        private double _ThermostaticTemperature_7;
-        private double _ThermostaticTemperature_8;
         private short _ConstantTime_1;
         private short _ConstantTime_2;
         private short _ConstantTime_3;
@@ -42,6 +34,14 @@ namespace GPGO_MultiPLCs.Models
         private double _TargetTemperature_6;
         private double _TargetTemperature_7;
         private double _TargetTemperature_8;
+        private double _ThermostaticTemperature_1;
+        private double _ThermostaticTemperature_2;
+        private double _ThermostaticTemperature_3;
+        private double _ThermostaticTemperature_4;
+        private double _ThermostaticTemperature_5;
+        private double _ThermostaticTemperature_6;
+        private double _ThermostaticTemperature_7;
+        private double _ThermostaticTemperature_8;
         private DateTime _Updated;
         private bool[] _Used_Stations = new bool[20];
         private short _UsedSegmentCounts;

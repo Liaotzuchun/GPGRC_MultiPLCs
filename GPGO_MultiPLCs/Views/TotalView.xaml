@@ -51,7 +51,8 @@
                                     d:DataContext="{d:DesignInstance m:PLC_Data}"
                                     Background="{StaticResource LightColorBrush}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <ColumnDefinition
+                                            Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
@@ -211,9 +212,11 @@
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Process_Info.ProcessCount, Mode=OneWay}" />
+                                                        <TextBlock
+                                                            Text="{Binding Process_Info.ProcessCount, Mode=OneWay}" />
                                                         <TextBlock Text=" / " />
-                                                        <TextBlock Text="{Binding Process_Info.OrderCount, Mode=OneWay}" />
+                                                        <TextBlock
+                                                            Text="{Binding Process_Info.OrderCount, Mode=OneWay}" />
                                                     </StackPanel>
                                                 </Border>
                                                 <Border
@@ -267,8 +270,14 @@
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction
-                                                    Command="{Binding CheckInCommand, Mode=OneTime}"
-                                                    CommandParameter="{Binding ElementName=ActiveToggle, Mode=OneWay}" />
+                                                    Command="{Binding CheckInCommand, Mode=OneTime}">
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ToArrayConverter}">
+                                                            <Binding ElementName="ActiveToggle" Mode="OneWay" />
+                                                            <Binding Path="Text" ElementName="TextBlock" Mode="OneWay" />
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </ToggleButton>
@@ -285,29 +294,37 @@
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsRecording, Mode=OneWay}">
-                                        <Setter TargetName="ActiveToggle" Property="Content" Value="{Binding Progress, StringFormat=\{0:P\}, Mode=OneWay}" />
+                                        <Setter TargetName="ActiveToggle" Property="Content"
+                                                Value="{Binding Progress, StringFormat=\{0:P\}, Mode=OneWay}" />
                                         <Setter TargetName="ActiveToggle" Property="IsEnabled" Value="False" />
-                                        <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                        <Setter TargetName="TextBlock" Property="Foreground"
+                                                Value="{StaticResource BaseForeground}" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding ProgressString, Mode=OneWay}"
                                         Value="升溫中">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
-                                        <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                        <Setter TargetName="Progress" Property="Background"
+                                                Value="{StaticResource ErrorBrush}" />
+                                        <Setter TargetName="Progress" Property="BorderBrush"
+                                                Value="{StaticResource ErrorBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding ProgressString, Mode=OneWay}"
                                         Value="恆溫中">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
-                                        <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
+                                        <Setter TargetName="Progress" Property="Background"
+                                                Value="{StaticResource WorkingBrush}" />
+                                        <Setter TargetName="Progress" Property="BorderBrush"
+                                                Value="{StaticResource WorkingBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding ProgressString, Mode=OneWay}"
                                         Value="降溫中">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
-                                        <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                                        <Setter TargetName="Progress" Property="Background"
+                                                Value="{StaticResource PressedBrush}" />
+                                        <Setter TargetName="Progress" Property="BorderBrush"
+                                                Value="{StaticResource PressedBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>

@@ -14,4 +14,5 @@
     <local:NullEnableValue x:Key="NullEnableValue" />
     <local:BoolNot x:Key="BoolNot" />
     <local:AddValue x:Key="AddValue" />
+    <local:ToArrayConverter x:Key="ToArrayConverter" />
 </ResourceDictionary>

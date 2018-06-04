@@ -14,8 +14,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private readonly MongoClient Mongo_Client;
         private string _SearchName;
-        private int _Selected_PLC_Recipe_Index;
         private PLC_Recipe _Selected_PLC_Recipe;
+        private int _Selected_PLC_Recipe_Index;
         private bool _Standby;
         private string _TypedName;
         private List<PLC_Recipe> _ViewRecipes;
