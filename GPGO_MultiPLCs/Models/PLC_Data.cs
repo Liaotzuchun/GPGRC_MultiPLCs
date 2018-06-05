@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace GPGO_MultiPLCs.Models
         public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
         public PlotModel RecordView { get; }
         public ProcessInfo Process_Info { get; }
-        public RelayCommand CheckInCommand { get; }
+        public CommandWithResult<bool> CheckInCommand { get; }
 
         public bool OnlineStatus
         {
@@ -100,43 +101,37 @@ namespace GPGO_MultiPLCs.Models
 
         public PLC_Data(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
         {
-            CheckInCommand = new RelayCommand(async o =>
-                                              {
-                                                  var obj = (List<object>)o;
-                                                  var tb = (ToggleButton)obj[0];
-                                                  var para = (string)obj[1];
+            CheckInCommand = new CommandWithResult<bool>(async o =>
+                                                         {
+                                                             var para = (string)o;
 
-                                                  var (result1, intput1) = await dialog.ShowWithIntput("第" + para + "站，輸入操作人員ID",
-                                                                                                       x =>
-                                                                                                       {
-                                                                                                           var str = x.Trim();
-                                                                                                           return (str.Length > 0 && str.Length < 8, "字數錯誤，請重試!");
-                                                                                                       });
+                                                             var (result1, intput1) = await dialog.ShowWithIntput("第" + para + "站，輸入操作人員ID",
+                                                                                                                  x =>
+                                                                                                                  {
+                                                                                                                      var str = x.Trim();
+                                                                                                                      return (str.Length > 0 && str.Length < 8, "字數錯誤，請重試!");
+                                                                                                                  });
 
-                                                  if (result1)
-                                                  {
-                                                      var (result2, intput2) = await dialog.ShowWithIntput("第" + para + "站，輸入台車Code",
-                                                                                                           x =>
-                                                                                                           {
-                                                                                                               var str = x.Trim();
-                                                                                                               return (str.Length > 0 && str.Length < 4, "字數錯誤，請重試!");
-                                                                                                           });
+                                                             if (result1)
+                                                             {
+                                                                 var (result2, intput2) = await dialog.ShowWithIntput("第" + para + "站，輸入台車Code",
+                                                                                                                      x =>
+                                                                                                                      {
+                                                                                                                          var str = x.Trim();
+                                                                                                                          return (str.Length > 0 && str.Length < 4, "字數錯誤，請重試!");
+                                                                                                                      });
 
-                                                      if (result2)
-                                                      {
-                                                          Process_Info.OperatorID = intput1;
-                                                          Process_Info.TrolleyCode = intput2;
-                                                      }
-                                                      else
-                                                      {
-                                                          tb.IsChecked = false;
-                                                      }
-                                                  }
-                                                  else
-                                                  {
-                                                      tb.IsChecked = false;
-                                                  }
-                                              });
+                                                                 if (result2)
+                                                                 {
+                                                                     Process_Info.OperatorID = intput1;
+                                                                     Process_Info.TrolleyCode = intput2;
+
+                                                                     return true;
+                                                                 }
+                                                             }
+
+                                                             return false;
+                                                         });
 
             var color = OxyColor.FromRgb(50, 70, 60);
 

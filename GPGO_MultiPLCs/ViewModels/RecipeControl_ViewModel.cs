@@ -77,10 +77,10 @@ namespace GPGO_MultiPLCs.ViewModels
                 _TypedName = value.Length > 26 ? value.Substring(0, 26) : value;
                 NotifyPropertyChanged();
 
-                _Selected_PLC_Recipe_Index = _ViewRecipes?.FindIndex(x => x.RecipeName == _TypedName) ?? -1;
+                _Selected_PLC_Recipe_Index = string.IsNullOrEmpty(_TypedName) ? -1 : _ViewRecipes?.FindIndex(x => x.RecipeName == _TypedName) ?? -1;
                 NotifyPropertyChanged(nameof(Selected_PLC_Recipe_Index));
 
-                Selected_PLC_Recipe = Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
+                Selected_PLC_Recipe = string.IsNullOrEmpty(_TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
 
                 NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
@@ -97,8 +97,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 _SearchName = value;
                 NotifyPropertyChanged();
 
-                TypedName = "";
-                ViewRecipes = Recipes?.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
+                ViewRecipes = string.IsNullOrEmpty(_SearchName) ? Recipes : Recipes?.Where(x => x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
             }
         }
 
@@ -117,16 +116,22 @@ namespace GPGO_MultiPLCs.ViewModels
         public RecipeControl_ViewModel(MongoClient mongo, IDialogService<string> dialog)
         {
             Mongo_Client = mongo;
+
             InitialLoadCommand = new RelayCommand(async e =>
                                                   {
-                                                      Standby = false;
+                                                      if (Recipes == null || Recipes.Count == 0)
+                                                      {
+                                                          Standby = false;
 
-                                                      TypedName = "";
-                                                      SearchName = "";
+                                                          await RefreshList();
 
-                                                      await RefreshList();
-
-                                                      Standby = true;
+                                                          Standby = true;
+                                                      }
+                                                      else
+                                                      {
+                                                          TypedName = "";
+                                                          SearchName = "";
+                                                      }
                                                   });
 
             SaveCommand = new RelayCommand(async e =>

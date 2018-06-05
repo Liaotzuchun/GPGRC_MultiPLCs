@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
@@ -104,6 +105,70 @@ namespace GPGO_MultiPLCs.Helpers
             }
 
             return command;
+        }
+    }
+
+    //提供能代入function並提供Result存取的Command
+    public sealed class CommandWithResult<T> : ViewModelBase, ICommand
+    {
+        private T _Result;
+
+        public event EventHandler CanExecuteChanged;
+
+        public T Result
+        {
+            get => _Result;
+            set
+            {
+                _Result = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return canExecute?.Invoke(parameter) ?? true;
+        }
+
+        public async void Execute(object parameter)
+        {
+            if (execute != null)
+            {
+                Result = execute.Invoke(parameter);
+            }
+            else if (execute_Task != null)
+            {
+                Result = await execute_Task.Invoke(parameter);
+            }
+        }
+
+        private readonly Predicate<object> canExecute;
+        private readonly Func<object, Task<T>> execute_Task;
+        private readonly Func<object, T> execute;
+
+        public CommandWithResult(Func<object, T> execute) : this(execute, null)
+        {
+        }
+
+        public CommandWithResult(Func<object, T> execute, Predicate<object> canExecute)
+        {
+            this.execute = execute;
+            this.canExecute = canExecute;
+        }
+
+        public CommandWithResult(Func<object, Task<T>> execute_Task) : this(execute_Task, null)
+        {
+        }
+
+        public CommandWithResult(Func<object, Task<T>> execute_Task, Predicate<object> canExecute)
+        {
+            this.execute_Task = execute_Task;
+            this.canExecute = canExecute;
+        }
+
+        internal void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
