@@ -263,8 +263,8 @@
                                         Grid.Column="2"
                                         Padding="10,0"
                                         Content="投入生產"
-                                        IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}"
-                                        FontSize="16">
+                                        FontSize="16"
+                                        IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction
@@ -385,10 +385,17 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Border
-                                        Grid.ColumnSpan="2"
-                                        Background="{StaticResource LightColorBrush}"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="0,0,0,4">
+                                        Height="{Binding ActualHeight, ElementName=b1, Mode=OneWay}"
+                                        Background="{StaticResource WindowBackgroundBrush2}">
+                                        <TextBlock
+                                            Margin="4,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="配方名稱" />
+                                    </Border>
+                                    <Border
+                                        Grid.Column="1"
+                                        Background="{StaticResource LightColorBrush}">
                                         <TextBlock
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"

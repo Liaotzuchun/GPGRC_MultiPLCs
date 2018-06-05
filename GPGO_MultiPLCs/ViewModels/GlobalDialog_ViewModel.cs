@@ -47,29 +47,35 @@ namespace GPGO_MultiPLCs.ViewModels
                                         {
                                             while (true)
                                             {
-                                                Lock.WaitOne(30000);
-
-                                                var (result, title_msg) = condition(_Intput);
-
-                                                if (EnterResult)
+                                                if (Lock.WaitOne(30000))
                                                 {
-                                                    ConditionResult = result;
-                                                }
 
-                                                if (_ConditionResult != null && EnterResult && !_ConditionResult.Value)
-                                                {
-                                                    Title = title_msg;
-                                                    Intput = "";
-                                                }
-                                                else
-                                                {
-                                                    Title = "";
+                                                    var (result, title_msg) = condition(_Intput);
 
                                                     if (EnterResult)
                                                     {
-                                                        Thread.Sleep(450);
+                                                        ConditionResult = result;
                                                     }
 
+                                                    if (_ConditionResult != null && EnterResult && !_ConditionResult.Value)
+                                                    {
+                                                        Title = title_msg;
+                                                        Intput = "";
+                                                    }
+                                                    else
+                                                    {
+                                                        Title = "";
+
+                                                        if (EnterResult)
+                                                        {
+                                                            Thread.Sleep(450);
+                                                        }
+
+                                                        break;
+                                                    }
+                                                }
+                                                else
+                                                {
                                                     break;
                                                 }
                                             }
