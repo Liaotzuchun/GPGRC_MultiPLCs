@@ -213,6 +213,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     WantRecipe?.Invoke(j, recipe);
                                                 };
+
+                PLC_All[i].RecordingFinished += info =>
+                                             {
+                                                 //寫入資料庫，上傳
+                                             };
             }
 
             var namelists = M_List.Values.OrderBy(x => x).Select(x => "M" + x.ToString()).Concat(D_List.Values.OrderBy(x => x).Select(x => "D" + x.ToString())).ToList();

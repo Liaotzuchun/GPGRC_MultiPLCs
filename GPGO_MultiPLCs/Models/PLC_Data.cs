@@ -12,7 +12,7 @@ namespace GPGO_MultiPLCs.Models
 {
     public class PLC_Data : ViewModelBase
     {
-        public delegate void RecordFinishedEventHandler(ProcessInfo info);
+        public delegate void RecordingFinishedEventHandler(ProcessInfo info);
 
         public delegate void SwitchRecipeEventHandler(string recipe);
 
@@ -98,11 +98,14 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _RecordingTask = value;
+                Process_Info.StartTime = DateTime.Now;
 
                 _RecordingTask.ContinueWith(x =>
                                             {
                                                 x.Dispose();
-                                                RecordFinished?.Invoke(Process_Info);
+                                                Process_Info.EndTime = DateTime.Now;
+
+                                                RecordingFinished?.Invoke(Process_Info);
                                             });
 
                 NotifyPropertyChanged(nameof(IsRecording));
@@ -449,7 +452,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public event SwitchRecipeEventHandler SwitchRecipeEvent;
-        public event RecordFinishedEventHandler RecordFinished;
+        public event RecordingFinishedEventHandler RecordingFinished;
 
         public void ResetStopTokenSource()
         {
@@ -496,7 +499,7 @@ namespace GPGO_MultiPLCs.Models
                                             var n = 0;
                                             sw.Restart();
 
-                                            long c = 1000;
+                                            long c = 3000;
 
                                             while (!ct.IsCancellationRequested)
                                             {
@@ -504,6 +507,7 @@ namespace GPGO_MultiPLCs.Models
                                                 {
                                                     var vals = new Record_Temperatures
                                                                {
+                                                                   Time = sw.Elapsed,
                                                                    ThermostatTemperature = ThermostatTemperature,
                                                                    OvenTemperature_1 = OvenTemperature_1,
                                                                    OvenTemperature_2 = OvenTemperature_2,
@@ -565,15 +569,15 @@ namespace GPGO_MultiPLCs.Models
             //LineSeries[7].Points.Add(new DataPoint(time, vals.OvenTemperature_7));
             //LineSeries[8].Points.Add(new DataPoint(time, vals.OvenTemperature_8));
             var seed = DateTime.Now.Millisecond;
-            LineSeries[0].Points.Add(new DataPoint(time, new Random(seed).Next(0, 500)));
-            LineSeries[1].Points.Add(new DataPoint(time, new Random(seed + 1).Next(0, 500)));
-            LineSeries[2].Points.Add(new DataPoint(time, new Random(seed + 2).Next(0, 500)));
-            LineSeries[3].Points.Add(new DataPoint(time, new Random(seed + 3).Next(0, 500)));
-            LineSeries[4].Points.Add(new DataPoint(time, new Random(seed + 4).Next(0, 500)));
-            LineSeries[5].Points.Add(new DataPoint(time, new Random(seed + 5).Next(0, 500)));
-            LineSeries[6].Points.Add(new DataPoint(time, new Random(seed + 6).Next(0, 500)));
-            LineSeries[7].Points.Add(new DataPoint(time, new Random(seed + 7).Next(0, 500)));
-            LineSeries[8].Points.Add(new DataPoint(time, new Random(seed + 8).Next(0, 500)));
+            LineSeries[0].Points.Add(new DataPoint(time, new Random(seed * 0).Next(0, 500)));
+            LineSeries[1].Points.Add(new DataPoint(time, new Random(seed * 1).Next(0, 500)));
+            LineSeries[2].Points.Add(new DataPoint(time, new Random(seed * 2).Next(0, 500)));
+            LineSeries[3].Points.Add(new DataPoint(time, new Random(seed * 3).Next(0, 500)));
+            LineSeries[4].Points.Add(new DataPoint(time, new Random(seed * 4).Next(0, 500)));
+            LineSeries[5].Points.Add(new DataPoint(time, new Random(seed * 5).Next(0, 500)));
+            LineSeries[6].Points.Add(new DataPoint(time, new Random(seed * 6).Next(0, 500)));
+            LineSeries[7].Points.Add(new DataPoint(time, new Random(seed * 7).Next(0, 500)));
+            LineSeries[8].Points.Add(new DataPoint(time, new Random(seed * 8).Next(0, 500)));
 
             RecordView.InvalidatePlot(true);
         }
