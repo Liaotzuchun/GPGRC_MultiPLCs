@@ -12,13 +12,15 @@ namespace GPGO_MultiPLCs.Models
 {
     public class PLC_Data : ViewModelBase
     {
+        public delegate void RecordFinishedEventHandler(ProcessInfo info);
+
         public delegate void SwitchRecipeEventHandler(string recipe);
 
         private readonly LineSeries[] LineSeries = new LineSeries[9];
         private readonly Stopwatch sw = new Stopwatch();
-        private bool _IsRecording;
         private bool _OnlineStatus;
         private ICollection<string> _Recipe_Names;
+        private Task _RecordingTask;
         private string _Selected_Name;
 
         public CancellationTokenSource CTS;
@@ -35,16 +37,6 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _OnlineStatus = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool IsRecording
-        {
-            get => _IsRecording;
-            set
-            {
-                _IsRecording = value;
                 NotifyPropertyChanged();
             }
         }
@@ -98,13 +90,35 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public Task RecordingTask
+        {
+            get => _RecordingTask;
+            set
+            {
+                _RecordingTask = value;
+
+                _RecordingTask.ContinueWith(x =>
+                                            {
+                                                x.Dispose();
+                                                RecordFinished?.Invoke(Process_Info);
+                                            });
+
+                NotifyPropertyChanged(nameof(IsRecording));
+            }
+        }
+
+        public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running;
+        public event SwitchRecipeEventHandler SwitchRecipeEvent;
+        public event RecordFinishedEventHandler RecordFinished;
+
         public PLC_Data(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
         {
             CheckInCommand = new CommandWithResult<bool>(async o =>
                                                          {
                                                              var para = (string)o;
 
-                                                             var (result1, intput1) = await dialog.ShowWithIntput("輸入操作人員ID", para,
+                                                             var (result1, intput1) = await dialog.ShowWithIntput("輸入操作人員ID",
+                                                                                                                  para,
                                                                                                                   x =>
                                                                                                                   {
                                                                                                                       var str = x.Trim();
@@ -113,7 +127,8 @@ namespace GPGO_MultiPLCs.Models
 
                                                              if (result1)
                                                              {
-                                                                 var (result2, intput2) = await dialog.ShowWithIntput("輸入台車Code", para,
+                                                                 var (result2, intput2) = await dialog.ShowWithIntput("輸入台車Code",
+                                                                                                                      para,
                                                                                                                       x =>
                                                                                                                       {
                                                                                                                           var str = x.Trim();
@@ -191,7 +206,7 @@ namespace GPGO_MultiPLCs.Models
                                ExtraGridlineColor = color,
                                TextColor = color,
                                StringFormat = "hh:mm",
-                               Maximum = 60 * 60 * 3,
+                               Maximum = 60,
                                Minimum = 0
                            };
 
@@ -207,7 +222,6 @@ namespace GPGO_MultiPLCs.Models
 
             LineSeries[1] = new LineSeries
                             {
-                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
                                 Title = nameof(DataNames.爐內溫度_2),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
@@ -218,7 +232,6 @@ namespace GPGO_MultiPLCs.Models
 
             LineSeries[2] = new LineSeries
                             {
-                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
                                 Title = nameof(DataNames.爐內溫度_3),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
@@ -229,7 +242,6 @@ namespace GPGO_MultiPLCs.Models
 
             LineSeries[3] = new LineSeries
                             {
-                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
                                 Title = nameof(DataNames.爐內溫度_4),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
@@ -240,7 +252,6 @@ namespace GPGO_MultiPLCs.Models
 
             LineSeries[4] = new LineSeries
                             {
-                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
                                 Title = nameof(DataNames.爐內溫度_5),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
@@ -251,7 +262,6 @@ namespace GPGO_MultiPLCs.Models
 
             LineSeries[5] = new LineSeries
                             {
-                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
                                 Title = nameof(DataNames.爐內溫度_6),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
@@ -262,7 +272,6 @@ namespace GPGO_MultiPLCs.Models
 
             LineSeries[6] = new LineSeries
                             {
-                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
                                 Title = nameof(DataNames.爐內溫度_7),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
@@ -273,7 +282,6 @@ namespace GPGO_MultiPLCs.Models
 
             LineSeries[7] = new LineSeries
                             {
-                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
                                 Title = nameof(DataNames.爐內溫度_8),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
@@ -284,7 +292,6 @@ namespace GPGO_MultiPLCs.Models
 
             LineSeries[8] = new LineSeries
                             {
-                                InterpolationAlgorithm = InterpolationAlgorithms.CanonicalSpline,
                                 Title = nameof(DataNames.溫控器溫度),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
@@ -418,9 +425,26 @@ namespace GPGO_MultiPLCs.Models
                                          {
                                              NotifyPropertyChanged(D_Map[key]);
                                          };
-        }
 
-        public event SwitchRecipeEventHandler SwitchRecipeEvent;
+            PropertyChanged += (s, e) =>
+                               {
+                                   if (e.PropertyName == nameof(AutoMode_Start) && AutoMode_Start)
+                                   {
+                                       if (_RecordingTask == null || _RecordingTask.Status != TaskStatus.Running)
+                                       {
+                                           ResetStopTokenSource();
+                                           RecordingTask = StartRecoder(1000, CTS.Token);
+                                       }
+                                   }
+                                   else if (e.PropertyName == nameof(AutoMode_Stop) && AutoMode_Stop)
+                                   {
+                                       if (_RecordingTask?.Status == TaskStatus.Running)
+                                       {
+                                           CTS?.Cancel();
+                                       }
+                                   }
+                               };
+        }
 
         public void ResetStopTokenSource()
         {
@@ -433,50 +457,90 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
-        public async Task<List<Record_Temperatures>> StartRecoder(long cycle_ms, CancellationToken ct)
+        public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
             if (IsRecording)
             {
-                return null;
+                return;
             }
 
-            IsRecording = true;
-            var val = await Task.Factory.StartNew(() =>
-                                                  {
-                                                      var list = new List<Record_Temperatures>();
-                                                      var n = 0;
-                                                      sw.Restart();
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            if (Process_Info.RecordTemperatures == null)
+                                            {
+                                                Process_Info.RecordTemperatures = new List<Record_Temperatures>();
+                                            }
+                                            else
+                                            {
+                                                Process_Info.RecordTemperatures.Clear();
+                                            }
 
-                                                      while (!ct.IsCancellationRequested)
-                                                      {
-                                                          if (sw.ElapsedMilliseconds >= n * cycle_ms)
-                                                          {
-                                                              list.Add(new Record_Temperatures
-                                                                       {
-                                                                           ThermostatTemperature = ThermostatTemperature,
-                                                                           OvenTemperature_1 = OvenTemperature_1,
-                                                                           OvenTemperature_2 = OvenTemperature_2,
-                                                                           OvenTemperature_3 = OvenTemperature_3,
-                                                                           OvenTemperature_4 = OvenTemperature_4,
-                                                                           OvenTemperature_5 = OvenTemperature_5,
-                                                                           OvenTemperature_6 = OvenTemperature_6,
-                                                                           OvenTemperature_7 = OvenTemperature_7,
-                                                                           OvenTemperature_8 = OvenTemperature_8
-                                                                       });
+                                            foreach (var ls in LineSeries)
+                                            {
+                                                ls.Points.Clear();
+                                            }
+                                            RecordView.InvalidatePlot(true);
 
-                                                              n++;
-                                                          }
+                                            var n = 0;
+                                            sw.Restart();
 
-                                                          Thread.Sleep(1);
-                                                      }
+                                            while (!ct.IsCancellationRequested)
+                                            {
+                                                if (sw.ElapsedMilliseconds >= n * cycle_ms)
+                                                {
+                                                    var vals = new Record_Temperatures
+                                                    {
+                                                        ThermostatTemperature = ThermostatTemperature,
+                                                        OvenTemperature_1 = OvenTemperature_1,
+                                                        OvenTemperature_2 = OvenTemperature_2,
+                                                        OvenTemperature_3 = OvenTemperature_3,
+                                                        OvenTemperature_4 = OvenTemperature_4,
+                                                        OvenTemperature_5 = OvenTemperature_5,
+                                                        OvenTemperature_6 = OvenTemperature_6,
+                                                        OvenTemperature_7 = OvenTemperature_7,
+                                                        OvenTemperature_8 = OvenTemperature_8
+                                                    };
 
-                                                      sw.Stop();
+                                                    Process_Info.RecordTemperatures.Add(vals);
+                                                    AddPlot(sw.Elapsed ,vals);
 
-                                                      return list;
-                                                  },
-                                                  TaskCreationOptions.LongRunning);
+                                                    n++;
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(15);
+                                                }
+                                            }
 
-            return val;
+                                            sw.Stop();
+                                        },
+                                        TaskCreationOptions.LongRunning);
+        }
+
+        private void AddPlot(TimeSpan t, Record_Temperatures vals)
+        {
+            var time = TimeSpanAxis.ToDouble(t);
+            //LineSeries[0].Points.Add(new DataPoint(time, vals.ThermostatTemperature));
+            //LineSeries[1].Points.Add(new DataPoint(time, vals.OvenTemperature_1));
+            //LineSeries[2].Points.Add(new DataPoint(time, vals.OvenTemperature_2));
+            //LineSeries[3].Points.Add(new DataPoint(time, vals.OvenTemperature_3));
+            //LineSeries[4].Points.Add(new DataPoint(time, vals.OvenTemperature_4));
+            //LineSeries[5].Points.Add(new DataPoint(time, vals.OvenTemperature_5));
+            //LineSeries[6].Points.Add(new DataPoint(time, vals.OvenTemperature_6));
+            //LineSeries[7].Points.Add(new DataPoint(time, vals.OvenTemperature_7));
+            //LineSeries[8].Points.Add(new DataPoint(time, vals.OvenTemperature_8));
+            var seed = DateTime.Now.Millisecond;
+            LineSeries[0].Points.Add(new DataPoint(time, new Random(seed).Next(0, 500)));
+            LineSeries[1].Points.Add(new DataPoint(time, new Random(seed + 1).Next(0, 500)));
+            LineSeries[2].Points.Add(new DataPoint(time, new Random(seed + 2).Next(0, 500)));
+            LineSeries[3].Points.Add(new DataPoint(time, new Random(seed + 3).Next(0, 500)));
+            LineSeries[4].Points.Add(new DataPoint(time, new Random(seed + 4).Next(0, 500)));
+            LineSeries[5].Points.Add(new DataPoint(time, new Random(seed + 5).Next(0, 500)));
+            LineSeries[6].Points.Add(new DataPoint(time, new Random(seed + 6).Next(0, 500)));
+            LineSeries[7].Points.Add(new DataPoint(time, new Random(seed + 7).Next(0, 500)));
+            LineSeries[8].Points.Add(new DataPoint(time, new Random(seed + 8).Next(0, 500)));
+
+            RecordView.InvalidatePlot(true);
         }
 
         #region 生產配方

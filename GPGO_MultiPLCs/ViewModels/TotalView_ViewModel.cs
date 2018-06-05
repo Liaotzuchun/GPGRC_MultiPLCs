@@ -256,7 +256,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                         foreach (var plc in PLC_All)
                                         {
                                             plc.OnlineStatus = false;
-                                            plc.IsRecording = false;
                                         }
                                     }
 
