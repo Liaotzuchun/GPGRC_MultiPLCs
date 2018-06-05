@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hp="clr-namespace:GPGO_MultiPLCs.Helpers"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -124,6 +125,17 @@
                                 Foreground="White"
                                 Text="{Binding Title, Mode=OneWay}" />
                         </Border>
+                        <Border
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                            HorizontalAlignment="Left"
+                            Background="#7FFFFFFF"
+                            Visibility="{Binding TitleHeader, Converter={StaticResource NullVis}, Mode=OneWay}">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Text="{Binding TitleHeader, Mode=OneWay}" />
+                        </Border>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -142,7 +154,13 @@
                                 Margin="20,4"
                                 FontSize="20"
                                 IsVisibleChanged="Intput_IsVisibleChanged"
-                                Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewKeyDown">
+                                        <hp:InteractiveCommand Command="{Binding EnterCommand, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
                             <StackPanel
                                 Grid.Row="2"
                                 HorizontalAlignment="Center"

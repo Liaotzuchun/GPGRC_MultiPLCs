@@ -5,9 +5,9 @@ namespace GPGO_MultiPLCs.Helpers
 {
     public interface IDialogService<T>
     {
-        Task<(bool result, T intput)> ShowWithIntput(string msg);
+        Task<(bool result, T intput)> ShowWithIntput(string msg, string header);
 
-        Task<(bool result, T intput)> ShowWithIntput(string msg, Func<T, (bool result, string error_msg)> condition_fun);
+        Task<(bool result, T intput)> ShowWithIntput(string msg, string herder, Func<T, (bool result, string title_msg)> condition_fun);
 
         Task<bool> Show(string msg, bool support_cancel);
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
 using GPGO_MultiPLCs.Helpers;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -105,7 +104,7 @@ namespace GPGO_MultiPLCs.Models
                                                          {
                                                              var para = (string)o;
 
-                                                             var (result1, intput1) = await dialog.ShowWithIntput("第" + para + "站，輸入操作人員ID",
+                                                             var (result1, intput1) = await dialog.ShowWithIntput("輸入操作人員ID", para,
                                                                                                                   x =>
                                                                                                                   {
                                                                                                                       var str = x.Trim();
@@ -114,7 +113,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                              if (result1)
                                                              {
-                                                                 var (result2, intput2) = await dialog.ShowWithIntput("第" + para + "站，輸入台車Code",
+                                                                 var (result2, intput2) = await dialog.ShowWithIntput("輸入台車Code", para,
                                                                                                                       x =>
                                                                                                                       {
                                                                                                                           var str = x.Trim();

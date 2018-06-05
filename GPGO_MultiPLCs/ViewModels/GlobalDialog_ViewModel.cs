@@ -2,13 +2,14 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class GlobalDialog_ViewModel : ViewModelBase, IDialogService<string>
     {
-        public async Task<(bool result, string intput)> ShowWithIntput(string msg)
+        public async Task<(bool result, string intput)> ShowWithIntput(string msg ,string header)
         {
             Intput = "";
             ConditionResult = null;
@@ -16,6 +17,7 @@ namespace GPGO_MultiPLCs.ViewModels
             SupportCancel = true;
             WithIntput = true;
             Message = msg;
+            TitleHeader = header;
             IsShown = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
@@ -29,7 +31,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return (EnterResult, Intput);
         }
 
-        public async Task<(bool result, string intput)> ShowWithIntput(string msg, Func<string, (bool result, string error_msg)> condition)
+        public async Task<(bool result, string intput)> ShowWithIntput(string msg, string header, Func<string, (bool result, string title_msg)> condition)
         {
             Title = "";
             Intput = "";
@@ -38,6 +40,7 @@ namespace GPGO_MultiPLCs.ViewModels
             SupportCancel = true;
             WithIntput = true;
             Message = msg;
+            TitleHeader = header;
             IsShown = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
@@ -46,7 +49,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                             {
                                                 Lock.WaitOne(30000);
 
-                                                var (result, error_msg) = condition(_Intput);
+                                                var (result, title_msg) = condition(_Intput);
 
                                                 if (EnterResult)
                                                 {
@@ -55,11 +58,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                 if (_ConditionResult != null && EnterResult && !_ConditionResult.Value)
                                                 {
-                                                    Title = error_msg;
+                                                    Title = title_msg;
                                                     Intput = "";
                                                 }
                                                 else
                                                 {
+                                                    Title = "";
+
                                                     if (EnterResult)
                                                     {
                                                         Thread.Sleep(450);
@@ -114,6 +119,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private string _Message;
         private bool _SupportCancel;
         private string _Title = "";
+        private string _TitleHeader = "";
         private bool _WithIntput;
 
         private bool EnterResult;
@@ -143,6 +149,7 @@ namespace GPGO_MultiPLCs.ViewModels
             get => _Intput;
             set
             {
+                value = value.Trim().Replace(" ", "_");
                 _Intput = value;
                 NotifyPropertyChanged();
             }
@@ -154,6 +161,16 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _Title = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string TitleHeader
+        {
+            get => _TitleHeader;
+            set
+            {
+                _TitleHeader = value;
                 NotifyPropertyChanged();
             }
         }
@@ -200,6 +217,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public RelayCommand OkayCommand { get; }
         public RelayCommand CancelCommand { get; }
+        public RelayCommand EnterCommand { get; }
 
         public GlobalDialog_ViewModel()
         {
@@ -216,6 +234,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  EnterResult = false;
                                                  Lock.Set();
                                              });
+
+            EnterCommand = new RelayCommand(e =>
+                                            {
+                                                var args = (KeyEventArgs)e;
+                                                if (args.Key == Key.Return)
+                                                {
+                                                    EnterResult = true;
+                                                    Lock.Set();
+                                                }
+                                            });
         }
     }
 }
