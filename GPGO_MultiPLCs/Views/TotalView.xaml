@@ -1224,6 +1224,7 @@
                             Header="生產紀錄">
                             <oxy:PlotView
                                 Background="{StaticResource LightColorBrush}"
+                                IsMouseWheelEnabled="False"
                                 Model="{Binding RecordView, Mode=OneWay}" />
                         </GroupBox>
                     </Grid>
