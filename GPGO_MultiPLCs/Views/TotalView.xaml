@@ -45,10 +45,10 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
-                            <DataTemplate DataType="m:PLC_Data">
+                            <DataTemplate DataType="m:PLC_DataProvider">
                                 <Grid
                                     Margin="1"
-                                    d:DataContext="{d:DesignInstance m:PLC_Data}"
+                                    d:DataContext="{d:DesignInstance m:PLC_DataProvider}"
                                     Background="{StaticResource LightColorBrush}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -69,9 +69,20 @@
                                         FontSize="48"
                                         Foreground="{StaticResource DisabledForegroundBrush}"
                                         Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-                                    <TabControl
-                                        Grid.Column="1"
-                                        SelectedIndex="{Binding IsChecked, ElementName=ActiveToggle, Mode=TwoWay}">
+                                    <TabControl Grid.Column="1">
+                                        <TabControl.SelectedIndex>
+                                            <MultiBinding
+                                                Converter="{StaticResource MultiAnyTrueConverterToInt}"
+                                                Mode="OneWay">
+                                                <Binding
+                                                    ElementName="ActiveToggle"
+                                                    Mode="OneWay"
+                                                    Path="IsChecked" />
+                                                <Binding
+                                                    Mode="OneWay"
+                                                    Path="IsRecording" />
+                                            </MultiBinding>
+                                        </TabControl.SelectedIndex>
                                         <TabItem
                                             Width="0"
                                             Height="0"
@@ -264,7 +275,8 @@
                                         Padding="10,0"
                                         Content="投入生產"
                                         FontSize="16"
-                                        IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
+                                        IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}"
+                                        IsEnabled="{Binding IsRecording, Converter={StaticResource BoolNot}, Mode=OneWay}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction
@@ -1254,7 +1266,7 @@
                             ItemsSource="{Binding PLC_All, Mode=OneTime}"
                             SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="m:PLC_Data">
+                                <DataTemplate>
                                     <TextBlock
                                         FontSize="16"
                                         Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=第 \{0:F0\} 站}" />

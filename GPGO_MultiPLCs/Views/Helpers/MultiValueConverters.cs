@@ -57,7 +57,7 @@ namespace GPGO_MultiPLCs.Views
         {
             try
             {
-                return values.Cast<bool>().Contains(true);
+                return values.Cast<bool>().Any(x => x);
             }
             catch (Exception)
             {
@@ -71,11 +71,31 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
+    public class MultiAnyTrueConverterToInt : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                return values.Cast<bool>().Any(x => x) ? 1 : 0;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class MultiBooleanConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values.Cast<bool>().All(val => val);
+            return values.Cast<bool>().All(x => x);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

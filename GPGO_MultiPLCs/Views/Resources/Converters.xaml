@@ -8,6 +8,7 @@
     <local:BoolVis x:Key="BoolVis" />
     <local:BoolNotVis x:Key="BoolNotVis" />
     <local:MultiAnyTrueConverter x:Key="MultiAnyTrueConverter" />
+    <local:MultiAnyTrueConverterToInt x:Key="MultiAnyTrueConverterToInt" />
     <local:MultiBooleanConverter x:Key="MultiBooleanConverter" />
     <local:NullVis x:Key="NullVis" />
     <local:IsEqualValue x:Key="IsEqualValue" />

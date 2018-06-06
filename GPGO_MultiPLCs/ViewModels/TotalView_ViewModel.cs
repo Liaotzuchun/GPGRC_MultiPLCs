@@ -55,7 +55,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private int _ViewIndex = -1; //選取PLC的index
         private GPServiceClient PLC_Client;
 
-        public PLC_Data[] PLC_All { get; }
+        public PLC_DataProvider[] PLC_All { get; }
         public RelayCommand BackCommand { get; }
         public PlotModel HistogramView { get; set; }
 
@@ -98,7 +98,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public PLC_Data PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
+        public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
 
         public TotalView_ViewModel(IDialogService<string> dialog)
         {
@@ -111,7 +111,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                Index = o is int i ? i : 0;
                                            });
 
-            PLC_All = new PLC_Data[PLC_Count];
+            PLC_All = new PLC_DataProvider[PLC_Count];
 
             var M_List = new Dictionary<SignalNames, int>
                          {
@@ -207,7 +207,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             for (var i = 0; i < PLC_Count; i++)
             {
-                PLC_All[i] = new PLC_Data(M_List, D_List, Recipe_List, dialog);
+                PLC_All[i] = new PLC_DataProvider(M_List, D_List, Recipe_List, dialog);
                 var j = i;
                 PLC_All[i].SwitchRecipeEvent += recipe =>
                                                 {
