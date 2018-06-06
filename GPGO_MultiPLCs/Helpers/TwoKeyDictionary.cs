@@ -5,7 +5,7 @@ namespace GPGO_MultiPLCs.Helpers
 {
     public class TwoKeyDictionary<TKey1, TKey2, TValue>
     {
-        public delegate void Key1Updated(TKey1 name);
+        public delegate void Key1Updated(TKey1 name, TValue value);
 
         public Dictionary<TKey1, TValue> Key1Dictionary = new Dictionary<TKey1, TValue>();
 
@@ -17,7 +17,7 @@ namespace GPGO_MultiPLCs.Helpers
             set
             {
                 Key1Dictionary[idx] = value;
-                Key1UpdatedEvent?.Invoke(idx);
+                Key1UpdatedEvent?.Invoke(idx, value);
             }
         }
 
@@ -28,7 +28,7 @@ namespace GPGO_MultiPLCs.Helpers
             {
                 var key = Key2Dictionary[idx];
                 Key1Dictionary[key] = value;
-                Key1UpdatedEvent?.Invoke(key);
+                Key1UpdatedEvent?.Invoke(key, value);
             }
         }
 

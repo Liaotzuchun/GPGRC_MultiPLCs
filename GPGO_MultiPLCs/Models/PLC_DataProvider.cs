@@ -36,6 +36,11 @@ namespace GPGO_MultiPLCs.Models
             {
                 _OnlineStatus = value;
                 NotifyPropertyChanged();
+
+                if (!value && IsRecording) //PLC或PLC Gate離線，結束資料紀錄
+                {
+                    CTS?.Cancel();
+                }
             }
         }
 
@@ -435,58 +440,74 @@ namespace GPGO_MultiPLCs.Models
                 Recipe_Values.Add(loc.Key, loc.Value, 0);
             }
 
-            M_Values.Key1UpdatedEvent += key =>
+            #region 註冊PLC事件
+
+            M_Values.Key1UpdatedEvent += async (key, value) =>
                                          {
                                              NotifyPropertyChanged(M_Map[key]);
+
+                                             if (value)
+                                             {
+                                                 if (key == SignalNames.自動啟動)
+                                                 {
+                                                     if (IsRecording)
+                                                     {
+                                                         CTS?.Cancel();
+
+                                                         await _RecordingTask;
+                                                     }
+
+                                                     ResetStopTokenSource();
+                                                     RecordingTask = StartRecoder(60000, CTS.Token);
+                                                 }
+                                                 else if (key == SignalNames.自動停止 ||
+                                                          key == SignalNames.程式結束 ||
+                                                          key == SignalNames.緊急停止 ||
+                                                          key == SignalNames.電源反相 ||
+                                                          key == SignalNames.循環風車過載 ||
+                                                          key == SignalNames.循環風車INV異常)
+                                                 {
+                                                     if (IsRecording)
+                                                     {
+                                                         Process_Info.AlarmList.Add(sw.Elapsed, key.ToString());
+                                                         CTS?.Cancel();
+                                                     }
+                                                 }
+                                                 else if (key == SignalNames.降溫中)
+                                                 {
+                                                     NotifyPropertyChanged(nameof(ProgressString));
+                                                 }
+                                             }
                                          };
 
-            D_Values.Key1UpdatedEvent += key =>
+            D_Values.Key1UpdatedEvent += (key, value) =>
                                          {
                                              NotifyPropertyChanged(D_Map[key]);
+
+                                             if (key == DataNames.目前段數)
+                                             {
+                                                 NotifyPropertyChanged(nameof(Progress));
+                                                 NotifyPropertyChanged(nameof(ProgressString));
+                                             }
                                          };
 
-            //PLC狀態變更時需對應的動作
-            PropertyChanged += async (s, e) =>
-                               {
-                                   if (e.PropertyName == nameof(AutoMode_Start) && AutoMode_Start)
-                                   {
-                                       if (_RecordingTask != null && _RecordingTask.Status == TaskStatus.Running)
-                                       {
-                                           CTS?.Cancel();
+            Recipe_Values.Key1UpdatedEvent += (key, value) =>
+                                              {
+                                                  NotifyPropertyChanged(D_Map[key]);
 
-                                           await _RecordingTask;
-                                       }
+                                                  if (key.ToString().Contains("配方名稱"))
+                                                  {
+                                                      _Selected_Name = RecipeName;
+                                                      NotifyPropertyChanged(nameof(Selected_Name));
+                                                  }
+                                                  else if (key == DataNames.使用段數)
+                                                  {
+                                                      NotifyPropertyChanged(nameof(Progress));
+                                                      NotifyPropertyChanged(nameof(ProgressString));
+                                                  }
+                                              };
 
-                                       ResetStopTokenSource();
-                                       RecordingTask = StartRecoder(60000, CTS.Token);
-                                   }
-                                   else if (e.PropertyName == nameof(AutoMode_Stop) && AutoMode_Stop ||
-                                            e.PropertyName == nameof(ProgramStop) && ProgramStop ||
-                                            e.PropertyName == nameof(EmergencyStop) && EmergencyStop ||
-                                            e.PropertyName == nameof(PowerInversion) && PowerInversion ||
-                                            e.PropertyName == nameof(CirculatingFanOverload) && CirculatingFanOverload ||
-                                            e.PropertyName == nameof(CirculatingFanInversion) && CirculatingFanInversion)
-                                   {
-                                       if (_RecordingTask?.Status == TaskStatus.Running)
-                                       {
-                                           CTS?.Cancel();
-                                       }
-                                   }
-                                   else if (e.PropertyName == nameof(RecipeName))
-                                   {
-                                       _Selected_Name = RecipeName;
-                                       NotifyPropertyChanged(nameof(Selected_Name));
-                                   }
-                                   else if (e.PropertyName == nameof(CurrentSegment) || e.PropertyName == nameof(UsedSegmentCounts))
-                                   {
-                                       NotifyPropertyChanged(nameof(Progress));
-                                       NotifyPropertyChanged(nameof(ProgressString));
-                                   }
-                                   else if (e.PropertyName == nameof(IsCooling))
-                                   {
-                                       NotifyPropertyChanged(nameof(ProgressString));
-                                   }
-                               };
+            #endregion
         }
 
         public event SwitchRecipeEventHandler SwitchRecipeEvent;
@@ -512,14 +533,7 @@ namespace GPGO_MultiPLCs.Models
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            if (Process_Info.RecordTemperatures == null)
-                                            {
-                                                Process_Info.RecordTemperatures = new List<Record_Temperatures>();
-                                            }
-                                            else
-                                            {
-                                                Process_Info.RecordTemperatures.Clear();
-                                            }
+                                            Process_Info.RecordTemperatures.Clear();
 
                                             foreach (var ls in LineSeries)
                                             {
@@ -534,12 +548,12 @@ namespace GPGO_MultiPLCs.Models
 
                                             RecordView.InvalidatePlot(true);
 
-                                            var n = 0;
+                                            var n = TimeSpan.Zero;
                                             sw.Restart();
 
                                             while (!ct.IsCancellationRequested)
                                             {
-                                                if (sw.ElapsedMilliseconds >= n * (n > 20 ? cycle_ms : 3000))
+                                                if (sw.Elapsed >= n)
                                                 {
                                                     var vals = new Record_Temperatures
                                                                {
@@ -558,7 +572,18 @@ namespace GPGO_MultiPLCs.Models
                                                     Process_Info.RecordTemperatures.Add(vals);
                                                     AddPlot(sw.Elapsed, vals);
 
-                                                    n++;
+                                                    if (n > TimeSpan.FromMinutes(10))
+                                                    {
+                                                        n += TimeSpan.FromMinutes(1);
+                                                    }
+                                                    else if (n > TimeSpan.FromMinutes(1))
+                                                    {
+                                                        n += TimeSpan.FromSeconds(20);
+                                                    }
+                                                    else
+                                                    {
+                                                        n += TimeSpan.FromSeconds(2);
+                                                    }
                                                 }
                                                 else
                                                 {
@@ -588,6 +613,13 @@ namespace GPGO_MultiPLCs.Models
                 TimeAxis.MinorStep = 60;
                 TimeAxis.Maximum = 60 * 60;
                 TimeAxis.StringFormat = "hh:mm";
+
+                //foreach (var ls in LineSeries)
+                //{
+                //    var pt = ls.Points.First();
+                //    ls.Points.Clear();
+                //    ls.Points.Add(pt);
+                //}
             }
 
             var time = TimeSpanAxis.ToDouble(t);

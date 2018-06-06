@@ -8,7 +8,7 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
-        private Dictionary<DateTime, string> _AlarmList;
+        private Dictionary<TimeSpan, string> _AlarmList = new Dictionary<TimeSpan, string>();
         private DateTime _EndTime;
         private bool _FirstPanel;
         private short _HeatingTime;
@@ -21,7 +21,7 @@ namespace GPGO_MultiPLCs.Models
         private int _ProcessCount;
         private int _ProcessNumber;
         private string _ProduceCode;
-        private List<Record_Temperatures> _RecordTemperatures;
+        private List<Record_Temperatures> _RecordTemperatures = new List<Record_Temperatures>();
         private string _Side;
         private DateTime _StartTime;
         private double _TargetOvenTemperature;
@@ -39,7 +39,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public Dictionary<DateTime, string> AlarmList
+        public Dictionary<TimeSpan, string> AlarmList
         {
             get => _AlarmList;
             set

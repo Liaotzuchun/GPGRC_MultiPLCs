@@ -206,6 +206,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     ErrorRecoder.RecordError(ex);
                 }
+
+                await RefreshList();
             }
 
             return result;
