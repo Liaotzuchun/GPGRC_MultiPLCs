@@ -257,6 +257,7 @@
                                                     x:Name="Progress"
                                                     Grid.Row="2"
                                                     Grid.Column="3"
+                                                    Maximum="1"
                                                     Value="{Binding Progress, Mode=OneWay}" />
                                                 <TextBlock
                                                     x:Name="ProgressString"
@@ -304,6 +305,11 @@
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding ProgressString, Mode=OneWay}"
+                                        Value="準備中">
+                                        <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding ProgressString, Mode=OneWay}"
                                         Value="升溫中">
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
                                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
@@ -314,7 +320,7 @@
                                         Value="恆溫中">
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
-                                        <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
+                                        <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding ProgressString, Mode=OneWay}"

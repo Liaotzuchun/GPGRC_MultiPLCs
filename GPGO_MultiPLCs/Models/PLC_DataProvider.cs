@@ -65,7 +65,7 @@ namespace GPGO_MultiPLCs.Models
         {
             get
             {
-                var val = (double)CurrentSegment / UsedSegmentCounts;
+                var val = (double)CurrentSegment / UsedSegmentCounts / 2;
 
                 if (double.IsNaN(val) || double.IsInfinity(val) || val < 0.0)
                 {
@@ -80,12 +80,17 @@ namespace GPGO_MultiPLCs.Models
         {
             get
             {
+                if (IsRecording && CurrentSegment == 0)
+                {
+                    return "準備中";
+                }
+
                 if (IsCooling && CurrentSegment >= UsedSegmentCounts * 2)
                 {
                     return "降溫中";
                 }
 
-                return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? "準備中" : "恆溫中" : "升溫中";
+                return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? "待命中" : "恆溫中" : "升溫中";
             }
         }
 
@@ -166,7 +171,7 @@ namespace GPGO_MultiPLCs.Models
                              LegendMaxHeight = 30,
                              LegendFontSize = 14,
                              LegendItemOrder = LegendItemOrder.Reverse
-            };
+                         };
 
             var YAxis = new LinearAxis
                         {
@@ -455,7 +460,8 @@ namespace GPGO_MultiPLCs.Models
                                        ResetStopTokenSource();
                                        RecordingTask = StartRecoder(60000, CTS.Token);
                                    }
-                                   else if (e.PropertyName == nameof(ProgramStop) && ProgramStop ||
+                                   else if (e.PropertyName == nameof(AutoMode_Stop) && AutoMode_Stop ||
+                                            e.PropertyName == nameof(ProgramStop) && ProgramStop ||
                                             e.PropertyName == nameof(EmergencyStop) && EmergencyStop ||
                                             e.PropertyName == nameof(PowerInversion) && PowerInversion ||
                                             e.PropertyName == nameof(CirculatingFanOverload) && CirculatingFanOverload ||
