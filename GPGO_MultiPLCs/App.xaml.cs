@@ -11,7 +11,7 @@ namespace GPGO_MultiPLCs
     {
         public App()
         {
-            InputLanguageManager.Current.CurrentInputLanguage = new CultureInfo("en-US");
+            //InputLanguageManager.Current.CurrentInputLanguage = new CultureInfo("en-US");
         }
     }
 }

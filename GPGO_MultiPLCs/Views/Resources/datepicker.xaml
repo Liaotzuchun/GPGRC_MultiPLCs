@@ -187,6 +187,7 @@
                                 BorderThickness="0"
                                 Focusable="False"
                                 Foreground="{TemplateBinding Foreground}"
+                                InputMethod.IsInputMethodEnabled="False"
                                 IsHitTestVisible="False"
                                 SelectionBrush="{x:Null}" />
                             <Grid
