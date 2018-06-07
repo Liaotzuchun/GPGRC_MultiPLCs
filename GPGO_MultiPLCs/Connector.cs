@@ -42,22 +42,24 @@ namespace GPGO_MultiPLCs
 
                                              await Task.Factory.StartNew(() =>
                                                                          {
-                                                                             foreach (var recipe in list)
+                                                                             Parallel.ForEach(list, recipe =>
                                                                              {
                                                                                  for (var i = 0; i < recipe.Used_Stations.Length; i++)
                                                                                  {
                                                                                      if (recipe.Used_Stations[i])
                                                                                      {
-                                                                                         TotalVM.SetRecipe(i, recipe);
+                                                                                         TotalVM.SetRecipe(i, recipe).Wait();
                                                                                      }
                                                                                  }
-                                                                             }
+                                                                             });
                                                                          });
                                          };
 
-            TotalVM.WantRecipe += async (i, recipe) =>
+            TotalVM.WantRecipe += async (i, recipe, obj) =>
                                   {
-                                      TotalVM.SetRecipe(i, await RecipeVM.GetRecipe(i, recipe));
+                                      await TotalVM.SetRecipe(i, await RecipeVM.GetRecipe(i, recipe));
+
+                                      obj?.Set();
                                   };
         }
     }

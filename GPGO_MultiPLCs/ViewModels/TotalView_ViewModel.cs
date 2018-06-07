@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading;
+using System.Threading.Tasks;
 using GPGO_MultiPLCs.GP_PLCs;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
@@ -44,7 +45,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public delegate void WantRecipeHandler(int index, string recipe);
+        public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
 
         private const int PLC_Count = 20;
         private const int Check_Dev = 21; //心跳信號位置
@@ -205,6 +206,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   { DataNames.配方名稱_13, 762 }
                               };
 
+            //註冊PLC事件需引發的動作
             for (var i = 0; i < PLC_Count; i++)
             {
                 PLC_All[i] = new PLC_DataProvider(M_List, D_List, Recipe_List, dialog);
@@ -213,6 +215,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     WantRecipe?.Invoke(j, recipe);
                                                 };
+
+                PLC_All[i].StartRecording += (recipe, obj) =>
+                                             {
+                                                 WantRecipe?.Invoke(j, recipe, obj);
+                                             };
 
                 PLC_All[i].RecordingFinished += info =>
                                              {
@@ -292,7 +299,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public void SetRecipe(int index, PLC_Recipe recipe)
+        public async Task SetRecipe(int index, PLC_Recipe recipe)
         {
             PLC_All[index].RecipeName = recipe.RecipeName;
             PLC_All[index].TargetTemperature_1 = recipe.TargetTemperature_1;
@@ -333,7 +340,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             if (PLC_Client.State == CommunicationState.Opened)
             {
-                PLC_Client.Set_D(index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                await PLC_Client.Set_DAsync(index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
             }
         }
 

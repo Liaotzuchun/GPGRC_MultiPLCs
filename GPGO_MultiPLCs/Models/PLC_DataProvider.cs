@@ -13,9 +13,10 @@ namespace GPGO_MultiPLCs.Models
     public class PLC_DataProvider : PLC_Data
     {
         public delegate void RecordingFinishedEventHandler(ProcessInfo info);
-
         public delegate void SwitchRecipeEventHandler(string recipe);
+        public delegate void StartRecordingHandler(string recipe, AutoResetEvent LockObj);
 
+        private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly LineSeries[] LineSeries = new LineSeries[9];
         private readonly Stopwatch sw = new Stopwatch();
         private bool _OnlineStatus;
@@ -510,8 +511,9 @@ namespace GPGO_MultiPLCs.Models
             #endregion
         }
 
-        public event SwitchRecipeEventHandler SwitchRecipeEvent;
         public event RecordingFinishedEventHandler RecordingFinished;
+        public event SwitchRecipeEventHandler SwitchRecipeEvent;
+        public event StartRecordingHandler StartRecording;
 
         public void ResetStopTokenSource()
         {
@@ -531,6 +533,8 @@ namespace GPGO_MultiPLCs.Models
                 return;
             }
 
+            StartRecording?.Invoke(RecipeName, LockHandle); //引發開始記錄事件並以LockHandle等待完成
+
             await Task.Factory.StartNew(() =>
                                         {
                                             Process_Info.RecordTemperatures.Clear();
@@ -547,6 +551,8 @@ namespace GPGO_MultiPLCs.Models
                                             TimeAxis.StringFormat = "m:ss";
 
                                             RecordView.InvalidatePlot(true);
+
+                                            LockHandle.WaitOne();
 
                                             var n = TimeSpan.Zero;
                                             sw.Restart();
