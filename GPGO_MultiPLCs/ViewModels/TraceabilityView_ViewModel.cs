@@ -16,20 +16,31 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         private readonly MongoClient Mongo_Client;
 
-        private ICollection<ProcessInfo> _Results;
+        private ProcessInfo[] _Results;
+        private ProcessInfo[] _ViewResults;
         private DateTime _Date1;
         private DateTime _Date2;
         private int _Index1;
         private int _Index2;
-        private int _TotalCount;
         private bool _Standby;
+        private int _StationIndex;
 
-        public ICollection<ProcessInfo> Results
+        public ProcessInfo[] Results
         {
             get => _Results;
             set
             {
                 _Results = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ProcessInfo[] ViewResults
+        {
+            get => _ViewResults;
+            set
+            {
+                _ViewResults = value;
                 NotifyPropertyChanged();
             }
         }
@@ -61,6 +72,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _Index1 = value;
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(LowerDate));
             }
         }
 
@@ -71,16 +83,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _Index2 = value;
                 NotifyPropertyChanged();
-            }
-        }
-
-        public int TotalCount
-        {
-            get => _TotalCount;
-            set
-            {
-                _TotalCount = value;
-                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(UpperDate));
             }
         }
 
@@ -94,9 +97,30 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public int StationIndex
+        {
+            get => _StationIndex;
+            set
+            {
+                _StationIndex = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public DateTime? LowerDate => _Results?[_Index1]?.AddedTime;
+        public DateTime? UpperDate => _Results?[_Index2]?.AddedTime;
+
+        public RelayCommand LoadedCommand { get; }
+
         public TraceabilityView_ViewModel(MongoClient mongo)
         {
             Mongo_Client = mongo;
+
+            LoadedCommand=new RelayCommand(o=>
+                                           {
+                                               Date1 = DateTime.Today;
+                                               Date2 = DateTime.Today;
+                                           });
         }
 
         public async void AddToDB(int index, ProcessInfo info)

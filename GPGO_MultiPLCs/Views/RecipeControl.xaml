@@ -134,7 +134,7 @@
             Background="{StaticResource WindowBackgroundBrush3}"
             DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}"
             Header="{Binding RecipeName, Mode=OneWay}"
-            IsEnabled="{Binding Converter={StaticResource NullEnableValue}}">
+            IsEnabled="{Binding Converter={StaticResource IsNotNull}}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70" />

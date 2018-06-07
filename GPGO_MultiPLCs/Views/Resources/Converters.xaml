@@ -12,7 +12,7 @@
     <local:MultiBooleanConverter x:Key="MultiBooleanConverter" />
     <local:NullVis x:Key="NullVis" />
     <local:IsEqualValue x:Key="IsEqualValue" />
-    <local:NullEnableValue x:Key="NullEnableValue" />
+    <local:IsNotNull x:Key="IsNotNull" />
     <local:BoolNot x:Key="BoolNot" />
     <local:AddValue x:Key="AddValue" />
     <local:ToArrayConverter x:Key="ToArrayConverter" />

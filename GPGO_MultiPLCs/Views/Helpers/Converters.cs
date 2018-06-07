@@ -157,7 +157,7 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
-    public class NullEnableValue : IValueConverter
+    public class IsNotNull : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
