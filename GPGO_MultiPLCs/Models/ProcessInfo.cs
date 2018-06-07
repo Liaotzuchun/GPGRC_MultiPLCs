@@ -8,6 +8,10 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
+        [BsonId]
+        public DateTime AddedTime;
+        public int StationNumber;
+
         private Dictionary<TimeSpan, string> _AlarmList = new Dictionary<TimeSpan, string>();
         private DateTime _EndTime;
         private bool _FirstPanel;

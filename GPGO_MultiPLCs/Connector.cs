@@ -34,7 +34,7 @@ namespace GPGO_MultiPLCs
             MainVM = new MainWindow_ViewModel();
             TotalVM = new TotalView_ViewModel(DialogVM);
             RecipeVM = new RecipeControl_ViewModel(Mongo, DialogVM);
-            TraceVM = new TraceabilityView_ViewModel();
+            TraceVM = new TraceabilityView_ViewModel(Mongo);
 
             RecipeVM.ListUpdatedEvent += async list =>
                                          {
@@ -61,6 +61,11 @@ namespace GPGO_MultiPLCs
 
                                       obj?.Set();
                                   };
+
+            TotalVM.AddRecordToDB += (i, info) =>
+                                     {
+                                         TraceVM.AddToDB(i, info);
+                                     };
         }
     }
 }

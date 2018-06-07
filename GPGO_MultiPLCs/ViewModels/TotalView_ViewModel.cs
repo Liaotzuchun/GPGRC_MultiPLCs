@@ -46,6 +46,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
+        public delegate void AddRecordToDBHandler(int index, ProcessInfo info);
 
         private const int PLC_Count = 20;
         private const int Check_Dev = 21; //心跳信號位置
@@ -224,6 +225,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i].RecordingFinished += info =>
                                              {
                                                  //寫入資料庫，上傳
+                                                 AddRecordToDB?.Invoke(j, info);
                                              };
             }
 
@@ -279,6 +281,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public event WantRecipeHandler WantRecipe;
+        public event AddRecordToDBHandler AddRecordToDB;
 
         public bool SetReadLists(string[][] list)
         {
