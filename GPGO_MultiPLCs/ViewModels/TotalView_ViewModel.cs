@@ -23,9 +23,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        void IGPServiceCallback.M_Changed(int index, Dictionary<int, bool> val)
+        void IGPServiceCallback.Bit_Changed(BitType type, int index, Dictionary<int, bool> val)
         {
-            if (index < PLC_Count)
+            if (type == BitType.M && index < PLC_Count)
             {
                 foreach (var v in val)
                 {
@@ -34,9 +34,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        void IGPServiceCallback.D_Changed(int index, Dictionary<int, short> val)
+        void IGPServiceCallback.Data_Changed(DataType type, int index, Dictionary<int, short> val)
         {
-            if (index < PLC_Count)
+            if (type == DataType.D && index < PLC_Count)
             {
                 foreach (var v in val)
                 {
@@ -229,7 +229,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                              };
             }
 
-            var namelists = M_List.Values.OrderBy(x => x).Select(x => "M" + x.ToString()).Concat(D_List.Values.OrderBy(x => x).Select(x => "D" + x.ToString())).ToList();
+            var namelists = M_List.Values.OrderBy(x => x).Select(x => BitType.M.ToString() + x.ToString()).Concat(D_List.Values.OrderBy(x => x).Select(x => DataType.D.ToString() + x.ToString())).ToList();
             var namearray = new[]
                             {
                                 namelists.ToArray(),
@@ -343,7 +343,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             if (PLC_Client.State == CommunicationState.Opened)
             {
-                await PLC_Client.Set_DAsync(index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
             }
         }
 

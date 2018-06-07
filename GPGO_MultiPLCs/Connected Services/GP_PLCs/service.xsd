@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" />
   <xs:element name="Initial">
     <xs:complexType>
       <xs:sequence />
@@ -19,40 +18,39 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list"
-                    nillable="true" type="q1:ArrayOfstring" />
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list" nillable="true" type="q1:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SetReadLists">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list"
-                    nillable="true" type="q2:ArrayOfArrayOfstring" />
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list" nillable="true" type="q2:ArrayOfArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Set_M">
+  <xs:element name="Set_Bit">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q3:BitType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs"
-                    nillable="true" type="q3:ArrayOfKeyValueOfintboolean" />
+        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q4:ArrayOfKeyValueOfintboolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Set_D">
+  <xs:element name="Set_Data">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q5:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs"
-                    nillable="true" type="q4:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q6:ArrayOfKeyValueOfintshort" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Set_Int">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q7:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
         <xs:element minOccurs="0" name="val" type="xs:int" />
@@ -62,43 +60,42 @@
   <xs:element name="Set_String">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q8:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
         <xs:element minOccurs="0" name="val" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Get_M">
+  <xs:element name="Get_Bit">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q9:BitType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs"
-                    nillable="true" type="q5:ArrayOfint" />
+        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q10:ArrayOfint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Get_MResponse">
+  <xs:element name="Get_BitResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0"
-                    name="Get_MResult" nillable="true" type="q6:ArrayOfKeyValueOfintboolean" />
+        <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_BitResult" nillable="true" type="q11:ArrayOfKeyValueOfintboolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Get_D">
+  <xs:element name="Get_Data">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q12:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs"
-                    nillable="true" type="q7:ArrayOfint" />
+        <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q13:ArrayOfint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Get_DResponse">
+  <xs:element name="Get_DataResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0"
-                    name="Get_DResult" nillable="true" type="q8:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_DataResult" nillable="true" type="q14:ArrayOfKeyValueOfintshort" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -110,21 +107,21 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="M_Changed">
+  <xs:element name="Bit_Changed">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q15:BitType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val"
-                    nillable="true" type="q9:ArrayOfKeyValueOfintboolean" />
+        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val" nillable="true" type="q16:ArrayOfKeyValueOfintboolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="D_Changed">
+  <xs:element name="Data_Changed">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q17:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val"
-                    nillable="true" type="q10:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q18="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val" nillable="true" type="q18:ArrayOfKeyValueOfintshort" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

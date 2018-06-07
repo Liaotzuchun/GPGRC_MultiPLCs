@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="BitType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="M" />
+      <xs:enumeration value="B" />
+      <xs:enumeration value="X" />
+      <xs:enumeration value="Y" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="BitType" nillable="true" type="tns:BitType" />
+  <xs:simpleType name="DataType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="D" />
+      <xs:enumeration value="W" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="DataType" nillable="true" type="tns:DataType" />
+</xs:schema>

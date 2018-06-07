@@ -329,6 +329,9 @@
     <None Include="Connected Services\GP_PLCs\Arrays.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\GP_PLCs\MultiPLCs_Gate.ViewModels.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\GP_PLCs\service.wsdl" />
     <None Include="Connected Services\GP_PLCs\service.xsd">
       <SubType>Designer</SubType>
