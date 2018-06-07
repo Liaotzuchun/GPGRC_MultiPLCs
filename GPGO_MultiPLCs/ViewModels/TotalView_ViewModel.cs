@@ -229,36 +229,42 @@ namespace GPGO_MultiPLCs.ViewModels
                                              };
             }
 
-            var namelists = M_List.Values.OrderBy(x => x).Select(x => BitType.M.ToString() + x.ToString()).Concat(D_List.Values.OrderBy(x => x).Select(x => DataType.D.ToString() + x.ToString())).ToList();
+            // 產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
+            var namelists = M_List.Values.OrderBy(x => x).Select(x => BitType.M.ToString() + x.ToString())
+                    .Concat(D_List.Values.OrderBy(x => x).Select(x => DataType.D.ToString() + x.ToString()))
+                    .ToList();
+
+            //20台PLC共用列表
+            var list = namelists.ToArray();
             var namearray = new[]
                             {
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray(),
-                                namelists.ToArray()
+                                list, //1
+                                list, //2
+                                list, //3
+                                list, //4
+                                list, //5
+                                list, //6
+                                list, //7
+                                list, //8
+                                list, //9
+                                list, //10
+                                list, //11
+                                list, //12
+                                list, //13
+                                list, //14
+                                list, //15
+                                list, //16
+                                list, //17
+                                list, //18
+                                list, //19
+                                list  //20
                             };
 
             Checker = new Timer(o =>
                                 {
                                     if (!Gate_Status)
                                     {
-                                        if (Connect() && Initial() && SetReadLists(namearray))
+                                        if (Connect() && Initial() && SetReadLists(namearray)) //連線並發送訂閱列表
                                         {
                                             Gate_Status = true;
                                         }
