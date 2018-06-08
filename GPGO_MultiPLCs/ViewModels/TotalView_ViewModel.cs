@@ -230,32 +230,30 @@ namespace GPGO_MultiPLCs.ViewModels
             var namelists = M_List.Values.OrderBy(x => x)
                                   .Select(x => BitType.M.ToString() + x.ToString())
                                   .Concat(D_List.Values.OrderBy(x => x).Select(x => DataType.D.ToString() + x.ToString()))
-                                  .ToList();
+                                  .ToArray();
 
-            //20台PLC共用列表
-            var list = namelists.ToArray();
             var namearray = new[]
                             {
-                                list, //1
-                                list, //2
-                                list, //3
-                                list, //4
-                                list, //5
-                                list, //6
-                                list, //7
-                                list, //8
-                                list, //9
-                                list, //10
-                                list, //11
-                                list, //12
-                                list, //13
-                                list, //14
-                                list, //15
-                                list, //16
-                                list, //17
-                                list, //18
-                                list, //19
-                                list //20
+                                namelists, //1
+                                namelists, //2
+                                namelists, //3
+                                namelists, //4
+                                namelists, //5
+                                namelists, //6
+                                namelists, //7
+                                namelists, //8
+                                namelists, //9
+                                namelists, //10
+                                namelists, //11
+                                namelists, //12
+                                namelists, //13
+                                namelists, //14
+                                namelists, //15
+                                namelists, //16
+                                namelists, //17
+                                namelists, //18
+                                namelists, //19
+                                namelists //20
                             };
 
             Checker = new Timer(o =>
