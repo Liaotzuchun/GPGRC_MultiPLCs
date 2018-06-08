@@ -308,6 +308,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async Task SetRecipe(int index, PLC_Recipe recipe)
         {
+            if (recipe == null)
+            {
+                return;
+            }
+
             PLC_All[index].RecipeName = recipe.RecipeName;
             PLC_All[index].TargetTemperature_1 = recipe.TargetTemperature_1;
             PLC_All[index].TargetTemperature_2 = recipe.TargetTemperature_2;

@@ -28,6 +28,7 @@ namespace GPGO_MultiPLCs.Models
         private string _Selected_Name;
 
         public CancellationTokenSource CTS;
+        public LinearAxis TemperatureAxis;
         public TimeSpanAxis TimeAxis;
         public PlotModel RecordView { get; }
         public ProcessInfo Process_Info { get; }
@@ -40,11 +41,6 @@ namespace GPGO_MultiPLCs.Models
             {
                 _OnlineStatus = value;
                 NotifyPropertyChanged();
-
-                if (!value && IsRecording) //PLC或PLC Gate離線，結束資料紀錄
-                {
-                    CTS?.Cancel();
-                }
             }
         }
 
@@ -125,7 +121,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
+        public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.RanToCompletion || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
         public PLC_DataProvider(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
         {
@@ -182,27 +178,27 @@ namespace GPGO_MultiPLCs.Models
                              LegendItemOrder = LegendItemOrder.Reverse
                          };
 
-            var YAxis = new LinearAxis
-                        {
-                            TitleColor = color,
-                            Title = "溫度",
-                            Unit = "°C",
-                            TickStyle = TickStyle.Inside,
-                            MajorGridlineStyle = LineStyle.Solid,
-                            MajorStep = 100,
-                            MinorGridlineStyle = LineStyle.None,
-                            MinorTickSize = 0,
-                            MinorStep = 10,
-                            AxislineStyle = LineStyle.Solid,
-                            AxislineColor = color,
-                            MajorGridlineColor = color,
-                            MinorGridlineColor = color,
-                            TicklineColor = color,
-                            ExtraGridlineColor = color,
-                            TextColor = color,
-                            Maximum = 600,
-                            Minimum = 0
-                        };
+            TemperatureAxis = new LinearAxis
+                              {
+                                  TitleColor = color,
+                                  Title = "溫度",
+                                  Unit = "°C",
+                                  TickStyle = TickStyle.Inside,
+                                  MajorGridlineStyle = LineStyle.Solid,
+                                  MajorStep = 20,
+                                  MinorGridlineStyle = LineStyle.None,
+                                  MinorTickSize = 0,
+                                  MinorStep = 10,
+                                  AxislineStyle = LineStyle.Solid,
+                                  AxislineColor = color,
+                                  MajorGridlineColor = color,
+                                  MinorGridlineColor = color,
+                                  TicklineColor = color,
+                                  ExtraGridlineColor = color,
+                                  TextColor = color,
+                                  Maximum = 100,
+                                  Minimum = 0
+                              };
 
             TimeAxis = new TimeSpanAxis
                        {
@@ -258,7 +254,7 @@ namespace GPGO_MultiPLCs.Models
                                 LineStyle = LineStyle.Solid,
                                 MarkerFill = OxyColors.White,
                                 MarkerType = MarkerType.None,
-                                Color = OxyColors.GreenYellow,
+                                Color = OxyColors.Yellow,
                                 MarkerSize = 1
                             };
 
@@ -280,7 +276,7 @@ namespace GPGO_MultiPLCs.Models
                                 LineStyle = LineStyle.Solid,
                                 MarkerFill = OxyColors.White,
                                 MarkerType = MarkerType.None,
-                                Color = OxyColors.Blue,
+                                Color = OxyColors.DodgerBlue,
                                 MarkerSize = 1
                             };
 
@@ -291,7 +287,7 @@ namespace GPGO_MultiPLCs.Models
                                 LineStyle = LineStyle.Solid,
                                 MarkerFill = OxyColors.White,
                                 MarkerType = MarkerType.None,
-                                Color = OxyColors.MediumPurple,
+                                Color = OxyColors.DarkOrchid,
                                 MarkerSize = 1
                             };
 
@@ -324,11 +320,11 @@ namespace GPGO_MultiPLCs.Models
                                 LineStyle = LineStyle.Solid,
                                 MarkerFill = OxyColors.White,
                                 MarkerType = MarkerType.None,
-                                Color = OxyColors.Pink,
+                                Color = OxyColors.BurlyWood,
                                 MarkerSize = 1
                             };
 
-            RecordView.Axes.Add(YAxis);
+            RecordView.Axes.Add(TemperatureAxis);
             RecordView.Axes.Add(TimeAxis);
             foreach (var ls in LineSeries)
             {
@@ -465,8 +461,14 @@ namespace GPGO_MultiPLCs.Models
                                                      RecordingTask = StartRecoder(60000, CTS.Token);
                                                  }
                                                  else if (key == SignalNames.自動停止 ||
-                                                          key == SignalNames.程式結束 ||
-                                                          key == SignalNames.緊急停止 ||
+                                                          key == SignalNames.程式結束)
+                                                 {
+                                                     if (IsRecording)
+                                                     {
+                                                         CTS?.Cancel();
+                                                     }
+                                                 }
+                                                 else if (key == SignalNames.緊急停止 ||
                                                           key == SignalNames.電源反相 ||
                                                           key == SignalNames.循環風車過載 ||
                                                           key == SignalNames.循環風車INV異常)
@@ -531,11 +533,6 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            if (IsRecording)
-            {
-                return;
-            }
-
             StartRecording?.Invoke(RecipeName, LockHandle); //引發開始記錄事件並以LockHandle等待完成
 
             await Task.Factory.StartNew(() =>
@@ -547,6 +544,8 @@ namespace GPGO_MultiPLCs.Models
                                                 ls.Points.Clear();
                                             }
 
+                                            TemperatureAxis.MajorStep = 20;
+                                            TemperatureAxis.Maximum = 100;
                                             TimeAxis.Unit = "秒";
                                             TimeAxis.MajorStep = 10;
                                             TimeAxis.MinorStep = 1;
@@ -564,28 +563,50 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 if (sw.Elapsed >= n)
                                                 {
+                                                    //var vals = new Record_Temperatures
+                                                    //           {
+                                                    //               Time = sw.Elapsed,
+                                                    //               ThermostatTemperature = ThermostatTemperature,
+                                                    //               OvenTemperatures =
+                                                    //               {
+                                                    //                   [0] = OvenTemperature_1,
+                                                    //                   [1] = OvenTemperature_2,
+                                                    //                   [2] = OvenTemperature_3,
+                                                    //                   [3] = OvenTemperature_4,
+                                                    //                   [4] = OvenTemperature_5,
+                                                    //                   [5] = OvenTemperature_6,
+                                                    //                   [6] = OvenTemperature_7,
+                                                    //                   [7] = OvenTemperature_8
+                                                    //               }
+                                                    //           };
+
+                                                    var rn = new Random();
+                                                    var t = sw.Elapsed;
                                                     var vals = new Record_Temperatures
-                                                               {
-                                                                   Time = sw.Elapsed,
-                                                                   ThermostatTemperature = ThermostatTemperature,
-                                                                   OvenTemperature_1 = OvenTemperature_1,
-                                                                   OvenTemperature_2 = OvenTemperature_2,
-                                                                   OvenTemperature_3 = OvenTemperature_3,
-                                                                   OvenTemperature_4 = OvenTemperature_4,
-                                                                   OvenTemperature_5 = OvenTemperature_5,
-                                                                   OvenTemperature_6 = OvenTemperature_6,
-                                                                   OvenTemperature_7 = OvenTemperature_7,
-                                                                   OvenTemperature_8 = OvenTemperature_8
-                                                               };
+                                                    {
+                                                        Time = t,
+                                                        ThermostatTemperature = rn.Next(0, (t.Minutes + 1) * 80),
+                                                        OvenTemperatures =
+                                                                   {
+                                                                       [0] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [1] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [2] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [3] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [4] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [5] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [6] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [7] = rn.Next(0, (t.Minutes + 1) * 80)
+                                                                   }
+                                                    };
 
                                                     Process_Info.RecordTemperatures.Add(vals);
                                                     AddPlot(sw.Elapsed, vals);
 
-                                                    if (n > TimeSpan.FromMinutes(10))
+                                                    if (n >= TimeSpan.FromMinutes(10))
                                                     {
                                                         n += TimeSpan.FromMinutes(1);
                                                     }
-                                                    else if (n > TimeSpan.FromMinutes(1))
+                                                    else if (n >= TimeSpan.FromMinutes(1))
                                                     {
                                                         n += TimeSpan.FromSeconds(20);
                                                     }
@@ -607,6 +628,32 @@ namespace GPGO_MultiPLCs.Models
 
         private void AddPlot(TimeSpan t, Record_Temperatures vals)
         {
+            if (vals.Max > 480)
+            {
+                TemperatureAxis.Maximum = 600;
+                TemperatureAxis.MajorStep = 120;
+            }
+            else if (vals.Max > 380)
+            {
+                TemperatureAxis.Maximum = 500;
+                TemperatureAxis.MajorStep = 100;
+            }
+            else if (vals.Max > 280)
+            {
+                TemperatureAxis.Maximum = 400;
+                TemperatureAxis.MajorStep = 80;
+            }
+            else if (vals.Max > 180)
+            {
+                TemperatureAxis.Maximum = 300;
+                TemperatureAxis.MajorStep = 60;
+            }
+            else if (vals.Max > 80)
+            {
+                TemperatureAxis.Maximum = 200;
+                TemperatureAxis.MajorStep = 40;
+            }
+
             if (t > TimeSpan.FromMinutes(60))
             {
                 TimeAxis.Unit = "分";
@@ -632,25 +679,15 @@ namespace GPGO_MultiPLCs.Models
             }
 
             var time = TimeSpanAxis.ToDouble(t);
-            //LineSeries[8].Points.Add(new DataPoint(time, vals.ThermostatTemperature));
-            //LineSeries[7].Points.Add(new DataPoint(time, vals.OvenTemperature_1));
-            //LineSeries[6].Points.Add(new DataPoint(time, vals.OvenTemperature_2));
-            //LineSeries[5].Points.Add(new DataPoint(time, vals.OvenTemperature_3));
-            //LineSeries[4].Points.Add(new DataPoint(time, vals.OvenTemperature_4));
-            //LineSeries[3].Points.Add(new DataPoint(time, vals.OvenTemperature_5));
-            //LineSeries[2].Points.Add(new DataPoint(time, vals.OvenTemperature_6));
-            //LineSeries[1].Points.Add(new DataPoint(time, vals.OvenTemperature_7));
-            //LineSeries[0].Points.Add(new DataPoint(time, vals.OvenTemperature_8));
-            var rn = new Random();
-            LineSeries[0].Points.Add(new DataPoint(time, rn.Next(0, 500)));
-            LineSeries[1].Points.Add(new DataPoint(time, rn.Next(0, 500)));
-            LineSeries[2].Points.Add(new DataPoint(time, rn.Next(0, 500)));
-            LineSeries[3].Points.Add(new DataPoint(time, rn.Next(0, 500)));
-            LineSeries[4].Points.Add(new DataPoint(time, rn.Next(0, 500)));
-            LineSeries[5].Points.Add(new DataPoint(time, rn.Next(0, 500)));
-            LineSeries[6].Points.Add(new DataPoint(time, rn.Next(0, 500)));
-            LineSeries[7].Points.Add(new DataPoint(time, rn.Next(0, 500)));
-            LineSeries[8].Points.Add(new DataPoint(time, rn.Next(0, 500)));
+            LineSeries[8].Points.Add(new DataPoint(time, vals.ThermostatTemperature));
+            LineSeries[7].Points.Add(new DataPoint(time, vals.OvenTemperatures[0]));
+            LineSeries[6].Points.Add(new DataPoint(time, vals.OvenTemperatures[1]));
+            LineSeries[5].Points.Add(new DataPoint(time, vals.OvenTemperatures[2]));
+            LineSeries[4].Points.Add(new DataPoint(time, vals.OvenTemperatures[3]));
+            LineSeries[3].Points.Add(new DataPoint(time, vals.OvenTemperatures[4]));
+            LineSeries[2].Points.Add(new DataPoint(time, vals.OvenTemperatures[5]));
+            LineSeries[1].Points.Add(new DataPoint(time, vals.OvenTemperatures[6]));
+            LineSeries[0].Points.Add(new DataPoint(time, vals.OvenTemperatures[7]));
 
             RecordView.InvalidatePlot(true);
         }
