@@ -25,7 +25,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
-            if (index < PLC_Count && index > 0)
+            if (index < PLC_Count && index > -1)
             {
                 // short data先，bit bool後
 
@@ -41,8 +41,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
         public delegate void AddRecordToDBHandler(int index, ProcessInfo info);
+
+        public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
 
         private const int PLC_Count = 20;
         private const int Check_Dev = 21; //心跳信號位置
@@ -219,16 +220,17 @@ namespace GPGO_MultiPLCs.ViewModels
                                              };
 
                 PLC_All[i].RecordingFinished += info =>
-                                             {
-                                                 //寫入資料庫，上傳
-                                                 AddRecordToDB?.Invoke(j, info);
-                                             };
+                                                {
+                                                    //寫入資料庫，上傳
+                                                    AddRecordToDB?.Invoke(j, info);
+                                                };
             }
 
             // 產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
-            var namelists = M_List.Values.OrderBy(x => x).Select(x => BitType.M.ToString() + x.ToString())
-                    .Concat(D_List.Values.OrderBy(x => x).Select(x => DataType.D.ToString() + x.ToString()))
-                    .ToList();
+            var namelists = M_List.Values.OrderBy(x => x)
+                                  .Select(x => BitType.M.ToString() + x.ToString())
+                                  .Concat(D_List.Values.OrderBy(x => x).Select(x => DataType.D.ToString() + x.ToString()))
+                                  .ToList();
 
             //20台PLC共用列表
             var list = namelists.ToArray();
@@ -253,7 +255,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 list, //17
                                 list, //18
                                 list, //19
-                                list  //20
+                                list //20
                             };
 
             Checker = new Timer(o =>

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
 
 namespace GPGO_MultiPLCs
 {
@@ -9,9 +7,5 @@ namespace GPGO_MultiPLCs
     /// </summary>
     public partial class App : Application
     {
-        public App()
-        {
-            //InputLanguageManager.Current.CurrentInputLanguage = new CultureInfo("en-US");
-        }
     }
 }

@@ -8,10 +8,6 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
-        [BsonId]
-        public DateTime AddedTime;
-        public int StationNumber;
-
         private Dictionary<TimeSpan, string> _AlarmList = new Dictionary<TimeSpan, string>();
         private DateTime _EndTime;
         private bool _FirstPanel;
@@ -32,6 +28,11 @@ namespace GPGO_MultiPLCs.Models
         private short _TotalHeatingTime;
         private string _TrolleyCode;
         private short _WarmingTime;
+
+        [BsonId]
+        public DateTime AddedTime;
+
+        public int StationNumber;
 
         public List<Record_Temperatures> RecordTemperatures
         {

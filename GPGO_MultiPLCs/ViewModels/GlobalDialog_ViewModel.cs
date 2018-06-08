@@ -9,7 +9,7 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class GlobalDialog_ViewModel : ViewModelBase, IDialogService<string>
     {
-        public async Task<(bool result, string intput)> ShowWithIntput(string msg ,string header)
+        public async Task<(bool result, string intput)> ShowWithIntput(string msg, string header)
         {
             Intput = "";
             ConditionResult = null;
@@ -49,7 +49,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                             {
                                                 if (Lock.WaitOne(30000))
                                                 {
-
                                                     var (result, title_msg) = condition(_Intput);
 
                                                     if (EnterResult)

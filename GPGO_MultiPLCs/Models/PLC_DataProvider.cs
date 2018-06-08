@@ -13,11 +13,14 @@ namespace GPGO_MultiPLCs.Models
     public class PLC_DataProvider : PLC_Data
     {
         public delegate void RecordingFinishedEventHandler(ProcessInfo info);
-        public delegate void SwitchRecipeEventHandler(string recipe);
+
         public delegate void StartRecordingHandler(string recipe, AutoResetEvent LockObj);
 
-        private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
+        public delegate void SwitchRecipeEventHandler(string recipe);
+
         private readonly LineSeries[] LineSeries = new LineSeries[9];
+
+        private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
         private bool _OnlineStatus;
         private ICollection<string> _Recipe_Names;

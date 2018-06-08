@@ -42,16 +42,17 @@ namespace GPGO_MultiPLCs
 
                                              await Task.Factory.StartNew(() =>
                                                                          {
-                                                                             Parallel.ForEach(list, recipe =>
-                                                                             {
-                                                                                 for (var i = 0; i < recipe.Used_Stations.Length; i++)
-                                                                                 {
-                                                                                     if (recipe.Used_Stations[i])
-                                                                                     {
-                                                                                         TotalVM.SetRecipe(i, recipe).Wait();
-                                                                                     }
-                                                                                 }
-                                                                             });
+                                                                             Parallel.ForEach(list,
+                                                                                              recipe =>
+                                                                                              {
+                                                                                                  for (var i = 0; i < recipe.Used_Stations.Length; i++)
+                                                                                                  {
+                                                                                                      if (recipe.Used_Stations[i])
+                                                                                                      {
+                                                                                                          TotalVM.SetRecipe(i, recipe).Wait();
+                                                                                                      }
+                                                                                                  }
+                                                                                              });
                                                                          });
                                          };
 

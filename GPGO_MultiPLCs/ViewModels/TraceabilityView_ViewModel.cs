@@ -1,29 +1,22 @@
-﻿using GPGO_MultiPLCs.Helpers;
+﻿using System;
+using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class TraceabilityView_ViewModel : ViewModelBase
     {
         private readonly MongoClient Mongo_Client;
-
-        private ProcessInfo[] _Results;
-        private ProcessInfo[] _ViewResults;
         private DateTime _Date1;
         private DateTime _Date2;
         private int _Index1;
         private int _Index2;
+
+        private ProcessInfo[] _Results;
         private bool _Standby;
         private int _StationIndex;
+        private ProcessInfo[] _ViewResults;
 
         public ProcessInfo[] Results
         {
@@ -116,11 +109,11 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Mongo_Client = mongo;
 
-            LoadedCommand=new RelayCommand(o=>
-                                           {
-                                               Date1 = DateTime.Today;
-                                               Date2 = DateTime.Today;
-                                           });
+            LoadedCommand = new RelayCommand(o =>
+                                             {
+                                                 Date1 = DateTime.Today;
+                                                 Date2 = DateTime.Today;
+                                             });
         }
 
         public async void AddToDB(int index, ProcessInfo info)
@@ -134,7 +127,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 var Sets = db.GetCollection<ProcessInfo>("Product_Infos");
 
                 await Sets.InsertOneAsync(info);
-
             }
             catch (Exception ex)
             {

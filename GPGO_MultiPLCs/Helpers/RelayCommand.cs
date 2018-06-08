@@ -111,19 +111,7 @@ namespace GPGO_MultiPLCs.Helpers
     //提供能代入function並提供Result存取的Command
     public sealed class CommandWithResult<T> : ViewModelBase, ICommand
     {
-        private T _Result;
-
         public event EventHandler CanExecuteChanged;
-
-        public T Result
-        {
-            get => _Result;
-            set
-            {
-                _Result = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public bool CanExecute(object parameter)
         {
@@ -143,8 +131,19 @@ namespace GPGO_MultiPLCs.Helpers
         }
 
         private readonly Predicate<object> canExecute;
-        private readonly Func<object, Task<T>> execute_Task;
         private readonly Func<object, T> execute;
+        private readonly Func<object, Task<T>> execute_Task;
+        private T _Result;
+
+        public T Result
+        {
+            get => _Result;
+            set
+            {
+                _Result = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public CommandWithResult(Func<object, T> execute) : this(execute, null)
         {
