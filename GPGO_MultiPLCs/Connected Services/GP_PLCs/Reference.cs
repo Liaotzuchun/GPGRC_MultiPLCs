@@ -10,6 +10,7 @@
 
 namespace GPGO_MultiPLCs.GP_PLCs {
     using System.Runtime.Serialization;
+    using System;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
@@ -38,6 +39,131 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         W = 1,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PLC_Messages", Namespace="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels")]
+    [System.SerializableAttribute()]
+    public partial class PLC_Messages : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.Dictionary<int, bool> BField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.Dictionary<int, short> DField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.Dictionary<int, bool> MField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.Dictionary<int, short> WField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.Dictionary<int, bool> XField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.Dictionary<int, bool> YField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.Dictionary<int, bool> B {
+            get {
+                return this.BField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BField, value) != true)) {
+                    this.BField = value;
+                    this.RaisePropertyChanged("B");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.Dictionary<int, short> D {
+            get {
+                return this.DField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DField, value) != true)) {
+                    this.DField = value;
+                    this.RaisePropertyChanged("D");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.Dictionary<int, bool> M {
+            get {
+                return this.MField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MField, value) != true)) {
+                    this.MField = value;
+                    this.RaisePropertyChanged("M");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.Dictionary<int, short> W {
+            get {
+                return this.WField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WField, value) != true)) {
+                    this.WField = value;
+                    this.RaisePropertyChanged("W");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.Dictionary<int, bool> X {
+            get {
+                return this.XField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.XField, value) != true)) {
+                    this.XField = value;
+                    this.RaisePropertyChanged("X");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.Dictionary<int, bool> Y {
+            get {
+                return this.YField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.YField, value) != true)) {
+                    this.YField = value;
+                    this.RaisePropertyChanged("Y");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -111,11 +237,8 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Status_Changed")]
         void Status_Changed(int index, bool val);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Bit_Changed")]
-        void Bit_Changed(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, System.Collections.Generic.Dictionary<int, bool> val);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Data_Changed")]
-        void Data_Changed(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, short> val);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Messages_Send")]
+        void Messages_Send(int index, GPGO_MultiPLCs.GP_PLCs.PLC_Messages val);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

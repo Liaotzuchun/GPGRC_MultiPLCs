@@ -57,11 +57,8 @@
   <wsdl:message name="IGPService_Status_Changed_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:Status_Changed" />
   </wsdl:message>
-  <wsdl:message name="IGPService_Bit_Changed_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:Bit_Changed" />
-  </wsdl:message>
-  <wsdl:message name="IGPService_Data_Changed_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:Data_Changed" />
+  <wsdl:message name="IGPService_Messages_Send_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:Messages_Send" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="IGPService">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Initial">
@@ -99,11 +96,8 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Status_Changed">
       <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Status_Changed" message="tns:IGPService_Status_Changed_OutputCallbackMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Bit_Changed">
-      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Bit_Changed" message="tns:IGPService_Bit_Changed_OutputCallbackMessage" />
-    </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Data_Changed">
-      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Data_Changed" message="tns:IGPService_Data_Changed_OutputCallbackMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Messages_Send">
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Messages_Send" message="tns:IGPService_Messages_Send_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetNamedPipeBinding_IGPService" type="tns:IGPService">
@@ -182,14 +176,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Bit_Changed">
-      <soap12:operation soapAction="http://tempuri.org/IGPService/Bit_Changed" style="document" />
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="Data_Changed">
-      <soap12:operation soapAction="http://tempuri.org/IGPService/Data_Changed" style="document" />
+    <wsdl:operation name="Messages_Send">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Messages_Send" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>

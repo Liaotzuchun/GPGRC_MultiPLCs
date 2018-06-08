@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:simpleType name="BitType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="M" />
@@ -16,4 +17,15 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="DataType" nillable="true" type="tns:DataType" />
+  <xs:complexType name="PLC_Messages">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="B" nillable="true" type="q1:ArrayOfKeyValueOfintboolean" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="D" nillable="true" type="q2:ArrayOfKeyValueOfintshort" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="M" nillable="true" type="q3:ArrayOfKeyValueOfintboolean" />
+      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="W" nillable="true" type="q4:ArrayOfKeyValueOfintshort" />
+      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="X" nillable="true" type="q5:ArrayOfKeyValueOfintboolean" />
+      <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Y" nillable="true" type="q6:ArrayOfKeyValueOfintboolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PLC_Messages" nillable="true" type="tns:PLC_Messages" />
 </xs:schema>

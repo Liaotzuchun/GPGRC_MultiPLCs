@@ -107,21 +107,11 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="Bit_Changed">
+  <xs:element name="Messages_Send">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q15:BitType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val" nillable="true" type="q16:ArrayOfKeyValueOfintboolean" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="Data_Changed">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q17:DataType" />
-        <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q18="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="val" nillable="true" type="q18:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="val" nillable="true" type="q15:PLC_Messages" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

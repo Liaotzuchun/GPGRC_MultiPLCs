@@ -23,24 +23,20 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        void IGPServiceCallback.Bit_Changed(BitType type, int index, Dictionary<int, bool> val)
+        void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
-            if (type == BitType.M && index < PLC_Count)
+            if (index < PLC_Count && index > 0)
             {
-                foreach (var v in val)
-                {
-                    PLC_All[index].M_Values[v.Key] = v.Value;
-                }
-            }
-        }
+                // short data先，bit bool後
 
-        void IGPServiceCallback.Data_Changed(DataType type, int index, Dictionary<int, short> val)
-        {
-            if (type == DataType.D && index < PLC_Count)
-            {
-                foreach (var v in val)
+                foreach (var D in val.D)
                 {
-                    PLC_All[index].D_Values[v.Key] = v.Value;
+                    PLC_All[index].D_Values[D.Key] = D.Value;
+                }
+
+                foreach (var M in val.M)
+                {
+                    PLC_All[index].M_Values[M.Key] = M.Value;
                 }
             }
         }
