@@ -17,7 +17,7 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         void IGPServiceCallback.Status_Changed(int index, bool val)
         {
-            if (index < PLC_Count)
+            if (index < PLC_Count && index > -1)
             {
                 PLC_All[index].OnlineStatus = val;
             }
