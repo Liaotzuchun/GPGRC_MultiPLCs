@@ -46,7 +46,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
 
         private const int Check_Dev = 21; //!   心跳信號位置
-        private const int PLC_Count = 20;
+        private const int PLC_Count = 20; //!   PLC站數
         private readonly Timer Checker;
         private readonly InstanceContext site;
         private bool _Gate_Status;

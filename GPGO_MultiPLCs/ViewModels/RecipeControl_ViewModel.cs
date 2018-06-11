@@ -12,14 +12,14 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public delegate void ListUpdated(List<PLC_Recipe> list);
 
-        private readonly MongoClient Mongo_Client;
-
         private string _SearchName;
         private PLC_Recipe _Selected_PLC_Recipe;
         private int _Selected_PLC_Recipe_Index;
         private bool _Standby;
         private string _TypedName;
         private List<PLC_Recipe> _ViewRecipes;
+
+        private readonly MongoClient Mongo_Client;
         private List<PLC_Recipe> Recipes;
 
         public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);

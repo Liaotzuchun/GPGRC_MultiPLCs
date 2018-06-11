@@ -16,4 +16,6 @@
     <local:BoolNot x:Key="BoolNot" />
     <local:AddValue x:Key="AddValue" />
     <local:ToArrayConverter x:Key="ToArrayConverter" />
+    <local:IsMoreThanValue x:Key="IsMoreThanValue" />
+    <local:IsLessThanValue x:Key="IsLessThanValue" />
 </ResourceDictionary>

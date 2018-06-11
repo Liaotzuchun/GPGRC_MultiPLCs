@@ -17,6 +17,116 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
+    <UserControl.Resources>
+        <Style
+            x:Key="ColumnHeaderStyle"
+            TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+            <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+            <Setter Property="BorderThickness" Value="0,0,1,1" />
+            <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border
+                            Margin="{TemplateBinding Margin}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                Margin="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style
+            x:Key="DataGridCellStyle"
+            TargetType="{x:Type DataGridCell}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                Margin="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style
+            x:Key="RowHeaderStyle"
+            TargetType="DataGridRowHeader">
+            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+            <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+            <Setter Property="BorderThickness" Value="0,0,1,1" />
+            <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <TextBlock
+                                Margin="4,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding (FrameworkElement.TemplatedParent).(DataGridRow.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <!--<Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource DarkBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <Trigger Property="IsRowSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource PressedBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>-->
+        </Style>
+        <Style
+            x:Key="DataGridRowStyle"
+            TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource DarkBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource PressedBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <Grid Background="{StaticResource WindowBackgroundBrush2}">
         <GroupBox Header="生產履歷">
             <Grid
@@ -49,6 +159,7 @@
                         x:Name="CB"
                         Grid.Row="1"
                         IsEnabled="{Binding IsChecked, Converter={StaticResource BoolNot}, ElementName=TotalTB, Mode=OneWay}"
+                        IsEnabledChanged="CB_IsEnabledChanged"
                         SelectedIndex="{Binding StationIndex, Mode=TwoWay}" />
                     <Border
                         Grid.Column="1"
@@ -87,9 +198,9 @@
                             x:Name="RS"
                             Margin="4,0"
                             VerticalAlignment="Center"
-                            LowerValue="{Binding Index1, Mode=TwoWay}"
-                            Maximum="{Binding Results.Count, Mode=OneWay}"
-                            UpperValue="{Binding Index2, Mode=TwoWay}">
+                            LowerValue="{Binding Index1, Mode=OneWayToSource}"
+                            Maximum="{Binding TotalCount, Mode=OneWay}"
+                            UpperValue="{Binding Index2, Mode=OneWayToSource}">
                             <local:RangeSlider.IsEnabled>
                                 <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
                                     <Binding
@@ -258,16 +369,20 @@
                 <DataGrid
                     x:Name="dg"
                     Grid.Row="2"
-                    AutoGenerateColumns="False"
                     BorderThickness="1"
                     CanUserReorderColumns="False"
                     CanUserResizeColumns="False"
                     CanUserResizeRows="False"
                     CanUserSortColumns="False"
+                    CellStyle="{StaticResource DataGridCellStyle}"
+                    ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
                     Focusable="False"
                     FontSize="11"
                     IsReadOnly="True"
                     IsSynchronizedWithCurrentItem="False"
+                    ItemsSource="{Binding ViewResults, Mode=OneWay}"
+                    RowHeaderStyle="{StaticResource RowHeaderStyle}"
+                    RowStyle="{StaticResource DataGridRowStyle}"
                     SelectionMode="Single"
                     Style="{StaticResource DataGridStyle1}" />
             </Grid>

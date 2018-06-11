@@ -15,16 +15,18 @@ namespace GPGO_MultiPLCs.ViewModels
         private int _Index2;
 
         private List<ProcessInfo> _Results;
-        private bool _Standby;
+        private bool _Standby = true;
         private int _StationIndex;
 
         public RelayCommand LoadedCommand { get; }
 
-        public DateTime? LowerDate => _Results?[_Index1]?.AddedTime;
+        public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.AddedTime : null;
 
-        public DateTime? UpperDate => _Results?[_Index2]?.AddedTime;
+        public int TotalCount => _Results?.Count > 0 ? _Results.Count - 1 : 0;
 
-        public List<ProcessInfo> ViewResults => _Results?.GetRange(_Index1, _Index2);
+        public DateTime? UpperDate => _Results?.Count > 0 ? _Results[_Index2]?.AddedTime : null;
+
+        public List<ProcessInfo> ViewResults => _Index2 >= _Index1 && _Results?.Count > 0 ? _Results?.GetRange(_Index1, _Index2 - _Index1 + 1) : null;
 
         public DateTime Date1
         {
@@ -33,6 +35,14 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _Date1 = value;
                 NotifyPropertyChanged();
+
+                if (_Date2 < _Date1)
+                {
+                    _Date2 = Date1;
+                    NotifyPropertyChanged(nameof(Date2));
+                }
+
+                UpdateResults(_Date1, _Date2, _StationIndex);
             }
         }
 
@@ -43,6 +53,14 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _Date2 = value;
                 NotifyPropertyChanged();
+
+                if (_Date1 > Date2)
+                {
+                    _Date1 = Date2;
+                    NotifyPropertyChanged(nameof(Date1));
+                }
+
+                UpdateResults(_Date1, _Date2, _StationIndex);
             }
         }
 
@@ -77,6 +95,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _Results = value;
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(TotalCount));
                 NotifyPropertyChanged(nameof(ViewResults));
             }
         }
@@ -98,18 +117,9 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _StationIndex = value;
                 NotifyPropertyChanged();
+
+                UpdateResults(_Date1, _Date2, _StationIndex);
             }
-        }
-
-        public TraceabilityView_ViewModel(MongoClient mongo)
-        {
-            Mongo_Client = mongo;
-
-            LoadedCommand = new RelayCommand(o =>
-                                             {
-                                                 Date1 = DateTime.Today;
-                                                 Date2 = DateTime.Today;
-                                             });
         }
 
         public async void AddToDB(int index, ProcessInfo info)
@@ -130,18 +140,43 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public async void UpdateResults(DateTime date1, DateTime date2)
+        /// <summary>
+        ///     依據條件，更新查詢結果列表
+        /// </summary>
+        /// <param name="date1">起始時間</param>
+        /// <param name="date2">結束時間</param>
+        /// <param name="tag">站號，由0開始計數</param>
+        public async void UpdateResults(DateTime date1, DateTime date2, int tag)
         {
+            Standby = false;
+
             try
             {
                 var db = Mongo_Client.GetDatabase("GP");
                 var Sets = db.GetCollection<ProcessInfo>("Product_Infos");
 
-                Results = await (await Sets.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1))).ToListAsync();
+                Results = await (await Sets.FindAsync(x => x.AddedTime >= date1 &&
+                                                           x.AddedTime < date2.AddDays(1) &&
+                                                           (tag == -1 || x.StationNumber == tag))).ToListAsync();
             }
             catch (Exception)
             {
             }
+
+            Standby = true;
         }
+
+        public TraceabilityView_ViewModel(MongoClient mongo)
+        {
+            Mongo_Client = mongo;
+
+            LoadedCommand = new RelayCommand(o =>
+                                             {
+                                                 Date1 = DateTime.Today;
+                                                 Date2 = DateTime.Today;
+                                             });
+        }
+
+        //todo  輸出excel
     }
 }

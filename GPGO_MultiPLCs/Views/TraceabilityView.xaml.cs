@@ -11,5 +11,10 @@ namespace GPGO_MultiPLCs.Views
         {
             InitializeComponent();
         }
+
+        private void CB_IsEnabledChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            CB.SelectedIndex = -1;
+        }
     }
 }

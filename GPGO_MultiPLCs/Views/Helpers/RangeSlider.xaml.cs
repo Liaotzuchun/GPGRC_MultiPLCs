@@ -26,13 +26,11 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(DisableLowerValueProperty, value);
         }
 
-
         public double LowerValue
         {
             get => Convert.ToDouble(GetValue(LowerValueProperty));
             set => SetValue(LowerValueProperty, value);
         }
-
 
         public double Maximum
         {
@@ -40,30 +38,45 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(MaximumProperty, value);
         }
 
-
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var slider = (RangeSlider)d;
 
-            //var max = slider.Maximum;
-            //var lv = slider.LowerValue;
-            //var uv = slider.UpperValue;
+            if (e.Property.Name == nameof(Maximum))
+            {
+                if (slider.Maximum < 0)
+                {
+                    slider.Maximum = 0;
+                }
 
-            if (e.Property.Name == "Maximum")
-            {
-                slider.UpperSlider.Value = slider.Maximum;
-            }
+                if (slider.Minimum > slider.Maximum)
+                {
+                    slider.Minimum = slider.Maximum;
+                }
 
-            if (slider.Maximum < slider.LowerValue)
-            {
-                slider.LowerValue = slider.Maximum;
                 slider.UpperValue = slider.Maximum;
+                slider.LowerValue = slider.LowerValue;
             }
-            else if (slider.Maximum < slider.UpperValue)
+            else if (e.Property.Name == nameof(Minimum))
             {
-                slider.UpperValue = slider.Maximum;
+                if (slider.Minimum < 0)
+                {
+                    slider.Minimum = 0;
+                }
+
+                if (slider.Maximum < slider.Minimum)
+                {
+                    slider.Maximum = slider.Minimum;
+                }
+
+                slider.UpperValue = slider.UpperValue;
+                slider.LowerValue = slider.Minimum;
             }
-            else if (slider.UpperValue < slider.LowerValue)
+            else if (e.Property.Name == nameof(LowerValue) && slider.UpperValue < slider.LowerValue)
+            {
+                slider.UpperValue = slider.LowerValue;
+            }
+            else if (e.Property.Name == nameof(UpperValue) && slider.UpperValue < slider.LowerValue)
             {
                 slider.LowerValue = slider.UpperValue;
             }
@@ -79,7 +92,6 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(MinimumProperty, value);
         }
 
-
         public double UpperValue
         {
             get => Convert.ToDouble(GetValue(UpperValueProperty));
@@ -87,12 +99,6 @@ namespace GPGO_MultiPLCs.Views
         }
 
         public delegate void PropertyChangedEventEventHandler();
-
-        public RangeSlider()
-        {
-            InitializeComponent();
-            LayoutUpdated += RangeSlider_LayoutUpdated;
-        }
 
         public static event PropertyChangedEventEventHandler PropertyChangedEvent;
 
@@ -104,7 +110,14 @@ namespace GPGO_MultiPLCs.Views
 
         private void SetLowerValueVisibility()
         {
-            LowerSlider.Visibility = DisableLowerValue ? Visibility.Collapsed : Visibility.Visible;
+            if (DisableLowerValue)
+            {
+                LowerSlider.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                LowerSlider.Visibility = Visibility.Visible;
+            }
         }
 
         private void SetProgressBorder()
@@ -121,6 +134,12 @@ namespace GPGO_MultiPLCs.Views
                 upperPoint = UpperSlider.ActualWidth - upperPoint;
                 TrackBackground.Margin = new Thickness(lowerPoint, 0, upperPoint, 0);
             }
+        }
+
+        public RangeSlider()
+        {
+            InitializeComponent();
+            LayoutUpdated += RangeSlider_LayoutUpdated;
         }
     }
 }
