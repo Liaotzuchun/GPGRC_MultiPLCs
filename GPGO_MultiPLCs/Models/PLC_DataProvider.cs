@@ -21,31 +21,21 @@ namespace GPGO_MultiPLCs.Models
         public CancellationTokenSource CTS;
         public LinearAxis TemperatureAxis;
         public TimeSpanAxis TimeAxis;
-        private bool _OnlineStatus;
-        private ICollection<string> _Recipe_Names;
-        private Task _RecordingTask;
-        private string _Selected_Name;
 
         private readonly LineSeries[] LineSeries = new LineSeries[9];
 
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
+        private bool _OnlineStatus;
+        private ICollection<string> _Recipe_Names;
+        private Task _RecordingTask;
+        private string _Selected_Name;
         public CommandWithResult<bool> CheckInCommand { get; }
 
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running ||
                                    _RecordingTask?.Status == TaskStatus.RanToCompletion ||
                                    _RecordingTask?.Status == TaskStatus.WaitingForActivation ||
                                    _RecordingTask?.Status == TaskStatus.WaitingToRun;
-
-        public bool OnlineStatus
-        {
-            get => _OnlineStatus;
-            set
-            {
-                _OnlineStatus = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public ProcessInfo Process_Info { get; }
 
@@ -82,6 +72,18 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public PlotModel RecordView { get; }
+
+        public bool OnlineStatus
+        {
+            get => _OnlineStatus;
+            set
+            {
+                _OnlineStatus = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public ICollection<string> Recipe_Names
         {
             get => _Recipe_Names;
@@ -113,8 +115,6 @@ namespace GPGO_MultiPLCs.Models
                 NotifyPropertyChanged(nameof(IsRecording));
             }
         }
-
-        public PlotModel RecordView { get; }
 
         public string Selected_Name
         {

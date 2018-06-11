@@ -116,6 +116,8 @@ namespace GPGO_MultiPLCs.ViewModels
             return (_ConditionResult != null && EnterResult && _ConditionResult.Value, Intput);
         }
 
+        private readonly AutoResetEvent Lock;
+
         private bool? _ConditionResult;
         private bool _EnterEnable;
         private string _Intput = "";
@@ -127,9 +129,11 @@ namespace GPGO_MultiPLCs.ViewModels
         private bool _WithIntput;
 
         private bool EnterResult;
-
-        private readonly AutoResetEvent Lock;
         public RelayCommand CancelCommand { get; }
+
+        public RelayCommand EnterCommand { get; }
+
+        public RelayCommand OkayCommand { get; }
 
         public bool? ConditionResult
         {
@@ -140,8 +144,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged();
             }
         }
-
-        public RelayCommand EnterCommand { get; }
 
         public bool EnterEnable
         {
@@ -183,8 +185,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged();
             }
         }
-
-        public RelayCommand OkayCommand { get; }
 
         public bool SupportCancel
         {

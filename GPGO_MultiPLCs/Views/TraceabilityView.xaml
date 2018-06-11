@@ -88,7 +88,7 @@
                             Margin="4,0"
                             VerticalAlignment="Center"
                             LowerValue="{Binding Index1, Mode=TwoWay}"
-                            Maximum="{Binding Results.Length, Mode=OneWay}"
+                            Maximum="{Binding Results.Count, Mode=OneWay}"
                             UpperValue="{Binding Index2, Mode=TwoWay}">
                             <local:RangeSlider.IsEnabled>
                                 <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
@@ -251,7 +251,7 @@
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Text="{Binding ViewResults.Length, Mode=OneWay}" />
+                                Text="{Binding ViewResults.Count, Mode=OneWay}" />
                         </Border>
                     </Grid>
                 </Grid>

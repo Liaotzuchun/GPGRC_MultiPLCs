@@ -46,6 +46,15 @@ namespace GPGO_MultiPLCs.Models
         private bool[] _Used_Stations = new bool[20];
         private short _UsedSegmentCounts;
 
+        public short SegmentCounts_Max => 8;
+        public short SegmentCounts_Min => 1;
+
+        public double Temperature_Max => 240.0;
+        public double Temperature_Min => 40.0;
+
+        public short Time_Max => 600;
+        public short Time_Min => 1;
+
         public short ConstantTime_1
         {
             get => _ConstantTime_1;
@@ -237,9 +246,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short SegmentCounts_Max => 8;
-        public short SegmentCounts_Min => 1;
-
         public double TargetTemperature_1
         {
             get => _TargetTemperature_1;
@@ -320,9 +326,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public double Temperature_Max => 240.0;
-        public double Temperature_Min => 40.0;
-
         public double ThermostaticTemperature_1
         {
             get => _ThermostaticTemperature_1;
@@ -402,9 +405,6 @@ namespace GPGO_MultiPLCs.Models
                 NotifyPropertyChanged();
             }
         }
-
-        public short Time_Max => 600;
-        public short Time_Min => 1;
 
         public DateTime Updated
         {

@@ -47,13 +47,17 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private const int Check_Dev = 21; //!   心跳信號位置
         private const int PLC_Count = 20;
+        private readonly Timer Checker;
+        private readonly InstanceContext site;
         private bool _Gate_Status;
         private int _Index; //! Tab頁面的index
         private int _ViewIndex = -1; //!    選取PLC的index
-        private readonly Timer Checker;
         private GPServiceClient PLC_Client;
-        private readonly InstanceContext site;
         public RelayCommand BackCommand { get; }
+
+        public PLC_DataProvider[] PLC_All { get; }
+
+        public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
 
         public bool Gate_Status
         {
@@ -80,10 +84,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
             }
         }
-
-        public PLC_DataProvider[] PLC_All { get; }
-
-        public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
 
         public int ViewIndex
         {

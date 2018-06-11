@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
@@ -7,16 +8,23 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class TraceabilityView_ViewModel : ViewModelBase
     {
+        private readonly MongoClient Mongo_Client;
         private DateTime _Date1;
         private DateTime _Date2;
         private int _Index1;
         private int _Index2;
 
-        private ProcessInfo[] _Results;
+        private List<ProcessInfo> _Results;
         private bool _Standby;
         private int _StationIndex;
-        private ProcessInfo[] _ViewResults;
-        private readonly MongoClient Mongo_Client;
+
+        public RelayCommand LoadedCommand { get; }
+
+        public DateTime? LowerDate => _Results?[_Index1]?.AddedTime;
+
+        public DateTime? UpperDate => _Results?[_Index2]?.AddedTime;
+
+        public List<ProcessInfo> ViewResults => _Results?.GetRange(_Index1, _Index2);
 
         public DateTime Date1
         {
@@ -46,6 +54,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 _Index1 = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(LowerDate));
+                NotifyPropertyChanged(nameof(ViewResults));
             }
         }
 
@@ -57,20 +66,18 @@ namespace GPGO_MultiPLCs.ViewModels
                 _Index2 = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(UpperDate));
+                NotifyPropertyChanged(nameof(ViewResults));
             }
         }
 
-        public RelayCommand LoadedCommand { get; }
-
-        public DateTime? LowerDate => _Results?[_Index1]?.AddedTime;
-
-        public ProcessInfo[] Results
+        public List<ProcessInfo> Results
         {
             get => _Results;
             set
             {
                 _Results = value;
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(ViewResults));
             }
         }
 
@@ -90,18 +97,6 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _StationIndex = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public DateTime? UpperDate => _Results?[_Index2]?.AddedTime;
-
-        public ProcessInfo[] ViewResults
-        {
-            get => _ViewResults;
-            set
-            {
-                _ViewResults = value;
                 NotifyPropertyChanged();
             }
         }
@@ -132,6 +127,20 @@ namespace GPGO_MultiPLCs.ViewModels
             catch (Exception ex)
             {
                 ErrorRecoder.RecordError(ex, "生產紀錄寫入資料庫失敗");
+            }
+        }
+
+        public async void UpdateResults(DateTime date1, DateTime date2)
+        {
+            try
+            {
+                var db = Mongo_Client.GetDatabase("GP");
+                var Sets = db.GetCollection<ProcessInfo>("Product_Infos");
+
+                Results = await (await Sets.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1))).ToListAsync();
+            }
+            catch (Exception)
+            {
             }
         }
     }

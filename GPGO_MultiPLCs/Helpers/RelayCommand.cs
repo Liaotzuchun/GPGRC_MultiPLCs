@@ -130,11 +130,11 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        private T _Result;
-
         private readonly Predicate<object> canExecute;
         private readonly Func<object, T> execute;
         private readonly Func<object, Task<T>> execute_Task;
+
+        private T _Result;
 
         public T Result
         {
