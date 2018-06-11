@@ -10,47 +10,6 @@ namespace GPGO_MultiPLCs.Views
         private int _columns;
         private int _rows;
 
-        protected override Size MeasureOverride(Size constraint)
-        {
-            UpdateComputedValues();
-
-            var step_w_0 = Math.Floor(constraint.Width / _columns);
-            var step_w_1 = Math.Ceiling(constraint.Width / _columns);
-            var step_h_0 = Math.Floor(constraint.Height / _rows);
-            var step_h_1 = Math.Ceiling(constraint.Height / _rows);
-            var total_w = 0.0;
-            var total_h = 0.0;
-
-            var i = 0;
-            foreach (UIElement child in InternalChildren)
-            {
-                if (child.Visibility == Visibility.Collapsed)
-                {
-                    continue;
-                }
-
-                double x = i % _columns;
-                double y = _columns == 0 ? 0 : i / _columns;
-
-                child.Measure(new Size(x % 2.0 == 0 ? step_w_0 : step_w_1, y % 2.0 == 0 ? step_h_0 : step_h_1));
-                if (i < _columns)
-                {
-                    var childDesiredSize = child.DesiredSize;
-                    total_w += childDesiredSize.Width;
-                }
-
-                if (x == 0)
-                {
-                    var childDesiredSize = child.DesiredSize;
-                    total_h += childDesiredSize.Height;
-                }
-
-                i++;
-            }
-
-            return new Size(total_w, total_h);
-        }
-
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             var step_w_0 = Math.Floor(arrangeSize.Width / _columns);
@@ -90,6 +49,47 @@ namespace GPGO_MultiPLCs.Views
             }
 
             return arrangeSize;
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            UpdateComputedValues();
+
+            var step_w_0 = Math.Floor(constraint.Width / _columns);
+            var step_w_1 = Math.Ceiling(constraint.Width / _columns);
+            var step_h_0 = Math.Floor(constraint.Height / _rows);
+            var step_h_1 = Math.Ceiling(constraint.Height / _rows);
+            var total_w = 0.0;
+            var total_h = 0.0;
+
+            var i = 0;
+            foreach (UIElement child in InternalChildren)
+            {
+                if (child.Visibility == Visibility.Collapsed)
+                {
+                    continue;
+                }
+
+                double x = i % _columns;
+                double y = _columns == 0 ? 0 : i / _columns;
+
+                child.Measure(new Size(x % 2.0 == 0 ? step_w_0 : step_w_1, y % 2.0 == 0 ? step_h_0 : step_h_1));
+                if (i < _columns)
+                {
+                    var childDesiredSize = child.DesiredSize;
+                    total_w += childDesiredSize.Width;
+                }
+
+                if (x == 0)
+                {
+                    var childDesiredSize = child.DesiredSize;
+                    total_h += childDesiredSize.Height;
+                }
+
+                i++;
+            }
+
+            return new Size(total_w, total_h);
         }
 
         private void UpdateComputedValues()
@@ -153,47 +153,6 @@ namespace GPGO_MultiPLCs.Views
         private int _columns;
         private int _rows;
 
-        protected override Size MeasureOverride(Size constraint)
-        {
-            UpdateComputedValues();
-
-            var step_w_0 = Math.Floor(constraint.Width / _columns);
-            var step_w_1 = Math.Ceiling(constraint.Width / _columns);
-            var step_h_0 = Math.Floor(constraint.Height / _rows);
-            var step_h_1 = Math.Ceiling(constraint.Height / _rows);
-            var total_w = 0.0;
-            var total_h = 0.0;
-
-            var i = 0;
-            foreach (UIElement child in InternalChildren)
-            {
-                if (child.Visibility == Visibility.Collapsed)
-                {
-                    continue;
-                }
-
-                double x = _rows == 0 ? 0 : i / _rows;
-                double y = i % _rows;
-
-                child.Measure(new Size(x % 2.0 == 0 ? step_w_0 : step_w_1, y % 2.0 == 0 ? step_h_0 : step_h_1));
-                if (i < _rows)
-                {
-                    var childDesiredSize = child.DesiredSize;
-                    total_h += childDesiredSize.Height;
-                }
-
-                if (x == 0)
-                {
-                    var childDesiredSize = child.DesiredSize;
-                    total_w += childDesiredSize.Width;
-                }
-
-                i++;
-            }
-
-            return new Size(total_w, total_h);
-        }
-
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             var step_w_0 = Math.Floor(arrangeSize.Width / _columns);
@@ -233,6 +192,47 @@ namespace GPGO_MultiPLCs.Views
             }
 
             return arrangeSize;
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            UpdateComputedValues();
+
+            var step_w_0 = Math.Floor(constraint.Width / _columns);
+            var step_w_1 = Math.Ceiling(constraint.Width / _columns);
+            var step_h_0 = Math.Floor(constraint.Height / _rows);
+            var step_h_1 = Math.Ceiling(constraint.Height / _rows);
+            var total_w = 0.0;
+            var total_h = 0.0;
+
+            var i = 0;
+            foreach (UIElement child in InternalChildren)
+            {
+                if (child.Visibility == Visibility.Collapsed)
+                {
+                    continue;
+                }
+
+                double x = _rows == 0 ? 0 : i / _rows;
+                double y = i % _rows;
+
+                child.Measure(new Size(x % 2.0 == 0 ? step_w_0 : step_w_1, y % 2.0 == 0 ? step_h_0 : step_h_1));
+                if (i < _rows)
+                {
+                    var childDesiredSize = child.DesiredSize;
+                    total_h += childDesiredSize.Height;
+                }
+
+                if (x == 0)
+                {
+                    var childDesiredSize = child.DesiredSize;
+                    total_w += childDesiredSize.Width;
+                }
+
+                i++;
+            }
+
+            return new Size(total_w, total_h);
         }
 
         private void UpdateComputedValues()
@@ -300,6 +300,29 @@ namespace GPGO_MultiPLCs.Views
         private int _columns;
         private int _rows;
 
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            var finalRect = new Rect(0.0, 0.0, arrangeSize.Width / _columns, arrangeSize.Height / _rows);
+            var height = finalRect.Height;
+            var numX = arrangeSize.Height - 1.0;
+            finalRect.X += finalRect.Width * FirstColumn;
+            foreach (UIElement element in InternalChildren)
+            {
+                element.Arrange(finalRect);
+                if (element.Visibility != Visibility.Collapsed)
+                {
+                    finalRect.Y += height;
+                    if (finalRect.Y >= numX)
+                    {
+                        finalRect.X += finalRect.Width;
+                        finalRect.Y = 0.0;
+                    }
+                }
+            }
+
+            return arrangeSize;
+        }
+
         protected override Size MeasureOverride(Size constraint)
         {
             UpdateComputedValues();
@@ -327,29 +350,6 @@ namespace GPGO_MultiPLCs.Views
             }
 
             return new Size(width * _columns, height * _rows);
-        }
-
-        protected override Size ArrangeOverride(Size arrangeSize)
-        {
-            var finalRect = new Rect(0.0, 0.0, arrangeSize.Width / _columns, arrangeSize.Height / _rows);
-            var height = finalRect.Height;
-            var numX = arrangeSize.Height - 1.0;
-            finalRect.X += finalRect.Width * FirstColumn;
-            foreach (UIElement element in InternalChildren)
-            {
-                element.Arrange(finalRect);
-                if (element.Visibility != Visibility.Collapsed)
-                {
-                    finalRect.Y += height;
-                    if (finalRect.Y >= numX)
-                    {
-                        finalRect.X += finalRect.Width;
-                        finalRect.Y = 0.0;
-                    }
-                }
-            }
-
-            return arrangeSize;
         }
 
         private void UpdateComputedValues()

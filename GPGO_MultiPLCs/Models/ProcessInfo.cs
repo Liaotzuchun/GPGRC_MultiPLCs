@@ -8,6 +8,10 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
+        [BsonId]
+        public DateTime AddedTime;
+
+        public int StationNumber;
         private Dictionary<TimeSpan, string> _AlarmList = new Dictionary<TimeSpan, string>();
         private DateTime _EndTime;
         private bool _FirstPanel;
@@ -29,57 +33,12 @@ namespace GPGO_MultiPLCs.Models
         private string _TrolleyCode;
         private short _WarmingTime;
 
-        [BsonId]
-        public DateTime AddedTime;
-
-        public int StationNumber;
-
-        public List<Record_Temperatures> RecordTemperatures
-        {
-            get => _RecordTemperatures;
-            set
-            {
-                _RecordTemperatures = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         public Dictionary<TimeSpan, string> AlarmList
         {
             get => _AlarmList;
             set
             {
                 _AlarmList = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string OrderCode
-        {
-            get => _OrderCode;
-            set
-            {
-                _OrderCode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public int ProcessNumber
-        {
-            get => _ProcessNumber;
-            set
-            {
-                _ProcessNumber = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public DateTime StartTime
-        {
-            get => _StartTime;
-            set
-            {
-                _StartTime = value;
                 NotifyPropertyChanged();
             }
         }
@@ -94,112 +53,12 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public string MachineCode
-        {
-            get => _MachineCode;
-            set
-            {
-                _MachineCode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string ProduceCode
-        {
-            get => _ProduceCode;
-            set
-            {
-                _ProduceCode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public int OrderCount
-        {
-            get => _OrderCount;
-            set
-            {
-                _OrderCount = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public int ProcessCount
-        {
-            get => _ProcessCount;
-            set
-            {
-                _ProcessCount = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string OperatorID
-        {
-            get => _OperatorID;
-            set
-            {
-                _OperatorID = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string JigCode
-        {
-            get => _JigCode;
-            set
-            {
-                _JigCode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Side
-        {
-            get => _Side;
-            set
-            {
-                _Side = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public int PCS_Number
-        {
-            get => _PCS_Number;
-            set
-            {
-                _PCS_Number = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         public bool FirstPanel
         {
             get => _FirstPanel;
             set
             {
                 _FirstPanel = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string TrolleyCode
-        {
-            get => _TrolleyCode;
-            set
-            {
-                _TrolleyCode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetOvenTemperature
-        {
-            get => _TargetOvenTemperature;
-            set
-            {
-                _TargetOvenTemperature = value;
                 NotifyPropertyChanged();
             }
         }
@@ -214,12 +73,132 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short WarmingTime
+        public string JigCode
         {
-            get => _WarmingTime;
+            get => _JigCode;
             set
             {
-                _WarmingTime = value;
+                _JigCode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string MachineCode
+        {
+            get => _MachineCode;
+            set
+            {
+                _MachineCode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string OperatorID
+        {
+            get => _OperatorID;
+            set
+            {
+                _OperatorID = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string OrderCode
+        {
+            get => _OrderCode;
+            set
+            {
+                _OrderCode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int OrderCount
+        {
+            get => _OrderCount;
+            set
+            {
+                _OrderCount = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int PCS_Number
+        {
+            get => _PCS_Number;
+            set
+            {
+                _PCS_Number = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int ProcessCount
+        {
+            get => _ProcessCount;
+            set
+            {
+                _ProcessCount = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int ProcessNumber
+        {
+            get => _ProcessNumber;
+            set
+            {
+                _ProcessNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string ProduceCode
+        {
+            get => _ProduceCode;
+            set
+            {
+                _ProduceCode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public List<Record_Temperatures> RecordTemperatures
+        {
+            get => _RecordTemperatures;
+            set
+            {
+                _RecordTemperatures = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Side
+        {
+            get => _Side;
+            set
+            {
+                _Side = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public DateTime StartTime
+        {
+            get => _StartTime;
+            set
+            {
+                _StartTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double TargetOvenTemperature
+        {
+            get => _TargetOvenTemperature;
+            set
+            {
+                _TargetOvenTemperature = value;
                 NotifyPropertyChanged();
             }
         }
@@ -230,6 +209,26 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _TotalHeatingTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string TrolleyCode
+        {
+            get => _TrolleyCode;
+            set
+            {
+                _TrolleyCode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime
+        {
+            get => _WarmingTime;
+            set
+            {
+                _WarmingTime = value;
                 NotifyPropertyChanged();
             }
         }

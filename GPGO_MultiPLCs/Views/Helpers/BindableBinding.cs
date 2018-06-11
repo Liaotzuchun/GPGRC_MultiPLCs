@@ -10,6 +10,60 @@ namespace GPGO_MultiPLCs.Views
     {
         private readonly Binding binding = new Binding();
 
+        public IValueConverter Converter { get; set; }
+
+        public Binding ConverterBinding { get; set; }
+
+        public CultureInfo ConverterCulture
+        {
+            get => binding.ConverterCulture;
+            set => binding.ConverterCulture = value;
+        }
+
+        public object ConverterParameter { get; set; }
+
+        public Binding ConverterParameterBinding { get; set; }
+
+        public string ElementName
+        {
+            get => binding.ElementName;
+            set => binding.ElementName = value;
+        }
+
+        public BindingMode Mode
+        {
+            get => binding.Mode;
+            set => binding.Mode = value;
+        }
+
+        public PropertyPath Path
+        {
+            get => binding.Path;
+            set => binding.Path = value;
+        }
+
+        public RelativeSource RelativeSource
+        {
+            get => binding.RelativeSource;
+            set => binding.RelativeSource = value;
+        }
+
+        public object Source
+        {
+            get => binding.Source;
+            set => binding.Source = value;
+        }
+
+        public string StringFormat { get; set; }
+
+        public Binding StringFormatBinding { get; set; }
+
+        public string XPath
+        {
+            get => binding.XPath;
+            set => binding.XPath = value;
+        }
+
         private class InternalConverter : IMultiValueConverter
         {
             object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -66,60 +120,6 @@ namespace GPGO_MultiPLCs.Views
                 this.binding = binding;
             }
         }
-
-        public PropertyPath Path
-        {
-            get => binding.Path;
-            set => binding.Path = value;
-        }
-
-        public object Source
-        {
-            get => binding.Source;
-            set => binding.Source = value;
-        }
-
-        public RelativeSource RelativeSource
-        {
-            get => binding.RelativeSource;
-            set => binding.RelativeSource = value;
-        }
-
-        public string ElementName
-        {
-            get => binding.ElementName;
-            set => binding.ElementName = value;
-        }
-
-        public string XPath
-        {
-            get => binding.XPath;
-            set => binding.XPath = value;
-        }
-
-        public BindingMode Mode
-        {
-            get => binding.Mode;
-            set => binding.Mode = value;
-        }
-
-        public CultureInfo ConverterCulture
-        {
-            get => binding.ConverterCulture;
-            set => binding.ConverterCulture = value;
-        }
-
-        public object ConverterParameter { get; set; }
-
-        public Binding ConverterParameterBinding { get; set; }
-
-        public IValueConverter Converter { get; set; }
-
-        public Binding ConverterBinding { get; set; }
-
-        public string StringFormat { get; set; }
-
-        public Binding StringFormatBinding { get; set; }
 
         public BindableBinding()
         {

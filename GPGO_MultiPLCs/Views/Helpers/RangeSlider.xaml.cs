@@ -6,41 +6,18 @@ namespace GPGO_MultiPLCs.Views
 {
     public partial class RangeSlider : UserControl
     {
-        public delegate void PropertyChangedEventEventHandler();
-
         public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
-
         public static readonly DependencyProperty LowerValueProperty = DependencyProperty.Register("LowerValue", typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
-
         public static readonly DependencyProperty UpperValueProperty = DependencyProperty.Register("UpperValue", typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
-
         public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
 
         public static readonly DependencyProperty DisableLowerValueProperty =
             DependencyProperty.Register("DisableLowerValue", typeof(bool), typeof(RangeSlider), new UIPropertyMetadata(false, DisabledLowerValueChanged));
 
-        public double Minimum
+        private static void DisabledLowerValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get => Convert.ToDouble(GetValue(MinimumProperty));
-            set => SetValue(MinimumProperty, value);
-        }
-
-        public double Maximum
-        {
-            get => Convert.ToDouble(GetValue(MaximumProperty));
-            set => SetValue(MaximumProperty, value);
-        }
-
-        public double LowerValue
-        {
-            get => Convert.ToDouble(GetValue(LowerValueProperty));
-            set => SetValue(LowerValueProperty, value);
-        }
-
-        public double UpperValue
-        {
-            get => Convert.ToDouble(GetValue(UpperValueProperty));
-            set => SetValue(UpperValueProperty, value);
+            var slider = (RangeSlider)d;
+            slider.SetLowerValueVisibility();
         }
 
         public bool DisableLowerValue
@@ -49,53 +26,20 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(DisableLowerValueProperty, value);
         }
 
-        public RangeSlider()
+
+        public double LowerValue
         {
-            InitializeComponent();
-            LayoutUpdated += RangeSlider_LayoutUpdated;
+            get => Convert.ToDouble(GetValue(LowerValueProperty));
+            set => SetValue(LowerValueProperty, value);
         }
 
-        public static event PropertyChangedEventEventHandler PropertyChangedEvent;
 
-        private void RangeSlider_LayoutUpdated(object sender, EventArgs e)
+        public double Maximum
         {
-            SetProgressBorder();
-            SetLowerValueVisibility();
+            get => Convert.ToDouble(GetValue(MaximumProperty));
+            set => SetValue(MaximumProperty, value);
         }
 
-        private void SetProgressBorder()
-        {
-            var val = Maximum - Minimum;
-            if (val <= 0)
-            {
-                TrackBackground.Margin = new Thickness(0, 0, 0, 0);
-            }
-            else
-            {
-                var lowerPoint = LowerSlider.ActualWidth * (LowerValue - Minimum) / val;
-                var upperPoint = UpperSlider.ActualWidth * (UpperValue - Minimum) / val;
-                upperPoint = UpperSlider.ActualWidth - upperPoint;
-                TrackBackground.Margin = new Thickness(lowerPoint, 0, upperPoint, 0);
-            }
-        }
-
-        private void SetLowerValueVisibility()
-        {
-            if (DisableLowerValue)
-            {
-                LowerSlider.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                LowerSlider.Visibility = Visibility.Visible;
-            }
-        }
-
-        private static void DisabledLowerValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var slider = (RangeSlider)d;
-            slider.SetLowerValueVisibility();
-        }
 
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -127,6 +71,63 @@ namespace GPGO_MultiPLCs.Views
             slider.SetProgressBorder();
 
             PropertyChangedEvent?.Invoke();
+        }
+
+        public double Minimum
+        {
+            get => Convert.ToDouble(GetValue(MinimumProperty));
+            set => SetValue(MinimumProperty, value);
+        }
+
+
+        public double UpperValue
+        {
+            get => Convert.ToDouble(GetValue(UpperValueProperty));
+            set => SetValue(UpperValueProperty, value);
+        }
+
+        public delegate void PropertyChangedEventEventHandler();
+
+        public RangeSlider()
+        {
+            InitializeComponent();
+            LayoutUpdated += RangeSlider_LayoutUpdated;
+        }
+
+        public static event PropertyChangedEventEventHandler PropertyChangedEvent;
+
+        private void RangeSlider_LayoutUpdated(object sender, EventArgs e)
+        {
+            SetProgressBorder();
+            SetLowerValueVisibility();
+        }
+
+        private void SetLowerValueVisibility()
+        {
+            if (DisableLowerValue)
+            {
+                LowerSlider.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                LowerSlider.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SetProgressBorder()
+        {
+            var val = Maximum - Minimum;
+            if (val <= 0)
+            {
+                TrackBackground.Margin = new Thickness(0, 0, 0, 0);
+            }
+            else
+            {
+                var lowerPoint = LowerSlider.ActualWidth * (LowerValue - Minimum) / val;
+                var upperPoint = UpperSlider.ActualWidth * (UpperValue - Minimum) / val;
+                upperPoint = UpperSlider.ActualWidth - upperPoint;
+                TrackBackground.Margin = new Thickness(lowerPoint, 0, upperPoint, 0);
+            }
         }
     }
 }

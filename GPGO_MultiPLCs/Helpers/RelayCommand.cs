@@ -46,6 +46,12 @@ namespace GPGO_MultiPLCs.Helpers
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(InteractiveCommand), new UIPropertyMetadata(null));
 
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
         private string commandName;
 
         public string CommandName
@@ -64,12 +70,6 @@ namespace GPGO_MultiPLCs.Helpers
                     WritePostscript();
                 }
             }
-        }
-
-        public ICommand Command
-        {
-            get => (ICommand)GetValue(CommandProperty);
-            set => SetValue(CommandProperty, value);
         }
 
         protected override void Invoke(object parameter)
@@ -130,10 +130,11 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
+        private T _Result;
+
         private readonly Predicate<object> canExecute;
         private readonly Func<object, T> execute;
         private readonly Func<object, Task<T>> execute_Task;
-        private T _Result;
 
         public T Result
         {
@@ -176,11 +177,6 @@ namespace GPGO_MultiPLCs.Helpers
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(EventToCommand), new UIPropertyMetadata(null));
 
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(EventToCommand), new UIPropertyMetadata(null));
-
-        public static readonly DependencyProperty EventProperty = DependencyProperty.RegisterAttached("Event", typeof(RoutedEvent), typeof(EventToCommand), new UIPropertyMetadata(null, EventChanged));
-
         public static ICommand GetCommand(DependencyObject obj)
         {
             return (ICommand)obj.GetValue(CommandProperty);
@@ -190,6 +186,9 @@ namespace GPGO_MultiPLCs.Helpers
         {
             obj.SetValue(CommandProperty, value);
         }
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(EventToCommand), new UIPropertyMetadata(null));
 
         public static object GetCommandParameter(DependencyObject obj)
         {
@@ -201,6 +200,16 @@ namespace GPGO_MultiPLCs.Helpers
             obj.SetValue(CommandParameterProperty, value);
         }
 
+        public static readonly DependencyProperty EventProperty = DependencyProperty.RegisterAttached("Event", typeof(RoutedEvent), typeof(EventToCommand), new UIPropertyMetadata(null, EventChanged));
+
+        private static void EventChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is UIElement ele)
+            {
+                ele.AddHandler((RoutedEvent)e.NewValue, new RoutedEventHandler(DoCommand));
+            }
+        }
+
         public static RoutedEvent GetEvent(DependencyObject obj)
         {
             return (RoutedEvent)obj.GetValue(EventProperty);
@@ -209,14 +218,6 @@ namespace GPGO_MultiPLCs.Helpers
         public static void SetEvent(DependencyObject obj, RoutedEvent value)
         {
             obj.SetValue(EventProperty, value);
-        }
-
-        private static void EventChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (sender is UIElement ele)
-            {
-                ele.AddHandler((RoutedEvent)e.NewValue, new RoutedEventHandler(DoCommand));
-            }
         }
 
         private static void DoCommand(object sender, RoutedEventArgs e)

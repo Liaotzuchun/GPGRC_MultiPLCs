@@ -15,14 +15,6 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class TotalView_ViewModel : ViewModelBase, IGPServiceCallback
     {
-        void IGPServiceCallback.Status_Changed(int index, bool val)
-        {
-            if (index < PLC_Count && index > -1)
-            {
-                PLC_All[index].OnlineStatus = val;
-            }
-        }
-
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
             if (index < PLC_Count && index > -1)
@@ -41,21 +33,38 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        void IGPServiceCallback.Status_Changed(int index, bool val)
+        {
+            if (index < PLC_Count && index > -1)
+            {
+                PLC_All[index].OnlineStatus = val;
+            }
+        }
+
         public delegate void AddRecordToDBHandler(int index, ProcessInfo info);
 
         public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
 
-        private const int PLC_Count = 20;
         private const int Check_Dev = 21; //心跳信號位置
-        private readonly Timer Checker;
-        private readonly InstanceContext site;
+        private const int PLC_Count = 20;
         private bool _Gate_Status;
         private int _Index; //Tab頁面的index
         private int _ViewIndex = -1; //選取PLC的index
+        private readonly Timer Checker;
         private GPServiceClient PLC_Client;
-
-        public PLC_DataProvider[] PLC_All { get; }
+        private readonly InstanceContext site;
         public RelayCommand BackCommand { get; }
+
+        public bool Gate_Status
+        {
+            get => _Gate_Status;
+            set
+            {
+                _Gate_Status = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public PlotModel HistogramView { get; set; }
 
         public int Index
@@ -72,6 +81,10 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public PLC_DataProvider[] PLC_All { get; }
+
+        public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
+
         public int ViewIndex
         {
             get => _ViewIndex;
@@ -86,18 +99,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
             }
         }
-
-        public bool Gate_Status
-        {
-            get => _Gate_Status;
-            set
-            {
-                _Gate_Status = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
 
         public TotalView_ViewModel(IDialogService<string> dialog)
         {
@@ -282,85 +283,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                 Timeout.Infinite);
         }
 
-        public event WantRecipeHandler WantRecipe;
         public event AddRecordToDBHandler AddRecordToDB;
 
-        public bool SetReadLists(string[][] list)
-        {
-            try
-            {
-                if (PLC_Client.State != CommunicationState.Opened)
-                {
-                    return false;
-                }
-
-                PLC_Client.SetReadLists(list);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task SetRecipe(int index, PLC_Recipe recipe)
-        {
-            if (recipe == null)
-            {
-                return;
-            }
-
-            PLC_All[index].RecipeName = recipe.RecipeName;
-            PLC_All[index].TargetTemperature_1 = recipe.TargetTemperature_1;
-            PLC_All[index].TargetTemperature_2 = recipe.TargetTemperature_2;
-            PLC_All[index].TargetTemperature_3 = recipe.TargetTemperature_3;
-            PLC_All[index].TargetTemperature_4 = recipe.TargetTemperature_4;
-            PLC_All[index].TargetTemperature_5 = recipe.TargetTemperature_5;
-            PLC_All[index].TargetTemperature_6 = recipe.TargetTemperature_6;
-            PLC_All[index].TargetTemperature_7 = recipe.TargetTemperature_7;
-            PLC_All[index].TargetTemperature_8 = recipe.TargetTemperature_8;
-            PLC_All[index].HeatingTime_1 = recipe.HeatingTime_1;
-            PLC_All[index].HeatingTime_2 = recipe.HeatingTime_2;
-            PLC_All[index].HeatingTime_3 = recipe.HeatingTime_3;
-            PLC_All[index].HeatingTime_4 = recipe.HeatingTime_4;
-            PLC_All[index].HeatingTime_5 = recipe.HeatingTime_5;
-            PLC_All[index].HeatingTime_6 = recipe.HeatingTime_6;
-            PLC_All[index].HeatingTime_7 = recipe.HeatingTime_7;
-            PLC_All[index].HeatingTime_8 = recipe.HeatingTime_8;
-            PLC_All[index].ThermostaticTemperature_1 = recipe.ThermostaticTemperature_1;
-            PLC_All[index].ThermostaticTemperature_2 = recipe.ThermostaticTemperature_2;
-            PLC_All[index].ThermostaticTemperature_3 = recipe.ThermostaticTemperature_3;
-            PLC_All[index].ThermostaticTemperature_4 = recipe.ThermostaticTemperature_4;
-            PLC_All[index].ThermostaticTemperature_5 = recipe.ThermostaticTemperature_5;
-            PLC_All[index].ThermostaticTemperature_6 = recipe.ThermostaticTemperature_6;
-            PLC_All[index].ThermostaticTemperature_7 = recipe.ThermostaticTemperature_7;
-            PLC_All[index].ThermostaticTemperature_8 = recipe.ThermostaticTemperature_8;
-            PLC_All[index].ConstantTime_1 = recipe.ConstantTime_1;
-            PLC_All[index].ConstantTime_2 = recipe.ConstantTime_2;
-            PLC_All[index].ConstantTime_3 = recipe.ConstantTime_3;
-            PLC_All[index].ConstantTime_4 = recipe.ConstantTime_4;
-            PLC_All[index].ConstantTime_5 = recipe.ConstantTime_5;
-            PLC_All[index].ConstantTime_6 = recipe.ConstantTime_6;
-            PLC_All[index].ConstantTime_7 = recipe.ConstantTime_7;
-            PLC_All[index].ConstantTime_8 = recipe.ConstantTime_8;
-            PLC_All[index].CoolingTemperature = recipe.CoolingTemperature;
-            PLC_All[index].InflatingTime = recipe.InflatingTime;
-            PLC_All[index].UsedSegmentCounts = recipe.UsedSegmentCounts;
-
-            if (PLC_Client.State == CommunicationState.Opened)
-            {
-                await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
-            }
-        }
-
-        public void SetRecipeNames(ICollection<string> names)
-        {
-            foreach (var plc in PLC_All)
-            {
-                plc.Recipe_Names = names;
-            }
-        }
+        public event WantRecipeHandler WantRecipe;
 
         public void IniPlotView()
         {
@@ -439,6 +364,102 @@ namespace GPGO_MultiPLCs.ViewModels
             HistogramView.Series.Add(barSeries1);
         }
 
+        public bool SetReadLists(string[][] list)
+        {
+            try
+            {
+                if (PLC_Client.State != CommunicationState.Opened)
+                {
+                    return false;
+                }
+
+                PLC_Client.SetReadLists(list);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task SetRecipe(int index, PLC_Recipe recipe)
+        {
+            if (recipe == null)
+            {
+                return;
+            }
+
+            PLC_All[index].RecipeName = recipe.RecipeName;
+            PLC_All[index].TargetTemperature_1 = recipe.TargetTemperature_1;
+            PLC_All[index].TargetTemperature_2 = recipe.TargetTemperature_2;
+            PLC_All[index].TargetTemperature_3 = recipe.TargetTemperature_3;
+            PLC_All[index].TargetTemperature_4 = recipe.TargetTemperature_4;
+            PLC_All[index].TargetTemperature_5 = recipe.TargetTemperature_5;
+            PLC_All[index].TargetTemperature_6 = recipe.TargetTemperature_6;
+            PLC_All[index].TargetTemperature_7 = recipe.TargetTemperature_7;
+            PLC_All[index].TargetTemperature_8 = recipe.TargetTemperature_8;
+            PLC_All[index].HeatingTime_1 = recipe.HeatingTime_1;
+            PLC_All[index].HeatingTime_2 = recipe.HeatingTime_2;
+            PLC_All[index].HeatingTime_3 = recipe.HeatingTime_3;
+            PLC_All[index].HeatingTime_4 = recipe.HeatingTime_4;
+            PLC_All[index].HeatingTime_5 = recipe.HeatingTime_5;
+            PLC_All[index].HeatingTime_6 = recipe.HeatingTime_6;
+            PLC_All[index].HeatingTime_7 = recipe.HeatingTime_7;
+            PLC_All[index].HeatingTime_8 = recipe.HeatingTime_8;
+            PLC_All[index].ThermostaticTemperature_1 = recipe.ThermostaticTemperature_1;
+            PLC_All[index].ThermostaticTemperature_2 = recipe.ThermostaticTemperature_2;
+            PLC_All[index].ThermostaticTemperature_3 = recipe.ThermostaticTemperature_3;
+            PLC_All[index].ThermostaticTemperature_4 = recipe.ThermostaticTemperature_4;
+            PLC_All[index].ThermostaticTemperature_5 = recipe.ThermostaticTemperature_5;
+            PLC_All[index].ThermostaticTemperature_6 = recipe.ThermostaticTemperature_6;
+            PLC_All[index].ThermostaticTemperature_7 = recipe.ThermostaticTemperature_7;
+            PLC_All[index].ThermostaticTemperature_8 = recipe.ThermostaticTemperature_8;
+            PLC_All[index].ConstantTime_1 = recipe.ConstantTime_1;
+            PLC_All[index].ConstantTime_2 = recipe.ConstantTime_2;
+            PLC_All[index].ConstantTime_3 = recipe.ConstantTime_3;
+            PLC_All[index].ConstantTime_4 = recipe.ConstantTime_4;
+            PLC_All[index].ConstantTime_5 = recipe.ConstantTime_5;
+            PLC_All[index].ConstantTime_6 = recipe.ConstantTime_6;
+            PLC_All[index].ConstantTime_7 = recipe.ConstantTime_7;
+            PLC_All[index].ConstantTime_8 = recipe.ConstantTime_8;
+            PLC_All[index].CoolingTemperature = recipe.CoolingTemperature;
+            PLC_All[index].InflatingTime = recipe.InflatingTime;
+            PLC_All[index].UsedSegmentCounts = recipe.UsedSegmentCounts;
+
+            if (PLC_Client.State == CommunicationState.Opened)
+            {
+                await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+            }
+        }
+
+        public void SetRecipeNames(ICollection<string> names)
+        {
+            foreach (var plc in PLC_All)
+            {
+                plc.Recipe_Names = names;
+            }
+        }
+
+        private bool Check()
+        {
+            try
+            {
+                if (PLC_Client.State != CommunicationState.Opened)
+                {
+                    return false;
+                }
+
+                PLC_Client.CheckSignal(Check_Dev);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         private bool Connect()
         {
             try
@@ -464,25 +485,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
 
                 PLC_Client.Initial();
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        private bool Check()
-        {
-            try
-            {
-                if (PLC_Client.State != CommunicationState.Opened)
-                {
-                    return false;
-                }
-
-                PLC_Client.CheckSignal(Check_Dev);
 
                 return true;
             }

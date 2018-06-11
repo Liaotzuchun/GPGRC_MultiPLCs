@@ -43,75 +43,39 @@ namespace GPGO_MultiPLCs.Helpers
             1073741824
         };
 
-        public static byte[] ShortToBitBytes(this short val)
+        public static string ASCIIfromShorts(this IEnumerable<short> vals)
         {
-            var _val = (int)val;
-            var bits = new byte[16];
-
-            if (_val < 0)
+            var bytes = new List<byte>();
+            foreach (var val in vals)
             {
-                bits[15] = 1;
-                _val += 32768;
+                bytes.AddRange(BitConverter.GetBytes(val));
             }
 
-            for (var i = 14; i >= 0; i--)
-            {
-                if ((_val & bitnum[i]) > 0)
-                {
-                    bits[i] = 1;
-                }
-            }
-
-            return bits;
+            var byteArray = bytes.ToArray();
+            var str = Encoding.ASCII.GetString(byteArray);
+            str = str.TrimEnd('\0');
+            return str;
         }
 
-        public static byte[] IntToBitBytes(this int val)
+        public static short[] ASCIItoShorts(this string val)
         {
-            var _val = (long)val;
-            var bits = new byte[32];
+            var bytes = Encoding.ASCII.GetBytes(val);
+            var vals = new List<short>();
 
-            if (_val < 0)
+            for (var i = 0; i < bytes.Length - 1; i += 2)
             {
-                bits[31] = 1;
-                _val += 2147483648;
+                vals.Add(BitConverter.ToInt16(bytes, i));
             }
 
-            for (var i = 30; i >= 0; i--)
+            if (!(bytes.Length % 2.0 > 0.0))
             {
-                if ((_val & bitnum[i]) > 0)
-                {
-                    bits[i] = 1;
-                }
+                return vals.ToArray();
             }
 
-            return bits;
-        }
+            byte[] temp = { bytes[bytes.Length - 1], 0 };
+            vals.Add(BitConverter.ToInt16(temp, 0));
 
-        public static short BitBytesToShort(this byte[] bits)
-        {
-            var val = 0;
-
-            if (bits.Length != 16)
-            {
-                var temp = new byte[16];
-                Array.Copy(bits, temp, bits.Length);
-                bits = temp;
-            }
-
-            for (var i = 0; i < 15; i++)
-            {
-                if (bits[i] > 0)
-                {
-                    val += bitnum[i];
-                }
-            }
-
-            if (bits[15] > 0)
-            {
-                val = val - 32768;
-            }
-
-            return (short)val;
+            return vals.ToArray();
         }
 
         public static int BitBytesToInt(this byte[] bits)
@@ -141,70 +105,26 @@ namespace GPGO_MultiPLCs.Helpers
             return (int)val;
         }
 
-        public static bool[] ShortToBits(this short val)
-        {
-            var _val = (int)val;
-            var bits = new bool[16];
-
-            if (_val < 0)
-            {
-                bits[15] = true;
-                _val += 32768;
-            }
-
-            for (var i = 14; i >= 0; i--)
-            {
-                if ((_val & bitnum[i]) > 0)
-                {
-                    bits[i] = true;
-                }
-            }
-
-            return bits;
-        }
-
-        public static bool[] IntToBits(this int val)
-        {
-            var _val = (long)val;
-            var bits = new bool[32];
-
-            if (_val < 0)
-            {
-                bits[31] = true;
-                _val += 2147483648;
-            }
-
-            for (var i = 30; i >= 0; i--)
-            {
-                if ((_val & bitnum[i]) > 0)
-                {
-                    bits[i] = true;
-                }
-            }
-
-            return bits;
-        }
-
-        public static short BitsToShort(this bool[] bits)
+        public static short BitBytesToShort(this byte[] bits)
         {
             var val = 0;
 
             if (bits.Length != 16)
             {
-                var temp = new bool[16];
+                var temp = new byte[16];
                 Array.Copy(bits, temp, bits.Length);
                 bits = temp;
             }
 
             for (var i = 0; i < 15; i++)
             {
-                if (bits[i])
+                if (bits[i] > 0)
                 {
                     val += bitnum[i];
                 }
             }
 
-            if (bits[15])
+            if (bits[15] > 0)
             {
                 val = val - 32768;
             }
@@ -239,39 +159,170 @@ namespace GPGO_MultiPLCs.Helpers
             return (int)val;
         }
 
-        public static string ASCIIfromShorts(this IEnumerable<short> vals)
+        public static short BitsToShort(this bool[] bits)
         {
-            var bytes = new List<byte>();
-            foreach (var val in vals)
+            var val = 0;
+
+            if (bits.Length != 16)
             {
-                bytes.AddRange(BitConverter.GetBytes(val));
+                var temp = new bool[16];
+                Array.Copy(bits, temp, bits.Length);
+                bits = temp;
             }
 
-            var byteArray = bytes.ToArray();
-            var str = Encoding.ASCII.GetString(byteArray);
-            str = str.TrimEnd('\0');
-            return str;
+            for (var i = 0; i < 15; i++)
+            {
+                if (bits[i])
+                {
+                    val += bitnum[i];
+                }
+            }
+
+            if (bits[15])
+            {
+                val = val - 32768;
+            }
+
+            return (short)val;
         }
 
-        public static short[] ASCIItoShorts(this string val)
+        public static string BytesToHex(this byte[] val)
         {
-            var bytes = Encoding.ASCII.GetBytes(val);
-            var vals = new List<short>();
+            return BitConverter.ToString(val);
+        }
 
-            for (var i = 0; i < bytes.Length - 1; i += 2)
+        public static void CopyAll<T>(T source, T target)
+        {
+            var type = typeof(T);
+            foreach (var sourceProperty in type.GetProperties())
             {
-                vals.Add(BitConverter.ToInt16(bytes, i));
+                var targetProperty = type.GetProperty(sourceProperty.Name);
+                if (targetProperty != null && targetProperty.CanWrite)
+                {
+                    targetProperty.SetValue(target, sourceProperty.GetValue(source, null), null);
+                }
             }
 
-            if (!(bytes.Length % 2.0 > 0.0))
+            foreach (var sourceField in type.GetFields())
             {
-                return vals.ToArray();
+                var targetField = type.GetField(sourceField.Name);
+                if (!targetField.IsInitOnly)
+                {
+                    targetField.SetValue(target, sourceField.GetValue(source));
+                }
+            }
+        }
+
+        public static byte HexToByte(this string val)
+        {
+            return Convert.ToByte(val, 16);
+        }
+
+        public static byte[] HexToBytes(this string[] val)
+        {
+            return val.Select(x => Convert.ToByte(x, 16)).ToArray();
+        }
+
+        public static int HexToInt(this string val)
+        {
+            return int.Parse(val, NumberStyles.HexNumber);
+        }
+
+        public static byte[] IntToBitBytes(this int val)
+        {
+            var _val = (long)val;
+            var bits = new byte[32];
+
+            if (_val < 0)
+            {
+                bits[31] = 1;
+                _val += 2147483648;
             }
 
-            byte[] temp = { bytes[bytes.Length - 1], 0 };
-            vals.Add(BitConverter.ToInt16(temp, 0));
+            for (var i = 30; i >= 0; i--)
+            {
+                if ((_val & bitnum[i]) > 0)
+                {
+                    bits[i] = 1;
+                }
+            }
 
-            return vals.ToArray();
+            return bits;
+        }
+
+        public static bool[] IntToBits(this int val)
+        {
+            var _val = (long)val;
+            var bits = new bool[32];
+
+            if (_val < 0)
+            {
+                bits[31] = true;
+                _val += 2147483648;
+            }
+
+            for (var i = 30; i >= 0; i--)
+            {
+                if ((_val & bitnum[i]) > 0)
+                {
+                    bits[i] = true;
+                }
+            }
+
+            return bits;
+        }
+
+        public static int ReadShortsToInt(this (short, short) val)
+        {
+            var byte1 = BitConverter.GetBytes(val.Item1);
+            var byte2 = BitConverter.GetBytes(val.Item2);
+            var byte3 = new[] { byte1[0], byte1[1], byte2[0], byte2[1] };
+            var final = BitConverter.ToInt32(byte3, 0);
+            return final;
+        }
+
+        public static byte[] ShortToBitBytes(this short val)
+        {
+            var _val = (int)val;
+            var bits = new byte[16];
+
+            if (_val < 0)
+            {
+                bits[15] = 1;
+                _val += 32768;
+            }
+
+            for (var i = 14; i >= 0; i--)
+            {
+                if ((_val & bitnum[i]) > 0)
+                {
+                    bits[i] = 1;
+                }
+            }
+
+            return bits;
+        }
+
+        public static bool[] ShortToBits(this short val)
+        {
+            var _val = (int)val;
+            var bits = new bool[16];
+
+            if (_val < 0)
+            {
+                bits[15] = true;
+                _val += 32768;
+            }
+
+            for (var i = 14; i >= 0; i--)
+            {
+                if ((_val & bitnum[i]) > 0)
+                {
+                    bits[i] = true;
+                }
+            }
+
+            return bits;
         }
 
         public static string UTF8fromShorts(this IEnumerable<short> vals)
@@ -316,57 +367,6 @@ namespace GPGO_MultiPLCs.Helpers
             temp.Item1 = BitConverter.ToInt16(byarrBufferByte, 0);
             temp.Item2 = BitConverter.ToInt16(byarrBufferByte, 2);
             return temp;
-        }
-
-        public static int ReadShortsToInt(this (short, short) val)
-        {
-            var byte1 = BitConverter.GetBytes(val.Item1);
-            var byte2 = BitConverter.GetBytes(val.Item2);
-            var byte3 = new[] { byte1[0], byte1[1], byte2[0], byte2[1] };
-            var final = BitConverter.ToInt32(byte3, 0);
-            return final;
-        }
-
-        public static int HexToInt(this string val)
-        {
-            return int.Parse(val, NumberStyles.HexNumber);
-        }
-
-        public static string BytesToHex(this byte[] val)
-        {
-            return BitConverter.ToString(val);
-        }
-
-        public static byte HexToByte(this string val)
-        {
-            return Convert.ToByte(val, 16);
-        }
-
-        public static byte[] HexToBytes(this string[] val)
-        {
-            return val.Select(x => Convert.ToByte(x, 16)).ToArray();
-        }
-
-        public static void CopyAll<T>(T source, T target)
-        {
-            var type = typeof(T);
-            foreach (var sourceProperty in type.GetProperties())
-            {
-                var targetProperty = type.GetProperty(sourceProperty.Name);
-                if (targetProperty != null && targetProperty.CanWrite)
-                {
-                    targetProperty.SetValue(target, sourceProperty.GetValue(source, null), null);
-                }
-            }
-
-            foreach (var sourceField in type.GetFields())
-            {
-                var targetField = type.GetField(sourceField.Name);
-                if (!targetField.IsInitOnly)
-                {
-                    targetField.SetValue(target, sourceField.GetValue(source));
-                }
-            }
         }
     }
 }

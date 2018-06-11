@@ -7,7 +7,6 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class TraceabilityView_ViewModel : ViewModelBase
     {
-        private readonly MongoClient Mongo_Client;
         private DateTime _Date1;
         private DateTime _Date2;
         private int _Index1;
@@ -17,26 +16,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private bool _Standby;
         private int _StationIndex;
         private ProcessInfo[] _ViewResults;
-
-        public ProcessInfo[] Results
-        {
-            get => _Results;
-            set
-            {
-                _Results = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public ProcessInfo[] ViewResults
-        {
-            get => _ViewResults;
-            set
-            {
-                _ViewResults = value;
-                NotifyPropertyChanged();
-            }
-        }
+        private readonly MongoClient Mongo_Client;
 
         public DateTime Date1
         {
@@ -80,6 +60,20 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public RelayCommand LoadedCommand { get; }
+
+        public DateTime? LowerDate => _Results?[_Index1]?.AddedTime;
+
+        public ProcessInfo[] Results
+        {
+            get => _Results;
+            set
+            {
+                _Results = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public bool Standby
         {
             get => _Standby;
@@ -100,10 +94,17 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public DateTime? LowerDate => _Results?[_Index1]?.AddedTime;
         public DateTime? UpperDate => _Results?[_Index2]?.AddedTime;
 
-        public RelayCommand LoadedCommand { get; }
+        public ProcessInfo[] ViewResults
+        {
+            get => _ViewResults;
+            set
+            {
+                _ViewResults = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public TraceabilityView_ViewModel(MongoClient mongo)
         {

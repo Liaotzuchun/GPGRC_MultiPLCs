@@ -18,21 +18,24 @@ namespace GPGO_MultiPLCs.Models
 
         public delegate void SwitchRecipeEventHandler(string recipe);
 
-        private readonly LineSeries[] LineSeries = new LineSeries[9];
-
-        private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
-        private readonly Stopwatch sw = new Stopwatch();
+        public CancellationTokenSource CTS;
+        public LinearAxis TemperatureAxis;
+        public TimeSpanAxis TimeAxis;
         private bool _OnlineStatus;
         private ICollection<string> _Recipe_Names;
         private Task _RecordingTask;
         private string _Selected_Name;
 
-        public CancellationTokenSource CTS;
-        public LinearAxis TemperatureAxis;
-        public TimeSpanAxis TimeAxis;
-        public PlotModel RecordView { get; }
-        public ProcessInfo Process_Info { get; }
+        private readonly LineSeries[] LineSeries = new LineSeries[9];
+
+        private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
+        private readonly Stopwatch sw = new Stopwatch();
         public CommandWithResult<bool> CheckInCommand { get; }
+
+        public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running ||
+                                   _RecordingTask?.Status == TaskStatus.RanToCompletion ||
+                                   _RecordingTask?.Status == TaskStatus.WaitingForActivation ||
+                                   _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
         public bool OnlineStatus
         {
@@ -44,27 +47,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public ICollection<string> Recipe_Names
-        {
-            get => _Recipe_Names;
-            set
-            {
-                _Recipe_Names = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Selected_Name
-        {
-            get => _Selected_Name;
-            set
-            {
-                _Selected_Name = value;
-                NotifyPropertyChanged();
-
-                SwitchRecipeEvent?.Invoke(_Selected_Name);
-            }
-        }
+        public ProcessInfo Process_Info { get; }
 
         public double Progress
         {
@@ -99,6 +82,16 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public ICollection<string> Recipe_Names
+        {
+            get => _Recipe_Names;
+            set
+            {
+                _Recipe_Names = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public Task RecordingTask
         {
             get => _RecordingTask;
@@ -121,7 +114,19 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.RanToCompletion || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
+        public PlotModel RecordView { get; }
+
+        public string Selected_Name
+        {
+            get => _Selected_Name;
+            set
+            {
+                _Selected_Name = value;
+                NotifyPropertyChanged();
+
+                SwitchRecipeEvent?.Invoke(_Selected_Name);
+            }
+        }
 
         public PLC_DataProvider(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
         {
@@ -460,18 +465,14 @@ namespace GPGO_MultiPLCs.Models
                                                      ResetStopTokenSource();
                                                      RecordingTask = StartRecoder(60000, CTS.Token);
                                                  }
-                                                 else if (key == SignalNames.自動停止 ||
-                                                          key == SignalNames.程式結束)
+                                                 else if (key == SignalNames.自動停止 || key == SignalNames.程式結束)
                                                  {
                                                      if (IsRecording)
                                                      {
                                                          CTS?.Cancel();
                                                      }
                                                  }
-                                                 else if (key == SignalNames.緊急停止 ||
-                                                          key == SignalNames.電源反相 ||
-                                                          key == SignalNames.循環風車過載 ||
-                                                          key == SignalNames.循環風車INV異常)
+                                                 else if (key == SignalNames.緊急停止 || key == SignalNames.電源反相 || key == SignalNames.循環風車過載 || key == SignalNames.循環風車INV異常)
                                                  {
                                                      if (IsRecording)
                                                      {
@@ -517,8 +518,8 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public event RecordingFinishedEventHandler RecordingFinished;
-        public event SwitchRecipeEventHandler SwitchRecipeEvent;
         public event StartRecordingHandler StartRecording;
+        public event SwitchRecipeEventHandler SwitchRecipeEvent;
 
         public void ResetStopTokenSource()
         {
@@ -583,10 +584,10 @@ namespace GPGO_MultiPLCs.Models
                                                     var rn = new Random();
                                                     var t = sw.Elapsed;
                                                     var vals = new Record_Temperatures
-                                                    {
-                                                        Time = t,
-                                                        ThermostatTemperature = rn.Next(0, (t.Minutes + 1) * 80),
-                                                        OvenTemperatures =
+                                                               {
+                                                                   Time = t,
+                                                                   ThermostatTemperature = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                   OvenTemperatures =
                                                                    {
                                                                        [0] = rn.Next(0, (t.Minutes + 1) * 80),
                                                                        [1] = rn.Next(0, (t.Minutes + 1) * 80),
@@ -597,7 +598,7 @@ namespace GPGO_MultiPLCs.Models
                                                                        [6] = rn.Next(0, (t.Minutes + 1) * 80),
                                                                        [7] = rn.Next(0, (t.Minutes + 1) * 80)
                                                                    }
-                                                    };
+                                                               };
 
                                                     Process_Info.RecordTemperatures.Add(vals);
                                                     AddPlot(sw.Elapsed, vals);

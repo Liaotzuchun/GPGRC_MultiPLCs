@@ -8,6 +8,16 @@ namespace GPGO_MultiPLCs.Views
         public static readonly DependencyProperty IsWatermarkEnabled =
             DependencyProperty.RegisterAttached("IsWatermarkEnabled", typeof(bool), typeof(TextBoxFocusBehavior), new UIPropertyMetadata(false, OnIsWatermarkEnabled));
 
+        public static bool GetIsWatermarkEnabled(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsWatermarkEnabled);
+        }
+
+        public static void SetIsWatermarkEnabled(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsWatermarkEnabled, value);
+        }
+
         public static readonly DependencyProperty WatermarkText =
             DependencyProperty.RegisterAttached("WatermarkText", typeof(string), typeof(TextBoxFocusBehavior), new UIPropertyMetadata(string.Empty, OnWatermarkTextChanged));
 
@@ -21,21 +31,25 @@ namespace GPGO_MultiPLCs.Views
             obj.SetValue(WatermarkText, value);
         }
 
-        public static bool GetIsWatermarkEnabled(DependencyObject obj)
+        private static void OnInputTextBoxGotFocus(object sender, RoutedEventArgs e)
         {
-            return (bool)obj.GetValue(IsWatermarkEnabled);
-        }
-
-        public static void SetIsWatermarkEnabled(DependencyObject obj, bool value)
-        {
-            obj.SetValue(IsWatermarkEnabled, value);
-        }
-
-        private static void OnWatermarkTextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (sender is TextBox tb)
+            if (e.OriginalSource is TextBox tb)
             {
-                tb.Text = (string)e.NewValue;
+                if (tb.Text == GetWatermarkText(tb))
+                {
+                    tb.Text = string.Empty;
+                }
+            }
+        }
+
+        private static void OnInputTextBoxLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is TextBox tb)
+            {
+                if (string.IsNullOrEmpty(tb.Text))
+                {
+                    tb.Text = GetWatermarkText(tb);
+                }
             }
         }
 
@@ -57,25 +71,11 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private static void OnInputTextBoxLostFocus(object sender, RoutedEventArgs e)
+        private static void OnWatermarkTextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (e.OriginalSource is TextBox tb)
+            if (sender is TextBox tb)
             {
-                if (string.IsNullOrEmpty(tb.Text))
-                {
-                    tb.Text = GetWatermarkText(tb);
-                }
-            }
-        }
-
-        private static void OnInputTextBoxGotFocus(object sender, RoutedEventArgs e)
-        {
-            if (e.OriginalSource is TextBox tb)
-            {
-                if (tb.Text == GetWatermarkText(tb))
-                {
-                    tb.Text = string.Empty;
-                }
+                tb.Text = (string)e.NewValue;
             }
         }
     }

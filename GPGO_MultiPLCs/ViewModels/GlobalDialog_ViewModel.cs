@@ -9,6 +9,36 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class GlobalDialog_ViewModel : ViewModelBase, IDialogService<string>
     {
+        public async Task<bool> Show(string msg, bool support_cancel)
+        {
+            EnterResult = false;
+            SupportCancel = support_cancel;
+            WithIntput = false;
+            Message = msg;
+            IsShown = Visibility.Visible;
+
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            Lock.WaitOne(9000);
+                                        },
+                                        TaskCreationOptions.LongRunning);
+
+            IsShown = Visibility.Collapsed;
+
+            return EnterResult;
+        }
+
+        public async Task Show(string msg, TimeSpan delay)
+        {
+            Message = msg;
+            WithIntput = false;
+            IsShown = Visibility.Visible;
+
+            await Task.Delay(delay);
+
+            IsShown = Visibility.Collapsed;
+        }
+
         public async Task<(bool result, string intput)> ShowWithIntput(string msg, string header)
         {
             Intput = "";
@@ -86,37 +116,6 @@ namespace GPGO_MultiPLCs.ViewModels
             return (_ConditionResult != null && EnterResult && _ConditionResult.Value, Intput);
         }
 
-        public async Task<bool> Show(string msg, bool support_cancel)
-        {
-            EnterResult = false;
-            SupportCancel = support_cancel;
-            WithIntput = false;
-            Message = msg;
-            IsShown = Visibility.Visible;
-
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            Lock.WaitOne(9000);
-                                        },
-                                        TaskCreationOptions.LongRunning);
-
-            IsShown = Visibility.Collapsed;
-
-            return EnterResult;
-        }
-
-        public async Task Show(string msg, TimeSpan delay)
-        {
-            Message = msg;
-            WithIntput = false;
-            IsShown = Visibility.Visible;
-
-            await Task.Delay(delay);
-
-            IsShown = Visibility.Collapsed;
-        }
-
-        private readonly AutoResetEvent Lock;
         private bool? _ConditionResult;
         private bool _EnterEnable;
         private string _Intput = "";
@@ -129,6 +128,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private bool EnterResult;
 
+        private readonly AutoResetEvent Lock;
+        public RelayCommand CancelCommand { get; }
+
         public bool? ConditionResult
         {
             get => _ConditionResult;
@@ -139,12 +141,14 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public bool SupportCancel
+        public RelayCommand EnterCommand { get; }
+
+        public bool EnterEnable
         {
-            get => _SupportCancel;
+            get => _EnterEnable;
             set
             {
-                _SupportCancel = value;
+                _EnterEnable = value;
                 NotifyPropertyChanged();
             }
         }
@@ -156,6 +160,38 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 value = value.Trim().Replace(" ", "_");
                 _Intput = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public Visibility IsShown
+        {
+            get => _IsShown;
+            set
+            {
+                _IsShown = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Message
+        {
+            get => _Message;
+            set
+            {
+                _Message = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public RelayCommand OkayCommand { get; }
+
+        public bool SupportCancel
+        {
+            get => _SupportCancel;
+            set
+            {
+                _SupportCancel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -180,36 +216,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public string Message
-        {
-            get => _Message;
-            set
-            {
-                _Message = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public Visibility IsShown
-        {
-            get => _IsShown;
-            set
-            {
-                _IsShown = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool EnterEnable
-        {
-            get => _EnterEnable;
-            set
-            {
-                _EnterEnable = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         public bool WithIntput
         {
             get => _WithIntput;
@@ -219,10 +225,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged();
             }
         }
-
-        public RelayCommand OkayCommand { get; }
-        public RelayCommand CancelCommand { get; }
-        public RelayCommand EnterCommand { get; }
 
         public GlobalDialog_ViewModel()
         {

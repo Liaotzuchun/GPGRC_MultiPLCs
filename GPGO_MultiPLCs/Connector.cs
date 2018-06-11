@@ -12,11 +12,11 @@ namespace GPGO_MultiPLCs
     public class Connector
     {
         public readonly MongoClient Mongo;
-        public MainWindow_ViewModel MainVM { get; }
-        public TotalView_ViewModel TotalVM { get; }
-        public RecipeControl_ViewModel RecipeVM { get; }
-        public TraceabilityView_ViewModel TraceVM { get; }
         public GlobalDialog_ViewModel DialogVM { get; }
+        public MainWindow_ViewModel MainVM { get; }
+        public RecipeControl_ViewModel RecipeVM { get; }
+        public TotalView_ViewModel TotalVM { get; }
+        public TraceabilityView_ViewModel TraceVM { get; }
 
         public Connector()
         {

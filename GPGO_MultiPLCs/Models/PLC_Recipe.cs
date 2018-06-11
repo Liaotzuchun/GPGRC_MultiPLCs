@@ -45,263 +45,6 @@ namespace GPGO_MultiPLCs.Models
         private DateTime _Updated;
         private bool[] _Used_Stations = new bool[20];
         private short _UsedSegmentCounts;
-        public double Temperature_Min => 40.0;
-        public double Temperature_Max => 240.0;
-        public short Time_Min => 1;
-        public short Time_Max => 600;
-        public short SegmentCounts_Min => 1;
-        public short SegmentCounts_Max => 8;
-
-        [BsonId]
-        public string RecipeName
-        {
-            get => _RecipeName;
-            set
-            {
-                _RecipeName = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetTemperature_1
-        {
-            get => _TargetTemperature_1;
-            set
-            {
-                _TargetTemperature_1 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetTemperature_2
-        {
-            get => _TargetTemperature_2;
-            set
-            {
-                _TargetTemperature_2 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetTemperature_3
-        {
-            get => _TargetTemperature_3;
-            set
-            {
-                _TargetTemperature_3 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetTemperature_4
-        {
-            get => _TargetTemperature_4;
-            set
-            {
-                _TargetTemperature_4 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetTemperature_5
-        {
-            get => _TargetTemperature_5;
-            set
-            {
-                _TargetTemperature_5 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetTemperature_6
-        {
-            get => _TargetTemperature_6;
-            set
-            {
-                _TargetTemperature_6 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetTemperature_7
-        {
-            get => _TargetTemperature_7;
-            set
-            {
-                _TargetTemperature_7 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double TargetTemperature_8
-        {
-            get => _TargetTemperature_8;
-            set
-            {
-                _TargetTemperature_8 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double ThermostaticTemperature_1
-        {
-            get => _ThermostaticTemperature_1;
-            set
-            {
-                _ThermostaticTemperature_1 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double ThermostaticTemperature_2
-        {
-            get => _ThermostaticTemperature_2;
-            set
-            {
-                _ThermostaticTemperature_2 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double ThermostaticTemperature_3
-        {
-            get => _ThermostaticTemperature_3;
-            set
-            {
-                _ThermostaticTemperature_3 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double ThermostaticTemperature_4
-        {
-            get => _ThermostaticTemperature_4;
-            set
-            {
-                _ThermostaticTemperature_4 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double ThermostaticTemperature_5
-        {
-            get => _ThermostaticTemperature_5;
-            set
-            {
-                _ThermostaticTemperature_5 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double ThermostaticTemperature_6
-        {
-            get => _ThermostaticTemperature_6;
-            set
-            {
-                _ThermostaticTemperature_6 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double ThermostaticTemperature_7
-        {
-            get => _ThermostaticTemperature_7;
-            set
-            {
-                _ThermostaticTemperature_7 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public double ThermostaticTemperature_8
-        {
-            get => _ThermostaticTemperature_8;
-            set
-            {
-                _ThermostaticTemperature_8 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short HeatingTime_1
-        {
-            get => _HeatingTime_1;
-            set
-            {
-                _HeatingTime_1 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short HeatingTime_2
-        {
-            get => _HeatingTime_2;
-            set
-            {
-                _HeatingTime_2 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short HeatingTime_3
-        {
-            get => _HeatingTime_3;
-            set
-            {
-                _HeatingTime_3 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short HeatingTime_4
-        {
-            get => _HeatingTime_4;
-            set
-            {
-                _HeatingTime_4 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short HeatingTime_5
-        {
-            get => _HeatingTime_5;
-            set
-            {
-                _HeatingTime_5 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short HeatingTime_6
-        {
-            get => _HeatingTime_6;
-            set
-            {
-                _HeatingTime_6 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short HeatingTime_7
-        {
-            get => _HeatingTime_7;
-            set
-            {
-                _HeatingTime_7 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short HeatingTime_8
-        {
-            get => _HeatingTime_8;
-            set
-            {
-                _HeatingTime_8 = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public short ConstantTime_1
         {
@@ -393,6 +136,86 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public short HeatingTime_1
+        {
+            get => _HeatingTime_1;
+            set
+            {
+                _HeatingTime_1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short HeatingTime_2
+        {
+            get => _HeatingTime_2;
+            set
+            {
+                _HeatingTime_2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short HeatingTime_3
+        {
+            get => _HeatingTime_3;
+            set
+            {
+                _HeatingTime_3 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short HeatingTime_4
+        {
+            get => _HeatingTime_4;
+            set
+            {
+                _HeatingTime_4 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short HeatingTime_5
+        {
+            get => _HeatingTime_5;
+            set
+            {
+                _HeatingTime_5 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short HeatingTime_6
+        {
+            get => _HeatingTime_6;
+            set
+            {
+                _HeatingTime_6 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short HeatingTime_7
+        {
+            get => _HeatingTime_7;
+            set
+            {
+                _HeatingTime_7 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short HeatingTime_8
+        {
+            get => _HeatingTime_8;
+            set
+            {
+                _HeatingTime_8 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public short InflatingTime
         {
             get => _InflatingTime;
@@ -403,12 +226,192 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short UsedSegmentCounts
+        [BsonId]
+        public string RecipeName
         {
-            get => _UsedSegmentCounts;
+            get => _RecipeName;
             set
             {
-                _UsedSegmentCounts = value;
+                _RecipeName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short SegmentCounts_Max => 8;
+        public short SegmentCounts_Min => 1;
+
+        public double TargetTemperature_1
+        {
+            get => _TargetTemperature_1;
+            set
+            {
+                _TargetTemperature_1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double TargetTemperature_2
+        {
+            get => _TargetTemperature_2;
+            set
+            {
+                _TargetTemperature_2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double TargetTemperature_3
+        {
+            get => _TargetTemperature_3;
+            set
+            {
+                _TargetTemperature_3 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double TargetTemperature_4
+        {
+            get => _TargetTemperature_4;
+            set
+            {
+                _TargetTemperature_4 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double TargetTemperature_5
+        {
+            get => _TargetTemperature_5;
+            set
+            {
+                _TargetTemperature_5 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double TargetTemperature_6
+        {
+            get => _TargetTemperature_6;
+            set
+            {
+                _TargetTemperature_6 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double TargetTemperature_7
+        {
+            get => _TargetTemperature_7;
+            set
+            {
+                _TargetTemperature_7 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double TargetTemperature_8
+        {
+            get => _TargetTemperature_8;
+            set
+            {
+                _TargetTemperature_8 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double Temperature_Max => 240.0;
+        public double Temperature_Min => 40.0;
+
+        public double ThermostaticTemperature_1
+        {
+            get => _ThermostaticTemperature_1;
+            set
+            {
+                _ThermostaticTemperature_1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double ThermostaticTemperature_2
+        {
+            get => _ThermostaticTemperature_2;
+            set
+            {
+                _ThermostaticTemperature_2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double ThermostaticTemperature_3
+        {
+            get => _ThermostaticTemperature_3;
+            set
+            {
+                _ThermostaticTemperature_3 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double ThermostaticTemperature_4
+        {
+            get => _ThermostaticTemperature_4;
+            set
+            {
+                _ThermostaticTemperature_4 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double ThermostaticTemperature_5
+        {
+            get => _ThermostaticTemperature_5;
+            set
+            {
+                _ThermostaticTemperature_5 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double ThermostaticTemperature_6
+        {
+            get => _ThermostaticTemperature_6;
+            set
+            {
+                _ThermostaticTemperature_6 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double ThermostaticTemperature_7
+        {
+            get => _ThermostaticTemperature_7;
+            set
+            {
+                _ThermostaticTemperature_7 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double ThermostaticTemperature_8
+        {
+            get => _ThermostaticTemperature_8;
+            set
+            {
+                _ThermostaticTemperature_8 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short Time_Max => 600;
+        public short Time_Min => 1;
+
+        public DateTime Updated
+        {
+            get => _Updated;
+            set
+            {
+                _Updated = value;
                 NotifyPropertyChanged();
             }
         }
@@ -423,12 +426,12 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public DateTime Updated
+        public short UsedSegmentCounts
         {
-            get => _Updated;
+            get => _UsedSegmentCounts;
             set
             {
-                _Updated = value;
+                _UsedSegmentCounts = value;
                 NotifyPropertyChanged();
             }
         }

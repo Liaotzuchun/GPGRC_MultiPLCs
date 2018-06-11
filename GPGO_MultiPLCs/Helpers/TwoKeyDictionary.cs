@@ -34,6 +34,12 @@ namespace GPGO_MultiPLCs.Helpers
 
         public event Key1Updated Key1UpdatedEvent;
 
+        public void Add(TKey1 Key1, TKey2 Key2, TValue value)
+        {
+            Key1Dictionary.Add(Key1, value);
+            Key2Dictionary.Add(Key2, Key1);
+        }
+
         public IEnumerable<KeyValuePair<TKey1, TValue>> GetKeyValuePairsOfKey1()
         {
             return Key1Dictionary.ToList();
@@ -52,12 +58,6 @@ namespace GPGO_MultiPLCs.Helpers
         public IEnumerable<TValue> GetValues(IEnumerable<TKey2> keys)
         {
             return keys.Select(key => Key1Dictionary[Key2Dictionary[key]]);
-        }
-
-        public void Add(TKey1 Key1, TKey2 Key2, TValue value)
-        {
-            Key1Dictionary.Add(Key1, value);
-            Key2Dictionary.Add(Key2, Key1);
         }
 
         public bool Remove(TKey1 Key1)
