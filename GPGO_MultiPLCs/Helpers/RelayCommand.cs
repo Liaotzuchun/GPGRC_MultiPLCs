@@ -41,7 +41,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    //替代InvokeCommandAction，可傳遞EventArgs
+    //! 替代InvokeCommandAction，可傳遞EventArgs
     public sealed class InteractiveCommand : TriggerAction<DependencyObject>
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(InteractiveCommand), new UIPropertyMetadata(null));
@@ -108,7 +108,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    //提供能代入function並提供Result存取的Command
+    //! 提供能代入function並提供Result存取的Command
     public sealed class CommandWithResult<T> : ViewModelBase, ICommand
     {
         public event EventHandler CanExecuteChanged;
@@ -172,7 +172,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    //Attached Behaviour，提供更簡易的Command繫結方式(缺點是只能單一事件繫結)
+    //! Attached Behaviour，提供更簡易的Command繫結方式(缺點是只能單一事件繫結)
     public sealed class EventToCommand
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(EventToCommand), new UIPropertyMetadata(null));

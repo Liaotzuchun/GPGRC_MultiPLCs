@@ -157,7 +157,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      Process_Info.OperatorID = intput1;
                                                                      Process_Info.TrolleyCode = intput2;
 
-                                                                     SwitchRecipeEvent?.Invoke(_Selected_Name); //投產成功，獲取配方參數並寫入PLC
+                                                                     SwitchRecipeEvent?.Invoke(_Selected_Name); //! 投產成功，獲取配方參數並寫入PLC
 
                                                                      return true;
                                                                  }
@@ -534,7 +534,7 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            StartRecording?.Invoke(RecipeName, LockHandle); //引發開始記錄事件並以LockHandle等待完成
+            StartRecording?.Invoke(RecipeName, LockHandle); //! 引發開始記錄事件並以LockHandle等待完成
 
             await Task.Factory.StartNew(() =>
                                         {

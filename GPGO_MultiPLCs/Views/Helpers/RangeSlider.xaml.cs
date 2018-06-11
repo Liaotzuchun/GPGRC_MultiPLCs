@@ -45,9 +45,9 @@ namespace GPGO_MultiPLCs.Views
         {
             var slider = (RangeSlider)d;
 
-            // Dim max As Double = slider.Maximum
-            // Dim lv As Double = slider.LowerValue
-            // Dim uv As Double = slider.UpperValue
+            //var max = slider.Maximum;
+            //var lv = slider.LowerValue;
+            //var uv = slider.UpperValue;
 
             if (e.Property.Name == "Maximum")
             {
@@ -104,14 +104,7 @@ namespace GPGO_MultiPLCs.Views
 
         private void SetLowerValueVisibility()
         {
-            if (DisableLowerValue)
-            {
-                LowerSlider.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                LowerSlider.Visibility = Visibility.Visible;
-            }
+            LowerSlider.Visibility = DisableLowerValue ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void SetProgressBorder()

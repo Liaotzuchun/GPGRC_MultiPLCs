@@ -2,8 +2,8 @@
 {
     public enum SignalNames
     {
-        //PLC->PC
-        //警報/提示
+        //! PLC->PC
+        //! 警報/提示
         降溫中,
         程式結束,
         加熱門未關,
@@ -20,20 +20,20 @@
         門未關定位異常,
         升恆溫逾時,
 
-        //狀態
+        //! 狀態
         手動模式,
         自動模式,
         自動停止,
         自動啟動,
         PC_ByPass,
 
-        //PC->PLC
+        //! PC->PLC
         PC_HeartBeat
     }
 
     public enum DataNames
     {
-        //PLC->PC
+        //! PLC->PC
         爐內溫度_1,
         爐內溫度_2,
         爐內溫度_3,
@@ -47,7 +47,7 @@
         總剩餘時間,
         目前段數,
 
-        //PC->PLC
+        //! PC->PLC
         配方名稱_01,
         配方名稱_02,
         配方名稱_03,

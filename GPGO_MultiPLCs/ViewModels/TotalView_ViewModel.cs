@@ -19,7 +19,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             if (index < PLC_Count && index > -1)
             {
-                // short data先，bit bool後
+                //! short data先，bit bool後
 
                 foreach (var D in val.D)
                 {
@@ -45,11 +45,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
 
-        private const int Check_Dev = 21; //心跳信號位置
+        private const int Check_Dev = 21; //!   心跳信號位置
         private const int PLC_Count = 20;
         private bool _Gate_Status;
-        private int _Index; //Tab頁面的index
-        private int _ViewIndex = -1; //選取PLC的index
+        private int _Index; //! Tab頁面的index
+        private int _ViewIndex = -1; //!    選取PLC的index
         private readonly Timer Checker;
         private GPServiceClient PLC_Client;
         private readonly InstanceContext site;
@@ -205,7 +205,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   { DataNames.配方名稱_13, 762 }
                               };
 
-            //註冊PLC事件需引發的動作
+            //! 註冊PLC事件需引發的動作
             for (var i = 0; i < PLC_Count; i++)
             {
                 PLC_All[i] = new PLC_DataProvider(M_List, D_List, Recipe_List, dialog);
@@ -222,12 +222,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].RecordingFinished += info =>
                                                 {
-                                                    //寫入資料庫，上傳
+                                                    //! 寫入資料庫，上傳
                                                     AddRecordToDB?.Invoke(j, info);
                                                 };
             }
 
-            // 產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
+            //! 產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
             var namelists = M_List.Values.OrderBy(x => x)
                                   .Select(x => BitType.M.ToString() + x.ToString())
                                   .Concat(D_List.Values.OrderBy(x => x).Select(x => DataType.D.ToString() + x.ToString()))
