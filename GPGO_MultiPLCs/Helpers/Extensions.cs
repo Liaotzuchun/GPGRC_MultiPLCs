@@ -368,5 +368,11 @@ namespace GPGO_MultiPLCs.Helpers
             temp.Item2 = BitConverter.ToInt16(byarrBufferByte, 2);
             return temp;
         }
+
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            var diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date;
+        }
     }
 }

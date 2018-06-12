@@ -13,7 +13,7 @@
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}" />
+            <i:InvokeCommandAction Command="{Binding ThisDayCommand, Mode=OneTime}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -139,18 +139,145 @@
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="120" />
                         <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="120" />
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition />
                         <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="90" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid
+                        Grid.RowSpan="2"
+                        IsEnabled="{Binding Standby, Mode=OneWay}"
+                        IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Button
+                            x:Name="SubDay"
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding SubDayCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Path
+                                Data="M 0 0 H 10"
+                                Stroke="White"
+                                StrokeThickness="2" />
+                        </Button>
+                        <Button
+                            x:Name="Today"
+                            Grid.Column="1"
+                            Content="本日">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ThisDayCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button
+                            x:Name="AddDay"
+                            Grid.Column="2"
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding AddDayCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Path
+                                Data="M 0 5 H 10 M 5 10 V 0"
+                                Stroke="White"
+                                StrokeThickness="2" />
+                        </Button>
+                        <Button
+                            x:Name="SubWeek"
+                            Grid.Row="1">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding SubWeekCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Path
+                                Data="M 0 0 H 10"
+                                Stroke="White"
+                                StrokeThickness="2" />
+                        </Button>
+                        <Button
+                            x:Name="ThisWeek"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Content="本週">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ThisWeekCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button
+                            x:Name="AddWeek"
+                            Grid.Row="1"
+                            Grid.Column="2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding AddWeekCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Path
+                                Data="M 0 5 H 10 M 5 10 V 0"
+                                Stroke="White"
+                                StrokeThickness="2" />
+                        </Button>
+                        <Button
+                            x:Name="SubMonth"
+                            Grid.Row="2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding SubMonthCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Path
+                                Data="M 0 0 H 10"
+                                Stroke="White"
+                                StrokeThickness="2" />
+                        </Button>
+                        <Button
+                            x:Name="ThisMonth"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Content="本月">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ThisMonthCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button
+                            x:Name="AddMonth"
+                            Grid.Row="2"
+                            Grid.Column="2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding AddMonthCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Path
+                                Data="M 0 5 H 10 M 5 10 V 0"
+                                Stroke="White"
+                                StrokeThickness="2" />
+                        </Button>
+                    </Grid>
                     <Border
                         Grid.Column="1"
                         Background="{StaticResource WindowBackgroundBrush6}"
@@ -165,7 +292,29 @@
                         x:Name="dp1"
                         Grid.Column="2"
                         Height="35"
+                        IsEnabled="{Binding Standby, Mode=OneWay}"
+                        IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                         SelectedDate="{Binding Date1, Mode=TwoWay}"
+                        SelectedDateFormat="Long" />
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1,0,0,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="結束日期" />
+                    </Border>
+                    <DatePicker
+                        x:Name="dp2"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Height="35"
+                        IsEnabled="{Binding Standby, Mode=OneWay}"
+                        IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
+                        SelectedDate="{Binding Date2, Mode=TwoWay}"
                         SelectedDateFormat="Long" />
                     <Border
                         Grid.RowSpan="2"
@@ -188,6 +337,7 @@
                             x:Name="RS"
                             Margin="4,0"
                             VerticalAlignment="Center"
+                            IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                             LowerValue="{Binding Index1, Mode=OneWayToSource}"
                             Maximum="{Binding TotalCount, Mode=OneWay}"
                             UpperValue="{Binding Index2, Mode=OneWayToSource}">
@@ -204,58 +354,6 @@
                             </local:RangeSlider.IsEnabled>
                         </local:RangeSlider>
                     </Border>
-                    <ToggleButton
-                        x:Name="TotalTB"
-                        Grid.Column="5"
-                        Content="全部站點" IsChecked="True"
-                        Style="{StaticResource ToggleSwich}" />
-                    <ComboBox
-                        x:Name="CB"
-                        Grid.Row="1"
-                        Grid.Column="5"
-                        BorderThickness="0,0,0,1"
-                        IsEnabled="{Binding IsChecked, Converter={StaticResource BoolNot}, ElementName=TotalTB, Mode=OneWay}"
-                        IsEnabledChanged="CB_IsEnabledChanged"
-                        ItemsSource="{Binding EnumFilter, Mode=OneWay}"
-                        SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}" />
-                    <Button
-                        Grid.RowSpan="2"
-                        Grid.Column="6"
-                        Margin="0"
-                        FontSize="16">
-                        <!--<Button.IsEnabled>
-                                <MultiBinding Converter="{StaticResource MultiBooleanConverter}"
-                                          Mode="OneWay">
-                                    <Binding Mode="OneWay"
-                                         Path="StandBy" />
-                                    <Binding Mode="OneWay"
-                                         Path="Enable3" />
-                                </MultiBinding>
-                            </Button.IsEnabled>-->
-                        <StackPanel>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                Text="檔案匯出" />
-                        </StackPanel>
-                    </Button>
-                    <Border
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,0,0,1">
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="結束日期" />
-                    </Border>
-                    <DatePicker
-                        x:Name="dp2"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Height="35"
-                        SelectedDate="{Binding Date2, Mode=TwoWay}"
-                        SelectedDateFormat="Long" />
                     <Grid
                         Grid.Row="1"
                         Grid.Column="4">
@@ -265,7 +363,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="0.8*" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Border
                             Background="{StaticResource WindowBackgroundBrush6}"
@@ -352,6 +450,36 @@
                                 Text="{Binding ViewResults.Count, Mode=OneWay}" />
                         </Border>
                     </Grid>
+                    <ToggleButton
+                        x:Name="TotalTB"
+                        Grid.Column="5"
+                        Checked="TotalTB_Checked"
+                        Content="全部站點"
+                        IsChecked="True"
+                        IsEnabled="{Binding IsEnabled, ElementName=RS, Mode=OneWay}"
+                        Unchecked="TotalTB_Unchecked" />
+                    <ComboBox
+                        x:Name="CB"
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        BorderThickness="0,0,1,1"
+                        IsEnabledChanged="CB_IsEnabledChanged"
+                        ItemsSource="{Binding EnumFilter, Mode=OneWay}"
+                        SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}">
+                        <ComboBox.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
+                                <Binding
+                                    Converter="{StaticResource BoolNot}"
+                                    ElementName="TotalTB"
+                                    Mode="OneWay"
+                                    Path="IsChecked" />
+                                <Binding
+                                    ElementName="RS"
+                                    Mode="OneWay"
+                                    Path="IsEnabled" />
+                            </MultiBinding>
+                        </ComboBox.IsEnabled>
+                    </ComboBox>
                 </Grid>
                 <DataGrid
                     x:Name="dg"

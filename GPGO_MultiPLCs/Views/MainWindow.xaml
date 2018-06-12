@@ -34,13 +34,11 @@
             <local:GlobalDialog DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}" />
         </Grid>
         <Grid Background="{StaticResource LightColorBrush}">
-            <UniformGrid
-                Rows="1">
+            <UniformGrid Rows="1">
                 <ToggleButton
+                    Content="生產頁面"
                     FontSize="20"
-                    IsChecked="{Binding ViewIndex, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}">
-                    生產頁面
-                </ToggleButton>
+                    IsChecked="{Binding ViewIndex, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                 <ToggleButton
                     FontSize="20"
                     IsChecked="{Binding ViewIndex, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}">
