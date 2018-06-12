@@ -11,7 +11,14 @@ namespace GPGO_MultiPLCs.Views
 
         private void CB_IsEnabledChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            CB.SelectedIndex = -1;
+            if (((ComboBox)sender).IsEnabled)
+            {
+                CB.SelectedIndex = 0;
+            }
+            else
+            {
+                CB.SelectedItem = -1;
+            }
         }
     }
 }

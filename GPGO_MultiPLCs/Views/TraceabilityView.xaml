@@ -139,28 +139,18 @@
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="0" />
                         <ColumnDefinition Width="60" />
                         <ColumnDefinition Width="130" />
                         <ColumnDefinition Width="10" />
                         <ColumnDefinition />
-                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="120" />
                         <ColumnDefinition Width="90" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <ToggleButton
-                        x:Name="TotalTB"
-                        Content="全部站點"
-                        Style="{StaticResource ToggleSwich}" />
-                    <ComboBox
-                        x:Name="CB"
-                        Grid.Row="1"
-                        IsEnabled="{Binding IsChecked, Converter={StaticResource BoolNot}, ElementName=TotalTB, Mode=OneWay}"
-                        IsEnabledChanged="CB_IsEnabledChanged"
-                        SelectedIndex="{Binding StationIndex, Mode=TwoWay}" />
                     <Border
                         Grid.Column="1"
                         Background="{StaticResource WindowBackgroundBrush6}"
@@ -214,23 +204,20 @@
                             </local:RangeSlider.IsEnabled>
                         </local:RangeSlider>
                     </Border>
-                    <Button
-                        x:Name="UpdateB"
-                        Grid.RowSpan="2"
+                    <ToggleButton
+                        x:Name="TotalTB"
                         Grid.Column="5"
-                        Content="更新列表"
-                        DockPanel.Dock="Right"
-                        FontSize="16">
-                        <!--<Button.IsEnabled>
-                                <MultiBinding Converter="{StaticResource MultiBooleanConverter}"
-                                          Mode="OneWay">
-                                    <Binding Mode="OneWay"
-                                         Path="StandBy" />
-                                    <Binding Mode="OneWay"
-                                         Path="Enable2" />
-                                </MultiBinding>
-                            </Button.IsEnabled>-->
-                    </Button>
+                        Content="全部站點" IsChecked="True"
+                        Style="{StaticResource ToggleSwich}" />
+                    <ComboBox
+                        x:Name="CB"
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        BorderThickness="0,0,0,1"
+                        IsEnabled="{Binding IsChecked, Converter={StaticResource BoolNot}, ElementName=TotalTB, Mode=OneWay}"
+                        IsEnabledChanged="CB_IsEnabledChanged"
+                        ItemsSource="{Binding EnumFilter, Mode=OneWay}"
+                        SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}" />
                     <Button
                         Grid.RowSpan="2"
                         Grid.Column="6"

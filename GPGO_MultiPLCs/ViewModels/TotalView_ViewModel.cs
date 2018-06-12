@@ -45,13 +45,29 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
 
-        private const int Check_Dev = 21; //!   心跳信號位置
-        private const int PLC_Count = 20; //!   PLC站數
+        /// <summary>
+        /// 心跳信號位置
+        /// </summary>
+        private const int Check_Dev = 21;
+
+        /// <summary>
+        /// PLC站數
+        /// </summary>
+        private const int PLC_Count = 20;
+
         private readonly Timer Checker;
         private readonly InstanceContext site;
         private bool _Gate_Status;
-        private int _Index; //! Tab頁面的index
-        private int _ViewIndex = -1; //!    選取PLC的index
+
+        /// <summary>
+        /// 生產Tab頁面的Index
+        /// </summary>
+        private int _Index;
+
+        /// <summary>
+        /// 選取PLC的Index
+        /// </summary>
+        private int _ViewIndex = -1;
         private GPServiceClient PLC_Client;
         public RelayCommand BackCommand { get; }
 
