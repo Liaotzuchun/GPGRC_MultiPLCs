@@ -4,6 +4,7 @@ using System.Linq;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
+using OxyPlot;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -35,6 +36,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ThisDayCommand { get; }
         public RelayCommand ThisMonthCommand { get; }
         public RelayCommand ThisWeekCommand { get; }
+        public PlotModel ResultView { get; }
 
         public int TotalCount => _Results?.Count > 0 ? _Results.Count - 1 : 0;
 
@@ -274,6 +276,23 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                    Act();
                                                });
+
+            var color = OxyColor.FromRgb(50, 70, 60);
+
+            ResultView = new PlotModel
+                         {
+                             PlotAreaBackground = OxyColor.FromRgb(102, 128, 115),
+                             DefaultFont = "Microsoft JhengHei",
+                             PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
+                             PlotMargins = new OxyThickness(50, 0, 30, 40),
+                             LegendTextColor = color,
+                             LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                             LegendPlacement = LegendPlacement.Outside,
+                             LegendPosition = LegendPosition.TopCenter,
+                             LegendMaxHeight = 30,
+                             LegendFontSize = 14,
+                             LegendItemOrder = LegendItemOrder.Reverse
+                         };
         }
 
         //todo  輸出excel
