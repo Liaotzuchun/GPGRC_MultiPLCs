@@ -44,7 +44,7 @@ namespace GPGO_MultiPLCs.Helpers
     //! 替代InvokeCommandAction，可傳遞EventArgs
     public sealed class InteractiveCommand : TriggerAction<DependencyObject>
     {
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(InteractiveCommand), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(InteractiveCommand), new UIPropertyMetadata(null));
 
         public ICommand Command
         {

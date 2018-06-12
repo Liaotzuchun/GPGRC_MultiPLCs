@@ -8,10 +8,7 @@ namespace GPGO_MultiPLCs
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        public MainWindow() => InitializeComponent();
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

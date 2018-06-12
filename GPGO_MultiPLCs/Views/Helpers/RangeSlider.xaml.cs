@@ -6,13 +6,13 @@ namespace GPGO_MultiPLCs.Views
 {
     public partial class RangeSlider : UserControl
     {
-        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register("Minimum", typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
-        public static readonly DependencyProperty LowerValueProperty = DependencyProperty.Register("LowerValue", typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
-        public static readonly DependencyProperty UpperValueProperty = DependencyProperty.Register("UpperValue", typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
-        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register("Maximum", typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
+        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
+        public static readonly DependencyProperty LowerValueProperty = DependencyProperty.Register(nameof(LowerValue), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
+        public static readonly DependencyProperty UpperValueProperty = DependencyProperty.Register(nameof(UpperValue), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
+        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
 
         public static readonly DependencyProperty DisableLowerValueProperty =
-            DependencyProperty.Register("DisableLowerValue", typeof(bool), typeof(RangeSlider), new UIPropertyMetadata(false, DisabledLowerValueChanged));
+            DependencyProperty.Register(nameof(DisableLowerValue), typeof(bool), typeof(RangeSlider), new UIPropertyMetadata(false, DisabledLowerValueChanged));
 
         private static void DisabledLowerValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

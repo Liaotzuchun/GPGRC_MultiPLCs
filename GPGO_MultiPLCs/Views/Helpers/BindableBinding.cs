@@ -115,20 +115,14 @@ namespace GPGO_MultiPLCs.Views
             private IValueConverter lastConverter;
             private object lastConverterParameter;
 
-            public InternalConverter(BindableBinding binding)
-            {
-                this.binding = binding;
-            }
+            public InternalConverter(BindableBinding binding) => this.binding = binding;
         }
 
         public BindableBinding()
         {
         }
 
-        public BindableBinding(PropertyPath path)
-        {
-            binding.Path = path;
-        }
+        public BindableBinding(PropertyPath path) => binding.Path = path;
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

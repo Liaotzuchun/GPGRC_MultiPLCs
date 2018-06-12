@@ -7,9 +7,6 @@ namespace GPGO_MultiPLCs.Views
     /// </summary>
     public partial class TotalView : UserControl
     {
-        public TotalView()
-        {
-            InitializeComponent();
-        }
+        public TotalView() => InitializeComponent();
     }
 }

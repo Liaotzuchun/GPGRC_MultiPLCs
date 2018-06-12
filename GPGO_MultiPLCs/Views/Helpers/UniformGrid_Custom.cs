@@ -413,7 +413,7 @@ namespace GPGO_MultiPLCs.Views
 
         #region Orientation (Dependency Property)  
 
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation",
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation),
                                                                                                     typeof(Orientation),
                                                                                                     typeof(UniformGridWithOrientation),
                                                                                                     new FrameworkPropertyMetadata(Orientation.Vertical,

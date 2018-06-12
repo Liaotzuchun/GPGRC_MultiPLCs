@@ -7,10 +7,7 @@ namespace GPGO_MultiPLCs.Views
     /// </summary>
     public partial class TraceabilityView : UserControl
     {
-        public TraceabilityView()
-        {
-            InitializeComponent();
-        }
+        public TraceabilityView() => InitializeComponent();
 
         private void CB_IsEnabledChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
