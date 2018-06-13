@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
@@ -53,7 +52,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public DateTime? UpperDate => _Results?.Count > 0 ? _Results[_Index2]?.AddedTime : null;
 
         public List<ProcessInfo> ViewResults => _Index2 >= _Index1 && _Results?.Count > 0 ?
-                                                _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _FilterIndex == -1 || x.StationNumber == _FilterIndex).ToList() : null;
+                                                    _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _FilterIndex == -1 || x.StationNumber == _FilterIndex).ToList() : null;
 
         /// <summary>
         ///     選取的開始日期(資料庫)
@@ -189,6 +188,93 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public void UpdateChart(DateTime date1, DateTime date2)
+        {
+            ResultView_TotalVolume.Series.Clear();
+            ResultView_SingleVolume.Series.Clear();
+
+            if (Results?.Count > 0)
+            {
+                if (date2 - date1 > TimeSpan.FromDays(7))
+                {
+                    if (_FilterIndex == -1)
+                    {
+                        var vals = new ColumnSeries { IsStacked = false, StrokeThickness = 1, StrokeColor = color, FillColor = OxyColors.Cyan };
+
+                        for (var i = 0; i < Connector.PLC_Count; i++)
+                        {
+                            var j = i;
+                            vals.Items.Add(new ColumnItem(ViewResults.Count(x => x.StationNumber == j), i));
+                        }
+
+                        ResultView_TotalVolume.Series.Add(vals);
+                    }
+                    else
+                    {
+                        TimeAxis.StringFormat = "MM/dd";
+                        TimeAxis.Maximum = DateTimeAxis.ToDouble(date2.Date);
+                        TimeAxis.Minimum = DateTimeAxis.ToDouble(date1.Date);
+
+                        var vals = new LinearBarSeries { StrokeThickness = 1, StrokeColor = color, FillColor = OxyColors.Cyan };
+
+                        var result = ViewResults.GroupBy(x => x.AddedTime.Date).Select(x => (x.Key, x.Count()));
+
+                        foreach (var (date, count) in result)
+                        {
+                            vals.Points.Add(new DataPoint(DateTimeAxis.ToDouble(date), count));
+                        }
+
+                        ResultView_SingleVolume.Series.Add(vals);
+                    }
+                }
+                else
+                {
+                    if (_FilterIndex == -1)
+                    {
+                        var groups = ViewResults.GroupBy(x => x.ProduceCode).Select(x => (x.Key, x));
+
+                        foreach (var (produceCode, info) in groups)
+                        {
+                            var vals = new ColumnSeries { Title = produceCode, IsStacked = true, StrokeThickness = 1, StrokeColor = color };
+
+                            for (var i = 0; i < Connector.PLC_Count; i++)
+                            {
+                                var j = i;
+                                vals.Items.Add(new ColumnItem(info.Count(x => x.StationNumber == j), i));
+                            }
+
+                            ResultView_TotalVolume.Series.Add(vals);
+                        }
+                    }
+                    else
+                    {
+                        TimeAxis.StringFormat = "MM/dd HH";
+                        TimeAxis.Maximum = DateTimeAxis.ToDouble(date2.Date);
+                        TimeAxis.Minimum = DateTimeAxis.ToDouble(date1.Date);
+
+                        var groups = ViewResults.GroupBy(x => x.ProduceCode).Select(x => (x.Key, x));
+
+                        foreach (var (produceCode, info) in groups)
+                        {
+                            var vals = new LinearBarSeries { Title = produceCode, StrokeThickness = 1, StrokeColor = color, FillColor = OxyColors.Cyan };
+
+                            var result = info.GroupBy(x => x.AddedTime).Select(x => (x.Key, x.Count()));
+
+                            foreach (var (date, count) in result)
+                            {
+                                vals.Points.Add(new DataPoint(DateTimeAxis.ToDouble(date), count));
+                            }
+
+                            ResultView_SingleVolume.Series.Add(vals);
+                        }
+                    }
+                }
+            }
+
+            ResultView_TotalVolume.InvalidatePlot(true);
+            ResultView_SingleVolume.InvalidatePlot(true);
+        }
+
         /// <summary>
         ///     依據條件，更新查詢資料庫結果列表
         /// </summary>
@@ -210,97 +296,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             Standby = true;
-        }
-
-        public async void UpdateChart(DateTime date1, DateTime date2)
-        {
-            ResultView_TotalVolume.Series.Clear();
-            ResultView_SingleVolume.Series.Clear();
-
-            if (Results?.Count > 0)
-            {
-                await Task.Factory.StartNew(() =>
-                                            {
-                                                if (date2 - date1 > TimeSpan.FromDays(7))
-                                                {
-                                                    if (_FilterIndex == -1)
-                                                    {
-                                                        var vals = new ColumnSeries { IsStacked = false, StrokeThickness = 1, StrokeColor = color, FillColor = OxyColors.Cyan };
-
-                                                        for (var i = 0; i < Connector.PLC_Count; i++)
-                                                        {
-                                                            var j = i;
-                                                            vals.Items.Add(new ColumnItem(ViewResults.Count(x => x.StationNumber == j), i));
-                                                        }
-
-                                                        ResultView_TotalVolume.Series.Add(vals);
-                                                    }
-                                                    else
-                                                    {
-                                                        TimeAxis.StringFormat = "MM/dd";
-                                                        TimeAxis.Maximum = DateTimeAxis.ToDouble(date2.Date);
-                                                        TimeAxis.Minimum = DateTimeAxis.ToDouble(date1.Date);
-
-                                                        var vals = new LinearBarSeries { StrokeThickness = 1, StrokeColor = color, FillColor = OxyColors.Cyan };
-
-                                                        var result = ViewResults.GroupBy(x => x.AddedTime.Date).Select(x => (x.Key, x.Count()));
-
-                                                        foreach (var (date, count) in result)
-                                                        {
-                                                            vals.Points.Add(new DataPoint(DateTimeAxis.ToDouble(date), count));
-                                                        }
-
-                                                        ResultView_SingleVolume.Series.Add(vals);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    if (_FilterIndex == -1)
-                                                    {
-                                                        var groups = ViewResults.GroupBy(x => x.ProduceCode).Select(x => (x.Key, x));
-
-                                                        foreach (var (produceCode, info) in groups)
-                                                        {
-                                                            var vals = new ColumnSeries { Title = produceCode, IsStacked = true, StrokeThickness = 1, StrokeColor = color };
-
-                                                            for (var i = 0; i < Connector.PLC_Count; i++)
-                                                            {
-                                                                var j = i;
-                                                                vals.Items.Add(new ColumnItem(info.Count(x => x.StationNumber == j), i));
-                                                            }
-
-                                                            ResultView_TotalVolume.Series.Add(vals);
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        TimeAxis.StringFormat = "MM/dd HH";
-                                                        TimeAxis.Maximum = DateTimeAxis.ToDouble(date2.Date);
-                                                        TimeAxis.Minimum = DateTimeAxis.ToDouble(date1.Date);
-
-                                                        var groups = ViewResults.GroupBy(x => x.ProduceCode).Select(x => (x.Key, x));
-
-                                                        foreach (var (produceCode, info) in groups)
-                                                        {
-                                                            var vals = new LinearBarSeries { Title = produceCode, StrokeThickness = 1, StrokeColor = color, FillColor = OxyColors.Cyan };
-
-                                                            var result = info.GroupBy(x => x.AddedTime).Select(x => (x.Key, x.Count()));
-
-                                                            foreach (var (date, count) in result)
-                                                            {
-                                                                vals.Points.Add(new DataPoint(DateTimeAxis.ToDouble(date), count));
-                                                            }
-
-                                                            ResultView_SingleVolume.Series.Add(vals);
-                                                        }
-                                                    }
-                                                }
-                                            }, TaskCreationOptions.LongRunning);
-
-            }
-
-            ResultView_TotalVolume.InvalidatePlot(true);
-            ResultView_SingleVolume.InvalidatePlot(true);
         }
 
         public TraceabilityView_ViewModel(MongoClient mongo)
@@ -408,10 +403,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                    Unit = "片",
                                    TickStyle = TickStyle.Inside,
                                    MajorGridlineStyle = LineStyle.None,
-                                   MajorStep = 100,
+                                   //MajorStep = 100,
                                    MinorGridlineStyle = LineStyle.None,
                                    MinorTickSize = 0,
-                                   MinorStep = 10,
+                                   //MinorStep = 10,
                                    AxislineStyle = LineStyle.Solid,
                                    AxislineColor = color,
                                    MajorGridlineColor = color,
@@ -419,8 +414,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                    TicklineColor = color,
                                    ExtraGridlineColor = color,
                                    TextColor = color,
-                                   Minimum = 0,
-                                   Maximum = 1000
+                                   Minimum = 0
+                                   //Maximum = 1000
                                };
 
             VolumeAxis_Single = new LinearAxis
@@ -430,10 +425,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                     Unit = "片",
                                     TickStyle = TickStyle.Inside,
                                     MajorGridlineStyle = LineStyle.None,
-                                    MajorStep = 100,
+                                    //MajorStep = 100,
                                     MinorGridlineStyle = LineStyle.None,
                                     MinorTickSize = 0,
-                                    MinorStep = 10,
+                                    //MinorStep = 10,
                                     AxislineStyle = LineStyle.Solid,
                                     AxislineColor = color,
                                     MajorGridlineColor = color,
@@ -441,8 +436,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                     TicklineColor = color,
                                     ExtraGridlineColor = color,
                                     TextColor = color,
-                                    Minimum = 0,
-                                    Maximum = 1000
+                                    Minimum = 0
+                                    //Maximum = 1000
                                 };
 
             //var s = DateTimeAxis.ToDouble(DateTime.Today.AddHours(1)) - DateTimeAxis.ToDouble(DateTime.Today);
