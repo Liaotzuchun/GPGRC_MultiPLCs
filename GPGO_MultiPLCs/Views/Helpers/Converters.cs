@@ -209,12 +209,22 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return a * b;
+            }
+
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) / System.Convert.ToDouble(parameter);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return a / b;
+            }
+
+            return value;
         }
     }
 
@@ -222,12 +232,22 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) / System.Convert.ToDouble(parameter);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return a / b;
+            }
+
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) * System.Convert.ToDouble(parameter);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return a * b;
+            }
+
+            return value;
         }
     }
 
@@ -245,7 +265,12 @@ namespace GPGO_MultiPLCs.Views
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) - System.Convert.ToDouble(parameter);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return a - b;
+            }
+
+            return value;
         }
     }
 
@@ -253,12 +278,22 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) - System.Convert.ToDouble(parameter);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return a - b;
+            }
+
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(value) + System.Convert.ToDouble(parameter);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return a + b;
+            }
+
+            return value;
         }
     }
 
@@ -266,12 +301,22 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(parameter) - System.Convert.ToDouble(value);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return b - a;
+            }
+
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToDouble(parameter) - System.Convert.ToDouble(value);
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return b - a;
+            }
+
+            return value;
         }
     }
 
