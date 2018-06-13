@@ -20,8 +20,10 @@ namespace GPGO_MultiPLCs.Models
 
         public CancellationTokenSource CTS;
 
+        /// <summary>
+        /// 溫控器溫度+槽內溫度共9項
+        /// </summary>
         private readonly LineSeries[] LineSeries = new LineSeries[9];
-
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
         private readonly LinearAxis TemperatureAxis;

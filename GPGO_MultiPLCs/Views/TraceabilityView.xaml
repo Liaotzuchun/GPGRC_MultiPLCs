@@ -485,7 +485,7 @@
                             <DataTemplate>
                                 <TextBlock
                                     FontSize="16"
-                                    Text="{Binding Mode=OneWay, StringFormat=第 \{0:F0\} 站}" />
+                                    Text="{Binding Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=1, StringFormat=第 \{0:F0\} 站}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -512,10 +512,11 @@
                     Style="{StaticResource DataGridStyle1}" />
                 <TabControl
                     Grid.Row="2"
-                    Margin="0,4,0,0">
+                    Margin="0,4,0,0"
+                    SelectedIndex="{Binding IsChecked, ElementName=TotalTB, Mode=OneWay}">
                     <TabItem
                         Width="0"
-                        Height="0" >
+                        Height="0">
                         <oxy:PlotView
                             Background="{StaticResource LightColorBrush}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -525,7 +526,7 @@
                     </TabItem>
                     <TabItem
                         Width="0"
-                        Height="0" >
+                        Height="0">
                         <oxy:PlotView
                             Background="{StaticResource LightColorBrush}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"

@@ -6,16 +6,17 @@ using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
 using OxyPlot;
 using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class TraceabilityView_ViewModel : ViewModelBase
     {
+        private readonly OxyColor color = OxyColor.FromRgb(50, 70, 60);
         private readonly MongoClient Mongo_Client;
         private readonly CategoryAxis StationAxis;
         private readonly DateTimeAxis TimeAxis;
         private readonly LinearAxis VolumeAxis_Single;
-
         private readonly LinearAxis VolumeAxis_Total;
         private DateTime _Date1;
         private DateTime _Date2;
@@ -33,7 +34,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>
         ///     基於PLC站號的Filter，站號由1開始
         /// </summary>
-        public List<int> EnumFilter => _Results?.Select(x => x.StationNumber + 1).Distinct().OrderBy(x => x).ToList();
+        public List<int> EnumFilter => _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).ToList();
 
         public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.AddedTime : null;
         public PlotModel ResultView_SingleVolume { get; }
@@ -194,6 +195,46 @@ namespace GPGO_MultiPLCs.ViewModels
                 var Sets = db.GetCollection<ProcessInfo>("Product_Infos");
 
                 Results = await (await Sets.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1))).ToListAsync();
+
+                ResultView_TotalVolume.Series.Clear();
+                ResultView_TotalVolume.Series.Clear();
+
+                if (Results.Count > 0)
+                {
+                    if (date2 - date1 > TimeSpan.FromDays(7))
+                    {
+                        if (_FilterIndex == -1)
+                        {
+                            var vals = new ColumnSeries
+                            {
+                                IsStacked = false,
+                                StrokeThickness = 1,
+                                StrokeColor = color,
+                                FillColor = OxyColors.Cyan,                            
+                                       };
+
+                            for(var i = 0; i < Connector.PLC_Count; i++)
+                            {
+
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        if (_FilterIndex == -1)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
             }
             catch (Exception)
             {
@@ -285,13 +326,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                    Act();
                                                });
 
-            var color = OxyColor.FromRgb(50, 70, 60);
-
             ResultView_TotalVolume = new PlotModel
                                      {
                                          DefaultFont = "Microsoft JhengHei",
-                                         PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
-                                         PlotMargins = new OxyThickness(50, 0, 30, 40),
+                                         PlotAreaBorderColor = color,
+                                         PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
+                                         PlotMargins = new OxyThickness(50, 10, 30, 20),
                                          LegendTextColor = color,
                                          LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
                                          LegendPlacement = LegendPlacement.Outside,
@@ -307,7 +347,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                    Title = "數量",
                                    Unit = "片",
                                    TickStyle = TickStyle.Inside,
-                                   MajorGridlineStyle = LineStyle.Solid,
+                                   MajorGridlineStyle = LineStyle.None,
                                    MajorStep = 100,
                                    MinorGridlineStyle = LineStyle.None,
                                    MinorTickSize = 0,
@@ -319,7 +359,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                    TicklineColor = color,
                                    ExtraGridlineColor = color,
                                    TextColor = color,
-                                   Minimum = 0
+                                   Minimum = 0,
+                                   Maximum = 1000
                                };
 
             VolumeAxis_Single = new LinearAxis
@@ -328,7 +369,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     Title = "數量",
                                     Unit = "片",
                                     TickStyle = TickStyle.Inside,
-                                    MajorGridlineStyle = LineStyle.Solid,
+                                    MajorGridlineStyle = LineStyle.None,
                                     MajorStep = 100,
                                     MinorGridlineStyle = LineStyle.None,
                                     MinorTickSize = 0,
@@ -340,7 +381,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                     TicklineColor = color,
                                     ExtraGridlineColor = color,
                                     TextColor = color,
-                                    Minimum = 0
+                                    Minimum = 0,
+                                    Maximum = 1000
                                 };
 
             TimeAxis = new DateTimeAxis
@@ -349,7 +391,7 @@ namespace GPGO_MultiPLCs.ViewModels
                            MinimumPadding = 0,
                            MaximumPadding = 0,
                            TickStyle = TickStyle.Inside,
-                           MajorGridlineStyle = LineStyle.Dot,
+                           MajorGridlineStyle = LineStyle.None,
                            MajorStep = 60,
                            MinorGridlineStyle = LineStyle.None,
                            MinorStep = 10,
@@ -390,8 +432,9 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView_SingleVolume = new PlotModel
                                       {
                                           DefaultFont = "Microsoft JhengHei",
-                                          PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
-                                          PlotMargins = new OxyThickness(50, 0, 30, 40),
+                                          PlotAreaBorderColor = color,
+                                          PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
+                                          PlotMargins = new OxyThickness(50, 10, 30, 20),
                                           LegendTextColor = color,
                                           LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
                                           LegendPlacement = LegendPlacement.Outside,
