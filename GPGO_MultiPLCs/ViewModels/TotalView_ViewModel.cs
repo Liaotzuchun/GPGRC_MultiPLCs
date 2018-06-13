@@ -17,7 +17,7 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
-            if (index < PLC_Count && index > -1)
+            if (index < Connector.PLC_Count && index > -1)
             {
                 //! short data先，bit bool後
 
@@ -35,7 +35,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         void IGPServiceCallback.Status_Changed(int index, bool val)
         {
-            if (index < PLC_Count && index > -1)
+            if (index < Connector.PLC_Count && index > -1)
             {
                 PLC_All[index].OnlineStatus = val;
             }
@@ -49,11 +49,6 @@ namespace GPGO_MultiPLCs.ViewModels
         /// 心跳信號位置
         /// </summary>
         private const int Check_Dev = 21;
-
-        /// <summary>
-        /// PLC站數
-        /// </summary>
-        private const int PLC_Count = 20;
 
         private readonly Timer Checker;
         private readonly InstanceContext site;
@@ -127,7 +122,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                Index = o is int i ? i : 0;
                                            });
 
-            PLC_All = new PLC_DataProvider[PLC_Count];
+            PLC_All = new PLC_DataProvider[Connector.PLC_Count];
 
             var M_List = new Dictionary<SignalNames, int>
                          {
@@ -222,7 +217,7 @@ namespace GPGO_MultiPLCs.ViewModels
                               };
 
             //! 註冊PLC事件需引發的動作
-            for (var i = 0; i < PLC_Count; i++)
+            for (var i = 0; i < Connector.PLC_Count; i++)
             {
                 PLC_All[i] = new PLC_DataProvider(M_List, D_List, Recipe_List, dialog);
                 var j = i;
@@ -312,7 +307,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 PlotAreaBackground = OxyColor.FromArgb(0, 0, 0, 0),
                                 DefaultFont = "Microsoft JhengHei",
                                 PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
-                                PlotMargins = new OxyThickness(20, 10, 10, 20)
+                                PlotMargins = new OxyThickness(40, 10, 10, 20)
                             };
 
             var categoryAxis1 = new CategoryAxis
@@ -330,26 +325,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                     Position = AxisPosition.Left
                                 };
 
-            categoryAxis1.ActualLabels.Add("1");
-            categoryAxis1.ActualLabels.Add("2");
-            categoryAxis1.ActualLabels.Add("3");
-            categoryAxis1.ActualLabels.Add("4");
-            categoryAxis1.ActualLabels.Add("5");
-            categoryAxis1.ActualLabels.Add("6");
-            categoryAxis1.ActualLabels.Add("7");
-            categoryAxis1.ActualLabels.Add("8");
-            categoryAxis1.ActualLabels.Add("9");
-            categoryAxis1.ActualLabels.Add("10");
-            categoryAxis1.ActualLabels.Add("11");
-            categoryAxis1.ActualLabels.Add("12");
-            categoryAxis1.ActualLabels.Add("13");
-            categoryAxis1.ActualLabels.Add("14");
-            categoryAxis1.ActualLabels.Add("15");
-            categoryAxis1.ActualLabels.Add("16");
-            categoryAxis1.ActualLabels.Add("17");
-            categoryAxis1.ActualLabels.Add("18");
-            categoryAxis1.ActualLabels.Add("19");
-            categoryAxis1.ActualLabels.Add("20");
+            for(var i = 1; i <= Connector.PLC_Count; i++)
+            {
+                categoryAxis1.ActualLabels.Add("第" + i + "站");
+            }
             categoryAxis1.ActualLabels.Reverse();
 
             var XAxis = new LinearAxis

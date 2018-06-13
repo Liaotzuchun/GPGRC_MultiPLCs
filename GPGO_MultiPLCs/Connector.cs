@@ -11,6 +11,8 @@ namespace GPGO_MultiPLCs
 {
     public class Connector
     {
+        public const int PLC_Count = 20;
+
         public readonly MongoClient Mongo;
         public GlobalDialog_ViewModel DialogVM { get; }
         public MainWindow_ViewModel MainVM { get; }

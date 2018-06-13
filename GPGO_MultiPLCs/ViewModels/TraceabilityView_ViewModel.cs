@@ -5,12 +5,18 @@ using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
 using OxyPlot;
+using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class TraceabilityView_ViewModel : ViewModelBase
     {
         private readonly MongoClient Mongo_Client;
+        private readonly CategoryAxis StationAxis;
+        private readonly DateTimeAxis TimeAxis;
+        private readonly LinearAxis VolumeAxis_Single;
+
+        private readonly LinearAxis VolumeAxis_Total;
         private DateTime _Date1;
         private DateTime _Date2;
         private int _FilterIndex;
@@ -19,16 +25,19 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private List<ProcessInfo> _Results;
         private bool _Standby = true;
+
         public RelayCommand AddDayCommand { get; }
         public RelayCommand AddMonthCommand { get; }
         public RelayCommand AddWeekCommand { get; }
 
         /// <summary>
-        ///     基於PLC站號的Filter
+        ///     基於PLC站號的Filter，站號由1開始
         /// </summary>
-        public List<int> EnumFilter => _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).ToList();
+        public List<int> EnumFilter => _Results?.Select(x => x.StationNumber + 1).Distinct().OrderBy(x => x).ToList();
 
         public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.AddedTime : null;
+        public PlotModel ResultView_SingleVolume { get; }
+        public PlotModel ResultView_TotalVolume { get; }
 
         public RelayCommand SubDayCommand { get; }
         public RelayCommand SubMonthCommand { get; }
@@ -36,7 +45,6 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ThisDayCommand { get; }
         public RelayCommand ThisMonthCommand { get; }
         public RelayCommand ThisWeekCommand { get; }
-        public PlotModel ResultView { get; }
 
         public int TotalCount => _Results?.Count > 0 ? _Results.Count - 1 : 0;
 
@@ -279,20 +287,124 @@ namespace GPGO_MultiPLCs.ViewModels
 
             var color = OxyColor.FromRgb(50, 70, 60);
 
-            ResultView = new PlotModel
-                         {
-                             PlotAreaBackground = OxyColor.FromRgb(102, 128, 115),
-                             DefaultFont = "Microsoft JhengHei",
-                             PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
-                             PlotMargins = new OxyThickness(50, 0, 30, 40),
-                             LegendTextColor = color,
-                             LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
-                             LegendPlacement = LegendPlacement.Outside,
-                             LegendPosition = LegendPosition.TopCenter,
-                             LegendMaxHeight = 30,
-                             LegendFontSize = 14,
-                             LegendItemOrder = LegendItemOrder.Reverse
-                         };
+            ResultView_TotalVolume = new PlotModel
+                                     {
+                                         DefaultFont = "Microsoft JhengHei",
+                                         PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
+                                         PlotMargins = new OxyThickness(50, 0, 30, 40),
+                                         LegendTextColor = color,
+                                         LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                                         LegendPlacement = LegendPlacement.Outside,
+                                         LegendPosition = LegendPosition.RightTop,
+                                         LegendMaxHeight = 30,
+                                         LegendFontSize = 14,
+                                         LegendItemOrder = LegendItemOrder.Reverse
+                                     };
+
+            VolumeAxis_Total = new LinearAxis
+                               {
+                                   TitleColor = color,
+                                   Title = "數量",
+                                   Unit = "片",
+                                   TickStyle = TickStyle.Inside,
+                                   MajorGridlineStyle = LineStyle.Solid,
+                                   MajorStep = 100,
+                                   MinorGridlineStyle = LineStyle.None,
+                                   MinorTickSize = 0,
+                                   MinorStep = 10,
+                                   AxislineStyle = LineStyle.Solid,
+                                   AxislineColor = color,
+                                   MajorGridlineColor = color,
+                                   MinorGridlineColor = color,
+                                   TicklineColor = color,
+                                   ExtraGridlineColor = color,
+                                   TextColor = color,
+                                   Minimum = 0
+                               };
+
+            VolumeAxis_Single = new LinearAxis
+                                {
+                                    TitleColor = color,
+                                    Title = "數量",
+                                    Unit = "片",
+                                    TickStyle = TickStyle.Inside,
+                                    MajorGridlineStyle = LineStyle.Solid,
+                                    MajorStep = 100,
+                                    MinorGridlineStyle = LineStyle.None,
+                                    MinorTickSize = 0,
+                                    MinorStep = 10,
+                                    AxislineStyle = LineStyle.Solid,
+                                    AxislineColor = color,
+                                    MajorGridlineColor = color,
+                                    MinorGridlineColor = color,
+                                    TicklineColor = color,
+                                    ExtraGridlineColor = color,
+                                    TextColor = color,
+                                    Minimum = 0
+                                };
+
+            TimeAxis = new DateTimeAxis
+                       {
+                           TitleColor = color,
+                           MinimumPadding = 0,
+                           MaximumPadding = 0,
+                           TickStyle = TickStyle.Inside,
+                           MajorGridlineStyle = LineStyle.Dot,
+                           MajorStep = 60,
+                           MinorGridlineStyle = LineStyle.None,
+                           MinorStep = 10,
+                           Position = AxisPosition.Bottom,
+                           AxislineStyle = LineStyle.Solid,
+                           AxislineColor = color,
+                           MajorGridlineColor = color,
+                           MinorGridlineColor = color,
+                           TicklineColor = color,
+                           ExtraGridlineColor = color,
+                           TextColor = color,
+                           //StringFormat = "hh:mm",
+                           Maximum = DateTimeAxis.ToDouble(DateTime.Today.AddDays(1)),
+                           Minimum = DateTimeAxis.ToDouble(DateTime.Today)
+                       };
+
+            StationAxis = new CategoryAxis
+                          {
+                              MajorGridlineColor = color,
+                              MinorGridlineColor = color,
+                              TicklineColor = color,
+                              ExtraGridlineColor = color,
+                              TextColor = color,
+                              TickStyle = TickStyle.Inside,
+                              AxislineStyle = LineStyle.Solid,
+                              AxislineColor = color,
+                              GapWidth = 0,
+                              MinorStep = 1,
+                              MajorStep = 1,
+                              Position = AxisPosition.Bottom
+                          };
+
+            for (var i = 1; i <= Connector.PLC_Count; i++)
+            {
+                StationAxis.ActualLabels.Add("第" + i + "站");
+            }
+
+            ResultView_SingleVolume = new PlotModel
+                                      {
+                                          DefaultFont = "Microsoft JhengHei",
+                                          PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
+                                          PlotMargins = new OxyThickness(50, 0, 30, 40),
+                                          LegendTextColor = color,
+                                          LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                                          LegendPlacement = LegendPlacement.Outside,
+                                          LegendPosition = LegendPosition.RightTop,
+                                          LegendMaxHeight = 30,
+                                          LegendFontSize = 14,
+                                          LegendItemOrder = LegendItemOrder.Reverse
+                                      };
+
+            ResultView_TotalVolume.Axes.Add(VolumeAxis_Total);
+            ResultView_TotalVolume.Axes.Add(StationAxis);
+            ResultView_SingleVolume.Axes.Add(VolumeAxis_Single);
+            ResultView_SingleVolume.Axes.Add(TimeAxis);
         }
 
         //todo  輸出excel

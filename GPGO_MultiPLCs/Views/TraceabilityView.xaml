@@ -466,7 +466,8 @@
                         BorderThickness="0,0,1,1"
                         IsEnabledChanged="CB_IsEnabledChanged"
                         ItemsSource="{Binding EnumFilter, Mode=OneWay}"
-                        SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}">
+                        SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}"
+                        Validation.ErrorTemplate="{x:Null}">
                         <ComboBox.IsEnabled>
                             <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
                                 <Binding
@@ -480,6 +481,13 @@
                                     Path="IsEnabled" />
                             </MultiBinding>
                         </ComboBox.IsEnabled>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="16"
+                                    Text="{Binding Mode=OneWay, StringFormat=第 \{0:F0\} 站}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
                 </Grid>
                 <DataGrid
@@ -502,12 +510,30 @@
                     RowStyle="{StaticResource DataGridRowStyle}"
                     SelectionMode="Single"
                     Style="{StaticResource DataGridStyle1}" />
-                <oxy:PlotView
+                <TabControl
                     Grid.Row="2"
-                    Margin="0,4,0,0"
-                    Background="{StaticResource LightColorBrush}"
-                    IsMouseWheelEnabled="False"
-                    Model="{Binding ResultView, Mode=OneWay}" />
+                    Margin="0,4,0,0">
+                    <TabItem
+                        Width="0"
+                        Height="0" >
+                        <oxy:PlotView
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1"
+                            IsMouseWheelEnabled="False"
+                            Model="{Binding ResultView_SingleVolume, Mode=OneWay}" />
+                    </TabItem>
+                    <TabItem
+                        Width="0"
+                        Height="0" >
+                        <oxy:PlotView
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1"
+                            IsMouseWheelEnabled="False"
+                            Model="{Binding ResultView_TotalVolume, Mode=OneWay}" />
+                    </TabItem>
+                </TabControl>
             </Grid>
         </GroupBox>
     </Grid>

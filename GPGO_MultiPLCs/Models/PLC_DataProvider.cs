@@ -19,33 +19,23 @@ namespace GPGO_MultiPLCs.Models
         public delegate void SwitchRecipeEventHandler(string recipe);
 
         public CancellationTokenSource CTS;
-        public LinearAxis TemperatureAxis;
-        public TimeSpanAxis TimeAxis;
-        private bool _OnlineStatus;
-        private ICollection<string> _Recipe_Names;
-        private Task _RecordingTask;
-        private string _Selected_Name;
 
         private readonly LineSeries[] LineSeries = new LineSeries[9];
 
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
+        private readonly LinearAxis TemperatureAxis;
+        private readonly TimeSpanAxis TimeAxis;
+        private bool _OnlineStatus;
+        private ICollection<string> _Recipe_Names;
+        private Task _RecordingTask;
+        private string _Selected_Name;
         public CommandWithResult<bool> CheckInCommand { get; }
 
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running ||
                                    _RecordingTask?.Status == TaskStatus.RanToCompletion ||
                                    _RecordingTask?.Status == TaskStatus.WaitingForActivation ||
                                    _RecordingTask?.Status == TaskStatus.WaitingToRun;
-
-        public bool OnlineStatus
-        {
-            get => _OnlineStatus;
-            set
-            {
-                _OnlineStatus = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public ProcessInfo Process_Info { get; }
 
@@ -82,6 +72,18 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public PlotModel RecordView { get; }
+
+        public bool OnlineStatus
+        {
+            get => _OnlineStatus;
+            set
+            {
+                _OnlineStatus = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public ICollection<string> Recipe_Names
         {
             get => _Recipe_Names;
@@ -114,8 +116,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public PlotModel RecordView { get; }
-
         public string Selected_Name
         {
             get => _Selected_Name;
@@ -126,6 +126,182 @@ namespace GPGO_MultiPLCs.Models
 
                 SwitchRecipeEvent?.Invoke(_Selected_Name);
             }
+        }
+
+        public event RecordingFinishedEventHandler RecordingFinished;
+        public event StartRecordingHandler StartRecording;
+        public event SwitchRecipeEventHandler SwitchRecipeEvent;
+
+        public void ResetStopTokenSource()
+        {
+            CTS?.Dispose();
+
+            CTS = new CancellationTokenSource();
+            //CTS.Token.Register(() =>
+            //{
+            //
+            //});
+        }
+
+        public async Task StartRecoder(long cycle_ms, CancellationToken ct)
+        {
+            StartRecording?.Invoke(RecipeName, LockHandle); //! 引發開始記錄事件並以LockHandle等待完成
+
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            Process_Info.RecordTemperatures.Clear();
+
+                                            foreach (var ls in LineSeries)
+                                            {
+                                                ls.Points.Clear();
+                                            }
+
+                                            TemperatureAxis.MajorStep = 20;
+                                            TemperatureAxis.Maximum = 100;
+                                            TimeAxis.Unit = "秒";
+                                            TimeAxis.MajorStep = 10;
+                                            TimeAxis.MinorStep = 1;
+                                            TimeAxis.Maximum = 60;
+                                            TimeAxis.StringFormat = "m:ss";
+
+                                            RecordView.InvalidatePlot(true);
+
+                                            LockHandle.WaitOne();
+
+                                            var n = TimeSpan.Zero;
+                                            sw.Restart();
+
+                                            while (!ct.IsCancellationRequested)
+                                            {
+                                                if (sw.Elapsed >= n)
+                                                {
+                                                    //var vals = new Record_Temperatures
+                                                    //           {
+                                                    //               Time = sw.Elapsed,
+                                                    //               ThermostatTemperature = ThermostatTemperature,
+                                                    //               OvenTemperatures =
+                                                    //               {
+                                                    //                   [0] = OvenTemperature_1,
+                                                    //                   [1] = OvenTemperature_2,
+                                                    //                   [2] = OvenTemperature_3,
+                                                    //                   [3] = OvenTemperature_4,
+                                                    //                   [4] = OvenTemperature_5,
+                                                    //                   [5] = OvenTemperature_6,
+                                                    //                   [6] = OvenTemperature_7,
+                                                    //                   [7] = OvenTemperature_8
+                                                    //               }
+                                                    //           };
+
+                                                    var rn = new Random();
+                                                    var t = sw.Elapsed;
+                                                    var vals = new Record_Temperatures
+                                                               {
+                                                                   Time = t,
+                                                                   ThermostatTemperature = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                   OvenTemperatures =
+                                                                   {
+                                                                       [0] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [1] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [2] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [3] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [4] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [5] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [6] = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                       [7] = rn.Next(0, (t.Minutes + 1) * 80)
+                                                                   }
+                                                               };
+
+                                                    Process_Info.RecordTemperatures.Add(vals);
+                                                    AddPlot(sw.Elapsed, vals);
+
+                                                    if (n >= TimeSpan.FromMinutes(10))
+                                                    {
+                                                        n += TimeSpan.FromMinutes(1);
+                                                    }
+                                                    else if (n >= TimeSpan.FromMinutes(1))
+                                                    {
+                                                        n += TimeSpan.FromSeconds(20);
+                                                    }
+                                                    else
+                                                    {
+                                                        n += TimeSpan.FromSeconds(2);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Thread.Sleep(15);
+                                                }
+                                            }
+
+                                            sw.Stop();
+                                        },
+                                        TaskCreationOptions.LongRunning);
+        }
+
+        private void AddPlot(TimeSpan t, Record_Temperatures vals)
+        {
+            if (vals.Max > 480)
+            {
+                TemperatureAxis.Maximum = 600;
+                TemperatureAxis.MajorStep = 120;
+            }
+            else if (vals.Max > 380)
+            {
+                TemperatureAxis.Maximum = 500;
+                TemperatureAxis.MajorStep = 100;
+            }
+            else if (vals.Max > 280)
+            {
+                TemperatureAxis.Maximum = 400;
+                TemperatureAxis.MajorStep = 80;
+            }
+            else if (vals.Max > 180)
+            {
+                TemperatureAxis.Maximum = 300;
+                TemperatureAxis.MajorStep = 60;
+            }
+            else if (vals.Max > 80)
+            {
+                TemperatureAxis.Maximum = 200;
+                TemperatureAxis.MajorStep = 40;
+            }
+
+            if (t > TimeSpan.FromMinutes(60))
+            {
+                TimeAxis.Unit = "分";
+                TimeAxis.MajorStep = 60 * 30;
+                TimeAxis.MinorStep = 60;
+                TimeAxis.Maximum = 60 * 60 * 3;
+                TimeAxis.StringFormat = "hh:mm";
+            }
+            else if (t > TimeSpan.FromMinutes(1))
+            {
+                TimeAxis.Unit = "分";
+                TimeAxis.MajorStep = 60 * 10;
+                TimeAxis.MinorStep = 60;
+                TimeAxis.Maximum = 60 * 60;
+                TimeAxis.StringFormat = "hh:mm";
+
+                //foreach (var ls in LineSeries)
+                //{
+                //    var pt = ls.Points.First();
+                //    ls.Points.Clear();
+                //    ls.Points.Add(pt);
+                //}
+            }
+
+            var time = TimeSpanAxis.ToDouble(t);
+            LineSeries[8].Points.Add(new DataPoint(time, vals.ThermostatTemperature));
+            LineSeries[7].Points.Add(new DataPoint(time, vals.OvenTemperatures[0]));
+            LineSeries[6].Points.Add(new DataPoint(time, vals.OvenTemperatures[1]));
+            LineSeries[5].Points.Add(new DataPoint(time, vals.OvenTemperatures[2]));
+            LineSeries[4].Points.Add(new DataPoint(time, vals.OvenTemperatures[3]));
+            LineSeries[3].Points.Add(new DataPoint(time, vals.OvenTemperatures[4]));
+            LineSeries[2].Points.Add(new DataPoint(time, vals.OvenTemperatures[5]));
+            LineSeries[1].Points.Add(new DataPoint(time, vals.OvenTemperatures[6]));
+            LineSeries[0].Points.Add(new DataPoint(time, vals.OvenTemperatures[7]));
+
+            RecordView.InvalidatePlot(true);
         }
 
         public PLC_DataProvider(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
@@ -515,182 +691,6 @@ namespace GPGO_MultiPLCs.Models
                                               };
 
             #endregion
-        }
-
-        public event RecordingFinishedEventHandler RecordingFinished;
-        public event StartRecordingHandler StartRecording;
-        public event SwitchRecipeEventHandler SwitchRecipeEvent;
-
-        public void ResetStopTokenSource()
-        {
-            CTS?.Dispose();
-
-            CTS = new CancellationTokenSource();
-            //CTS.Token.Register(() =>
-            //{
-            //
-            //});
-        }
-
-        public async Task StartRecoder(long cycle_ms, CancellationToken ct)
-        {
-            StartRecording?.Invoke(RecipeName, LockHandle); //! 引發開始記錄事件並以LockHandle等待完成
-
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            Process_Info.RecordTemperatures.Clear();
-
-                                            foreach (var ls in LineSeries)
-                                            {
-                                                ls.Points.Clear();
-                                            }
-
-                                            TemperatureAxis.MajorStep = 20;
-                                            TemperatureAxis.Maximum = 100;
-                                            TimeAxis.Unit = "秒";
-                                            TimeAxis.MajorStep = 10;
-                                            TimeAxis.MinorStep = 1;
-                                            TimeAxis.Maximum = 60;
-                                            TimeAxis.StringFormat = "m:ss";
-
-                                            RecordView.InvalidatePlot(true);
-
-                                            LockHandle.WaitOne();
-
-                                            var n = TimeSpan.Zero;
-                                            sw.Restart();
-
-                                            while (!ct.IsCancellationRequested)
-                                            {
-                                                if (sw.Elapsed >= n)
-                                                {
-                                                    //var vals = new Record_Temperatures
-                                                    //           {
-                                                    //               Time = sw.Elapsed,
-                                                    //               ThermostatTemperature = ThermostatTemperature,
-                                                    //               OvenTemperatures =
-                                                    //               {
-                                                    //                   [0] = OvenTemperature_1,
-                                                    //                   [1] = OvenTemperature_2,
-                                                    //                   [2] = OvenTemperature_3,
-                                                    //                   [3] = OvenTemperature_4,
-                                                    //                   [4] = OvenTemperature_5,
-                                                    //                   [5] = OvenTemperature_6,
-                                                    //                   [6] = OvenTemperature_7,
-                                                    //                   [7] = OvenTemperature_8
-                                                    //               }
-                                                    //           };
-
-                                                    var rn = new Random();
-                                                    var t = sw.Elapsed;
-                                                    var vals = new Record_Temperatures
-                                                               {
-                                                                   Time = t,
-                                                                   ThermostatTemperature = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                   OvenTemperatures =
-                                                                   {
-                                                                       [0] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [1] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [2] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [3] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [4] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [5] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [6] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [7] = rn.Next(0, (t.Minutes + 1) * 80)
-                                                                   }
-                                                               };
-
-                                                    Process_Info.RecordTemperatures.Add(vals);
-                                                    AddPlot(sw.Elapsed, vals);
-
-                                                    if (n >= TimeSpan.FromMinutes(10))
-                                                    {
-                                                        n += TimeSpan.FromMinutes(1);
-                                                    }
-                                                    else if (n >= TimeSpan.FromMinutes(1))
-                                                    {
-                                                        n += TimeSpan.FromSeconds(20);
-                                                    }
-                                                    else
-                                                    {
-                                                        n += TimeSpan.FromSeconds(2);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    Thread.Sleep(15);
-                                                }
-                                            }
-
-                                            sw.Stop();
-                                        },
-                                        TaskCreationOptions.LongRunning);
-        }
-
-        private void AddPlot(TimeSpan t, Record_Temperatures vals)
-        {
-            if (vals.Max > 480)
-            {
-                TemperatureAxis.Maximum = 600;
-                TemperatureAxis.MajorStep = 120;
-            }
-            else if (vals.Max > 380)
-            {
-                TemperatureAxis.Maximum = 500;
-                TemperatureAxis.MajorStep = 100;
-            }
-            else if (vals.Max > 280)
-            {
-                TemperatureAxis.Maximum = 400;
-                TemperatureAxis.MajorStep = 80;
-            }
-            else if (vals.Max > 180)
-            {
-                TemperatureAxis.Maximum = 300;
-                TemperatureAxis.MajorStep = 60;
-            }
-            else if (vals.Max > 80)
-            {
-                TemperatureAxis.Maximum = 200;
-                TemperatureAxis.MajorStep = 40;
-            }
-
-            if (t > TimeSpan.FromMinutes(60))
-            {
-                TimeAxis.Unit = "分";
-                TimeAxis.MajorStep = 60 * 30;
-                TimeAxis.MinorStep = 60;
-                TimeAxis.Maximum = 60 * 60 * 3;
-                TimeAxis.StringFormat = "hh:mm";
-            }
-            else if (t > TimeSpan.FromMinutes(1))
-            {
-                TimeAxis.Unit = "分";
-                TimeAxis.MajorStep = 60 * 10;
-                TimeAxis.MinorStep = 60;
-                TimeAxis.Maximum = 60 * 60;
-                TimeAxis.StringFormat = "hh:mm";
-
-                //foreach (var ls in LineSeries)
-                //{
-                //    var pt = ls.Points.First();
-                //    ls.Points.Clear();
-                //    ls.Points.Add(pt);
-                //}
-            }
-
-            var time = TimeSpanAxis.ToDouble(t);
-            LineSeries[8].Points.Add(new DataPoint(time, vals.ThermostatTemperature));
-            LineSeries[7].Points.Add(new DataPoint(time, vals.OvenTemperatures[0]));
-            LineSeries[6].Points.Add(new DataPoint(time, vals.OvenTemperatures[1]));
-            LineSeries[5].Points.Add(new DataPoint(time, vals.OvenTemperatures[2]));
-            LineSeries[4].Points.Add(new DataPoint(time, vals.OvenTemperatures[3]));
-            LineSeries[3].Points.Add(new DataPoint(time, vals.OvenTemperatures[4]));
-            LineSeries[2].Points.Add(new DataPoint(time, vals.OvenTemperatures[5]));
-            LineSeries[1].Points.Add(new DataPoint(time, vals.OvenTemperatures[6]));
-            LineSeries[0].Points.Add(new DataPoint(time, vals.OvenTemperatures[7]));
-
-            RecordView.InvalidatePlot(true);
         }
     }
 }

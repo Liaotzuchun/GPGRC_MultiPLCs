@@ -43,7 +43,7 @@ namespace GPGO_MultiPLCs.Models
         private double _ThermostaticTemperature_7;
         private double _ThermostaticTemperature_8;
         private DateTime _Updated;
-        private bool[] _Used_Stations = new bool[20];
+        private bool[] _Used_Stations = new bool[Connector.PLC_Count];
         private short _UsedSegmentCounts;
 
         public short SegmentCounts_Max => 8;
