@@ -223,6 +223,7 @@
                                 Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource Self}}" />
                             <ContentPresenter
                                 Grid.Column="1"
+                                Margin="{TemplateBinding Padding}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 RecognizesAccessKey="True" />

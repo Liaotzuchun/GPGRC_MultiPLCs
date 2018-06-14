@@ -513,64 +513,73 @@
                     Style="{StaticResource DataGridStyle1}" />
                 <TabControl
                     Grid.Row="2"
-                    Margin="0,4,0,0"
-                    SelectedIndex="{Binding IsChecked, ElementName=TotalTB, Mode=OneWay}">
+                    Margin="0,4,0,0">
                     <TabItem
                         Width="0"
                         Height="0">
-                        <oxy:PlotView
+                        <Border
                             Background="{StaticResource LightColorBrush}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="1"
-                            IsMouseWheelEnabled="False"
-                            Model="{Binding ResultView_SingleVolume, Mode=OneWay}">
-                            <oxy:PlotView.DefaultTrackerTemplate>
-                                <ControlTemplate>
-                                    <oxy:TrackerControl
-                                        d:DataContext="{d:DesignInstance oxy:TrackerControl}"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="1"
-                                        LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                        Position="{Binding Position}">
-                                        <oxy:TrackerControl.Content>
-                                            <TextBlock
-                                                Margin="7"
-                                                Text="{Binding}" />
-                                        </oxy:TrackerControl.Content>
-                                    </oxy:TrackerControl>
-                                </ControlTemplate>
-                            </oxy:PlotView.DefaultTrackerTemplate>
-                        </oxy:PlotView>
+                            BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <oxy:PlotView
+                                    Background="{StaticResource LightColorBrush}"
+                                    IsMouseWheelEnabled="False"
+                                    Model="{Binding ResultView, Mode=OneWay}">
+                                    <oxy:PlotView.DefaultTrackerTemplate>
+                                        <ControlTemplate>
+                                            <oxy:TrackerControl
+                                                d:DataContext="{d:DesignInstance oxy:TrackerControl}"
+                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1"
+                                                LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
+                                                Position="{Binding Position}">
+                                                <oxy:TrackerControl.Content>
+                                                    <TextBlock
+                                                        Margin="7"
+                                                        Text="{Binding}" />
+                                                </oxy:TrackerControl.Content>
+                                            </oxy:TrackerControl>
+                                        </ControlTemplate>
+                                    </oxy:PlotView.DefaultTrackerTemplate>
+                                </oxy:PlotView>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Margin="-45,0,45,4"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding IsChecked, ElementName=TotalTB, Converter={StaticResource BoolVis}, Mode=OneWay}">
+                                    <TextBlock
+                                        Margin="8"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="DateTime" />
+                                    <Slider
+                                        Width="100"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        IsSnapToTickEnabled="True"
+                                        Maximum="1"
+                                        SmallChange="1"
+                                        Style="{StaticResource Slider_X}"
+                                        Value="{Binding ByPLC, Mode=OneWayToSource}" />
+                                    <TextBlock
+                                        Margin="8"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="PLC NO." />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
                     </TabItem>
                     <TabItem
                         Width="0"
-                        Height="0">
-                        <oxy:PlotView
-                            Background="{StaticResource LightColorBrush}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="1"
-                            IsMouseWheelEnabled="False"
-                            Model="{Binding ResultView_TotalVolume, Mode=OneWay}">
-                            <oxy:PlotView.DefaultTrackerTemplate>
-                                <ControlTemplate>
-                                    <oxy:TrackerControl
-                                        d:DataContext="{d:DesignInstance oxy:TrackerControl}"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="1"
-                                        LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                        Position="{Binding Position}">
-                                        <oxy:TrackerControl.Content>
-                                            <TextBlock
-                                                Margin="7"
-                                                Text="{Binding}" />
-                                        </oxy:TrackerControl.Content>
-                                    </oxy:TrackerControl>
-                                </ControlTemplate>
-                            </oxy:PlotView.DefaultTrackerTemplate>
-                        </oxy:PlotView>
-                    </TabItem>
+                        Height="0" />
                 </TabControl>
             </Grid>
         </GroupBox>

@@ -384,4 +384,116 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style
+        x:Key="Slider_X"
+        TargetType="{x:Type Slider}">
+        <Setter Property="SelectionEnd" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Value}" />
+        <Setter Property="SelectionStart" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Minimum}" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush4}" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Slider}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition
+                                        Height="Auto"
+                                        MinHeight="{TemplateBinding Slider.MinHeight}" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TickBar
+                                    Name="TopTick"
+                                    Grid.Column="1"
+                                    Height="5"
+                                    Fill="{StaticResource GlyphBrush}"
+                                    Placement="Top"
+                                    Visibility="Collapsed" />
+                                <Border
+                                    Name="TrackBackground"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Height="4"
+                                    Margin="0"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding Background}"
+                                    BorderThickness="1"
+                                    CornerRadius="0">
+                                    <Rectangle
+                                        x:Name="PART_SelectionRange"
+                                        Height="4"
+                                        Margin="-1"
+                                        HorizontalAlignment="Left"
+                                        Fill="{StaticResource WorkingBrush}"
+                                        Stroke="{StaticResource WorkingBorderBrush}"
+                                        StrokeThickness="0"
+                                        Visibility="Hidden" />
+                                </Border>
+                                <Track
+                                    Name="PART_Track"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Grid.Column="1"
+                                    Margin="0">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton
+                                            Command="Slider.DecreaseLarge"
+                                            Style="{StaticResource SliderButtonStyle0}" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource SliderThumbStyle}" />
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton
+                                            Command="Slider.IncreaseLarge"
+                                            Style="{StaticResource SliderButtonStyle0}" />
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                                <TickBar
+                                    Name="BottomTick"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Height="5"
+                                    Fill="{StaticResource GlyphBrush}"
+                                    Placement="Bottom"
+                                    Visibility="Collapsed" />
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="TickPlacement" Value="TopLeft">
+                                    <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="TickPlacement" Value="BottomRight">
+                                    <Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="TickPlacement" Value="Both">
+                                    <Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
+                                    <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="IsSelectionRangeEnabled" Value="True">
+                                    <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="PART_SelectionRange" Property="Fill" Value="{StaticResource DisabledBorderBrush}" />
+                                    <Setter TargetName="PART_SelectionRange" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush4}" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template" Value="{StaticResource VerticalSlider}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

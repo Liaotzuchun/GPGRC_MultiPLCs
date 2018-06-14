@@ -13,16 +13,16 @@ namespace GPGO_MultiPLCs.ViewModels
     public class TraceabilityView_ViewModel : ViewModelBase
     {
         private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
-        private readonly CategoryAxis categoryAxis_Single;
-        private readonly CategoryAxis categoryAxis_Total;
+        private readonly CategoryAxis categoryAxis1;
+        private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
         private readonly MongoClient Mongo_Client;
+        private bool _ByPLC;
         private DateTime _Date1;
         private DateTime _Date2;
         private int _FilterIndex;
         private int _Index1;
         private int _Index2;
-
         private List<ProcessInfo> _Results;
         private bool _Standby = true;
 
@@ -36,8 +36,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public List<int> EnumFilter => _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).ToList();
 
         public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.AddedTime : null;
-        public PlotModel ResultView_SingleVolume { get; }
-        public PlotModel ResultView_TotalVolume { get; }
+        public PlotModel ResultView { get; }
 
         public RelayCommand SubDayCommand { get; }
         public RelayCommand SubMonthCommand { get; }
@@ -56,6 +55,18 @@ namespace GPGO_MultiPLCs.ViewModels
         public List<ProcessInfo> ViewResults => _Index2 >= _Index1 && _Results?.Count > 0 ?
                                                     _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _FilterIndex == -1 || x.StationNumber == _FilterIndex).ToList() : null;
 
+        public bool ByPLC
+        {
+            get => _ByPLC;
+            set
+            {
+                _ByPLC = value;
+                NotifyPropertyChanged();
+
+                UpdateChart(_Date1, _Date2);
+            }
+        }
+
         /// <summary>
         ///     選取的開始日期(資料庫)
         /// </summary>
@@ -69,7 +80,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (_Date2 < _Date1)
                 {
-                    _Date2 = Date1;
+                    _Date2 = _Date1;
+                    NotifyPropertyChanged(nameof(Date2));
+                }
+                else if (_Date2 - Date1 > TimeSpan.FromDays(30))
+                {
+                    _Date2 = _Date1 + TimeSpan.FromDays(30);
                     NotifyPropertyChanged(nameof(Date2));
                 }
 
@@ -88,9 +104,14 @@ namespace GPGO_MultiPLCs.ViewModels
                 _Date2 = value;
                 NotifyPropertyChanged();
 
-                if (_Date1 > Date2)
+                if (_Date1 > _Date2)
                 {
-                    _Date1 = Date2;
+                    _Date1 = _Date2;
+                    NotifyPropertyChanged(nameof(Date1));
+                }
+                else if (_Date2 - Date1 > TimeSpan.FromDays(30))
+                {
+                    _Date1 = _Date2 - TimeSpan.FromDays(30);
                     NotifyPropertyChanged(nameof(Date1));
                 }
 
@@ -206,192 +227,124 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="date2">結束日期</param>
         public void UpdateChart(DateTime date1, DateTime date2)
         {
-            ResultView_TotalVolume.Series.Clear();
-            ResultView_SingleVolume.Series.Clear();
-            categoryAxis_Total.ActualLabels.Clear();
-            categoryAxis_Single.ActualLabels.Clear();
+            ResultView.Series.Clear();
+            categoryAxis1.ActualLabels.Clear();
+            categoryAxis2.ActualLabels.Clear();
 
             if (Results?.Count > 0)
             {
-                if (date2 - date1 > TimeSpan.FromDays(7))
+                var cs = new ColumnSeries
+                         {
+                             FontSize = 10,
+                             LabelFormatString = "{0}",
+                             TextColor = fontcolor,
+                             IsStacked = false,
+                             StrokeThickness = 1,
+                             StrokeColor = OxyColor.FromArgb(0, 0, 0, 0),
+                             FillColor = OxyColor.FromArgb(0, 0, 0, 0),
+                             XAxisKey = "2"
+                         };
+                var ByDate = date2 - date1 > TimeSpan.FromDays(1);
+
+                var dates = new List<DateTime>();
+                var hours = new List<int>();
+                var PLCs = new List<int>();
+
+                if (_ByPLC && _FilterIndex == -1)
                 {
-                    ResultView_TotalVolume.IsLegendVisible = false;
-                    ResultView_SingleVolume.IsLegendVisible = false;
-                    var vals = new ColumnSeries { LabelFormatString = "{0}", TextColor = fontcolor, IsStacked = false, StrokeThickness = 1, StrokeColor = bordercolor, FillColor = OxyColors.Cyan };
+                    var result = ViewResults.GroupBy(x => x.StationNumber).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
 
-                    if (_FilterIndex == -1)
+                    foreach (var (plc, count) in result)
                     {
-                        var result = ViewResults.GroupBy(x => x.StationNumber).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
-
-                        foreach (var (index, count) in result)
-                        {
-                            categoryAxis_Total.ActualLabels.Add((index + 1).ToString());
-                            vals.Items.Add(new ColumnItem(count));
-                        }
-
-                        ResultView_TotalVolume.Series.Add(vals);
-                    }
-                    else
-                    {
-                        var result = ViewResults.GroupBy(x => x.AddedTime.Date).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
-
-                        foreach (var (date, count) in result)
-                        {
-                            categoryAxis_Single.ActualLabels.Add(date.ToString("dd"));
-                            vals.Items.Add(new ColumnItem(count));
-                        }
-
-                        ResultView_SingleVolume.Series.Add(vals);
+                        PLCs.Add(plc);
+                        categoryAxis1.ActualLabels.Add((plc + 1).ToString());
+                        cs.Items.Add(new ColumnItem(count));
                     }
                 }
-                else if (date2 - date1 > TimeSpan.FromDays(1))
+                else if (ByDate)
                 {
-                    ResultView_TotalVolume.IsLegendVisible = true;
-                    ResultView_SingleVolume.IsLegendVisible = true;
+                    var result = ViewResults.GroupBy(x => x.AddedTime.Date).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
 
-                    if (_FilterIndex == -1)
+                    foreach (var (date, count) in result)
                     {
-                        var stations = EnumFilter.ToArray();
-
-                        foreach (var s in stations)
-                        {
-                            categoryAxis_Total.ActualLabels.Add((s + 1).ToString());
-                        }
-
-                        var groups = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
-                        var color_step = 0.9 / groups.Length;
-
-                        for (var index = 0; index < groups.Length; index++)
-                        {
-                            var (produceCode, info) = groups[index];
-                            var vals = new ColumnSeries
-                                       {
-                                           TextColor = fontcolor,
-                                           Title = produceCode,
-                                           IsStacked = true,
-                                           StrokeThickness = 0,
-                                           StrokeColor = bordercolor,
-                                           FillColor = OxyColor.FromHsv(index * color_step, 1, 1)
-                                       };
-
-                            for (var i = 0; i < stations.Length; i++)
-                            {
-                                vals.Items.Add(new ColumnItem(info.Where(x => x.StationNumber == stations[i]).Sum(x => x.ProcessCount), i));
-                            }
-
-                            ResultView_TotalVolume.Series.Add(vals);
-                        }
-                    }
-                    else
-                    {
-                        var dates = ViewResults.Select(x => x.AddedTime.Date).Distinct().OrderBy(x => x).ToArray();
-
-                        foreach (var s in dates)
-                        {
-                            categoryAxis_Single.ActualLabels.Add(s.ToString("MM/dd"));
-                        }
-
-                        var groups = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
-                        var color_step = 0.9 / groups.Length;
-
-                        for (var index = 0; index < groups.Length; index++)
-                        {
-                            var (produceCode, info) = groups[index];
-                            var vals = new ColumnSeries
-                                       {
-                                           TextColor = fontcolor,
-                                           Title = produceCode,
-                                           IsStacked = true,
-                                           StrokeThickness = 0,
-                                           StrokeColor = bordercolor,
-                                           FillColor = OxyColor.FromHsv(index * color_step, 1, 1)
-                                       };
-
-                            for (var i = 0; i < dates.Length; i++)
-                            {
-                                vals.Items.Add(new ColumnItem(info.Where(x => x.AddedTime.Date == dates[i]).Sum(x => x.ProcessCount), i));
-                            }
-
-                            ResultView_SingleVolume.Series.Add(vals);
-                        }
+                        dates.Add(date);
+                        categoryAxis1.ActualLabels.Add(date.ToString("dd") + "th");
+                        cs.Items.Add(new ColumnItem(count));
                     }
                 }
                 else
                 {
-                    ResultView_TotalVolume.IsLegendVisible = true;
-                    ResultView_SingleVolume.IsLegendVisible = true;
+                    var result = ViewResults.GroupBy(x => x.AddedTime.Hour).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
 
-                    if (_FilterIndex == -1)
+                    foreach (var (hour, count) in result)
                     {
-                        var stations = EnumFilter.ToArray();
+                        hours.Add(hour);
+                        categoryAxis1.ActualLabels.Add(hour + ":00");
+                        cs.Items.Add(new ColumnItem(count));
+                    }
+                }
 
-                        foreach (var s in stations)
+                ResultView.Series.Add(cs);
+
+                var result2 = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                var color_step = 0.9 / result2.Length;
+
+                for (var i = 0; i < result2.Length; i++)
+                {
+                    var (produceCode, info) = result2[i];
+                    var ccs = new ColumnSeries
+                              {
+                                  FontSize = 10,
+                                  LabelFormatString = "{0}",
+                                  LabelPlacement = LabelPlacement.Middle,
+                                  TextColor = OxyColors.White,
+                                  Title = produceCode,
+                                  IsStacked = true,
+                                  StrokeThickness = 0,
+                                  StrokeColor = bordercolor,
+                                  FillColor = OxyColor.FromHsv(i * color_step, 1, 1),
+                                  XAxisKey = "1"
+                              };
+
+                    if (_ByPLC && _FilterIndex == -1)
+                    {
+                        for (var j = 0; j < PLCs.Count; j++)
                         {
-                            categoryAxis_Total.ActualLabels.Add((s + 1).ToString());
-                        }
-
-                        var groups = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
-                        var color_step = 0.9 / groups.Length;
-
-                        for (var index = 0; index < groups.Length; index++)
-                        {
-                            var (produceCode, info) = groups[index];
-                            var vals = new ColumnSeries
-                                       {
-                                           TextColor = fontcolor,
-                                           Title = produceCode,
-                                           IsStacked = true,
-                                           StrokeThickness = 0,
-                                           StrokeColor = bordercolor,
-                                           FillColor = OxyColor.FromHsv(index * color_step, 1, 1)
-                                       };
-
-                            for (var i = 0; i < stations.Length; i++)
+                            var val = info.Where(x => x.StationNumber == PLCs[j]).Sum(x => x.ProcessCount);
+                            if (val > 0)
                             {
-                                vals.Items.Add(new ColumnItem(info.Where(x => x.StationNumber == stations[i]).Sum(x => x.ProcessCount), i));
+                                ccs.Items.Add(new ColumnItem(val, j));
                             }
-
-                            ResultView_TotalVolume.Series.Add(vals);
+                        }
+                    }
+                    else if (ByDate)
+                    {
+                        for (var j = 0; j < dates.Count; j++)
+                        {
+                            var val = info.Where(x => x.AddedTime.Date == dates[j]).Sum(x => x.ProcessCount);
+                            if (val > 0)
+                            {
+                                ccs.Items.Add(new ColumnItem(val, j));
+                            }
                         }
                     }
                     else
                     {
-                        var dates = ViewResults.Select(x => (date: x.AddedTime.Date, hour: x.AddedTime.Hour)).Distinct().OrderBy(x => x).ToArray();
-
-                        foreach (var (date, hour) in dates)
+                        for (var j = 0; j < hours.Count; j++)
                         {
-                            categoryAxis_Single.ActualLabels.Add(date.ToString("dd") + "日" + hour + "時");
-                        }
-
-                        var groups = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
-                        var color_step = 0.9 / groups.Length;
-
-                        for (var index = 0; index < groups.Length; index++)
-                        {
-                            var (produceCode, info) = groups[index];
-                            var vals = new ColumnSeries
-                                       {
-                                           TextColor = fontcolor,
-                                           Title = produceCode,
-                                           IsStacked = true,
-                                           StrokeThickness = 0,
-                                           StrokeColor = bordercolor,
-                                           FillColor = OxyColor.FromHsv(index * color_step, 1, 1)
-                                       };
-
-                            for (var i = 0; i < dates.Length; i++)
+                            var val = info.Where(x => x.AddedTime.Hour == hours[j]).Sum(x => x.ProcessCount);
+                            if (val > 0)
                             {
-                                vals.Items.Add(new ColumnItem(info.Where(x => x.AddedTime.Date == dates[i].date && x.AddedTime.Hour == dates[i].hour).Sum(x => x.ProcessCount), i));
+                                ccs.Items.Add(new ColumnItem(val, j));
                             }
-
-                            ResultView_SingleVolume.Series.Add(vals);
                         }
                     }
+
+                    ResultView.Series.Add(ccs);
                 }
             }
 
-            ResultView_TotalVolume.InvalidatePlot(true);
-            ResultView_SingleVolume.InvalidatePlot(true);
+            ResultView.InvalidatePlot(true);
         }
 
         /// <summary>
@@ -500,133 +453,110 @@ namespace GPGO_MultiPLCs.ViewModels
                                                    Act();
                                                });
 
-            ResultView_TotalVolume = new PlotModel
-                                     {
-                                         DefaultFont = "Microsoft JhengHei",
-                                         PlotAreaBorderColor = bordercolor,
-                                         PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
-                                         PlotMargins = new OxyThickness(50, 10, 10, 40),
-                                         LegendTitle = nameof(ProcessInfo.ProduceCode),
-                                         LegendTitleColor = fontcolor,
-                                         LegendTextColor = fontcolor,
-                                         LegendBorder = bordercolor,
-                                         LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
-                                         LegendPlacement = LegendPlacement.Outside,
-                                         LegendPosition = LegendPosition.RightTop,
-                                         LegendOrientation = LegendOrientation.Vertical,
-                                         LegendFontSize = 14,
-                                         LegendItemOrder = LegendItemOrder.Reverse
-                                     };
+            ResultView = new PlotModel
+                         {
+                             DefaultFont = "Microsoft JhengHei",
+                             PlotAreaBorderColor = bordercolor,
+                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
+                             PlotMargins = new OxyThickness(50, 10, 10, 40),
+                             LegendTitle = nameof(ProcessInfo.ProduceCode),
+                             LegendTitleColor = fontcolor,
+                             LegendTextColor = fontcolor,
+                             LegendBorder = bordercolor,
+                             LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                             LegendPlacement = LegendPlacement.Outside,
+                             LegendPosition = LegendPosition.RightTop,
+                             LegendOrientation = LegendOrientation.Vertical,
+                             LegendFontSize = 14,
+                             LegendItemOrder = LegendItemOrder.Reverse
+                         };
 
-            var linearAxis_Total = new LinearAxis
-                                   {
-                                       TitleColor = fontcolor,
-                                       Title = "數量",
-                                       Unit = "片",
-                                       TickStyle = TickStyle.Inside,
-                                       MajorGridlineStyle = LineStyle.None,
-                                       //MajorStep = 100,
-                                       MinorGridlineStyle = LineStyle.None,
-                                       MinorTickSize = 0,
-                                       //MinorStep = 10,
-                                       AxislineStyle = LineStyle.Solid,
-                                       AxislineColor = bordercolor,
-                                       MajorGridlineColor = bordercolor,
-                                       MinorGridlineColor = bordercolor,
-                                       TicklineColor = bordercolor,
-                                       ExtraGridlineColor = bordercolor,
-                                       TextColor = fontcolor,
-                                       Minimum = 0,
-                                       MaximumPadding = 0.1
-                                       //Maximum = 1000
-                                   };
+            var linearAxis = new LinearAxis
+                             {
+                                 FontSize = 10,
+                                 TitleColor = fontcolor,
+                                 TickStyle = TickStyle.Inside,
+                                 MajorGridlineStyle = LineStyle.None,
+                                 //MajorStep = 100,
+                                 MinorGridlineStyle = LineStyle.None,
+                                 MinorTickSize = 0,
+                                 //MinorStep = 10,
+                                 AxislineStyle = LineStyle.Solid,
+                                 AxislineColor = bordercolor,
+                                 MajorGridlineColor = bordercolor,
+                                 MinorGridlineColor = bordercolor,
+                                 TicklineColor = bordercolor,
+                                 ExtraGridlineColor = bordercolor,
+                                 TextColor = fontcolor,
+                                 Minimum = 0,
+                                 MaximumPadding = 0.1
+                                 //Maximum = 1000
+                             };
 
-            var linearAxis_Single = new LinearAxis
-                                    {
-                                        TitleColor = fontcolor,
-                                        Title = "數量",
-                                        Unit = "片",
-                                        TickStyle = TickStyle.Inside,
-                                        MajorGridlineStyle = LineStyle.None,
-                                        //MajorStep = 100,
-                                        MinorGridlineStyle = LineStyle.None,
-                                        MinorTickSize = 0,
-                                        //MinorStep = 10,
-                                        AxislineStyle = LineStyle.Solid,
-                                        AxislineColor = bordercolor,
-                                        MajorGridlineColor = bordercolor,
-                                        MinorGridlineColor = bordercolor,
-                                        TicklineColor = bordercolor,
-                                        ExtraGridlineColor = bordercolor,
-                                        TextColor = fontcolor,
-                                        Minimum = 0,
-                                        MaximumPadding = 0.1
-                                        //Maximum = 1000
-                                    };
+            categoryAxis1 = new CategoryAxis
+                            {
+                                FontSize = 10,
+                                TitleColor = fontcolor,
+                                MajorGridlineColor = bordercolor,
+                                MinorGridlineColor = bordercolor,
+                                TicklineColor = bordercolor,
+                                ExtraGridlineColor = bordercolor,
+                                TextColor = fontcolor,
+                                TickStyle = TickStyle.Inside,
+                                MajorTickSize = 0,
+                                MinorTickSize = 0,
+                                AxislineStyle = LineStyle.Solid,
+                                AxislineColor = bordercolor,
+                                GapWidth = 0.6,
+                                MinorStep = 1,
+                                MajorStep = 1,
+                                Position = AxisPosition.Bottom,
+                                Key = "1"
+                            };
 
-            categoryAxis_Total = new CategoryAxis
-                                 {
-                                     TitleColor = fontcolor,
-                                     Title = "烤箱",
-                                     Unit = "站",
-                                     MajorGridlineColor = bordercolor,
-                                     MinorGridlineColor = bordercolor,
-                                     TicklineColor = bordercolor,
-                                     ExtraGridlineColor = bordercolor,
-                                     TextColor = fontcolor,
-                                     TickStyle = TickStyle.Inside,
-                                     MajorTickSize = 0,
-                                     MinorTickSize = 0,
-                                     AxislineStyle = LineStyle.Solid,
-                                     AxislineColor = bordercolor,
-                                     GapWidth = 0.6,
-                                     MinorStep = 1,
-                                     MajorStep = 1,
-                                     Position = AxisPosition.Bottom
-                                 };
+            categoryAxis2 = new CategoryAxis
+                            {
+                                FontSize = 10,
+                                TitleColor = fontcolor,
+                                MajorGridlineColor = bordercolor,
+                                MinorGridlineColor = bordercolor,
+                                TicklineColor = bordercolor,
+                                ExtraGridlineColor = bordercolor,
+                                TextColor = fontcolor,
+                                TickStyle = TickStyle.Inside,
+                                MajorTickSize = 0,
+                                MinorTickSize = 0,
+                                AxislineStyle = LineStyle.Solid,
+                                AxislineColor = bordercolor,
+                                GapWidth = 1,
+                                MinorStep = 1,
+                                MajorStep = 1,
+                                Position = AxisPosition.Bottom,
+                                IsAxisVisible = false,
+                                Key = "2"
+                            };
 
-            categoryAxis_Single = new CategoryAxis
-                                  {
-                                      TitleColor = fontcolor,
-                                      Title = "日期/時間",
-                                      MajorGridlineColor = bordercolor,
-                                      MinorGridlineColor = bordercolor,
-                                      TicklineColor = bordercolor,
-                                      ExtraGridlineColor = bordercolor,
-                                      TextColor = fontcolor,
-                                      TickStyle = TickStyle.Inside,
-                                      MajorTickSize = 0,
-                                      MinorTickSize = 0,
-                                      AxislineStyle = LineStyle.Solid,
-                                      AxislineColor = bordercolor,
-                                      GapWidth = 0.6,
-                                      MinorStep = 1,
-                                      MajorStep = 1,
-                                      Position = AxisPosition.Bottom
-                                  };
+            ResultView = new PlotModel
+                         {
+                             DefaultFont = "Microsoft JhengHei",
+                             PlotAreaBorderColor = bordercolor,
+                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
+                             PlotMargins = new OxyThickness(30, 0, 0, 10),
+                             LegendTitle = nameof(ProcessInfo.ProduceCode),
+                             LegendTitleColor = fontcolor,
+                             LegendTextColor = fontcolor,
+                             LegendBorder = bordercolor,
+                             LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                             LegendPlacement = LegendPlacement.Outside,
+                             LegendPosition = LegendPosition.RightTop,
+                             LegendOrientation = LegendOrientation.Vertical,
+                             LegendFontSize = 12,
+                             LegendItemOrder = LegendItemOrder.Reverse
+                         };
 
-            ResultView_SingleVolume = new PlotModel
-                                      {
-                                          DefaultFont = "Microsoft JhengHei",
-                                          PlotAreaBorderColor = bordercolor,
-                                          PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
-                                          PlotMargins = new OxyThickness(50, 10, 10, 40),
-                                          LegendTitle = nameof(ProcessInfo.ProduceCode),
-                                          LegendTitleColor = fontcolor,
-                                          LegendTextColor = fontcolor,
-                                          LegendBorder = bordercolor,
-                                          LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
-                                          LegendPlacement = LegendPlacement.Outside,
-                                          LegendPosition = LegendPosition.RightTop,
-                                          LegendOrientation = LegendOrientation.Vertical,
-                                          LegendFontSize = 14,
-                                          LegendItemOrder = LegendItemOrder.Reverse
-                                      };
-
-            ResultView_TotalVolume.Axes.Add(linearAxis_Total);
-            ResultView_TotalVolume.Axes.Add(categoryAxis_Total);
-            ResultView_SingleVolume.Axes.Add(linearAxis_Single);
-            ResultView_SingleVolume.Axes.Add(categoryAxis_Single);
+            ResultView.Axes.Add(linearAxis);
+            ResultView.Axes.Add(categoryAxis2);
+            ResultView.Axes.Add(categoryAxis1);
         }
 
         //todo  輸出excel
