@@ -215,7 +215,9 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 if (date2 - date1 > TimeSpan.FromDays(7))
                 {
-                    var vals = new ColumnSeries { IsStacked = false, StrokeThickness = 1, StrokeColor = bordercolor, FillColor = OxyColors.Cyan };
+                    ResultView_TotalVolume.IsLegendVisible = false;
+                    ResultView_SingleVolume.IsLegendVisible = false;
+                    var vals = new ColumnSeries { LabelFormatString = "{0}", TextColor = fontcolor, IsStacked = false, StrokeThickness = 1, StrokeColor = bordercolor, FillColor = OxyColors.Cyan };
 
                     if (_FilterIndex == -1)
                     {
@@ -244,6 +246,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 else if (date2 - date1 > TimeSpan.FromDays(1))
                 {
+                    ResultView_TotalVolume.IsLegendVisible = true;
+                    ResultView_SingleVolume.IsLegendVisible = true;
+
                     if (_FilterIndex == -1)
                     {
                         var stations = EnumFilter.ToArray();
@@ -261,6 +266,7 @@ namespace GPGO_MultiPLCs.ViewModels
                             var (produceCode, info) = groups[index];
                             var vals = new ColumnSeries
                                        {
+                                           TextColor = fontcolor,
                                            Title = produceCode,
                                            IsStacked = true,
                                            StrokeThickness = 0,
@@ -293,6 +299,7 @@ namespace GPGO_MultiPLCs.ViewModels
                             var (produceCode, info) = groups[index];
                             var vals = new ColumnSeries
                                        {
+                                           TextColor = fontcolor,
                                            Title = produceCode,
                                            IsStacked = true,
                                            StrokeThickness = 0,
@@ -311,6 +318,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 else
                 {
+                    ResultView_TotalVolume.IsLegendVisible = true;
+                    ResultView_SingleVolume.IsLegendVisible = true;
+
                     if (_FilterIndex == -1)
                     {
                         var stations = EnumFilter.ToArray();
@@ -328,6 +338,7 @@ namespace GPGO_MultiPLCs.ViewModels
                             var (produceCode, info) = groups[index];
                             var vals = new ColumnSeries
                                        {
+                                           TextColor = fontcolor,
                                            Title = produceCode,
                                            IsStacked = true,
                                            StrokeThickness = 0,
@@ -360,6 +371,7 @@ namespace GPGO_MultiPLCs.ViewModels
                             var (produceCode, info) = groups[index];
                             var vals = new ColumnSeries
                                        {
+                                           TextColor = fontcolor,
                                            Title = produceCode,
                                            IsStacked = true,
                                            StrokeThickness = 0,
@@ -494,6 +506,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                          PlotAreaBorderColor = bordercolor,
                                          PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
                                          PlotMargins = new OxyThickness(50, 10, 10, 40),
+                                         LegendTitle = nameof(ProcessInfo.ProduceCode),
+                                         LegendTitleColor = fontcolor,
                                          LegendTextColor = fontcolor,
                                          LegendBorder = bordercolor,
                                          LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
@@ -597,6 +611,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                           PlotAreaBorderColor = bordercolor,
                                           PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
                                           PlotMargins = new OxyThickness(50, 10, 10, 40),
+                                          LegendTitle = nameof(ProcessInfo.ProduceCode),
+                                          LegendTitleColor = fontcolor,
                                           LegendTextColor = fontcolor,
                                           LegendBorder = bordercolor,
                                           LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
