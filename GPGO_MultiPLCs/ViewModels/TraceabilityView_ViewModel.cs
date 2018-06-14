@@ -268,7 +268,7 @@ namespace GPGO_MultiPLCs.ViewModels
                     foreach (var (date, count) in result)
                     {
                         dates.Add(date);
-                        categoryAxis1.ActualLabels.Add(date.ToString("dd") + "th");
+                        categoryAxis1.ActualLabels.Add(date.ToString("M/dd"));
                         cs.Items.Add(new ColumnItem(count));
                     }
                 }
