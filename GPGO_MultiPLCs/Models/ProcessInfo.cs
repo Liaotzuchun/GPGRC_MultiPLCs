@@ -8,10 +8,20 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
+
+        #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
+        /// <summary>
+        /// 新增至資料庫的時間
+        /// </summary>
         [BsonId]
         public DateTime AddedTime;
 
+        /// <summary>
+        /// PLC站號
+        /// </summary>
         public int StationNumber;
+        #endregion
+
         private Dictionary<TimeSpan, string> _AlarmList = new Dictionary<TimeSpan, string>();
         private DateTime _EndTime;
         private bool _FirstPanel;
@@ -25,7 +35,7 @@ namespace GPGO_MultiPLCs.Models
         private int _ProcessCount;
         private int _ProcessNumber;
         private string _ProduceCode;
-        private List<Record_Temperatures> _RecordTemperatures = new List<Record_Temperatures>();
+        private List<RecordTemperatures> _RecordTemperatures = new List<RecordTemperatures>();
         private string _Side;
         private DateTime _StartTime;
         private double _TargetOvenTemperature;
@@ -163,7 +173,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public List<Record_Temperatures> RecordTemperatures
+        public List<RecordTemperatures> RecordTemperatures
         {
             get => _RecordTemperatures;
             set

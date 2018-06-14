@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows.Media;
 
 namespace GPGO_MultiPLCs.Helpers
 {
@@ -213,6 +214,74 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
+        /// <summary>
+        ///     由HDV產生RGB Color
+        /// </summary>
+        /// <param name="hue">色相，0~1</param>
+        /// <param name="sat">飽和度，0~1</param>
+        /// <param name="val">亮度，0~1</param>
+        /// <returns></returns>
+        public static Color FromHsv(double hue, double sat, double val)
+        {
+            double g, b;
+            var r = g = b = 0;
+
+            if (sat.Equals(0))
+            {
+                r = g = b = val;
+            }
+            else
+            {
+                if (hue.Equals(1))
+                {
+                    hue = 0;
+                }
+
+                hue *= 6.0;
+                var i = (int)Math.Floor(hue);
+                var f = hue - i;
+                var aa = val * (1 - sat);
+                var bb = val * (1 - sat * f);
+                var cc = val * (1 - sat * (1 - f));
+
+                switch (i)
+                {
+                    case 0:
+                        r = val;
+                        g = cc;
+                        b = aa;
+                        break;
+                    case 1:
+                        r = bb;
+                        g = val;
+                        b = aa;
+                        break;
+                    case 2:
+                        r = aa;
+                        g = val;
+                        b = cc;
+                        break;
+                    case 3:
+                        r = aa;
+                        g = bb;
+                        b = val;
+                        break;
+                    case 4:
+                        r = cc;
+                        g = aa;
+                        b = val;
+                        break;
+                    case 5:
+                        r = val;
+                        g = aa;
+                        b = bb;
+                        break;
+                }
+            }
+
+            return Color.FromRgb((byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
+        }
+
         public static byte HexToByte(this string val)
         {
             return Convert.ToByte(val, 16);
@@ -325,6 +394,12 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            var diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date;
+        }
+
         public static string UTF8fromShorts(this IEnumerable<short> vals)
         {
             var bytes = new List<byte>();
@@ -367,12 +442,6 @@ namespace GPGO_MultiPLCs.Helpers
             temp.Item1 = BitConverter.ToInt16(byarrBufferByte, 0);
             temp.Item2 = BitConverter.ToInt16(byarrBufferByte, 2);
             return temp;
-        }
-
-        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
-        {
-            var diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
-            return dt.AddDays(-1 * diff).Date;
         }
     }
 }

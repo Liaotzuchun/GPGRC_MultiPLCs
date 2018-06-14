@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace GPGO_MultiPLCs.Models
 {
     [BsonIgnoreExtraElements]
-    public class Record_Temperatures
+    public class RecordTemperatures
     {
         public double[] OvenTemperatures = new double[8];
         public double ThermostatTemperature;

@@ -177,7 +177,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 if (sw.Elapsed >= n)
                                                 {
-                                                    //var vals = new Record_Temperatures
+                                                    //var vals = new RecordTemperatures
                                                     //           {
                                                     //               Time = sw.Elapsed,
                                                     //               ThermostatTemperature = ThermostatTemperature,
@@ -196,7 +196,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                     var rn = new Random();
                                                     var t = sw.Elapsed;
-                                                    var vals = new Record_Temperatures
+                                                    var vals = new RecordTemperatures
                                                                {
                                                                    Time = t,
                                                                    ThermostatTemperature = rn.Next(0, (t.Minutes + 1) * 80),
@@ -240,7 +240,7 @@ namespace GPGO_MultiPLCs.Models
                                         TaskCreationOptions.LongRunning);
         }
 
-        private void AddPlot(TimeSpan t, Record_Temperatures vals)
+        private void AddPlot(TimeSpan t, RecordTemperatures vals)
         {
             if (vals.Max > 480)
             {
