@@ -551,7 +551,8 @@ namespace GPGO_MultiPLCs.ViewModels
                              LegendPosition = LegendPosition.RightTop,
                              LegendOrientation = LegendOrientation.Vertical,
                              LegendFontSize = 12,
-                             LegendItemOrder = LegendItemOrder.Reverse
+                             LegendItemOrder = LegendItemOrder.Reverse,
+                             LegendPadding = 5
                          };
 
             ResultView.Axes.Add(linearAxis);
