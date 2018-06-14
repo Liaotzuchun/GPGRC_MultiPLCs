@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:oxy="http://oxyplot.org/wpf"
+    xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:TraceabilityView_ViewModel}"
     d:DesignHeight="450"
@@ -522,14 +523,15 @@
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="1"
                             IsMouseWheelEnabled="False"
-                            Model="{Binding ResultView_SingleVolume, Mode=OneWay}" >
+                            Model="{Binding ResultView_SingleVolume, Mode=OneWay}">
                             <oxy:PlotView.DefaultTrackerTemplate>
                                 <ControlTemplate>
                                     <oxy:TrackerControl
+                                        d:DataContext="{d:DesignInstance oxy:TrackerControl}"
                                         Background="{StaticResource WindowBackgroundBrush2}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="1"
-                                        LineExtents="{Binding PlotModel.PlotArea}"
+                                        LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
                                         Position="{Binding Position}">
                                         <oxy:TrackerControl.Content>
                                             <TextBlock
@@ -553,10 +555,11 @@
                             <oxy:PlotView.DefaultTrackerTemplate>
                                 <ControlTemplate>
                                     <oxy:TrackerControl
+                                        d:DataContext="{d:DesignInstance oxy:TrackerControl}"
                                         Background="{StaticResource WindowBackgroundBrush2}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="1"
-                                        LineExtents="{Binding PlotModel.PlotArea}"
+                                        LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
                                         Position="{Binding Position}">
                                         <oxy:TrackerControl.Content>
                                             <TextBlock
