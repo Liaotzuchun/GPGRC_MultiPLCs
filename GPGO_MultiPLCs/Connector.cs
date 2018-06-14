@@ -24,12 +24,12 @@ namespace GPGO_MultiPLCs
         public void MakeTestData()
         {
             var p_code = new[] { "ooxx", "abc", "zzz", "qoo", "boom", "xxx", "wunmao" };
+            var time = DateTime.Now;
 
-            for (var j = 1; j < 30; j++)
+            for (var j = 1; j < new DateTime(time.Year, time.Month, 1).AddMonths(1).AddDays(-1).Day; j++)
             {
                 for (var i = 0; i < PLC_Count; i++)
                 {
-                    var time = DateTime.Now;
                     var rn = new Random(i + j);
 
                     for (var k = 0; k < 10; k++)

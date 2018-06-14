@@ -12,9 +12,10 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class TraceabilityView_ViewModel : ViewModelBase
     {
+        private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
         private readonly CategoryAxis categoryAxis_Single;
         private readonly CategoryAxis categoryAxis_Total;
-        private readonly OxyColor color = OxyColor.FromRgb(50, 70, 60);
+        private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
         private readonly MongoClient Mongo_Client;
         private DateTime _Date1;
         private DateTime _Date2;
@@ -214,7 +215,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 if (date2 - date1 > TimeSpan.FromDays(7))
                 {
-                    var vals = new ColumnSeries { IsStacked = false, StrokeThickness = 1, StrokeColor = color, FillColor = OxyColors.Cyan };
+                    var vals = new ColumnSeries { IsStacked = false, StrokeThickness = 1, StrokeColor = bordercolor, FillColor = OxyColors.Cyan };
 
                     if (_FilterIndex == -1)
                     {
@@ -222,9 +223,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
                         foreach (var (index, count) in result)
                         {
-                            categoryAxis_Total.ActualLabels.Add("第" + (index + 1) + "站");
+                            categoryAxis_Total.ActualLabels.Add((index + 1).ToString());
                             vals.Items.Add(new ColumnItem(count));
                         }
+
+                        ResultView_TotalVolume.Series.Add(vals);
                     }
                     else
                     {
@@ -232,12 +235,79 @@ namespace GPGO_MultiPLCs.ViewModels
 
                         foreach (var (date, count) in result)
                         {
-                            categoryAxis_Single.ActualLabels.Add(date.ToShortDateString());
+                            categoryAxis_Single.ActualLabels.Add(date.ToString("dd"));
                             vals.Items.Add(new ColumnItem(count));
                         }
-                    }
 
-                    ResultView_TotalVolume.Series.Add(vals);
+                        ResultView_SingleVolume.Series.Add(vals);
+                    }
+                }
+                else if (date2 - date1 > TimeSpan.FromDays(1))
+                {
+                    if (_FilterIndex == -1)
+                    {
+                        var stations = EnumFilter.ToArray();
+
+                        foreach (var s in stations)
+                        {
+                            categoryAxis_Total.ActualLabels.Add((s + 1).ToString());
+                        }
+
+                        var groups = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                        var color_step = 0.9 / groups.Length;
+
+                        for (var index = 0; index < groups.Length; index++)
+                        {
+                            var (produceCode, info) = groups[index];
+                            var vals = new ColumnSeries
+                                       {
+                                           Title = produceCode,
+                                           IsStacked = true,
+                                           StrokeThickness = 0,
+                                           StrokeColor = bordercolor,
+                                           FillColor = OxyColor.FromHsv(index * color_step, 1, 1)
+                                       };
+
+                            for (var i = 0; i < stations.Length; i++)
+                            {
+                                vals.Items.Add(new ColumnItem(info.Where(x => x.StationNumber == stations[i]).Sum(x => x.ProcessCount), i));
+                            }
+
+                            ResultView_TotalVolume.Series.Add(vals);
+                        }
+                    }
+                    else
+                    {
+                        var dates = ViewResults.Select(x => x.AddedTime.Date).Distinct().OrderBy(x => x).ToArray();
+
+                        foreach (var s in dates)
+                        {
+                            categoryAxis_Single.ActualLabels.Add(s.ToString("MM/dd"));
+                        }
+
+                        var groups = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                        var color_step = 0.9 / groups.Length;
+
+                        for (var index = 0; index < groups.Length; index++)
+                        {
+                            var (produceCode, info) = groups[index];
+                            var vals = new ColumnSeries
+                                       {
+                                           Title = produceCode,
+                                           IsStacked = true,
+                                           StrokeThickness = 0,
+                                           StrokeColor = bordercolor,
+                                           FillColor = OxyColor.FromHsv(index * color_step, 1, 1)
+                                       };
+
+                            for (var i = 0; i < dates.Length; i++)
+                            {
+                                vals.Items.Add(new ColumnItem(info.Where(x => x.AddedTime.Date == dates[i]).Sum(x => x.ProcessCount), i));
+                            }
+
+                            ResultView_SingleVolume.Series.Add(vals);
+                        }
+                    }
                 }
                 else
                 {
@@ -247,7 +317,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                         foreach (var s in stations)
                         {
-                            categoryAxis_Total.ActualLabels.Add("第" + (s + 1) + "站");
+                            categoryAxis_Total.ActualLabels.Add((s + 1).ToString());
                         }
 
                         var groups = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
@@ -256,7 +326,14 @@ namespace GPGO_MultiPLCs.ViewModels
                         for (var index = 0; index < groups.Length; index++)
                         {
                             var (produceCode, info) = groups[index];
-                            var vals = new ColumnSeries { Title = produceCode, IsStacked = true, StrokeThickness = 1, StrokeColor = color, FillColor = OxyColor.FromHsv(index * color_step, 1, 1) };
+                            var vals = new ColumnSeries
+                                       {
+                                           Title = produceCode,
+                                           IsStacked = true,
+                                           StrokeThickness = 0,
+                                           StrokeColor = bordercolor,
+                                           FillColor = OxyColor.FromHsv(index * color_step, 1, 1)
+                                       };
 
                             for (var i = 0; i < stations.Length; i++)
                             {
@@ -272,7 +349,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                         foreach (var (date, hour) in dates)
                         {
-                            categoryAxis_Single.ActualLabels.Add(date.ToShortDateString() + " " + hour);
+                            categoryAxis_Single.ActualLabels.Add(date.ToString("dd") + "日" + hour + "時");
                         }
 
                         var groups = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
@@ -281,7 +358,14 @@ namespace GPGO_MultiPLCs.ViewModels
                         for (var index = 0; index < groups.Length; index++)
                         {
                             var (produceCode, info) = groups[index];
-                            var vals = new ColumnSeries { Title = produceCode, IsStacked = true, StrokeThickness = 1, StrokeColor = color, FillColor = OxyColor.FromHsv(index * color_step, 1, 1) };
+                            var vals = new ColumnSeries
+                                       {
+                                           Title = produceCode,
+                                           IsStacked = true,
+                                           StrokeThickness = 0,
+                                           StrokeColor = bordercolor,
+                                           FillColor = OxyColor.FromHsv(index * color_step, 1, 1)
+                                       };
 
                             for (var i = 0; i < dates.Length; i++)
                             {
@@ -407,10 +491,11 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView_TotalVolume = new PlotModel
                                      {
                                          DefaultFont = "Microsoft JhengHei",
-                                         PlotAreaBorderColor = color,
+                                         PlotAreaBorderColor = bordercolor,
                                          PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
-                                         PlotMargins = new OxyThickness(50, 10, 30, 20),
-                                         LegendTextColor = color,
+                                         PlotMargins = new OxyThickness(50, 10, 10, 40),
+                                         LegendTextColor = fontcolor,
+                                         LegendBorder = bordercolor,
                                          LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
                                          LegendPlacement = LegendPlacement.Outside,
                                          LegendPosition = LegendPosition.RightTop,
@@ -421,7 +506,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             var linearAxis_Total = new LinearAxis
                                    {
-                                       TitleColor = color,
+                                       TitleColor = fontcolor,
                                        Title = "數量",
                                        Unit = "片",
                                        TickStyle = TickStyle.Inside,
@@ -431,12 +516,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                        MinorTickSize = 0,
                                        //MinorStep = 10,
                                        AxislineStyle = LineStyle.Solid,
-                                       AxislineColor = color,
-                                       MajorGridlineColor = color,
-                                       MinorGridlineColor = color,
-                                       TicklineColor = color,
-                                       ExtraGridlineColor = color,
-                                       TextColor = color,
+                                       AxislineColor = bordercolor,
+                                       MajorGridlineColor = bordercolor,
+                                       MinorGridlineColor = bordercolor,
+                                       TicklineColor = bordercolor,
+                                       ExtraGridlineColor = bordercolor,
+                                       TextColor = fontcolor,
                                        Minimum = 0,
                                        MaximumPadding = 0.1
                                        //Maximum = 1000
@@ -444,7 +529,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             var linearAxis_Single = new LinearAxis
                                     {
-                                        TitleColor = color,
+                                        TitleColor = fontcolor,
                                         Title = "數量",
                                         Unit = "片",
                                         TickStyle = TickStyle.Inside,
@@ -454,12 +539,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                         MinorTickSize = 0,
                                         //MinorStep = 10,
                                         AxislineStyle = LineStyle.Solid,
-                                        AxislineColor = color,
-                                        MajorGridlineColor = color,
-                                        MinorGridlineColor = color,
-                                        TicklineColor = color,
-                                        ExtraGridlineColor = color,
-                                        TextColor = color,
+                                        AxislineColor = bordercolor,
+                                        MajorGridlineColor = bordercolor,
+                                        MinorGridlineColor = bordercolor,
+                                        TicklineColor = bordercolor,
+                                        ExtraGridlineColor = bordercolor,
+                                        TextColor = fontcolor,
                                         Minimum = 0,
                                         MaximumPadding = 0.1
                                         //Maximum = 1000
@@ -467,15 +552,20 @@ namespace GPGO_MultiPLCs.ViewModels
 
             categoryAxis_Total = new CategoryAxis
                                  {
-                                     MajorGridlineColor = color,
-                                     MinorGridlineColor = color,
-                                     TicklineColor = color,
-                                     ExtraGridlineColor = color,
-                                     TextColor = color,
+                                     TitleColor = fontcolor,
+                                     Title = "烤箱",
+                                     Unit = "站",
+                                     MajorGridlineColor = bordercolor,
+                                     MinorGridlineColor = bordercolor,
+                                     TicklineColor = bordercolor,
+                                     ExtraGridlineColor = bordercolor,
+                                     TextColor = fontcolor,
                                      TickStyle = TickStyle.Inside,
+                                     MajorTickSize = 0,
+                                     MinorTickSize = 0,
                                      AxislineStyle = LineStyle.Solid,
-                                     AxislineColor = color,
-                                     GapWidth = 0,
+                                     AxislineColor = bordercolor,
+                                     GapWidth = 0.6,
                                      MinorStep = 1,
                                      MajorStep = 1,
                                      Position = AxisPosition.Bottom
@@ -483,15 +573,19 @@ namespace GPGO_MultiPLCs.ViewModels
 
             categoryAxis_Single = new CategoryAxis
                                   {
-                                      MajorGridlineColor = color,
-                                      MinorGridlineColor = color,
-                                      TicklineColor = color,
-                                      ExtraGridlineColor = color,
-                                      TextColor = color,
+                                      TitleColor = fontcolor,
+                                      Title = "日期/時間",
+                                      MajorGridlineColor = bordercolor,
+                                      MinorGridlineColor = bordercolor,
+                                      TicklineColor = bordercolor,
+                                      ExtraGridlineColor = bordercolor,
+                                      TextColor = fontcolor,
                                       TickStyle = TickStyle.Inside,
+                                      MajorTickSize = 0,
+                                      MinorTickSize = 0,
                                       AxislineStyle = LineStyle.Solid,
-                                      AxislineColor = color,
-                                      GapWidth = 0,
+                                      AxislineColor = bordercolor,
+                                      GapWidth = 0.6,
                                       MinorStep = 1,
                                       MajorStep = 1,
                                       Position = AxisPosition.Bottom
@@ -500,10 +594,11 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView_SingleVolume = new PlotModel
                                       {
                                           DefaultFont = "Microsoft JhengHei",
-                                          PlotAreaBorderColor = color,
+                                          PlotAreaBorderColor = bordercolor,
                                           PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
-                                          PlotMargins = new OxyThickness(50, 10, 30, 20),
-                                          LegendTextColor = color,
+                                          PlotMargins = new OxyThickness(50, 10, 10, 40),
+                                          LegendTextColor = fontcolor,
+                                          LegendBorder = bordercolor,
                                           LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
                                           LegendPlacement = LegendPlacement.Outside,
                                           LegendPosition = LegendPosition.RightTop,

@@ -522,7 +522,24 @@
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="1"
                             IsMouseWheelEnabled="False"
-                            Model="{Binding ResultView_SingleVolume, Mode=OneWay}" />
+                            Model="{Binding ResultView_SingleVolume, Mode=OneWay}" >
+                            <oxy:PlotView.DefaultTrackerTemplate>
+                                <ControlTemplate>
+                                    <oxy:TrackerControl
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1"
+                                        LineExtents="{Binding PlotModel.PlotArea}"
+                                        Position="{Binding Position}">
+                                        <oxy:TrackerControl.Content>
+                                            <TextBlock
+                                                Margin="7"
+                                                Text="{Binding}" />
+                                        </oxy:TrackerControl.Content>
+                                    </oxy:TrackerControl>
+                                </ControlTemplate>
+                            </oxy:PlotView.DefaultTrackerTemplate>
+                        </oxy:PlotView>
                     </TabItem>
                     <TabItem
                         Width="0"
@@ -532,7 +549,24 @@
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="1"
                             IsMouseWheelEnabled="False"
-                            Model="{Binding ResultView_TotalVolume, Mode=OneWay}" />
+                            Model="{Binding ResultView_TotalVolume, Mode=OneWay}">
+                            <oxy:PlotView.DefaultTrackerTemplate>
+                                <ControlTemplate>
+                                    <oxy:TrackerControl
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1"
+                                        LineExtents="{Binding PlotModel.PlotArea}"
+                                        Position="{Binding Position}">
+                                        <oxy:TrackerControl.Content>
+                                            <TextBlock
+                                                Margin="7"
+                                                Text="{Binding}" />
+                                        </oxy:TrackerControl.Content>
+                                    </oxy:TrackerControl>
+                                </ControlTemplate>
+                            </oxy:PlotView.DefaultTrackerTemplate>
+                        </oxy:PlotView>
                     </TabItem>
                 </TabControl>
             </Grid>
