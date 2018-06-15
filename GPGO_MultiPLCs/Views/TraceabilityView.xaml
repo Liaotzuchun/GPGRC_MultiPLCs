@@ -517,10 +517,11 @@
                         <DataTemplate DataType="models:ProcessInfo">
                             <Border Height="200">
                                 <oxy:Plot
-                                    Background="{StaticResource LightColorBrush}"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
                                     FontFamily="Microsoft JhengHei"
                                     IsMouseWheelEnabled="False"
-                                    LegendBackground="Transparent"
+                                    LegendBackground="{Binding Color, Source={StaticResource LightColorBrush}}"
+                                    LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                     LegendBorderThickness="1"
                                     LegendFontSize="12"
                                     LegendItemOrder="Reverse"
@@ -530,9 +531,10 @@
                                     LegendPosition="TopCenter"
                                     LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                     LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                    PlotAreaBackground="{StaticResource LightColorBrush}"
                                     PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                     PlotAreaBorderThickness="0,1,1,0"
-                                    PlotMargins="40,0,30,30">
+                                    PlotMargins="40,0,0,30">
                                     <oxy:Plot.Axes>
                                         <oxy:TimeSpanAxis
                                             AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
@@ -583,7 +585,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="BurlyWood"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="BurlyWood" />
                                         <oxy:LineSeries
@@ -594,7 +596,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="Brown"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="Brown" />
                                         <oxy:LineSeries
@@ -605,7 +607,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="Magenta"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="Magenta" />
                                         <oxy:LineSeries
@@ -616,7 +618,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="DarkOrchid"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="DarkOrchid" />
                                         <oxy:LineSeries
@@ -627,7 +629,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="DodgerBlue"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="DodgerBlue" />
                                         <oxy:LineSeries
@@ -638,7 +640,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="Lime"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="Lime" />
                                         <oxy:LineSeries
@@ -649,7 +651,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="Gold"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="Gold" />
                                         <oxy:LineSeries
@@ -660,7 +662,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="DarkOrange"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="DarkOrange" />
                                         <oxy:LineSeries
@@ -671,7 +673,7 @@
                                             LineStyle="Solid"
                                             MarkerFill="Red"
                                             MarkerSize="3"
-                                            MarkerType="Circle"
+                                            MarkerType="None"
                                             StrokeThickness="2"
                                             Color="Red" />
                                     </oxy:Plot.Series>
@@ -719,13 +721,13 @@
                             Width="80"
                             Binding="{Binding OrderCode, Mode=OneWay}"
                             Header="工單編號" />
-                        <DataGridTextColumn
+                        <!--<DataGridTextColumn
                             Binding="{Binding ProcessNumber, Mode=OneWay}"
                             Header="製造序號" />
                         <DataGridTextColumn
                             Width="90"
                             Binding="{Binding ProduceCode, Mode=OneWay}"
-                            Header="產品編號" />
+                            Header="產品編號" />-->
                         <DataGridTextColumn
                             Binding="{Binding OperatorID, Mode=OneWay}"
                             Header="人員編號" />
@@ -756,7 +758,7 @@
                         Width="0"
                         Height="0">
                         <Border
-                            Background="{StaticResource LightColorBrush}"
+                            Background="{StaticResource WindowBackgroundBrush2}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="1">
                             <Grid>
@@ -765,7 +767,7 @@
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <oxy:PlotView
-                                    Background="{StaticResource LightColorBrush}"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
                                     IsMouseWheelEnabled="False"
                                     Model="{Binding ResultView, Mode=OneWay}">
                                     <oxy:PlotView.DefaultTrackerTemplate>
@@ -790,25 +792,57 @@
                                         </ControlTemplate>
                                     </oxy:PlotView.DefaultTrackerTemplate>
                                 </oxy:PlotView>
-                                <UniformGrid
+                                <Grid
                                     Grid.Row="1"
                                     Margin="4"
-                                    HorizontalAlignment="Center"
-                                    Rows="1">
+                                    HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
                                     <ToggleButton
                                         Padding="8"
                                         Content="日期時間"
                                         IsChecked="{Binding Mode, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                                     <ToggleButton
+                                        Grid.Column="1"
                                         Padding="8"
                                         Content="PLC站別"
                                         IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"
                                         Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, ElementName=TotalTB}" />
                                     <ToggleButton
+                                        Grid.Column="2"
                                         Padding="8"
                                         Content="工單編號"
                                         IsChecked="{Binding Mode, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                                </UniformGrid>
+                                    <Border
+                                        Grid.Column="4"
+                                        Width="70"
+                                        Background="{StaticResource WindowBackgroundBrush6}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="生產總量" />
+                                    </Border>
+                                    <Border
+                                        Grid.Column="5"
+                                        Width="100"
+                                        Background="{StaticResource LightColorBrush}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="0,1,1,1">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="16"
+                                            Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} pcs}" />
+                                    </Border>
+                                </Grid>
                             </Grid>
                         </Border>
                     </TabItem>

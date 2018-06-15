@@ -19,6 +19,7 @@ namespace GPGO_MultiPLCs.Models
         public delegate void SwitchRecipeEventHandler(string recipe);
 
         public CancellationTokenSource CTS;
+        private readonly OxyColor bgcolor = OxyColor.FromRgb(240, 255, 235);
         private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
 
@@ -354,11 +355,12 @@ namespace GPGO_MultiPLCs.Models
             RecordView = new PlotModel
                          {
                              DefaultFont = "Microsoft JhengHei",
+                             PlotAreaBackground = bgcolor,
                              PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
                              PlotAreaBorderColor = bordercolor,
                              PlotMargins = new OxyThickness(50, 0, 30, 40),
                              LegendTextColor = fontcolor,
-                             LegendBackground = OxyColors.Transparent,
+                             LegendBackground = bgcolor,
                              LegendPlacement = LegendPlacement.Outside,
                              LegendPosition = LegendPosition.TopCenter,
                              LegendFontSize = 14,
@@ -373,7 +375,7 @@ namespace GPGO_MultiPLCs.Models
                                   Unit = "°C",
                                   Position = AxisPosition.Left,
                                   TickStyle = TickStyle.Inside,
-                                  MajorGridlineStyle = LineStyle.Solid,
+                                  MajorGridlineStyle = LineStyle.Dot,
                                   MajorStep = 20,
                                   MinorGridlineStyle = LineStyle.None,
                                   MinorTickSize = 0,

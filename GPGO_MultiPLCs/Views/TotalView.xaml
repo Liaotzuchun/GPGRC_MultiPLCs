@@ -1242,7 +1242,7 @@
                             Margin="4,0,4,4"
                             Header="生產紀錄">
                             <oxy:PlotView
-                                Background="{StaticResource LightColorBrush}"
+                                Background="{StaticResource WindowBackgroundBrush2}"
                                 IsMouseWheelEnabled="False"
                                 Model="{Binding RecordView, Mode=OneWay}">
                                 <oxy:PlotView.DefaultTrackerTemplate>

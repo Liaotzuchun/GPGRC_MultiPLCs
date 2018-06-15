@@ -20,6 +20,7 @@ namespace GPGO_MultiPLCs.ViewModels
             Pie
         }
 
+        private readonly OxyColor bgcolor = OxyColor.FromRgb(240, 255, 235);
         private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
@@ -33,6 +34,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private int _Mode;
         private List<ProcessInfo> _Results;
         private bool _Standby = true;
+        private List<ProcessInfo> _ViewResults;
 
         public RelayCommand AddDayCommand { get; }
         public RelayCommand AddMonthCommand { get; }
@@ -44,8 +46,10 @@ namespace GPGO_MultiPLCs.ViewModels
         public List<int> EnumFilter => _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).ToList();
 
         public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.AddedTime : null;
-        public PlotModel ResultView { get; }
 
+        public int ProduceTotalCount => _ViewResults?.Count > 0 ? _ViewResults.Sum(x => x.ProcessCount) : 0;
+
+        public PlotModel ResultView { get; }
         public RelayCommand SubDayCommand { get; }
         public RelayCommand SubMonthCommand { get; }
         public RelayCommand SubWeekCommand { get; }
@@ -56,12 +60,6 @@ namespace GPGO_MultiPLCs.ViewModels
         public int TotalCount => _Results?.Count > 0 ? _Results.Count - 1 : 0;
 
         public DateTime? UpperDate => _Results?.Count > 0 ? _Results[_Index2]?.AddedTime : null;
-
-        /// <summary>
-        ///     Results再依據時間段和PLC序號篩選結果
-        /// </summary>
-        public List<ProcessInfo> ViewResults => _Index2 >= _Index1 && _Results?.Count > 0 ?
-                                                    _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _FilterIndex == -1 || x.StationNumber == _FilterIndex).ToList() : null;
 
         /// <summary>
         ///     選取的開始日期(資料庫)
@@ -122,7 +120,8 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _FilterIndex = value;
                 NotifyPropertyChanged();
-                NotifyPropertyChanged(nameof(ViewResults));
+
+                UpdateViewResult();
 
                 if (_FilterIndex != -1 && _Mode == (int)ChartMode.ByPLC)
                 {
@@ -145,8 +144,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 _Index1 = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(LowerDate));
-                NotifyPropertyChanged(nameof(ViewResults));
                 NotifyPropertyChanged(nameof(EnumFilter));
+
+                UpdateViewResult();
 
                 UpdateChart(_Date1, _Date2);
             }
@@ -163,8 +163,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 _Index2 = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(UpperDate));
-                NotifyPropertyChanged(nameof(ViewResults));
                 NotifyPropertyChanged(nameof(EnumFilter));
+
+                UpdateViewResult();
 
                 UpdateChart(_Date1, _Date2);
             }
@@ -198,8 +199,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 _Results = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(TotalCount));
-                NotifyPropertyChanged(nameof(ViewResults));
                 NotifyPropertyChanged(nameof(EnumFilter));
+
+                UpdateViewResult();
 
                 UpdateChart(_Date1, _Date2);
             }
@@ -211,6 +213,16 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _Standby = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public List<ProcessInfo> ViewResults
+        {
+            get => _ViewResults;
+            set
+            {
+                _ViewResults = value;
                 NotifyPropertyChanged();
             }
         }
@@ -251,119 +263,61 @@ namespace GPGO_MultiPLCs.ViewModels
             categoryAxis1.ActualLabels.Clear();
             categoryAxis2.ActualLabels.Clear();
 
-            if (ViewResults?.Count > 0)
+            if (_ViewResults?.Count > 0)
             {
-                var cs = new ColumnSeries
-                         {
-                             FontSize = 10,
-                             LabelFormatString = "{0}",
-                             TextColor = fontcolor,
-                             IsStacked = false,
-                             StrokeThickness = 1,
-                             StrokeColor = bordercolor,
-                             FillColor = OxyColors.Cyan,
-                             XAxisKey = "2"
-                         };
                 var ByDate = date2 - date1 > TimeSpan.FromDays(1);
+                var NoLayer2 = date2 - date1 > TimeSpan.FromDays(7) || (ChartMode)_Mode == ChartMode.ByOrder;
+                var categories = new List<string>();
 
-                var dates = new List<DateTime>();
-                var hours = new List<int>();
-                var PLCs = new List<int>();
-                var orders = new List<string>();
+                var results = _ViewResults.GroupBy(x =>
+                                                   {
+                                                       if ((ChartMode)_Mode == ChartMode.ByPLC && _FilterIndex == -1)
+                                                       {
+                                                           return (x.StationNumber + 1).ToString("00");
+                                                       }
 
-                if ((ChartMode)_Mode == ChartMode.ByPLC && _FilterIndex == -1)
+                                                       if ((ChartMode)_Mode == ChartMode.ByOrder)
+                                                       {
+                                                           return x.OrderCode;
+                                                       }
+
+                                                       return ByDate ? x.AddedTime.Date.ToString("MM/dd") : x.AddedTime.Hour.ToString("00") + ":00";
+                                                   })
+                                          .OrderBy(x => x.Key)
+                                          .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
+                                          .ToArray();
+
+                var color_step_1 = 0.9 / results.Length;
+
+                for (var i = 0; i < results.Length; i++)
                 {
-                    var result = ViewResults.GroupBy(x => x.StationNumber).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
+                    var (result, count) = results[i];
+                    categories.Add(result);
+                    categoryAxis1.ActualLabels.Add(result);
+                    categoryAxis2.ActualLabels.Add(result);
 
-                    foreach (var (plc, count) in result)
-                    {
-                        PLCs.Add(plc);
-                        categoryAxis1.ActualLabels.Add((plc + 1).ToString());
-                        cs.Items.Add(new ColumnItem(count));
-                    }
-                }
-                else if ((ChartMode)_Mode == ChartMode.ByOrder)
-                {
-                    var result = ViewResults.GroupBy(x => x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
+                    var cs = new ColumnSeries
+                             {
+                                 FontSize = 10,
+                                 LabelFormatString = "{0}",
+                                 TextColor = fontcolor,
+                                 IsStacked = true,
+                                 StrokeThickness = 0,
+                                 StrokeColor = NoLayer2 ? bordercolor : OxyColors.Transparent,
+                                 FillColor = NoLayer2 ? OxyColor.FromHsv(i * color_step_1, 1, 1) : OxyColors.Transparent,
+                                 XAxisKey = "2"
+                             };
 
-                    foreach (var (order, count) in result)
-                    {
-                        orders.Add(order);
-                        categoryAxis1.ActualLabels.Add(order);
-                        cs.Items.Add(new ColumnItem(count));
-                    }
-                }
-                else if (ByDate)
-                {
-                    var result = ViewResults.GroupBy(x => x.AddedTime.Date).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
-
-                    foreach (var (date, count) in result)
-                    {
-                        dates.Add(date);
-                        categoryAxis1.ActualLabels.Add(date.ToString("M/dd"));
-                        cs.Items.Add(new ColumnItem(count));
-                    }
-                }
-                else
-                {
-                    var result = ViewResults.GroupBy(x => x.AddedTime.Hour).OrderBy(x => x.Key).Select(x => (x.Key, x.Sum(y => y.ProcessCount)));
-
-                    foreach (var (hour, count) in result)
-                    {
-                        hours.Add(hour);
-                        categoryAxis1.ActualLabels.Add(hour + ":00");
-                        cs.Items.Add(new ColumnItem(count));
-                    }
+                    cs.Items.Add(new ColumnItem(count, i));
+                    ResultView.Series.Add(cs);
                 }
 
-                ResultView.Series.Add(cs);
-
-                if (_Mode == (int)ChartMode.ByOrder)
-                {
-                    cs.StrokeColor = OxyColor.FromArgb(0, 0, 0, 0);
-                    cs.FillColor = OxyColor.FromArgb(0, 0, 0, 0);
-
-                    var result2 = ViewResults.GroupBy(x => x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
-                    var color_step = 0.9 / result2.Length;
-
-                    for (var i = 0; i < result2.Length; i++)
-                    {
-                        var (orderCode, info) = result2[i];
-                        var ccs = new ColumnSeries
-                                  {
-                                      FontSize = 10,
-                                      LabelFormatString = "",
-                                      LabelPlacement = LabelPlacement.Middle,
-                                      TextColor = OxyColors.White,
-                                      Title = orderCode,
-                                      IsStacked = true,
-                                      StrokeThickness = 0,
-                                      StrokeColor = bordercolor,
-                                      FillColor = OxyColor.FromHsv(i * color_step, 1, 1),
-                                      XAxisKey = "1"
-                                  };
-
-                        for (var j = 0; j < orders.Count; j++)
-                        {
-                            var val = info.Where(x => x.OrderCode == orders[j]).Sum(x => x.ProcessCount);
-                            if (val > 0)
-                            {
-                                ccs.Items.Add(new ColumnItem(val, j));
-                            }
-                        }
-
-                        ResultView.Series.Add(ccs);
-                    }
-                }
-                else if (date2 - date1 <= TimeSpan.FromDays(7) && _Mode < (int)ChartMode.Pie)
+                if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
 
-                    cs.StrokeColor = OxyColor.FromArgb(0, 0, 0, 0);
-                    cs.FillColor = OxyColor.FromArgb(0, 0, 0, 0);
-
-                    var result2 = ViewResults.GroupBy(x => x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
-                    var color_step = 0.9 / result2.Length;
+                    var result2 = _ViewResults.GroupBy(x => x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                    var color_step_2 = 0.9 / result2.Length;
 
                     for (var i = 0; i < result2.Length; i++)
                     {
@@ -378,41 +332,30 @@ namespace GPGO_MultiPLCs.ViewModels
                                       IsStacked = true,
                                       StrokeThickness = 0,
                                       StrokeColor = bordercolor,
-                                      FillColor = OxyColor.FromHsv(i * color_step, 1, 1),
+                                      FillColor = OxyColor.FromHsv(i * color_step_2, 1, 1),
                                       XAxisKey = "1"
                                   };
 
-                        if ((ChartMode)_Mode == ChartMode.ByPLC && _FilterIndex == -1)
+                        for (var j = 0; j < categories.Count; j++)
                         {
-                            for (var j = 0; j < PLCs.Count; j++)
+                            var val = info.Where(x =>
+                                                 {
+                                                     if ((ChartMode)_Mode == ChartMode.ByPLC && _FilterIndex == -1)
+                                                     {
+                                                         return (x.StationNumber + 1).ToString("00") == categories[j];
+                                                     }
+
+                                                     if (ByDate)
+                                                     {
+                                                         return x.AddedTime.Date.ToString("MM/dd") == categories[j];
+                                                     }
+
+                                                     return x.AddedTime.Hour.ToString("00") + ":00" == categories[j];
+                                                 })
+                                          .Sum(x => x.ProcessCount);
+                            if (val > 0)
                             {
-                                var val = info.Where(x => x.StationNumber == PLCs[j]).Sum(x => x.ProcessCount);
-                                if (val > 0)
-                                {
-                                    ccs.Items.Add(new ColumnItem(val, j));
-                                }
-                            }
-                        }
-                        else if (ByDate)
-                        {
-                            for (var j = 0; j < dates.Count; j++)
-                            {
-                                var val = info.Where(x => x.AddedTime.Date == dates[j]).Sum(x => x.ProcessCount);
-                                if (val > 0)
-                                {
-                                    ccs.Items.Add(new ColumnItem(val, j));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            for (var j = 0; j < hours.Count; j++)
-                            {
-                                var val = info.Where(x => x.AddedTime.Hour == hours[j]).Sum(x => x.ProcessCount);
-                                if (val > 0)
-                                {
-                                    ccs.Items.Add(new ColumnItem(val, j));
-                                }
+                                ccs.Items.Add(new ColumnItem(val, j));
                             }
                         }
 
@@ -445,6 +388,13 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             Standby = true;
+        }
+
+        private void UpdateViewResult()
+        {
+            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ? _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _FilterIndex == -1 || x.StationNumber == _FilterIndex).ToList() : null;
+
+            NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
 
         public TraceabilityView_ViewModel(MongoClient mongo)
@@ -553,7 +503,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                  FontSize = 10,
                                  TitleColor = fontcolor,
                                  TickStyle = TickStyle.Inside,
-                                 MajorGridlineStyle = LineStyle.None,
+                                 MajorGridlineStyle = LineStyle.Dot,
                                  //MajorStep = 100,
                                  MinorGridlineStyle = LineStyle.None,
                                  MinorTickSize = 0,
@@ -586,7 +536,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 AxislineStyle = LineStyle.Solid,
                                 ExtraGridlineStyle = LineStyle.None,
                                 AxislineColor = bordercolor,
-                                GapWidth = 0.6,
+                                GapWidth = 1,
                                 MinorStep = 1,
                                 MajorStep = 1,
                                 Position = AxisPosition.Bottom,
@@ -608,7 +558,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 AxislineStyle = LineStyle.Solid,
                                 ExtraGridlineStyle = LineStyle.None,
                                 AxislineColor = bordercolor,
-                                GapWidth = 1,
+                                GapWidth = 0.6,
                                 MinorStep = 1,
                                 MajorStep = 1,
                                 Position = AxisPosition.Bottom,
@@ -619,6 +569,7 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView = new PlotModel
                          {
                              DefaultFont = "Microsoft JhengHei",
+                             PlotAreaBackground = bgcolor,
                              PlotAreaBorderColor = bordercolor,
                              PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
                              PlotMargins = new OxyThickness(30, 0, 0, 20),
@@ -626,7 +577,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              LegendTitleColor = fontcolor,
                              LegendTextColor = fontcolor,
                              LegendBorder = bordercolor,
-                             LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                             LegendBackground = bgcolor,
                              LegendPlacement = LegendPlacement.Outside,
                              LegendPosition = LegendPosition.RightTop,
                              LegendOrientation = LegendOrientation.Vertical,

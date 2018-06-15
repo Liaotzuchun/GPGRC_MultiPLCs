@@ -32,7 +32,7 @@ namespace GPGO_MultiPLCs
                 {
                     var rn = new Random(i + j);
 
-                    var st = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), 0);
+                    var st = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), i);
 
                     for (var k = 0; k < 8; k++)
                     {
