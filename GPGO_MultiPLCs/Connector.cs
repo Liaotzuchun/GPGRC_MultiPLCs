@@ -48,20 +48,21 @@ namespace GPGO_MultiPLCs
                         var t = new TimeSpan();
                         for (var m = 0; m < 100; m++)
                         {
+                            var mins = (int)t.TotalMinutes + 1;
                             var vals = new RecordTemperatures
                                        {
                                            Time = t,
-                                           ThermostatTemperature = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                           ThermostatTemperature = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures =
                                            {
-                                               [0] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                               [1] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                               [2] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                               [3] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                               [4] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                               [5] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                               [6] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                               [7] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5)
+                                               [0] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                               [1] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                               [2] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                               [3] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                               [4] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                               [5] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                               [6] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                               [7] = rn.Next(40 + mins * 2, 40 + mins * 5)
                                            }
                                        };
 

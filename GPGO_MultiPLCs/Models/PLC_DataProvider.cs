@@ -180,41 +180,43 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 if (sw.Elapsed >= n)
                                                 {
-                                                    //var vals = new RecordTemperatures
-                                                    //           {
-                                                    //               Time = sw.Elapsed,
-                                                    //               ThermostatTemperature = ThermostatTemperature,
-                                                    //               OvenTemperatures =
-                                                    //               {
-                                                    //                   [0] = OvenTemperature_1,
-                                                    //                   [1] = OvenTemperature_2,
-                                                    //                   [2] = OvenTemperature_3,
-                                                    //                   [3] = OvenTemperature_4,
-                                                    //                   [4] = OvenTemperature_5,
-                                                    //                   [5] = OvenTemperature_6,
-                                                    //                   [6] = OvenTemperature_7,
-                                                    //                   [7] = OvenTemperature_8
-                                                    //               }
-                                                    //           };
-
-                                                    var rn = new Random();
-                                                    var t = sw.Elapsed;
                                                     var vals = new RecordTemperatures
                                                                {
-                                                                   Time = t,
-                                                                   ThermostatTemperature = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                                                   Time = sw.Elapsed,
+                                                                   ThermostatTemperature = ThermostatTemperature,
                                                                    OvenTemperatures =
                                                                    {
-                                                                       [0] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                                                       [1] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                                                       [2] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                                                       [3] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                                                       [4] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                                                       [5] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                                                       [6] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
-                                                                       [7] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5)
+                                                                       [0] = OvenTemperature_1,
+                                                                       [1] = OvenTemperature_2,
+                                                                       [2] = OvenTemperature_3,
+                                                                       [3] = OvenTemperature_4,
+                                                                       [4] = OvenTemperature_5,
+                                                                       [5] = OvenTemperature_6,
+                                                                       [6] = OvenTemperature_7,
+                                                                       [7] = OvenTemperature_8
                                                                    }
                                                                };
+
+                                                    //var rn = new Random();
+                                                    //var t = sw.Elapsed;
+                                                    //var mins = (int)t.TotalMinutes + 1;
+
+                                                    //var vals = new RecordTemperatures
+                                                    //           {
+                                                    //               Time = t,
+                                                    //               ThermostatTemperature = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                                    //               OvenTemperatures =
+                                                    //               {
+                                                    //                   [0] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                                    //                   [1] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                                    //                   [2] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                                    //                   [3] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                                    //                   [4] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                                    //                   [5] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                                    //                   [6] = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                                    //                   [7] = rn.Next(40 + mins * 2, 40 + mins * 5)
+                                                    //               }
+                                                    //           };
 
                                                     Process_Info.RecordTemperatures.Add(vals);
                                                     AddPlot(sw.Elapsed, vals);
