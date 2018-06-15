@@ -242,7 +242,7 @@
                         VerticalAlignment="Center"
                         Text="{Binding InflatingTime, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                 </Border>
-                <UniformGrid
+                <local:UniformGrid_H
                     Grid.Row="2"
                     Columns="1">
                     <Border
@@ -343,8 +343,8 @@
                             VerticalAlignment="Center"
                             Text="恆溫溫度8" />
                     </Border>
-                </UniformGrid>
-                <UniformGrid
+                </local:UniformGrid_H>
+                <local:UniformGrid_H
                     Grid.Row="2"
                     Grid.Column="1"
                     Columns="1">
@@ -524,8 +524,8 @@
                             TickFrequency="0.1"
                             Value="{Binding ThermostaticTemperature_8, Mode=TwoWay}" />
                     </Border>
-                </UniformGrid>
-                <UniformGrid
+                </local:UniformGrid_H>
+                <local:UniformGrid_H
                     Grid.Row="2"
                     Grid.Column="2"
                     Columns="1">
@@ -625,8 +625,8 @@
                             VerticalAlignment="Center"
                             Text="{Binding ThermostaticTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                     </Border>
-                </UniformGrid>
-                <UniformGrid
+                </local:UniformGrid_H>
+                <local:UniformGrid_H
                     Grid.Row="2"
                     Grid.Column="3"
                     Columns="1">
@@ -726,8 +726,8 @@
                             VerticalAlignment="Center"
                             Text="恆溫時間8" />
                     </Border>
-                </UniformGrid>
-                <UniformGrid
+                </local:UniformGrid_H>
+                <local:UniformGrid_H
                     Grid.Row="2"
                     Grid.Column="4"
                     Columns="1">
@@ -923,8 +923,8 @@
                             TickFrequency="1"
                             Value="{Binding ConstantTime_8, Mode=TwoWay}" />
                     </Border>
-                </UniformGrid>
-                <UniformGrid
+                </local:UniformGrid_H>
+                <local:UniformGrid_H
                     Grid.Row="2"
                     Grid.Column="5"
                     Columns="1">
@@ -1024,7 +1024,7 @@
                             VerticalAlignment="Center"
                             Text="{Binding ConstantTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
                     </Border>
-                </UniformGrid>
+                </local:UniformGrid_H>
             </Grid>
         </GroupBox>
         <Grid
@@ -1188,8 +1188,7 @@
                                                             Grid.Row="2"
                                                             Grid.Column="1">
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition
-                                                                    Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                                <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                                                                 <ColumnDefinition Width="*" />
                                                             </Grid.ColumnDefinitions>
                                                             <ScrollBar
@@ -1296,10 +1295,8 @@
                                                 <DataTrigger
                                                     Binding="{Binding Mode=OneWay}"
                                                     Value="True">
-                                                    <Setter TargetName="Border" Property="Background"
-                                                            Value="{StaticResource WorkingBrush}" />
-                                                    <Setter TargetName="TextBlock" Property="Foreground"
-                                                            Value="{StaticResource BaseForeground}" />
+                                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                                    <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
                                                 </DataTrigger>
                                             </DataTemplate.Triggers>
                                         </DataTemplate>

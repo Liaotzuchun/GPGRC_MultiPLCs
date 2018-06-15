@@ -72,14 +72,14 @@
                 Width="0"
                 Height="0">
                 <local:RecipeControl
-                    Margin="4"
+                    Margin="0,4,0,0"
                     DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
             <TabItem
                 Width="0"
                 Height="0">
                 <local:TraceabilityView
-                    Margin="4"
+                    Margin="0,4,0,0"
                     DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
         </TabControl>
