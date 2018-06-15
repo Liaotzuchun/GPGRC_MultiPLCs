@@ -231,7 +231,7 @@ namespace GPGO_MultiPLCs.ViewModels
             categoryAxis1.ActualLabels.Clear();
             categoryAxis2.ActualLabels.Clear();
 
-            if (Results?.Count > 0)
+            if (ViewResults?.Count > 0)
             {
                 var cs = new ColumnSeries
                          {

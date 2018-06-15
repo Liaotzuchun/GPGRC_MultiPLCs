@@ -527,6 +527,7 @@
                                     LegendOrientation="Horizontal"
                                     LegendPlacement="Outside"
                                     LegendPosition="TopCenter"
+                                    LegendItemSpacing="10"
                                     LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                     LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                     PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
