@@ -524,10 +524,10 @@
                                     LegendBorderThickness="1"
                                     LegendFontSize="12"
                                     LegendItemOrder="Reverse"
+                                    LegendItemSpacing="10"
                                     LegendOrientation="Horizontal"
                                     LegendPlacement="Outside"
                                     LegendPosition="TopCenter"
-                                    LegendItemSpacing="10"
                                     LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                     LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                     PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
@@ -676,6 +676,27 @@
                                             StrokeThickness="2"
                                             Color="Red" />
                                     </oxy:Plot.Series>
+                                    <oxy:Plot.DefaultTrackerTemplate>
+                                        <ControlTemplate>
+                                            <oxy:TrackerControl
+                                                d:DataContext="{d:DesignInstance oxy:TrackerControl}"
+                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1"
+                                                HorizontalLineVisibility="Collapsed"
+                                                LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
+                                                LineStroke="{StaticResource BaseForeground}"
+                                                Position="{Binding Position}"
+                                                VerticalLineVisibility="Collapsed">
+                                                <oxy:TrackerControl.Content>
+                                                    <TextBlock
+                                                        Margin="7"
+                                                        Foreground="{StaticResource BaseForeground}"
+                                                        Text="{Binding}" />
+                                                </oxy:TrackerControl.Content>
+                                            </oxy:TrackerControl>
+                                        </ControlTemplate>
+                                    </oxy:Plot.DefaultTrackerTemplate>
                                 </oxy:Plot>
                             </Border>
                         </DataTemplate>
