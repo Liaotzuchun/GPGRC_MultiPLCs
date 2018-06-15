@@ -10,6 +10,7 @@
     Height="768"
     Background="{StaticResource WindowBackgroundBrush}"
     DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
+    FontFamily="Microsoft JhengHei"
     Icon="/GPGO_MultiPLCs;component/GP.ico"
     Loaded="Window_Loaded"
     SnapsToDevicePixels="True"

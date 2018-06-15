@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
+    public class TimeWithTemperature
+    {
+        public TimeSpan Time { get; set; }
+        public double Temperature { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Time:HH:mm:ss} {Temperature:F1}";
+        }
+    }
+
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
-
-        #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
-        /// <summary>
-        /// 新增至資料庫的時間
-        /// </summary>
-        [BsonId]
-        public DateTime AddedTime;
-
-        /// <summary>
-        /// PLC站號
-        /// </summary>
-        public int StationNumber;
-        #endregion
-
         private Dictionary<TimeSpan, string> _AlarmList = new Dictionary<TimeSpan, string>();
         private DateTime _EndTime;
         private bool _FirstPanel;
@@ -34,6 +32,7 @@ namespace GPGO_MultiPLCs.Models
         private int _PCS_Number;
         private int _ProcessCount;
         private int _ProcessNumber;
+        private string _RecipeName;
         private string _ProduceCode;
         private List<RecordTemperatures> _RecordTemperatures = new List<RecordTemperatures>();
         private string _Side;
@@ -42,6 +41,15 @@ namespace GPGO_MultiPLCs.Models
         private short _TotalHeatingTime;
         private string _TrolleyCode;
         private short _WarmingTime;
+        public IEnumerable<TimeWithTemperature> OvenTemperatures_0 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[0] });
+        public IEnumerable<TimeWithTemperature> OvenTemperatures_1 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[1] });
+        public IEnumerable<TimeWithTemperature> OvenTemperatures_2 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[2] });
+        public IEnumerable<TimeWithTemperature> OvenTemperatures_3 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[3] });
+        public IEnumerable<TimeWithTemperature> OvenTemperatures_4 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[4] });
+        public IEnumerable<TimeWithTemperature> OvenTemperatures_5 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[5] });
+        public IEnumerable<TimeWithTemperature> OvenTemperatures_6 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[6] });
+        public IEnumerable<TimeWithTemperature> OvenTemperatures_7 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[7] });
+        public IEnumerable<TimeWithTemperature> ThermostatTemperature => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.ThermostatTemperature });
 
         public Dictionary<TimeSpan, string> AlarmList
         {
@@ -163,6 +171,19 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public string RecipeName
+        {
+            get => _RecipeName;
+            set
+            {
+                _RecipeName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// = OrderCode + ProcessNumber
+        /// </summary>
         public string ProduceCode
         {
             get => _ProduceCode;
@@ -242,5 +263,20 @@ namespace GPGO_MultiPLCs.Models
                 NotifyPropertyChanged();
             }
         }
+
+        #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
+
+        /// <summary>
+        ///     新增至資料庫的時間
+        /// </summary>
+        [BsonId]
+        public DateTime AddedTime { get; set; }
+
+        /// <summary>
+        ///     PLC站號
+        /// </summary>
+        public int StationNumber{ get; set; }
+
+        #endregion
     }
 }

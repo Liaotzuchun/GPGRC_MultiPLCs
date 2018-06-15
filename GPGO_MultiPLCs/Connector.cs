@@ -23,7 +23,7 @@ namespace GPGO_MultiPLCs
 
         public void MakeTestData()
         {
-            var p_code = new[] { "ooxx", "abc", "zzz", "qoo", "boom", "xxx", "wunmao" };
+            var order_code = new[] { "ooxx", "abc", "zzz", "qoo", "boom", "xxx", "wunmao" };
             var time = DateTime.Now;
 
             for (var j = 1; j < new DateTime(time.Year, time.Month, 1).AddMonths(1).AddDays(-1).Day; j++)
@@ -32,13 +32,15 @@ namespace GPGO_MultiPLCs
                 {
                     var rn = new Random(i + j);
 
-                    for (var k = 0; k < 10; k++)
+                    var st = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), 0);
+
+                    for (var k = 0; k < 8; k++)
                     {
                         var info = new ProcessInfo
                                    {
-                                       ProduceCode = p_code[rn.Next(0, p_code.Length)],
+                                       OrderCode = order_code[rn.Next(0, order_code.Length)],
                                        ProcessCount = rn.Next(50, 100),
-                                       StartTime = new DateTime(time.Year, time.Month, j, 8 + k, i, 0),
+                                       StartTime = st,
                                        TrolleyCode = rn.Next(1, 100).ToString("000"),
                                        OperatorID = rn.Next(1, 10).ToString("000")
                                    };
@@ -49,17 +51,17 @@ namespace GPGO_MultiPLCs
                             var vals = new RecordTemperatures
                                        {
                                            Time = t,
-                                           ThermostatTemperature = rn.Next(0, (t.Minutes + 1) * 80),
+                                           ThermostatTemperature = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
                                            OvenTemperatures =
                                            {
-                                               [0] = rn.Next(0, (t.Minutes + 1) * 80),
-                                               [1] = rn.Next(0, (t.Minutes + 1) * 80),
-                                               [2] = rn.Next(0, (t.Minutes + 1) * 80),
-                                               [3] = rn.Next(0, (t.Minutes + 1) * 80),
-                                               [4] = rn.Next(0, (t.Minutes + 1) * 80),
-                                               [5] = rn.Next(0, (t.Minutes + 1) * 80),
-                                               [6] = rn.Next(0, (t.Minutes + 1) * 80),
-                                               [7] = rn.Next(0, (t.Minutes + 1) * 80)
+                                               [0] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                               [1] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                               [2] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                               [3] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                               [4] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                               [5] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                               [6] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                               [7] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5)
                                            }
                                        };
 
@@ -69,6 +71,8 @@ namespace GPGO_MultiPLCs
                         }
 
                         info.EndTime = info.StartTime + t;
+
+                        st = info.EndTime + TimeSpan.FromMinutes(10);
 
                         TraceVM.AddToDB(i, info, info.EndTime.AddMinutes(1));
                     }

@@ -19,11 +19,14 @@ namespace GPGO_MultiPLCs.Models
         public delegate void SwitchRecipeEventHandler(string recipe);
 
         public CancellationTokenSource CTS;
+        private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
+        private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
 
         /// <summary>
-        /// 溫控器溫度+槽內溫度共9項
+        ///     溫控器溫度+槽內溫度共9項
         /// </summary>
         private readonly LineSeries[] LineSeries = new LineSeries[9];
+
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
         private readonly LinearAxis TemperatureAxis;
@@ -199,17 +202,17 @@ namespace GPGO_MultiPLCs.Models
                                                     var vals = new RecordTemperatures
                                                                {
                                                                    Time = t,
-                                                                   ThermostatTemperature = rn.Next(0, (t.Minutes + 1) * 80),
+                                                                   ThermostatTemperature = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
                                                                    OvenTemperatures =
                                                                    {
-                                                                       [0] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [1] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [2] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [3] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [4] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [5] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [6] = rn.Next(0, (t.Minutes + 1) * 80),
-                                                                       [7] = rn.Next(0, (t.Minutes + 1) * 80)
+                                                                       [0] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                                                       [1] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                                                       [2] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                                                       [3] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                                                       [4] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                                                       [5] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                                                       [6] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5),
+                                                                       [7] = rn.Next(40 + (t.Minutes + 1) * 2, 40 + (t.Minutes + 1) * 5)
                                                                    }
                                                                };
 
@@ -317,6 +320,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                                   x =>
                                                                                                                   {
                                                                                                                       var str = x.Trim();
+
                                                                                                                       return (str.Length > 0 && str.Length < 8, "字數錯誤，請重試!");
                                                                                                                   });
 
@@ -327,6 +331,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                                       x =>
                                                                                                                       {
                                                                                                                           var str = x.Trim();
+
                                                                                                                           return (str.Length > 0 && str.Length < 4, "字數錯誤，請重試!");
                                                                                                                       });
 
@@ -344,28 +349,27 @@ namespace GPGO_MultiPLCs.Models
                                                              return false;
                                                          });
 
-            var color = OxyColor.FromRgb(50, 70, 60);
-
             RecordView = new PlotModel
                          {
-                             PlotAreaBackground = OxyColor.FromRgb(102, 128, 115),
                              DefaultFont = "Microsoft JhengHei",
-                             PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
+                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
+                             PlotAreaBorderColor = bordercolor,
                              PlotMargins = new OxyThickness(50, 0, 30, 40),
-                             LegendTextColor = color,
-                             LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
+                             LegendTextColor = fontcolor,
+                             LegendBackground = OxyColors.Transparent,
                              LegendPlacement = LegendPlacement.Outside,
                              LegendPosition = LegendPosition.TopCenter,
-                             LegendMaxHeight = 30,
                              LegendFontSize = 14,
-                             LegendItemOrder = LegendItemOrder.Reverse
+                             LegendItemOrder = LegendItemOrder.Reverse,
+                             LegendOrientation = LegendOrientation.Horizontal
                          };
 
             TemperatureAxis = new LinearAxis
                               {
-                                  TitleColor = color,
+                                  TitleColor = fontcolor,
                                   Title = "溫度",
                                   Unit = "°C",
+                                  Position = AxisPosition.Left,
                                   TickStyle = TickStyle.Inside,
                                   MajorGridlineStyle = LineStyle.Solid,
                                   MajorStep = 20,
@@ -373,19 +377,19 @@ namespace GPGO_MultiPLCs.Models
                                   MinorTickSize = 0,
                                   MinorStep = 10,
                                   AxislineStyle = LineStyle.Solid,
-                                  AxislineColor = color,
-                                  MajorGridlineColor = color,
-                                  MinorGridlineColor = color,
-                                  TicklineColor = color,
-                                  ExtraGridlineColor = color,
-                                  TextColor = color,
+                                  AxislineColor = bordercolor,
+                                  MajorGridlineColor = bordercolor,
+                                  MinorGridlineColor = bordercolor,
+                                  TicklineColor = bordercolor,
+                                  ExtraGridlineColor = bordercolor,
+                                  TextColor = fontcolor,
                                   Maximum = 100,
                                   Minimum = 0
                               };
 
             TimeAxis = new TimeSpanAxis
                        {
-                           TitleColor = color,
+                           TitleColor = fontcolor,
                            Title = "歷時",
                            Unit = "秒",
                            MinimumPadding = 0,
@@ -397,12 +401,12 @@ namespace GPGO_MultiPLCs.Models
                            MinorStep = 1,
                            Position = AxisPosition.Bottom,
                            AxislineStyle = LineStyle.Solid,
-                           AxislineColor = color,
-                           MajorGridlineColor = color,
-                           MinorGridlineColor = color,
-                           TicklineColor = color,
-                           ExtraGridlineColor = color,
-                           TextColor = color,
+                           AxislineColor = bordercolor,
+                           MajorGridlineColor = bordercolor,
+                           MinorGridlineColor = bordercolor,
+                           TicklineColor = bordercolor,
+                           ExtraGridlineColor = bordercolor,
+                           TextColor = fontcolor,
                            StringFormat = "m:ss",
                            Maximum = 60,
                            Minimum = 0
@@ -413,7 +417,7 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.溫控器溫度),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.Red,
                                 MarkerType = MarkerType.None,
                                 Color = OxyColors.Red,
                                 MarkerSize = 1
@@ -424,9 +428,9 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.爐內溫度_1),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.DarkOrange,
                                 MarkerType = MarkerType.None,
-                                Color = OxyColors.Orange,
+                                Color = OxyColors.DarkOrange,
                                 MarkerSize = 1
                             };
 
@@ -435,9 +439,9 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.爐內溫度_2),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.Gold,
                                 MarkerType = MarkerType.None,
-                                Color = OxyColors.Yellow,
+                                Color = OxyColors.Gold,
                                 MarkerSize = 1
                             };
 
@@ -446,7 +450,7 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.爐內溫度_3),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.Lime,
                                 MarkerType = MarkerType.None,
                                 Color = OxyColors.Lime,
                                 MarkerSize = 1
@@ -457,7 +461,7 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.爐內溫度_4),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.DodgerBlue,
                                 MarkerType = MarkerType.None,
                                 Color = OxyColors.DodgerBlue,
                                 MarkerSize = 1
@@ -468,7 +472,7 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.爐內溫度_5),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.DarkOrchid,
                                 MarkerType = MarkerType.None,
                                 Color = OxyColors.DarkOrchid,
                                 MarkerSize = 1
@@ -479,7 +483,7 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.爐內溫度_6),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.Magenta,
                                 MarkerType = MarkerType.None,
                                 Color = OxyColors.Magenta,
                                 MarkerSize = 1
@@ -490,7 +494,7 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.爐內溫度_7),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.Brown,
                                 MarkerType = MarkerType.None,
                                 Color = OxyColors.Brown,
                                 MarkerSize = 1
@@ -501,7 +505,7 @@ namespace GPGO_MultiPLCs.Models
                                 Title = nameof(DataNames.爐內溫度_8),
                                 StrokeThickness = 2,
                                 LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.White,
+                                MarkerFill = OxyColors.BurlyWood,
                                 MarkerType = MarkerType.None,
                                 Color = OxyColors.BurlyWood,
                                 MarkerSize = 1

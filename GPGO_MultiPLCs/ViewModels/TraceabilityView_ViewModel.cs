@@ -286,19 +286,19 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 ResultView.Series.Add(cs);
 
-                var result2 = ViewResults.GroupBy(x => x.ProduceCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                var result2 = ViewResults.GroupBy(x => x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
                 var color_step = 0.9 / result2.Length;
 
                 for (var i = 0; i < result2.Length; i++)
                 {
-                    var (produceCode, info) = result2[i];
+                    var (orderCode, info) = result2[i];
                     var ccs = new ColumnSeries
                               {
                                   FontSize = 10,
                                   LabelFormatString = "{0}",
                                   LabelPlacement = LabelPlacement.Middle,
                                   TextColor = OxyColors.White,
-                                  Title = produceCode,
+                                  Title = orderCode,
                                   IsStacked = true,
                                   StrokeThickness = 0,
                                   StrokeColor = bordercolor,
@@ -459,7 +459,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              PlotAreaBorderColor = bordercolor,
                              PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
                              PlotMargins = new OxyThickness(50, 10, 10, 40),
-                             LegendTitle = nameof(ProcessInfo.ProduceCode),
+                             LegendTitle = nameof(ProcessInfo.OrderCode),
                              LegendTitleColor = fontcolor,
                              LegendTextColor = fontcolor,
                              LegendBorder = bordercolor,
@@ -487,6 +487,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                  MinorGridlineColor = bordercolor,
                                  TicklineColor = bordercolor,
                                  ExtraGridlineColor = bordercolor,
+                                 ExtraGridlineStyle = LineStyle.None,
                                  TextColor = fontcolor,
                                  Minimum = 0,
                                  MaximumPadding = 0.1
@@ -506,6 +507,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 MajorTickSize = 0,
                                 MinorTickSize = 0,
                                 AxislineStyle = LineStyle.Solid,
+                                ExtraGridlineStyle = LineStyle.None,
                                 AxislineColor = bordercolor,
                                 GapWidth = 0.6,
                                 MinorStep = 1,
@@ -527,6 +529,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 MajorTickSize = 0,
                                 MinorTickSize = 0,
                                 AxislineStyle = LineStyle.Solid,
+                                ExtraGridlineStyle = LineStyle.None,
                                 AxislineColor = bordercolor,
                                 GapWidth = 1,
                                 MinorStep = 1,
@@ -542,7 +545,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              PlotAreaBorderColor = bordercolor,
                              PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
                              PlotMargins = new OxyThickness(30, 0, 0, 10),
-                             LegendTitle = nameof(ProcessInfo.ProduceCode),
+                             LegendTitle = nameof(ProcessInfo.OrderCode),
                              LegendTitleColor = fontcolor,
                              LegendTextColor = fontcolor,
                              LegendBorder = bordercolor,
@@ -551,6 +554,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              LegendPosition = LegendPosition.RightTop,
                              LegendOrientation = LegendOrientation.Vertical,
                              LegendFontSize = 12,
+                             LegendTitleFontSize = 12,
                              LegendItemOrder = LegendItemOrder.Reverse,
                              LegendPadding = 5
                          };
