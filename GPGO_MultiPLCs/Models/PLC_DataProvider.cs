@@ -359,6 +359,7 @@ namespace GPGO_MultiPLCs.Models
                              PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
                              PlotAreaBorderColor = bordercolor,
                              PlotMargins = new OxyThickness(50, 0, 30, 40),
+                             LegendBorder = bordercolor,
                              LegendTextColor = fontcolor,
                              LegendBackground = bgcolor,
                              LegendPlacement = LegendPlacement.Outside,
