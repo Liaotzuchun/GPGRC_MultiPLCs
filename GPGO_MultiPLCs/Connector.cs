@@ -131,6 +131,14 @@ namespace GPGO_MultiPLCs
                                          TraceVM.AddToDB(i, info);
                                      };
 
+            TraceVM.TodayProductionUpdated += datas =>
+                                              {
+                                                  foreach (var (station, production) in datas)
+                                                  {
+                                                      TotalVM.TotalProduction[station] = production;
+                                                  }
+                                              };
+
             //MakeTestData();
         }
     }

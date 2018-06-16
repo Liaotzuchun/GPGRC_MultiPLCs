@@ -20,6 +20,8 @@ namespace GPGO_MultiPLCs.ViewModels
             Pie
         }
 
+        public delegate void TodayProduction(List<(int station, int production)> list);
+
         private readonly OxyColor bgcolor = OxyColor.FromRgb(240, 255, 235);
         private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
         private readonly CategoryAxis categoryAxis1;
@@ -201,6 +203,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged(nameof(TotalCount));
                 NotifyPropertyChanged(nameof(EnumFilter));
 
+                TodayProductionUpdated?.Invoke(_Results?.Where(x => x.AddedTime.Day == DateTime.Today.Day).GroupBy(x => x.StationNumber).Select(x => (x.Key, x.Sum(y => y.ProcessCount))).ToList());
+
                 UpdateViewResult();
 
                 UpdateChart(_Date1, _Date2);
@@ -227,13 +231,16 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public event TodayProduction TodayProductionUpdated;
+
         /// <summary>
         ///     新增至資料庫
         /// </summary>
         /// <param name="index">PLC序號，由0開始</param>
         /// <param name="info">記錄資訊</param>
-        /// <param name="dateTime">紀錄時間，預設為當下時間</param>
-        public async void AddToDB(int index, ProcessInfo info, DateTime dateTime = default(DateTime))
+        /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
+        /// <param name="UpdateResult">決定是否更新Ram Data</param>
+        public async void AddToDB(int index, ProcessInfo info, DateTime dateTime = default(DateTime), bool UpdateResult = false)
         {
             info.StationNumber = index;
             info.AddedTime = dateTime == default(DateTime) ? DateTime.Now : dateTime;
@@ -244,6 +251,11 @@ namespace GPGO_MultiPLCs.ViewModels
                 var Sets = db.GetCollection<ProcessInfo>("Product_Infos");
 
                 await Sets.InsertOneAsync(info);
+
+                if (UpdateResult)
+                {
+                    Results = await (await Sets.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1))).ToListAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -270,6 +282,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                           .OrderBy(x => x.Key)
                                           .Select(x => (x.Key, x))
                                           .ToArray();
+
                 var NoLayer2 = result2.Length > 20;
                 var categories = new List<string>();
 

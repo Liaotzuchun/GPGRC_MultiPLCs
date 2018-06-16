@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 using GPGO_MultiPLCs.GP_PLCs;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
-using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -67,8 +64,8 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand BackCommand { get; }
 
         public PLC_DataProvider[] PLC_All { get; }
-
         public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
+        public ObservableDictionary<int, int> TotalProduction { get; }
 
         public bool Gate_Status
         {
@@ -79,8 +76,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged();
             }
         }
-
-        public PlotModel HistogramView { get; set; }
 
         public int Index
         {
@@ -113,8 +108,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public TotalView_ViewModel(IDialogService<string> dialog)
         {
-            IniPlotView();
-
             site = new InstanceContext(this);
 
             BackCommand = new RelayCommand(o =>
@@ -123,6 +116,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                            });
 
             PLC_All = new PLC_DataProvider[Connector.PLC_Count];
+            TotalProduction = new ObservableDictionary<int, int>();
 
             var M_List = new Dictionary<SignalNames, int>
                          {
@@ -219,22 +213,26 @@ namespace GPGO_MultiPLCs.ViewModels
             //! 註冊PLC事件需引發的動作
             for (var i = 0; i < Connector.PLC_Count; i++)
             {
+                TotalProduction.Add(i, 0);
+
                 PLC_All[i] = new PLC_DataProvider(M_List, D_List, Recipe_List, dialog);
-                var j = i;
+                var index = i;
+
                 PLC_All[i].SwitchRecipeEvent += recipe =>
                                                 {
-                                                    WantRecipe?.Invoke(j, recipe);
+                                                    WantRecipe?.Invoke(index, recipe);
                                                 };
 
                 PLC_All[i].StartRecording += (recipe, obj) =>
                                              {
-                                                 WantRecipe?.Invoke(j, recipe, obj);
+                                                 WantRecipe?.Invoke(index, recipe, obj);
                                              };
 
                 PLC_All[i].RecordingFinished += info =>
                                                 {
                                                     //! 寫入資料庫，上傳
-                                                    AddRecordToDB?.Invoke(j, info);
+                                                    AddRecordToDB?.Invoke(index, info);
+                                                    TotalProduction[index] = TotalProduction[index] + info.ProcessCount; 
                                                 };
             }
 
@@ -297,67 +295,6 @@ namespace GPGO_MultiPLCs.ViewModels
         public event AddRecordToDBHandler AddRecordToDB;
 
         public event WantRecipeHandler WantRecipe;
-
-        public void IniPlotView()
-        {
-            var color = OxyColor.FromRgb(50, 70, 60);
-
-            HistogramView = new PlotModel
-                            {
-                                PlotAreaBackground = OxyColor.FromArgb(0, 0, 0, 0),
-                                DefaultFont = "Microsoft JhengHei",
-                                PlotAreaBorderThickness = new OxyThickness(0, 0, 0, 0),
-                                PlotMargins = new OxyThickness(40, 10, 10, 20)
-                            };
-
-            var categoryAxis1 = new CategoryAxis
-                                {
-                                    MajorGridlineColor = color,
-                                    MinorGridlineColor = color,
-                                    TicklineColor = color,
-                                    ExtraGridlineColor = color,
-                                    TextColor = color,
-                                    TickStyle = TickStyle.Inside,
-                                    AxislineStyle = LineStyle.Solid,
-                                    AxislineColor = color,
-                                    GapWidth = 0,
-                                    MinorStep = 1,
-                                    Position = AxisPosition.Left
-                                };
-
-            for(var i = 1; i <= Connector.PLC_Count; i++)
-            {
-                categoryAxis1.ActualLabels.Add("第" + i + "站");
-            }
-            categoryAxis1.ActualLabels.Reverse();
-
-            var XAxis = new LinearAxis
-                        {
-                            MinimumPadding = 0,
-                            MaximumPadding = 0,
-                            TickStyle = TickStyle.Inside,
-                            MajorGridlineStyle = LineStyle.None,
-                            MajorStep = 100,
-                            MinorGridlineStyle = LineStyle.None,
-                            MinorTickSize = 0,
-                            MinorStep = 100,
-                            Position = AxisPosition.Bottom,
-                            AxislineStyle = LineStyle.Solid,
-                            AxislineColor = color,
-                            MajorGridlineColor = color,
-                            MinorGridlineColor = color,
-                            TicklineColor = color,
-                            ExtraGridlineColor = color,
-                            TextColor = color,
-                            Minimum = 0
-                        };
-
-            var barSeries1 = new BarSeries { LabelFormatString = "{0}", ValueField = "Value" };
-
-            HistogramView.Axes.Add(categoryAxis1);
-            HistogramView.Axes.Add(XAxis);
-            HistogramView.Series.Add(barSeries1);
-        }
 
         public bool SetReadLists(string[][] list)
         {

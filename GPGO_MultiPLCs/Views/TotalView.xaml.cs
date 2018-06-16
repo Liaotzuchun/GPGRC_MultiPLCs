@@ -7,6 +7,11 @@ namespace GPGO_MultiPLCs.Views
     /// </summary>
     public partial class TotalView : UserControl
     {
-        public TotalView() => InitializeComponent();
+        public TotalView()
+        {
+            InitializeComponent();
+            CA.LabelFormatter = val => "第" + (val + 1) + "站";
+            BS.LabelFormatString = "{0}";
+        }
     }
 }

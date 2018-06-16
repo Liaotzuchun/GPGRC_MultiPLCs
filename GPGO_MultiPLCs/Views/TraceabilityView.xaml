@@ -131,723 +131,729 @@
     </UserControl.Resources>
 
     <Grid Background="{StaticResource WindowBackgroundBrush2}">
-        <GroupBox Header="生產履歷">
-            <Grid
-                x:Name="HGrid"
-                Margin="4">
+        <Grid
+            x:Name="HGrid"
+            Margin="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="120" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid>
+                <Grid
+                    Grid.RowSpan="2"
+                    IsEnabled="{Binding Standby, Mode=OneWay}"
+                    IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="60" />
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
-                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Grid
-                        Grid.RowSpan="2"
-                        IsEnabled="{Binding Standby, Mode=OneWay}"
-                        IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Button
-                            x:Name="SubDay"
-                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding SubDayCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Path
-                                Data="M 0 0 H 10"
-                                Stroke="White"
-                                StrokeThickness="2" />
-                        </Button>
-                        <Button
-                            x:Name="Today"
-                            Grid.Column="1"
-                            Content="本日">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding ThisDayCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                        <Button
-                            x:Name="AddDay"
-                            Grid.Column="2"
-                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding AddDayCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Path
-                                Data="M 0 5 H 10 M 5 10 V 0"
-                                Stroke="White"
-                                StrokeThickness="2" />
-                        </Button>
-                        <Button
-                            x:Name="SubWeek"
-                            Grid.Row="1">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding SubWeekCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Path
-                                Data="M 0 0 H 10"
-                                Stroke="White"
-                                StrokeThickness="2" />
-                        </Button>
-                        <Button
-                            x:Name="ThisWeek"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Content="本週">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding ThisWeekCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                        <Button
-                            x:Name="AddWeek"
-                            Grid.Row="1"
-                            Grid.Column="2">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding AddWeekCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Path
-                                Data="M 0 5 H 10 M 5 10 V 0"
-                                Stroke="White"
-                                StrokeThickness="2" />
-                        </Button>
-                        <Button
-                            x:Name="SubMonth"
-                            Grid.Row="2">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding SubMonthCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Path
-                                Data="M 0 0 H 10"
-                                Stroke="White"
-                                StrokeThickness="2" />
-                        </Button>
-                        <Button
-                            x:Name="ThisMonth"
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Content="本月">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding ThisMonthCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Button>
-                        <Button
-                            x:Name="AddMonth"
-                            Grid.Row="2"
-                            Grid.Column="2">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction Command="{Binding AddMonthCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Path
-                                Data="M 0 5 H 10 M 5 10 V 0"
-                                Stroke="White"
-                                StrokeThickness="2" />
-                        </Button>
-                    </Grid>
-                    <Border
+                    <Button
+                        x:Name="SubDay"
+                        Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding SubDayCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Path
+                            Data="M 0 0 H 10"
+                            Stroke="White"
+                            StrokeThickness="2" />
+                    </Button>
+                    <Button
+                        x:Name="Today"
                         Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,1">
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="開始日期" />
-                    </Border>
-                    <DatePicker
-                        x:Name="dp1"
+                        Content="本日">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ThisDayCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button
+                        x:Name="AddDay"
                         Grid.Column="2"
-                        Height="35"
-                        IsEnabled="{Binding Standby, Mode=OneWay}"
-                        IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
-                        SelectedDate="{Binding Date1, Mode=TwoWay}"
-                        SelectedDateFormat="Long" />
-                    <Border
+                        Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding AddDayCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Path
+                            Data="M 0 5 H 10 M 5 10 V 0"
+                            Stroke="White"
+                            StrokeThickness="2" />
+                    </Button>
+                    <Button
+                        x:Name="SubWeek"
+                        Grid.Row="1">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding SubWeekCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Path
+                            Data="M 0 0 H 10"
+                            Stroke="White"
+                            StrokeThickness="2" />
+                    </Button>
+                    <Button
+                        x:Name="ThisWeek"
                         Grid.Row="1"
                         Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,0,0,1">
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="結束日期" />
-                    </Border>
-                    <DatePicker
-                        x:Name="dp2"
+                        Content="本週">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ThisWeekCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button
+                        x:Name="AddWeek"
                         Grid.Row="1"
-                        Grid.Column="2"
-                        Height="35"
-                        IsEnabled="{Binding Standby, Mode=OneWay}"
+                        Grid.Column="2">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding AddWeekCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Path
+                            Data="M 0 5 H 10 M 5 10 V 0"
+                            Stroke="White"
+                            StrokeThickness="2" />
+                    </Button>
+                    <Button
+                        x:Name="SubMonth"
+                        Grid.Row="2">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding SubMonthCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Path
+                            Data="M 0 0 H 10"
+                            Stroke="White"
+                            StrokeThickness="2" />
+                    </Button>
+                    <Button
+                        x:Name="ThisMonth"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Content="本月">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ThisMonthCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button
+                        x:Name="AddMonth"
+                        Grid.Row="2"
+                        Grid.Column="2">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding AddMonthCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Path
+                            Data="M 0 5 H 10 M 5 10 V 0"
+                            Stroke="White"
+                            StrokeThickness="2" />
+                    </Button>
+                </Grid>
+                <Border
+                    Grid.Column="1"
+                    Background="{StaticResource WindowBackgroundBrush6}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,1">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="開始日期" />
+                </Border>
+                <DatePicker
+                    x:Name="dp1"
+                    Grid.Column="2"
+                    Height="35"
+                    IsEnabled="{Binding Standby, Mode=OneWay}"
+                    IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
+                    SelectedDate="{Binding Date1, Mode=TwoWay}"
+                    SelectedDateFormat="Long" />
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Background="{StaticResource WindowBackgroundBrush6}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,0,0,1">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="結束日期" />
+                </Border>
+                <DatePicker
+                    x:Name="dp2"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Height="35"
+                    IsEnabled="{Binding Standby, Mode=OneWay}"
+                    IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
+                    SelectedDate="{Binding Date2, Mode=TwoWay}"
+                    SelectedDateFormat="Long" />
+                <Border
+                    Grid.RowSpan="2"
+                    Grid.Column="3"
+                    Background="{StaticResource OKBrush}"
+                    BorderBrush="{StaticResource OKBorderBrush}"
+                    BorderThickness="1" />
+                <Border
+                    Grid.RowSpan="2"
+                    Grid.Column="3"
+                    Background="{StaticResource WorkingBrush}"
+                    BorderBrush="{StaticResource WorkingBorderBrush}"
+                    BorderThickness="1"
+                    Visibility="{Binding Standby, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                <Border
+                    Grid.Column="4"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="0,1,1,1">
+                    <local:RangeSlider
+                        x:Name="RS"
+                        Margin="4,0"
+                        VerticalAlignment="Center"
                         IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
-                        SelectedDate="{Binding Date2, Mode=TwoWay}"
-                        SelectedDateFormat="Long" />
-                    <Border
-                        Grid.RowSpan="2"
-                        Grid.Column="3"
-                        Background="{StaticResource OKBrush}"
-                        BorderBrush="{StaticResource OKBorderBrush}"
-                        BorderThickness="1" />
-                    <Border
-                        Grid.RowSpan="2"
-                        Grid.Column="3"
-                        Background="{StaticResource WorkingBrush}"
-                        BorderBrush="{StaticResource WorkingBorderBrush}"
-                        BorderThickness="1"
-                        Visibility="{Binding Standby, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                    <Border
-                        Grid.Column="4"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,1,1,1">
-                        <local:RangeSlider
-                            x:Name="RS"
-                            Margin="4,0"
-                            VerticalAlignment="Center"
-                            IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
-                            LowerValue="{Binding Index1, Mode=OneWayToSource}"
-                            Maximum="{Binding TotalCount, Mode=OneWay}"
-                            UpperValue="{Binding Index2, Mode=OneWayToSource}">
-                            <local:RangeSlider.IsEnabled>
-                                <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
-                                    <Binding
-                                        Mode="OneWay"
-                                        Path="Standby" />
-                                    <Binding
-                                        Converter="{StaticResource IsNotNull}"
-                                        Mode="OneWay"
-                                        Path="Results" />
-                                </MultiBinding>
-                            </local:RangeSlider.IsEnabled>
-                        </local:RangeSlider>
-                    </Border>
-                    <Grid
-                        Grid.Row="1"
-                        Grid.Column="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Border
-                            Background="{StaticResource WindowBackgroundBrush6}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,1,1">
-                            <TextBlock
-                                Margin="8,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="起點" />
-                        </Border>
-                        <Border
-                            Grid.Column="1"
-                            Background="{StaticResource LightColorBrush}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,1,1">
-                            <StackPanel
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                DataContext="{Binding LowerDate, Mode=OneWay}">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="10"
-                                    Text="{Binding Mode=OneWay, StringFormat=\{0:d\}}" />
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="10"
-                                    Text="{Binding Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
-                            </StackPanel>
-                        </Border>
-                        <Border
-                            Grid.Column="2"
-                            Background="{StaticResource WindowBackgroundBrush6}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,1,1">
-                            <TextBlock
-                                Margin="8,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="終點" />
-                        </Border>
-                        <Border
-                            Grid.Column="3"
-                            Background="{StaticResource LightColorBrush}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,1,1">
-                            <StackPanel
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                DataContext="{Binding UpperDate, Mode=OneWay}">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="10"
-                                    Text="{Binding Mode=OneWay, StringFormat=\{0:d\}}" />
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="10"
-                                    Text="{Binding Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
-                            </StackPanel>
-                        </Border>
-                        <Border
-                            Grid.Column="4"
-                            Background="{StaticResource WindowBackgroundBrush6}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,1,1">
-                            <TextBlock
-                                Margin="8,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="總數" />
-                        </Border>
-                        <Border
-                            Grid.Column="5"
-                            Background="{StaticResource LightColorBrush}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,1,1">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Text="{Binding ViewResults.Count, Mode=OneWay}" />
-                        </Border>
-                    </Grid>
-                    <ToggleButton
-                        x:Name="TotalTB"
-                        Grid.Column="5"
-                        Checked="TotalTB_Checked"
-                        Content="全部站點"
-                        IsChecked="True"
-                        IsEnabled="{Binding IsEnabled, ElementName=RS, Mode=OneWay}"
-                        Unchecked="TotalTB_Unchecked" />
-                    <ComboBox
-                        x:Name="CB"
-                        Grid.Row="1"
-                        Grid.Column="5"
-                        BorderThickness="0,0,1,1"
-                        IsEnabledChanged="CB_IsEnabledChanged"
-                        ItemsSource="{Binding EnumFilter, Mode=OneWay}"
-                        SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}"
-                        Validation.ErrorTemplate="{x:Null}">
-                        <ComboBox.IsEnabled>
+                        LowerValue="{Binding Index1, Mode=OneWayToSource}"
+                        Maximum="{Binding TotalCount, Mode=OneWay}"
+                        UpperValue="{Binding Index2, Mode=OneWayToSource}">
+                        <local:RangeSlider.IsEnabled>
                             <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
                                 <Binding
-                                    Converter="{StaticResource BoolNot}"
-                                    ElementName="TotalTB"
                                     Mode="OneWay"
-                                    Path="IsChecked" />
+                                    Path="Standby" />
                                 <Binding
-                                    ElementName="RS"
+                                    Converter="{StaticResource IsNotNull}"
                                     Mode="OneWay"
-                                    Path="IsEnabled" />
+                                    Path="Results" />
                             </MultiBinding>
-                        </ComboBox.IsEnabled>
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock
-                                    FontSize="16"
-                                    Text="{Binding Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=1, StringFormat=第 \{0:F0\} 站}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </Grid>
-                <DataGrid
-                    x:Name="dg"
+                        </local:RangeSlider.IsEnabled>
+                    </local:RangeSlider>
+                </Border>
+                <Grid
                     Grid.Row="1"
-                    Margin="0,4,0,0"
-                    AutoGenerateColumns="False"
-                    BorderThickness="1"
-                    CanUserReorderColumns="False"
-                    CanUserResizeColumns="False"
-                    CanUserResizeRows="False"
-                    CanUserSortColumns="False"
-                    CellStyle="{StaticResource DataGridCellStyle}"
-                    ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
-                    Focusable="False"
-                    FontSize="11"
-                    IsReadOnly="True"
-                    IsSynchronizedWithCurrentItem="False"
-                    ItemsSource="{Binding ViewResults, Mode=OneWay}"
-                    RowHeaderStyle="{StaticResource RowHeaderStyle}"
-                    RowStyle="{StaticResource DataGridRowStyle}"
-                    SelectionMode="Single"
-                    Style="{StaticResource DataGridStyle1}">
-                    <DataGrid.RowDetailsTemplate>
-                        <DataTemplate DataType="models:ProcessInfo">
-                            <Border Height="200">
-                                <oxy:Plot
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    FontFamily="Microsoft JhengHei"
-                                    IsMouseWheelEnabled="False"
-                                    LegendBackground="{Binding Color, Source={StaticResource LightColorBrush}}"
-                                    LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                    LegendBorderThickness="1"
-                                    LegendFontSize="12"
-                                    LegendItemOrder="Reverse"
-                                    LegendItemSpacing="10"
-                                    LegendOrientation="Horizontal"
-                                    LegendPlacement="Outside"
-                                    LegendPosition="TopCenter"
-                                    LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                    LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                    PlotAreaBackground="{StaticResource LightColorBrush}"
-                                    PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                    PlotAreaBorderThickness="0,1,1,0"
-                                    PlotMargins="40,0,0,30">
-                                    <oxy:Plot.Axes>
-                                        <oxy:TimeSpanAxis
-                                            AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            AxislineStyle="Solid"
-                                            ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            ExtraGridlineStyle="Solid"
-                                            ExtraGridlineThickness="1"
-                                            MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            MajorGridlineStyle="Dot"
-                                            MaximumPadding="0"
-                                            Minimum="0"
-                                            MinimumPadding="0"
-                                            MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            MinorGridlineStyle="None"
-                                            Position="Bottom"
-                                            StringFormat="hh:mm"
-                                            TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                            TickStyle="Inside"
-                                            TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
-                                        <oxy:LinearAxis
-                                            Title="°C"
-                                            AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            AxislineStyle="Solid"
-                                            ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            ExtraGridlineStyle="Solid"
-                                            ExtraGridlineThickness="1"
-                                            MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            MajorGridlineStyle="Dot"
-                                            MajorStep="100"
-                                            MaximumPadding="0.15"
-                                            Minimum="0"
-                                            MinimumPadding="0"
-                                            MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            MinorGridlineStyle="None"
-                                            Position="Left"
-                                            TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                            TickStyle="Inside"
-                                            TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                            TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
-                                    </oxy:Plot.Axes>
-                                    <oxy:Plot.Series>
-                                        <oxy:LineSeries
-                                            Title="爐內溫度_8"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding OvenTemperatures_7, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="BurlyWood"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="BurlyWood" />
-                                        <oxy:LineSeries
-                                            Title="爐內溫度_7"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding OvenTemperatures_6, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="Brown"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="Brown" />
-                                        <oxy:LineSeries
-                                            Title="爐內溫度_6"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding OvenTemperatures_5, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="Magenta"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="Magenta" />
-                                        <oxy:LineSeries
-                                            Title="爐內溫度_5"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding OvenTemperatures_4, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="DarkOrchid"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="DarkOrchid" />
-                                        <oxy:LineSeries
-                                            Title="爐內溫度_4"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding OvenTemperatures_3, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="DodgerBlue"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="DodgerBlue" />
-                                        <oxy:LineSeries
-                                            Title="爐內溫度_3"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding OvenTemperatures_2, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="Lime"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="Lime" />
-                                        <oxy:LineSeries
-                                            Title="爐內溫度_2"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding OvenTemperatures_1, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="Gold"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="Gold" />
-                                        <oxy:LineSeries
-                                            Title="爐內溫度_1"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding OvenTemperatures_0, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="DarkOrange"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="DarkOrange" />
-                                        <oxy:LineSeries
-                                            Title="溫控器溫度"
-                                            DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding ThermostatTemperature, Mode=OneWay}"
-                                            LineStyle="Solid"
-                                            MarkerFill="Red"
-                                            MarkerSize="3"
-                                            MarkerType="None"
-                                            StrokeThickness="2"
-                                            Color="Red" />
-                                    </oxy:Plot.Series>
-                                    <oxy:Plot.DefaultTrackerTemplate>
-                                        <ControlTemplate>
-                                            <oxy:TrackerControl
-                                                d:DataContext="{d:DesignInstance oxy:TrackerControl}"
-                                                Background="{StaticResource LightBrush}"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                BorderThickness="1"
-                                                CornerRadius="0"
-                                                HorizontalLineVisibility="Collapsed"
-                                                LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                                LineStroke="{StaticResource BaseForeground}"
-                                                Position="{Binding Position}"
-                                                VerticalLineVisibility="Collapsed">
-                                                <oxy:TrackerControl.Content>
-                                                    <TextBlock
-                                                        Margin="4"
-                                                        Foreground="{StaticResource BaseForeground}"
-                                                        Text="{Binding}" />
-                                                </oxy:TrackerControl.Content>
-                                            </oxy:TrackerControl>
-                                        </ControlTemplate>
-                                    </oxy:Plot.DefaultTrackerTemplate>
-                                </oxy:Plot>
-                            </Border>
+                    Grid.Column="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            Margin="8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="起點" />
+                    </Border>
+                    <Border
+                        Grid.Column="1"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            DataContext="{Binding LowerDate, Mode=OneWay}">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="10"
+                                Text="{Binding Mode=OneWay, StringFormat=\{0:d\}}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="10"
+                                Text="{Binding Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Grid.Column="2"
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            Margin="8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="終點" />
+                    </Border>
+                    <Border
+                        Grid.Column="3"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            DataContext="{Binding UpperDate, Mode=OneWay}">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="10"
+                                Text="{Binding Mode=OneWay, StringFormat=\{0:d\}}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="10"
+                                Text="{Binding Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Grid.Column="4"
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            Margin="8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="總數" />
+                    </Border>
+                    <Border
+                        Grid.Column="5"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding ViewResults.Count, Mode=OneWay}" />
+                    </Border>
+                </Grid>
+                <ToggleButton
+                    x:Name="TotalTB"
+                    Grid.Column="5"
+                    Checked="TotalTB_Checked"
+                    Content="全部站點"
+                    IsChecked="True"
+                    IsEnabled="{Binding IsEnabled, ElementName=RS, Mode=OneWay}"
+                    Unchecked="TotalTB_Unchecked" />
+                <ComboBox
+                    x:Name="CB"
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    BorderThickness="0,0,1,1"
+                    IsEnabledChanged="CB_IsEnabledChanged"
+                    ItemsSource="{Binding EnumFilter, Mode=OneWay}"
+                    SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}"
+                    Validation.ErrorTemplate="{x:Null}">
+                    <ComboBox.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
+                            <Binding
+                                Converter="{StaticResource BoolNot}"
+                                ElementName="TotalTB"
+                                Mode="OneWay"
+                                Path="IsChecked" />
+                            <Binding
+                                ElementName="RS"
+                                Mode="OneWay"
+                                Path="IsEnabled" />
+                        </MultiBinding>
+                    </ComboBox.IsEnabled>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                FontSize="16"
+                                Text="{Binding Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=1, StringFormat=第 \{0:F0\} 站}" />
                         </DataTemplate>
-                    </DataGrid.RowDetailsTemplate>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Binding="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
-                            Header="新增日期" />
-                        <DataGridTextColumn
-                            Binding="{Binding StationNumber, ConverterParameter=1, Converter={StaticResource AddValue}, Mode=OneWay}"
-                            Header="烤箱序號" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding RecipeName, Mode=OneWay}"
-                            Header="配方名稱" />
-                        <DataGridTextColumn
-                            Binding="{Binding MachineCode, Mode=OneWay}"
-                            Header="機台編號" />
-                        <DataGridTextColumn
-                            Width="80"
-                            Binding="{Binding OrderCode, Mode=OneWay}"
-                            Header="工單編號" />
-                        <!--<DataGridTextColumn
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <DataGrid
+                x:Name="dg"
+                Grid.Row="1"
+                Margin="0,4,0,0"
+                AutoGenerateColumns="False"
+                BorderThickness="1"
+                CanUserReorderColumns="False"
+                CanUserResizeColumns="False"
+                CanUserResizeRows="False"
+                CanUserSortColumns="False"
+                CellStyle="{StaticResource DataGridCellStyle}"
+                ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                Focusable="False"
+                FontSize="11"
+                IsReadOnly="True"
+                IsSynchronizedWithCurrentItem="False"
+                ItemsSource="{Binding ViewResults, Mode=OneWay}"
+                RowHeaderStyle="{StaticResource RowHeaderStyle}"
+                RowStyle="{StaticResource DataGridRowStyle}"
+                SelectionMode="Single"
+                Style="{StaticResource DataGridStyle1}">
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate DataType="models:ProcessInfo">
+                        <Border Height="200">
+                            <oxy:Plot
+                                DefaultFont="Microsoft JhengHei"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                IsMouseWheelEnabled="False"
+                                LegendBackground="{Binding Color, Source={StaticResource LightColorBrush}}"
+                                LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                LegendBorderThickness="1"
+                                LegendFontSize="12"
+                                LegendItemOrder="Reverse"
+                                LegendItemSpacing="10"
+                                LegendOrientation="Horizontal"
+                                LegendPlacement="Outside"
+                                LegendPosition="TopCenter"
+                                LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                PlotAreaBackground="{StaticResource LightColorBrush}"
+                                PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                PlotAreaBorderThickness="0,1,1,0"
+                                PlotMargins="40,0,0,30">
+                                <oxy:Plot.Axes>
+                                    <oxy:TimeSpanAxis
+                                        AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        AxislineStyle="Solid"
+                                        ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        ExtraGridlineStyle="Solid"
+                                        ExtraGridlineThickness="1"
+                                        MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        MajorGridlineStyle="Dot"
+                                        MaximumPadding="0"
+                                        Minimum="0"
+                                        MinimumPadding="0"
+                                        MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        MinorGridlineStyle="None"
+                                        Position="Bottom"
+                                        StringFormat="hh:mm"
+                                        TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                        TickStyle="Inside"
+                                        TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
+                                    <oxy:LinearAxis
+                                        Title="°C"
+                                        AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        AxislineStyle="Solid"
+                                        ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        ExtraGridlineStyle="Solid"
+                                        ExtraGridlineThickness="1"
+                                        MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        MajorGridlineStyle="Dot"
+                                        MajorStep="100"
+                                        MaximumPadding="0.15"
+                                        Minimum="0"
+                                        MinimumPadding="0"
+                                        MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        MinorGridlineStyle="None"
+                                        Position="Left"
+                                        TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                        TickStyle="Inside"
+                                        TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
+                                </oxy:Plot.Axes>
+                                <oxy:Plot.Series>
+                                    <oxy:LineSeries
+                                        Title="爐內溫度_8"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding OvenTemperatures_7, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="BurlyWood"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="BurlyWood" />
+                                    <oxy:LineSeries
+                                        Title="爐內溫度_7"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding OvenTemperatures_6, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="Brown"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="Brown" />
+                                    <oxy:LineSeries
+                                        Title="爐內溫度_6"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding OvenTemperatures_5, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="Magenta"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="Magenta" />
+                                    <oxy:LineSeries
+                                        Title="爐內溫度_5"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding OvenTemperatures_4, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="DarkOrchid"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="DarkOrchid" />
+                                    <oxy:LineSeries
+                                        Title="爐內溫度_4"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding OvenTemperatures_3, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="DodgerBlue"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="DodgerBlue" />
+                                    <oxy:LineSeries
+                                        Title="爐內溫度_3"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding OvenTemperatures_2, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="Lime"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="Lime" />
+                                    <oxy:LineSeries
+                                        Title="爐內溫度_2"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding OvenTemperatures_1, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="Gold"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="Gold" />
+                                    <oxy:LineSeries
+                                        Title="爐內溫度_1"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding OvenTemperatures_0, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="DarkOrange"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="DarkOrange" />
+                                    <oxy:LineSeries
+                                        Title="溫控器溫度"
+                                        DataFieldX="Time"
+                                        DataFieldY="Temperature"
+                                        ItemsSource="{Binding ThermostatTemperature, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="Red"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="Red" />
+                                </oxy:Plot.Series>
+                                <oxy:Plot.DefaultTrackerTemplate>
+                                    <ControlTemplate>
+                                        <oxy:TrackerControl
+                                            d:DataContext="{d:DesignInstance oxy:TrackerControl}"
+                                            Background="{StaticResource LightBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="1"
+                                            CornerRadius="0"
+                                            LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
+                                            LineStroke="{StaticResource BaseForeground}"
+                                            Position="{Binding Position}">
+                                            <oxy:TrackerControl.Content>
+                                                <TextBlock
+                                                    Margin="4"
+                                                    Foreground="{StaticResource BaseForeground}"
+                                                    Text="{Binding}" />
+                                            </oxy:TrackerControl.Content>
+                                        </oxy:TrackerControl>
+                                    </ControlTemplate>
+                                </oxy:Plot.DefaultTrackerTemplate>
+                            </oxy:Plot>
+                        </Border>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Binding="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
+                        Header="新增日期" />
+                    <DataGridTextColumn
+                        Binding="{Binding StationNumber, ConverterParameter=1, Converter={StaticResource AddValue}, Mode=OneWay}"
+                        Header="烤箱序號" />
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding RecipeName, Mode=OneWay}"
+                        Header="配方名稱" />
+                    <DataGridTextColumn
+                        Binding="{Binding MachineCode, Mode=OneWay}"
+                        Header="機台編號" />
+                    <DataGridTextColumn
+                        Width="80"
+                        Binding="{Binding OrderCode, Mode=OneWay}"
+                        Header="工單編號" />
+                    <!--<DataGridTextColumn
                             Binding="{Binding ProcessNumber, Mode=OneWay}"
                             Header="製造序號" />
                         <DataGridTextColumn
                             Width="90"
                             Binding="{Binding ProduceCode, Mode=OneWay}"
                             Header="產品編號" />-->
-                        <DataGridTextColumn
-                            Binding="{Binding OperatorID, Mode=OneWay}"
-                            Header="人員編號" />
-                        <DataGridTextColumn
-                            Binding="{Binding TrolleyCode, Mode=OneWay}"
-                            Header="台車編號" />
-                        <DataGridTextColumn
-                            Binding="{Binding ProcessCount, Mode=OneWay}"
-                            Header="作業數量" />
-                        <DataGridTextColumn
-                            Binding="{Binding FirstPanel, Mode=OneWay}"
-                            Header="首件" />
-                        <DataGridTextColumn
-                            Binding="{Binding Side, Mode=OneWay}"
-                            Header="正反面" />
-                        <DataGridTextColumn
-                            Binding="{Binding StartTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
-                            Header="開始時間" />
-                        <DataGridTextColumn
-                            Binding="{Binding EndTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
-                            Header="結束時間" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <TabControl
-                    Grid.Row="2"
-                    Margin="0,4,0,0">
-                    <TabItem
-                        Width="0"
-                        Height="0">
+                    <DataGridTextColumn
+                        Binding="{Binding OperatorID, Mode=OneWay}"
+                        Header="人員編號" />
+                    <DataGridTextColumn
+                        Binding="{Binding TrolleyCode, Mode=OneWay}"
+                        Header="台車編號" />
+                    <DataGridTextColumn
+                        Binding="{Binding ProcessCount, Mode=OneWay}"
+                        Header="作業數量" />
+                    <DataGridTextColumn
+                        Binding="{Binding FirstPanel, Mode=OneWay}"
+                        Header="首件" />
+                    <DataGridTextColumn
+                        Binding="{Binding Side, Mode=OneWay}"
+                        Header="正反面" />
+                    <DataGridTextColumn
+                        Binding="{Binding StartTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
+                        Header="開始時間" />
+                    <DataGridTextColumn
+                        Binding="{Binding EndTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
+                        Header="結束時間" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <TabControl
+                Grid.Row="2"
+                Margin="0,4,0,0">
+                <TabItem
+                    Width="0"
+                    Height="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="0.5*" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <ToggleButton
-                                    x:Name="tb1"
-                                    Padding="8"
-                                    Content="日期時間"
-                                    IsChecked="{Binding Mode, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                                <ToggleButton
-                                    Grid.Column="1"
-                                    Width="{Binding ActualWidth, ElementName=tb1, Mode=OneWay}"
-                                    Padding="8"
-                                    Content="PLC站別"
-                                    IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"
-                                    Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, ElementName=TotalTB}" />
-                                <ToggleButton
-                                    Grid.Column="2"
-                                    Padding="8"
-                                    Content="工單編號"
-                                    IsChecked="{Binding Mode, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                                <Border
-                                    Grid.Column="3"
-                                    Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1">
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Text="生產總量" />
-                                </Border>
-                                <Border
-                                    Grid.Column="4"
-                                    Background="{StaticResource LightColorBrush}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,1,1">
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="16"
-                                        Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} pcs}" />
-                                </Border>
-                            </Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
                             <Border
-                                Grid.Row="1"
-                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,0,1,1">
-                                <oxy:PlotView
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    IsMouseWheelEnabled="False"
-                                    Model="{Binding ResultView, Mode=OneWay}">
-                                    <oxy:PlotView.DefaultTrackerTemplate>
-                                        <ControlTemplate>
-                                            <oxy:TrackerControl
-                                                d:DataContext="{d:DesignInstance oxy:TrackerControl}"
-                                                Background="{StaticResource LightBrush}"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                BorderThickness="1"
-                                                CornerRadius="0"
-                                                HorizontalLineVisibility="Collapsed"
-                                                LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                                LineStroke="{StaticResource BaseForeground}"
-                                                Position="{Binding Position}"
-                                                VerticalLineVisibility="Collapsed">
-                                                <oxy:TrackerControl.Content>
-                                                    <TextBlock
-                                                        Margin="4"
-                                                        Text="{Binding}" />
-                                                </oxy:TrackerControl.Content>
-                                            </oxy:TrackerControl>
-                                        </ControlTemplate>
-                                    </oxy:PlotView.DefaultTrackerTemplate>
-                                </oxy:PlotView>
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="分類比較" />
+                            </Border>
+                            <ToggleButton
+                                x:Name="tb1"
+                                Grid.Column="1"
+                                Padding="8"
+                                Content="日期 / 時間"
+                                IsChecked="{Binding Mode, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                            <ToggleButton
+                                Grid.Column="2"
+                                Width="{Binding ActualWidth, ElementName=tb1, Mode=OneWay}"
+                                Padding="8"
+                                Content="PLC站別"
+                                IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"
+                                Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, ElementName=TotalTB}" />
+                            <ToggleButton
+                                Grid.Column="3"
+                                Padding="8"
+                                Content="工單編號"
+                                IsChecked="{Binding Mode, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                            <Border
+                                Grid.Column="4"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="生產總量" />
+                            </Border>
+                            <Border
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,1,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} pcs}" />
                             </Border>
                         </Grid>
-                    </TabItem>
-                    <TabItem
-                        Width="0"
-                        Height="0" />
-                </TabControl>
-            </Grid>
-        </GroupBox>
+                        <Border
+                            Grid.Row="1"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                            <oxy:PlotView
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                IsMouseWheelEnabled="False"
+                                Model="{Binding ResultView, Mode=OneWay}">
+                                <oxy:PlotView.DefaultTrackerTemplate>
+                                    <ControlTemplate>
+                                        <oxy:TrackerControl
+                                            d:DataContext="{d:DesignInstance oxy:TrackerControl}"
+                                            Background="{StaticResource LightBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="1"
+                                            CornerRadius="0"
+                                            LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
+                                            LineStroke="{StaticResource BaseForeground}"
+                                            Position="{Binding Position}"
+                                            VerticalLineVisibility="Collapsed">
+                                            <oxy:TrackerControl.Content>
+                                                <TextBlock
+                                                    Margin="4"
+                                                    Text="{Binding}" />
+                                            </oxy:TrackerControl.Content>
+                                        </oxy:TrackerControl>
+                                    </ControlTemplate>
+                                </oxy:PlotView.DefaultTrackerTemplate>
+                            </oxy:PlotView>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem
+                    Width="0"
+                    Height="0" />
+            </TabControl>
+        </Grid>
     </Grid>
 </UserControl>

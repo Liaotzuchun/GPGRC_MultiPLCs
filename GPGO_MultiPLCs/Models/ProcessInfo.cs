@@ -8,12 +8,12 @@ namespace GPGO_MultiPLCs.Models
 {
     public class TimeWithTemperature
     {
-        public TimeSpan Time { get; set; }
         public double Temperature { get; set; }
+        public TimeSpan Time { get; set; }
 
         public override string ToString()
         {
-            return $"{Time:HH:mm:ss} {Temperature:F1}";
+            return $"Time:{Time:hh\\:mm\\:ss}, Temperature:{Temperature:F1}°C";
         }
     }
 
@@ -32,8 +32,8 @@ namespace GPGO_MultiPLCs.Models
         private int _PCS_Number;
         private int _ProcessCount;
         private int _ProcessNumber;
-        private string _RecipeName;
         private string _ProduceCode;
+        private string _RecipeName;
         private List<RecordTemperatures> _RecordTemperatures = new List<RecordTemperatures>();
         private string _Side;
         private DateTime _StartTime;
@@ -171,18 +171,8 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public string RecipeName
-        {
-            get => _RecipeName;
-            set
-            {
-                _RecipeName = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         /// <summary>
-        /// = OrderCode + ProcessNumber
+        ///     = OrderCode + ProcessNumber
         /// </summary>
         public string ProduceCode
         {
@@ -190,6 +180,16 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _ProduceCode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string RecipeName
+        {
+            get => _RecipeName;
+            set
+            {
+                _RecipeName = value;
                 NotifyPropertyChanged();
             }
         }
@@ -275,7 +275,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         ///     PLC站號
         /// </summary>
-        public int StationNumber{ get; set; }
+        public int StationNumber { get; set; }
 
         #endregion
     }
