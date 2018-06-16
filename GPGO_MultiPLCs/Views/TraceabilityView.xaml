@@ -757,15 +757,63 @@
                     <TabItem
                         Width="0"
                         Height="0">
-                        <Border
-                            Background="{StaticResource WindowBackgroundBrush2}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="0.5*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton
+                                    x:Name="tb1"
+                                    Padding="8"
+                                    Content="日期時間"
+                                    IsChecked="{Binding Mode, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                                <ToggleButton
+                                    Grid.Column="1"
+                                    Width="{Binding ActualWidth, ElementName=tb1, Mode=OneWay}"
+                                    Padding="8"
+                                    Content="PLC站別"
+                                    IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"
+                                    Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, ElementName=TotalTB}" />
+                                <ToggleButton
+                                    Grid.Column="2"
+                                    Padding="8"
+                                    Content="工單編號"
+                                    IsChecked="{Binding Mode, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                                <Border
+                                    Grid.Column="3"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="生產總量" />
+                                </Border>
+                                <Border
+                                    Grid.Column="4"
+                                    Background="{StaticResource LightColorBrush}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="0,1,1,1">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} pcs}" />
+                                </Border>
+                            </Grid>
+                            <Border
+                                Grid.Row="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,0,1,1">
                                 <oxy:PlotView
                                     Background="{StaticResource WindowBackgroundBrush2}"
                                     IsMouseWheelEnabled="False"
@@ -792,59 +840,8 @@
                                         </ControlTemplate>
                                     </oxy:PlotView.DefaultTrackerTemplate>
                                 </oxy:PlotView>
-                                <Grid
-                                    Grid.Row="1"
-                                    Margin="4"
-                                    HorizontalAlignment="Center">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="10" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <ToggleButton
-                                        Padding="8"
-                                        Content="日期時間"
-                                        IsChecked="{Binding Mode, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                                    <ToggleButton
-                                        Grid.Column="1"
-                                        Padding="8"
-                                        Content="PLC站別"
-                                        IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"
-                                        Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, ElementName=TotalTB}" />
-                                    <ToggleButton
-                                        Grid.Column="2"
-                                        Padding="8"
-                                        Content="工單編號"
-                                        IsChecked="{Binding Mode, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                                    <Border
-                                        Grid.Column="4"
-                                        Width="70"
-                                        Background="{StaticResource WindowBackgroundBrush6}"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="生產總量" />
-                                    </Border>
-                                    <Border
-                                        Grid.Column="5"
-                                        Width="100"
-                                        Background="{StaticResource LightColorBrush}"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="0,1,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontSize="16"
-                                            Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} pcs}" />
-                                    </Border>
-                                </Grid>
-                            </Grid>
-                        </Border>
+                            </Border>
+                        </Grid>
                     </TabItem>
                     <TabItem
                         Width="0"

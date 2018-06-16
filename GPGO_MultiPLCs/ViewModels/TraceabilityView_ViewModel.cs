@@ -266,10 +266,14 @@ namespace GPGO_MultiPLCs.ViewModels
             if (_ViewResults?.Count > 0)
             {
                 var ByDate = date2 - date1 > TimeSpan.FromDays(1);
-                var NoLayer2 = date2 - date1 > TimeSpan.FromDays(7) || (ChartMode)_Mode == ChartMode.ByOrder;
+                var result2 = _ViewResults.GroupBy(x => (ChartMode)_Mode == ChartMode.ByOrder ? (x.StationNumber + 1).ToString("00") : x.OrderCode)
+                                          .OrderBy(x => x.Key)
+                                          .Select(x => (x.Key, x))
+                                          .ToArray();
+                var NoLayer2 = result2.Length > 20;
                 var categories = new List<string>();
 
-                var results = _ViewResults.GroupBy(x =>
+                var result1 = _ViewResults.GroupBy(x =>
                                                    {
                                                        if ((ChartMode)_Mode == ChartMode.ByPLC && _FilterIndex == -1)
                                                        {
@@ -287,18 +291,20 @@ namespace GPGO_MultiPLCs.ViewModels
                                           .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
                                           .ToArray();
 
-                var color_step_1 = 0.9 / results.Length;
+                categoryAxis1.FontSize = result1.Length > 20 ? 9 : 12;
 
-                for (var i = 0; i < results.Length; i++)
+                var color_step_1 = 0.9 / result1.Length;
+
+                for (var i = 0; i < result1.Length; i++)
                 {
-                    var (result, count) = results[i];
+                    var (result, count) = result1[i];
                     categories.Add(result);
                     categoryAxis1.ActualLabels.Add(result);
                     categoryAxis2.ActualLabels.Add(result);
 
                     var cs = new ColumnSeries
                              {
-                                 FontSize = 10,
+                                 FontSize = result1.Length > 20 ? 8 : 10,
                                  LabelFormatString = "{0}",
                                  TextColor = fontcolor,
                                  IsStacked = true,
@@ -315,20 +321,20 @@ namespace GPGO_MultiPLCs.ViewModels
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
+                    ResultView.LegendTitle = (ChartMode)_Mode == ChartMode.ByOrder ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.OrderCode);
 
-                    var result2 = _ViewResults.GroupBy(x => x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
                     var color_step_2 = 0.9 / result2.Length;
 
                     for (var i = 0; i < result2.Length; i++)
                     {
-                        var (orderCode, info) = result2[i];
+                        var (cat, info) = result2[i];
                         var ccs = new ColumnSeries
                                   {
                                       FontSize = 10,
-                                      LabelFormatString = "{0}",
+                                      LabelFormatString = result2.Length > 10 || categories.Count > 20 ? "" : "{0}",
                                       LabelPlacement = LabelPlacement.Middle,
                                       TextColor = OxyColors.White,
-                                      Title = orderCode,
+                                      Title = cat,
                                       IsStacked = true,
                                       StrokeThickness = 0,
                                       StrokeColor = bordercolor,
@@ -343,6 +349,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      if ((ChartMode)_Mode == ChartMode.ByPLC && _FilterIndex == -1)
                                                      {
                                                          return (x.StationNumber + 1).ToString("00") == categories[j];
+                                                     }
+
+                                                     if ((ChartMode)_Mode == ChartMode.ByOrder)
+                                                     {
+                                                         return x.OrderCode == categories[j];
                                                      }
 
                                                      if (ByDate)
@@ -392,7 +403,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ? _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _FilterIndex == -1 || x.StationNumber == _FilterIndex).ToList() : null;
+            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ? _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _FilterIndex == -1 || x.StationNumber == _FilterIndex).ToList() :
+                              null;
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
@@ -480,27 +492,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                    Act();
                                                });
 
-            ResultView = new PlotModel
-                         {
-                             DefaultFont = "Microsoft JhengHei",
-                             PlotAreaBorderColor = bordercolor,
-                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
-                             PlotMargins = new OxyThickness(50, 10, 10, 40),
-                             LegendTitle = nameof(ProcessInfo.OrderCode),
-                             LegendTitleColor = fontcolor,
-                             LegendTextColor = fontcolor,
-                             LegendBorder = bordercolor,
-                             LegendBackground = OxyColor.FromArgb(0, 0, 0, 0),
-                             LegendPlacement = LegendPlacement.Outside,
-                             LegendPosition = LegendPosition.RightTop,
-                             LegendOrientation = LegendOrientation.Vertical,
-                             LegendFontSize = 14,
-                             LegendItemOrder = LegendItemOrder.Reverse
-                         };
-
             var linearAxis = new LinearAxis
                              {
-                                 FontSize = 10,
+                                 FontSize = 12,
                                  TitleColor = fontcolor,
                                  TickStyle = TickStyle.Inside,
                                  MajorGridlineStyle = LineStyle.Dot,
@@ -523,7 +517,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             categoryAxis1 = new CategoryAxis
                             {
-                                FontSize = 10,
+                                FontSize = 12,
                                 TitleColor = fontcolor,
                                 MajorGridlineColor = bordercolor,
                                 MinorGridlineColor = bordercolor,
@@ -543,28 +537,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 Key = "1"
                             };
 
-            categoryAxis2 = new CategoryAxis
-                            {
-                                FontSize = 10,
-                                TitleColor = fontcolor,
-                                MajorGridlineColor = bordercolor,
-                                MinorGridlineColor = bordercolor,
-                                TicklineColor = bordercolor,
-                                ExtraGridlineColor = bordercolor,
-                                TextColor = fontcolor,
-                                TickStyle = TickStyle.Inside,
-                                MajorTickSize = 0,
-                                MinorTickSize = 0,
-                                AxislineStyle = LineStyle.Solid,
-                                ExtraGridlineStyle = LineStyle.None,
-                                AxislineColor = bordercolor,
-                                GapWidth = 0.6,
-                                MinorStep = 1,
-                                MajorStep = 1,
-                                Position = AxisPosition.Bottom,
-                                IsAxisVisible = false,
-                                Key = "2"
-                            };
+            categoryAxis2 = new CategoryAxis { IsAxisVisible = false, Key = "2" };
 
             ResultView = new PlotModel
                          {
@@ -572,7 +545,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              PlotAreaBackground = bgcolor,
                              PlotAreaBorderColor = bordercolor,
                              PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
-                             PlotMargins = new OxyThickness(30, 0, 0, 20),
+                             PlotMargins = new OxyThickness(35, 0, 0, 20),
                              LegendTitle = nameof(ProcessInfo.OrderCode),
                              LegendTitleColor = fontcolor,
                              LegendTextColor = fontcolor,
@@ -583,8 +556,9 @@ namespace GPGO_MultiPLCs.ViewModels
                              LegendOrientation = LegendOrientation.Vertical,
                              LegendFontSize = 12,
                              LegendTitleFontSize = 12,
-                             LegendItemOrder = LegendItemOrder.Reverse,
-                             LegendPadding = 5
+                             //LegendItemOrder = LegendItemOrder.Reverse,
+                             LegendMargin = 4,
+                             LegendPadding = 4
                          };
 
             ResultView.Axes.Add(linearAxis);
