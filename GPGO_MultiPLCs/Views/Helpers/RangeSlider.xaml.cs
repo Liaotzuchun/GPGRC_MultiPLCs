@@ -110,14 +110,7 @@ namespace GPGO_MultiPLCs.Views
 
         private void SetLowerValueVisibility()
         {
-            if (DisableLowerValue)
-            {
-                LowerSlider.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                LowerSlider.Visibility = Visibility.Visible;
-            }
+            LowerSlider.Visibility = DisableLowerValue ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void SetProgressBorder()

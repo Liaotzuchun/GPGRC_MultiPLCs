@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Views
 {
