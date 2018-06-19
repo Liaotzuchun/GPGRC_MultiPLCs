@@ -283,7 +283,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                           .Select(x => (x.Key, x))
                                           .ToArray();
 
-                var NoLayer2 = result2.Length > 20;
+                var NoLayer2 = result2.Length > 20 || _FilterIndex != -1 && (ChartMode)_Mode == ChartMode.ByOrder;
                 var categories = new List<string>();
 
                 var result1 = _ViewResults.GroupBy(x =>
