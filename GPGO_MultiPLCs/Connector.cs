@@ -12,8 +12,6 @@ namespace GPGO_MultiPLCs
 {
     public class Connector
     {
-        public const int PLC_Count = 20;
-
         public readonly MongoClient Mongo;
         public GlobalDialog_ViewModel DialogVM { get; }
         public MainWindow_ViewModel MainVM { get; }
@@ -21,7 +19,7 @@ namespace GPGO_MultiPLCs
         public TotalView_ViewModel TotalVM { get; }
         public TraceabilityView_ViewModel TraceVM { get; }
 
-        public void MakeTestData()
+        public void MakeTestData(int PLC_Count)
         {
             var order_code = new[] { "ooxx", "abc", "zzz", "qoo", "boom", "xxx", "wunmao" };
             var time = DateTime.Now;
@@ -95,7 +93,7 @@ namespace GPGO_MultiPLCs
 
             DialogVM = new GlobalDialog_ViewModel();
             MainVM = new MainWindow_ViewModel();
-            TotalVM = new TotalView_ViewModel(DialogVM);
+            TotalVM = new TotalView_ViewModel(20, DialogVM);
             RecipeVM = new RecipeControl_ViewModel(Mongo, DialogVM);
             TraceVM = new TraceabilityView_ViewModel(Mongo);
 
@@ -139,7 +137,7 @@ namespace GPGO_MultiPLCs
                                                   }
                                               };
 
-            //MakeTestData();
+            //MakeTestData(20);
         }
     }
 }
