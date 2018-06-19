@@ -155,6 +155,7 @@ namespace GPGO_MultiPLCs.Models
 
             await Task.Factory.StartNew(() =>
                                         {
+                                            Process_Info.AlarmList.Clear();
                                             Process_Info.RecordTemperatures.Clear();
 
                                             foreach (var ls in LineSeries)
@@ -663,7 +664,7 @@ namespace GPGO_MultiPLCs.Models
                                                  {
                                                      if (IsRecording)
                                                      {
-                                                         Process_Info.AlarmList.Add(sw.Elapsed, key.ToString());
+                                                         Process_Info.AlarmList.Add(new RecordAlarm{ Time = sw.Elapsed, Description = key.ToString()});
                                                          CTS?.Cancel();
                                                      }
                                                  }

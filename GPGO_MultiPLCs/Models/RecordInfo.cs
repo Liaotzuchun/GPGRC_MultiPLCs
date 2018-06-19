@@ -17,4 +17,11 @@ namespace GPGO_MultiPLCs.Models
 
         public double Min => OvenTemperatures.Min();
     }
+
+    [BsonIgnoreExtraElements]
+    public class RecordAlarm
+    {
+        public string Description;
+        public TimeSpan Time;
+    }
 }

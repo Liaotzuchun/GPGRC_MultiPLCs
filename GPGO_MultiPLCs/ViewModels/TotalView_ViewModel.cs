@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading;
@@ -66,7 +67,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public PLC_DataProvider[] PLC_All { get; }
         public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
-        public ObservableDictionary<int, int> TotalProduction { get; }
+        public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
         public int TotalProductionCount => TotalProduction.Sum(x => x.Value);
 
         public bool Gate_Status
@@ -252,7 +253,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                            });
 
             PLC_All = new PLC_DataProvider[PLC_Count];
-            TotalProduction = new ObservableDictionary<int, int>();
+            TotalProduction = new ObservableConcurrentDictionary<int, int>();
+            TotalProduction.CustomSynchronizationContext(AsyncOperationManager.SynchronizationContext);
+
             TotalProduction.CollectionChanged += (obj, args) =>
                                                  {
                                                      NotifyPropertyChanged(nameof(TotalProductionCount));
@@ -370,9 +373,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].RecordingFinished += info =>
                                                 {
-                                                    //! 寫入資料庫，上傳
-                                                    AddRecordToDB?.Invoke(index, info);
-                                                    TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
+                                                    //if (info.ProcessCount > 0)
+                                                    //{
+                                                        //! 寫入資料庫，上傳
+                                                        AddRecordToDB?.Invoke(index, info);
+                                                        TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
+                                                    //}
                                                 };
             }
 

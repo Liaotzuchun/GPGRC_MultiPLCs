@@ -111,7 +111,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\ObservableDictionary.cs" />
+    <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
     <Compile Include="Models\NamesEnum.cs" />
     <Compile Include="Models\PLC_Data.cs" />
     <Compile Include="Models\PLC_Recipe.cs" />

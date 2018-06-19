@@ -93,9 +93,9 @@ namespace GPGO_MultiPLCs
 
             DialogVM = new GlobalDialog_ViewModel();
             MainVM = new MainWindow_ViewModel();
-            TotalVM = new TotalView_ViewModel(20, DialogVM);
             RecipeVM = new RecipeControl_ViewModel(Mongo, DialogVM);
             TraceVM = new TraceabilityView_ViewModel(Mongo);
+            TotalVM = new TotalView_ViewModel(20, DialogVM);
 
             RecipeVM.ListUpdatedEvent += async list =>
                                          {
@@ -119,7 +119,10 @@ namespace GPGO_MultiPLCs
 
             TotalVM.WantRecipe += async (i, recipe, obj) =>
                                   {
-                                      await TotalVM.SetRecipe(i, await RecipeVM.GetRecipe(i, recipe));
+                                      if (!string.IsNullOrEmpty(recipe))
+                                      {
+                                          await TotalVM.SetRecipe(i, await RecipeVM.GetRecipe(i, recipe));
+                                      }
 
                                       obj?.Set();
                                   };

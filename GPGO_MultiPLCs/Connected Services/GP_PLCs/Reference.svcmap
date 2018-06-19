@@ -25,8 +25,8 @@
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="cec95bd3-9b72-4ae4-8af1-5933727bacd4" SourceId="1" SourceUrl="net.pipe://localhost/GP_PLCs_Services/mex" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="18004118-27e9-4011-9893-1f80f89214ef" SourceId="1" SourceUrl="net.pipe://localhost/GP_PLCs_Services/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="25035ddc-a2c4-4264-a5dd-c79799ab1394" SourceId="1" SourceUrl="net.pipe://localhost/GP_PLCs_Services/mex" />
-    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="b3b295ea-1e2a-4d42-a3dc-aa8f12fc4d1f" SourceId="1" SourceUrl="net.pipe://localhost/GP_PLCs_Services/mex" />
     <MetadataFile FileName="MultiPLCs_Gate.ViewModels.xsd" MetadataType="Schema" ID="e815c3bf-a6ef-439f-a9ce-c04cc0df2561" SourceId="1" SourceUrl="net.pipe://localhost/GP_PLCs_Services/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="b3b295ea-1e2a-4d42-a3dc-aa8f12fc4d1f" SourceId="1" SourceUrl="net.pipe://localhost/GP_PLCs_Services/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
