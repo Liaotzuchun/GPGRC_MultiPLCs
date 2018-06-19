@@ -9,14 +9,17 @@ namespace GPGO_MultiPLCs.Views
     /// </summary>
     public partial class GlobalDialog : UserControl
     {
-        public GlobalDialog() => InitializeComponent();
-
         private void Intput_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Intput.IsVisible)
             {
                 Keyboard.Focus(Intput);
             }
+        }
+
+        public GlobalDialog()
+        {
+            InitializeComponent();
         }
     }
 }

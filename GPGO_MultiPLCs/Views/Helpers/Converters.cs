@@ -21,12 +21,15 @@ namespace GPGO_MultiPLCs.Views
             switch (val)
             {
                 case 0:
+
                     return Colors.Red;
 
                 case 1:
+
                     return Colors.Lime;
 
                 default:
+
                     return Colors.LightGray;
             }
         }
@@ -162,14 +165,12 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is ICollection v)
+            if (value is ICollection v)
             {
                 return v.Count > 0;
             }
-            else
-            {
-                return value != null;
-            }
+
+            return value != null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -254,7 +255,7 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
             {
                 return a + b;
             }

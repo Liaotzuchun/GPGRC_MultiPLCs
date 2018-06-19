@@ -8,11 +8,14 @@ namespace GPGO_MultiPLCs
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow() => InitializeComponent();
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Panel.SetZIndex(PopGrid, 100);
+        }
+
+        public MainWindow()
+        {
+            InitializeComponent();
         }
     }
 }

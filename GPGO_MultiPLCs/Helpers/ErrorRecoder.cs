@@ -10,20 +10,6 @@ namespace GPGO_MultiPLCs.Helpers
     {
         private static readonly object Lock_Obj = new object();
 
-        public class Error
-        {
-            public Exception Except;
-            public string NoteStr;
-            public DateTime Updated;
-
-            public Error(DateTime updated, string noteStr, Exception except)
-            {
-                Updated = updated;
-                NoteStr = noteStr;
-                Except = except;
-            }
-        }
-
         public static void RecordError(Exception ex, string note = "")
         {
             if (!Monitor.TryEnter(Lock_Obj))
@@ -59,6 +45,20 @@ namespace GPGO_MultiPLCs.Helpers
             finally
             {
                 Monitor.Exit(Lock_Obj);
+            }
+        }
+
+        public class Error
+        {
+            public Exception Except;
+            public string NoteStr;
+            public DateTime Updated;
+
+            public Error(DateTime updated, string noteStr, Exception except)
+            {
+                Updated = updated;
+                NoteStr = noteStr;
+                Except = except;
             }
         }
     }

@@ -7,6 +7,9 @@ namespace GPGO_MultiPLCs.Views
     /// </summary>
     public partial class RecipeControl : UserControl
     {
-        public RecipeControl() => InitializeComponent();
+        public RecipeControl()
+        {
+            InitializeComponent();
+        }
     }
 }

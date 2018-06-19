@@ -55,6 +55,7 @@ namespace GPGO_MultiPLCs.Helpers
             var byteArray = bytes.ToArray();
             var str = Encoding.ASCII.GetString(byteArray);
             str = str.TrimEnd('\0');
+
             return str;
         }
 
@@ -250,31 +251,37 @@ namespace GPGO_MultiPLCs.Helpers
                         r = val;
                         g = cc;
                         b = aa;
+
                         break;
                     case 1:
                         r = bb;
                         g = val;
                         b = aa;
+
                         break;
                     case 2:
                         r = aa;
                         g = val;
                         b = cc;
+
                         break;
                     case 3:
                         r = aa;
                         g = bb;
                         b = val;
+
                         break;
                     case 4:
                         r = cc;
                         g = aa;
                         b = val;
+
                         break;
                     case 5:
                         r = val;
                         g = aa;
                         b = bb;
+
                         break;
                 }
             }
@@ -347,6 +354,7 @@ namespace GPGO_MultiPLCs.Helpers
             var byte2 = BitConverter.GetBytes(val.Item2);
             var byte3 = new[] { byte1[0], byte1[1], byte2[0], byte2[1] };
             var final = BitConverter.ToInt32(byte3, 0);
+
             return final;
         }
 
@@ -397,6 +405,7 @@ namespace GPGO_MultiPLCs.Helpers
         public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
         {
             var diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+
             return dt.AddDays(-1 * diff).Date;
         }
 
@@ -411,6 +420,7 @@ namespace GPGO_MultiPLCs.Helpers
             var byteArray = bytes.ToArray();
             var str = Encoding.UTF8.GetString(byteArray);
             str = str.TrimEnd('\0');
+
             return str;
         }
 
@@ -441,6 +451,7 @@ namespace GPGO_MultiPLCs.Helpers
             var byarrBufferByte = BitConverter.GetBytes(value);
             temp.Item1 = BitConverter.ToInt16(byarrBufferByte, 0);
             temp.Item2 = BitConverter.ToInt16(byarrBufferByte, 2);
+
             return temp;
         }
     }

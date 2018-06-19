@@ -481,8 +481,10 @@
                                     <Setter TargetName="PART_SelectionRange" Property="Visibility" Value="Visible" />
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter TargetName="PART_SelectionRange" Property="Fill" Value="{StaticResource DisabledBorderBrush}" />
-                                    <Setter TargetName="PART_SelectionRange" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
+                                    <Setter TargetName="PART_SelectionRange" Property="Fill"
+                                            Value="{StaticResource DisabledBorderBrush}" />
+                                    <Setter TargetName="PART_SelectionRange" Property="Stroke"
+                                            Value="{StaticResource DisabledBorderBrush}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

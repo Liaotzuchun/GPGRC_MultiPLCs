@@ -436,47 +436,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public PLC_Recipe(string name = "")
-        {
-            Updated = DateTime.Now;
-            RecipeName = string.IsNullOrEmpty(name) ? Updated.Ticks.ToString() : name;
-            ThermostaticTemperature_1 = 200;
-            ThermostaticTemperature_2 = 200;
-            ThermostaticTemperature_3 = 200;
-            ThermostaticTemperature_4 = 200;
-            ThermostaticTemperature_5 = 200;
-            ThermostaticTemperature_6 = 200;
-            ThermostaticTemperature_7 = 200;
-            ThermostaticTemperature_8 = 200;
-            ConstantTime_1 = 10;
-            ConstantTime_2 = 10;
-            ConstantTime_3 = 10;
-            ConstantTime_4 = 10;
-            ConstantTime_5 = 10;
-            ConstantTime_6 = 10;
-            ConstantTime_7 = 10;
-            ConstantTime_8 = 10;
-            CoolingTemperature = 40;
-            HeatingTime_1 = 10;
-            HeatingTime_2 = 10;
-            HeatingTime_3 = 10;
-            HeatingTime_4 = 10;
-            HeatingTime_5 = 10;
-            HeatingTime_6 = 10;
-            HeatingTime_7 = 10;
-            HeatingTime_8 = 10;
-            InflatingTime = 10;
-            TargetTemperature_1 = 200;
-            TargetTemperature_2 = 200;
-            TargetTemperature_3 = 200;
-            TargetTemperature_4 = 200;
-            TargetTemperature_5 = 200;
-            TargetTemperature_6 = 200;
-            TargetTemperature_7 = 200;
-            TargetTemperature_8 = 200;
-            UsedSegmentCounts = 8;
-        }
-
         public PLC_Recipe Copy()
         {
             return new PLC_Recipe
@@ -520,6 +479,47 @@ namespace GPGO_MultiPLCs.Models
                        UsedSegmentCounts = _UsedSegmentCounts,
                        Used_Stations = _Used_Stations
                    };
+        }
+
+        public PLC_Recipe(string name = "")
+        {
+            Updated = DateTime.Now;
+            RecipeName = string.IsNullOrEmpty(name) ? Updated.Ticks.ToString() : name;
+            ThermostaticTemperature_1 = 200;
+            ThermostaticTemperature_2 = 200;
+            ThermostaticTemperature_3 = 200;
+            ThermostaticTemperature_4 = 200;
+            ThermostaticTemperature_5 = 200;
+            ThermostaticTemperature_6 = 200;
+            ThermostaticTemperature_7 = 200;
+            ThermostaticTemperature_8 = 200;
+            ConstantTime_1 = 10;
+            ConstantTime_2 = 10;
+            ConstantTime_3 = 10;
+            ConstantTime_4 = 10;
+            ConstantTime_5 = 10;
+            ConstantTime_6 = 10;
+            ConstantTime_7 = 10;
+            ConstantTime_8 = 10;
+            CoolingTemperature = 40;
+            HeatingTime_1 = 10;
+            HeatingTime_2 = 10;
+            HeatingTime_3 = 10;
+            HeatingTime_4 = 10;
+            HeatingTime_5 = 10;
+            HeatingTime_6 = 10;
+            HeatingTime_7 = 10;
+            HeatingTime_8 = 10;
+            InflatingTime = 10;
+            TargetTemperature_1 = 200;
+            TargetTemperature_2 = 200;
+            TargetTemperature_3 = 200;
+            TargetTemperature_4 = 200;
+            TargetTemperature_5 = 200;
+            TargetTemperature_6 = 200;
+            TargetTemperature_7 = 200;
+            TargetTemperature_8 = 200;
+            UsedSegmentCounts = 8;
         }
     }
 }

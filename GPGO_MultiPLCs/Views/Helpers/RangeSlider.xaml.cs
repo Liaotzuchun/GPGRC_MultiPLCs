@@ -7,8 +7,13 @@ namespace GPGO_MultiPLCs.Views
     public partial class RangeSlider : UserControl
     {
         public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
-        public static readonly DependencyProperty LowerValueProperty = DependencyProperty.Register(nameof(LowerValue), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
-        public static readonly DependencyProperty UpperValueProperty = DependencyProperty.Register(nameof(UpperValue), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
+
+        public static readonly DependencyProperty LowerValueProperty =
+            DependencyProperty.Register(nameof(LowerValue), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(0.0, PropertyChanged));
+
+        public static readonly DependencyProperty UpperValueProperty =
+            DependencyProperty.Register(nameof(UpperValue), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
+
         public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RangeSlider), new UIPropertyMetadata(10.0, PropertyChanged));
 
         public static readonly DependencyProperty DisableLowerValueProperty =

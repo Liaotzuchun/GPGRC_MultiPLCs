@@ -70,6 +70,7 @@ namespace GPGO_MultiPLCs.Helpers
             var result = base.Remove(key);
             CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+
             return result;
         }
 

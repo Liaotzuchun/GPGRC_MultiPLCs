@@ -64,6 +64,33 @@ namespace GPGO_MultiPLCs.Views
             set => binding.XPath = value;
         }
 
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            var multiBinding = new MultiBinding { Mode = binding.Mode, ConverterCulture = binding.ConverterCulture, Converter = new InternalConverter(this) };
+            multiBinding.Bindings.Add(binding);
+
+            if (ConverterParameterBinding != null)
+            {
+                multiBinding.Bindings.Add(ConverterParameterBinding);
+            }
+            else
+            {
+                multiBinding.ConverterParameter = ConverterParameter;
+            }
+
+            if (ConverterBinding != null)
+            {
+                multiBinding.Bindings.Add(ConverterBinding);
+            }
+
+            if (StringFormatBinding != null)
+            {
+                multiBinding.Bindings.Add(StringFormatBinding);
+            }
+
+            return multiBinding.ProvideValue(serviceProvider);
+        }
+
         private class InternalConverter : IMultiValueConverter
         {
             object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -115,40 +142,19 @@ namespace GPGO_MultiPLCs.Views
             private IValueConverter lastConverter;
             private object lastConverterParameter;
 
-            public InternalConverter(BindableBinding binding) => this.binding = binding;
+            public InternalConverter(BindableBinding binding)
+            {
+                this.binding = binding;
+            }
         }
 
         public BindableBinding()
         {
         }
 
-        public BindableBinding(PropertyPath path) => binding.Path = path;
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
+        public BindableBinding(PropertyPath path)
         {
-            var multiBinding = new MultiBinding { Mode = binding.Mode, ConverterCulture = binding.ConverterCulture, Converter = new InternalConverter(this) };
-            multiBinding.Bindings.Add(binding);
-
-            if (ConverterParameterBinding != null)
-            {
-                multiBinding.Bindings.Add(ConverterParameterBinding);
-            }
-            else
-            {
-                multiBinding.ConverterParameter = ConverterParameter;
-            }
-
-            if (ConverterBinding != null)
-            {
-                multiBinding.Bindings.Add(ConverterBinding);
-            }
-
-            if (StringFormatBinding != null)
-            {
-                multiBinding.Bindings.Add(StringFormatBinding);
-            }
-
-            return multiBinding.ProvideValue(serviceProvider);
+            binding.Path = path;
         }
     }
 }

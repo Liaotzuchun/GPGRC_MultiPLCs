@@ -25,6 +25,11 @@ namespace GPGO_MultiPLCs.Helpers
         private readonly Predicate<object> canExecute;
         private readonly Action<object> execute;
 
+        internal void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public RelayCommand(Action<object> execute) : this(execute, null)
         {
         }
@@ -34,15 +39,10 @@ namespace GPGO_MultiPLCs.Helpers
             this.execute = execute;
             this.canExecute = canExecute;
         }
-
-        internal void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
     }
 
     /// <summary>
-    /// 替代InvokeCommandAction，可傳遞EventArgs
+    ///     替代InvokeCommandAction，可傳遞EventArgs
     /// </summary>
     public sealed class InteractiveCommand : TriggerAction<DependencyObject>
     {
@@ -61,6 +61,7 @@ namespace GPGO_MultiPLCs.Helpers
             get
             {
                 ReadPreamble();
+
                 return commandName;
             }
             set
@@ -111,7 +112,7 @@ namespace GPGO_MultiPLCs.Helpers
     }
 
     /// <summary>
-    /// 提供能代入Function並提供Result存取的Command
+    ///     提供能代入Function並提供Result存取的Command
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public sealed class CommandWithResult<T> : ViewModelBase, ICommand
@@ -135,11 +136,11 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        private T _Result;
-
         private readonly Predicate<object> canExecute;
         private readonly Func<object, T> execute;
         private readonly Func<object, Task<T>> execute_Task;
+
+        private T _Result;
 
         public T Result
         {
@@ -149,6 +150,11 @@ namespace GPGO_MultiPLCs.Helpers
                 _Result = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        internal void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public CommandWithResult(Func<object, T> execute) : this(execute, null)
@@ -170,15 +176,10 @@ namespace GPGO_MultiPLCs.Helpers
             this.execute_Task = execute_Task;
             this.canExecute = canExecute;
         }
-
-        internal void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
     }
 
     /// <summary>
-    /// Attached Behaviour，提供更簡易的Command繫結方式(缺點是只能單一事件繫結)
+    ///     Attached Behaviour，提供更簡易的Command繫結方式(缺點是只能單一事件繫結)
     /// </summary>
     public sealed class EventToCommand
     {

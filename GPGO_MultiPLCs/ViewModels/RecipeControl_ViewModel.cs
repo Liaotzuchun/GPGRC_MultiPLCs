@@ -12,14 +12,14 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public delegate void ListUpdated(List<PLC_Recipe> list);
 
+        private readonly MongoClient Mongo_Client;
+
         private string _SearchName;
         private PLC_Recipe _Selected_PLC_Recipe;
         private int _Selected_PLC_Recipe_Index;
         private bool _Standby;
         private string _TypedName;
         private List<PLC_Recipe> _ViewRecipes;
-
-        private readonly MongoClient Mongo_Client;
         private List<PLC_Recipe> Recipes;
 
         public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
@@ -112,71 +112,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 _ViewRecipes = value;
                 NotifyPropertyChanged();
             }
-        }
-
-        public RecipeControl_ViewModel(MongoClient mongo, IDialogService<string> dialog)
-        {
-            Mongo_Client = mongo;
-
-            InitialLoadCommand = new RelayCommand(async e =>
-                                                  {
-                                                      if (Recipes == null || Recipes.Count == 0)
-                                                      {
-                                                          Standby = false;
-
-                                                          await RefreshList();
-
-                                                          Standby = true;
-                                                      }
-                                                      else
-                                                      {
-                                                          TypedName = "";
-                                                          SearchName = "";
-                                                      }
-                                                  });
-
-            SaveCommand = new RelayCommand(async e =>
-                                           {
-                                               if (await dialog.Show("將儲存並覆蓋同名配方，無法復原\n" + "確定儲存?", true))
-                                               {
-                                                   await Save(_TypedName);
-                                               }
-                                           });
-
-            ResetCommand = new RelayCommand(async e =>
-                                            {
-                                                if (string.IsNullOrEmpty(_TypedName))
-                                                {
-                                                    return;
-                                                }
-
-                                                await Load(_TypedName);
-                                            });
-
-            AddCommand = new RelayCommand(async e =>
-                                          {
-                                              await Save(_TypedName);
-                                              SearchName = "";
-                                          });
-
-            DeleteCommand = new RelayCommand(async e =>
-                                             {
-                                                 Standby = false;
-
-                                                 try
-                                                 {
-                                                     var db = Mongo_Client.GetDatabase("GP");
-                                                     var Load_Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
-                                                     await Load_Sets.DeleteOneAsync(x => x.RecipeName.Equals(_TypedName));
-                                                 }
-                                                 catch (Exception)
-                                                 {
-                                                 }
-
-                                                 await RefreshList();
-
-                                                 Standby = true;
-                                             });
         }
 
         public event ListUpdated ListUpdatedEvent;
@@ -289,6 +224,71 @@ namespace GPGO_MultiPLCs.ViewModels
             await RefreshList();
 
             Standby = true;
+        }
+
+        public RecipeControl_ViewModel(MongoClient mongo, IDialogService<string> dialog)
+        {
+            Mongo_Client = mongo;
+
+            InitialLoadCommand = new RelayCommand(async e =>
+                                                  {
+                                                      if (Recipes == null || Recipes.Count == 0)
+                                                      {
+                                                          Standby = false;
+
+                                                          await RefreshList();
+
+                                                          Standby = true;
+                                                      }
+                                                      else
+                                                      {
+                                                          TypedName = "";
+                                                          SearchName = "";
+                                                      }
+                                                  });
+
+            SaveCommand = new RelayCommand(async e =>
+                                           {
+                                               if (await dialog.Show("將儲存並覆蓋同名配方，無法復原\n" + "確定儲存?", true))
+                                               {
+                                                   await Save(_TypedName);
+                                               }
+                                           });
+
+            ResetCommand = new RelayCommand(async e =>
+                                            {
+                                                if (string.IsNullOrEmpty(_TypedName))
+                                                {
+                                                    return;
+                                                }
+
+                                                await Load(_TypedName);
+                                            });
+
+            AddCommand = new RelayCommand(async e =>
+                                          {
+                                              await Save(_TypedName);
+                                              SearchName = "";
+                                          });
+
+            DeleteCommand = new RelayCommand(async e =>
+                                             {
+                                                 Standby = false;
+
+                                                 try
+                                                 {
+                                                     var db = Mongo_Client.GetDatabase("GP");
+                                                     var Load_Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
+                                                     await Load_Sets.DeleteOneAsync(x => x.RecipeName.Equals(_TypedName));
+                                                 }
+                                                 catch (Exception)
+                                                 {
+                                                 }
+
+                                                 await RefreshList();
+
+                                                 Standby = true;
+                                             });
         }
     }
 }
