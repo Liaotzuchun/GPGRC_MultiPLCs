@@ -356,9 +356,15 @@
                                 Foreground="White"
                                 Text="PLC Gate" />
                         </Grid>
-                        <GroupBox
-                            Grid.Row="1"
-                            Header="本日產量">
+                        <GroupBox Grid.Row="1">
+                            <GroupBox.Header>
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    TextElement.Foreground="White">
+                                    <TextBlock Text="本日產量" />
+                                    <TextBlock Text="{Binding TotalProductionCount, Mode=OneWay, StringFormat=：\{0:D\} pcs}" />
+                                </StackPanel>
+                            </GroupBox.Header>
                             <oxy:Plot
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 DefaultFont="Microsoft JhengHei"

@@ -66,6 +66,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public PLC_DataProvider[] PLC_All { get; }
         public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
         public ObservableDictionary<int, int> TotalProduction { get; }
+        public int TotalProductionCount => TotalProduction.Sum(x => x.Value);
 
         public bool Gate_Status
         {
@@ -117,6 +118,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
             PLC_All = new PLC_DataProvider[PLC_Count];
             TotalProduction = new ObservableDictionary<int, int>();
+            TotalProduction.CollectionChanged += (obj, args) =>
+                                                 {
+                                                     NotifyPropertyChanged(nameof(TotalProductionCount));
+                                                 };
 
             var M_List = new Dictionary<SignalNames, int>
                          {

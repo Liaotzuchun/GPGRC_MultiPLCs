@@ -7,13 +7,6 @@
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
-        <Setter Property="HeaderTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
@@ -30,9 +23,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 ContentSource="Header"
-                                RecognizesAccessKey="True"
-                                TextElement.FontSize="14"
-                                TextElement.Foreground="White" />
+                                RecognizesAccessKey="True"/>
                         </Border>
                         <Border
                             Grid.Row="1"
