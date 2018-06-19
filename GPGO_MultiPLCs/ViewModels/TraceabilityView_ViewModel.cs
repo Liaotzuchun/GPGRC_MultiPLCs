@@ -557,7 +557,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              DefaultFont = "Microsoft JhengHei",
                              PlotAreaBackground = bgcolor,
                              PlotAreaBorderColor = bordercolor,
-                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
+                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
                              PlotMargins = new OxyThickness(35, 0, 0, 20),
                              LegendTitle = nameof(ProcessInfo.OrderCode),
                              LegendTitleColor = fontcolor,

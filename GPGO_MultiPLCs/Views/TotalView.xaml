@@ -376,7 +376,7 @@
                                 LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                 PlotAreaBackground="{StaticResource LightColorBrush}"
                                 PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                PlotAreaBorderThickness="0,1,1,0"
+                                PlotAreaBorderThickness="1,1,1,0"
                                 PlotMargins="40,0,0,20">
                                 <oxy:Plot.Axes>
                                     <oxy:LinearAxis
