@@ -513,6 +513,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                  MajorGridlineStyle = LineStyle.Dot,
                                  //MajorStep = 100,
                                  MinorGridlineStyle = LineStyle.None,
+                                 MajorTickSize = 0,
                                  MinorTickSize = 0,
                                  //MinorStep = 10,
                                  AxislineStyle = LineStyle.Solid,
