@@ -30,7 +30,6 @@ namespace GPGO_MultiPLCs.Models
 
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
-        private readonly LinearAxis TemperatureAxis;
         private readonly TimeSpanAxis TimeAxis;
         private bool _OnlineStatus;
         private ICollection<string> _Recipe_Names;
@@ -163,8 +162,6 @@ namespace GPGO_MultiPLCs.Models
                                                 ls.Points.Clear();
                                             }
 
-                                            TemperatureAxis.MajorStep = 20;
-                                            TemperatureAxis.Maximum = 100;
                                             TimeAxis.Unit = "秒";
                                             TimeAxis.MajorStep = 10;
                                             TimeAxis.MinorStep = 1;
@@ -249,32 +246,6 @@ namespace GPGO_MultiPLCs.Models
 
         private void AddPlot(TimeSpan t, RecordTemperatures vals)
         {
-            if (vals.Max > 480)
-            {
-                TemperatureAxis.Maximum = 600;
-                TemperatureAxis.MajorStep = 120;
-            }
-            else if (vals.Max > 380)
-            {
-                TemperatureAxis.Maximum = 500;
-                TemperatureAxis.MajorStep = 100;
-            }
-            else if (vals.Max > 280)
-            {
-                TemperatureAxis.Maximum = 400;
-                TemperatureAxis.MajorStep = 80;
-            }
-            else if (vals.Max > 180)
-            {
-                TemperatureAxis.Maximum = 300;
-                TemperatureAxis.MajorStep = 60;
-            }
-            else if (vals.Max > 80)
-            {
-                TemperatureAxis.Maximum = 200;
-                TemperatureAxis.MajorStep = 40;
-            }
-
             if (t > TimeSpan.FromMinutes(60))
             {
                 TimeAxis.Unit = "分";
@@ -359,39 +330,41 @@ namespace GPGO_MultiPLCs.Models
                              PlotAreaBackground = bgcolor,
                              PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
                              PlotAreaBorderColor = bordercolor,
-                             PlotMargins = new OxyThickness(50, 0, 30, 40),
+                             PlotMargins = new OxyThickness(50, 10, 0, 40),
                              LegendBorder = bordercolor,
                              LegendTextColor = fontcolor,
                              LegendBackground = bgcolor,
                              LegendPlacement = LegendPlacement.Outside,
-                             LegendPosition = LegendPosition.TopCenter,
+                             LegendPosition = LegendPosition.RightTop,
                              LegendFontSize = 14,
                              LegendItemOrder = LegendItemOrder.Reverse,
-                             LegendOrientation = LegendOrientation.Horizontal
+                             LegendOrientation = LegendOrientation.Vertical,
+                             LegendItemSpacing = 8,
+                             LegendLineSpacing = 2
                          };
 
-            TemperatureAxis = new LinearAxis
-                              {
-                                  TitleColor = fontcolor,
-                                  Title = "溫度",
-                                  Unit = "°C",
-                                  Position = AxisPosition.Left,
-                                  TickStyle = TickStyle.Inside,
-                                  MajorGridlineStyle = LineStyle.Dot,
-                                  MajorStep = 20,
-                                  MinorGridlineStyle = LineStyle.None,
-                                  MinorTickSize = 0,
-                                  MinorStep = 10,
-                                  AxislineStyle = LineStyle.Solid,
-                                  AxislineColor = bordercolor,
-                                  MajorGridlineColor = bordercolor,
-                                  MinorGridlineColor = bordercolor,
-                                  TicklineColor = bordercolor,
-                                  ExtraGridlineColor = bordercolor,
-                                  TextColor = fontcolor,
-                                  Maximum = 100,
-                                  Minimum = 0
-                              };
+            var temperatureAxis = new LinearAxis
+                                  {
+                                      TitleColor = fontcolor,
+                                      Title = "溫度",
+                                      Unit = "°C",
+                                      Position = AxisPosition.Left,
+                                      TickStyle = TickStyle.Inside,
+                                      MajorGridlineStyle = LineStyle.Dot,
+                                      MinorGridlineStyle = LineStyle.None,
+                                      MinorTickSize = 0,
+                                      MajorTickSize = 0,
+                                      AxislineStyle = LineStyle.Solid,
+                                      AxislineColor = bordercolor,
+                                      MajorGridlineColor = bordercolor,
+                                      MinorGridlineColor = bordercolor,
+                                      TicklineColor = bordercolor,
+                                      ExtraGridlineColor = bordercolor,
+                                      TextColor = fontcolor,
+                                      MaximumPadding = 0.2,
+                                      Minimum = 0,
+                                      MinimumPadding = 0
+                                  };
 
             TimeAxis = new TimeSpanAxis
                        {
@@ -400,6 +373,8 @@ namespace GPGO_MultiPLCs.Models
                            Unit = "秒",
                            MinimumPadding = 0,
                            MaximumPadding = 0,
+                           MinorTickSize = 0,
+                           MajorTickSize = 0,
                            TickStyle = TickStyle.Inside,
                            MajorGridlineStyle = LineStyle.Dot,
                            MajorStep = 10,
@@ -517,7 +492,7 @@ namespace GPGO_MultiPLCs.Models
                                 MarkerSize = 1
                             };
 
-            RecordView.Axes.Add(TemperatureAxis);
+            RecordView.Axes.Add(temperatureAxis);
             RecordView.Axes.Add(TimeAxis);
             foreach (var ls in LineSeries)
             {
@@ -664,7 +639,7 @@ namespace GPGO_MultiPLCs.Models
                                                  {
                                                      if (IsRecording)
                                                      {
-                                                         Process_Info.EventList.Add(new RecordEvent{ Type = EventType.Alarm, Time = sw.Elapsed, Description = key.ToString()});
+                                                         Process_Info.EventList.Add(new RecordEvent { Type = EventType.Alarm, Time = sw.Elapsed, Description = key.ToString() });
                                                          CTS?.Cancel();
                                                      }
                                                  }

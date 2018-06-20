@@ -467,8 +467,8 @@
                     </Grid.RowDefinitions>
                     <Grid DataContext="{Binding PLC_In_Focused, Mode=OneWay}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="1.5*" />
                             <RowDefinition />
+                            <RowDefinition Height="290"/>
                         </Grid.RowDefinitions>
                         <Grid>
                             <Grid.ColumnDefinitions>
