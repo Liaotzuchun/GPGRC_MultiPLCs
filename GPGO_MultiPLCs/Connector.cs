@@ -64,6 +64,11 @@ namespace GPGO_MultiPLCs
                                            }
                                        };
 
+                            if (rn.Next(0, 100) > 50)
+                            {
+                                info.AlarmList.Add(new RecordAlarm { Time = t, Description = "ooxx" + m });
+                            }
+
                             info.RecordTemperatures.Add(vals);
 
                             t = t.Add(TimeSpan.FromMinutes(1));

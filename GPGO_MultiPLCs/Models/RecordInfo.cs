@@ -7,9 +7,9 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class RecordTemperatures
     {
-        public double[] OvenTemperatures = new double[8];
-        public double ThermostatTemperature;
-        public TimeSpan Time;
+        public double[] OvenTemperatures { get; set; } = new double[8];
+        public double ThermostatTemperature { get; set; }
+        public TimeSpan Time { get; set; }
 
         public double Avg => OvenTemperatures.Average();
 
@@ -21,7 +21,7 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class RecordAlarm
     {
-        public string Description;
-        public TimeSpan Time;
+        public string Description { get; set; }
+        public TimeSpan Time{ get; set; }
     }
 }

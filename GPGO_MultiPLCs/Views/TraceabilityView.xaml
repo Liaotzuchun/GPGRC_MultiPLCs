@@ -515,7 +515,7 @@
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate DataType="models:ProcessInfo">
                         <Border Height="200">
-                            <oxy:Plot
+                            <oxy:Plot x:Name="Plot"
                                 DefaultFont="Microsoft JhengHei"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 IsMouseWheelEnabled="False"
@@ -533,7 +533,7 @@
                                 PlotAreaBackground="{StaticResource LightColorBrush}"
                                 PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                 PlotAreaBorderThickness="0,1,1,0"
-                                PlotMargins="40,0,0,30">
+                                PlotMargins="40,0,10,30" Loaded="Plot_Loaded">
                                 <oxy:Plot.Axes>
                                     <oxy:TimeSpanAxis
                                         AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
@@ -703,7 +703,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Binding="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
-                        Header="新增日期" />
+                        Header="紀錄時間" />
                     <DataGridTextColumn
                         Binding="{Binding StationNumber, ConverterParameter=1, Converter={StaticResource AddValue}, Mode=OneWay}"
                         Header="烤箱序號" />
