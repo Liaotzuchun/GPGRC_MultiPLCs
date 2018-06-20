@@ -20,7 +20,7 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
-        private List<RecordAlarm> _AlarmList = new List<RecordAlarm>();
+        private List<RecordEvent> _EventList = new List<RecordEvent>();
         private DateTime _EndTime;
         private bool _FirstPanel;
         private short _HeatingTime;
@@ -51,12 +51,12 @@ namespace GPGO_MultiPLCs.Models
         public IEnumerable<TimeWithTemperature> OvenTemperatures_7 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[7] });
         public IEnumerable<TimeWithTemperature> ThermostatTemperature => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.ThermostatTemperature });
 
-        public List<RecordAlarm> AlarmList
+        public List<RecordEvent> EventList
         {
-            get => _AlarmList;
+            get => _EventList;
             set
             {
-                _AlarmList = value;
+                _EventList = value;
                 NotifyPropertyChanged();
             }
         }

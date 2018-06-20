@@ -66,7 +66,7 @@ namespace GPGO_MultiPLCs
 
                             if (rn.Next(0, 100) > 50)
                             {
-                                info.AlarmList.Add(new RecordAlarm { Time = t, Description = "ooxx" + m });
+                                info.EventList.Add(new RecordEvent { Type = EventType.Alarm, Time = t, Description = "警報" + m });
                             }
 
                             info.RecordTemperatures.Add(vals);

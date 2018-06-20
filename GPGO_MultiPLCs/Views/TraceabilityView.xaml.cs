@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using GPGO_MultiPLCs.Models;
-using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Wpf;
 using LineAnnotation = OxyPlot.Wpf.LineAnnotation;
@@ -26,27 +25,6 @@ namespace GPGO_MultiPLCs.Views
             {
                 CB.SelectedItem = -1;
             }
-        }
-
-        private void Plot_Loaded(object sender, RoutedEventArgs e)
-        {
-            var p = (Plot)sender;
-            p.Annotations.Clear();
-
-            foreach (var alarm in ((ProcessInfo)p.DataContext).AlarmList)
-            {
-                p.Annotations.Add(new LineAnnotation {
-                                                         Type = LineAnnotationType.Vertical,
-                                                         X = TimeSpanAxis.ToDouble(alarm.Time),
-                                                         Text = alarm.Description,
-                                                         TextRotation = 0.5,
-                                                         TextColor = Colors.Red,
-                                                         StrokeThickness = 1,
-                                                         Color = Colors.Red
-                                                     });
-            }
-
-            p.InvalidatePlot();
         }
 
         private void TotalTB_Checked(object sender, RoutedEventArgs e)

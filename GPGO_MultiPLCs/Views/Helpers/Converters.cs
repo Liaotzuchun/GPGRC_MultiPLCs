@@ -4,9 +4,23 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views
 {
+    public class TimespanToDouble : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value != null ? TimeSpanAxis.ToDouble((TimeSpan)value) : 0;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value != null ? TimeSpanAxis.ToTimeSpan((double)value) : TimeSpan.Zero;
+        }
+    }
+
     public class StatusColor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -18,9 +18,17 @@ namespace GPGO_MultiPLCs.Models
         public double Min => OvenTemperatures.Min();
     }
 
-    [BsonIgnoreExtraElements]
-    public class RecordAlarm
+    public enum EventType
     {
+        Normal,
+        Trigger,
+        Alarm
+    }
+
+    [BsonIgnoreExtraElements]
+    public class RecordEvent
+    {
+        public EventType Type { get; set; }
         public string Description { get; set; }
         public TimeSpan Time{ get; set; }
     }

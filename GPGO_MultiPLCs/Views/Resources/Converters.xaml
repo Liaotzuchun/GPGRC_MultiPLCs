@@ -18,4 +18,5 @@
     <local:ToArrayConverter x:Key="ToArrayConverter" />
     <local:IsMoreThanValue x:Key="IsMoreThanValue" />
     <local:IsLessThanValue x:Key="IsLessThanValue" />
+    <local:TimespanToDouble x:Key="TimespanToDouble" />
 </ResourceDictionary>
