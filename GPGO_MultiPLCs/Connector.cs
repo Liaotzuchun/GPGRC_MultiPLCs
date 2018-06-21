@@ -102,24 +102,26 @@ namespace GPGO_MultiPLCs
             TraceVM = new TraceabilityView_ViewModel(Mongo);
             TotalVM = new TotalView_ViewModel(20, DialogVM);
 
-            RecipeVM.ListUpdatedEvent += async list =>
+            MainVM.LoadedEvent += () =>
+                                  {
+
+                                  };
+
+            RecipeVM.ListUpdatedEvent += list =>
                                          {
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
-                                             await Task.Factory.StartNew(() =>
-                                                                         {
-                                                                             Parallel.ForEach(list,
-                                                                                              recipe =>
-                                                                                              {
-                                                                                                  for (var i = 0; i < recipe.Used_Stations.Length; i++)
-                                                                                                  {
-                                                                                                      if (recipe.Used_Stations[i])
-                                                                                                      {
-                                                                                                          TotalVM.SetRecipe(i, recipe).Wait();
-                                                                                                      }
-                                                                                                  }
-                                                                                              });
-                                                                         });
+                                             Parallel.ForEach(list,
+                                                              recipe =>
+                                                              {
+                                                                  for (var i = 0; i < recipe.Used_Stations.Length; i++)
+                                                                  {
+                                                                      if (recipe.Used_Stations[i])
+                                                                      {
+                                                                          TotalVM.SetRecipe(i, recipe).Wait();
+                                                                      }
+                                                                  }
+                                                              });
                                          };
 
             TotalVM.WantRecipe += async (i, recipe, obj) =>
@@ -145,8 +147,12 @@ namespace GPGO_MultiPLCs
                                                   }
                                               };
 
-            RecipeVM.InitialLoadCommand.Execute(null);
-            TraceVM.ThisDayCommand.Execute(null);
+            Task.Run(() =>
+                     {
+                         System.Threading.Thread.Sleep(900);
+                         RecipeVM.InitialLoadCommand.Execute(null);
+                         TraceVM.ThisDayCommand.Execute(null);
+                     });
 
             //MakeTestData(20);
         }
