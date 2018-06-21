@@ -231,25 +231,16 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 if (sw.Elapsed >= n)
                                                 {
-                                                    var vals = new RecordTemperatures
-                                                               {
-                                                                   Time = sw.Elapsed,
-                                                                   ThermostatTemperature = ThermostatTemperature,
-                                                                   OvenTemperatures =
-                                                                   {
-                                                                       [0] = OvenTemperature_1,
-                                                                       [1] = OvenTemperature_2,
-                                                                       [2] = OvenTemperature_3,
-                                                                       [3] = OvenTemperature_4,
-                                                                       [4] = OvenTemperature_5,
-                                                                       [5] = OvenTemperature_6,
-                                                                       [6] = OvenTemperature_7,
-                                                                       [7] = OvenTemperature_8
-                                                                   }
-                                                               };
-
-                                                    Process_Info.RecordTemperatures.Add(vals);
-                                                    AddPlot(sw.Elapsed, vals);
+                                                    AddTemperatures(sw.Elapsed,
+                                                                    ThermostatTemperature,
+                                                                    OvenTemperature_1,
+                                                                    OvenTemperature_2,
+                                                                    OvenTemperature_3,
+                                                                    OvenTemperature_4,
+                                                                    OvenTemperature_5,
+                                                                    OvenTemperature_6,
+                                                                    OvenTemperature_7,
+                                                                    OvenTemperature_8);
 
                                                     if (n >= TimeSpan.FromMinutes(10))
                                                     {
@@ -270,25 +261,16 @@ namespace GPGO_MultiPLCs.Models
                                                 }
                                             }
 
-                                            var vals_end = new RecordTemperatures
-                                                           {
-                                                               Time = sw.Elapsed,
-                                                               ThermostatTemperature = ThermostatTemperature,
-                                                               OvenTemperatures =
-                                                               {
-                                                                   [0] = OvenTemperature_1,
-                                                                   [1] = OvenTemperature_2,
-                                                                   [2] = OvenTemperature_3,
-                                                                   [3] = OvenTemperature_4,
-                                                                   [4] = OvenTemperature_5,
-                                                                   [5] = OvenTemperature_6,
-                                                                   [6] = OvenTemperature_7,
-                                                                   [7] = OvenTemperature_8
-                                                               }
-                                                           };
-
-                                            Process_Info.RecordTemperatures.Add(vals_end);
-                                            AddPlot(sw.Elapsed, vals_end);
+                                            AddTemperatures(sw.Elapsed,
+                                                            ThermostatTemperature,
+                                                            OvenTemperature_1,
+                                                            OvenTemperature_2,
+                                                            OvenTemperature_3,
+                                                            OvenTemperature_4,
+                                                            OvenTemperature_5,
+                                                            OvenTemperature_6,
+                                                            OvenTemperature_7,
+                                                            OvenTemperature_8);
 
                                             sw.Stop();
                                         },

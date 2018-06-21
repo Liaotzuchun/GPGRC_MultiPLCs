@@ -116,7 +116,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client.State != CommunicationState.Opened)
+                if (PLC_Client?.State != CommunicationState.Opened)
                 {
                     return false;
                 }
@@ -175,7 +175,7 @@ namespace GPGO_MultiPLCs.ViewModels
             PLC_All[index].InflatingTime = recipe.InflatingTime;
             PLC_All[index].UsedSegmentCounts = recipe.UsedSegmentCounts;
 
-            if (PLC_Client.State == CommunicationState.Opened)
+            if (PLC_Client?.State == CommunicationState.Opened)
             {
                 await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
             }
@@ -193,7 +193,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client.State != CommunicationState.Opened)
+                if (PLC_Client?.State != CommunicationState.Opened)
                 {
                     return false;
                 }
@@ -227,7 +227,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client.State != CommunicationState.Opened)
+                if (PLC_Client?.State != CommunicationState.Opened)
                 {
                     return false;
                 }

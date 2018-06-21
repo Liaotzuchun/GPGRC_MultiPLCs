@@ -145,6 +145,12 @@ namespace GPGO_MultiPLCs
                                                   }
                                               };
 
+            Task.Run(() =>
+                     {
+                         RecipeVM.InitialLoadCommand.Execute(null);
+                         TraceVM.ThisDayCommand.Execute(null);
+                     });
+
             //MakeTestData(20);
         }
     }

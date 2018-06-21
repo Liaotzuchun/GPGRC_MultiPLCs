@@ -142,8 +142,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     ErrorRecoder.RecordError(ex, "配方資料庫更新使用站點資訊失敗");
                 }
-
-                await RefreshList();
             }
 
             return result;
