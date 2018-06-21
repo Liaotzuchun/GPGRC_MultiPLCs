@@ -239,6 +239,26 @@ namespace GPGO_MultiPLCs.Models
                                                 }
                                             }
 
+                                            var vals_end = new RecordTemperatures
+                                                           {
+                                                               Time = sw.Elapsed,
+                                                               ThermostatTemperature = ThermostatTemperature,
+                                                               OvenTemperatures =
+                                                               {
+                                                                   [0] = OvenTemperature_1,
+                                                                   [1] = OvenTemperature_2,
+                                                                   [2] = OvenTemperature_3,
+                                                                   [3] = OvenTemperature_4,
+                                                                   [4] = OvenTemperature_5,
+                                                                   [5] = OvenTemperature_6,
+                                                                   [6] = OvenTemperature_7,
+                                                                   [7] = OvenTemperature_8
+                                                               }
+                                                           };
+
+                                            Process_Info.RecordTemperatures.Add(vals_end);
+                                            AddPlot(sw.Elapsed, vals_end);
+
                                             sw.Stop();
                                         },
                                         TaskCreationOptions.LongRunning);
@@ -661,11 +681,8 @@ namespace GPGO_MultiPLCs.Models
                                                                                 {
                                                                                     Type = EventType.Normal,
                                                                                     Time = sw.Elapsed,
-                                                                                    Description =
-                                                                                        "第" +
-                                                                                        (CurrentSegment / 2 + 1) +
-                                                                                        "段" +
-                                                                                        (CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? "待命" : "恆溫" : "升溫")
+                                                                                    Description = CurrentSegment == 0 ? "準備中" :
+                                                                                                      "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫")
                                                                                 });
                                                  }
 

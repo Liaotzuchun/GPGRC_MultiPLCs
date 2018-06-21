@@ -1354,7 +1354,7 @@
                                     Style="{StaticResource DataGridStyle}">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn
-                                            Width="Auto"
+                                            Width="60"
                                             Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}"
                                             Header="時間" />
                                         <DataGridTextColumn

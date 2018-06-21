@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
@@ -20,7 +21,7 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
-        private List<RecordEvent> _EventList = new List<RecordEvent>();
+        private ObservableConcurrentCollection<RecordEvent> _EventList = new ObservableConcurrentCollection<RecordEvent>();
         private DateTime _EndTime;
         private bool _FirstPanel;
         private short _HeatingTime;
@@ -51,7 +52,7 @@ namespace GPGO_MultiPLCs.Models
         public IEnumerable<TimeWithTemperature> OvenTemperatures_7 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[7] });
         public IEnumerable<TimeWithTemperature> ThermostatTemperature => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.ThermostatTemperature });
 
-        public List<RecordEvent> EventList
+        public ObservableConcurrentCollection<RecordEvent> EventList
         {
             get => _EventList;
             set

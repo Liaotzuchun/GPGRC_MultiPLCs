@@ -400,7 +400,7 @@
                 Style="{StaticResource DataGridStyle}">
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate DataType="models:ProcessInfo">
-                        <Grid Height="214">
+                        <Grid Height="222">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="200" />
                                 <ColumnDefinition />
@@ -422,7 +422,7 @@
                                 Style="{StaticResource DataGridStyle}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn
-                                        Width="Auto"
+                                        Width="60"
                                         Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}"
                                         Header="時間" />
                                     <DataGridTextColumn
@@ -451,7 +451,7 @@
                                 PlotAreaBackground="{StaticResource LightColorBrush}"
                                 PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                 PlotAreaBorderThickness="0,1,1,0"
-                                PlotMargins="40,2,0,20">
+                                PlotMargins="40,10,0,20">
                                 <oxy:Plot.Axes>
                                     <oxy:TimeSpanAxis
                                         AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
@@ -600,12 +600,15 @@
                                 </oxy:Plot.Series>
                                 <oxy:Plot.Annotations>
                                     <oxy:LineAnnotation
+                                        ClipText="False"
                                         DataContext="{Binding SelectedItem, ElementName=dg2, Mode=OneWay}"
                                         FontSize="12"
                                         StrokeThickness="{Binding SelectedIndex, ElementName=dg2, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
                                         Text="{Binding (models:RecordEvent.Description), Mode=OneWay}"
                                         TextColor="Blue"
-                                        TextMargin="4"
+                                        TextHorizontalAlignment="Center"
+                                        TextOrientation="Horizontal"
+                                        TextVerticalAlignment="Bottom"
                                         Type="Vertical"
                                         X="{Binding (models:RecordEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
                                         Color="Red" />

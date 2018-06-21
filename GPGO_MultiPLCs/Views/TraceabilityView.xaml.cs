@@ -1,12 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using GPGO_MultiPLCs.Models;
-using OxyPlot.Annotations;
-using OxyPlot.Wpf;
-using LineAnnotation = OxyPlot.Wpf.LineAnnotation;
-using TimeSpanAxis = OxyPlot.Axes.TimeSpanAxis;
 
 namespace GPGO_MultiPLCs.Views
 {

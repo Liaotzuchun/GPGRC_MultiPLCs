@@ -372,12 +372,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].RecordingFinished += info =>
                                                 {
-                                                    if (info.ProcessCount > 0)
-                                                    {
+                                                    //if (info.ProcessCount > 0)
+                                                    //{
                                                         //! 寫入資料庫，上傳
                                                         AddRecordToDB?.Invoke(index, info);
                                                         TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
-                                                    }
+                                                    //}
                                                 };
             }
 

@@ -165,11 +165,20 @@ namespace GPGO_MultiPLCs.Helpers
             return result;
         }
 
+        public void Add(T item)
+        {
+            TryAdd(item);
+        }
+
         public void Clear()
         {
             for (var i = 0; i < ContainedCollection.Count; i++)
             {
-                ContainedCollection.TryTake(out _);
+                var result = base.TryTake(out _);
+                if (result)
+                {
+                    NotifyObserversOfChange();
+                }
             }
         }
 
