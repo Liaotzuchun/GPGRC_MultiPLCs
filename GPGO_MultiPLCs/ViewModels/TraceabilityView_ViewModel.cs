@@ -507,6 +507,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             var linearAxis = new LinearAxis
                              {
+                                 IsPanEnabled = false,
+                                 IsZoomEnabled = false,
                                  FontSize = 12,
                                  TitleColor = fontcolor,
                                  TickStyle = TickStyle.Inside,
@@ -531,6 +533,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             categoryAxis1 = new CategoryAxis
                             {
+                                IsPanEnabled = false,
+                                IsZoomEnabled = false,
                                 FontSize = 12,
                                 TitleColor = fontcolor,
                                 MajorGridlineColor = bordercolor,
@@ -551,7 +555,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 Key = "1"
                             };
 
-            categoryAxis2 = new CategoryAxis { IsAxisVisible = false, Key = "2" };
+            categoryAxis2 = new CategoryAxis { IsPanEnabled = false, IsZoomEnabled = false, IsAxisVisible = false, Key = "2" };
 
             ResultView = new PlotModel
                          {

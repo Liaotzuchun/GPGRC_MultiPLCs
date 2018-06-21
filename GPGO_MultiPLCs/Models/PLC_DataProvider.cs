@@ -140,6 +140,23 @@ namespace GPGO_MultiPLCs.Models
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
             Process_Info.EventList.Add(new RecordEvent { Type = type, Time = time, Description = note });
+
+            //RecordView.Annotations.Add(new LineAnnotation
+            //                           {
+            //                               ClipText = false,
+            //                               FontSize = 12,
+            //                               StrokeThickness = 1,
+            //                               Text = note,
+            //                               TextColor = OxyColors.Blue,
+            //                               TextHorizontalAlignment = HorizontalAlignment.Center,
+            //                               TextOrientation = AnnotationTextOrientation.Horizontal,
+            //                               TextVerticalAlignment = VerticalAlignment.Bottom,
+            //                               Type = LineAnnotationType.Vertical,
+            //                               X = TimeSpanAxis.ToDouble(time),
+            //                               Color = OxyColors.Red
+            //                           });
+
+            //RecordView.InvalidatePlot(true);
         }
 
         public void AddTemperatures(TimeSpan time, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
@@ -206,6 +223,7 @@ namespace GPGO_MultiPLCs.Models
 
             await Task.Factory.StartNew(() =>
                                         {
+                                            RecordView.Annotations.Clear();
                                             Process_Info.EventList.Clear();
                                             Process_Info.RecordTemperatures.Clear();
 
@@ -277,46 +295,6 @@ namespace GPGO_MultiPLCs.Models
                                         TaskCreationOptions.LongRunning);
         }
 
-        private void AddPlot(TimeSpan t, RecordTemperatures vals)
-        {
-            if (t > TimeSpan.FromMinutes(60))
-            {
-                TimeAxis.Unit = "分";
-                TimeAxis.MajorStep = 60 * 30;
-                TimeAxis.MinorStep = 60;
-                TimeAxis.Maximum = 60 * 60 * 3;
-                TimeAxis.StringFormat = "hh:mm";
-            }
-            else if (t > TimeSpan.FromMinutes(1))
-            {
-                TimeAxis.Unit = "分";
-                TimeAxis.MajorStep = 60 * 10;
-                TimeAxis.MinorStep = 60;
-                TimeAxis.Maximum = 60 * 60;
-                TimeAxis.StringFormat = "hh:mm";
-
-                //foreach (var ls in LineSeries)
-                //{
-                //    var pt = ls.Points.First();
-                //    ls.Points.Clear();
-                //    ls.Points.Add(pt);
-                //}
-            }
-
-            var time = TimeSpanAxis.ToDouble(t);
-            LineSeries[8].Points.Add(new DataPoint(time, vals.ThermostatTemperature));
-            LineSeries[7].Points.Add(new DataPoint(time, vals.OvenTemperatures[0]));
-            LineSeries[6].Points.Add(new DataPoint(time, vals.OvenTemperatures[1]));
-            LineSeries[5].Points.Add(new DataPoint(time, vals.OvenTemperatures[2]));
-            LineSeries[4].Points.Add(new DataPoint(time, vals.OvenTemperatures[3]));
-            LineSeries[3].Points.Add(new DataPoint(time, vals.OvenTemperatures[4]));
-            LineSeries[2].Points.Add(new DataPoint(time, vals.OvenTemperatures[5]));
-            LineSeries[1].Points.Add(new DataPoint(time, vals.OvenTemperatures[6]));
-            LineSeries[0].Points.Add(new DataPoint(time, vals.OvenTemperatures[7]));
-
-            RecordView.InvalidatePlot(true);
-        }
-
         public PLC_DataProvider(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
         {
             CheckInCommand = new CommandWithResult<bool>(async o =>
@@ -378,6 +356,8 @@ namespace GPGO_MultiPLCs.Models
 
             var temperatureAxis = new LinearAxis
                                   {
+                                      IsPanEnabled = false,
+                                      IsZoomEnabled = false,
                                       TitleColor = fontcolor,
                                       Title = "溫度",
                                       Unit = "°C",
@@ -401,6 +381,8 @@ namespace GPGO_MultiPLCs.Models
 
             TimeAxis = new TimeSpanAxis
                        {
+                           IsPanEnabled = false,
+                           IsZoomEnabled = false,
                            TitleColor = fontcolor,
                            Title = "歷時",
                            Unit = "秒",
@@ -690,13 +672,9 @@ namespace GPGO_MultiPLCs.Models
                                              {
                                                  if (IsRecording)
                                                  {
-                                                     Process_Info.EventList.Add(new RecordEvent
-                                                                                {
-                                                                                    Type = EventType.Normal,
-                                                                                    Time = sw.Elapsed,
-                                                                                    Description = CurrentSegment == 0 ? "準備中" :
-                                                                                                      "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫")
-                                                                                });
+                                                     AddProcessEvent(EventType.Normal,
+                                                                     sw.Elapsed,
+                                                                     CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"));
                                                  }
 
                                                  NotifyPropertyChanged(nameof(Progress));

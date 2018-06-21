@@ -384,6 +384,8 @@
                                 PlotMargins="40,0,0,20">
                                 <oxy:Plot.Axes>
                                     <oxy:LinearAxis
+                                        IsPanEnabled ="False"
+                                        IsZoomEnabled ="False"
                                         AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                         AxislineStyle="Solid"
                                         ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
@@ -402,6 +404,8 @@
                                         TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                         TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
                                     <oxy:CategoryAxis
+                                        IsPanEnabled ="False"
+                                        IsZoomEnabled ="False"
                                         x:Name="CA"
                                         AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                         AxislineStyle="Solid"
