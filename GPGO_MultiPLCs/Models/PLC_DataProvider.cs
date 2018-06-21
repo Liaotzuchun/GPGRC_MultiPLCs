@@ -137,6 +137,58 @@ namespace GPGO_MultiPLCs.Models
         public event StartRecordingHandler StartRecording;
         public event SwitchRecipeEventHandler SwitchRecipeEvent;
 
+        public void AddProcessEvent(EventType type, TimeSpan time, string note)
+        {
+            Process_Info.EventList.Add(new RecordEvent { Type = type, Time = time, Description = note });
+        }
+
+        public void AddTemperatures(TimeSpan time, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
+        {
+            Process_Info.RecordTemperatures.Add(new RecordTemperatures
+                                                {
+                                                    Time = time,
+                                                    ThermostatTemperature = t0,
+                                                    OvenTemperatures = { [0] = t1, [1] = t2, [2] = t3, [3] = t4, [4] = t5, [5] = t6, [6] = t7, [7] = t8 }
+                                                });
+
+            if (time > TimeSpan.FromMinutes(60))
+            {
+                TimeAxis.Unit = "分";
+                TimeAxis.MajorStep = 60 * 30;
+                TimeAxis.MinorStep = 60;
+                TimeAxis.Maximum = 60 * 60 * 3;
+                TimeAxis.StringFormat = "hh:mm";
+            }
+            else if (time > TimeSpan.FromMinutes(1))
+            {
+                TimeAxis.Unit = "分";
+                TimeAxis.MajorStep = 60 * 10;
+                TimeAxis.MinorStep = 60;
+                TimeAxis.Maximum = 60 * 60;
+                TimeAxis.StringFormat = "hh:mm";
+
+                //foreach (var ls in LineSeries)
+                //{
+                //    var pt = ls.Points.First();
+                //    ls.Points.Clear();
+                //    ls.Points.Add(pt);
+                //}
+            }
+
+            var t = TimeSpanAxis.ToDouble(time);
+            LineSeries[8].Points.Add(new DataPoint(t, t0));
+            LineSeries[7].Points.Add(new DataPoint(t, t1));
+            LineSeries[6].Points.Add(new DataPoint(t, t2));
+            LineSeries[5].Points.Add(new DataPoint(t, t3));
+            LineSeries[4].Points.Add(new DataPoint(t, t4));
+            LineSeries[3].Points.Add(new DataPoint(t, t5));
+            LineSeries[2].Points.Add(new DataPoint(t, t6));
+            LineSeries[1].Points.Add(new DataPoint(t, t7));
+            LineSeries[0].Points.Add(new DataPoint(t, t8));
+
+            RecordView.InvalidatePlot(true);
+        }
+
         public void ResetStopTokenSource()
         {
             CTS?.Dispose();
@@ -195,27 +247,6 @@ namespace GPGO_MultiPLCs.Models
                                                                        [7] = OvenTemperature_8
                                                                    }
                                                                };
-
-                                                    //var rn = new Random();
-                                                    //var t = sw.Elapsed;
-                                                    //var mins = (int)t.TotalMinutes + 1;
-
-                                                    //var vals = new RecordTemperatures
-                                                    //           {
-                                                    //               Time = t,
-                                                    //               ThermostatTemperature = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                                    //               OvenTemperatures =
-                                                    //               {
-                                                    //                   [0] = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                                    //                   [1] = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                                    //                   [2] = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                                    //                   [3] = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                                    //                   [4] = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                                    //                   [5] = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                                    //                   [6] = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                                    //                   [7] = rn.Next(40 + mins * 2, 40 + mins * 5)
-                                                    //               }
-                                                    //           };
 
                                                     Process_Info.RecordTemperatures.Add(vals);
                                                     AddPlot(sw.Elapsed, vals);
@@ -652,17 +683,17 @@ namespace GPGO_MultiPLCs.Models
                                                  {
                                                      if (key == SignalNames.自動停止 || key == SignalNames.程式結束)
                                                      {
-                                                         Process_Info.EventList.Add(new RecordEvent { Type = EventType.Normal, Time = sw.Elapsed, Description = key.ToString() });
+                                                         AddProcessEvent(EventType.Normal, sw.Elapsed, key.ToString());
                                                          CTS?.Cancel();
                                                      }
                                                      else if (key == SignalNames.緊急停止 || key == SignalNames.電源反相 || key == SignalNames.循環風車過載 || key == SignalNames.循環風車INV異常)
                                                      {
-                                                         Process_Info.EventList.Add(new RecordEvent { Type = EventType.Alarm, Time = sw.Elapsed, Description = key.ToString() });
+                                                         AddProcessEvent(EventType.Alarm, sw.Elapsed, key.ToString());
                                                          CTS?.Cancel();
                                                      }
                                                      else if (key == SignalNames.降溫中)
                                                      {
-                                                         Process_Info.EventList.Add(new RecordEvent { Type = EventType.Normal, Time = sw.Elapsed, Description = key.ToString() });
+                                                         AddProcessEvent(EventType.Normal, sw.Elapsed, key.ToString());
                                                          NotifyPropertyChanged(nameof(ProgressString));
                                                      }
                                                  }
