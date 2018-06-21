@@ -6,6 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:m="clr-namespace:GPGO_MultiPLCs.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
     xmlns:oxy="http://oxyplot.org/wpf"
     xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
@@ -468,7 +469,7 @@
                     <Grid DataContext="{Binding PLC_In_Focused, Mode=OneWay}">
                         <Grid.RowDefinitions>
                             <RowDefinition />
-                            <RowDefinition Height="290"/>
+                            <RowDefinition Height="290" />
                         </Grid.RowDefinitions>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -1332,32 +1333,64 @@
                             Grid.Row="1"
                             Margin="4,0,4,4"
                             Header="生產紀錄">
-                            <oxy:PlotView
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                IsMouseWheelEnabled="False"
-                                Model="{Binding RecordView, Mode=OneWay}">
-                                <oxy:PlotView.DefaultTrackerTemplate>
-                                    <ControlTemplate>
-                                        <oxy:TrackerControl
-                                            d:DataContext="{d:DesignInstance oxy:TrackerControl}"
-                                            Background="{StaticResource LightBrush}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="1"
-                                            CornerRadius="0"
-                                            HorizontalLineVisibility="Collapsed"
-                                            LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                            LineStroke="{StaticResource BaseForeground}"
-                                            Position="{Binding Position}"
-                                            VerticalLineVisibility="Collapsed">
-                                            <oxy:TrackerControl.Content>
-                                                <TextBlock
-                                                    Margin="4"
-                                                    Text="{Binding}" />
-                                            </oxy:TrackerControl.Content>
-                                        </oxy:TrackerControl>
-                                    </ControlTemplate>
-                                </oxy:PlotView.DefaultTrackerTemplate>
-                            </oxy:PlotView>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <DataGrid
+                                    AutoGenerateColumns="False"
+                                    BorderThickness="0,0,1,0"
+                                    CanUserReorderColumns="False"
+                                    CanUserResizeColumns="False"
+                                    CanUserResizeRows="False"
+                                    CanUserSortColumns="False"
+                                    Focusable="False"
+                                    FontSize="11"
+                                    IsReadOnly="True"
+                                    IsSynchronizedWithCurrentItem="False"
+                                    ItemsSource="{Binding Process_Info.EventList, Mode=OneWay}"
+                                    SelectionMode="Single"
+                                    Style="{StaticResource DataGridStyle}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn
+                                            Width="Auto"
+                                            Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}"
+                                            Header="時間" />
+                                        <DataGridTextColumn
+                                            Width="*"
+                                            Binding="{Binding (models:RecordEvent.Description), Mode=OneWay}"
+                                            Header="事件" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <oxy:PlotView
+                                    Grid.Column="1"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    IsMouseWheelEnabled="False"
+                                    Model="{Binding RecordView, Mode=OneWay}">
+                                    <oxy:PlotView.DefaultTrackerTemplate>
+                                        <ControlTemplate>
+                                            <oxy:TrackerControl
+                                                d:DataContext="{d:DesignInstance oxy:TrackerControl}"
+                                                Background="{StaticResource LightBrush}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1"
+                                                CornerRadius="0"
+                                                HorizontalLineVisibility="Collapsed"
+                                                LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
+                                                LineStroke="{StaticResource BaseForeground}"
+                                                Position="{Binding Position}"
+                                                VerticalLineVisibility="Collapsed">
+                                                <oxy:TrackerControl.Content>
+                                                    <TextBlock
+                                                        Margin="4"
+                                                        Text="{Binding}" />
+                                                </oxy:TrackerControl.Content>
+                                            </oxy:TrackerControl>
+                                        </ControlTemplate>
+                                    </oxy:PlotView.DefaultTrackerTemplate>
+                                </oxy:PlotView>
+                            </Grid>
                         </GroupBox>
                     </Grid>
                     <Grid

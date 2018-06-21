@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading;
@@ -254,7 +253,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             PLC_All = new PLC_DataProvider[PLC_Count];
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
-            TotalProduction.CustomSynchronizationContext(AsyncOperationManager.SynchronizationContext);
+            //TotalProduction.CustomSynchronizationContext(AsyncOperationManager.SynchronizationContext);
 
             TotalProduction.CollectionChanged += (obj, args) =>
                                                  {
@@ -373,12 +372,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].RecordingFinished += info =>
                                                 {
-                                                    //if (info.ProcessCount > 0)
-                                                    //{
+                                                    if (info.ProcessCount > 0)
+                                                    {
                                                         //! 寫入資料庫，上傳
                                                         AddRecordToDB?.Invoke(index, info);
                                                         TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
-                                                    //}
+                                                    }
                                                 };
             }
 

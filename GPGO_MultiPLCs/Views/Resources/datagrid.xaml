@@ -3,27 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style
-        x:Key="DataGridStyle1"
-        TargetType="{x:Type DataGrid}">
+        x:Key="ColumnHeaderStyle"
+        TargetType="DataGridColumnHeader">
         <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-        <Setter Property="CellStyle" Value="{DynamicResource DataGridCellStyle1}" />
-        <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ColumnHeaderStyle1}" />
-        <!--<Setter Property="RowHeight" Value="18" />-->
-        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
-        <Setter Property="HeadersVisibility" Value="Column" />
-        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-        <Setter Property="RowHeaderStyle" Value="{DynamicResource RowHeaderStyle1}" />
-        <Setter Property="RowStyle" Value="{DynamicResource DataGridRowStyle1}" />
-        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-    </Style>
-
-    <Style
-        x:Key="ColumnHeaderStyle1"
-        TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush6}" />
-        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Margin" Value="0,0,0,0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -34,55 +20,22 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter
-                            Margin="8,4"
+                            Margin="4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <!--<Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource DarkBrush}" />
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{StaticResource PressedBrush}" />
-            </Trigger>-->
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
-                <Setter Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
-
     <Style
-        x:Key="RowHeaderStyle1"
-        TargetType="DataGridRowHeader">
-        <Setter Property="Background" Value="{StaticResource NormalBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Width" Value="0" />
-    </Style>
-
-    <Style
-        x:Key="DataGridRowStyle1"
-        TargetType="{x:Type DataGridRow}">
-        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush6}" />
-        <!--<Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource DarkBrush}" />
-            </Trigger>
-        </Style.Triggers>-->
-    </Style>
-
-    <Style
-        x:Key="DataGridCellStyle1"
+        x:Key="DataGridCellStyle"
         TargetType="{x:Type DataGridCell}">
-        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
-        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -91,7 +44,7 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter
-                            Margin="4,2"
+                            Margin="4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
                     </Border>
@@ -100,14 +53,62 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource PressedBrush}" />
-                <Setter Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                 <Setter Property="Foreground" Value="White" />
             </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style
+        x:Key="RowHeaderStyle"
+        TargetType="DataGridRowHeader">
+        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <TextBlock
+                            Margin="4,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding (FrameworkElement.TemplatedParent).(DataGridRow.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        x:Key="DataGridRowStyle"
+        TargetType="{x:Type DataGridRow}">
+        <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+        <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource DarkBrush}" />
                 <Setter Property="Foreground" Value="White" />
             </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource PressedBrush}" />
+                <Setter Property="Foreground" Value="White" />
+            </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}" />
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource ColumnHeaderStyle}" />
+        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="RowStyle" Value="{StaticResource DataGridRowStyle}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WindowBackgroundBrush4}" />
     </Style>
 </ResourceDictionary>

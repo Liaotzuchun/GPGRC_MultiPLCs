@@ -628,24 +628,23 @@ namespace GPGO_MultiPLCs.Models
                                                      ResetStopTokenSource();
                                                      RecordingTask = StartRecoder(60000, CTS.Token);
                                                  }
-                                                 else if (key == SignalNames.自動停止 || key == SignalNames.程式結束)
+                                                 else if (IsRecording)
                                                  {
-                                                     if (IsRecording)
+                                                     if (key == SignalNames.自動停止 || key == SignalNames.程式結束)
                                                      {
+                                                         Process_Info.EventList.Add(new RecordEvent { Type = EventType.Normal, Time = sw.Elapsed, Description = key.ToString() });
                                                          CTS?.Cancel();
                                                      }
-                                                 }
-                                                 else if (key == SignalNames.緊急停止 || key == SignalNames.電源反相 || key == SignalNames.循環風車過載 || key == SignalNames.循環風車INV異常)
-                                                 {
-                                                     if (IsRecording)
+                                                     else if (key == SignalNames.緊急停止 || key == SignalNames.電源反相 || key == SignalNames.循環風車過載 || key == SignalNames.循環風車INV異常)
                                                      {
                                                          Process_Info.EventList.Add(new RecordEvent { Type = EventType.Alarm, Time = sw.Elapsed, Description = key.ToString() });
                                                          CTS?.Cancel();
                                                      }
-                                                 }
-                                                 else if (key == SignalNames.降溫中)
-                                                 {
-                                                     NotifyPropertyChanged(nameof(ProgressString));
+                                                     else if (key == SignalNames.降溫中)
+                                                     {
+                                                         Process_Info.EventList.Add(new RecordEvent { Type = EventType.Normal, Time = sw.Elapsed, Description = key.ToString() });
+                                                         NotifyPropertyChanged(nameof(ProgressString));
+                                                     }
                                                  }
                                              }
                                          };
@@ -656,6 +655,20 @@ namespace GPGO_MultiPLCs.Models
 
                                              if (key == DataNames.目前段數)
                                              {
+                                                 if (IsRecording)
+                                                 {
+                                                     Process_Info.EventList.Add(new RecordEvent
+                                                                                {
+                                                                                    Type = EventType.Normal,
+                                                                                    Time = sw.Elapsed,
+                                                                                    Description =
+                                                                                        "第" +
+                                                                                        (CurrentSegment / 2 + 1) +
+                                                                                        "段" +
+                                                                                        (CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? "待命" : "恆溫" : "升溫")
+                                                                                });
+                                                 }
+
                                                  NotifyPropertyChanged(nameof(Progress));
                                                  NotifyPropertyChanged(nameof(ProgressString));
                                              }

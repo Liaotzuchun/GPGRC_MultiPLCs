@@ -153,7 +153,7 @@
     <Style TargetType="{x:Type DatePicker}">
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CalendarStyle" Value="{DynamicResource CalendarStyle1}" />
+        <Setter Property="CalendarStyle" Value="{StaticResource CalendarStyle1}" />
         <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="IsTodayHighlighted" Value="True" />
