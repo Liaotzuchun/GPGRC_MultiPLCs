@@ -165,6 +165,14 @@ namespace GPGO_MultiPLCs.Helpers
             return result;
         }
 
+        public void Clear()
+        {
+            for (var i = 0; i < ContainedCollection.Count; i++)
+            {
+                ContainedCollection.TryTake(out _);
+            }
+        }
+
         /// <summary>
         ///     Notifies observers of CollectionChanged or PropertyChanged of an update to the dictionary.
         /// </summary>
