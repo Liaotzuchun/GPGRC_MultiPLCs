@@ -36,7 +36,7 @@
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
+                            <Setter Property="Background" Value="{StaticResource GlyphBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -87,14 +87,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-                            <Setter TargetName="Border" Property="Background"
-                                    Value="{StaticResource DisabledBackgroundBrush}" />
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource DisabledBorderBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

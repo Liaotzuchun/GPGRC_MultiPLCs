@@ -13,7 +13,6 @@
     FontFamily="Microsoft JhengHei"
     Icon="/GPGO_MultiPLCs;component/GP.ico"
     Loaded="Window_Loaded"
-    ResizeMode="NoResize"
     SizeToContent="WidthAndHeight"
     SnapsToDevicePixels="True"
     WindowStartupLocation="CenterScreen"
@@ -21,13 +20,13 @@
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}" CommandParameter="{Binding Dispatcher, ElementName=Main}"/>
+            <i:InvokeCommandAction
+                Command="{Binding LoadedCommand, Mode=OneTime}"
+                CommandParameter="{Binding Dispatcher, ElementName=Main}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid
-        Width="1024"
-        Height="768">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="224" />
