@@ -13,10 +13,9 @@
     FontFamily="Microsoft JhengHei"
     Icon="/GPGO_MultiPLCs;component/GP.ico"
     Loaded="Window_Loaded"
-    ResizeMode="NoResize"
-    SizeToContent="WidthAndHeight"
     SnapsToDevicePixels="True"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
