@@ -113,21 +113,21 @@ namespace GPGO_MultiPLCs
                                                            DispatcherPriority.SystemIdle);
                                   };
 
-            RecipeVM.ListUpdatedEvent += list =>
+            RecipeVM.ListUpdatedEvent += async list =>
                                          {
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
-                                             Parallel.ForEach(list,
-                                                              recipe =>
-                                                              {
-                                                                  for (var i = 0; i < recipe.Used_Stations.Length; i++)
-                                                                  {
-                                                                      if (recipe.Used_Stations[i])
-                                                                      {
-                                                                          TotalVM.SetRecipe(i, recipe).Wait();
-                                                                      }
-                                                                  }
-                                                              });
+
+                                             foreach (var recipe in list)
+                                             {
+                                                 for (var i = 0; i < recipe.Used_Stations.Length; i++)
+                                                 {
+                                                     if (recipe.Used_Stations[i])
+                                                     {
+                                                         await TotalVM.SetRecipe(i, recipe);
+                                                     }
+                                                 }
+                                             }
                                          };
 
             TotalVM.WantRecipe += async (i, recipe, obj) =>

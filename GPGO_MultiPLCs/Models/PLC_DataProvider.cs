@@ -38,7 +38,6 @@ namespace GPGO_MultiPLCs.Models
         public CommandWithResult<bool> CheckInCommand { get; }
 
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running ||
-                                   _RecordingTask?.Status == TaskStatus.RanToCompletion ||
                                    _RecordingTask?.Status == TaskStatus.WaitingForActivation ||
                                    _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
