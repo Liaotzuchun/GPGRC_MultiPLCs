@@ -1,10 +1,12 @@
-﻿using GPGO_MultiPLCs.Helpers;
+﻿using System.Windows;
+using System.Windows.Threading;
+using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class MainWindow_ViewModel : ViewModelBase
     {
-        public delegate void LoadedEventHandeler();
+        public delegate void LoadedEventHandeler(Dispatcher dp);
 
         private int _ViewIndex;
 
@@ -24,9 +26,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public MainWindow_ViewModel()
         {
-            LoadedCommand = new RelayCommand(_ =>
+            LoadedCommand = new RelayCommand(e =>
                                              {
-                                                 LoadedEvent?.Invoke();
+                                                 LoadedEvent?.Invoke(((Window)e).Dispatcher);
                                              });
         }
     }

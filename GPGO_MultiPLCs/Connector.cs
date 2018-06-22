@@ -2,6 +2,7 @@
 using System.Linq;
 using System.ServiceProcess;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Bson.Serialization;
@@ -102,9 +103,14 @@ namespace GPGO_MultiPLCs
             TraceVM = new TraceabilityView_ViewModel(Mongo);
             TotalVM = new TotalView_ViewModel(20, DialogVM);
 
-            MainVM.LoadedEvent += () =>
+            MainVM.LoadedEvent += async dp =>
                                   {
-
+                                      await dp.InvokeAsync(() =>
+                                                           {
+                                                               RecipeVM.InitialLoadCommand.Execute(null);
+                                                               TraceVM.ThisDayCommand.Execute(null);
+                                                           },
+                                                           DispatcherPriority.SystemIdle);
                                   };
 
             RecipeVM.ListUpdatedEvent += list =>
@@ -146,13 +152,6 @@ namespace GPGO_MultiPLCs
                                                       TotalVM.TotalProduction[station] = production;
                                                   }
                                               };
-
-            Task.Run(() =>
-                     {
-                         System.Threading.Thread.Sleep(900);
-                         RecipeVM.InitialLoadCommand.Execute(null);
-                         TraceVM.ThisDayCommand.Execute(null);
-                     });
 
             //MakeTestData(20);
         }

@@ -133,7 +133,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async Task SetRecipe(int index, PLC_Recipe recipe)
         {
-            if (recipe == null)
+            if (recipe == null || PLC_All[index].IsRecording) //!正在生產中不可下配方
             {
                 return;
             }

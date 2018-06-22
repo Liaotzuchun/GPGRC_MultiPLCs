@@ -6,6 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Main"
     Title="GPGO"
     Background="{StaticResource WindowBackgroundBrush}"
     DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
@@ -20,7 +21,7 @@
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}" />
+            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}" CommandParameter="{Binding ElementName=Main}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 

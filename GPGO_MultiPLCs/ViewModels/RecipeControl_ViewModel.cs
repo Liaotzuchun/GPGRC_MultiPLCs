@@ -19,7 +19,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private int _Selected_PLC_Recipe_Index;
         private bool _Standby;
         private string _TypedName;
-        private List<PLC_Recipe> _ViewRecipes;
+        private IQueryable<PLC_Recipe> _ViewRecipes;
         private List<PLC_Recipe> Recipes;
 
         public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
@@ -43,7 +43,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 _SearchName = value;
                 NotifyPropertyChanged();
 
-                ViewRecipes = string.IsNullOrEmpty(_SearchName) ? Recipes : Recipes?.Where(x => x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
+                ViewRecipes = string.IsNullOrEmpty(_SearchName) ? Recipes.AsQueryable() : Recipes?.AsQueryable().Where(x => x.RecipeName.ToLower().Contains(_SearchName.ToLower()));
             }
         }
 
@@ -66,7 +66,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (_Selected_PLC_Recipe_Index > -1)
                 {
-                    var recipe = _ViewRecipes[_Selected_PLC_Recipe_Index];
+                    var recipe = _ViewRecipes.ElementAt(_Selected_PLC_Recipe_Index);
                     TypedName = recipe.RecipeName;
                 }
 
@@ -93,7 +93,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 _TypedName = value.Length > 26 ? value.Substring(0, 26) : value;
                 NotifyPropertyChanged();
 
-                _Selected_PLC_Recipe_Index = string.IsNullOrEmpty(_TypedName) ? -1 : _ViewRecipes?.FindIndex(x => x.RecipeName == _TypedName) ?? -1;
+                _Selected_PLC_Recipe_Index = string.IsNullOrEmpty(_TypedName) ? -1 : _ViewRecipes?.ToList().FindIndex(x => x.RecipeName == _TypedName) ?? -1;
                 NotifyPropertyChanged(nameof(Selected_PLC_Recipe_Index));
 
                 Selected_PLC_Recipe = string.IsNullOrEmpty(_TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
@@ -104,7 +104,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public List<PLC_Recipe> ViewRecipes
+        public IQueryable<PLC_Recipe> ViewRecipes
         {
             get => _ViewRecipes;
             set
@@ -137,6 +137,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
                     result.Used_Stations[index] = true;
                     await Sets.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, result.Used_Stations));
+
+                    //ViewRecipes = Recipes.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
                 }
                 catch (Exception ex)
                 {
@@ -184,7 +186,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 TypedName = "";
                 Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
-                ViewRecipes = Recipes.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
+                ViewRecipes = Recipes?.AsQueryable().Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower()));
             }
             catch (Exception ex)
             {
