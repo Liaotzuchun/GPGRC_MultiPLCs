@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.ServiceProcess;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
@@ -116,7 +115,6 @@ namespace GPGO_MultiPLCs
             RecipeVM.ListUpdatedEvent += async list =>
                                          {
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
-
 
                                              foreach (var recipe in list)
                                              {

@@ -21,7 +21,7 @@
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}" CommandParameter="{Binding ElementName=Main}"/>
+            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}" CommandParameter="{Binding Dispatcher, ElementName=Main}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 

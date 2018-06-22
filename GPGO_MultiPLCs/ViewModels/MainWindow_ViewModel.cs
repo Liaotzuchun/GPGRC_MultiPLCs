@@ -28,7 +28,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             LoadedCommand = new RelayCommand(e =>
                                              {
-                                                 LoadedEvent?.Invoke(((Window)e).Dispatcher);
+                                                 LoadedEvent?.Invoke(e as Dispatcher);
                                              });
         }
     }
