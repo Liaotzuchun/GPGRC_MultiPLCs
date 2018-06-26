@@ -16,7 +16,7 @@
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding ThisDayCommand, Mode=OneTime}" />
+            <i:InvokeCommandAction Command="{Binding TodayCommand, Mode=OneTime}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -75,7 +75,7 @@
                         Content="本日">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding ThisDayCommand, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding TodayCommand, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>

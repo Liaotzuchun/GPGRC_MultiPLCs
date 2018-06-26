@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GPGO_MultiPLCs.Helpers;
+﻿using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -55,7 +55,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand SubDayCommand { get; }
         public RelayCommand SubMonthCommand { get; }
         public RelayCommand SubWeekCommand { get; }
-        public RelayCommand ThisDayCommand { get; }
+        public RelayCommand TodayCommand { get; }
         public RelayCommand ThisMonthCommand { get; }
         public RelayCommand ThisWeekCommand { get; }
 
@@ -316,16 +316,16 @@ namespace GPGO_MultiPLCs.ViewModels
                     categoryAxis2.ActualLabels.Add(result);
 
                     var cs = new ColumnSeries
-                             {
-                                 FontSize = result1.Length > 20 ? 8 : 10,
-                                 LabelFormatString = "{0}",
-                                 TextColor = fontcolor,
-                                 IsStacked = true,
-                                 StrokeThickness = 0,
-                                 StrokeColor = NoLayer2 ? bordercolor : OxyColors.Transparent,
-                                 FillColor = NoLayer2 ? OxyColor.FromHsv(i * color_step_1, 1, 1) : OxyColors.Transparent,
-                                 XAxisKey = "2"
-                             };
+                    {
+                        FontSize = result1.Length > 20 ? 8 : 10,
+                        LabelFormatString = "{0}",
+                        TextColor = fontcolor,
+                        IsStacked = true,
+                        StrokeThickness = 0,
+                        StrokeColor = NoLayer2 ? bordercolor : OxyColors.Transparent,
+                        FillColor = NoLayer2 ? OxyColor.FromHsv(i * color_step_1, 1, 1) : OxyColors.Transparent,
+                        XAxisKey = "2"
+                    };
 
                     cs.Items.Add(new ColumnItem(count, i));
                     ResultView.Series.Add(cs);
@@ -342,18 +342,18 @@ namespace GPGO_MultiPLCs.ViewModels
                     {
                         var (cat, info) = result2[i];
                         var ccs = new ColumnSeries
-                                  {
-                                      FontSize = 10,
-                                      LabelFormatString = result2.Length > 10 || categories.Count > 20 ? "" : "{0}",
-                                      LabelPlacement = LabelPlacement.Middle,
-                                      TextColor = OxyColors.White,
-                                      Title = cat,
-                                      IsStacked = true,
-                                      StrokeThickness = 0,
-                                      StrokeColor = bordercolor,
-                                      FillColor = OxyColor.FromHsv(i * color_step_2, 1, 1),
-                                      XAxisKey = "1"
-                                  };
+                        {
+                            FontSize = 10,
+                            LabelFormatString = result2.Length > 10 || categories.Count > 20 ? "" : "{0}",
+                            LabelPlacement = LabelPlacement.Middle,
+                            TextColor = OxyColors.White,
+                            Title = cat,
+                            IsStacked = true,
+                            StrokeThickness = 0,
+                            StrokeColor = bordercolor,
+                            FillColor = OxyColor.FromHsv(i * color_step_2, 1, 1),
+                            XAxisKey = "1"
+                        };
 
                         for (var j = 0; j < categories.Count; j++)
                         {
@@ -442,7 +442,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  Act();
                                              });
 
-            ThisDayCommand = new RelayCommand(o =>
+            TodayCommand = new RelayCommand(o =>
                                               {
                                                   _Date1 = DateTime.Today.Date;
                                                   _Date2 = _Date1;
@@ -506,78 +506,78 @@ namespace GPGO_MultiPLCs.ViewModels
                                                });
 
             var linearAxis = new LinearAxis
-                             {
-                                 IsPanEnabled = false,
-                                 IsZoomEnabled = false,
-                                 FontSize = 12,
-                                 TitleColor = fontcolor,
-                                 TickStyle = TickStyle.Inside,
-                                 MajorGridlineStyle = LineStyle.Dot,
-                                 //MajorStep = 100,
-                                 MinorGridlineStyle = LineStyle.None,
-                                 MajorTickSize = 0,
-                                 MinorTickSize = 0,
-                                 //MinorStep = 10,
-                                 AxislineStyle = LineStyle.Solid,
-                                 AxislineColor = bordercolor,
-                                 MajorGridlineColor = bordercolor,
-                                 MinorGridlineColor = bordercolor,
-                                 TicklineColor = bordercolor,
-                                 ExtraGridlineColor = bordercolor,
-                                 ExtraGridlineStyle = LineStyle.None,
-                                 TextColor = fontcolor,
-                                 Minimum = 0,
-                                 MaximumPadding = 0.15
-                                 //Maximum = 1000
-                             };
+            {
+                IsPanEnabled = false,
+                IsZoomEnabled = false,
+                FontSize = 12,
+                TitleColor = fontcolor,
+                TickStyle = TickStyle.Inside,
+                MajorGridlineStyle = LineStyle.Dot,
+                //MajorStep = 100,
+                MinorGridlineStyle = LineStyle.None,
+                MajorTickSize = 0,
+                MinorTickSize = 0,
+                //MinorStep = 10,
+                AxislineStyle = LineStyle.Solid,
+                AxislineColor = bordercolor,
+                MajorGridlineColor = bordercolor,
+                MinorGridlineColor = bordercolor,
+                TicklineColor = bordercolor,
+                ExtraGridlineColor = bordercolor,
+                ExtraGridlineStyle = LineStyle.None,
+                TextColor = fontcolor,
+                Minimum = 0,
+                MaximumPadding = 0.15
+                //Maximum = 1000
+            };
 
             categoryAxis1 = new CategoryAxis
-                            {
-                                IsPanEnabled = false,
-                                IsZoomEnabled = false,
-                                FontSize = 12,
-                                TitleColor = fontcolor,
-                                MajorGridlineColor = bordercolor,
-                                MinorGridlineColor = bordercolor,
-                                TicklineColor = bordercolor,
-                                ExtraGridlineColor = bordercolor,
-                                TextColor = fontcolor,
-                                TickStyle = TickStyle.Inside,
-                                MajorTickSize = 0,
-                                MinorTickSize = 0,
-                                AxislineStyle = LineStyle.Solid,
-                                ExtraGridlineStyle = LineStyle.None,
-                                AxislineColor = bordercolor,
-                                GapWidth = 1,
-                                MinorStep = 1,
-                                MajorStep = 1,
-                                Position = AxisPosition.Bottom,
-                                Key = "1"
-                            };
+            {
+                IsPanEnabled = false,
+                IsZoomEnabled = false,
+                FontSize = 12,
+                TitleColor = fontcolor,
+                MajorGridlineColor = bordercolor,
+                MinorGridlineColor = bordercolor,
+                TicklineColor = bordercolor,
+                ExtraGridlineColor = bordercolor,
+                TextColor = fontcolor,
+                TickStyle = TickStyle.Inside,
+                MajorTickSize = 0,
+                MinorTickSize = 0,
+                AxislineStyle = LineStyle.Solid,
+                ExtraGridlineStyle = LineStyle.None,
+                AxislineColor = bordercolor,
+                GapWidth = 1,
+                MinorStep = 1,
+                MajorStep = 1,
+                Position = AxisPosition.Bottom,
+                Key = "1"
+            };
 
             categoryAxis2 = new CategoryAxis { IsPanEnabled = false, IsZoomEnabled = false, IsAxisVisible = false, Key = "2" };
 
             ResultView = new PlotModel
-                         {
-                             DefaultFont = "Microsoft JhengHei",
-                             PlotAreaBackground = bgcolor,
-                             PlotAreaBorderColor = bordercolor,
-                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
-                             PlotMargins = new OxyThickness(35, 0, 0, 20),
-                             LegendTitle = nameof(ProcessInfo.OrderCode),
-                             LegendTitleColor = fontcolor,
-                             LegendTextColor = fontcolor,
-                             LegendBorder = bordercolor,
-                             LegendBackground = bgcolor,
-                             LegendPlacement = LegendPlacement.Outside,
-                             LegendPosition = LegendPosition.RightTop,
-                             LegendOrientation = LegendOrientation.Vertical,
-                             LegendFontSize = 12,
-                             LegendTitleFontSize = 12,
-                             //LegendItemOrder = LegendItemOrder.Reverse,
-                             LegendMargin = 4,
-                             LegendPadding = 4
-                         };
+            {
+                DefaultFont = "Microsoft JhengHei",
+                PlotAreaBackground = bgcolor,
+                PlotAreaBorderColor = bordercolor,
+                PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
+                PlotMargins = new OxyThickness(35, 0, 0, 20),
+                LegendTitle = nameof(ProcessInfo.OrderCode),
+                LegendTitleColor = fontcolor,
+                LegendTextColor = fontcolor,
+                LegendBorder = bordercolor,
+                LegendBackground = bgcolor,
+                LegendPlacement = LegendPlacement.Outside,
+                LegendPosition = LegendPosition.RightTop,
+                LegendOrientation = LegendOrientation.Vertical,
+                LegendFontSize = 12,
+                LegendTitleFontSize = 12,
+                //LegendItemOrder = LegendItemOrder.Reverse,
+                LegendMargin = 4,
+                LegendPadding = 4
+            };
 
             ResultView.Axes.Add(linearAxis);
             ResultView.Axes.Add(categoryAxis2);

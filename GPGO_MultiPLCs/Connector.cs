@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.ServiceProcess;
-using System.Windows.Threading;
-using GPGO_MultiPLCs.Models;
+﻿using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using System;
+using System.Linq;
+using System.ServiceProcess;
+using System.Windows.Threading;
 
 namespace GPGO_MultiPLCs
 {
@@ -35,23 +35,23 @@ namespace GPGO_MultiPLCs
                     for (var k = 0; k < 8; k++)
                     {
                         var info = new ProcessInfo
-                                   {
-                                       OrderCode = order_code[rn.Next(0, order_code.Length)],
-                                       ProcessCount = rn.Next(50, 100),
-                                       StartTime = st,
-                                       TrolleyCode = rn.Next(1, 100).ToString("000"),
-                                       OperatorID = rn.Next(1, 10).ToString("000")
-                                   };
+                        {
+                            OrderCode = order_code[rn.Next(0, order_code.Length)],
+                            ProcessCount = rn.Next(50, 100),
+                            StartTime = st,
+                            TrolleyCode = rn.Next(1, 100).ToString("000"),
+                            OperatorID = rn.Next(1, 10).ToString("000")
+                        };
 
                         var t = new TimeSpan();
                         for (var m = 0; m < 100; m++)
                         {
                             var mins = (int)t.TotalMinutes + 1;
                             var vals = new RecordTemperatures
-                                       {
-                                           Time = t,
-                                           ThermostatTemperature = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures =
+                            {
+                                Time = t,
+                                ThermostatTemperature = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                OvenTemperatures =
                                            {
                                                [0] = rn.Next(40 + mins * 2, 40 + mins * 5),
                                                [1] = rn.Next(40 + mins * 2, 40 + mins * 5),
@@ -62,7 +62,7 @@ namespace GPGO_MultiPLCs
                                                [6] = rn.Next(40 + mins * 2, 40 + mins * 5),
                                                [7] = rn.Next(40 + mins * 2, 40 + mins * 5)
                                            }
-                                       };
+                            };
 
                             if (rn.Next(0, 100) > 50)
                             {
@@ -107,7 +107,7 @@ namespace GPGO_MultiPLCs
                                       await dp.InvokeAsync(() =>
                                                            {
                                                                RecipeVM.InitialLoadCommand.Execute(null);
-                                                               TraceVM.ThisDayCommand.Execute(null);
+                                                               TraceVM.TodayCommand.Execute(null);
                                                            },
                                                            DispatcherPriority.SystemIdle);
                                   };
