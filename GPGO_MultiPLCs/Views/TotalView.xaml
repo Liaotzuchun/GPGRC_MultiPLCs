@@ -1399,7 +1399,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="生產狀態" />
+                                                Text="設備模式" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1449,11 +1449,20 @@
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,0">
+                                            BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="升恆溫逾時" />
+                                        </Border>
+                                        <Border
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,0">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Text="生產狀態" />
                                         </Border>
                                     </UniformGrid>
                                     <UniformGrid
@@ -1632,7 +1641,7 @@
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,0,0">
+                                            BorderThickness="0,0,0,1">
                                             <CheckBox
                                                 Height="20"
                                                 Background="{StaticResource ErrorBrush}"
@@ -1640,6 +1649,22 @@
                                                 Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                 IsChecked="{Binding HeatingTimeExceeded, Mode=OneWay}"
                                                 Style="{StaticResource SignalView}" />
+                                        </Border>
+                                        <Border
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,0,0">
+                                            <Grid Margin="4">
+                                                <ProgressBar
+                                                    Background="{StaticResource WorkingBrush}"
+                                                    BorderBrush="{StaticResource WorkingBorderBrush}"
+                                                    Maximum="1"
+                                                    Value="{Binding Progress, Mode=OneWay}" />
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding ProgressString, Mode=OneWay}" />
+                                            </Grid>
                                         </Border>
                                     </UniformGrid>
                                 </Grid>
