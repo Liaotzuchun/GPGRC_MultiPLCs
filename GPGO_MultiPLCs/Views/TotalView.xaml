@@ -1472,9 +1472,7 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                            <TabControl
-                                                Margin="4"
-                                                SelectedIndex="{Binding AutoMode, Mode=OneWay}">
+                                            <TabControl SelectedIndex="{Binding AutoMode, Mode=OneWay}">
                                                 <TabItem
                                                     Width="0"
                                                     Height="0">
@@ -1654,7 +1652,7 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,0">
-                                            <Grid Margin="4">
+                                            <Grid>
                                                 <ProgressBar
                                                     Background="{StaticResource WorkingBrush}"
                                                     BorderBrush="{StaticResource WorkingBorderBrush}"
@@ -1663,6 +1661,7 @@
                                                 <TextBlock
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
+                                                    FontSize="16"
                                                     Text="{Binding ProgressString, Mode=OneWay}" />
                                             </Grid>
                                         </Border>
