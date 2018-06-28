@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    public class TwoKeyDictionary<TKey1, TKey2, TValue>
+    public sealed class TwoKeyDictionary<TKey1, TKey2, TValue>
     {
         public delegate void Key1Updated(TKey1 name, TValue value);
 

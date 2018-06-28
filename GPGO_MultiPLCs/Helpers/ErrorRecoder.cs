@@ -54,7 +54,7 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        public class Error
+        internal class Error
         {
             public Exception Except;
             public string NoteStr;

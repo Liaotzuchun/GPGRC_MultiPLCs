@@ -9,19 +9,6 @@ using System.Threading;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    internal sealed class IProducerConsumerCollection_DebugView<T>
-    {
-        private readonly IProducerConsumerCollection<T> _collection;
-
-        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-        public T[] Values => _collection.ToArray();
-
-        public IProducerConsumerCollection_DebugView(IProducerConsumerCollection<T> collection)
-        {
-            _collection = collection;
-        }
-    }
-
     /// <summary>
     ///     Provides a base implementation for producer-consumer collections that wrap other
     ///     producer-consumer collections.

@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.ServiceProcess;
 using System.Windows.Threading;
+using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs
 {
@@ -90,7 +91,14 @@ namespace GPGO_MultiPLCs
             var mongo_service = new ServiceController("MongoDB");
             if (mongo_service.Status == ServiceControllerStatus.Stopped)
             {
-                mongo_service.Start();
+                try
+                {
+                    mongo_service.Start();
+                }
+                catch (Exception ex)
+                {
+                    ErrorRecoder.RecordError(ex, "Mongo嘗試啟動失敗");
+                }
                 mongo_service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(9));
             }
 
