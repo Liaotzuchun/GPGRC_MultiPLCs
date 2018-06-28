@@ -1681,6 +1681,8 @@
                                 <DataGrid
                                     AutoGenerateColumns="False"
                                     BorderThickness="0,0,1,0"
+                                    CanUserAddRows="False"
+                                    CanUserDeleteRows="False"
                                     CanUserReorderColumns="False"
                                     CanUserResizeColumns="False"
                                     CanUserResizeRows="False"

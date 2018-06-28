@@ -6,6 +6,7 @@
     <local:RatioValue x:Key="RatioValue" />
     <local:GetDayofDate x:Key="GetDayofDate" />
     <local:BoolVis x:Key="BoolVis" />
+    <local:VisBool x:Key="VisBool" />
     <local:BoolNotVis x:Key="BoolNotVis" />
     <local:MultiAnyTrueConverter x:Key="MultiAnyTrueConverter" />
     <local:MultiAnyTrueConverterToInt x:Key="MultiAnyTrueConverterToInt" />

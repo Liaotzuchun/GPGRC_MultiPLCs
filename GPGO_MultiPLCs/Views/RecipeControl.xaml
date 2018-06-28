@@ -1315,6 +1315,8 @@
                 AutoGenerateColumns="False"
                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                 BorderThickness="0"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
                 CanUserReorderColumns="False"
                 CanUserResizeColumns="False"
                 CanUserResizeRows="False"
