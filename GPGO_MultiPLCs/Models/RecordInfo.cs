@@ -1,9 +1,35 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
+using System.Windows.Data;
+using System.Windows.Media;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
+    public class EventTypeToColor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return Colors.Red;
+            }
+
+            if((EventType)value == EventType.Normal)
+            {
+                return Colors.Green;
+            }
+
+            return (EventType)value == EventType.Trigger ? Colors.Blue : Colors.Red;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
     [BsonIgnoreExtraElements]
     public class RecordTemperatures
     {

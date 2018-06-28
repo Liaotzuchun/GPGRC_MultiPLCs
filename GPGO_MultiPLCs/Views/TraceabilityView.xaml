@@ -20,6 +20,10 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
+    <UserControl.Resources>
+        <models:EventTypeToColor x:Key="EventTypeToColor" />
+    </UserControl.Resources>
+
     <Grid Background="{StaticResource WindowBackgroundBrush2}">
         <Grid
             x:Name="HGrid"
@@ -419,11 +423,49 @@
                                 CanUserSortColumns="False"
                                 Focusable="False"
                                 FontSize="11"
+                                HeadersVisibility="All"
                                 IsReadOnly="True"
                                 IsSynchronizedWithCurrentItem="False"
                                 ItemsSource="{Binding EventList, Mode=OneWay}"
                                 SelectionMode="Single"
                                 Style="{StaticResource DataGridStyle}">
+                                <DataGrid.RowHeaderStyle>
+                                    <Style TargetType="DataGridRowHeader">
+                                        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+                                        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                                        <Setter Property="BorderThickness" Value="0,0,1,1" />
+                                        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                    <Border
+                                                        Width="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                Value="0">
+                                                <Setter Property="Background" Value="{StaticResource OKBrush}" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                Value="1">
+                                                <Setter Property="Background" Value="Blue" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                Value="2">
+                                                <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowHeaderStyle>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn
                                         Width="60"
@@ -613,13 +655,13 @@
                                         FontSize="12"
                                         StrokeThickness="{Binding SelectedIndex, ElementName=dg2, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
                                         Text="{Binding (models:RecordEvent.Description), Mode=OneWay}"
-                                        TextColor="Blue"
+                                        TextColor="{Binding (models:RecordEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
                                         TextHorizontalAlignment="Center"
                                         TextOrientation="Horizontal"
                                         TextVerticalAlignment="Bottom"
                                         Type="Vertical"
                                         X="{Binding (models:RecordEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
-                                        Color="Red" />
+                                        Color="{Binding TextColor, RelativeSource={RelativeSource Self}}" />
                                 </oxy:Plot.Annotations>
                                 <oxy:Plot.DefaultTrackerTemplate>
                                     <ControlTemplate>

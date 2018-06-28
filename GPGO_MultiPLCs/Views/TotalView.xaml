@@ -15,6 +15,10 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <models:EventTypeToColor x:Key="EventTypeToColor" />
+    </UserControl.Resources>
+
     <Grid>
         <TabControl SelectedIndex="{Binding Index, Mode=TwoWay}">
             <TabItem
@@ -1679,6 +1683,7 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <DataGrid
+                                    x:Name="dg"
                                     AutoGenerateColumns="False"
                                     BorderThickness="0,0,1,0"
                                     CanUserAddRows="False"
@@ -1689,11 +1694,49 @@
                                     CanUserSortColumns="False"
                                     Focusable="False"
                                     FontSize="11"
+                                    HeadersVisibility="All"
                                     IsReadOnly="True"
                                     IsSynchronizedWithCurrentItem="False"
                                     ItemsSource="{Binding Process_Info.EventList, Mode=OneWay}"
                                     SelectionMode="Single"
                                     Style="{StaticResource DataGridStyle}">
+                                    <DataGrid.RowHeaderStyle>
+                                        <Style TargetType="DataGridRowHeader">
+                                            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+                                            <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                                            <Setter Property="BorderThickness" Value="0,0,1,1" />
+                                            <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                        <Border
+                                                            Width="5"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}" />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                    Value="0">
+                                                    <Setter Property="Background" Value="{StaticResource OKBrush}" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                    Value="1">
+                                                    <Setter Property="Background" Value="Blue" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                    Value="2">
+                                                    <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.RowHeaderStyle>
                                     <DataGrid.Columns>
                                         <DataGridTextColumn
                                             Width="60"
@@ -1705,12 +1748,193 @@
                                             Header="事件" />
                                     </DataGrid.Columns>
                                 </DataGrid>
-                                <oxy:PlotView
+                                <oxy:Plot
                                     Grid.Column="1"
                                     Background="{StaticResource WindowBackgroundBrush2}"
+                                    DefaultFont="Microsoft JhengHei"
                                     IsMouseWheelEnabled="False"
-                                    Model="{Binding RecordView, Mode=OneWay}">
-                                    <oxy:PlotView.DefaultTrackerTemplate>
+                                    LegendBackground="{Binding Color, Source={StaticResource LightColorBrush}}"
+                                    LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                    LegendBorderThickness="1"
+                                    LegendFontSize="12"
+                                    LegendItemOrder="Reverse"
+                                    LegendItemSpacing="8"
+                                    LegendLineSpacing="2"
+                                    LegendOrientation="Vertical"
+                                    LegendPlacement="Outside"
+                                    LegendPosition="RightTop"
+                                    LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                    LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                    PlotAreaBackground="{StaticResource LightColorBrush}"
+                                    PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                    PlotAreaBorderThickness="0,1,1,0"
+                                    PlotMargins="40,10,0,20">
+                                    <oxy:Plot.Axes>
+                                        <oxy:TimeSpanAxis
+                                            AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            AxislineStyle="Solid"
+                                            ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            ExtraGridlineStyle="Solid"
+                                            ExtraGridlineThickness="1"
+                                            IsPanEnabled="False"
+                                            IsZoomEnabled="False"
+                                            MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            MajorGridlineStyle="Dot"
+                                            MajorTickSize="0"
+                                            MaximumPadding="0"
+                                            Minimum="0"
+                                            MinimumPadding="0"
+                                            MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            MinorGridlineStyle="None"
+                                            MinorTickSize="0"
+                                            Position="Bottom"
+                                            StringFormat="hh:mm:ss"
+                                            TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                            TickStyle="Inside"
+                                            TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
+                                        <oxy:LinearAxis
+                                            Title="°C"
+                                            AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            AxislineStyle="Solid"
+                                            ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            ExtraGridlineStyle="Solid"
+                                            ExtraGridlineThickness="1"
+                                            IsPanEnabled="False"
+                                            IsZoomEnabled="False"
+                                            MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            MajorGridlineStyle="Dot"
+                                            MajorStep="100"
+                                            MajorTickSize="0"
+                                            MaximumPadding="0.2"
+                                            Minimum="0"
+                                            MinimumPadding="0"
+                                            MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            MinorGridlineStyle="None"
+                                            MinorTickSize="0"
+                                            Position="Left"
+                                            TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                            TickStyle="Inside"
+                                            TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                            TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
+                                    </oxy:Plot.Axes>
+                                    <oxy:Plot.Series>
+                                        <oxy:LineSeries
+                                            Title="爐內溫度_8"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.OvenTemperatures_7, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="BurlyWood"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="BurlyWood" />
+                                        <oxy:LineSeries
+                                            Title="爐內溫度_7"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.OvenTemperatures_6, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="Brown"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="Brown" />
+                                        <oxy:LineSeries
+                                            Title="爐內溫度_6"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.OvenTemperatures_5, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="Magenta"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="Magenta" />
+                                        <oxy:LineSeries
+                                            Title="爐內溫度_5"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.OvenTemperatures_4, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="DarkOrchid"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="DarkOrchid" />
+                                        <oxy:LineSeries
+                                            Title="爐內溫度_4"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.OvenTemperatures_3, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="DodgerBlue"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="DodgerBlue" />
+                                        <oxy:LineSeries
+                                            Title="爐內溫度_3"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.OvenTemperatures_2, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="Lime"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="Lime" />
+                                        <oxy:LineSeries
+                                            Title="爐內溫度_2"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.OvenTemperatures_1, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="Gold"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="Gold" />
+                                        <oxy:LineSeries
+                                            Title="爐內溫度_1"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.OvenTemperatures_0, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="DarkOrange"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="DarkOrange" />
+                                        <oxy:LineSeries
+                                            Title="溫控器溫度"
+                                            DataFieldX="Time"
+                                            DataFieldY="Temperature"
+                                            ItemsSource="{Binding Process_Info.ThermostatTemperature, Mode=OneWay}"
+                                            LineStyle="Solid"
+                                            MarkerFill="Red"
+                                            MarkerSize="3"
+                                            MarkerType="None"
+                                            StrokeThickness="2"
+                                            Color="Red" />
+                                    </oxy:Plot.Series>
+                                    <oxy:Plot.Annotations>
+                                        <oxy:LineAnnotation
+                                            ClipText="False"
+                                            DataContext="{Binding SelectedItem, ElementName=dg, Mode=OneWay}"
+                                            FontSize="12"
+                                            StrokeThickness="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
+                                            Text="{Binding (models:RecordEvent.Description), Mode=OneWay}"
+                                            TextColor="{Binding (models:RecordEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
+                                            TextHorizontalAlignment="Center"
+                                            TextOrientation="Horizontal"
+                                            TextVerticalAlignment="Bottom"
+                                            Type="Vertical"
+                                            X="{Binding (models:RecordEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
+                                            Color="{Binding TextColor, RelativeSource={RelativeSource Self}}" />
+                                    </oxy:Plot.Annotations>
+                                    <oxy:Plot.DefaultTrackerTemplate>
                                         <ControlTemplate>
                                             <oxy:TrackerControl
                                                 d:DataContext="{d:DesignInstance oxy:TrackerControl}"
@@ -1718,20 +1942,19 @@
                                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                 BorderThickness="1"
                                                 CornerRadius="0"
-                                                HorizontalLineVisibility="Collapsed"
                                                 LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
                                                 LineStroke="{StaticResource BaseForeground}"
-                                                Position="{Binding Position}"
-                                                VerticalLineVisibility="Collapsed">
+                                                Position="{Binding Position}">
                                                 <oxy:TrackerControl.Content>
                                                     <TextBlock
                                                         Margin="4"
+                                                        Foreground="{StaticResource BaseForeground}"
                                                         Text="{Binding}" />
                                                 </oxy:TrackerControl.Content>
                                             </oxy:TrackerControl>
                                         </ControlTemplate>
-                                    </oxy:PlotView.DefaultTrackerTemplate>
-                                </oxy:PlotView>
+                                    </oxy:Plot.DefaultTrackerTemplate>
+                                </oxy:Plot>
                             </Grid>
                         </GroupBox>
                     </Grid>

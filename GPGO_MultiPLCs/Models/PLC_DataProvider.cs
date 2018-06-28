@@ -4,9 +4,6 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
-using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -19,27 +16,20 @@ namespace GPGO_MultiPLCs.Models
         public delegate void SwitchRecipeEventHandler(string recipe);
 
         public CancellationTokenSource CTS;
-        private readonly OxyColor bgcolor = OxyColor.FromRgb(240, 255, 235);
-        private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
-        private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
 
         /// <summary>
         ///     溫控器溫度+槽內溫度共9項
         /// </summary>
-        private readonly LineSeries[] LineSeries = new LineSeries[9];
 
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
-        private readonly TimeSpanAxis TimeAxis;
         private bool _OnlineStatus;
         private ICollection<string> _Recipe_Names;
         private Task _RecordingTask;
         private string _Selected_Name;
         public CommandWithResult<bool> CheckInCommand { get; }
 
-        public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running ||
-                                   _RecordingTask?.Status == TaskStatus.WaitingForActivation ||
-                                   _RecordingTask?.Status == TaskStatus.WaitingToRun;
+        public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
         public ProcessInfo Process_Info { get; }
 
@@ -75,8 +65,6 @@ namespace GPGO_MultiPLCs.Models
                 return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? "待命中" : "恆溫中" : "升溫中";
             }
         }
-
-        public PlotModel RecordView { get; }
 
         public bool OnlineStatus
         {
@@ -152,7 +140,7 @@ namespace GPGO_MultiPLCs.Models
             //                               TextVerticalAlignment = VerticalAlignment.Bottom,
             //                               Type = LineAnnotationType.Vertical,
             //                               X = TimeSpanAxis.ToDouble(time),
-            //                               Color = OxyColors.Red
+            //                               Color = type == EventType.Normal ? OxyColors.Green : type == EventType.Trigger ? OxyColors.Blue : OxyColors.Red
             //                           });
 
             //RecordView.InvalidatePlot(true);
@@ -166,43 +154,6 @@ namespace GPGO_MultiPLCs.Models
                                                     ThermostatTemperature = t0,
                                                     OvenTemperatures = { [0] = t1, [1] = t2, [2] = t3, [3] = t4, [4] = t5, [5] = t6, [6] = t7, [7] = t8 }
                                                 });
-
-            if (time > TimeSpan.FromMinutes(60))
-            {
-                TimeAxis.Unit = "分";
-                TimeAxis.MajorStep = 60 * 30;
-                TimeAxis.MinorStep = 60;
-                TimeAxis.Maximum = 60 * 60 * 3;
-                TimeAxis.StringFormat = "hh:mm";
-            }
-            else if (time > TimeSpan.FromMinutes(1))
-            {
-                TimeAxis.Unit = "分";
-                TimeAxis.MajorStep = 60 * 10;
-                TimeAxis.MinorStep = 60;
-                TimeAxis.Maximum = 60 * 60;
-                TimeAxis.StringFormat = "hh:mm";
-
-                //foreach (var ls in LineSeries)
-                //{
-                //    var pt = ls.Points.First();
-                //    ls.Points.Clear();
-                //    ls.Points.Add(pt);
-                //}
-            }
-
-            var t = TimeSpanAxis.ToDouble(time);
-            LineSeries[8].Points.Add(new DataPoint(t, t0));
-            LineSeries[7].Points.Add(new DataPoint(t, t1));
-            LineSeries[6].Points.Add(new DataPoint(t, t2));
-            LineSeries[5].Points.Add(new DataPoint(t, t3));
-            LineSeries[4].Points.Add(new DataPoint(t, t4));
-            LineSeries[3].Points.Add(new DataPoint(t, t5));
-            LineSeries[2].Points.Add(new DataPoint(t, t6));
-            LineSeries[1].Points.Add(new DataPoint(t, t7));
-            LineSeries[0].Points.Add(new DataPoint(t, t8));
-
-            RecordView.InvalidatePlot(true);
         }
 
         public void ResetStopTokenSource()
@@ -222,22 +173,8 @@ namespace GPGO_MultiPLCs.Models
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            RecordView.Annotations.Clear();
                                             Process_Info.EventList.Clear();
                                             Process_Info.RecordTemperatures.Clear();
-
-                                            foreach (var ls in LineSeries)
-                                            {
-                                                ls.Points.Clear();
-                                            }
-
-                                            TimeAxis.Unit = "秒";
-                                            TimeAxis.MajorStep = 10;
-                                            TimeAxis.MinorStep = 1;
-                                            TimeAxis.Maximum = 60;
-                                            TimeAxis.StringFormat = "m:ss";
-
-                                            RecordView.InvalidatePlot(true);
 
                                             LockHandle.WaitOne();
 
@@ -333,185 +270,6 @@ namespace GPGO_MultiPLCs.Models
 
                                                              return false;
                                                          });
-
-            RecordView = new PlotModel
-                         {
-                             DefaultFont = "Microsoft JhengHei",
-                             PlotAreaBackground = bgcolor,
-                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 0),
-                             PlotAreaBorderColor = bordercolor,
-                             PlotMargins = new OxyThickness(50, 10, 0, 40),
-                             LegendBorder = bordercolor,
-                             LegendTextColor = fontcolor,
-                             LegendBackground = bgcolor,
-                             LegendPlacement = LegendPlacement.Outside,
-                             LegendPosition = LegendPosition.RightTop,
-                             LegendFontSize = 14,
-                             LegendItemOrder = LegendItemOrder.Reverse,
-                             LegendOrientation = LegendOrientation.Vertical,
-                             LegendItemSpacing = 8,
-                             LegendLineSpacing = 2
-                         };
-
-            var temperatureAxis = new LinearAxis
-                                  {
-                                      IsPanEnabled = false,
-                                      IsZoomEnabled = false,
-                                      TitleColor = fontcolor,
-                                      Title = "溫度",
-                                      Unit = "°C",
-                                      Position = AxisPosition.Left,
-                                      TickStyle = TickStyle.Inside,
-                                      MajorGridlineStyle = LineStyle.Dot,
-                                      MinorGridlineStyle = LineStyle.None,
-                                      MinorTickSize = 0,
-                                      MajorTickSize = 0,
-                                      AxislineStyle = LineStyle.Solid,
-                                      AxislineColor = bordercolor,
-                                      MajorGridlineColor = bordercolor,
-                                      MinorGridlineColor = bordercolor,
-                                      TicklineColor = bordercolor,
-                                      ExtraGridlineColor = bordercolor,
-                                      TextColor = fontcolor,
-                                      MaximumPadding = 0.2,
-                                      Minimum = 0,
-                                      MinimumPadding = 0
-                                  };
-
-            TimeAxis = new TimeSpanAxis
-                       {
-                           IsPanEnabled = false,
-                           IsZoomEnabled = false,
-                           TitleColor = fontcolor,
-                           Title = "歷時",
-                           Unit = "秒",
-                           MinimumPadding = 0,
-                           MaximumPadding = 0,
-                           MinorTickSize = 0,
-                           MajorTickSize = 0,
-                           TickStyle = TickStyle.Inside,
-                           MajorGridlineStyle = LineStyle.Dot,
-                           MajorStep = 10,
-                           MinorGridlineStyle = LineStyle.None,
-                           MinorStep = 1,
-                           Position = AxisPosition.Bottom,
-                           AxislineStyle = LineStyle.Solid,
-                           AxislineColor = bordercolor,
-                           MajorGridlineColor = bordercolor,
-                           MinorGridlineColor = bordercolor,
-                           TicklineColor = bordercolor,
-                           ExtraGridlineColor = bordercolor,
-                           TextColor = fontcolor,
-                           StringFormat = "m:ss",
-                           Maximum = 60,
-                           Minimum = 0
-                       };
-
-            LineSeries[8] = new LineSeries
-                            {
-                                Title = nameof(DataNames.溫控器溫度),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.Red,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.Red,
-                                MarkerSize = 1
-                            };
-
-            LineSeries[7] = new LineSeries
-                            {
-                                Title = nameof(DataNames.爐內溫度_1),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.DarkOrange,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.DarkOrange,
-                                MarkerSize = 1
-                            };
-
-            LineSeries[6] = new LineSeries
-                            {
-                                Title = nameof(DataNames.爐內溫度_2),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.Gold,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.Gold,
-                                MarkerSize = 1
-                            };
-
-            LineSeries[5] = new LineSeries
-                            {
-                                Title = nameof(DataNames.爐內溫度_3),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.Lime,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.Lime,
-                                MarkerSize = 1
-                            };
-
-            LineSeries[4] = new LineSeries
-                            {
-                                Title = nameof(DataNames.爐內溫度_4),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.DodgerBlue,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.DodgerBlue,
-                                MarkerSize = 1
-                            };
-
-            LineSeries[3] = new LineSeries
-                            {
-                                Title = nameof(DataNames.爐內溫度_5),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.DarkOrchid,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.DarkOrchid,
-                                MarkerSize = 1
-                            };
-
-            LineSeries[2] = new LineSeries
-                            {
-                                Title = nameof(DataNames.爐內溫度_6),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.Magenta,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.Magenta,
-                                MarkerSize = 1
-                            };
-
-            LineSeries[1] = new LineSeries
-                            {
-                                Title = nameof(DataNames.爐內溫度_7),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.Brown,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.Brown,
-                                MarkerSize = 1
-                            };
-
-            LineSeries[0] = new LineSeries
-                            {
-                                Title = nameof(DataNames.爐內溫度_8),
-                                StrokeThickness = 2,
-                                LineStyle = LineStyle.Solid,
-                                MarkerFill = OxyColors.BurlyWood,
-                                MarkerType = MarkerType.None,
-                                Color = OxyColors.BurlyWood,
-                                MarkerSize = 1
-                            };
-
-            RecordView.Axes.Add(temperatureAxis);
-            RecordView.Axes.Add(TimeAxis);
-            foreach (var ls in LineSeries)
-            {
-                RecordView.Series.Add(ls);
-            }
 
             Process_Info = new ProcessInfo();
 

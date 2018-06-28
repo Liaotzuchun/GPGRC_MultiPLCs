@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
@@ -35,7 +34,7 @@ namespace GPGO_MultiPLCs.Models
         private int _ProcessNumber;
         private string _ProduceCode;
         private string _RecipeName;
-        private List<RecordTemperatures> _RecordTemperatures = new List<RecordTemperatures>();
+        private ObservableConcurrentCollection<RecordTemperatures> _RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
         private string _Side;
         private DateTime _StartTime;
         private double _TargetOvenTemperature;
@@ -195,7 +194,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public List<RecordTemperatures> RecordTemperatures
+        public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
         {
             get => _RecordTemperatures;
             set
@@ -279,5 +278,21 @@ namespace GPGO_MultiPLCs.Models
         public int StationNumber { get; set; }
 
         #endregion
+
+        public ProcessInfo()
+        {
+            RecordTemperatures.CollectionChanged += (s, e) =>
+                                                    {
+                                                        NotifyPropertyChanged(nameof(OvenTemperatures_0));
+                                                        NotifyPropertyChanged(nameof(OvenTemperatures_1));
+                                                        NotifyPropertyChanged(nameof(OvenTemperatures_2));
+                                                        NotifyPropertyChanged(nameof(OvenTemperatures_3));
+                                                        NotifyPropertyChanged(nameof(OvenTemperatures_4));
+                                                        NotifyPropertyChanged(nameof(OvenTemperatures_5));
+                                                        NotifyPropertyChanged(nameof(OvenTemperatures_6));
+                                                        NotifyPropertyChanged(nameof(OvenTemperatures_7));
+                                                        NotifyPropertyChanged(nameof(ThermostatTemperature));
+                                                    };
+        }
     }
 }
