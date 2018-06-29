@@ -1768,9 +1768,10 @@
                                     PlotAreaBackground="{StaticResource LightColorBrush}"
                                     PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                     PlotAreaBorderThickness="0,1,1,0"
-                                    PlotMargins="40,10,0,20">
+                                    PlotMargins="40,10,0,35">
                                     <oxy:Plot.Axes>
                                         <oxy:TimeSpanAxis
+                                            Title="歷時"
                                             AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                             AxislineStyle="Solid"
                                             ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
@@ -1822,8 +1823,8 @@
                                         <oxy:LineSeries
                                             Title="爐內溫度_8"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.OvenTemperatures_7, Mode=OneWay}"
+                                            DataFieldY="OvenTemperatures_7"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="BurlyWood"
                                             MarkerSize="3"
@@ -1833,8 +1834,8 @@
                                         <oxy:LineSeries
                                             Title="爐內溫度_7"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.OvenTemperatures_6, Mode=OneWay}"
+                                            DataFieldY="OvenTemperatures_6"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Brown"
                                             MarkerSize="3"
@@ -1844,8 +1845,8 @@
                                         <oxy:LineSeries
                                             Title="爐內溫度_6"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.OvenTemperatures_5, Mode=OneWay}"
+                                            DataFieldY="OvenTemperatures_5"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Magenta"
                                             MarkerSize="3"
@@ -1855,8 +1856,8 @@
                                         <oxy:LineSeries
                                             Title="爐內溫度_5"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.OvenTemperatures_4, Mode=OneWay}"
+                                            DataFieldY="OvenTemperatures_4"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="DarkOrchid"
                                             MarkerSize="3"
@@ -1866,8 +1867,8 @@
                                         <oxy:LineSeries
                                             Title="爐內溫度_4"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.OvenTemperatures_3, Mode=OneWay}"
+                                            DataFieldY="OvenTemperatures_3"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="DodgerBlue"
                                             MarkerSize="3"
@@ -1877,8 +1878,8 @@
                                         <oxy:LineSeries
                                             Title="爐內溫度_3"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.OvenTemperatures_2, Mode=OneWay}"
+                                            DataFieldY="OvenTemperatures_2"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Lime"
                                             MarkerSize="3"
@@ -1888,8 +1889,8 @@
                                         <oxy:LineSeries
                                             Title="爐內溫度_2"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.OvenTemperatures_1, Mode=OneWay}"
+                                            DataFieldY="OvenTemperatures_1"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Gold"
                                             MarkerSize="3"
@@ -1899,8 +1900,8 @@
                                         <oxy:LineSeries
                                             Title="爐內溫度_1"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.OvenTemperatures_0, Mode=OneWay}"
+                                            DataFieldY="OvenTemperatures_0"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="DarkOrange"
                                             MarkerSize="3"
@@ -1910,8 +1911,8 @@
                                         <oxy:LineSeries
                                             Title="溫控器溫度"
                                             DataFieldX="Time"
-                                            DataFieldY="Temperature"
-                                            ItemsSource="{Binding Process_Info.ThermostatTemperature, Mode=OneWay}"
+                                            DataFieldY="ThermostatTemperature"
+                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Red"
                                             MarkerSize="3"

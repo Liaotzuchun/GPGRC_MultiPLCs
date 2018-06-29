@@ -152,8 +152,15 @@ namespace GPGO_MultiPLCs.Models
                                                 {
                                                     Time = time,
                                                     ThermostatTemperature = t0,
-                                                    OvenTemperatures = { [0] = t1, [1] = t2, [2] = t3, [3] = t4, [4] = t5, [5] = t6, [6] = t7, [7] = t8 }
-                                                });
+                                                    OvenTemperatures_0 = t1,
+                                                    OvenTemperatures_1 = t2,
+                                                    OvenTemperatures_2 = t3,
+                                                    OvenTemperatures_3 = t4,
+                                                    OvenTemperatures_4 = t5,
+                                                    OvenTemperatures_5 = t6,
+                                                    OvenTemperatures_6 = t7,
+                                                    OvenTemperatures_7 = t8
+            });
         }
 
         public void ResetStopTokenSource()

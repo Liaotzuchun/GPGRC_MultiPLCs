@@ -6,17 +6,6 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
-    public class TimeWithTemperature
-    {
-        public double Temperature { get; set; }
-        public TimeSpan Time { get; set; }
-
-        public override string ToString()
-        {
-            return $"Time:{Time:hh\\:mm\\:ss}, Temperature:{Temperature:F1}°C";
-        }
-    }
-
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
@@ -41,15 +30,6 @@ namespace GPGO_MultiPLCs.Models
         private short _TotalHeatingTime;
         private string _TrolleyCode;
         private short _WarmingTime;
-        public IEnumerable<TimeWithTemperature> OvenTemperatures_0 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[0] });
-        public IEnumerable<TimeWithTemperature> OvenTemperatures_1 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[1] });
-        public IEnumerable<TimeWithTemperature> OvenTemperatures_2 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[2] });
-        public IEnumerable<TimeWithTemperature> OvenTemperatures_3 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[3] });
-        public IEnumerable<TimeWithTemperature> OvenTemperatures_4 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[4] });
-        public IEnumerable<TimeWithTemperature> OvenTemperatures_5 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[5] });
-        public IEnumerable<TimeWithTemperature> OvenTemperatures_6 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[6] });
-        public IEnumerable<TimeWithTemperature> OvenTemperatures_7 => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.OvenTemperatures[7] });
-        public IEnumerable<TimeWithTemperature> ThermostatTemperature => RecordTemperatures.Select(x => new TimeWithTemperature { Time = x.Time, Temperature = x.ThermostatTemperature });
 
         public ObservableConcurrentCollection<RecordEvent> EventList
         {
@@ -278,21 +258,5 @@ namespace GPGO_MultiPLCs.Models
         public int StationNumber { get; set; }
 
         #endregion
-
-        public ProcessInfo()
-        {
-            RecordTemperatures.CollectionChanged += (s, e) =>
-                                                    {
-                                                        NotifyPropertyChanged(nameof(OvenTemperatures_0));
-                                                        NotifyPropertyChanged(nameof(OvenTemperatures_1));
-                                                        NotifyPropertyChanged(nameof(OvenTemperatures_2));
-                                                        NotifyPropertyChanged(nameof(OvenTemperatures_3));
-                                                        NotifyPropertyChanged(nameof(OvenTemperatures_4));
-                                                        NotifyPropertyChanged(nameof(OvenTemperatures_5));
-                                                        NotifyPropertyChanged(nameof(OvenTemperatures_6));
-                                                        NotifyPropertyChanged(nameof(OvenTemperatures_7));
-                                                        NotifyPropertyChanged(nameof(ThermostatTemperature));
-                                                    };
-        }
     }
 }
