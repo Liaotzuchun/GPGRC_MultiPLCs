@@ -73,6 +73,7 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <TextBlock
+                            Margin="4,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Text="{Binding (FrameworkElement.TemplatedParent).(DataGridRow.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
@@ -99,7 +100,9 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+    <Style
+        x:Key="DataGridStyle"
+        TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}" />
