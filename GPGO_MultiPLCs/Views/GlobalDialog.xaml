@@ -28,16 +28,52 @@
                             <RowDefinition Height="40" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Border
-                            Background="{StaticResource WorkingBrush}"
-                            BorderBrush="{StaticResource WorkingBorderBrush}"
-                            BorderThickness="1">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="20"
-                                Text="警告!" />
-                        </Border>
+                        <TabControl>
+                            <TabItem
+                                Width="0"
+                                Height="0">
+                                <Border
+                                    Background="{StaticResource OKBrush}"
+                                    BorderBrush="{StaticResource OKBorderBrush}"
+                                    BorderThickness="1">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="20"
+                                        Foreground="White"
+                                        Text="提示!" />
+                                </Border>
+                            </TabItem>
+                            <TabItem
+                                Width="0"
+                                Height="0">
+                                <Border
+                                    Background="{StaticResource WorkingBrush}"
+                                    BorderBrush="{StaticResource WorkingBorderBrush}"
+                                    BorderThickness="1">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="20"
+                                        Text="警告!" />
+                                </Border>
+                            </TabItem>
+                            <TabItem
+                                Width="0"
+                                Height="0">
+                                <Border
+                                    Background="{StaticResource ErrorBrush}"
+                                    BorderBrush="{StaticResource ErrorBorderBrush}"
+                                    BorderThickness="1">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="20"
+                                        Foreground="White"
+                                        Text="錯誤!" />
+                                </Border>
+                            </TabItem>
+                        </TabControl>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -54,7 +90,8 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal"
-                                TextElement.FontSize="20">
+                                TextElement.FontSize="20"
+                                Visibility="{Binding NoButton, Converter={StaticResource BoolNotVis}, Mode=OneWay}">
                                 <Button
                                     Margin="4,8"
                                     Padding="12,8"

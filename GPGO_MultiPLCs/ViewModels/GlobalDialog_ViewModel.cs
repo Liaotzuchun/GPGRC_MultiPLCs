@@ -9,10 +9,12 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class GlobalDialog_ViewModel : ViewModelBase, IDialogService<string>
     {
-        public async Task<bool> Show(string msg, bool support_cancel)
+        public async Task<bool> Show(string msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
         {
+            MsgType = type;
             EnterResult = false;
             SupportCancel = support_cancel;
+            NoButton = false;
             WithIntput = false;
             Message = msg;
             IsShown = Visibility.Visible;
@@ -28,9 +30,11 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult;
         }
 
-        public async Task Show(string msg, TimeSpan delay)
+        public async Task Show(string msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
         {
+            MsgType = type;
             Message = msg;
+            NoButton = true;
             WithIntput = false;
             IsShown = Visibility.Visible;
 
@@ -45,6 +49,7 @@ namespace GPGO_MultiPLCs.ViewModels
             ConditionResult = null;
             EnterResult = false;
             SupportCancel = true;
+            NoButton = false;
             WithIntput = true;
             Message = msg;
             TitleHeader = header;
@@ -117,12 +122,13 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         private readonly AutoResetEvent Lock;
-
         private bool? _ConditionResult;
         private bool _EnterEnable;
         private string _Intput = "";
         private Visibility _IsShown = Visibility.Collapsed;
         private string _Message;
+        private DialogMsgType _MsgType;
+        private bool _NoButton;
         private bool _SupportCancel;
         private string _Title = "";
         private string _TitleHeader = "";
@@ -182,6 +188,26 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _Message = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public DialogMsgType MsgType
+        {
+            get => _MsgType;
+            set
+            {
+                _MsgType = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool NoButton
+        {
+            get => _NoButton;
+            set
+            {
+                _NoButton = value;
                 NotifyPropertyChanged();
             }
         }

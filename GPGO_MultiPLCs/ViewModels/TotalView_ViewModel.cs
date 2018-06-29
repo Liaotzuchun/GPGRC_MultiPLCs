@@ -133,7 +133,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async Task SetRecipe(int index, PLC_Recipe recipe)
         {
-            if (recipe == null || PLC_All[index].IsRecording) //!正在生產中不可下配方
+            if (recipe == null)
             {
                 return;
             }
@@ -175,7 +175,7 @@ namespace GPGO_MultiPLCs.ViewModels
             PLC_All[index].InflatingTime = recipe.InflatingTime;
             PLC_All[index].UsedSegmentCounts = recipe.UsedSegmentCounts;
 
-            if (PLC_Client?.State == CommunicationState.Opened)
+            if (PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
             {
                 await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
             }
@@ -374,9 +374,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     //if (info.ProcessCount > 0)
                                                     //{
-                                                        //! 寫入資料庫，上傳
-                                                        AddRecordToDB?.Invoke(index, info);
-                                                        TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
+                                                    //! 寫入資料庫，上傳
+                                                    AddRecordToDB?.Invoke(index, info);
+                                                    TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
+                                                    dialog?.Show("第" + (index + 1) + "站已完成烘烤!", TimeSpan.FromSeconds(3));
                                                     //}
                                                 };
             }

@@ -110,6 +110,19 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
+    public class DateTimeCheckVis : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value != null && ((DateTime)value).Ticks != 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return new DateTime();
+        }
+    }
+
     public class StrCheckVis : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

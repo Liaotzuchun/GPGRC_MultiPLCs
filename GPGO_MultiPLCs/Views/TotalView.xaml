@@ -1675,8 +1675,26 @@
                         </Grid>
                         <GroupBox
                             Grid.Row="1"
-                            Margin="4,0,4,4"
-                            Header="生產紀錄">
+                            Margin="4,0,4,4">
+                            <GroupBox.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Margin="8,0"
+                                        Foreground="White"
+                                        Text="{Binding Process_Info.StartTime, Mode=OneWay, StringFormat={}開始時間：{0:yyyy/MM/dd HH:mm:ss}}"
+                                        Visibility="{Binding Process_Info.StartTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="8,0"
+                                        Foreground="White"
+                                        Text="{Binding Process_Info.EndTime, Mode=OneWay, StringFormat={}結束時間：{0:yyyy/MM/dd HH:mm:ss}}"
+                                        Visibility="{Binding Process_Info.EndTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}" />
+                                </Grid>
+                            </GroupBox.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="200" />
