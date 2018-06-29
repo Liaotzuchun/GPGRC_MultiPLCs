@@ -15,11 +15,9 @@ namespace GPGO_MultiPLCs.Models
 
         public delegate void SwitchRecipeEventHandler(string recipe);
 
-        public CancellationTokenSource CTS;
+        public delegate void MachineCodeChangedHandler(string code);
 
-        /// <summary>
-        ///     溫控器溫度+槽內溫度共9項
-        /// </summary>
+        public CancellationTokenSource CTS;
 
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
@@ -123,27 +121,11 @@ namespace GPGO_MultiPLCs.Models
         public event RecordingFinishedEventHandler RecordingFinished;
         public event StartRecordingHandler StartRecording;
         public event SwitchRecipeEventHandler SwitchRecipeEvent;
+        public event MachineCodeChangedHandler MachineCodeChanged;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
             Process_Info.EventList.Add(new RecordEvent { Type = type, Time = time, Description = note });
-
-            //RecordView.Annotations.Add(new LineAnnotation
-            //                           {
-            //                               ClipText = false,
-            //                               FontSize = 12,
-            //                               StrokeThickness = 1,
-            //                               Text = note,
-            //                               TextColor = OxyColors.Blue,
-            //                               TextHorizontalAlignment = HorizontalAlignment.Center,
-            //                               TextOrientation = AnnotationTextOrientation.Horizontal,
-            //                               TextVerticalAlignment = VerticalAlignment.Bottom,
-            //                               Type = LineAnnotationType.Vertical,
-            //                               X = TimeSpanAxis.ToDouble(time),
-            //                               Color = type == EventType.Normal ? OxyColors.Green : type == EventType.Trigger ? OxyColors.Blue : OxyColors.Red
-            //                           });
-
-            //RecordView.InvalidatePlot(true);
         }
 
         public void AddTemperatures(TimeSpan time, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
@@ -279,6 +261,13 @@ namespace GPGO_MultiPLCs.Models
                                                          });
 
             Process_Info = new ProcessInfo();
+            Process_Info.PropertyChanged += (s, e) =>
+                                            {
+                                                if(e.PropertyName == nameof(ProcessInfo.MachineCode))
+                                                {
+                                                    MachineCodeChanged?.Invoke((s as ProcessInfo)?.MachineCode);
+                                                }
+                                            };
 
             var M_Map = new Dictionary<SignalNames, string>
                         {

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.GP_PLCs;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
+using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -63,7 +66,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private GPServiceClient PLC_Client;
         public RelayCommand BackCommand { get; }
-
         public PLC_DataProvider[] PLC_All { get; }
         public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
@@ -111,6 +113,44 @@ namespace GPGO_MultiPLCs.ViewModels
         public event AddRecordToDBHandler AddRecordToDB;
 
         public event WantRecipeHandler WantRecipe;
+
+        public void LoadMachineCodes()
+        {
+            if (File.Exists("MachineCodes.json"))
+            {
+                try
+                {
+                    var vals = JsonConvert.DeserializeObject<string[]>(File.ReadAllText("MachineCodes.json", Encoding.UTF8));
+
+                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Length); i++)
+                    {
+                        PLC_All[i].Process_Info.MachineCode = vals[i];
+                    }
+
+                    return;
+                }
+                catch
+                {
+                }
+            }
+
+            for (var i = 0; i < PLC_All.Length; i++)
+            {
+                PLC_All[i].Process_Info.MachineCode = "Machine" + (i + 1).ToString("00");
+            }
+        }
+
+        public void SaveMachineCodes()
+        {
+            try
+            {
+                var MachineCodes = PLC_All.Select(x => x.Process_Info.MachineCode).ToArray();
+                File.WriteAllText("MachineCodes.json", JsonConvert.SerializeObject(MachineCodes), Encoding.UTF8);
+            }
+            catch
+            {
+            }
+        }
 
         public bool SetReadLists(string[][] list)
         {
@@ -253,7 +293,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
             PLC_All = new PLC_DataProvider[PLC_Count];
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
-            //TotalProduction.CustomSynchronizationContext(AsyncOperationManager.SynchronizationContext);
 
             TotalProduction.CollectionChanged += (obj, args) =>
                                                  {
@@ -380,7 +419,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     dialog?.Show("第" + (index + 1) + "站已完成烘烤!", TimeSpan.FromSeconds(3));
                                                     //}
                                                 };
+
+                PLC_All[i].MachineCodeChanged += code =>
+                                                 {
+                                                     SaveMachineCodes();
+                                                 };
             }
+
+            LoadMachineCodes();
 
             //! 產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
             var namelists = M_List.Values.OrderBy(x => x)

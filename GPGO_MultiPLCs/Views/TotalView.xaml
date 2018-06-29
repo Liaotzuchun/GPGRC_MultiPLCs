@@ -10,6 +10,7 @@
     xmlns:oxy="http://oxyplot.org/wpf"
     xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+    x:Name="userControl"
     d:DataContext="{d:DesignInstance vm:TotalView_ViewModel}"
     d:DesignHeight="600"
     d:DesignWidth="800"
@@ -111,13 +112,11 @@
                                                         Text="設備碼" />
                                                 </Border>
                                                 <Border
-                                                    x:Name="Border"
                                                     Grid.Column="1"
                                                     Background="{StaticResource LightColorBrush}">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding Process_Info.MachineCode, Mode=OneWay}" />
+                                                    <TextBox
+                                                        BorderThickness="0"
+                                                        Text="{Binding Process_Info.MachineCode, Mode=TwoWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -145,16 +144,6 @@
                                                         </DataTemplate>
                                                     </ComboBox.ItemTemplate>
                                                 </ComboBox>
-                                                <!--<Border
-                                                    Grid.Column="3"
-                                                    Width="{Binding ActualWidth, ElementName=Border, Mode=OneWay}"
-                                                    Background="{StaticResource LightColorBrush}">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding RecipeName, Mode=OneWay}"
-                                                        TextTrimming="CharacterEllipsis" />
-                                                </Border>-->
                                             </Grid>
                                         </TabItem>
                                         <TabItem
