@@ -417,7 +417,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     //! 寫入資料庫，上傳
                                                     AddRecordToDB?.Invoke(index, info);
                                                     TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
-                                                    dialog?.Show("第" + (index + 1) + "站已完成烘烤!", TimeSpan.FromSeconds(3));
+                                                    dialog?.Show("第" + (index + 1) + "站已完成烘烤!", TimeSpan.FromSeconds(2));
                                                     //}
                                                 };
 
@@ -425,6 +425,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                      SaveMachineCodes();
                                                  };
+
+                PLC_All[i].RecipeKeyInError += () =>
+                                               {
+                                                   dialog?.Show("第" + (index + 1) + "站配方輸入錯誤!", TimeSpan.FromSeconds(1), DialogMsgType.Alarm);
+                                               };
             }
 
             LoadMachineCodes();

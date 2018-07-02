@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Models
@@ -24,6 +25,11 @@ namespace GPGO_MultiPLCs.Models
         private ICollection<string> _Recipe_Names;
         private Task _RecordingTask;
         private string _Selected_Name;
+        private string _Intput_Name;
+
+        public RelayCommand CheckRecipeCommand_KeyIn { get; }
+
+        public RelayCommand CheckRecipeCommand_KeyLeave { get; }
 
         public CommandWithResult<bool> CheckInCommand { get; }
 
@@ -111,18 +117,25 @@ namespace GPGO_MultiPLCs.Models
             get => _Selected_Name;
             set
             {
-                if (_Recipe_Names.Contains(value))
-                {
-                    _Selected_Name = value;
-                    NotifyPropertyChanged();
+                _Selected_Name = value;
+                NotifyPropertyChanged();
 
-                    SwitchRecipeEvent?.Invoke(_Selected_Name);
-                }
+                SwitchRecipeEvent?.Invoke(_Selected_Name);
             }
         }
 
-        public event MachineCodeChangedHandler MachineCodeChanged;
+        public string Intput_Name
+        {
+            get => _Intput_Name;
+            set
+            {
+                _Intput_Name = value;
+                NotifyPropertyChanged();
+            }
+        }
 
+        public event Action RecipeKeyInError;
+        public event MachineCodeChangedHandler MachineCodeChanged;
         public event RecordingFinishedEventHandler RecordingFinished;
         public event StartRecordingHandler StartRecording;
         public event SwitchRecipeEventHandler SwitchRecipeEvent;
@@ -226,6 +239,46 @@ namespace GPGO_MultiPLCs.Models
 
         public PLC_DataProvider(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
         {
+            CheckRecipeCommand_KeyIn = new RelayCommand(e =>
+                                                        {
+                                                            if (_Selected_Name != _Intput_Name)
+                                                            {
+                                                                var args = (KeyEventArgs)e;
+                                                                if (args.Key == Key.Enter)
+                                                                {
+                                                                    if (_Recipe_Names.Contains(_Intput_Name))
+                                                                    {
+                                                                        Selected_Name = _Intput_Name;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Intput_Name = "";
+                                                                        RecipeKeyInError?.Invoke();
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+
+            CheckRecipeCommand_KeyLeave = new RelayCommand(e =>
+                                                           {
+                                                               if(_Selected_Name != _Intput_Name)
+                                                               {
+                                                                   if (_Recipe_Names.Contains(_Intput_Name))
+                                                                   {
+                                                                       Selected_Name = _Intput_Name;
+                                                                   }
+                                                                   else
+                                                                   {
+                                                                       if (_Intput_Name != "")
+                                                                       {
+                                                                           RecipeKeyInError?.Invoke();
+                                                                       }
+
+                                                                       Intput_Name = _Selected_Name;
+                                                                   }
+                                                               }
+                                                           });
+
             CheckInCommand = new CommandWithResult<bool>(async o =>
                                                          {
                                                              var para = (string)o;

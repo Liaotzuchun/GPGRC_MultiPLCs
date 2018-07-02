@@ -37,13 +37,13 @@
                     <VisualState x:Name="Normal" />
                     <VisualState x:Name="MouseOver">
                         <Storyboard>
-                            <ColorAnimationUsingKeyFrames
+                            <!--<ColorAnimationUsingKeyFrames
                                 Storyboard.TargetName="Border"
                                 Storyboard.TargetProperty="Background.Color">
                                 <EasingColorKeyFrame
                                     KeyTime="0"
                                     Value="{Binding Source={StaticResource LightBrush}, Path=Color}" />
-                            </ColorAnimationUsingKeyFrames>
+                            </ColorAnimationUsingKeyFrames>-->
                             <ColorAnimationUsingKeyFrames
                                 Storyboard.TargetName="Arrow"
                                 Storyboard.TargetProperty="Fill.Color">
@@ -207,6 +207,9 @@
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger SourceName="PART_EditableTextBox" Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="Background" Value="{StaticResource GlyphBrush}" />
+                        </Trigger>
                         <Trigger Property="HasItems" Value="False">
                             <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
                         </Trigger>

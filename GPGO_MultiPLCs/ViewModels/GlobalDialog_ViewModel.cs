@@ -272,7 +272,7 @@ namespace GPGO_MultiPLCs.ViewModels
             EnterCommand = new RelayCommand(e =>
                                             {
                                                 var args = (KeyEventArgs)e;
-                                                if (args.Key == Key.Enter || args.Key == Key.Return)
+                                                if (args.Key == Key.Enter)
                                                 {
                                                     EnterResult = true;
                                                     Lock.Set();
