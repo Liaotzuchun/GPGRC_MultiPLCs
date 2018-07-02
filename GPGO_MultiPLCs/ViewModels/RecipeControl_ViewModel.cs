@@ -24,13 +24,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
         public RelayCommand AddCommand { get; }
-
         public bool Delete_Enable => _Selected_PLC_Recipe != null && !_Selected_PLC_Recipe.Used_Stations.Any(x => x);
         public RelayCommand DeleteCommand { get; }
-
         public RelayCommand InitialLoadCommand { get; }
         public RelayCommand ResetCommand { get; }
-
         public bool Save_Enable => _Selected_PLC_Recipe != null;
         public RelayCommand SaveCommand { get; }
 
@@ -249,7 +246,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             SaveCommand = new RelayCommand(async e =>
                                            {
-                                               if (await dialog.Show("將儲存並覆蓋同名配方，無法復原\n" + "確定儲存?", true, DialogMsgType.Alarm))
+                                               if (await dialog.Show("將儲存並覆蓋同名配方，無法復原\n" + "確定儲存?", true, DialogMsgType.Alert))
                                                {
                                                    await Save(_TypedName);
                                                }

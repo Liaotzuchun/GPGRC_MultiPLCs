@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.Views
 {

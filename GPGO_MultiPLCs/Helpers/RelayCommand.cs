@@ -117,25 +117,6 @@ namespace GPGO_MultiPLCs.Helpers
     /// <typeparam name="T"></typeparam>
     public sealed class CommandWithResult<T> : ViewModelBase, ICommand
     {
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return canExecute?.Invoke(parameter) ?? true;
-        }
-
-        public async void Execute(object parameter)
-        {
-            if (execute != null)
-            {
-                Result = execute.Invoke(parameter);
-            }
-            else if (execute_Task != null)
-            {
-                Result = await execute_Task.Invoke(parameter);
-            }
-        }
-
         private readonly Predicate<object> canExecute;
         private readonly Func<object, T> execute;
         private readonly Func<object, Task<T>> execute_Task;
@@ -176,6 +157,29 @@ namespace GPGO_MultiPLCs.Helpers
             this.execute_Task = execute_Task;
             this.canExecute = canExecute;
         }
+
+        #region ICommand Members
+
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return canExecute?.Invoke(parameter) ?? true;
+        }
+
+        public async void Execute(object parameter)
+        {
+            if (execute != null)
+            {
+                Result = execute.Invoke(parameter);
+            }
+            else if (execute_Task != null)
+            {
+                Result = await execute_Task.Invoke(parameter);
+            }
+        }
+
+        #endregion
     }
 
     /// <summary>

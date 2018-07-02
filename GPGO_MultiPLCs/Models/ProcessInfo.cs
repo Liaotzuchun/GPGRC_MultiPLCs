@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -9,16 +7,14 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
-        private ObservableConcurrentCollection<RecordEvent> _EventList = new ObservableConcurrentCollection<RecordEvent>();
         private DateTime _EndTime;
+        private ObservableConcurrentCollection<RecordEvent> _EventList = new ObservableConcurrentCollection<RecordEvent>();
         private bool _FirstPanel;
         private short _HeatingTime;
-        private string _JigCode;
         private string _MachineCode;
         private string _OperatorID;
         private string _OrderCode;
         private int _OrderCount;
-        private int _PCS_Number;
         private int _ProcessCount;
         private int _ProcessNumber;
         private string _ProduceCode;
@@ -31,22 +27,22 @@ namespace GPGO_MultiPLCs.Models
         private string _TrolleyCode;
         private short _WarmingTime;
 
-        public ObservableConcurrentCollection<RecordEvent> EventList
-        {
-            get => _EventList;
-            set
-            {
-                _EventList = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         public DateTime EndTime
         {
             get => _EndTime;
             set
             {
                 _EndTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ObservableConcurrentCollection<RecordEvent> EventList
+        {
+            get => _EventList;
+            set
+            {
+                _EventList = value;
                 NotifyPropertyChanged();
             }
         }
@@ -67,16 +63,6 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _HeatingTime = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string JigCode
-        {
-            get => _JigCode;
-            set
-            {
-                _JigCode = value;
                 NotifyPropertyChanged();
             }
         }
@@ -117,16 +103,6 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _OrderCount = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public int PCS_Number
-        {
-            get => _PCS_Number;
-            set
-            {
-                _PCS_Number = value;
                 NotifyPropertyChanged();
             }
         }

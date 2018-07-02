@@ -22,4 +22,5 @@
     <local:TimespanToDouble x:Key="TimespanToDouble" />
     <local:StrCheckVis x:Key="StrCheckVis" />
     <local:DateTimeCheckVis x:Key="DateTimeCheckVis" />
+    <local:EnumToIntConverter x:Key="EnumToIntConverter" />
 </ResourceDictionary>

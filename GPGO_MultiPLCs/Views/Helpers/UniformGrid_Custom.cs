@@ -297,8 +297,32 @@ namespace GPGO_MultiPLCs.Views
 
     public class UniformGridWithOrientation : UniformGrid
     {
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation),
+                                                                                                    typeof(Orientation),
+                                                                                                    typeof(UniformGridWithOrientation),
+                                                                                                    new FrameworkPropertyMetadata(Orientation.Vertical,
+                                                                                                                                  FrameworkPropertyMetadataOptions.AffectsMeasure),
+                                                                                                    IsValidOrientation);
+
+        public Orientation Orientation
+        {
+            get => (Orientation)GetValue(OrientationProperty);
+            set => SetValue(OrientationProperty, value);
+        }
+
         private int _columns;
         private int _rows;
+
+        internal static bool IsValidOrientation(object o)
+        {
+            var orientation = (Orientation)o;
+            if (orientation != Orientation.Horizontal)
+            {
+                return orientation == Orientation.Vertical;
+            }
+
+            return true;
+        }
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
@@ -410,33 +434,5 @@ namespace GPGO_MultiPLCs.Views
                 }
             }
         }
-
-        #region Orientation (Dependency Property)  
-
-        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation),
-                                                                                                    typeof(Orientation),
-                                                                                                    typeof(UniformGridWithOrientation),
-                                                                                                    new FrameworkPropertyMetadata(Orientation.Vertical,
-                                                                                                                                  FrameworkPropertyMetadataOptions.AffectsMeasure),
-                                                                                                    IsValidOrientation);
-
-        internal static bool IsValidOrientation(object o)
-        {
-            var orientation = (Orientation)o;
-            if (orientation != Orientation.Horizontal)
-            {
-                return orientation == Orientation.Vertical;
-            }
-
-            return true;
-        }
-
-        public Orientation Orientation
-        {
-            get => (Orientation)GetValue(OrientationProperty);
-            set => SetValue(OrientationProperty, value);
-        }
-
-        #endregion
     }
 }

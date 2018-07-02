@@ -176,6 +176,7 @@
                             VerticalAlignment="Center"
                             Background="Transparent"
                             Focusable="True"
+                            Foreground="{TemplateBinding Foreground}"
                             InputMethod.IsInputMethodEnabled="False"
                             IsReadOnly="{TemplateBinding IsReadOnly}"
                             Style="{x:Null}"

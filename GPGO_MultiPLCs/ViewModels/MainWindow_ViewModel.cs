@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Threading;
+﻿using System.Windows.Threading;
 using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels

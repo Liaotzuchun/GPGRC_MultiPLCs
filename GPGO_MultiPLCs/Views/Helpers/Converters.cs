@@ -8,6 +8,68 @@ using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views
 {
+    public class EnumToIntConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var returnValue = 0;
+            if (parameter is Type type)
+            {
+                if (value != null)
+                {
+                    returnValue = (int)Enum.Parse(type, value.ToString());
+                }
+            }
+
+            return returnValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var enumValue = default(Enum);
+            if (parameter is Type type)
+            {
+                if (value != null)
+                {
+                    enumValue = (Enum)Enum.Parse(type, value.ToString());
+                }
+            }
+
+            return enumValue;
+        }
+    }
+
+    public class ToEnumConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var enumValue = default(Enum);
+            if (parameter is Type type)
+            {
+                if (value != null)
+                {
+                    enumValue = (Enum)Enum.Parse(type, value.ToString());
+                }
+            }
+
+            return enumValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var returnValue = 0;
+            if (parameter is Type type)
+            {
+                if (value != null)
+                {
+                    returnValue = (int)Enum.Parse(type, value.ToString());
+                }
+            }
+
+            return returnValue;
+        }
+    }
+
     public class TimespanToDouble : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

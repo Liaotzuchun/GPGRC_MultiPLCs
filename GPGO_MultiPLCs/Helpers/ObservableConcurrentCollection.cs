@@ -4,7 +4,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Threading;
 
 namespace GPGO_MultiPLCs.Helpers
@@ -126,6 +125,23 @@ namespace GPGO_MultiPLCs.Helpers
 
         private readonly SynchronizationContext _context;
 
+        public void Add(T item)
+        {
+            TryAdd(item);
+        }
+
+        public void Clear()
+        {
+            for (var i = 0; i < ContainedCollection.Count; i++)
+            {
+                var result = base.TryTake(out _);
+                if (result)
+                {
+                    NotifyObserversOfChange();
+                }
+            }
+        }
+
         protected override bool TryAdd(T item)
         {
             // Try to add the item to the underlying collection.  If we were able to,
@@ -150,23 +166,6 @@ namespace GPGO_MultiPLCs.Helpers
             }
 
             return result;
-        }
-
-        public void Add(T item)
-        {
-            TryAdd(item);
-        }
-
-        public void Clear()
-        {
-            for (var i = 0; i < ContainedCollection.Count; i++)
-            {
-                var result = base.TryTake(out _);
-                if (result)
-                {
-                    NotifyObserversOfChange();
-                }
-            }
         }
 
         /// <summary>

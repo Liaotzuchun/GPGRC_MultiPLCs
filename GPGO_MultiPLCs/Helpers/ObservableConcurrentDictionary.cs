@@ -7,11 +7,78 @@ using System.Threading;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    public class ObservableConcurrentDictionary<TKey, TValue> : ICollection<KeyValuePair<TKey, TValue>>,
-                                                                IDictionary<TKey, TValue>,
-                                                                INotifyCollectionChanged,
-                                                                INotifyPropertyChanged
+    public class ObservableConcurrentDictionary<TKey, TValue> : ICollection<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
     {
+        int ICollection<KeyValuePair<TKey, TValue>>.Count => _dictionary.Count;
+
+        bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).IsReadOnly;
+
+        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
+        {
+            TryAddWithNotification(item);
+        }
+
+        void ICollection<KeyValuePair<TKey, TValue>>.Clear()
+        {
+            _dictionary.Clear();
+            NotifyObserversOfChange();
+        }
+
+        bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
+        {
+            return ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).Contains(item);
+        }
+
+        void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).CopyTo(array, arrayIndex);
+        }
+
+        bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
+        {
+            return TryRemoveWithNotification(item.Key, out _);
+        }
+
+        public ICollection<TKey> Keys => _dictionary.Keys;
+
+        public ICollection<TValue> Values => _dictionary.Values;
+
+        public TValue this[TKey key]
+        {
+            get => _dictionary[key];
+            set => UpdateWithNotification(key, value);
+        }
+
+        public void Add(TKey key, TValue value)
+        {
+            TryAddWithNotification(key, value);
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            return _dictionary.ContainsKey(key);
+        }
+
+        public bool Remove(TKey key)
+        {
+            return TryRemoveWithNotification(key, out _);
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            return _dictionary.TryGetValue(key, out value);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _dictionary.GetEnumerator();
+        }
+
+        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+        {
+            return _dictionary.GetEnumerator();
+        }
+
         /// <summary>Event raised when the collection changes.</summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
@@ -20,15 +87,6 @@ namespace GPGO_MultiPLCs.Helpers
 
         private readonly ConcurrentDictionary<TKey, TValue> _dictionary;
         private SynchronizationContext _context;
-
-        /// <summary>
-        ///     Initializes an instance of the ObservableConcurrentDictionary class.
-        /// </summary>
-        public ObservableConcurrentDictionary()
-        {
-            _context = AsyncOperationManager.SynchronizationContext;
-            _dictionary = new ConcurrentDictionary<TKey, TValue>();
-        }
 
         public void CustomSynchronizationContext(SynchronizationContext sc)
         {
@@ -45,18 +103,18 @@ namespace GPGO_MultiPLCs.Helpers
             if (collectionHandler != null || propertyHandler != null)
             {
                 _context.Post(s =>
-                {
-                    collectionHandler?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                              {
+                                  collectionHandler?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-                    if (propertyHandler == null)
-                    {
-                        return;
-                    }
+                                  if (propertyHandler == null)
+                                  {
+                                      return;
+                                  }
 
-                    propertyHandler(this, new PropertyChangedEventArgs("Count"));
-                    propertyHandler(this, new PropertyChangedEventArgs("Keys"));
-                    propertyHandler(this, new PropertyChangedEventArgs("Values"));
-                },
+                                  propertyHandler(this, new PropertyChangedEventArgs("Count"));
+                                  propertyHandler(this, new PropertyChangedEventArgs("Keys"));
+                                  propertyHandler(this, new PropertyChangedEventArgs("Values"));
+                              },
                               null);
             }
         }
@@ -109,86 +167,13 @@ namespace GPGO_MultiPLCs.Helpers
             NotifyObserversOfChange();
         }
 
-        #region ICollection<KeyValuePair<TKey,TValue>> Members
-
-        void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
+        /// <summary>
+        ///     Initializes an instance of the ObservableConcurrentDictionary class.
+        /// </summary>
+        public ObservableConcurrentDictionary()
         {
-            TryAddWithNotification(item);
+            _context = AsyncOperationManager.SynchronizationContext;
+            _dictionary = new ConcurrentDictionary<TKey, TValue>();
         }
-
-        void ICollection<KeyValuePair<TKey, TValue>>.Clear()
-        {
-            _dictionary.Clear();
-            NotifyObserversOfChange();
-        }
-
-        bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
-        {
-            return ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).Contains(item);
-        }
-
-        void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).CopyTo(array, arrayIndex);
-        }
-
-        int ICollection<KeyValuePair<TKey, TValue>>.Count => _dictionary.Count;
-
-        bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly => ((ICollection<KeyValuePair<TKey, TValue>>)_dictionary).IsReadOnly;
-
-        bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
-        {
-            return TryRemoveWithNotification(item.Key, out var _);
-        }
-
-        #endregion ICollection<KeyValuePair<TKey,TValue>> Members
-
-        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
-
-        IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
-        {
-            return _dictionary.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _dictionary.GetEnumerator();
-        }
-
-        #endregion IEnumerable<KeyValuePair<TKey,TValue>> Members
-
-        #region IDictionary<TKey,TValue> Members
-
-        public void Add(TKey key, TValue value)
-        {
-            TryAddWithNotification(key, value);
-        }
-
-        public bool ContainsKey(TKey key)
-        {
-            return _dictionary.ContainsKey(key);
-        }
-
-        public ICollection<TKey> Keys => _dictionary.Keys;
-
-        public bool Remove(TKey key)
-        {
-            return TryRemoveWithNotification(key, out var _);
-        }
-
-        public bool TryGetValue(TKey key, out TValue value)
-        {
-            return _dictionary.TryGetValue(key, out value);
-        }
-
-        public ICollection<TValue> Values => _dictionary.Values;
-
-        public TValue this[TKey key]
-        {
-            get => _dictionary[key];
-            set => UpdateWithNotification(key, value);
-        }
-
-        #endregion IDictionary<TKey,TValue> Members
     }
 }

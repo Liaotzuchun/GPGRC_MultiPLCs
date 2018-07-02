@@ -65,6 +65,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private int _ViewIndex = -1;
 
         private GPServiceClient PLC_Client;
+
         public RelayCommand BackCommand { get; }
         public PLC_DataProvider[] PLC_All { get; }
         public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;

@@ -9,22 +9,22 @@ namespace GPGO_MultiPLCs.Models
 {
     public class PLC_DataProvider : PLC_Data
     {
+        public delegate void MachineCodeChangedHandler(string code);
+
         public delegate void RecordingFinishedEventHandler(ProcessInfo info);
 
         public delegate void StartRecordingHandler(string recipe, AutoResetEvent LockObj);
 
         public delegate void SwitchRecipeEventHandler(string recipe);
 
-        public delegate void MachineCodeChangedHandler(string code);
-
         public CancellationTokenSource CTS;
-
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
         private bool _OnlineStatus;
         private ICollection<string> _Recipe_Names;
         private Task _RecordingTask;
         private string _Selected_Name;
+
         public CommandWithResult<bool> CheckInCommand { get; }
 
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
@@ -111,17 +111,21 @@ namespace GPGO_MultiPLCs.Models
             get => _Selected_Name;
             set
             {
-                _Selected_Name = value;
-                NotifyPropertyChanged();
+                if (_Recipe_Names.Contains(value))
+                {
+                    _Selected_Name = value;
+                    NotifyPropertyChanged();
 
-                SwitchRecipeEvent?.Invoke(_Selected_Name);
+                    SwitchRecipeEvent?.Invoke(_Selected_Name);
+                }
             }
         }
+
+        public event MachineCodeChangedHandler MachineCodeChanged;
 
         public event RecordingFinishedEventHandler RecordingFinished;
         public event StartRecordingHandler StartRecording;
         public event SwitchRecipeEventHandler SwitchRecipeEvent;
-        public event MachineCodeChangedHandler MachineCodeChanged;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
@@ -142,7 +146,7 @@ namespace GPGO_MultiPLCs.Models
                                                     OvenTemperatures_5 = t6,
                                                     OvenTemperatures_6 = t7,
                                                     OvenTemperatures_7 = t8
-            });
+                                                });
         }
 
         public void ResetStopTokenSource()
@@ -263,7 +267,7 @@ namespace GPGO_MultiPLCs.Models
             Process_Info = new ProcessInfo();
             Process_Info.PropertyChanged += (s, e) =>
                                             {
-                                                if(e.PropertyName == nameof(ProcessInfo.MachineCode))
+                                                if (e.PropertyName == nameof(ProcessInfo.MachineCode))
                                                 {
                                                     MachineCodeChanged?.Invoke((s as ProcessInfo)?.MachineCode);
                                                 }

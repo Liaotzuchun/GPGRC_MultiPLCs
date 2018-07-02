@@ -135,6 +135,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private bool _WithIntput;
 
         private bool EnterResult;
+
         public RelayCommand CancelCommand { get; }
 
         public RelayCommand EnterCommand { get; }
@@ -271,7 +272,7 @@ namespace GPGO_MultiPLCs.ViewModels
             EnterCommand = new RelayCommand(e =>
                                             {
                                                 var args = (KeyEventArgs)e;
-                                                if (args.Key == Key.Return)
+                                                if (args.Key == Key.Enter || args.Key == Key.Return)
                                                 {
                                                     EnterResult = true;
                                                     Lock.Set();

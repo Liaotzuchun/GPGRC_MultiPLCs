@@ -6,13 +6,12 @@ namespace GPGO_MultiPLCs.Helpers
     public enum DialogMsgType
     {
         Normal,
-        Alarm,
-        Error
+        Alert,
+        Alarm
     }
 
     public interface IDialogService<T>
     {
-
         Task<bool> Show(string msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal);
         Task Show(string msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal);
         Task<(bool result, T intput)> ShowWithIntput(string msg, string header);

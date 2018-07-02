@@ -1391,7 +1391,8 @@
                                                             Grid.Row="2"
                                                             Grid.Column="1">
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                                <ColumnDefinition
+                                                                    Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                                                                 <ColumnDefinition Width="*" />
                                                             </Grid.ColumnDefinitions>
                                                             <ScrollBar
@@ -1498,8 +1499,10 @@
                                                 <DataTrigger
                                                     Binding="{Binding Mode=OneWay}"
                                                     Value="True">
-                                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
-                                                    <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                                    <Setter TargetName="Border" Property="Background"
+                                                            Value="{StaticResource WorkingBrush}" />
+                                                    <Setter TargetName="TextBlock" Property="Foreground"
+                                                            Value="{StaticResource BaseForeground}" />
                                                 </DataTrigger>
                                             </DataTemplate.Triggers>
                                         </DataTemplate>

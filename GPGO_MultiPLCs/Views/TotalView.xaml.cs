@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views
 {
@@ -7,6 +8,26 @@ namespace GPGO_MultiPLCs.Views
     /// </summary>
     public partial class TotalView : UserControl
     {
+        private void CB_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var cb = (ComboBox)sender;
+            var str = (string)cb.SelectedItem;
+            if (cb.Text != str && (e.Key == Key.Enter || e.Key == Key.Return))
+            {
+                cb.Text = str;
+            }
+        }
+
+        private void CB_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var cb = (ComboBox)sender;
+            var str = (string)cb.SelectedItem;
+            if (cb.Text != str)
+            {
+                cb.Text = str;
+            }
+        }
+
         public TotalView()
         {
             InitializeComponent();
