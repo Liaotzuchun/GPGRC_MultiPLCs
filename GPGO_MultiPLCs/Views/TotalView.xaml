@@ -141,7 +141,8 @@
                                                     SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
                                                     Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                     <i:Interaction.Triggers>
-                                                        <i:EventTrigger EventName="PreviewKeyDown">
+                                                        <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
+                                                        <i:EventTrigger EventName="PreviewKeyUp">
                                                             <helpers:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
                                                         </i:EventTrigger>
                                                         <i:EventTrigger EventName="PreviewLostKeyboardFocus">
