@@ -85,22 +85,6 @@ namespace GPGO_MultiPLCs
 
         public Connector()
         {
-            BsonSerializer.RegisterSerializer(typeof(DateTime), DateTimeSerializer.LocalInstance);
-            var mongo_service = new ServiceController("MongoDB");
-            if (mongo_service.Status == ServiceControllerStatus.Stopped)
-            {
-                try
-                {
-                    mongo_service.Start();
-                }
-                catch (Exception ex)
-                {
-                    ErrorRecoder.RecordError(ex, "Mongo嘗試啟動失敗");
-                }
-
-                mongo_service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(9));
-            }
-
             Mongo = new MongoClient("mongodb://localhost:27017");
 
             DialogVM = new GlobalDialog_ViewModel();
