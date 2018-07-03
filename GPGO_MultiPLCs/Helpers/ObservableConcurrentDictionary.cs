@@ -39,6 +39,8 @@ namespace GPGO_MultiPLCs.Helpers
             return TryRemoveWithNotification(item.Key, out _);
         }
 
+        public int Count => _dictionary.Count;
+
         public ICollection<TKey> Keys => _dictionary.Keys;
 
         public ICollection<TValue> Values => _dictionary.Values;

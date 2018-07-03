@@ -8,227 +8,285 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:GlobalDialog_ViewModel}"
-    Visibility="{Binding IsShown, Mode=OneWay}"
     mc:Ignorable="d">
+    <UserControl.Visibility>
+        <MultiBinding
+            Converter="{StaticResource MultiAnyVisibleConverter}"
+            Mode="OneWay">
+            <Binding
+                Converter="{StaticResource CountVis}"
+                Mode="OneWay"
+                Path="Msgs.Count" />
+            <Binding
+                Mode="OneWay"
+                Path="IsShown_1" />
+            <Binding
+                Mode="OneWay"
+                Path="IsShown_2" />
+        </MultiBinding>
+    </UserControl.Visibility>
 
     <Border Background="#7F333333">
-        <TabControl
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            SelectedIndex="{Binding WithIntput, Mode=OneWay}">
-            <TabItem
-                Width="0"
-                Height="0">
-                <Border
-                    Width="400"
-                    Height="200"
-                    Background="{StaticResource LightColorBrush}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <TabControl
-                            SelectedIndex="{Binding MsgType, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}">
-                            <TabItem
-                                Width="0"
-                                Height="0">
-                                <Border
-                                    Background="{StaticResource OKBrush}"
-                                    BorderBrush="{StaticResource OKBorderBrush}"
-                                    BorderThickness="1">
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        Foreground="White"
-                                        Text="提示!" />
-                                </Border>
-                            </TabItem>
-                            <TabItem
-                                Width="0"
-                                Height="0">
-                                <Border
-                                    Background="{StaticResource WorkingBrush}"
-                                    BorderBrush="{StaticResource WorkingBorderBrush}"
-                                    BorderThickness="1">
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        Text="警告!" />
-                                </Border>
-                            </TabItem>
-                            <TabItem
-                                Width="0"
-                                Height="0">
-                                <Border
-                                    Background="{StaticResource ErrorBrush}"
-                                    BorderBrush="{StaticResource ErrorBorderBrush}"
-                                    BorderThickness="1">
-                                    <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        Foreground="White"
-                                        Text="錯誤!" />
-                                </Border>
-                            </TabItem>
-                        </TabControl>
-                        <Grid Grid.Row="1">
+        <Grid HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ItemsControl
+                Width="400"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Msgs, Mode=OneTime}"
+                Visibility="{Binding Msgs.Count, Mode=OneWay, Converter={StaticResource CountVis}}">
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid
+                            Height="200"
+                            Margin="4"
+                            Background="{StaticResource LightColorBrush}">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
                                 <RowDefinition />
-                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Viewbox Margin="20,8,20,4">
+                            <TabControl SelectedIndex="{Binding Value.Type, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}">
+                                <TabItem
+                                    Width="0"
+                                    Height="0">
+                                    <Border
+                                        Background="{StaticResource OKBrush}"
+                                        BorderBrush="{StaticResource OKBorderBrush}"
+                                        BorderThickness="1">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="20"
+                                            Foreground="White"
+                                            Text="提示!" />
+                                    </Border>
+                                </TabItem>
+                                <TabItem
+                                    Width="0"
+                                    Height="0">
+                                    <Border
+                                        Background="{StaticResource WorkingBrush}"
+                                        BorderBrush="{StaticResource WorkingBorderBrush}"
+                                        BorderThickness="1">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="20"
+                                            Text="警告!" />
+                                    </Border>
+                                </TabItem>
+                                <TabItem
+                                    Width="0"
+                                    Height="0">
+                                    <Border
+                                        Background="{StaticResource ErrorBrush}"
+                                        BorderBrush="{StaticResource ErrorBorderBrush}"
+                                        BorderThickness="1">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="20"
+                                            Foreground="White"
+                                            Text="錯誤!" />
+                                    </Border>
+                                </TabItem>
+                            </TabControl>
+                            <Viewbox
+                                Grid.Row="1"
+                                Margin="20,8,20,4">
                                 <TextBlock
-                                    Text="{Binding Message, Mode=OneWay}"
+                                    Text="{Binding Value.Msg, Mode=OneWay}"
                                     TextAlignment="Center"
                                     TextWrapping="WrapWithOverflow" />
                             </Viewbox>
-                            <StackPanel
-                                Grid.Row="1"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                TextElement.FontSize="20"
-                                Visibility="{Binding NoButton, Converter={StaticResource BoolNotVis}, Mode=OneWay}">
-                                <Button
-                                    Margin="4,8"
-                                    Padding="12,8"
-                                    Content="確定">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding OkayCommand, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button
-                                    Margin="4,8"
-                                    Padding="12,8"
-                                    Content="取消">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding CancelCommand, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                            </StackPanel>
                         </Grid>
-                    </Grid>
-                </Border>
-            </TabItem>
-            <TabItem
-                Width="0"
-                Height="0">
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Grid
+                Grid.Column="1"
+                Width="400"
+                Height="200"
+                Margin="4"
+                VerticalAlignment="Center"
+                Background="{StaticResource LightColorBrush}"
+                Visibility="{Binding IsShown_1, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
                 <Border
-                    Width="400"
-                    Height="200"
-                    Background="{StaticResource LightColorBrush}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Border
-                            Background="{StaticResource WorkingBrush}"
-                            BorderBrush="{StaticResource WorkingBorderBrush}"
-                            BorderThickness="1" />
-                        <Border
-                            BorderThickness="1"
-                            Visibility="{Binding ConditionResult, Mode=OneWay, Converter={StaticResource NullVis}}">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Style.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding ConditionResult, Mode=OneWay}"
-                                            Value="False">
-                                            <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
-                                            <Setter Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding ConditionResult, Mode=OneWay}"
-                                            Value="True">
-                                            <Setter Property="Background" Value="{StaticResource OKBrush}" />
-                                            <Setter Property="BorderBrush" Value="{StaticResource OKBorderBrush}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="20"
-                                Foreground="White"
-                                Text="{Binding Title, Mode=OneWay}" />
-                        </Border>
-                        <Border
-                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                            HorizontalAlignment="Left"
-                            Background="#7FFFFFFF"
-                            Visibility="{Binding TitleHeader, Converter={StaticResource NullVis}, Mode=OneWay}">
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="20"
-                                Text="{Binding TitleHeader, Mode=OneWay}" />
-                        </Border>
-                        <Grid Grid.Row="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Viewbox Margin="20,8,20,4">
-                                <TextBlock
-                                    Text="{Binding Message, Mode=OneWay}"
-                                    TextAlignment="Center"
-                                    TextWrapping="WrapWithOverflow" />
-                            </Viewbox>
-                            <TextBox
-                                x:Name="Intput"
-                                Grid.Row="1"
-                                Margin="20,4"
-                                FontSize="20"
-                                IsVisibleChanged="Intput_IsVisibleChanged"
-                                Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="PreviewKeyDown">
-                                        <hp:InteractiveCommand Command="{Binding EnterCommand, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </TextBox>
-                            <StackPanel
-                                Grid.Row="2"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                TextElement.FontSize="20">
-                                <Button
-                                    Margin="4,8"
-                                    Padding="12,8"
-                                    Content="確定">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding OkayCommand, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button
-                                    Margin="4,8"
-                                    Padding="12,8"
-                                    Content="取消">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding CancelCommand, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
+                    Background="{StaticResource WorkingBrush}"
+                    BorderBrush="{StaticResource WorkingBorderBrush}"
+                    BorderThickness="1">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="警告!" />
                 </Border>
-            </TabItem>
-        </TabControl>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Viewbox Margin="20,8,20,4">
+                        <TextBlock
+                            Text="{Binding Message_1, Mode=OneWay}"
+                            TextAlignment="Center"
+                            TextWrapping="WrapWithOverflow" />
+                    </Viewbox>
+                    <StackPanel
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        TextElement.FontSize="20">
+                        <Button
+                            Margin="4,8"
+                            Padding="12,8"
+                            Content="確定">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding OkayCommand_1, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button
+                            Margin="4,8"
+                            Padding="12,8"
+                            Content="取消">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding CancelCommand_1, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <Grid
+                Grid.Column="2"
+                Width="400"
+                Height="200"
+                Margin="4"
+                VerticalAlignment="Center"
+                Background="{StaticResource LightColorBrush}"
+                Visibility="{Binding IsShown_2, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border
+                    Background="{StaticResource WorkingBrush}"
+                    BorderBrush="{StaticResource WorkingBorderBrush}"
+                    BorderThickness="1" />
+                <Border
+                    BorderThickness="1"
+                    Visibility="{Binding ConditionResult, Mode=OneWay, Converter={StaticResource NullVis}}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding ConditionResult, Mode=OneWay}"
+                                    Value="False">
+                                    <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding ConditionResult, Mode=OneWay}"
+                                    Value="True">
+                                    <Setter Property="Background" Value="{StaticResource OKBrush}" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource OKBorderBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="{Binding Title, Mode=OneWay}" />
+                </Border>
+                <Border
+                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                    HorizontalAlignment="Left"
+                    Background="#7FFFFFFF"
+                    Visibility="{Binding TitleHeader, Converter={StaticResource NullVis}, Mode=OneWay}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="{Binding TitleHeader, Mode=OneWay}" />
+                </Border>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Viewbox Margin="20,8,20,4">
+                        <TextBlock
+                            Text="{Binding Message_2, Mode=OneWay}"
+                            TextAlignment="Center"
+                            TextWrapping="WrapWithOverflow" />
+                    </Viewbox>
+                    <TextBox
+                        x:Name="Intput"
+                        Grid.Row="1"
+                        Margin="20,4"
+                        FontSize="20"
+                        IsVisibleChanged="Intput_IsVisibleChanged"
+                        Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewKeyDown">
+                                <hp:InteractiveCommand Command="{Binding EnterCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                    <StackPanel
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        TextElement.FontSize="20">
+                        <Button
+                            Margin="4,8"
+                            Padding="12,8"
+                            Content="確定">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding OkayCommand_2, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button
+                            Margin="4,8"
+                            Padding="12,8"
+                            Content="取消">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding CancelCommand_2, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
     </Border>
 </UserControl>

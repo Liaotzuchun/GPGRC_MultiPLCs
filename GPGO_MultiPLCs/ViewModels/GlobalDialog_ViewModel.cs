@@ -11,87 +11,106 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public async Task<bool> Show(string msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
         {
-            MsgType = type;
-            EnterResult = false;
+            if (!Lock_1.WaitOne(0))
+            {
+                EnterResult_1 = false;
+                Lock_1.Set();
+
+                await Task.Delay(30);
+            }
+
+            EnterResult_1 = false;
             SupportCancel = support_cancel;
-            NoButton = false;
-            WithIntput = false;
-            Message = msg;
-            IsShown = Visibility.Visible;
+            Message_1 = msg;
+            IsShown_1 = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            Lock.WaitOne(9000);
+                                            Lock_1.Reset();
+                                            Lock_1.WaitOne(9000);
                                         },
                                         TaskCreationOptions.LongRunning);
 
-            IsShown = Visibility.Collapsed;
+            IsShown_1 = Visibility.Collapsed;
 
-            return EnterResult;
+            return EnterResult_1;
         }
 
         public async Task Show(string msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
         {
-            MsgType = type;
-            Message = msg;
-            NoButton = true;
-            WithIntput = false;
-            IsShown = Visibility.Visible;
-
-            await Task.Delay(delay);
-
-            IsShown = Visibility.Collapsed;
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            var m = new ShowingMessage(msg, type);
+                                            var tag = DateTime.Now.Ticks;
+                                            Msgs.Add(tag, m);
+                                            Thread.Sleep(delay);
+                                            Msgs.Remove(tag);
+                                        },
+                                        TaskCreationOptions.LongRunning);
         }
 
         public async Task<(bool result, string intput)> ShowWithIntput(string msg, string header)
         {
+            if (!Lock_2.WaitOne(0))
+            {
+                EnterResult_2 = false;
+                Lock_2.Set();
+
+                await Task.Delay(30);
+            }
+
             Intput = "";
             ConditionResult = null;
-            EnterResult = false;
-            SupportCancel = true;
-            NoButton = false;
-            WithIntput = true;
-            Message = msg;
+            EnterResult_2 = false;
+            Message_2 = msg;
             TitleHeader = header;
-            IsShown = Visibility.Visible;
+            IsShown_2 = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            Lock.WaitOne(30000);
+                                            Lock_2.Reset();
+                                            Lock_2.WaitOne(30000);
                                         },
                                         TaskCreationOptions.LongRunning);
 
-            IsShown = Visibility.Collapsed;
+            IsShown_2 = Visibility.Collapsed;
 
-            return (EnterResult, Intput);
+            return (EnterResult_2, Intput);
         }
 
         public async Task<(bool result, string intput)> ShowWithIntput(string msg, string header, Func<string, (bool result, string title_msg)> condition)
         {
+            if (!Lock_2.WaitOne(0))
+            {
+                EnterResult_2 = false;
+                Lock_2.Set();
+
+                await Task.Delay(30);
+            }
+
             Title = "";
             Intput = "";
             ConditionResult = null;
-            EnterResult = false;
-            SupportCancel = true;
-            WithIntput = true;
-            Message = msg;
+            EnterResult_2 = false;
+            Message_2 = msg;
             TitleHeader = header;
-            IsShown = Visibility.Visible;
+            IsShown_2 = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
                                         {
                                             while (true)
                                             {
-                                                if (Lock.WaitOne(30000))
+                                                Lock_2.Reset();
+                                                if (Lock_2.WaitOne(30000))
                                                 {
                                                     var (result, title_msg) = condition(_Intput);
 
-                                                    if (EnterResult)
+                                                    if (EnterResult_2)
                                                     {
                                                         ConditionResult = result;
                                                     }
 
-                                                    if (_ConditionResult != null && EnterResult && !_ConditionResult.Value)
+                                                    if (_ConditionResult != null && EnterResult_2 && !_ConditionResult.Value)
                                                     {
                                                         Title = title_msg;
                                                         Intput = "";
@@ -100,7 +119,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     {
                                                         Title = "";
 
-                                                        if (EnterResult)
+                                                        if (EnterResult_2)
                                                         {
                                                             Thread.Sleep(450);
                                                         }
@@ -116,31 +135,38 @@ namespace GPGO_MultiPLCs.ViewModels
                                         },
                                         TaskCreationOptions.LongRunning);
 
-            IsShown = Visibility.Collapsed;
+            IsShown_2 = Visibility.Collapsed;
 
-            return (_ConditionResult != null && EnterResult && _ConditionResult.Value, Intput);
+            return (_ConditionResult != null && EnterResult_2 && _ConditionResult.Value, Intput);
         }
 
-        private readonly AutoResetEvent Lock;
+        private readonly ManualResetEvent Lock_1;
+        private readonly ManualResetEvent Lock_2;
         private bool? _ConditionResult;
         private bool _EnterEnable;
         private string _Intput = "";
-        private Visibility _IsShown = Visibility.Collapsed;
-        private string _Message;
-        private DialogMsgType _MsgType;
-        private bool _NoButton;
+        private Visibility _IsShown_1 = Visibility.Collapsed;
+        private Visibility _IsShown_2 = Visibility.Collapsed;
+        private string _Message_1;
+        private string _Message_2;
         private bool _SupportCancel;
         private string _Title = "";
         private string _TitleHeader = "";
-        private bool _WithIntput;
 
-        private bool EnterResult;
+        private bool EnterResult_1;
+        private bool EnterResult_2;
 
-        public RelayCommand CancelCommand { get; }
+        public ObservableConcurrentDictionary<long, ShowingMessage> Msgs { get; }
+
+        public RelayCommand CancelCommand_1 { get; }
+
+        public RelayCommand OkayCommand_1 { get; }
+
+        public RelayCommand CancelCommand_2 { get; }
 
         public RelayCommand EnterCommand { get; }
 
-        public RelayCommand OkayCommand { get; }
+        public RelayCommand OkayCommand_2 { get; }
 
         public bool? ConditionResult
         {
@@ -173,42 +199,42 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public Visibility IsShown
+        public Visibility IsShown_1
         {
-            get => _IsShown;
+            get => _IsShown_1;
             set
             {
-                _IsShown = value;
+                _IsShown_1 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public string Message
+        public Visibility IsShown_2
         {
-            get => _Message;
+            get => _IsShown_2;
             set
             {
-                _Message = value;
+                _IsShown_2 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public DialogMsgType MsgType
+        public string Message_1
         {
-            get => _MsgType;
+            get => _Message_1;
             set
             {
-                _MsgType = value;
+                _Message_1 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public bool NoButton
+        public string Message_2
         {
-            get => _NoButton;
+            get => _Message_2;
             set
             {
-                _NoButton = value;
+                _Message_2 = value;
                 NotifyPropertyChanged();
             }
         }
@@ -243,39 +269,56 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public bool WithIntput
+        public struct ShowingMessage
         {
-            get => _WithIntput;
-            set
+            public string Msg { get; }
+            public DialogMsgType Type { get; }
+
+            public ShowingMessage(string msg, DialogMsgType type = DialogMsgType.Normal)
             {
-                _WithIntput = value;
-                NotifyPropertyChanged();
+                Msg = msg;
+                Type = type;
             }
         }
 
         public GlobalDialog_ViewModel()
         {
-            Lock = new AutoResetEvent(false);
+            Lock_1 = new ManualResetEvent(true);
+            Lock_2 = new ManualResetEvent(true);
 
-            OkayCommand = new RelayCommand(e =>
-                                           {
-                                               EnterResult = true;
-                                               Lock.Set();
-                                           });
+            Msgs = new ObservableConcurrentDictionary<long, ShowingMessage>();
 
-            CancelCommand = new RelayCommand(e =>
+            OkayCommand_1 = new RelayCommand(e =>
                                              {
-                                                 EnterResult = false;
-                                                 Lock.Set();
+                                                 EnterResult_1 = true;
+                                                 Lock_1.Set();
                                              });
+
+            CancelCommand_1 = new RelayCommand(e =>
+                                               {
+                                                   EnterResult_1 = false;
+                                                   Lock_1.Set();
+                                               });
+
+            OkayCommand_2 = new RelayCommand(e =>
+                                             {
+                                                 EnterResult_2 = true;
+                                                 Lock_2.Set();
+                                             });
+
+            CancelCommand_2 = new RelayCommand(e =>
+                                               {
+                                                   EnterResult_2 = false;
+                                                   Lock_2.Set();
+                                               });
 
             EnterCommand = new RelayCommand(e =>
                                             {
                                                 var args = (KeyEventArgs)e;
                                                 if (args.Key == Key.Enter)
                                                 {
-                                                    EnterResult = true;
-                                                    Lock.Set();
+                                                    EnterResult_2 = true;
+                                                    Lock_2.Set();
                                                 }
                                             });
         }

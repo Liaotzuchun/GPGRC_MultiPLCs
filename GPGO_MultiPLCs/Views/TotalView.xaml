@@ -106,7 +106,10 @@
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
-                                                <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                                <Border
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
@@ -123,7 +126,7 @@
                                                     Grid.Row="1"
                                                     Background="{StaticResource WindowBackgroundBrush2}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,1,0,0">
+                                                    BorderThickness="0,1,1,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"

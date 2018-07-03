@@ -250,6 +250,19 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
+    public class CountVis : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value != null && value is int val && val > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
     public class NullVis : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
