@@ -27,7 +27,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private List<User> Users;
         private string _TypedName;
         private User _NowUser;
-        private Visibility _IsShown = Visibility.Visible;
+        private Visibility _IsShown = Visibility.Collapsed;
 
         public RelayCommand AddUser { get; }
         public RelayCommand RemoveUser { get; }
@@ -151,13 +151,18 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         if (_TypedName == GP.Name && password.Password == GP.Password)
                                                         {
                                                             NowUser = GP;
+
+                                                            return true;
                                                         }
-                                                        else if (Users != null && Users.Find(x => x.Name == _TypedName && x.Password == password.Password) is User _user)
+
+                                                        if (Users != null && Users.Find(x => x.Name == _TypedName && x.Password == password.Password) is User _user)
                                                         {
                                                             NowUser = _user;
 
                                                             return true;
                                                         }
+
+                                                        return false;
                                                     }
 
                                                     return false;

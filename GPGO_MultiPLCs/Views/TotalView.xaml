@@ -354,12 +354,15 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Grid Grid.Column="1">
+                    <Grid
+                        Grid.Column="1"
+                        Background="{StaticResource WindowBackgroundBrush2}">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="4" />
                             <RowDefinition Height="40" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Grid Margin="0,0,0,4">
+                        <Grid>
                             <Rectangle
                                 Fill="{StaticResource DisabledBackgroundBrush}"
                                 Stroke="{StaticResource DisabledBorderBrush}"
@@ -369,20 +372,79 @@
                                 Stroke="{StaticResource OKBorderBrush}"
                                 StrokeThickness="1"
                                 Visibility="{Binding Gate_Status, Mode=OneWay, Converter={StaticResource BoolVis}}" />
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="16"
-                                Foreground="White"
-                                Text="PLC Gate" />
                         </Grid>
-                        <GroupBox Grid.Row="1">
-                            <GroupBox.Header>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                        <i:InvokeCommandAction Command="{Binding StartLog, Source={StaticResource AuthenticatorViewModel}, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                                 <TextBlock
+                                    Margin="4,0" FontSize="16"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding NowUser.Name, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
+                            </Border>
+                            <Border Grid.Column="1">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="LightSlateGray" />
+                                        <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
+                                                Value="1">
+                                                <Setter Property="Background" Value="Green" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
+                                                Value="2">
+                                                <Setter Property="Background" Value="Blue" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
+                                                Value="3">
+                                                <Setter Property="Background" Value="Purple" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
+                                                Value="4">
+                                                <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="24"
                                     Foreground="White"
+                                    Text="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,1,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
                                     Text="{Binding TotalProductionCount, Mode=OneWay, StringFormat=本日產量：\{0:D\} pcs}" />
-                            </GroupBox.Header>
+                            </Border>
                             <oxy:Plot
+                                Grid.Row="1"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 DefaultFont="Microsoft JhengHei"
                                 IsMouseWheelEnabled="False"
@@ -477,7 +539,7 @@
                                     </ControlTemplate>
                                 </oxy:Plot.DefaultTrackerTemplate>
                             </oxy:Plot>
-                        </GroupBox>
+                        </Grid>
                     </Grid>
                 </Grid>
             </TabItem>

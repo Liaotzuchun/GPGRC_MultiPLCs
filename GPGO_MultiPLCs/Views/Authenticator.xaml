@@ -20,40 +20,83 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Border>
-        <Border>
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
-                    <Setter Property="BorderBrush" Value="{StaticResource OKBorderBrush}" />
-                    <Setter Property="BorderThickness" Value="2" />
-                    <Setter Property="Height" Value="500" />
-                    <Setter Property="HorizontalAlignment" Value="Center" />
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="Width" Value="500" />
-                    <Style.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Login.Result, Mode=OneWay}"
-                            Value="False">
-                            <Setter Property="BorderBrush" Value="{StaticResource ErrorBrush}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
+        <Border
+            Width="500"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{StaticResource WindowBackgroundBrush2}"
+            BorderBrush="{Binding BorderBrush, ElementName=Border, Mode=OneWay}"
+            BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="80" />
                     <RowDefinition Height="8" />
-                    <RowDefinition Height="90" />
-                    <RowDefinition Height="8" />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+                <Border x:Name="Border">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <i:InvokeCommandAction
+                                Command="{Binding ExitLog, Mode=OneTime}"
+                                CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="{StaticResource OKBrush}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource OKBorderBrush}" />
+                            <Setter Property="BorderThickness" Value="0,0,0,1" />
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Login.Result, Mode=OneWay}"
+                                    Value="False">
+                                    <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Path
+                        Margin="4,2,4,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Stroke="{StaticResource GlyphBrush}"
+                        StrokeLineJoin="Round"
+                        StrokeThickness="3"
+                        Visibility="{Binding IsMouseOver, Converter={StaticResource BoolVis}, ElementName=Border, Mode=OneWay}">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <LineGeometry
+                                    StartPoint="0,0"
+                                    EndPoint="10,10" />
+                                <LineGeometry
+                                    StartPoint="10,0"
+                                    EndPoint="0,10" />
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                </Border>
+                <Rectangle
+                    Grid.Row="1"
+                    Grid.RowSpan="3">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                            <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                            <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource LightBrush}}" />
+                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
                 <Image
-                    Margin="8"
+                    Grid.Row="1"
+                    Margin="10"
                     Source="/GPGO_MultiPLCs;component/GPS.png"
                     Stretch="None" />
                 <Grid
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Margin="8,0"
                     TextElement.FontSize="16">
                     <Grid.ColumnDefinitions>
@@ -71,7 +114,9 @@
                         Grid.RowSpan="2"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                         Margin="0,0,8,0"
-                        Content="登出">
+                        Content="登出"
+                        IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}"
+                        Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction
@@ -131,22 +176,22 @@
                                 <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                 <Style.Triggers>
                                     <DataTrigger
-                                        Binding="{Binding NowUser.Level}"
+                                        Binding="{Binding NowUser.Level, Mode=OneWay}"
                                         Value="1">
                                         <Setter Property="Background" Value="Green" />
                                     </DataTrigger>
                                     <DataTrigger
-                                        Binding="{Binding NowUser.Level}"
+                                        Binding="{Binding NowUser.Level, Mode=OneWay}"
                                         Value="2">
                                         <Setter Property="Background" Value="Blue" />
                                     </DataTrigger>
                                     <DataTrigger
-                                        Binding="{Binding NowUser.Level}"
+                                        Binding="{Binding NowUser.Level, Mode=OneWay}"
                                         Value="3">
                                         <Setter Property="Background" Value="Purple" />
                                     </DataTrigger>
                                     <DataTrigger
-                                        Binding="{Binding NowUser.Level}"
+                                        Binding="{Binding NowUser.Level, Mode=OneWay}"
                                         Value="4">
                                         <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
                                     </DataTrigger>
@@ -162,11 +207,15 @@
                     </Border>
                 </Grid>
                 <Grid
-                    Grid.Row="3"
+                    x:Name="Grid"
+                    Grid.Row="4"
+                    Height="90"
                     Margin="8,0"
-                    TextElement.FontSize="16">
+                    IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
+                    TextElement.FontSize="16"
+                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="60" />
                         <ColumnDefinition />
                         <ColumnDefinition Width="80" />
                         <ColumnDefinition Width="80" />
@@ -235,7 +284,8 @@
                 </Grid>
                 <DataGrid
                     Grid.Row="5"
-                    Margin="8,0,8,8"
+                    Height="200"
+                    Margin="8"
                     AutoGenerateColumns="False"
                     BorderThickness="1"
                     CanUserAddRows="False"
@@ -250,13 +300,18 @@
                     IsSynchronizedWithCurrentItem="False"
                     ItemsSource="{Binding ViewUsers, Mode=OneWay}"
                     SelectionMode="Single"
-                    Style="{StaticResource DataGridStyle}">
+                    Style="{StaticResource DataGridStyle}"
+                    Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="*" Header="帳號"/>
-                        <DataGridTextColumn Width="*" Header="密碼"/>
-                        <DataGridTextColumn Header="層級"/>
-                        <DataGridTextColumn Header="上次登入"/>
-                        <DataGridTextColumn Header="創建時間"/>
+                        <DataGridTextColumn
+                            Width="*"
+                            Header="帳號" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Header="密碼" />
+                        <DataGridTextColumn Header="層級" />
+                        <DataGridTextColumn Header="上次登入" />
+                        <DataGridTextColumn Header="創建時間" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
