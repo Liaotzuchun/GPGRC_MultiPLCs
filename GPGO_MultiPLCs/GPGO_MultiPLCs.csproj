@@ -111,7 +111,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Authenticator.cs" />
     <Compile Include="Helpers\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
@@ -121,10 +120,14 @@
     <Compile Include="Models\ProcessInfo.cs" />
     <Compile Include="Models\PLC_DataProvider.cs" />
     <Compile Include="Models\RecordInfo.cs" />
+    <Compile Include="ViewModels\Authenticator_ViewModel.cs" />
     <Compile Include="ViewModels\GlobalDialog_ViewModel.cs" />
     <Compile Include="ViewModels\MainWindow_ViewModel.cs" />
     <Compile Include="ViewModels\RecipeControl_ViewModel.cs" />
     <Compile Include="ViewModels\TraceabilityView_ViewModel.cs" />
+    <Compile Include="Views\Authenticator.xaml.cs">
+      <DependentUpon>Authenticator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GlobalDialog.xaml.cs">
       <DependentUpon>GlobalDialog.xaml</DependentUpon>
     </Compile>
@@ -143,6 +146,10 @@
     <Compile Include="Views\TraceabilityView.xaml.cs">
       <DependentUpon>TraceabilityView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Authenticator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GlobalDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

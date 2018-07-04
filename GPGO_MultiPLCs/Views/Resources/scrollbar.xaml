@@ -275,7 +275,7 @@
             <Track
                 Name="PART_Track"
                 Grid.Row="1"
-                IsDirectionReversed="true">
+                IsDirectionReversed="True">
                 <Track.DecreaseRepeatButton>
                     <RepeatButton
                         Command="ScrollBar.PageUpCommand"

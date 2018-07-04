@@ -234,5 +234,18 @@ namespace GPGO_MultiPLCs.Models
         public int StationNumber { get; set; }
 
         #endregion
+
+        public void Clear()
+        {
+            StartTime = new DateTime();
+            EndTime = new DateTime();
+            OperatorID = "";
+            OrderCode = "";
+            OrderCount = 0;
+            ProcessCount = 0;
+            ProcessNumber = 0;
+            ProduceCode = "";
+            TrolleyCode = "";
+        }
     }
 }

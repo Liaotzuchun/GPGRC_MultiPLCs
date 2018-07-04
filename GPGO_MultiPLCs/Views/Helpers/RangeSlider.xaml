@@ -137,7 +137,7 @@
                                 <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
                                 <Setter Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
                             </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
+                            <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush6}" />
                                 <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush6}" />
                             </Trigger>

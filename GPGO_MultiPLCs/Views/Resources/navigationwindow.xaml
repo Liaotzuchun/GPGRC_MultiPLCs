@@ -62,7 +62,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Menu">
-                    <DockPanel IsItemsHost="true" />
+                    <DockPanel IsItemsHost="True" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -92,7 +92,7 @@
                                 BorderThickness="1">
                                 <StackPanel
                                     Margin="2"
-                                    IsItemsHost="true"
+                                    IsItemsHost="True"
                                     KeyboardNavigation.DirectionalNavigation="Cycle"
                                     KeyboardNavigation.TabNavigation="Cycle" />
                             </Border>
@@ -280,14 +280,14 @@
                             <AdornerDecorator>
                                 <ContentPresenter
                                     Name="PART_NavWinCP"
-                                    ClipToBounds="true" />
+                                    ClipToBounds="True" />
                             </AdornerDecorator>
 
                             <ResizeGrip
                                 x:Name="WindowResizeGrip"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
-                                IsTabStop="false"
+                                IsTabStop="False"
                                 Visibility="Collapsed" />
                         </Grid>
                     </DockPanel>

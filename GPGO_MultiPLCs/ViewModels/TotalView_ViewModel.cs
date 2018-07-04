@@ -416,6 +416,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     //{
                                                     //! 寫入資料庫，上傳
                                                     AddRecordToDB?.Invoke(index, info);
+
+                                                    //! 完成上傳後，清空生產資訊
+                                                    info.Clear();
+
                                                     TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
                                                     dialog?.Show("第" + (index + 1) + "站已完成烘烤!", TimeSpan.FromSeconds(2));
                                                     //}

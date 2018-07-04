@@ -359,7 +359,7 @@
                             TextElement.Foreground="{StaticResource BaseForeground}" />
                         <Rectangle
                             x:Name="CalendarButtonFocusVisual"
-                            IsHitTestVisible="false"
+                            IsHitTestVisible="False"
                             RadiusX="0"
                             RadiusY="0"
                             Stroke="#FF45D6FA"
@@ -514,7 +514,7 @@
                             Stretch="Fill" />
                         <Rectangle
                             x:Name="DayButtonFocusVisual"
-                            IsHitTestVisible="false"
+                            IsHitTestVisible="False"
                             RadiusX="0"
                             RadiusY="0"
                             Stroke="#FF45D6FA"

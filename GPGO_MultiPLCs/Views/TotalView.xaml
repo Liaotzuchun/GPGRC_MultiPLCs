@@ -1530,36 +1530,6 @@
                                                     </Grid>
                                                 </TabItem>
                                             </TabControl>
-                                            <!--<TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger
-                                                                Binding="{Binding ManualMode, Mode=OneWay}"
-                                                                Value="True">
-                                                                <Setter Property="Text" Value="手動模式" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding="{Binding AutoMode, Mode=OneWay}"
-                                                                Value="True">
-                                                                <Setter Property="Text" Value="自動模式" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding="{Binding AutoMode_Start, Mode=OneWay}"
-                                                                Value="True">
-                                                                <Setter Property="Text" Value="自動 - 啟動" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding="{Binding AutoMode_Stop, Mode=OneWay}"
-                                                                Value="True">
-                                                                <Setter Property="Text" Value="自動 - 停止" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>-->
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"

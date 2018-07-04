@@ -37,6 +37,12 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid
+            x:Name="AuthGrid"
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2">
+            <local:Authenticator DataContext="{StaticResource AuthenticatorViewModel}" />
+        </Grid>
+        <Grid
             x:Name="PopGrid"
             Grid.RowSpan="2"
             Grid.ColumnSpan="2">

@@ -1,0 +1,265 @@
+﻿<UserControl
+    x:Class="GPGO_MultiPLCs.Views.Authenticator"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+    d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
+    Visibility="{Binding IsShown, Mode=OneWay}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Border Background="#7F333333">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseDown">
+                    <i:InvokeCommandAction
+                        Command="{Binding ExitLog, Mode=OneTime}"
+                        CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Border>
+        <Border>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource OKBorderBrush}" />
+                    <Setter Property="BorderThickness" Value="2" />
+                    <Setter Property="Height" Value="500" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Width" Value="500" />
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Login.Result, Mode=OneWay}"
+                            Value="False">
+                            <Setter Property="BorderBrush" Value="{StaticResource ErrorBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="90" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image
+                    Margin="8"
+                    Source="/GPGO_MultiPLCs;component/GPS.png"
+                    Stretch="None" />
+                <Grid
+                    Grid.Row="1"
+                    Margin="8,0"
+                    TextElement.FontSize="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button
+                        Grid.RowSpan="2"
+                        Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                        Margin="0,0,8,0"
+                        Content="登出">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction
+                                    Command="{Binding Logout, Mode=OneTime}"
+                                    CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Border
+                        Grid.Column="1"
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1,1,0,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="帳號" />
+                    </Border>
+                    <TextBox
+                        Grid.Column="2"
+                        BorderThickness="1,1,1,0"
+                        Text="{Binding TypedName, Mode=TwoWay}" />
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1,1,0,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="密碼" />
+                    </Border>
+                    <PasswordBox
+                        x:Name="Password"
+                        Grid.Row="1"
+                        Grid.Column="2" />
+                    <Button
+                        Grid.RowSpan="2"
+                        Grid.Column="3"
+                        Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                        Content="登入">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction
+                                    Command="{Binding Login, Mode=OneTime}"
+                                    CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="LightSlateGray" />
+                                <Setter Property="Grid.Column" Value="4" />
+                                <Setter Property="Grid.RowSpan" Value="2" />
+                                <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding NowUser.Level}"
+                                        Value="1">
+                                        <Setter Property="Background" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding NowUser.Level}"
+                                        Value="2">
+                                        <Setter Property="Background" Value="Blue" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding NowUser.Level}"
+                                        Value="3">
+                                        <Setter Property="Background" Value="Purple" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding NowUser.Level}"
+                                        Value="4">
+                                        <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="40"
+                            Foreground="White"
+                            Text="{Binding NowUser.Level}" />
+                    </Border>
+                </Grid>
+                <Grid
+                    Grid.Row="3"
+                    Margin="8,0"
+                    TextElement.FontSize="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1,1,0,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="帳號" />
+                    </Border>
+                    <TextBox
+                        Grid.Column="1"
+                        BorderThickness="1,1,1,0" />
+                    <Border
+                        Grid.Row="1"
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1,1,0,0">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="密碼" />
+                    </Border>
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        BorderThickness="1,1,1,0" />
+                    <Border
+                        Grid.Row="2"
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1,1,0,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="層級" />
+                    </Border>
+                    <ComboBox
+                        Grid.Row="2"
+                        Grid.Column="1" />
+                    <Button
+                        Grid.RowSpan="3"
+                        Grid.Column="2"
+                        Content="修改" />
+                    <Button
+                        Grid.RowSpan="3"
+                        Grid.Column="4"
+                        Content="刪除" />
+                    <Button
+                        Grid.RowSpan="3"
+                        Grid.Column="3"
+                        Content="新增" />
+                    <Button
+                        Grid.RowSpan="3"
+                        Grid.Column="4"
+                        Content="刪除" />
+                </Grid>
+                <DataGrid
+                    Grid.Row="5"
+                    Margin="8,0,8,8"
+                    AutoGenerateColumns="False"
+                    BorderThickness="1"
+                    CanUserAddRows="False"
+                    CanUserDeleteRows="False"
+                    CanUserReorderColumns="False"
+                    CanUserResizeColumns="False"
+                    CanUserResizeRows="False"
+                    CanUserSortColumns="False"
+                    Focusable="False"
+                    FontSize="11"
+                    IsReadOnly="True"
+                    IsSynchronizedWithCurrentItem="False"
+                    ItemsSource="{Binding ViewUsers, Mode=OneWay}"
+                    SelectionMode="Single"
+                    Style="{StaticResource DataGridStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" Header="帳號"/>
+                        <DataGridTextColumn Width="*" Header="密碼"/>
+                        <DataGridTextColumn Header="層級"/>
+                        <DataGridTextColumn Header="上次登入"/>
+                        <DataGridTextColumn Header="創建時間"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

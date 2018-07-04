@@ -202,13 +202,13 @@ namespace GPGO_MultiPLCs.Models
                                                                     OvenTemperature_7,
                                                                     OvenTemperature_8);
 
-                                                    if (n >= TimeSpan.FromMinutes(10))
+                                                    if (n >= TimeSpan.FromMinutes(30))
                                                     {
-                                                        n += TimeSpan.FromMinutes(1);
+                                                        n += TimeSpan.FromSeconds(30);
                                                     }
                                                     else if (n >= TimeSpan.FromMinutes(1))
                                                     {
-                                                        n += TimeSpan.FromSeconds(20);
+                                                        n += TimeSpan.FromSeconds(10);
                                                     }
                                                     else
                                                     {
