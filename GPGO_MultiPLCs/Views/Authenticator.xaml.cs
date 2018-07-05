@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -47,6 +49,18 @@ namespace GPGO_MultiPLCs.Views
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             Keyboard.ClearFocus();
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            var lng = Application.Current.Resources.MergedDictionaries.Last();
+            lng.Source = new Uri("pack://application:,,,/Views/Languages/TW.xaml");
+        }
+
+        private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
+        {
+            var lng = Application.Current.Resources.MergedDictionaries.Last();
+            lng.Source = new Uri("pack://application:,,,/Views/Languages/EN.xaml");
         }
     }
 }

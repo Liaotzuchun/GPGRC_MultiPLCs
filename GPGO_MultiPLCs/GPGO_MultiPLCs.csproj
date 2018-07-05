@@ -114,7 +114,6 @@
     <Compile Include="Helpers\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
-    <Compile Include="Languages.cs" />
     <Compile Include="Models\NamesEnum.cs" />
     <Compile Include="Models\PLC_Data.cs" />
     <Compile Include="Models\PLC_Recipe.cs" />
@@ -156,6 +155,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Helpers\RangeSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Languages\EN.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Languages\TW.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

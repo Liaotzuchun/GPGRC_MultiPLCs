@@ -34,7 +34,7 @@
                 Grid.Column="1"
                 Margin="0"
                 Panel.ZIndex="1"
-                Background="{StaticResource NormalBrush}"
+                Background="{x:Null}"
                 IsItemsHost="True"
                 KeyboardNavigation.TabIndex="1" />
         </Grid>
@@ -192,7 +192,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Grid Margin="1">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
@@ -207,7 +207,7 @@
                             Background="{StaticResource PressedBrush}"
                             BorderBrush="{StaticResource PressedBorderBrush}"
                             BorderThickness="1"
-                            Visibility="{Binding IsSelected, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource TemplatedParent}}" />
+                            Visibility="{Binding IsSelected, Converter={StaticResource BoolVis}, RelativeSource={RelativeSource TemplatedParent}}" />
                         <Border
                             Grid.Row="0"
                             Background="{StaticResource DisabledBackgroundBrush}"

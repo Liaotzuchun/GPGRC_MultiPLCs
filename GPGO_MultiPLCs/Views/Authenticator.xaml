@@ -36,6 +36,7 @@
                     <RowDefinition Height="8" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Border x:Name="Border">
                     <i:Interaction.Triggers>
@@ -116,7 +117,7 @@
                         Grid.RowSpan="2"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                         Margin="0,0,8,0"
-                        Content="登出"
+                        Content="{DynamicResource 登出}"
                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                         <i:Interaction.Triggers>
@@ -135,7 +136,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="帳號" />
+                            Text="{DynamicResource 帳號}" />
                     </Border>
                     <TextBox
                         x:Name="NameBox"
@@ -153,7 +154,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="密碼" />
+                            Text="{DynamicResource 密碼}" />
                     </Border>
                     <PasswordBox
                         x:Name="Password"
@@ -167,7 +168,7 @@
                         Grid.Column="3"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                         Click="LoginButton_Click"
-                        Content="登入">
+                        Content="{DynamicResource 登入}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction
@@ -243,7 +244,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="帳號" />
+                            Text="{DynamicResource 帳號}" />
                     </Border>
                     <TextBox
                         Grid.Column="1"
@@ -258,7 +259,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="密碼" />
+                            Text="{DynamicResource 密碼}" />
                     </Border>
                     <TextBox
                         Grid.Row="1"
@@ -274,7 +275,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="層級" />
+                            Text="{DynamicResource 層級}" />
                     </Border>
                     <ComboBox
                         x:Name="ComboBox"
@@ -285,7 +286,7 @@
                     <Button
                         Grid.RowSpan="3"
                         Grid.Column="2"
-                        Content="修改"
+                        Content="{DynamicResource 修改}"
                         IsEnabled="{Binding Update_Enable, Mode=OneWay}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -296,7 +297,7 @@
                     <Button
                         Grid.RowSpan="3"
                         Grid.Column="3"
-                        Content="新增"
+                        Content="{DynamicResource 新增}"
                         IsEnabled="{Binding Add_Enable, Mode=OneWay}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -307,7 +308,7 @@
                     <Button
                         Grid.RowSpan="3"
                         Grid.Column="4"
-                        Content="刪除"
+                        Content="{DynamicResource 刪除}"
                         IsEnabled="{Binding Remove_Enable, Mode=OneWay}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -316,48 +317,68 @@
                         </i:Interaction.Triggers>
                     </Button>
                 </Grid>
-                <DataGrid
-                    Grid.Row="5"
-                    Height="200"
+                <TabControl
+                    Grid.Row="6"
                     Margin="8"
-                    AutoGenerateColumns="False"
-                    BorderThickness="1"
-                    CanUserAddRows="False"
-                    CanUserDeleteRows="False"
-                    CanUserReorderColumns="False"
-                    CanUserResizeColumns="False"
-                    CanUserResizeRows="False"
-                    CanUserSortColumns="False"
-                    Focusable="False"
-                    FontSize="11"
-                    IsReadOnly="True"
-                    IsSynchronizedWithCurrentItem="False"
-                    ItemsSource="{Binding ViewUsers, Mode=OneWay}"
-                    SelectedItem="{Binding SelectedUser, Mode=OneWayToSource}"
-                    SelectionMode="Single"
-                    Style="{StaticResource DataGridStyle}"
-                    VerticalScrollBarVisibility="Visible"
                     Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding Name, Mode=OneWay}"
-                            Header="帳號" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding Password, Mode=OneWay}"
-                            Header="密碼" />
-                        <DataGridTextColumn
-                            Binding="{Binding Level, Mode=OneWay}"
-                            Header="層級" />
-                        <DataGridTextColumn
-                            Binding="{Binding LastLoginTime, Mode=OneWay, Converter={StaticResource DateTimeZeroToEmpty}, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}"
-                            Header="上次登入" />
-                        <DataGridTextColumn
-                            Binding="{Binding CreatedTime, Mode=OneWay, Converter={StaticResource DateTimeZeroToEmpty}, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}"
-                            Header="創建時間" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                    <TabItem
+                        Height="50"
+                        FontSize="16"
+                        Header="{StaticResource 人員管理}">
+                        <DataGrid
+                            Height="200"
+                            AutoGenerateColumns="False"
+                            BorderThickness="1"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="False"
+                            CanUserReorderColumns="False"
+                            CanUserResizeColumns="False"
+                            CanUserResizeRows="False"
+                            CanUserSortColumns="False"
+                            Focusable="False"
+                            FontSize="11"
+                            IsReadOnly="True"
+                            IsSynchronizedWithCurrentItem="False"
+                            ItemsSource="{Binding ViewUsers, Mode=OneWay}"
+                            SelectedItem="{Binding SelectedUser, Mode=OneWayToSource}"
+                            SelectionMode="Single"
+                            Style="{StaticResource DataGridStyle}"
+                            VerticalScrollBarVisibility="Visible">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn
+                                    Width="*"
+                                    Binding="{Binding Name, Mode=OneWay}"
+                                    Header="{DynamicResource 帳號}" />
+                                <DataGridTextColumn
+                                    Width="*"
+                                    Binding="{Binding Password, Mode=OneWay}"
+                                    Header="{DynamicResource 密碼}" />
+                                <DataGridTextColumn
+                                    Binding="{Binding Level, Mode=OneWay}"
+                                    Header="{DynamicResource 層級}" />
+                                <DataGridTextColumn
+                                    Binding="{Binding LastLoginTime, Mode=OneWay, Converter={StaticResource DateTimeZeroToEmpty}, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}"
+                                    Header="{DynamicResource 上次登入}" />
+                                <DataGridTextColumn
+                                    Binding="{Binding CreatedTime, Mode=OneWay, Converter={StaticResource DateTimeZeroToEmpty}, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}"
+                                    Header="{DynamicResource 創建時間}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem
+                        Height="50"
+                        FontSize="16"
+                        Header="{StaticResource 系統設定}"
+                        IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
+                        Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                        <Grid Height="200">
+                            <UniformGrid Columns="1">
+                                <RadioButton Content="{DynamicResource 繁體中文}" Checked="RadioButton_Checked" />
+                                <RadioButton Content="{DynamicResource 英文}" Checked="RadioButton_Checked_1" />
+                            </UniformGrid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </Grid>
         </Border>
     </Grid>

@@ -53,15 +53,15 @@
         <Grid Background="{StaticResource LightColorBrush}">
             <UniformGrid Rows="1">
                 <ToggleButton
-                    Content="{Binding 生產頁面, Source={StaticResource Languages}, Mode=OneWay}"
+                    Content="{DynamicResource 生產頁面}"
                     FontSize="20"
                     IsChecked="{Binding ViewIndex, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                 <ToggleButton
-                    Content="{Binding 配方管理, Source={StaticResource Languages}, Mode=OneWay}"
+                    Content="{DynamicResource 配方管理}"
                     FontSize="20"
                     IsChecked="{Binding ViewIndex, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                 <ToggleButton
-                    Content="{Binding 生產履歷, Source={StaticResource Languages}, Mode=OneWay}"
+                    Content="{DynamicResource 生產履歷}"
                     FontSize="20"
                     IsChecked="{Binding ViewIndex, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
             </UniformGrid>

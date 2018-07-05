@@ -63,7 +63,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                         <ColumnDefinition />
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                     </Grid.ColumnDefinitions>
                                     <Border Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border
@@ -99,7 +99,7 @@
                                             FontSize="14">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="54" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
@@ -112,16 +112,14 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,0,1,0">
                                                     <TextBlock
-                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding 設備碼, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                        Text="{DynamicResource 設備}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Column="1"
                                                     Background="{StaticResource LightColorBrush}">
                                                     <TextBox
-                                                        Margin="4,0"
                                                         BorderThickness="0"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                         Text="{Binding Process_Info.MachineCode, Mode=TwoWay}" />
@@ -132,10 +130,9 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,1,1,0">
                                                     <TextBlock
-                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding 配方, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                        Text="{DynamicResource 配方}" />
                                                 </Border>
                                                 <ComboBox
                                                     x:Name="CB"
@@ -188,10 +185,9 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,0,1,0">
                                                     <TextBlock
-                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding 操作員, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                        Text="{DynamicResource 操作員}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Column="1"
@@ -210,10 +206,9 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,0,1,0">
                                                     <TextBlock
-                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding 製造序, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                        Text="{DynamicResource 製造序}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="0"
@@ -232,10 +227,9 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,1,1,0">
                                                     <TextBlock
-                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding 台車, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                        Text="{DynamicResource 台車}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -255,10 +249,9 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,1,1,0">
                                                     <TextBlock
-                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding 張數, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                        Text="{DynamicResource 張數}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -281,10 +274,9 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,1,1,0">
                                                     <TextBlock
-                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding 工單, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                        Text="{DynamicResource 工單}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="2"
@@ -304,10 +296,9 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,1,1,0">
                                                     <TextBlock
-                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding 狀態, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                        Text="{DynamicResource 狀態}" />
                                                 </Border>
                                                 <ProgressBar
                                                     x:Name="Progress"
@@ -328,9 +319,8 @@
                                         x:Name="ActiveToggle"
                                         Grid.Row="0"
                                         Grid.Column="2"
-                                        Padding="10,0"
-                                        Content="{Binding 投入生產, Source={StaticResource Languages}, Mode=OneWay}"
-                                        FontSize="16"
+                                        Content="{DynamicResource 投產}"
+                                        FontSize="20"
                                         IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
                                         <ToggleButton.IsEnabled>
                                             <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
@@ -359,7 +349,7 @@
                                     <DataTrigger
                                         Binding="{Binding IsChecked, ElementName=ActiveToggle, Mode=OneWay}"
                                         Value="True">
-                                        <Setter TargetName="ActiveToggle" Property="Content" Value="{Binding 取消, Source={StaticResource Languages}, Mode=OneWay}" />
+                                        <Setter TargetName="ActiveToggle" Property="Content" Value="{DynamicResource 取消}" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding OnlineStatus, Mode=OneWay}"
@@ -375,7 +365,7 @@
                                         Binding="{Binding ProgressStatus, Mode=OneWay}"
                                         Value="1">
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
-                                        <Setter TargetName="ProgressString" Property="Text" Value="{Binding 準備中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                        <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 準備中}" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding ProgressStatus, Mode=OneWay}"
@@ -383,7 +373,7 @@
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
                                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
-                                        <Setter TargetName="ProgressString" Property="Text" Value="{Binding 升溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                        <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding ProgressStatus, Mode=OneWay}"
@@ -391,7 +381,7 @@
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
-                                        <Setter TargetName="ProgressString" Property="Text" Value="{Binding 恆溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                        <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 恆溫中}" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding ProgressStatus, Mode=OneWay}"
@@ -399,7 +389,7 @@
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
-                                        <Setter TargetName="ProgressString" Property="Text" Value="{Binding 降溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                        <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 降溫中}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -492,8 +482,12 @@
                                 BorderThickness="0,1,0,1">
                                 <TextBlock
                                     HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding TotalProductionCount, Mode=OneWay, StringFormat=本日產量：\{0:D\} pcs}" />
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 本日產量}" />
+                                    <Run Text=": " />
+                                    <Run Text="{Binding TotalProductionCount, Mode=OneWay}" />
+                                    <Run Text="pcs" />
+                                </TextBlock>
                             </Border>
                             <oxy:Plot
                                 Grid.Row="1"
@@ -1761,22 +1755,22 @@
                                                                 <DataTrigger
                                                                     Binding="{Binding ProgressStatus, Mode=OneWay}"
                                                                     Value="1">
-                                                                    <Setter Property="Text" Value="{Binding 準備中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                                    <Setter Property="Text" Value="{DynamicResource 準備中}" />
                                                                 </DataTrigger>
                                                                 <DataTrigger
                                                                     Binding="{Binding ProgressStatus, Mode=OneWay}"
                                                                     Value="2">
-                                                                    <Setter Property="Text" Value="{Binding 升溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                                    <Setter Property="Text" Value="{DynamicResource 升溫中}" />
                                                                 </DataTrigger>
                                                                 <DataTrigger
                                                                     Binding="{Binding ProgressStatus, Mode=OneWay}"
                                                                     Value="3">
-                                                                    <Setter Property="Text" Value="{Binding 恆溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                                    <Setter Property="Text" Value="{DynamicResource 恆溫中}" />
                                                                 </DataTrigger>
                                                                 <DataTrigger
                                                                     Binding="{Binding ProgressStatus, Mode=OneWay}"
                                                                     Value="4">
-                                                                    <Setter Property="Text" Value="{Binding 降溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                                    <Setter Property="Text" Value="{DynamicResource 降溫中}" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>

@@ -16,8 +16,8 @@ namespace GPGO_MultiPLCs.Views
         public TotalView()
         {
             InitializeComponent();
-            CA.LabelFormatter = val => "第" + (val + 1) + "站";
-            BS.LabelFormatString = "{0}";
+            CA.LabelFormatter = val => "No. " + (val + 1).ToString("00");
+            //BS.LabelFormatString = "{0}";
         }
     }
 }

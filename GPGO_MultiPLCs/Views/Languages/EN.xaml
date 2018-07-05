@@ -1,0 +1,38 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="生產頁面">Main Page</sys:String>
+    <sys:String x:Key="配方管理">Recipe Manager</sys:String>
+    <sys:String x:Key="生產履歷">Production Traceability</sys:String>
+    <sys:String x:Key="設備">Device</sys:String>
+    <sys:String x:Key="配方">Recipe</sys:String>
+    <sys:String x:Key="投產">Input</sys:String>
+    <sys:String x:Key="取消">Cancel</sys:String>
+    <sys:String x:Key="操作員">Op.</sys:String>
+    <sys:String x:Key="製造序">Serial</sys:String>
+    <sys:String x:Key="台車">Trolley</sys:String>
+    <sys:String x:Key="張數">Count</sys:String>
+    <sys:String x:Key="工單">Order</sys:String>
+    <sys:String x:Key="狀態">Status</sys:String>
+    <sys:String x:Key="準備中">Ready to Go</sys:String>
+    <sys:String x:Key="升溫中">Heating</sys:String>
+    <sys:String x:Key="恆溫中">Warming</sys:String>
+    <sys:String x:Key="降溫中">Cooling</sys:String>
+    <sys:String x:Key="本日產量">Today's Output</sys:String>
+    <sys:String x:Key="帳號">ID</sys:String>
+    <sys:String x:Key="密碼">PWD</sys:String>
+    <sys:String x:Key="層級">Level</sys:String>
+    <sys:String x:Key="登入">Login</sys:String>
+    <sys:String x:Key="登出">Logout</sys:String>
+    <sys:String x:Key="新增">Add</sys:String>
+    <sys:String x:Key="刪除">Delete</sys:String>
+    <sys:String x:Key="修改">Update</sys:String>
+    <sys:String x:Key="上次登入">Last Login</sys:String>
+    <sys:String x:Key="創建時間">Created</sys:String>
+    <sys:String x:Key="人員管理">Management</sys:String>
+    <sys:String x:Key="系統設定">Settings</sys:String>
+    <sys:String x:Key="繁體中文">ZH-TW</sys:String>
+    <sys:String x:Key="英文">English</sys:String>
+</ResourceDictionary>
