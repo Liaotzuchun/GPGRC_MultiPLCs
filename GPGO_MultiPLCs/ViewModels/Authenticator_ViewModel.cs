@@ -35,7 +35,6 @@ namespace GPGO_MultiPLCs.ViewModels
         private string _EditPassword;
         private UserLevel _EditLevel;
         private User _NowUser;
-        private int _SelectedIndex = -1;
         private User _SelectedUser;
         private Visibility _IsShown = Visibility.Collapsed;
 
@@ -98,9 +97,9 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _EditName = value;
                 NotifyPropertyChanged();
-                Update_Enable = Users.Exists(x => x.Name == _EditName && (x.Password != _EditPassword || x.Level != _EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(_EditPassword) && Users.TrueForAll(x => x.Name != _EditName);
-                Remove_Enable = Users.Exists(x => x.Name == _EditName && x.Password == _EditPassword && x.Level == _EditLevel);
+                Update_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != _EditPassword || x.Level != _EditLevel));
+                Add_Enable = !string.IsNullOrEmpty(_EditPassword) && Users.TrueForAll(x => !string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase));
+                Remove_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == _EditPassword && x.Level == _EditLevel);
             }
         }
 
@@ -111,9 +110,9 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _EditPassword = value;
                 NotifyPropertyChanged();
-                Update_Enable = Users.Exists(x => x.Name == _EditName && (x.Password != _EditPassword || x.Level != _EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(_EditPassword) && Users.TrueForAll(x => x.Name != _EditName);
-                Remove_Enable = Users.Exists(x => x.Name == _EditName && x.Password == _EditPassword && x.Level == _EditLevel);
+                Update_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != _EditPassword || x.Level != _EditLevel));
+                Add_Enable = !string.IsNullOrEmpty(_EditPassword) && Users.TrueForAll(x => !string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase));
+                Remove_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == _EditPassword && x.Level == _EditLevel);
             }
         }
 
@@ -124,8 +123,8 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _EditLevel = value;
                 NotifyPropertyChanged();
-                Update_Enable = Users.Exists(x => x.Name == _EditName && (x.Password != _EditPassword || x.Level != _EditLevel));
-                Remove_Enable = Users.Exists(x => x.Name == _EditName && x.Password == _EditPassword && x.Level == _EditLevel);
+                Update_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != _EditPassword || x.Level != _EditLevel));
+                Remove_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == _EditPassword && x.Level == _EditLevel);
             }
         }
 
@@ -141,18 +140,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public int SelectedIndex
-        {
-            get => _SelectedIndex;
-            set
-            {
-                _SelectedIndex = value;
-                NotifyPropertyChanged();
-
-                SelectedUser = _SelectedIndex == -1 ? null : ViewUsers.ElementAtOrDefault(_SelectedIndex);
-            }
-        }
-
         public User SelectedUser
         {
             get => _SelectedUser;
@@ -165,7 +152,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     _EditName = "";
                     _EditPassword = "";
-                    _EditLevel = UserLevel.D;
+                    _EditLevel = UserLevel.C;
                 }
                 else
                 {
@@ -177,9 +164,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged(nameof(EditName));
                 NotifyPropertyChanged(nameof(EditPassword));
                 NotifyPropertyChanged(nameof(EditLevel));
-                Update_Enable = Users.Exists(x => x.Name == _EditName && (x.Password != _EditPassword || x.Level != _EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(_EditPassword) && _EditLevel != UserLevel.D && Users.TrueForAll(x => x.Name != _EditName);
-                Remove_Enable = Users.Exists(x => x.Name == _EditName && x.Password == _EditPassword && x.Level == _EditLevel);
+                Update_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != _EditPassword || x.Level != _EditLevel));
+                Add_Enable = !string.IsNullOrEmpty(_EditPassword) && _EditLevel != UserLevel.D && Users.TrueForAll(x => !string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase));
+                Remove_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == _EditPassword && x.Level == _EditLevel);
             }
         }
 

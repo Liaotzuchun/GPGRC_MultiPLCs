@@ -22,9 +22,20 @@
         <GroupBox
             Margin="0,0,4,0"
             Background="{StaticResource WindowBackgroundBrush3}"
-            DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}"
-            Header="{Binding RecipeName, Mode=OneWay}"
-            IsEnabled="{Binding Converter={StaticResource IsNotNull}}">
+            DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}">
+            <GroupBox.IsEnabled>
+                <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
+                    <Binding
+                        Converter="{StaticResource IsNotNull}"
+                        Mode="OneWay" />
+                    <Binding
+                        Converter="{StaticResource IsMoreThanValue}"
+                        ConverterParameter="3"
+                        Mode="OneWay"
+                        Path="NowUser.Level"
+                        Source="{StaticResource AuthenticatorViewModel}" />
+                </MultiBinding>
+            </GroupBox.IsEnabled>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70" />
@@ -1229,7 +1240,9 @@
                 <RowDefinition Height="80" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid TextElement.FontSize="14">
+            <Grid
+                IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                TextElement.FontSize="14">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />

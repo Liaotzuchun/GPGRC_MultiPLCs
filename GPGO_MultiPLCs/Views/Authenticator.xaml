@@ -141,6 +141,7 @@
                         x:Name="NameBox"
                         Grid.Column="2"
                         BorderThickness="1,1,1,0"
+                        FontSize="14"
                         PreviewKeyDown="NameBox_PreviewKeyDown"
                         Text="{Binding TypedName, Mode=TwoWay}" />
                     <Border
@@ -158,6 +159,7 @@
                         x:Name="Password"
                         Grid.Row="1"
                         Grid.Column="2"
+                        FontSize="14"
                         PreviewKeyDown="Password_PreviewKeyDown" />
                     <Button
                         x:Name="LoginButton"
@@ -246,6 +248,7 @@
                     <TextBox
                         Grid.Column="1"
                         BorderThickness="1,1,1,0"
+                        FontSize="14"
                         Text="{Binding EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Border
                         Grid.Row="1"
@@ -261,6 +264,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         BorderThickness="1,1,1,0"
+                        FontSize="14"
                         Text="{Binding EditPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Border
                         Grid.Row="2"
@@ -329,7 +333,7 @@
                     IsReadOnly="True"
                     IsSynchronizedWithCurrentItem="False"
                     ItemsSource="{Binding ViewUsers, Mode=OneWay}"
-                    SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                    SelectedItem="{Binding SelectedUser, Mode=OneWayToSource}"
                     SelectionMode="Single"
                     Style="{StaticResource DataGridStyle}"
                     VerticalScrollBarVisibility="Visible"

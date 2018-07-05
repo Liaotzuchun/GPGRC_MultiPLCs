@@ -120,6 +120,7 @@
                                                     Background="{StaticResource LightColorBrush}">
                                                     <TextBox
                                                         BorderThickness="0"
+                                                        IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                         Text="{Binding Process_Info.MachineCode, Mode=TwoWay}" />
                                                 </Border>
                                                 <Border
@@ -137,7 +138,8 @@
                                                     Grid.Row="1"
                                                     Grid.Column="1"
                                                     BorderThickness="0,1,0,0"
-                                                    IsEditable="True"
+                                                    IsEditable="{Binding IsHitTestVisible, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                                    IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                                     IsTextSearchEnabled="False"
                                                     ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
                                                     PreviewGotKeyboardFocus="CB_PreviewGotKeyboardFocus"
@@ -297,8 +299,21 @@
                                         Padding="10,0"
                                         Content="投入生產"
                                         FontSize="16"
-                                        IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}"
-                                        IsEnabled="{Binding IsRecording, Converter={StaticResource BoolNot}, Mode=OneWay}">
+                                        IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
+                                        <ToggleButton.IsEnabled>
+                                            <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
+                                                <Binding
+                                                    Converter="{StaticResource BoolNot}"
+                                                    Mode="OneWay"
+                                                    Path="IsRecording" />
+                                                <Binding
+                                                    Converter="{StaticResource IsMoreThanValue}"
+                                                    ConverterParameter="1"
+                                                    Mode="OneWay"
+                                                    Path="NowUser.Level"
+                                                    Source="{StaticResource AuthenticatorViewModel}" />
+                                            </MultiBinding>
+                                        </ToggleButton.IsEnabled>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction
@@ -387,9 +402,10 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <TextBlock
-                                    Margin="4,0" FontSize="16"
+                                    Margin="4,0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    FontSize="16"
                                     Text="{Binding NowUser.Name, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
                             </Border>
                             <Border Grid.Column="1">
