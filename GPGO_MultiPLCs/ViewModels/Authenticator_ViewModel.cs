@@ -319,6 +319,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                            {
                                                Users.Add(new User { Name = _EditName, Password = _EditPassword, Level = _EditLevel, CreatedTime = DateTime.Now });
                                                NotifyPropertyChanged(nameof(ViewUsers));
+                                               NotifyPropertyChanged(nameof(Add_Enable));
                                                Save();
                                            }
                                        });
@@ -329,6 +330,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                               {
                                                   Users.RemoveAll(x => x.Name == _EditName);
                                                   NotifyPropertyChanged(nameof(ViewUsers));
+                                                  NotifyPropertyChanged(nameof(Remove_Enable));
                                                   Save();
                                               }
                                           });
