@@ -301,7 +301,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Load();
 
-            NowUser = Users.Where(x => x.Level == UserLevel.C).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+            NowUser = Users.Where(x => x.Level == UserLevel.C && x._LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
 
             UpdateUser = new RelayCommand(e =>
                                           {
