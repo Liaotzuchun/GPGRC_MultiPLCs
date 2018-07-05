@@ -8,6 +8,19 @@ using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views
 {
+    public class DateTimeZeroToEmpty : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is DateTime time && time.Ticks == 0 ? "" : value; 
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is string str && string.IsNullOrEmpty(str)? new DateTime() : value;
+        }
+    }
+
     public class EnumToIntConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

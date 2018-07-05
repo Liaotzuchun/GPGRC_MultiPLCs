@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
+    IsVisibleChanged="UserControl_IsVisibleChanged"
     Visibility="{Binding IsShown, Mode=OneWay}"
     mc:Ignorable="d">
 
@@ -98,6 +99,7 @@
                 <Grid
                     Grid.Row="2"
                     Margin="8,0"
+                    KeyboardNavigation.TabNavigation="Cycle"
                     TextElement.FontSize="16">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -136,8 +138,10 @@
                             Text="帳號" />
                     </Border>
                     <TextBox
+                        x:Name="NameBox"
                         Grid.Column="2"
                         BorderThickness="1,1,1,0"
+                        PreviewKeyDown="NameBox_PreviewKeyDown"
                         Text="{Binding TypedName, Mode=TwoWay}" />
                     <Border
                         Grid.Row="1"
@@ -153,11 +157,14 @@
                     <PasswordBox
                         x:Name="Password"
                         Grid.Row="1"
-                        Grid.Column="2" />
+                        Grid.Column="2"
+                        PreviewKeyDown="Password_PreviewKeyDown" />
                     <Button
+                        x:Name="LoginButton"
                         Grid.RowSpan="2"
                         Grid.Column="3"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                        Click="LoginButton_Click"
                         Content="登入">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -212,6 +219,7 @@
                     Height="90"
                     Margin="8,0"
                     IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
+                    KeyboardNavigation.TabNavigation="Cycle"
                     TextElement.FontSize="16"
                     Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <Grid.ColumnDefinitions>
@@ -237,7 +245,8 @@
                     </Border>
                     <TextBox
                         Grid.Column="1"
-                        BorderThickness="1,1,1,0" />
+                        BorderThickness="1,1,1,0"
+                        Text="{Binding EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Border
                         Grid.Row="1"
                         Background="{StaticResource WindowBackgroundBrush6}"
@@ -251,7 +260,8 @@
                     <TextBox
                         Grid.Row="1"
                         Grid.Column="1"
-                        BorderThickness="1,1,1,0" />
+                        BorderThickness="1,1,1,0"
+                        Text="{Binding EditPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <Border
                         Grid.Row="2"
                         Background="{StaticResource WindowBackgroundBrush6}"
@@ -263,24 +273,44 @@
                             Text="層級" />
                     </Border>
                     <ComboBox
+                        x:Name="ComboBox"
                         Grid.Row="2"
-                        Grid.Column="1" />
+                        Grid.Column="1"
+                        ItemsSource="{Binding EditLevels, Mode=OneWay}"
+                        SelectedItem="{Binding EditLevel, Mode=TwoWay}" />
                     <Button
                         Grid.RowSpan="3"
                         Grid.Column="2"
-                        Content="修改" />
-                    <Button
-                        Grid.RowSpan="3"
-                        Grid.Column="4"
-                        Content="刪除" />
+                        Content="修改"
+                        IsEnabled="{Binding Update_Enable, Mode=OneWay}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding UpdateUser, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
                     <Button
                         Grid.RowSpan="3"
                         Grid.Column="3"
-                        Content="新增" />
+                        Content="新增"
+                        IsEnabled="{Binding Add_Enable, Mode=OneWay}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding AddUser, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
                     <Button
                         Grid.RowSpan="3"
                         Grid.Column="4"
-                        Content="刪除" />
+                        Content="刪除"
+                        IsEnabled="{Binding Remove_Enable, Mode=OneWay}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding RemoveUser, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
                 </Grid>
                 <DataGrid
                     Grid.Row="5"
@@ -299,19 +329,29 @@
                     IsReadOnly="True"
                     IsSynchronizedWithCurrentItem="False"
                     ItemsSource="{Binding ViewUsers, Mode=OneWay}"
+                    SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
                     SelectionMode="Single"
                     Style="{StaticResource DataGridStyle}"
+                    VerticalScrollBarVisibility="Visible"
                     Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Width="*"
+                            Binding="{Binding Name, Mode=OneWay}"
                             Header="帳號" />
                         <DataGridTextColumn
                             Width="*"
+                            Binding="{Binding Password, Mode=OneWay}"
                             Header="密碼" />
-                        <DataGridTextColumn Header="層級" />
-                        <DataGridTextColumn Header="上次登入" />
-                        <DataGridTextColumn Header="創建時間" />
+                        <DataGridTextColumn
+                            Binding="{Binding Level, Mode=OneWay}"
+                            Header="層級" />
+                        <DataGridTextColumn
+                            Binding="{Binding LastLoginTime, Mode=OneWay, Converter={StaticResource DateTimeZeroToEmpty}, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}"
+                            Header="上次登入" />
+                        <DataGridTextColumn
+                            Binding="{Binding CreatedTime, Mode=OneWay, Converter={StaticResource DateTimeZeroToEmpty}, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}"
+                            Header="創建時間" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

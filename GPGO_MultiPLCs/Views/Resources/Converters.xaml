@@ -9,7 +9,7 @@
     <local:VisBool x:Key="VisBool" />
     <local:BoolNotVis x:Key="BoolNotVis" />
     <local:MultiAnyTrueConverter x:Key="MultiAnyTrueConverter" />
-    <local:MultiAnyVisibleConverter x:Key="MultiAnyVisibleConverter"/>
+    <local:MultiAnyVisibleConverter x:Key="MultiAnyVisibleConverter" />
     <local:MultiAnyTrueConverterToInt x:Key="MultiAnyTrueConverterToInt" />
     <local:MultiBooleanConverter x:Key="MultiBooleanConverter" />
     <local:NullVis x:Key="NullVis" />
@@ -25,4 +25,5 @@
     <local:DateTimeCheckVis x:Key="DateTimeCheckVis" />
     <local:EnumToIntConverter x:Key="EnumToIntConverter" />
     <local:CountVis x:Key="CountVis" />
+    <local:DateTimeZeroToEmpty x:Key="DateTimeZeroToEmpty" />
 </ResourceDictionary>

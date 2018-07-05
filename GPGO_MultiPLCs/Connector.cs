@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.ServiceProcess;
 using System.Windows.Threading;
-using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs

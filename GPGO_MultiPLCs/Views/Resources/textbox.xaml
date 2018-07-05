@@ -91,7 +91,7 @@
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                            <Setter Property="Background" Value="LightYellow" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

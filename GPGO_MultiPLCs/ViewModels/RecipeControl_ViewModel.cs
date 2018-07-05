@@ -63,8 +63,14 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (_Selected_PLC_Recipe_Index > -1)
                 {
-                    var recipe = _ViewRecipes.ElementAt(_Selected_PLC_Recipe_Index);
-                    TypedName = recipe.RecipeName;
+                    _TypedName = _ViewRecipes.ElementAt(_Selected_PLC_Recipe_Index).RecipeName;
+                    NotifyPropertyChanged(nameof(TypedName));
+
+                    Selected_PLC_Recipe = string.IsNullOrEmpty(_TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
+
+                    NotifyPropertyChanged(nameof(Save_Enable));
+                    NotifyPropertyChanged(nameof(Add_Enable));
+                    NotifyPropertyChanged(nameof(Delete_Enable));
                 }
 
                 NotifyPropertyChanged();

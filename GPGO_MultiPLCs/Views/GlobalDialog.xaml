@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:GlobalDialog_ViewModel}"
-    mc:Ignorable="d">
+    mc:Ignorable="d" IsVisibleChanged="UserControl_IsVisibleChanged">
     <UserControl.Visibility>
         <MultiBinding
             Converter="{StaticResource MultiAnyVisibleConverter}"
@@ -37,6 +37,7 @@
                 Width="400"
                 VerticalAlignment="Center"
                 ItemsSource="{Binding Msgs, Mode=OneTime}"
+                KeyboardNavigation.TabNavigation="None"
                 Visibility="{Binding Msgs.Count, Mode=OneWay, Converter={StaticResource CountVis}}">
                 <ItemsControl.Template>
                     <ControlTemplate>
@@ -123,6 +124,7 @@
                 Margin="4"
                 VerticalAlignment="Center"
                 Background="{StaticResource LightColorBrush}"
+                KeyboardNavigation.TabNavigation="Cycle"
                 Visibility="{Binding IsShown_1, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
@@ -185,6 +187,7 @@
                 Margin="4"
                 VerticalAlignment="Center"
                 Background="{StaticResource LightColorBrush}"
+                KeyboardNavigation.TabNavigation="Cycle"
                 Visibility="{Binding IsShown_2, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
