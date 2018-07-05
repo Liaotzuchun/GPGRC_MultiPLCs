@@ -10,6 +10,15 @@ namespace GPGO_MultiPLCs.Models
 {
     public class PLC_DataProvider : PLC_Data
     {
+        public enum Status
+        {
+            待命中,
+            準備中,
+            升溫,
+            恆溫,
+            降溫
+        }
+
         public delegate void MachineCodeChangedHandler(string code);
 
         public delegate void RecordingFinishedEventHandler(ProcessInfo info);
@@ -52,21 +61,21 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public string ProgressString
+        public Status ProgressStatus
         {
             get
             {
                 if (IsRecording && CurrentSegment == 0)
                 {
-                    return "準備中";
+                    return Status.準備中;
                 }
 
                 if (IsCooling && CurrentSegment >= UsedSegmentCounts * 2)
                 {
-                    return "降溫中";
+                    return Status.降溫;
                 }
 
-                return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? "待命中" : "恆溫中" : "升溫中";
+                return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? Status.待命中 : Status.恆溫 : Status.升溫;
             }
         }
 
@@ -468,7 +477,7 @@ namespace GPGO_MultiPLCs.Models
                                                      else if (key == SignalNames.降溫中)
                                                      {
                                                          AddProcessEvent(EventType.Normal, sw.Elapsed, key.ToString());
-                                                         NotifyPropertyChanged(nameof(ProgressString));
+                                                         NotifyPropertyChanged(nameof(ProgressStatus));
                                                      }
                                                  }
                                              }
@@ -488,7 +497,7 @@ namespace GPGO_MultiPLCs.Models
                                                  }
 
                                                  NotifyPropertyChanged(nameof(Progress));
-                                                 NotifyPropertyChanged(nameof(ProgressString));
+                                                 NotifyPropertyChanged(nameof(ProgressStatus));
                                              }
                                          };
 
@@ -504,7 +513,7 @@ namespace GPGO_MultiPLCs.Models
                                                   else if (key == DataNames.使用段數)
                                                   {
                                                       NotifyPropertyChanged(nameof(Progress));
-                                                      NotifyPropertyChanged(nameof(ProgressString));
+                                                      NotifyPropertyChanged(nameof(ProgressStatus));
                                                   }
                                               };
 

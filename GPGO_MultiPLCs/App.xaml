@@ -1,9 +1,10 @@
-﻿<Application x:Class="GPGO_MultiPLCs.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GPGO_MultiPLCs"
-             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-             StartupUri="Views/MainWindow.xaml">
+﻿<Application
+    x:Class="GPGO_MultiPLCs.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:GPGO_MultiPLCs"
+    xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+    StartupUri="Views/MainWindow.xaml">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -37,8 +38,9 @@
                 <ResourceDictionary Source="Views\Resources\calendar.xaml" />
                 <ResourceDictionary Source="Views\Resources\datepicker.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel"/>
+            <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
             <local:Connector x:Key="Connector" />
+            <local:Languages x:Key="Languages" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

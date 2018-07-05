@@ -99,7 +99,7 @@
                                             FontSize="14">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="50" />
+                                                    <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
@@ -107,18 +107,21 @@
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
                                                 <Border
+                                                    x:Name="Border1"
                                                     Background="{StaticResource WindowBackgroundBrush2}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,0,1,0">
                                                     <TextBlock
+                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="設備碼" />
+                                                        Text="{Binding 設備碼, Source={StaticResource Languages}, Mode=OneWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Column="1"
                                                     Background="{StaticResource LightColorBrush}">
                                                     <TextBox
+                                                        Margin="4,0"
                                                         BorderThickness="0"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                         Text="{Binding Process_Info.MachineCode, Mode=TwoWay}" />
@@ -129,9 +132,10 @@
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,1,1,0">
                                                     <TextBlock
+                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="配方" />
+                                                        Text="{Binding 配方, Source={StaticResource Languages}, Mode=OneWay}" />
                                                 </Border>
                                                 <ComboBox
                                                     x:Name="CB"
@@ -169,9 +173,9 @@
                                             Height="0">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="50" />
+                                                    <ColumnDefinition Width="{Binding ActualWidth, ElementName=Border1, Mode=OneWay}" />
                                                     <ColumnDefinition />
-                                                    <ColumnDefinition Width="50" />
+                                                    <ColumnDefinition Width="{Binding ActualWidth, ElementName=Border1, Mode=OneWay}" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
@@ -179,15 +183,21 @@
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
-                                                <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                                <Border
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,0">
                                                     <TextBlock
+                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="操作人" />
+                                                        Text="{Binding 操作員, Source={StaticResource Languages}, Mode=OneWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Column="1"
-                                                    Background="{StaticResource LightColorBrush}">
+                                                    Background="{StaticResource LightColorBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
@@ -196,16 +206,21 @@
                                                 <Border
                                                     Grid.Row="0"
                                                     Grid.Column="2"
-                                                    Background="{StaticResource WindowBackgroundBrush2}">
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,0">
                                                     <TextBlock
+                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="製造序" />
+                                                        Text="{Binding 製造序, Source={StaticResource Languages}, Mode=OneWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="0"
                                                     Grid.Column="3"
-                                                    Background="{StaticResource LightColorBrush}">
+                                                    Background="{StaticResource LightColorBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,0,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
@@ -213,16 +228,21 @@
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
-                                                    Background="{StaticResource WindowBackgroundBrush2}">
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,1,0">
                                                     <TextBlock
+                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="台車" />
+                                                        Text="{Binding 台車, Source={StaticResource Languages}, Mode=OneWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
                                                     Grid.Column="1"
-                                                    Background="{StaticResource LightColorBrush}">
+                                                    Background="{StaticResource LightColorBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,1,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
@@ -231,16 +251,21 @@
                                                 <Border
                                                     Grid.Row="1"
                                                     Grid.Column="2"
-                                                    Background="{StaticResource WindowBackgroundBrush2}">
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,1,0">
                                                     <TextBlock
+                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="張數" />
+                                                        Text="{Binding 張數, Source={StaticResource Languages}, Mode=OneWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
                                                     Grid.Column="3"
-                                                    Background="{StaticResource LightColorBrush}">
+                                                    Background="{StaticResource LightColorBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,0,0">
                                                     <StackPanel
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
@@ -252,16 +277,21 @@
                                                 </Border>
                                                 <Border
                                                     Grid.Row="2"
-                                                    Background="{StaticResource WindowBackgroundBrush2}">
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,1,0">
                                                     <TextBlock
+                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="工單" />
+                                                        Text="{Binding 工單, Source={StaticResource Languages}, Mode=OneWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="2"
                                                     Grid.Column="1"
-                                                    Background="{StaticResource LightColorBrush}">
+                                                    Background="{StaticResource LightColorBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,1,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
@@ -270,11 +300,14 @@
                                                 <Border
                                                     Grid.Row="2"
                                                     Grid.Column="2"
-                                                    Background="{StaticResource WindowBackgroundBrush2}">
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,1,0">
                                                     <TextBlock
+                                                        Margin="4,0"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="狀態" />
+                                                        Text="{Binding 狀態, Source={StaticResource Languages}, Mode=OneWay}" />
                                                 </Border>
                                                 <ProgressBar
                                                     x:Name="Progress"
@@ -287,8 +320,7 @@
                                                     Grid.Row="2"
                                                     Grid.Column="3"
                                                     HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Text="{Binding ProgressString, Mode=OneWay}" />
+                                                    VerticalAlignment="Center" />
                                             </Grid>
                                         </TabItem>
                                     </TabControl>
@@ -297,7 +329,7 @@
                                         Grid.Row="0"
                                         Grid.Column="2"
                                         Padding="10,0"
-                                        Content="投入生產"
+                                        Content="{Binding 投入生產, Source={StaticResource Languages}, Mode=OneWay}"
                                         FontSize="16"
                                         IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
                                         <ToggleButton.IsEnabled>
@@ -327,7 +359,7 @@
                                     <DataTrigger
                                         Binding="{Binding IsChecked, ElementName=ActiveToggle, Mode=OneWay}"
                                         Value="True">
-                                        <Setter TargetName="ActiveToggle" Property="Content" Value="取消投產" />
+                                        <Setter TargetName="ActiveToggle" Property="Content" Value="{Binding 取消, Source={StaticResource Languages}, Mode=OneWay}" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding OnlineStatus, Mode=OneWay}"
@@ -340,30 +372,34 @@
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
                                     </DataTrigger>
                                     <DataTrigger
-                                        Binding="{Binding ProgressString, Mode=OneWay}"
-                                        Value="準備中">
+                                        Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                        Value="1">
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                                        <Setter TargetName="ProgressString" Property="Text" Value="{Binding 準備中, Source={StaticResource Languages}, Mode=OneWay}" />
                                     </DataTrigger>
                                     <DataTrigger
-                                        Binding="{Binding ProgressString, Mode=OneWay}"
-                                        Value="升溫中">
+                                        Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                        Value="2">
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
                                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                                        <Setter TargetName="ProgressString" Property="Text" Value="{Binding 升溫中, Source={StaticResource Languages}, Mode=OneWay}" />
                                     </DataTrigger>
                                     <DataTrigger
-                                        Binding="{Binding ProgressString, Mode=OneWay}"
-                                        Value="恆溫中">
+                                        Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                        Value="3">
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                                        <Setter TargetName="ProgressString" Property="Text" Value="{Binding 恆溫中, Source={StaticResource Languages}, Mode=OneWay}" />
                                     </DataTrigger>
                                     <DataTrigger
-                                        Binding="{Binding ProgressString, Mode=OneWay}"
-                                        Value="降溫中">
+                                        Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                        Value="4">
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                                         <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
+                                        <Setter TargetName="ProgressString" Property="Text" Value="{Binding 降溫中, Source={StaticResource Languages}, Mode=OneWay}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -1718,8 +1754,34 @@
                                                 <TextBlock
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    FontSize="16"
-                                                    Text="{Binding ProgressString, Mode=OneWay}" />
+                                                    FontSize="16">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger
+                                                                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                                                    Value="1">
+                                                                    <Setter Property="Text" Value="{Binding 準備中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger
+                                                                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                                                    Value="2">
+                                                                    <Setter Property="Text" Value="{Binding 升溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger
+                                                                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                                                    Value="3">
+                                                                    <Setter Property="Text" Value="{Binding 恆溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger
+                                                                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                                                    Value="4">
+                                                                    <Setter Property="Text" Value="{Binding 降溫中, Source={StaticResource Languages}, Mode=OneWay}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </Grid>
                                         </Border>
                                     </UniformGrid>
