@@ -393,14 +393,14 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown">
+                                    <i:InvokeCommandAction Command="{Binding StartLog, Source={StaticResource AuthenticatorViewModel}, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <Border
                                 Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="PreviewMouseDown">
-                                        <i:InvokeCommandAction Command="{Binding StartLog, Source={StaticResource AuthenticatorViewModel}, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
                                 <TextBlock
                                     Margin="4,0"
                                     HorizontalAlignment="Center"
