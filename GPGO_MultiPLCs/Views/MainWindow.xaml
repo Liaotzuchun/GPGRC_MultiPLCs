@@ -17,8 +17,7 @@
     Loaded="Window_Loaded"
     SnapsToDevicePixels="True"
     WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
-    mc:Ignorable="d">
+    mc:Ignorable="d" SizeToContent="WidthAndHeight">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction
@@ -28,8 +27,8 @@
     </i:Interaction.Triggers>
 
     <Grid
-        MinWidth="1024"
-        MinHeight="768">
+        Width="1024"
+        Height="768">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="224" />

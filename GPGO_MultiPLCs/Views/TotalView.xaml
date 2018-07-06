@@ -557,6 +557,7 @@
                                         x:Name="BS"
                                         FillColor="Cyan"
                                         ItemsSource="{Binding TotalProduction, Mode=OneWay}"
+                                        LabelFormatString="{}{0}"
                                         LabelMargin="4"
                                         LabelPlacement="Outside"
                                         StrokeColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"

@@ -35,7 +35,7 @@
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="140" />
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="10" />
@@ -43,11 +43,12 @@
                     <ColumnDefinition Width="120" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="39" />
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.RowSpan="2"
+                    Margin="0,0,4,0"
                     IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
                     <Grid.ColumnDefinitions>
@@ -187,7 +188,6 @@
                 <DatePicker
                     x:Name="dp1"
                     Grid.Column="2"
-                    Height="35"
                     IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                     SelectedDate="{Binding Date1, Mode=TwoWay}"
@@ -207,7 +207,7 @@
                     x:Name="dp2"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Height="35"
+                    BorderThickness="1,0,1,1"
                     IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                     SelectedDate="{Binding Date2, Mode=TwoWay}"
@@ -346,6 +346,7 @@
                 <ToggleButton
                     x:Name="TotalTB"
                     Grid.Column="5"
+                    Margin="4,0,0,0"
                     Content="{DynamicResource 全部站點}"
                     IsChecked="True"
                     IsEnabled="{Binding IsEnabled, ElementName=RS, Mode=OneWay}"
@@ -354,7 +355,8 @@
                     x:Name="CB"
                     Grid.Row="1"
                     Grid.Column="5"
-                    BorderThickness="0,0,1,1"
+                    Margin="4,0,0,0"
+                    BorderThickness="1"
                     IsEnabledChanged="CB_IsEnabledChanged"
                     ItemsSource="{Binding EnumFilter, Mode=OneWay}"
                     SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}"
@@ -847,11 +849,11 @@
                         </Grid.RowDefinitions>
                         <Grid TextElement.FontSize="16">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="110" />
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="110" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Border
