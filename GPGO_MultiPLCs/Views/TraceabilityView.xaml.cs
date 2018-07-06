@@ -21,16 +21,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private void TotalTB_Checked(object sender, RoutedEventArgs e)
-        {
-            ((ToggleButton)sender).Content = "全部站點";
-        }
-
-        private void TotalTB_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ((ToggleButton)sender).Content = "指定站點";
-        }
-
         public TraceabilityView()
         {
             InitializeComponent();

@@ -76,7 +76,7 @@
                     <Button
                         x:Name="Today"
                         Grid.Column="1"
-                        Content="本日">
+                        Content="{DynamicResource 本日}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding TodayCommand, Mode=OneTime}" />
@@ -114,7 +114,7 @@
                         x:Name="ThisWeek"
                         Grid.Row="1"
                         Grid.Column="1"
-                        Content="本週">
+                        Content="{DynamicResource 本週}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding ThisWeekCommand, Mode=OneTime}" />
@@ -152,7 +152,7 @@
                         x:Name="ThisMonth"
                         Grid.Row="2"
                         Grid.Column="1"
-                        Content="本月">
+                        Content="{DynamicResource 本月}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding ThisMonthCommand, Mode=OneTime}" />
@@ -182,7 +182,7 @@
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Text="開始日期" />
+                        Text="{DynamicResource 開始日期}" />
                 </Border>
                 <DatePicker
                     x:Name="dp1"
@@ -201,7 +201,7 @@
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Text="結束日期" />
+                        Text="{DynamicResource 結束日期}" />
                 </Border>
                 <DatePicker
                     x:Name="dp2"
@@ -254,11 +254,11 @@
                     Grid.Row="1"
                     Grid.Column="4">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="50" />
                         <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="50" />
                         <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="50" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Border
@@ -266,10 +266,9 @@
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,1">
                         <TextBlock
-                            Margin="8,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="起點" />
+                            Text="{DynamicResource 起點}" />
                     </Border>
                     <Border
                         Grid.Column="1"
@@ -298,10 +297,9 @@
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,1">
                         <TextBlock
-                            Margin="8,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="終點" />
+                            Text="{DynamicResource 終點}" />
                     </Border>
                     <Border
                         Grid.Column="3"
@@ -330,10 +328,9 @@
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,1">
                         <TextBlock
-                            Margin="8,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="總數" />
+                            Text="{DynamicResource 總筆數}" />
                     </Border>
                     <Border
                         Grid.Column="5"
@@ -349,11 +346,10 @@
                 <ToggleButton
                     x:Name="TotalTB"
                     Grid.Column="5"
-                    Checked="TotalTB_Checked"
-                    Content="全部站點"
+                    Content="{DynamicResource 全部站點}"
                     IsChecked="True"
                     IsEnabled="{Binding IsEnabled, ElementName=RS, Mode=OneWay}"
-                    Unchecked="TotalTB_Unchecked" />
+                    Style="{StaticResource ToggleSwich}" />
                 <ComboBox
                     x:Name="CB"
                     Grid.Row="1"
@@ -380,7 +376,7 @@
                         <DataTemplate>
                             <TextBlock
                                 FontSize="16"
-                                Text="{Binding Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=1, StringFormat=第 \{0:F0\} 站}" />
+                                Text="{Binding Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=1, StringFormat=No. \{0:F0\}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -469,12 +465,12 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn
                                         Width="60"
-                                        Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}"
-                                        Header="時間" />
+                                        Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh:mm:ss\}, Mode=OneWay}"
+                                        Header="{DynamicResource 時間}" />
                                     <DataGridTextColumn
                                         Width="*"
                                         Binding="{Binding (models:RecordEvent.Description), Mode=OneWay}"
-                                        Header="事件" />
+                                        Header="{DynamicResource 事件}" />
                                 </DataGrid.Columns>
                             </DataGrid>
                             <oxy:Plot
@@ -549,7 +545,7 @@
                                 </oxy:Plot.Axes>
                                 <oxy:Plot.Series>
                                     <oxy:LineSeries
-                                        Title="爐內溫度_8"
+                                        Title="{DynamicResource 爐內溫度8}"
                                         DataFieldX="Time"
                                         DataFieldY="OvenTemperatures_7"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -560,7 +556,7 @@
                                         StrokeThickness="2"
                                         Color="BurlyWood" />
                                     <oxy:LineSeries
-                                        Title="爐內溫度_7"
+                                        Title="{DynamicResource 爐內溫度7}"
                                         DataFieldX="Time"
                                         DataFieldY="OvenTemperatures_6"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -571,7 +567,7 @@
                                         StrokeThickness="2"
                                         Color="Brown" />
                                     <oxy:LineSeries
-                                        Title="爐內溫度_6"
+                                        Title="{DynamicResource 爐內溫度6}"
                                         DataFieldX="Time"
                                         DataFieldY="OvenTemperatures_5"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -582,7 +578,7 @@
                                         StrokeThickness="2"
                                         Color="Magenta" />
                                     <oxy:LineSeries
-                                        Title="爐內溫度_5"
+                                        Title="{DynamicResource 爐內溫度5}"
                                         DataFieldX="Time"
                                         DataFieldY="OvenTemperatures_4"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -593,7 +589,7 @@
                                         StrokeThickness="2"
                                         Color="DarkOrchid" />
                                     <oxy:LineSeries
-                                        Title="爐內溫度_4"
+                                        Title="{DynamicResource 爐內溫度4}"
                                         DataFieldX="Time"
                                         DataFieldY="OvenTemperatures_3"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -604,7 +600,7 @@
                                         StrokeThickness="2"
                                         Color="DodgerBlue" />
                                     <oxy:LineSeries
-                                        Title="爐內溫度_3"
+                                        Title="{DynamicResource 爐內溫度3}"
                                         DataFieldX="Time"
                                         DataFieldY="OvenTemperatures_2"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -615,7 +611,7 @@
                                         StrokeThickness="2"
                                         Color="Lime" />
                                     <oxy:LineSeries
-                                        Title="爐內溫度_2"
+                                        Title="{DynamicResource 爐內溫度2}"
                                         DataFieldX="Time"
                                         DataFieldY="OvenTemperatures_1"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -626,7 +622,7 @@
                                         StrokeThickness="2"
                                         Color="Gold" />
                                     <oxy:LineSeries
-                                        Title="爐內溫度_1"
+                                        Title="{DynamicResource 爐內溫度1}"
                                         DataFieldX="Time"
                                         DataFieldY="OvenTemperatures_0"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -637,7 +633,7 @@
                                         StrokeThickness="2"
                                         Color="DarkOrange" />
                                     <oxy:LineSeries
-                                        Title="溫控器溫度"
+                                        Title="{DynamicResource 溫控器溫度}"
                                         DataFieldX="Time"
                                         DataFieldY="ThermostatTemperature"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -689,22 +685,22 @@
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.Columns>
                     <DataGridTextColumn
-                        Binding="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
-                        Header="紀錄時間" />
+                        Binding="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}"
+                        Header="{DynamicResource 紀錄時間}" />
                     <DataGridTextColumn
                         Binding="{Binding StationNumber, ConverterParameter=1, Converter={StaticResource AddValue}, Mode=OneWay}"
-                        Header="烤箱序號" />
+                        Header="{DynamicResource 烤箱序號}" />
                     <DataGridTextColumn
                         Width="*"
                         Binding="{Binding RecipeName, Mode=OneWay}"
-                        Header="配方名稱" />
+                        Header="{DynamicResource 配方名稱}" />
                     <DataGridTextColumn
                         Binding="{Binding MachineCode, Mode=OneWay}"
-                        Header="機台編號" />
+                        Header="{DynamicResource 設備}" />
                     <DataGridTextColumn
                         Width="80"
                         Binding="{Binding OrderCode, Mode=OneWay}"
-                        Header="工單編號" />
+                        Header="{DynamicResource 工單}" />
                     <!--<DataGridTextColumn
                             Binding="{Binding ProcessNumber, Mode=OneWay}"
                             Header="製造序號" />
@@ -714,25 +710,22 @@
                             Header="產品編號" />-->
                     <DataGridTextColumn
                         Binding="{Binding OperatorID, Mode=OneWay}"
-                        Header="人員編號" />
+                        Header="{DynamicResource 操作員}" />
                     <DataGridTextColumn
                         Binding="{Binding TrolleyCode, Mode=OneWay}"
-                        Header="台車編號" />
+                        Header="{DynamicResource 台車}" />
                     <DataGridTextColumn
                         Binding="{Binding ProcessCount, Mode=OneWay}"
-                        Header="作業數量" />
-                    <DataGridTextColumn
-                        Binding="{Binding FirstPanel, Mode=OneWay}"
-                        Header="首件" />
+                        Header="{DynamicResource 張數}" />
                     <DataGridTextColumn
                         Binding="{Binding Side, Mode=OneWay}"
-                        Header="正反面" />
+                        Header="{DynamicResource 正反面}" />
                     <DataGridTextColumn
-                        Binding="{Binding StartTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
-                        Header="開始時間" />
+                        Binding="{Binding StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}"
+                        Header="{DynamicResource 開始時間}" />
                     <DataGridTextColumn
-                        Binding="{Binding EndTime, Mode=OneWay, StringFormat=\{0:yy/M/d HH:mm:ss\}}"
-                        Header="結束時間" />
+                        Binding="{Binding EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}"
+                        Header="{DynamicResource 結束時間}" />
                 </DataGrid.Columns>
             </DataGrid>
             <TabControl
@@ -762,25 +755,25 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Text="分類比較" />
+                                    Text="{DynamicResource 分類}" />
                             </Border>
                             <ToggleButton
                                 x:Name="tb1"
                                 Grid.Column="1"
                                 Padding="8"
-                                Content="日期 / 時間"
+                                Content="{DynamicResource 日期時間}"
                                 IsChecked="{Binding Mode, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                             <ToggleButton
                                 Grid.Column="2"
                                 Width="{Binding ActualWidth, ElementName=tb1, Mode=OneWay}"
                                 Padding="8"
-                                Content="PLC站別"
+                                Content="{DynamicResource 設備}"
                                 IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"
                                 Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, ElementName=TotalTB}" />
                             <ToggleButton
                                 Grid.Column="3"
                                 Padding="8"
-                                Content="工單編號"
+                                Content="{DynamicResource 工單}"
                                 IsChecked="{Binding Mode, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                             <Border
                                 Grid.Column="4"
@@ -790,7 +783,7 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Text="生產總量" />
+                                    Text="{DynamicResource 生產總量}" />
                             </Border>
                             <Border
                                 Grid.Column="5"

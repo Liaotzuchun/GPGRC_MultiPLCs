@@ -610,7 +610,7 @@
                             <GroupBox
                                 Margin="4,4,2,4"
                                 Background="{StaticResource WindowBackgroundBrush3}"
-                                Header="配方參數">
+                                Header="{DynamicResource 配方參數}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="70" />
@@ -635,7 +635,7 @@
                                             Margin="4,0"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            Text="配方名稱" />
+                                            Text="{DynamicResource 配方名稱}" />
                                     </Border>
                                     <Border
                                         Grid.Column="1"
@@ -657,7 +657,7 @@
                                         <TextBlock
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            Text="使用段數" />
+                                            Text="{DynamicResource 使用段數}" />
                                     </Border>
                                     <Border
                                         Grid.Column="3"
@@ -677,7 +677,7 @@
                                         <TextBlock
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            Text="降溫溫度" />
+                                            Text="{DynamicResource 降溫溫度}" />
                                     </Border>
                                     <Border
                                         Grid.Column="5"
@@ -697,7 +697,7 @@
                                         <TextBlock
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            Text="充氮氣時間" />
+                                            Text="{DynamicResource 充氣時間}" />
                                     </Border>
                                     <Border
                                         Grid.Column="7"
@@ -706,8 +706,11 @@
                                         BorderThickness="0,0,0,1">
                                         <TextBlock
                                             HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding InflatingTime, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                            VerticalAlignment="Center">
+                                            <Run Text="{Binding InflatingTime, Mode=OneWay}" />
+                                            <Run Text=" " />
+                                            <Run Text="{DynamicResource 分}" />
+                                        </TextBlock>
                                     </Border>
                                     <UniformGrid
                                         Grid.Row="1"
@@ -719,8 +722,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="目標溫度1" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 目標溫度}" />
+                                                <Run Text="1" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -728,8 +733,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="目標溫度2" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 目標溫度}" />
+                                                <Run Text="2" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -737,8 +744,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="目標溫度3" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 目標溫度}" />
+                                                <Run Text="3" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -746,8 +755,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="目標溫度4" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 目標溫度}" />
+                                                <Run Text="4" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -755,8 +766,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="目標溫度5" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 目標溫度}" />
+                                                <Run Text="5" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -764,8 +777,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="目標溫度6" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 目標溫度}" />
+                                                <Run Text="6" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -773,8 +788,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="目標溫度7" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 目標溫度}" />
+                                                <Run Text="7" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -782,8 +799,10 @@
                                             BorderThickness="0,0,1,0">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="目標溫度8" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 目標溫度}" />
+                                                <Run Text="8" />
+                                            </TextBlock>
                                         </Border>
                                     </UniformGrid>
                                     <UniformGrid
@@ -873,8 +892,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="升溫時間1" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 升溫時間}" />
+                                                <Run Text="1" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -882,8 +903,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="升溫時間2" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 升溫時間}" />
+                                                <Run Text="2" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -891,8 +914,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="升溫時間3" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 升溫時間}" />
+                                                <Run Text="3" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -900,8 +925,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="升溫時間4" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 升溫時間}" />
+                                                <Run Text="4" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -909,8 +936,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="升溫時間5" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 升溫時間}" />
+                                                <Run Text="5" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -918,8 +947,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="升溫時間6" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 升溫時間}" />
+                                                <Run Text="6" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -927,8 +958,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="升溫時間7" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 升溫時間}" />
+                                                <Run Text="7" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -936,8 +969,10 @@
                                             BorderThickness="0,0,1,0">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="升溫時間8" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 升溫時間}" />
+                                                <Run Text="8" />
+                                            </TextBlock>
                                         </Border>
                                     </UniformGrid>
                                     <UniformGrid
@@ -950,8 +985,11 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding HeatingTime_1, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding HeatingTime_1, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -959,8 +997,11 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding HeatingTime_2, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding HeatingTime_2, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -968,8 +1009,11 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding HeatingTime_3, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding HeatingTime_3, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -977,8 +1021,11 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding HeatingTime_4, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding HeatingTime_4, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -986,8 +1033,11 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding HeatingTime_5, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding HeatingTime_5, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -995,8 +1045,11 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding HeatingTime_6, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding HeatingTime_6, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -1004,8 +1057,11 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding HeatingTime_7, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding HeatingTime_7, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -1013,8 +1069,11 @@
                                             BorderThickness="0,0,1,0">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding HeatingTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding HeatingTime_8, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                     </UniformGrid>
                                     <UniformGrid
@@ -1027,8 +1086,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫溫度1" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫溫度}" />
+                                                <Run Text="1" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1036,8 +1097,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫溫度2" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫溫度}" />
+                                                <Run Text="2" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1045,8 +1108,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫溫度3" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫溫度}" />
+                                                <Run Text="3" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1054,8 +1119,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫溫度4" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫溫度}" />
+                                                <Run Text="4" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1063,8 +1130,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫溫度5" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫溫度}" />
+                                                <Run Text="5" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1072,8 +1141,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫溫度6" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫溫度}" />
+                                                <Run Text="6" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1081,8 +1152,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫溫度7" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫溫度}" />
+                                                <Run Text="7" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1090,8 +1163,10 @@
                                             BorderThickness="0,0,1,0">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫溫度8" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫溫度}" />
+                                                <Run Text="8" />
+                                            </TextBlock>
                                         </Border>
                                     </UniformGrid>
                                     <UniformGrid
@@ -1181,8 +1256,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫時間1" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫時間}" />
+                                                <Run Text="1" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1190,8 +1267,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫時間2" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫時間}" />
+                                                <Run Text="2" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1199,8 +1278,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫時間3" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫時間}" />
+                                                <Run Text="3" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1208,8 +1289,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫時間4" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫時間}" />
+                                                <Run Text="4" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1217,8 +1300,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫時間5" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫時間}" />
+                                                <Run Text="5" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1226,8 +1311,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫時間6" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫時間}" />
+                                                <Run Text="6" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1235,8 +1322,10 @@
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫時間7" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫時間}" />
+                                                <Run Text="7" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1244,8 +1333,10 @@
                                             BorderThickness="0,0,1,0">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="恆溫時間8" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{DynamicResource 恆溫時間}" />
+                                                <Run Text="8" />
+                                            </TextBlock>
                                         </Border>
                                     </UniformGrid>
                                     <UniformGrid
@@ -1258,8 +1349,11 @@
                                             BorderThickness="0,0,0,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding ConstantTime_1, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding ConstantTime_1, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -1267,8 +1361,11 @@
                                             BorderThickness="0,0,0,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding ConstantTime_2, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding ConstantTime_2, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -1276,8 +1373,11 @@
                                             BorderThickness="0,0,0,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding ConstantTime_3, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding ConstantTime_3, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -1285,8 +1385,11 @@
                                             BorderThickness="0,0,0,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding ConstantTime_4, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding ConstantTime_4, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -1294,8 +1397,11 @@
                                             BorderThickness="0,0,0,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding ConstantTime_5, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding ConstantTime_5, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -1303,8 +1409,11 @@
                                             BorderThickness="0,0,0,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding ConstantTime_6, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding ConstantTime_6, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
@@ -1312,16 +1421,22 @@
                                             BorderThickness="0,0,0,1">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding ConstantTime_7, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding ConstantTime_7, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                         <Border
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}">
                                             <TextBlock
                                                 HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding ConstantTime_8, Mode=OneWay, StringFormat=\{0:D\} 分}" />
+                                                VerticalAlignment="Center">
+                                                <Run Text="{Binding ConstantTime_8, Mode=OneWay}" />
+                                                <Run Text=" " />
+                                                <Run Text="{DynamicResource 分}" />
+                                            </TextBlock>
                                         </Border>
                                     </UniformGrid>
                                 </Grid>
@@ -1329,7 +1444,7 @@
                             <GroupBox
                                 Grid.Column="1"
                                 Margin="2,4,4,4"
-                                Header="設備狀態"
+                                Header="{DynamicResource 設備狀態}"
                                 IsHitTestVisible="False">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -1344,9 +1459,10 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
                                             <TextBlock
+                                                x:Name="Text0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="溫控器溫度" />
+                                                Text="{DynamicResource 溫控器溫度}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1355,7 +1471,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="爐內溫度1" />
+                                                Text="{DynamicResource 爐內溫度1}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1364,7 +1480,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="爐內溫度2" />
+                                                Text="{DynamicResource 爐內溫度2}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1373,7 +1489,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="爐內溫度3" />
+                                                Text="{DynamicResource 爐內溫度3}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1382,7 +1498,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="爐內溫度4" />
+                                                Text="{DynamicResource 爐內溫度4}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1391,7 +1507,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="爐內溫度5" />
+                                                Text="{DynamicResource 爐內溫度5}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1400,7 +1516,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="爐內溫度6" />
+                                                Text="{DynamicResource 爐內溫度6}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1409,7 +1525,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="爐內溫度7" />
+                                                Text="{DynamicResource 爐內溫度7}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1418,7 +1534,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="爐內溫度8" />
+                                                Text="{DynamicResource 爐內溫度8}" />
                                         </Border>
                                     </UniformGrid>
                                     <UniformGrid
@@ -1516,7 +1632,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="設備模式" />
+                                                Text="{DynamicResource 設備模式}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1525,7 +1641,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="生產結束" />
+                                                Text="{DynamicResource 生產結束}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1534,7 +1650,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="緊急停止" />
+                                                Text="{DynamicResource 緊急停止}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1543,7 +1659,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="溫度異常" />
+                                                Text="{DynamicResource 溫度異常}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1552,7 +1668,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="風車異常" />
+                                                Text="{DynamicResource 風車異常}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1561,7 +1677,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="充氣逾時" />
+                                                Text="{DynamicResource 充氣逾時}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1570,7 +1686,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="升恆溫逾時" />
+                                                Text="{DynamicResource 升恆溫逾時}" />
                                         </Border>
                                         <Border
                                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -1579,7 +1695,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Text="生產狀態" />
+                                                Text="{DynamicResource 狀態}" />
                                         </Border>
                                     </UniformGrid>
                                     <UniformGrid
@@ -1602,7 +1718,7 @@
                                                             VerticalAlignment="Center"
                                                             FontSize="16"
                                                             Foreground="White"
-                                                            Text="手動" />
+                                                            Text="{DynamicResource 手動}" />
                                                     </Border>
                                                 </TabItem>
                                                 <TabItem
@@ -1622,7 +1738,7 @@
                                                                 VerticalAlignment="Center"
                                                                 FontSize="16"
                                                                 Foreground="White"
-                                                                Text="自動" />
+                                                                Text="{DynamicResource 自動}" />
                                                         </Border>
                                                         <Border
                                                             Grid.Column="1"
@@ -1794,14 +1910,20 @@
                                     <TextBlock
                                         Margin="8,0"
                                         Foreground="White"
-                                        Text="{Binding Process_Info.StartTime, Mode=OneWay, StringFormat={}開始時間：{0:yyyy/MM/dd HH:mm:ss}}"
-                                        Visibility="{Binding Process_Info.StartTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}" />
+                                        Visibility="{Binding Process_Info.StartTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
+                                        <Run Text="{DynamicResource 開始時間}" />
+                                        <Run Text=":" />
+                                        <Run Text="{Binding Process_Info.StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                                    </TextBlock>
                                     <TextBlock
                                         Grid.Column="1"
                                         Margin="8,0"
                                         Foreground="White"
-                                        Text="{Binding Process_Info.EndTime, Mode=OneWay, StringFormat={}結束時間：{0:yyyy/MM/dd HH:mm:ss}}"
-                                        Visibility="{Binding Process_Info.EndTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}" />
+                                        Visibility="{Binding Process_Info.EndTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
+                                        <Run Text="{DynamicResource 結束時間}" />
+                                        <Run Text=":" />
+                                        <Run Text="{Binding Process_Info.EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                                    </TextBlock>
                                 </Grid>
                             </GroupBox.Header>
                             <Grid>
@@ -1867,12 +1989,12 @@
                                     <DataGrid.Columns>
                                         <DataGridTextColumn
                                             Width="60"
-                                            Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}"
-                                            Header="時間" />
+                                            Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh\:mm\:ss\}, Mode=OneWay}"
+                                            Header="{DynamicResource 時間}" />
                                         <DataGridTextColumn
                                             Width="*"
                                             Binding="{Binding (models:RecordEvent.Description), Mode=OneWay}"
-                                            Header="事件" />
+                                            Header="{DynamicResource 事件}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <oxy:Plot
@@ -1898,7 +2020,7 @@
                                     PlotMargins="40,10,0,35">
                                     <oxy:Plot.Axes>
                                         <oxy:TimeSpanAxis
-                                            Title="歷時"
+                                            Title="{DynamicResource 時間}"
                                             AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                             AxislineStyle="Solid"
                                             ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
@@ -1948,7 +2070,7 @@
                                     </oxy:Plot.Axes>
                                     <oxy:Plot.Series>
                                         <oxy:LineSeries
-                                            Title="爐內溫度_8"
+                                            Title="{DynamicResource 爐內溫度8}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_7"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -1959,7 +2081,7 @@
                                             StrokeThickness="2"
                                             Color="BurlyWood" />
                                         <oxy:LineSeries
-                                            Title="爐內溫度_7"
+                                            Title="{DynamicResource 爐內溫度7}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_6"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -1970,7 +2092,7 @@
                                             StrokeThickness="2"
                                             Color="Brown" />
                                         <oxy:LineSeries
-                                            Title="爐內溫度_6"
+                                            Title="{DynamicResource 爐內溫度6}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_5"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -1981,7 +2103,7 @@
                                             StrokeThickness="2"
                                             Color="Magenta" />
                                         <oxy:LineSeries
-                                            Title="爐內溫度_5"
+                                            Title="{DynamicResource 爐內溫度5}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_4"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -1992,7 +2114,7 @@
                                             StrokeThickness="2"
                                             Color="DarkOrchid" />
                                         <oxy:LineSeries
-                                            Title="爐內溫度_4"
+                                            Title="{DynamicResource 爐內溫度4}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_3"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -2003,7 +2125,7 @@
                                             StrokeThickness="2"
                                             Color="DodgerBlue" />
                                         <oxy:LineSeries
-                                            Title="爐內溫度_3"
+                                            Title="{DynamicResource 爐內溫度3}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_2"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -2014,7 +2136,7 @@
                                             StrokeThickness="2"
                                             Color="Lime" />
                                         <oxy:LineSeries
-                                            Title="爐內溫度_2"
+                                            Title="{DynamicResource 爐內溫度2}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_1"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -2025,7 +2147,7 @@
                                             StrokeThickness="2"
                                             Color="Gold" />
                                         <oxy:LineSeries
-                                            Title="爐內溫度_1"
+                                            Title="{DynamicResource 爐內溫度1}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_0"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -2036,7 +2158,7 @@
                                             StrokeThickness="2"
                                             Color="DarkOrange" />
                                         <oxy:LineSeries
-                                            Title="溫控器溫度"
+                                            Title="{DynamicResource 溫控器溫度}"
                                             DataFieldX="Time"
                                             DataFieldY="ThermostatTemperature"
                                             ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
@@ -2094,7 +2216,7 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Button
-                            Content="返回總覽"
+                            Content="{DynamicResource 返回總覽}"
                             FontSize="16">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
@@ -2115,7 +2237,7 @@
                                 <DataTemplate>
                                     <TextBlock
                                         FontSize="16"
-                                        Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=第 \{0:F0\} 站}" />
+                                        Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=No. \{0:F0\}}" />
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
