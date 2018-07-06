@@ -635,7 +635,7 @@
                                             Margin="4,0"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            Text="{DynamicResource 配方名稱}" />
+                                            Text="{DynamicResource 配方}" />
                                     </Border>
                                     <Border
                                         Grid.Column="1"
@@ -1987,14 +1987,30 @@
                                         </Style>
                                     </DataGrid.RowHeaderStyle>
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn
-                                            Width="60"
-                                            Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh\:mm\:ss\}, Mode=OneWay}"
-                                            Header="{DynamicResource 時間}" />
-                                        <DataGridTextColumn
-                                            Width="*"
-                                            Binding="{Binding (models:RecordEvent.Description), Mode=OneWay}"
-                                            Header="{DynamicResource 事件}" />
+                                        <DataGridTemplateColumn Width="60">
+                                            <DataGridTemplateColumn.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{DynamicResource 時間}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.HeaderTemplate>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="models:RecordEvent">
+                                                    <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="*">
+                                            <DataGridTemplateColumn.HeaderTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{DynamicResource 事件}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.HeaderTemplate>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="models:RecordEvent">
+                                                    <TextBlock Text="{Binding Description, StringFormat=\{0:hh\:mm\:ss\}, Mode=OneWay}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <oxy:Plot

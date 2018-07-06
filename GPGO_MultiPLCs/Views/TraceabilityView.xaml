@@ -463,14 +463,30 @@
                                     </Style>
                                 </DataGrid.RowHeaderStyle>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn
-                                        Width="60"
-                                        Binding="{Binding (models:RecordEvent.Time), StringFormat=\{0:hh:mm:ss\}, Mode=OneWay}"
-                                        Header="{DynamicResource 時間}" />
-                                    <DataGridTextColumn
-                                        Width="*"
-                                        Binding="{Binding (models:RecordEvent.Description), Mode=OneWay}"
-                                        Header="{DynamicResource 事件}" />
+                                    <DataGridTemplateColumn Width="60">
+                                        <DataGridTemplateColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{DynamicResource 時間}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.HeaderTemplate>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="models:RecordEvent">
+                                                <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{DynamicResource 事件}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.HeaderTemplate>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="models:RecordEvent">
+                                                <TextBlock Text="{Binding Description, Mode=OneWay}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <oxy:Plot
@@ -684,48 +700,138 @@
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Binding="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}"
-                        Header="{DynamicResource 紀錄時間}" />
-                    <DataGridTextColumn
-                        Binding="{Binding StationNumber, ConverterParameter=1, Converter={StaticResource AddValue}, Mode=OneWay}"
-                        Header="{DynamicResource 烤箱序號}" />
-                    <DataGridTextColumn
-                        Width="*"
-                        Binding="{Binding RecipeName, Mode=OneWay}"
-                        Header="{DynamicResource 配方名稱}" />
-                    <DataGridTextColumn
-                        Binding="{Binding MachineCode, Mode=OneWay}"
-                        Header="{DynamicResource 設備}" />
-                    <DataGridTextColumn
-                        Width="80"
-                        Binding="{Binding OrderCode, Mode=OneWay}"
-                        Header="{DynamicResource 工單}" />
-                    <!--<DataGridTextColumn
-                            Binding="{Binding ProcessNumber, Mode=OneWay}"
-                            Header="製造序號" />
-                        <DataGridTextColumn
-                            Width="90"
-                            Binding="{Binding ProduceCode, Mode=OneWay}"
-                            Header="產品編號" />-->
-                    <DataGridTextColumn
-                        Binding="{Binding OperatorID, Mode=OneWay}"
-                        Header="{DynamicResource 操作員}" />
-                    <DataGridTextColumn
-                        Binding="{Binding TrolleyCode, Mode=OneWay}"
-                        Header="{DynamicResource 台車}" />
-                    <DataGridTextColumn
-                        Binding="{Binding ProcessCount, Mode=OneWay}"
-                        Header="{DynamicResource 張數}" />
-                    <DataGridTextColumn
-                        Binding="{Binding Side, Mode=OneWay}"
-                        Header="{DynamicResource 正反面}" />
-                    <DataGridTextColumn
-                        Binding="{Binding StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}"
-                        Header="{DynamicResource 開始時間}" />
-                    <DataGridTextColumn
-                        Binding="{Binding EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}"
-                        Header="{DynamicResource 結束時間}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 紀錄時間}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 烤箱序號}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding StationNumber, ConverterParameter=1, Converter={StaticResource AddValue}, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 配方}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding RecipeName, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 設備}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding MachineCode, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="80">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 工單}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding OrderCode, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 操作員}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding OperatorID, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 台車}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding TrolleyCode, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 張數}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding ProcessCount, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 正反面}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding Side, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 開始時間}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{DynamicResource 結束時間}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <TabControl

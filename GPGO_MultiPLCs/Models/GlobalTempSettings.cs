@@ -11,18 +11,21 @@ namespace GPGO_MultiPLCs.Models
         public enum Language
         {
             TW,
+            CHS,
             EN
         }
 
-        private Language _Lng = Language.TW;
+        private int _Lng = (int)Language.TW;
 
-        public Language Lng
+        public int Lng
         {
             get => _Lng;
             set
             {
                 _Lng = value;
                 NotifyPropertyChanged();
+
+                Save();
             }
         }
 
@@ -63,11 +66,6 @@ namespace GPGO_MultiPLCs.Models
             {
                 Save();
             }
-        }
-
-        public GlobalTempSettings()
-        {
-            Load();
         }
     }
 }

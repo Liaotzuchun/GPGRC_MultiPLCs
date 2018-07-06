@@ -60,6 +60,12 @@ namespace GPGO_MultiPLCs.Views
         private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
         {
             var lng = Application.Current.Resources.MergedDictionaries.Last();
+            lng.Source = new Uri("pack://application:,,,/Views/Languages/CHS.xaml");
+        }
+
+        private void RadioButton_Checked_2(object sender, RoutedEventArgs e)
+        {
+            var lng = Application.Current.Resources.MergedDictionaries.Last();
             lng.Source = new Uri("pack://application:,,,/Views/Languages/EN.xaml");
         }
     }

@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
     IsVisibleChanged="UserControl_IsVisibleChanged"
@@ -324,7 +325,7 @@
                     <TabItem
                         Height="50"
                         FontSize="16"
-                        Header="{StaticResource 人員管理}">
+                        Header="{DynamicResource 人員管理}">
                         <DataGrid
                             Height="200"
                             AutoGenerateColumns="False"
@@ -345,36 +346,89 @@
                             Style="{StaticResource DataGridStyle}"
                             VerticalScrollBarVisibility="Visible">
                             <DataGrid.Columns>
-                                <DataGridTextColumn
-                                    Width="*"
-                                    Binding="{Binding Name, Mode=OneWay}"
-                                    Header="{DynamicResource 帳號}" />
-                                <DataGridTextColumn
-                                    Width="*"
-                                    Binding="{Binding Password, Mode=OneWay}"
-                                    Header="{DynamicResource 密碼}" />
-                                <DataGridTextColumn
-                                    Binding="{Binding Level, Mode=OneWay}"
-                                    Header="{DynamicResource 層級}" />
-                                <DataGridTextColumn
-                                    Binding="{Binding LastLoginTime, Mode=OneWay, Converter={StaticResource DateTimeZeroToEmpty}, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}"
-                                    Header="{DynamicResource 上次登入}" />
-                                <DataGridTextColumn
-                                    Binding="{Binding CreatedTime, Mode=OneWay, Converter={StaticResource DateTimeZeroToEmpty}, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}"
-                                    Header="{DynamicResource 創建時間}" />
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{DynamicResource 帳號}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:User">
+                                            <TextBlock Text="{Binding Name, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{DynamicResource 密碼}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:User">
+                                            <TextBlock Text="{Binding Password, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{DynamicResource 層級}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:User">
+                                            <TextBlock Text="{Binding Level, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{DynamicResource 上次登入}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:User">
+                                            <TextBlock Text="{Binding LastLoginTime, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{DynamicResource 創建時間}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:User">
+                                            <TextBlock Text="{Binding CreatedTime, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </TabItem>
                     <TabItem
                         Height="50"
                         FontSize="16"
-                        Header="{StaticResource 系統設定}"
+                        Header="{DynamicResource 系統設定}"
                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                         <Grid Height="200">
                             <UniformGrid Columns="1">
-                                <RadioButton Content="{DynamicResource 繁體中文}" Checked="RadioButton_Checked" />
-                                <RadioButton Content="{DynamicResource 英文}" Checked="RadioButton_Checked_1" />
+                                <RadioButton
+                                    Checked="RadioButton_Checked"
+                                    Content="{DynamicResource 繁體中文}"
+                                    IsChecked="{Binding GT.Lng, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                                <RadioButton
+                                    Checked="RadioButton_Checked_1"
+                                    Content="{DynamicResource 簡體中文}"
+                                    IsChecked="{Binding GT.Lng, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                                <RadioButton
+                                    Checked="RadioButton_Checked_2"
+                                    Content="{DynamicResource 英文}"
+                                    IsChecked="{Binding GT.Lng, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                             </UniformGrid>
                         </Grid>
                     </TabItem>

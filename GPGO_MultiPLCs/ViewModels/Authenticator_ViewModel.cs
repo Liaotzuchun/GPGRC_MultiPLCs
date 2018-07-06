@@ -6,24 +6,16 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using GPGO_MultiPLCs.Helpers;
+using GPGO_MultiPLCs.Models;
 using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class Authenticator_ViewModel : ViewModelBase
     {
-        public enum UserLevel
-        {
-            D, //Guest
-            C, //Operator
-            B, //Leader
-            A, //Manager
-            S //GP
-        }
-
-        private readonly UserLevel[] Levels = { UserLevel.S, UserLevel.A, UserLevel.B, UserLevel.C };
-        private readonly User GP = new User { Name = "GP", Password = "23555277", Level = UserLevel.S };
-        private readonly User Guest = new User { Name = "", Password = "", Level = UserLevel.D };
+        private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.A, User.UserLevel.B, User.UserLevel.C };
+        private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };
+        private readonly User Guest = new User { Name = "", Password = "", Level = User.UserLevel.D };
 
         private List<User> Users;
 
@@ -33,7 +25,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private string _TypedName;
         private string _EditName;
         private string _EditPassword;
-        private UserLevel _EditLevel;
+        private User.UserLevel _EditLevel;
         private User _NowUser;
         private User _SelectedUser;
         private Visibility _IsShown = Visibility.Collapsed;
@@ -45,8 +37,9 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand Logout { get; }
         public RelayCommand StartLog { get; }
         public RelayCommand ExitLog { get; }
+        public GlobalTempSettings GT { get; }
 
-        public IEnumerable<UserLevel> EditLevels => Levels.Where(x => x < _NowUser.Level);
+        public IEnumerable<User.UserLevel> EditLevels => Levels.Where(x => x < _NowUser.Level);
 
         public IQueryable<User> ViewUsers => Users?.AsQueryable().Where(x => x.Level < _NowUser.Level);
 
@@ -116,7 +109,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public UserLevel EditLevel
+        public User.UserLevel EditLevel
         {
             get => _EditLevel;
             set
@@ -152,7 +145,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     _EditName = "";
                     _EditPassword = "";
-                    _EditLevel = UserLevel.C;
+                    _EditLevel = User.UserLevel.C;
                 }
                 else
                 {
@@ -165,7 +158,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged(nameof(EditPassword));
                 NotifyPropertyChanged(nameof(EditLevel));
                 Update_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != _EditPassword || x.Level != _EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(_EditPassword) && _EditLevel != UserLevel.D && Users.TrueForAll(x => !string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase));
+                Add_Enable = !string.IsNullOrEmpty(_EditPassword) &&
+                             _EditLevel != User.UserLevel.D &&
+                             Users.TrueForAll(x => !string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase));
                 Remove_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == _EditPassword && x.Level == _EditLevel);
             }
         }
@@ -225,70 +220,14 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public sealed class User : ViewModelBase
-        {
-            public string _Name;
-            public string _Password;
-            public UserLevel _Level;
-            public DateTime _LastLoginTime;
-            public DateTime _CreatedTime;
-
-            public string Name
-            {
-                get => _Name;
-                set
-                {
-                    _Name = value;
-                    NotifyPropertyChanged();
-                }
-            }
-
-            public string Password
-            {
-                get => _Password;
-                set
-                {
-                    _Password = value;
-                    NotifyPropertyChanged();
-                }
-            }
-
-            public UserLevel Level
-            {
-                get => _Level;
-                set
-                {
-                    _Level = value;
-                    NotifyPropertyChanged();
-                }
-            }
-
-            public DateTime LastLoginTime
-            {
-                get => _LastLoginTime;
-                set
-                {
-                    _LastLoginTime = value;
-                    NotifyPropertyChanged();
-                }
-            }
-
-            public DateTime CreatedTime
-            {
-                get => _CreatedTime;
-                set
-                {
-                    _CreatedTime = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
         public Authenticator_ViewModel()
         {
             Load();
 
-            NowUser = Users.Where(x => x.Level == UserLevel.C && x._LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+            NowUser = Users.Where(x => x.Level == User.UserLevel.C && x._LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+
+            GT = new GlobalTempSettings();
+            GT.Load();
 
             UpdateUser = new RelayCommand(e =>
                                           {
