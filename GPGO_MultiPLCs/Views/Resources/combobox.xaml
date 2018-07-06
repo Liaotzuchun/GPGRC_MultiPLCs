@@ -87,7 +87,7 @@
                     </VisualState>
                     <VisualState x:Name="Disabled">
                         <Storyboard>
-                            <ColorAnimationUsingKeyFrames
+                            <!--<ColorAnimationUsingKeyFrames
                                 Storyboard.TargetName="Border"
                                 Storyboard.TargetProperty="Background.Color">
                                 <EasingColorKeyFrame
@@ -100,7 +100,7 @@
                                 <EasingColorKeyFrame
                                     KeyTime="0"
                                     Value="{Binding Source={StaticResource DisabledBorderBrush}, Path=Color}" />
-                            </ColorAnimationUsingKeyFrames>
+                            </ColorAnimationUsingKeyFrames>-->
                             <ColorAnimationUsingKeyFrames
                                 Storyboard.TargetName="Arrow"
                                 Storyboard.TargetProperty="Fill.Color">
@@ -120,11 +120,6 @@
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
         </Grid>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-            </Trigger>
-        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <ControlTemplate
@@ -211,10 +206,6 @@
                         </Trigger>
                         <Trigger Property="HasItems" Value="False">
                             <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource DisabledBackgroundBrush}" />
-                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsGrouping" Value="True">
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
