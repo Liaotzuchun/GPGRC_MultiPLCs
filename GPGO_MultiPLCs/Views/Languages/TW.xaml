@@ -88,4 +88,6 @@
     <sys:String x:Key="分類">分類</sys:String>
     <sys:String x:Key="生產總量">生產總量</sys:String>
     <sys:String x:Key="日期時間">日期 / 時間</sys:String>
+    <sys:String x:Key="警告">警告</sys:String>
+    <sys:String x:Key="確定">確定 / 時間</sys:String>
 </ResourceDictionary>

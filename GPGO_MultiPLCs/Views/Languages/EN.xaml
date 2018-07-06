@@ -88,4 +88,6 @@
     <sys:String x:Key="分類">Categories</sys:String>
     <sys:String x:Key="生產總量">Total Output</sys:String>
     <sys:String x:Key="日期時間">Date / Time</sys:String>
+    <sys:String x:Key="警告">Alert</sys:String>
+    <sys:String x:Key="確定">Enter</sys:String>
 </ResourceDictionary>

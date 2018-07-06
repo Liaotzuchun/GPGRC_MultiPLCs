@@ -186,7 +186,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 if (Users != null)
                 {
-                    File.WriteAllText("Users.json", JsonConvert.SerializeObject(Users, Formatting.Indented), Encoding.UTF8);
+                    File.WriteAllText("Users.json", JsonConvert.SerializeObject(Users, Formatting.Indented), Encoding.Unicode);
                 }
             }
             catch
@@ -200,7 +200,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 try
                 {
-                    if (JsonConvert.DeserializeObject<List<User>>(File.ReadAllText("Users.json", Encoding.UTF8)) is List<User> val)
+                    if (JsonConvert.DeserializeObject<List<User>>(File.ReadAllText("Users.json", Encoding.Unicode)) is List<User> val)
                     {
                         Users = val;
                     }

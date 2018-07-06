@@ -8,7 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:GlobalDialog_ViewModel}"
-    mc:Ignorable="d" IsVisibleChanged="UserControl_IsVisibleChanged">
+    IsVisibleChanged="UserControl_IsVisibleChanged"
+    mc:Ignorable="d">
     <UserControl.Visibility>
         <MultiBinding
             Converter="{StaticResource MultiAnyVisibleConverter}"
@@ -138,7 +139,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="20"
-                        Text="警告!" />
+                        Text="{DynamicResource 警告}" />
                 </Border>
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
@@ -151,16 +152,16 @@
                             TextAlignment="Center"
                             TextWrapping="WrapWithOverflow" />
                     </Viewbox>
-                    <StackPanel
+                    <UniformGrid
                         Grid.Row="1"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal"
+                        Rows="1"
                         TextElement.FontSize="20">
                         <Button
                             Margin="4,8"
                             Padding="12,8"
-                            Content="確定">
+                            Content="{DynamicResource 確定}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding OkayCommand_1, Mode=OneTime}" />
@@ -170,14 +171,14 @@
                         <Button
                             Margin="4,8"
                             Padding="12,8"
-                            Content="取消">
+                            Content="{DynamicResource 取消}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding CancelCommand_1, Mode=OneTime}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
-                    </StackPanel>
+                    </UniformGrid>
                 </Grid>
             </Grid>
             <Grid
@@ -261,16 +262,16 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </TextBox>
-                    <StackPanel
+                    <UniformGrid
                         Grid.Row="2"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal"
+                        Rows="1"
                         TextElement.FontSize="20">
                         <Button
                             Margin="4,8"
                             Padding="12,8"
-                            Content="確定">
+                            Content="{DynamicResource 確定}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding OkayCommand_2, Mode=OneTime}" />
@@ -280,14 +281,14 @@
                         <Button
                             Margin="4,8"
                             Padding="12,8"
-                            Content="取消">
+                            Content="{DynamicResource 取消}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding CancelCommand_2, Mode=OneTime}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
-                    </StackPanel>
+                    </UniformGrid>
                 </Grid>
             </Grid>
         </Grid>

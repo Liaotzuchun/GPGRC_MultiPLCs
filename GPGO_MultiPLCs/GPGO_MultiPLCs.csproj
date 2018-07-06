@@ -114,6 +114,7 @@
     <Compile Include="Helpers\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
+    <Compile Include="Models\GlobalTempSettings.cs" />
     <Compile Include="Models\NamesEnum.cs" />
     <Compile Include="Models\PLC_Data.cs" />
     <Compile Include="Models\PLC_Recipe.cs" />
