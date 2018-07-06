@@ -68,7 +68,7 @@
     <sys:String x:Key="升恆溫逾時">H/W Tout</sys:String>
     <sys:String x:Key="手動">Manual</sys:String>
     <sys:String x:Key="自動">Auto</sys:String>
-    <sys:String x:Key="分">mins</sys:String>
+    <sys:String x:Key="分">min</sys:String>
     <sys:String x:Key="儲存">Save</sys:String>
     <sys:String x:Key="搜尋">Search</sys:String>
     <sys:String x:Key="更新時間">Updated</sys:String>
