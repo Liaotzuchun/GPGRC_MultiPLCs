@@ -7,12 +7,13 @@
         TargetType="{x:Type RadioButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="White" />
+        <Setter Property="Margin" Value="0" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
                     <BulletDecorator
-                        Margin="1"
+                        Margin="{TemplateBinding Margin}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="Transparent">

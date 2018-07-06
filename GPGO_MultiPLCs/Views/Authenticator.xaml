@@ -38,6 +38,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Border x:Name="Border">
                     <i:Interaction.Triggers>
@@ -220,7 +221,7 @@
                 <Grid
                     x:Name="Grid"
                     Grid.Row="4"
-                    Height="90"
+                    Height="80"
                     Margin="8,0"
                     IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
                     KeyboardNavigation.TabNavigation="Cycle"
@@ -323,7 +324,7 @@
                     Margin="8"
                     Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
                     <TabItem
-                        Height="50"
+                        Height="40"
                         FontSize="16"
                         Header="{DynamicResource 人員管理}">
                         <DataGrid
@@ -341,7 +342,7 @@
                             IsReadOnly="True"
                             IsSynchronizedWithCurrentItem="False"
                             ItemsSource="{Binding ViewUsers, Mode=OneWay}"
-                            SelectedItem="{Binding SelectedUser, Mode=OneWayToSource}"
+                            SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                             SelectionMode="Single"
                             Style="{StaticResource DataGridStyle}"
                             VerticalScrollBarVisibility="Visible">
@@ -390,11 +391,11 @@
                                     </DataGridTemplateColumn.HeaderTemplate>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
-                                            <TextBlock Text="{Binding LastLoginTime, Mode=OneWay}" />
+                                            <TextBlock Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="*">
+                                <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{DynamicResource 創建時間}" />
@@ -402,7 +403,7 @@
                                     </DataGridTemplateColumn.HeaderTemplate>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
-                                            <TextBlock Text="{Binding CreatedTime, Mode=OneWay}" />
+                                            <TextBlock Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -410,29 +411,33 @@
                         </DataGrid>
                     </TabItem>
                     <TabItem
-                        Height="50"
+                        Height="40"
                         FontSize="16"
                         Header="{DynamicResource 系統設定}"
                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                        <Grid Height="200">
-                            <UniformGrid Columns="1">
-                                <RadioButton
-                                    Checked="RadioButton_Checked"
-                                    Content="{DynamicResource 繁體中文}"
-                                    IsChecked="{Binding GT.Lng, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                                <RadioButton
-                                    Checked="RadioButton_Checked_1"
-                                    Content="{DynamicResource 簡體中文}"
-                                    IsChecked="{Binding GT.Lng, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                                <RadioButton
-                                    Checked="RadioButton_Checked_2"
-                                    Content="{DynamicResource 英文}"
-                                    IsChecked="{Binding GT.Lng, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                            </UniformGrid>
-                        </Grid>
+                        <Grid Height="200" />
                     </TabItem>
                 </TabControl>
+                <UniformGrid
+                    Grid.Row="7"
+                    Height="40"
+                    Margin="8,0,8,8"
+                    Rows="1"
+                    TextElement.FontSize="16">
+                    <ToggleButton
+                        Checked="RadioButton_Checked"
+                        Content="{DynamicResource 繁體中文}"
+                        IsChecked="{Binding GT.Lng, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                    <ToggleButton
+                        Checked="RadioButton_Checked_1"
+                        Content="{DynamicResource 簡體中文}"
+                        IsChecked="{Binding GT.Lng, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                    <ToggleButton
+                        Checked="RadioButton_Checked_2"
+                        Content="{DynamicResource 英文}"
+                        IsChecked="{Binding GT.Lng, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                </UniformGrid>
             </Grid>
         </Border>
     </Grid>

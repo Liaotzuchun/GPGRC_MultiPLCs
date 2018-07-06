@@ -128,6 +128,8 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _NowUser = value;
                 NotifyPropertyChanged();
+
+                SelectedUser = null;
                 NotifyPropertyChanged(nameof(ViewUsers));
                 NotifyPropertyChanged(nameof(EditLevels));
             }
@@ -224,7 +226,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Load();
 
-            NowUser = Users.Where(x => x.Level == User.UserLevel.C && x._LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+            NowUser = Users.Where(x => x.Level == User.UserLevel.C && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
 
             GT = new GlobalTempSettings();
             GT.Load();
@@ -308,10 +310,9 @@ namespace GPGO_MultiPLCs.ViewModels
             StartLog = new RelayCommand(e =>
                                         {
                                             Login.Result = true;
-                                            TypedName = "";
+                                            TypedName = _NowUser.Name;
+                                            SelectedUser = null;
                                             IsShown = Visibility.Visible;
-                                            Users = new List<User>();
-                                            NotifyPropertyChanged(nameof(ViewUsers));
 
                                             if (e is PasswordBox password)
                                             {
@@ -322,10 +323,7 @@ namespace GPGO_MultiPLCs.ViewModels
             ExitLog = new RelayCommand(e =>
                                        {
                                            Login.Result = true;
-                                           TypedName = "";
                                            IsShown = Visibility.Collapsed;
-                                           Users = new List<User>();
-                                           NotifyPropertyChanged(nameof(ViewUsers));
 
                                            if (e is PasswordBox password)
                                            {

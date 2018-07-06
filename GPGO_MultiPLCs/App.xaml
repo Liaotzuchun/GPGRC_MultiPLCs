@@ -38,7 +38,7 @@
                 <ResourceDictionary Source="Views/Resources/Thumb.xaml" />
                 <ResourceDictionary Source="Views/Resources/calendar.xaml" />
                 <ResourceDictionary Source="Views/Resources/datepicker.xaml" />
-                <ResourceDictionary Source="Views/Languages/EN.xaml" />
+                <ResourceDictionary Source="Views/Languages/TW.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
             <local:Connector x:Key="Connector" />

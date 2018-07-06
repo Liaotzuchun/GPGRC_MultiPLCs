@@ -14,11 +14,11 @@ namespace GPGO_MultiPLCs.Models
             S //GP
         }
 
-        public string _Name;
-        public string _Password;
-        public UserLevel _Level;
-        public DateTime _LastLoginTime;
-        public DateTime _CreatedTime;
+        private string _Name;
+        private string _Password;
+        private UserLevel _Level;
+        private DateTime _LastLoginTime;
+        private DateTime _CreatedTime;
 
         public string Name
         {
