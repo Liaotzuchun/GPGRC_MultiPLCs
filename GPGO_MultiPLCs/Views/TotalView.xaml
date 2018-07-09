@@ -2230,8 +2230,8 @@
                         Grid.Row="1"
                         Margin="4,0,4,4">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
                             <ColumnDefinition />
-                            <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
                         <Button
                             Content="{DynamicResource 返回總覽}"
@@ -2253,12 +2253,7 @@
                             SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                             <ListBox.Template>
                                 <ControlTemplate>
-                                    <Border
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="0,0,1,1">
-                                        <ItemsPresenter />
-                                    </Border>
+                                    <ItemsPresenter />
                                 </ControlTemplate>
                             </ListBox.Template>
                             <ListBox.ItemsPanel>
@@ -2273,31 +2268,33 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">
-                                                <Border
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,1,0,0">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="8" />
-                                                            <ColumnDefinition />
-                                                        </Grid.ColumnDefinitions>
-                                                        <Border Background="{StaticResource WindowBackgroundBrush4}" />
-                                                        <Border
-                                                            x:Name="Border"
-                                                            Background="Cyan"
-                                                            Opacity="0" />
-                                                        <Border
-                                                            x:Name="Border2"
-                                                            Grid.Column="1"
-                                                            Background="{StaticResource LightColorBrush}"
-                                                            Opacity="0" />
-                                                        <Border
-                                                            x:Name="Border3"
-                                                            Grid.Column="1"
-                                                            Background="{StaticResource LightColorBrush}"
-                                                            Opacity="0" />
-                                                        <ContentPresenter Grid.Column="1" />
-                                                    </Grid>
+                                                <Grid>
+                                                    <Grid.Background>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" Offset="0"/>
+                                                            <GradientStop Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Grid.Background>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="8" />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Background="{StaticResource WindowBackgroundBrush4}" />
+                                                    <Border
+                                                        x:Name="Border"
+                                                        Background="Cyan"
+                                                        Opacity="0" />
+                                                    <Border
+                                                        x:Name="Border2"
+                                                        Grid.Column="1"
+                                                        Background="{StaticResource LightColorBrush}"
+                                                        Opacity="0" />
+                                                    <Border
+                                                        x:Name="Border3"
+                                                        Grid.Column="1"
+                                                        Background="{StaticResource LightColorBrush}"
+                                                        Opacity="0" />
+                                                    <ContentPresenter Grid.Column="1" />
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup x:Name="CommonStates">
                                                             <VisualStateGroup.Transitions>
@@ -2345,7 +2342,7 @@
                                                             </VisualState>
                                                         </VisualStateGroup>
                                                     </VisualStateManager.VisualStateGroups>
-                                                </Border>
+                                                </Grid>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
