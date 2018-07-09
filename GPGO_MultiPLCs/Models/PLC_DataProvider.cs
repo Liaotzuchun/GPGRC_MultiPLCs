@@ -462,6 +462,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                      ResetStopTokenSource();
 
+                                                     //! 當沒有刷取台車code時，不執行紀錄
                                                      if (!string.IsNullOrEmpty(Process_Info.TrolleyCode)) RecordingTask = StartRecoder(60000, CTS.Token);
                                                  }
                                                  else if (IsRecording)
