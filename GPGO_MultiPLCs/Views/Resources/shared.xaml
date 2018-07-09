@@ -18,10 +18,10 @@
 
     <SolidColorBrush
         x:Key="EnergyBrush"
-        Color="#FFAB00" />
+        Color="Gold" />
     <SolidColorBrush
         x:Key="EnergyBorderBrush"
-        Color="#F3A200" />
+        Color="#EEC600" />
 
     <SolidColorBrush
         x:Key="DarkBrush"

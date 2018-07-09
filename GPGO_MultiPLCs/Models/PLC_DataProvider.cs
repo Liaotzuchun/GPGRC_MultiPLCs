@@ -113,6 +113,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                 x.Dispose();
                                                 Process_Info.EndTime = DateTime.Now;
+                                                CheckInCommand.Result = false;
 
                                                 RecordingFinished?.Invoke(Process_Info);
                                             });
@@ -460,7 +461,8 @@ namespace GPGO_MultiPLCs.Models
                                                      }
 
                                                      ResetStopTokenSource();
-                                                     RecordingTask = StartRecoder(60000, CTS.Token);
+
+                                                     if (!string.IsNullOrEmpty(Process_Info.TrolleyCode)) RecordingTask = StartRecoder(60000, CTS.Token);
                                                  }
                                                  else if (IsRecording)
                                                  {

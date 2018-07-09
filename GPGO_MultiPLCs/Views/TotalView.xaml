@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="clr-namespace:GPGO_MultiPLCs.Helpers"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:m="clr-namespace:GPGO_MultiPLCs.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
@@ -596,7 +597,7 @@
                 <Grid Background="{StaticResource WindowBackgroundBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="50" />
                     </Grid.RowDefinitions>
                     <Grid DataContext="{Binding PLC_In_Focused, Mode=OneWay}">
                         <Grid.RowDefinitions>
@@ -1858,8 +1859,8 @@
                                             BorderThickness="0,0,0,0">
                                             <Grid>
                                                 <ProgressBar
-                                                    Background="{StaticResource WorkingBrush}"
-                                                    BorderBrush="{StaticResource WorkingBorderBrush}"
+                                                    Background="{StaticResource EnergyBrush}"
+                                                    BorderBrush="{StaticResource EnergyBorderBrush}"
                                                     Maximum="1"
                                                     Value="{Binding Progress, Mode=OneWay}" />
                                                 <TextBlock
@@ -2230,7 +2231,7 @@
                         Margin="4,0,4,4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
                         <Button
                             Content="{DynamicResource 返回總覽}"
@@ -2243,21 +2244,146 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
-                        <ComboBox
+                        <ListBox
                             Grid.Column="1"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             AlternationCount="{Binding Items.Count, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                             ItemsSource="{Binding PLC_All, Mode=OneTime}"
                             SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
-                            <ComboBox.ItemTemplate>
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <Border
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="0,0,1,1">
+                                        <ItemsPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <local:UniformGridWithOrientation
+                                        Orientation="Vertical"
+                                        Rows="2" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,0,0">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="8" />
+                                                            <ColumnDefinition />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border Background="{StaticResource WindowBackgroundBrush4}" />
+                                                        <Border
+                                                            x:Name="Border"
+                                                            Background="Cyan"
+                                                            Opacity="0" />
+                                                        <Border
+                                                            x:Name="Border2"
+                                                            Grid.Column="1"
+                                                            Background="{StaticResource LightColorBrush}"
+                                                            Opacity="0" />
+                                                        <ContentPresenter Grid.Column="1" />
+                                                    </Grid>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="CommonStates">
+                                                            <VisualStateGroup.Transitions>
+                                                                <VisualTransition GeneratedDuration="0:0:0.12" />
+                                                            </VisualStateGroup.Transitions>
+                                                            <VisualState x:Name="Normal" />
+                                                            <VisualState x:Name="MouseOver">
+                                                                <Storyboard>
+                                                                    <DoubleAnimationUsingKeyFrames
+                                                                        Storyboard.TargetName="Border2"
+                                                                        Storyboard.TargetProperty="Opacity">
+                                                                        <EasingDoubleKeyFrame
+                                                                            KeyTime="0"
+                                                                            Value="1" />
+                                                                    </DoubleAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Disabled" />
+                                                        </VisualStateGroup>
+                                                        <VisualStateGroup x:Name="SelectionStates">
+                                                            <VisualStateGroup.Transitions>
+                                                                <VisualTransition GeneratedDuration="0:0:0.12" />
+                                                                <VisualTransition
+                                                                    GeneratedDuration="0"
+                                                                    To="Selected" />
+                                                            </VisualStateGroup.Transitions>
+                                                            <VisualState x:Name="Unselected" />
+                                                            <VisualState x:Name="Selected">
+                                                                <Storyboard>
+                                                                    <DoubleAnimationUsingKeyFrames
+                                                                        Storyboard.TargetName="Border"
+                                                                        Storyboard.TargetProperty="Opacity">
+                                                                        <EasingDoubleKeyFrame
+                                                                            KeyTime="0"
+                                                                            Value="1" />
+                                                                    </DoubleAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock
-                                        FontSize="16"
-                                        Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=No. \{0:F0\}}" />
+                                    <Grid>
+                                        <ProgressBar
+                                            x:Name="Progress"
+                                            BorderThickness="0"
+                                            Maximum="1"
+                                            Value="{Binding Progress, Mode=OneWay}">
+                                            <ProgressBar.Style>
+                                                <Style TargetType="{x:Type ProgressBar}">
+                                                    <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type ProgressBar}">
+                                                                <Grid>
+                                                                    <Border
+                                                                        Name="PART_Track"
+                                                                        Background="Transparent"
+                                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                                        CornerRadius="0" />
+                                                                    <Border
+                                                                        Name="PART_Indicator"
+                                                                        HorizontalAlignment="Left"
+                                                                        Background="{TemplateBinding Background}"
+                                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                                        CornerRadius="0" />
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ProgressBar.Style>
+                                        </ProgressBar>
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            Foreground="{StaticResource BaseForeground}"
+                                            Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=No. \{0:00\}}" />
+                                    </Grid>
                                 </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
                 </Grid>
             </TabItem>

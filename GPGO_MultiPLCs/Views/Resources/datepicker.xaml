@@ -64,36 +64,50 @@
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="tb"
+                                            Storyboard.TargetProperty="Foreground.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="White" />
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames
                                             Storyboard.TargetName="BackgroundGradient"
                                             Storyboard.TargetProperty="Background.Color">
                                             <EasingColorKeyFrame
                                                 KeyTime="0"
-                                                Value="{Binding Source={StaticResource EnergyBrush}, Path=Color}" />
+                                                Value="{Binding Source={StaticResource DarkBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                         <ColorAnimationUsingKeyFrames
                                             Storyboard.TargetName="BackgroundGradient"
                                             Storyboard.TargetProperty="BorderBrush.Color">
                                             <EasingColorKeyFrame
                                                 KeyTime="0"
-                                                Value="{Binding Source={StaticResource EnergyBorderBrush}, Path=Color}" />
+                                                Value="{Binding Source={StaticResource DarkBorderBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="tb"
+                                            Storyboard.TargetProperty="Foreground.Color">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="White" />
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames
                                             Storyboard.TargetName="BackgroundGradient"
                                             Storyboard.TargetProperty="Background.Color">
                                             <EasingColorKeyFrame
                                                 KeyTime="0"
-                                                Value="{Binding Source={StaticResource WorkingBrush}, Path=Color}" />
+                                                Value="{Binding Source={StaticResource PressedBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                         <ColorAnimationUsingKeyFrames
                                             Storyboard.TargetName="BackgroundGradient"
                                             Storyboard.TargetProperty="BorderBrush.Color">
                                             <EasingColorKeyFrame
                                                 KeyTime="0"
-                                                Value="{Binding Source={StaticResource WorkingBorderBrush}, Path=Color}" />
+                                                Value="{Binding Source={StaticResource PressedBorderBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

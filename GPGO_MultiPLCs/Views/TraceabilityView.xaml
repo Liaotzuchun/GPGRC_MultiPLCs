@@ -378,7 +378,7 @@
                         <DataTemplate>
                             <TextBlock
                                 FontSize="16"
-                                Text="{Binding Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=1, StringFormat=No. \{0:F0\}}" />
+                                Text="{Binding Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=1, StringFormat=No. \{0:00\}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>

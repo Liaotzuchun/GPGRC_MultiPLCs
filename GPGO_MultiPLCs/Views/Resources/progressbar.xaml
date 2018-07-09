@@ -8,16 +8,16 @@
         <Grid>
             <Border
                 Name="PART_Track"
-                Background="{StaticResource WindowBackgroundBrush4}"
+                Background="{StaticResource WindowBackgroundBrush6}"
                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                BorderThickness="1"
+                BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="0" />
             <Border
                 Name="PART_Indicator"
                 HorizontalAlignment="Left"
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="1"
+                BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="0">
                 <!--<Border.Effect>
                     <DropShadowEffect Color="{Binding ElementName=PART_Indicator, Path=BorderBrush.GradientStops[0].Color}" BlurRadius="6" Direction="270" Opacity="0.7" ShadowDepth="0" />
@@ -26,8 +26,7 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="PART_Indicator" Property="Background"
-                        Value="{StaticResource DisabledBackgroundBrush}" />
+                <Setter TargetName="PART_Indicator" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
                 <Setter TargetName="PART_Indicator" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                 <Setter TargetName="PART_Track" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
                 <Setter TargetName="PART_Track" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
@@ -62,8 +61,7 @@
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="PART_Indicator" Property="Background"
-                        Value="{StaticResource DisabledBackgroundBrush}" />
+                <Setter TargetName="PART_Indicator" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
                 <Setter TargetName="PART_Indicator" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                 <Setter TargetName="PART_Track" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
                 <Setter TargetName="PART_Track" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />

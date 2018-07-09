@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Main"
     Title="GPGO"
-    d:DesignHeight="768"
-    d:DesignWidth="1024"
+    Width="1024"
+    Height="768"
     Background="{StaticResource WindowBackgroundBrush}"
     DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
     FontFamily="Microsoft JhengHei"
@@ -17,7 +17,7 @@
     Loaded="Window_Loaded"
     SnapsToDevicePixels="True"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d" SizeToContent="WidthAndHeight">
+    mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction
@@ -26,9 +26,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid
-        Width="1024"
-        Height="768">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="224" />
