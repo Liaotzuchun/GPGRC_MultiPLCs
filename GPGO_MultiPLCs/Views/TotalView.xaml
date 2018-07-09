@@ -2291,6 +2291,11 @@
                                                             Grid.Column="1"
                                                             Background="{StaticResource LightColorBrush}"
                                                             Opacity="0" />
+                                                        <Border
+                                                            x:Name="Border3"
+                                                            Grid.Column="1"
+                                                            Background="{StaticResource LightColorBrush}"
+                                                            Opacity="0" />
                                                         <ContentPresenter Grid.Column="1" />
                                                     </Grid>
                                                     <VisualStateManager.VisualStateGroups>
@@ -2324,6 +2329,13 @@
                                                                 <Storyboard>
                                                                     <DoubleAnimationUsingKeyFrames
                                                                         Storyboard.TargetName="Border"
+                                                                        Storyboard.TargetProperty="Opacity">
+                                                                        <EasingDoubleKeyFrame
+                                                                            KeyTime="0"
+                                                                            Value="1" />
+                                                                    </DoubleAnimationUsingKeyFrames>
+                                                                    <DoubleAnimationUsingKeyFrames
+                                                                        Storyboard.TargetName="Border3"
                                                                         Storyboard.TargetProperty="Opacity">
                                                                         <EasingDoubleKeyFrame
                                                                             KeyTime="0"
