@@ -67,7 +67,7 @@ namespace GPGO_MultiPLCs.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var s in Directory.EnumerateDirectories("D:\\").Where(x => !(new DirectoryInfo(x)).Attributes.HasFlag(FileAttributes.Hidden))
+            foreach (var s in Directory.EnumerateDirectories("D:\\").Where(x => !(new DirectoryInfo(x)).Attributes.HasFlag(FileAttributes.Hidden)))
             {
                 var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
 
