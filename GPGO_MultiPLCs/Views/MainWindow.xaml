@@ -8,15 +8,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Main"
     Title="GPGO"
-    Width="1024"
-    Height="768"
     Background="{StaticResource WindowBackgroundBrush}"
     DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
     FontFamily="Microsoft JhengHei"
     Icon="/GPGO_MultiPLCs;component/GP.ico"
     Loaded="Window_Loaded"
     SnapsToDevicePixels="True"
+    Topmost="True"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -73,6 +73,7 @@
         <TabControl
             Grid.Row="1"
             Grid.ColumnSpan="2"
+            Background="{StaticResource WindowBackgroundBrush}"
             SelectedIndex="{Binding ViewIndex, Mode=OneWay}">
             <TabItem
                 Width="0"
