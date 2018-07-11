@@ -9,6 +9,7 @@
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
     IsVisibleChanged="UserControl_IsVisibleChanged"
+    Loaded="UserControl_Loaded"
     Visibility="{Binding IsShown, Mode=OneWay}"
     mc:Ignorable="d">
 
@@ -437,8 +438,16 @@
                                         Text="{DynamicResource 上傳紀錄}" />
                                 </Border>
                                 <TextBox Grid.Column="1" />
-                                <Button Grid.Column="2" Content="{DynamicResource 瀏覽}"/>
+                                <Button
+                                    Grid.Column="2"
+                                    Content="{DynamicResource 瀏覽}" />
                             </Grid>
+                            <TreeView
+                                x:Name="TV"
+                                Grid.Row="1"
+                                BorderThickness="1,0,1,1"
+                                FontFamily="Consolas"
+                                FontSize="12" />
                         </Grid>
                     </TabItem>
                 </TabControl>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -41,11 +42,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        public Authenticator()
-        {
-            InitializeComponent();
-        }
-
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             Keyboard.ClearFocus();
@@ -67,6 +63,46 @@ namespace GPGO_MultiPLCs.Views
         {
             var lng = Application.Current.Resources.MergedDictionaries.Last();
             lng.Source = new Uri("pack://application:,,,/Views/Languages/EN.xaml");
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var s in Directory.GetDirectories(Directory.GetLogicalDrives().Last()))
+            {
+                var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
+
+                item.Items.Add(null);
+                item.Expanded += Folder_Expanded;
+                TV.Items.Add(item);
+            }
+        }
+
+        private void Folder_Expanded(object sender, RoutedEventArgs e)
+        {
+            var item = (TreeViewItem)sender;
+            if (item.Items.Count == 1 && item.Items[0] == null)
+            {
+                item.Items.Clear();
+                try
+                {
+                    foreach (var s in Directory.GetDirectories(item.Tag.ToString()))
+                    {
+                        var subitem = new TreeViewItem { Header = s.Substring(s.LastIndexOf("\\", StringComparison.Ordinal) + 1), Tag = s, FontWeight = FontWeights.Normal };
+
+                        subitem.Items.Add(null);
+                        subitem.Expanded += Folder_Expanded;
+                        item.Items.Add(subitem);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        public Authenticator()
+        {
+            InitializeComponent();
         }
     }
 }

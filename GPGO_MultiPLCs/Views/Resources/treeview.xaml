@@ -5,6 +5,9 @@
     <Style
         x:Key="{x:Type TreeView}"
         TargetType="TreeView">
+        <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -13,9 +16,9 @@
                 <ControlTemplate TargetType="TreeView">
                     <Border
                         Name="Border"
-                        Background="{StaticResource WindowBackgroundBrush}"
-                        BorderBrush="{x:Null}"
-                        BorderThickness="1"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="0">
                         <ScrollViewer
                             Padding="4"
@@ -46,17 +49,15 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Data="M 4 0 L 8 4 L 4 8 Z"
-                            Fill="{StaticResource GlyphBrush}" />
+                            Fill="{StaticResource BaseForeground}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="ExpandPath" Property="Data" Value="M 0 4 L 8 4 L 4 8 Z" />
-                            <Setter TargetName="ExpandPath" Property="Fill"
-                                    Value="{StaticResource PressedBrushForeground}" />
+                            <!--<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource PressedBrushForeground}" />-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ExpandPath" Property="Fill"
-                                    Value="{StaticResource DarkBrushForeground}" />
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource DarkBrushForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -71,7 +72,7 @@
                         <Rectangle
                             Margin="0,0,0,0"
                             Opacity="0"
-                            Stroke="Black"
+                            Stroke="{StaticResource BaseForeground}"
                             StrokeDashArray="1 2"
                             StrokeThickness="5" />
                     </Border>
@@ -84,8 +85,7 @@
         TargetType="{x:Type TreeViewItem}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="HorizontalContentAlignment"
-                Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="Padding" Value="1,0,0,0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -107,18 +107,30 @@
                             ClickMode="Press"
                             IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                             Style="{StaticResource ExpandCollapseToggleStyle}" />
-                        <Border
-                            Name="Bd"
+                        <Grid
                             Grid.Column="1"
-                            Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter
-                                x:Name="PART_Header"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                ContentSource="Header" />
-                        </Border>
+                            Background="{TemplateBinding Background}">
+                            <Border
+                                x:Name="Bd2"
+                                Background="{StaticResource PressedBrush}"
+                                BorderBrush="{StaticResource PressedBorderBrush}"
+                                BorderThickness="1"
+                                Visibility="Collapsed" />
+                            <Border
+                                Width="6"
+                                HorizontalAlignment="Left"
+                                Background="{StaticResource WorkingBrush}"
+                                Visibility="{Binding Visibility, ElementName=Bd2, Mode=OneWay}" />
+                            <Border x:Name="Bd">
+                                <ContentPresenter
+                                    x:Name="PART_Header"
+                                    Grid.Column="1"
+                                    Margin="10,4,4,4"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    ContentSource="Header"
+                                    TextElement.Foreground="{StaticResource BaseForeground}" />
+                            </Border>
+                        </Grid>
                         <ItemsPresenter
                             x:Name="ItemsHost"
                             Grid.Row="1"
@@ -147,29 +159,22 @@
                             <Setter TargetName="PART_Header" Property="MinHeight" Value="19" />
                         </MultiTrigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="FontStyle" Value="Italic" />
                             <Setter Property="FontWeight" Value="Bold" />
-                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource PressedBrush}" />
+                            <Setter TargetName="Bd2" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_Header" Property="TextElement.Foreground" Value="White" />
                         </Trigger>
-                        <MultiTrigger>
+                        <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsSelectionActive" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource PressedBrush}" />
-                            <!--  Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />  -->
-                            <!--<Setter Property="Foreground"
-                  Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />-->
-                        </MultiTrigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <!--<Setter Property="Foreground"
-                  Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />-->
-                        </Trigger>
+                        </MultiTrigger>-->
+                        <Trigger Property="IsEnabled" Value="False" />
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="VerticalContentAlignment"
-                Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
     </Style>
 </ResourceDictionary>
