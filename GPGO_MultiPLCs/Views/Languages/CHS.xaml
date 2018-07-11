@@ -89,5 +89,7 @@
     <sys:String x:Key="生產總量">生产总量</sys:String>
     <sys:String x:Key="日期時間">日期 / 时间</sys:String>
     <sys:String x:Key="警告">警告</sys:String>
-    <sys:String x:Key="確定">确定 / 时间</sys:String>
+    <sys:String x:Key="確定">确定</sys:String>
+    <sys:String x:Key="上傳紀錄">上传纪录</sys:String>
+    <sys:String x:Key="瀏覽">浏览</sys:String>
 </ResourceDictionary>

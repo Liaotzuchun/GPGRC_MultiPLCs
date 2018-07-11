@@ -416,7 +416,30 @@
                         Header="{DynamicResource 系統設定}"
                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                        <Grid Height="200" />
+                        <Grid Height="200">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="60" />
+                                </Grid.ColumnDefinitions>
+                                <Border
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{DynamicResource 上傳紀錄}" />
+                                </Border>
+                                <TextBox Grid.Column="1" />
+                                <Button Grid.Column="2" Content="{DynamicResource 瀏覽}"/>
+                            </Grid>
+                        </Grid>
                     </TabItem>
                 </TabControl>
                 <UniformGrid
