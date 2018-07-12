@@ -92,4 +92,5 @@
     <sys:String x:Key="確定">Enter</sys:String>
     <sys:String x:Key="上傳紀錄">Upload</sys:String>
     <sys:String x:Key="瀏覽">Browse</sys:String>
+    <sys:String x:Key="套用">Apply</sys:String>
 </ResourceDictionary>

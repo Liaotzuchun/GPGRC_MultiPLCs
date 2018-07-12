@@ -30,6 +30,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style
@@ -58,6 +63,9 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource DarkBrushForeground}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -170,7 +178,10 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource PressedBrush}" />
                         </MultiTrigger>-->
-                        <Trigger Property="IsEnabled" Value="False" />
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd2" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_Header" Property="TextElement.Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

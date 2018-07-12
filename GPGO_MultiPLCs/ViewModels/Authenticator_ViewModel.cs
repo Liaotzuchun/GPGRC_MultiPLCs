@@ -37,6 +37,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand Logout { get; }
         public RelayCommand StartLog { get; }
         public RelayCommand ExitLog { get; }
+        public RelayCommand SetPath { get; }
         public GlobalTempSettings GT { get; }
 
         public IEnumerable<User.UserLevel> EditLevels => Levels.Where(x => x < _NowUser.Level);

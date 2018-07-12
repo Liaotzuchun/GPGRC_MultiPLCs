@@ -92,4 +92,5 @@
     <sys:String x:Key="確定">确定</sys:String>
     <sys:String x:Key="上傳紀錄">上传纪录</sys:String>
     <sys:String x:Key="瀏覽">浏览</sys:String>
+    <sys:String x:Key="套用">套用</sys:String>
 </ResourceDictionary>

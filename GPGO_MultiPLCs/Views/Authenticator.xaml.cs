@@ -67,7 +67,7 @@ namespace GPGO_MultiPLCs.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var s in Directory.EnumerateDirectories("D:\\").Where(x => !(new DirectoryInfo(x)).Attributes.HasFlag(FileAttributes.Hidden)))
+            foreach (var s in Directory.GetLogicalDrives())
             {
                 var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
 
@@ -85,7 +85,11 @@ namespace GPGO_MultiPLCs.Views
                 item.Items.Clear();
                 try
                 {
-                    foreach (var s in Directory.EnumerateDirectories(item.Tag.ToString()).Where(x => !(new DirectoryInfo(x)).Attributes.HasFlag(FileAttributes.Hidden)))
+                    foreach (var s in Directory.EnumerateDirectories(item.Tag.ToString()).Where(x =>
+                    {
+                        var info = new DirectoryInfo(x).Attributes;
+                        return !(info.HasFlag(FileAttributes.System) || info.HasFlag(FileAttributes.Hidden) || info.HasFlag(FileAttributes.ReadOnly));
+                    }))
                     {
                         var subitem = new TreeViewItem { Header = s.Substring(s.LastIndexOf("\\", StringComparison.Ordinal) + 1), Tag = s, FontWeight = FontWeights.Normal };
 
