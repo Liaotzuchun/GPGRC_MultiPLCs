@@ -453,7 +453,9 @@
                                     Grid.Column="2"
                                     Content="{DynamicResource 修改}" />
                             </Grid>
-                            <Grid Grid.Row="1">
+                            <Grid
+                                Grid.Row="1"
+                                IsEnabled="{Binding IsChecked, ElementName=TB, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="60" />
@@ -462,8 +464,7 @@
                                     x:Name="TV"
                                     BorderThickness="1,0,1,1"
                                     FontFamily="Consolas"
-                                    FontSize="12"
-                                    IsEnabled="{Binding IsChecked, ElementName=TB, Mode=OneWay}" />
+                                    FontSize="12" />
                                 <UniformGrid
                                     Grid.Column="1"
                                     Columns="1">
