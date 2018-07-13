@@ -13,46 +13,36 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class Authenticator_ViewModel : ViewModelBase
     {
-        private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.A, User.UserLevel.B, User.UserLevel.C };
         private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };
         private readonly User Guest = new User { Name = "", Password = "", Level = User.UserLevel.D };
-
-        private List<User> Users;
-
-        private bool _Update_Enable;
+        private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.A, User.UserLevel.B, User.UserLevel.C };
         private bool _Add_Enable;
-        private bool _Remove_Enable;
-        private string _TypedName;
+        private User.UserLevel _EditLevel;
         private string _EditName;
         private string _EditPassword;
-        private User.UserLevel _EditLevel;
-        private User _NowUser;
-        private User _SelectedUser;
         private Visibility _IsShown = Visibility.Collapsed;
+        private User _NowUser;
+        private bool _Remove_Enable;
+        private User _SelectedUser;
+        private string _TypedName;
 
-        public RelayCommand UpdateUser { get; }
+        private bool _Update_Enable;
+
+        private List<User> Users;
         public RelayCommand AddUser { get; }
-        public RelayCommand RemoveUser { get; }
-        public CommandWithResult<bool> Login { get; }
-        public RelayCommand Logout { get; }
-        public RelayCommand StartLog { get; }
-        public RelayCommand ExitLog { get; }
-        public RelayCommand SetPath { get; }
-        public GlobalTempSettings GT { get; }
 
         public IEnumerable<User.UserLevel> EditLevels => Levels.Where(x => x < _NowUser.Level);
+        public RelayCommand ExitLog { get; }
+        public GlobalTempSettings GT { get; }
+        public CommandWithResult<bool> Login { get; }
+        public RelayCommand Logout { get; }
+        public RelayCommand RemoveUser { get; }
+        public RelayCommand SetPath { get; }
+        public RelayCommand StartLog { get; }
+
+        public RelayCommand UpdateUser { get; }
 
         public IQueryable<User> ViewUsers => Users?.AsQueryable().Where(x => x.Level < _NowUser.Level);
-
-        public bool Update_Enable
-        {
-            get => _Update_Enable;
-            set
-            {
-                _Update_Enable = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public bool Add_Enable
         {
@@ -64,23 +54,51 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public bool Remove_Enable
+        public string DataOutputPath
         {
-            get => _Remove_Enable;
+            get
+            {
+                if (File.Exists("OutputPath.txt"))
+                {
+                    try
+                    {
+                        return File.ReadAllText("OutputPath.txt", Encoding.Unicode);
+                    }
+                    catch
+                    {
+                        File.WriteAllText("OutputPath.txt", "D:\\", Encoding.Unicode);
+
+                        return "D:\\";
+                    }
+                }
+
+                File.WriteAllText("OutputPath.txt", "D:\\", Encoding.Unicode);
+
+                return "D:\\";
+            }
             set
             {
-                _Remove_Enable = value;
+                try
+                {
+                    File.WriteAllText("OutputPath.txt", value, Encoding.Unicode);
+                }
+                catch
+                {
+                }
+
                 NotifyPropertyChanged();
             }
         }
 
-        public string TypedName
+        public User.UserLevel EditLevel
         {
-            get => _TypedName;
+            get => _EditLevel;
             set
             {
-                _TypedName = value.Length > 20 ? value.Substring(0, 20) : value;
+                _EditLevel = value;
                 NotifyPropertyChanged();
+                Update_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != _EditPassword || x.Level != _EditLevel));
+                Remove_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == _EditPassword && x.Level == _EditLevel);
             }
         }
 
@@ -110,15 +128,13 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public User.UserLevel EditLevel
+        public Visibility IsShown
         {
-            get => _EditLevel;
+            get => _IsShown;
             set
             {
-                _EditLevel = value;
+                _IsShown = value;
                 NotifyPropertyChanged();
-                Update_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != _EditPassword || x.Level != _EditLevel));
-                Remove_Enable = Users.Exists(x => string.Equals(x.Name, _EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == _EditPassword && x.Level == _EditLevel);
             }
         }
 
@@ -133,6 +149,16 @@ namespace GPGO_MultiPLCs.ViewModels
                 SelectedUser = null;
                 NotifyPropertyChanged(nameof(ViewUsers));
                 NotifyPropertyChanged(nameof(EditLevels));
+            }
+        }
+
+        public bool Remove_Enable
+        {
+            get => _Remove_Enable;
+            set
+            {
+                _Remove_Enable = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -168,64 +194,23 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public Visibility IsShown
+        public string TypedName
         {
-            get => _IsShown;
+            get => _TypedName;
             set
             {
-                _IsShown = value;
+                _TypedName = value.Length > 20 ? value.Substring(0, 20) : value;
                 NotifyPropertyChanged();
             }
         }
 
-        public string DataOutputPath
+        public bool Update_Enable
         {
-            get
-            {
-                if (File.Exists("OutputPath.txt"))
-                {
-                    try
-                    {
-                        return File.ReadAllText("OutputPath.txt", Encoding.Unicode);
-                    }
-                    catch
-                    {
-                        File.WriteAllText("OutputPath.txt", "D:\\", Encoding.Unicode);
-                        return "D:\\";
-                    }
-                }
-                else
-                {
-                    File.WriteAllText("OutputPath.txt", "D:\\", Encoding.Unicode);
-                    return "D:\\";
-                }
-            }
+            get => _Update_Enable;
             set
             {
-                try
-                {
-                    File.WriteAllText("OutputPath.txt", value, Encoding.Unicode);
-                }
-                catch
-                {
-
-                }
-
+                _Update_Enable = value;
                 NotifyPropertyChanged();
-            }
-        }
-
-        public void SaveUsers()
-        {
-            try
-            {
-                if (Users != null)
-                {
-                    File.WriteAllText("Users.json", JsonConvert.SerializeObject(Users, Formatting.Indented), Encoding.Unicode);
-                }
-            }
-            catch
-            {
             }
         }
 
@@ -257,6 +242,20 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Users = new List<User>();
                 SaveUsers();
+            }
+        }
+
+        public void SaveUsers()
+        {
+            try
+            {
+                if (Users != null)
+                {
+                    File.WriteAllText("Users.json", JsonConvert.SerializeObject(Users, Formatting.Indented), Encoding.Unicode);
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -371,7 +370,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             SetPath = new RelayCommand(e =>
                                        {
-                                           if(e is string str && Directory.Exists(str))
+                                           if (e is string str && Directory.Exists(str))
                                            {
                                                DataOutputPath = str;
                                            }

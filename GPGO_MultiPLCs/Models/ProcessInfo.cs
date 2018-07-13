@@ -220,6 +220,19 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public void Clear()
+        {
+            StartTime = new DateTime();
+            EndTime = new DateTime();
+            OperatorID = "";
+            OrderCode = "";
+            OrderCount = 0;
+            ProcessCount = 0;
+            ProcessNumber = 0;
+            ProduceCode = "";
+            TrolleyCode = "";
+        }
+
         #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
 
         /// <summary>
@@ -234,18 +247,5 @@ namespace GPGO_MultiPLCs.Models
         public int StationNumber { get; set; }
 
         #endregion
-
-        public void Clear()
-        {
-            StartTime = new DateTime();
-            EndTime = new DateTime();
-            OperatorID = "";
-            OrderCode = "";
-            OrderCount = 0;
-            ProcessCount = 0;
-            ProcessNumber = 0;
-            ProduceCode = "";
-            TrolleyCode = "";
-        }
     }
 }

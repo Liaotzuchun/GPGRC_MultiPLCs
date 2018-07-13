@@ -60,7 +60,8 @@
                                 <RowDefinition Height="40" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <TabControl SelectedIndex="{Binding Value.Type, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}">
+                            <TabControl
+                                SelectedIndex="{Binding Value.Type, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}">
                                 <TabItem
                                     Width="0"
                                     Height="0">

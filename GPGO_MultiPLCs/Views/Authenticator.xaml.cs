@@ -14,16 +14,65 @@ namespace GPGO_MultiPLCs.Views
     /// </summary>
     public partial class Authenticator : UserControl
     {
-        private async void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Visibility == Visibility.Visible)
+            PathText.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
+
+            if (TV.SelectedItem is TreeViewItem tvi)
             {
-                Keyboard.ClearFocus();
-
-                await Task.Delay(60);
-
-                Keyboard.Focus(NameBox);
+                tvi.IsSelected = false;
             }
+
+            TV.Items.Clear();
+            foreach (var s in Directory.GetLogicalDrives())
+            {
+                var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
+
+                item.Items.Add(null);
+                item.Expanded += Folder_Expanded;
+                TV.Items.Add(item);
+            }
+
+            TB.IsChecked = false;
+        }
+
+        private void Folder_Expanded(object sender, RoutedEventArgs e)
+        {
+            var item = (TreeViewItem)sender;
+            if (item.Items.Count == 1 && item.Items[0] == null)
+            {
+                item.Items.Clear();
+                try
+                {
+                    foreach (var s in Directory.EnumerateDirectories(item.Tag.ToString())
+                                               .Where(x =>
+                                                      {
+                                                          var info = new DirectoryInfo(x).Attributes;
+
+                                                          return !(info.HasFlag(FileAttributes.System) || info.HasFlag(FileAttributes.Hidden) || info.HasFlag(FileAttributes.ReadOnly));
+                                                      }))
+                    {
+                        var subitem = new TreeViewItem { Header = s.Substring(s.LastIndexOf("\\", StringComparison.Ordinal) + 1), Tag = s, FontWeight = FontWeights.Normal };
+
+                        subitem.Items.Add(null);
+                        subitem.Expanded += Folder_Expanded;
+                        item.Items.Add(subitem);
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            Keyboard.ClearFocus();
+        }
+
+        private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            NameBox.Clear();
         }
 
         private void NameBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -40,11 +89,6 @@ namespace GPGO_MultiPLCs.Views
             {
                 LoginButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             }
-        }
-
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            Keyboard.ClearFocus();
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -65,6 +109,18 @@ namespace GPGO_MultiPLCs.Views
             lng.Source = new Uri("pack://application:,,,/Views/Languages/EN.xaml");
         }
 
+        private async void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Keyboard.ClearFocus();
+
+                await Task.Delay(60);
+
+                Keyboard.Focus(NameBox);
+            }
+        }
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             TV.Items.Clear();
@@ -78,63 +134,9 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private void Folder_Expanded(object sender, RoutedEventArgs e)
-        {
-            var item = (TreeViewItem)sender;
-            if (item.Items.Count == 1 && item.Items[0] == null)
-            {
-                item.Items.Clear();
-                try
-                {
-                    foreach (var s in Directory.EnumerateDirectories(item.Tag.ToString()).Where(x =>
-                    {
-                        var info = new DirectoryInfo(x).Attributes;
-                        return !(info.HasFlag(FileAttributes.System) || info.HasFlag(FileAttributes.Hidden) || info.HasFlag(FileAttributes.ReadOnly));
-                    }))
-                    {
-                        var subitem = new TreeViewItem { Header = s.Substring(s.LastIndexOf("\\", StringComparison.Ordinal) + 1), Tag = s, FontWeight = FontWeights.Normal };
-
-                        subitem.Items.Add(null);
-                        subitem.Expanded += Folder_Expanded;
-                        item.Items.Add(subitem);
-                    }
-                }
-                catch (Exception)
-                {
-                }
-            }
-        }
-
         public Authenticator()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            PathText.GetBindingExpression(TextBlock.TextProperty).UpdateTarget();
-
-            if (TV.SelectedItem is TreeViewItem tvi)
-            {
-                tvi.IsSelected = false;
-            }
-
-            TV.Items.Clear();
-            foreach (var s in Directory.GetLogicalDrives())
-            {
-                var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
-
-                item.Items.Add(null);
-                item.Expanded += Folder_Expanded;
-                TV.Items.Add(item);
-            }
-
-            TB.IsChecked = false;
-        }
-
-        private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            NameBox.Clear();
         }
     }
 }

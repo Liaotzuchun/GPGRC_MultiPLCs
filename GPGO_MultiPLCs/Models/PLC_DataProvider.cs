@@ -30,17 +30,17 @@ namespace GPGO_MultiPLCs.Models
         public CancellationTokenSource CTS;
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
+        private string _Intput_Name;
         private bool _OnlineStatus;
         private ICollection<string> _Recipe_Names;
         private Task _RecordingTask;
         private string _Selected_Name;
-        private string _Intput_Name;
+
+        public CommandWithResult<bool> CheckInCommand { get; }
 
         public RelayCommand CheckRecipeCommand_KeyIn { get; }
 
         public RelayCommand CheckRecipeCommand_KeyLeave { get; }
-
-        public CommandWithResult<bool> CheckInCommand { get; }
 
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
@@ -76,6 +76,16 @@ namespace GPGO_MultiPLCs.Models
                 }
 
                 return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? Status.待命中 : Status.恆溫 : Status.升溫;
+            }
+        }
+
+        public string Intput_Name
+        {
+            get => _Intput_Name;
+            set
+            {
+                _Intput_Name = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -134,18 +144,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public string Intput_Name
-        {
-            get => _Intput_Name;
-            set
-            {
-                _Intput_Name = value;
-                NotifyPropertyChanged();
-            }
-        }
+        public event MachineCodeChangedHandler MachineCodeChanged;
 
         public event Action RecipeKeyInError;
-        public event MachineCodeChangedHandler MachineCodeChanged;
         public event RecordingFinishedEventHandler RecordingFinished;
         public event StartRecordingHandler StartRecording;
         public event SwitchRecipeEventHandler SwitchRecipeEvent;
@@ -271,7 +272,7 @@ namespace GPGO_MultiPLCs.Models
 
             CheckRecipeCommand_KeyLeave = new RelayCommand(e =>
                                                            {
-                                                               if(_Selected_Name != _Intput_Name)
+                                                               if (_Selected_Name != _Intput_Name)
                                                                {
                                                                    if (_Recipe_Names.Contains(_Intput_Name))
                                                                    {
@@ -463,7 +464,10 @@ namespace GPGO_MultiPLCs.Models
                                                      ResetStopTokenSource();
 
                                                      //! 當沒有刷取台車code時，不執行紀錄
-                                                     if (!string.IsNullOrEmpty(Process_Info.TrolleyCode)) RecordingTask = StartRecoder(60000, CTS.Token);
+                                                     if (!string.IsNullOrEmpty(Process_Info.TrolleyCode))
+                                                     {
+                                                         RecordingTask = StartRecoder(60000, CTS.Token);
+                                                     }
                                                  }
                                                  else if (IsRecording)
                                                  {

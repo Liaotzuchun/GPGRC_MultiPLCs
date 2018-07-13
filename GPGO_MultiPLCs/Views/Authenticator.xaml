@@ -89,9 +89,11 @@
                     Grid.RowSpan="3">
                     <Rectangle.Fill>
                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                            <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                            <GradientStop Offset="0"
+                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                             <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource LightBrush}}" />
-                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                            <GradientStop Offset="1"
+                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
@@ -186,7 +188,8 @@
                                 <Setter Property="Background" Value="LightSlateGray" />
                                 <Setter Property="Grid.Column" Value="4" />
                                 <Setter Property="Grid.RowSpan" Value="2" />
-                                <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+                                <Setter Property="Width"
+                                        Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                 <Style.Triggers>
                                     <DataTrigger
                                         Binding="{Binding NowUser.Level, Mode=OneWay}"
@@ -392,7 +395,8 @@
                                     </DataGridTemplateColumn.HeaderTemplate>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
-                                            <TextBlock Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
+                                            <TextBlock
+                                                Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -404,7 +408,8 @@
                                     </DataGridTemplateColumn.HeaderTemplate>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
-                                            <TextBlock Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
+                                            <TextBlock
+                                                Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -440,7 +445,7 @@
                                 <Border
                                     Grid.Column="1"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1">
+                                    BorderThickness="1,1,0,1">
                                     <TextBlock
                                         x:Name="PathText"
                                         HorizontalAlignment="Center"

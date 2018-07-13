@@ -39,8 +39,6 @@ namespace GPGO_MultiPLCs.Helpers
             return TryRemoveWithNotification(item.Key, out _);
         }
 
-        public int Count => _dictionary.Count;
-
         public ICollection<TKey> Keys => _dictionary.Keys;
 
         public ICollection<TValue> Values => _dictionary.Values;
@@ -89,6 +87,8 @@ namespace GPGO_MultiPLCs.Helpers
 
         private readonly ConcurrentDictionary<TKey, TValue> _dictionary;
         private SynchronizationContext _context;
+
+        public int Count => _dictionary.Count;
 
         public void CustomSynchronizationContext(SynchronizationContext sc)
         {

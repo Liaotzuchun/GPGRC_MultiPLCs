@@ -14,11 +14,42 @@ namespace GPGO_MultiPLCs.Models
             S //GP
         }
 
+        private DateTime _CreatedTime;
+        private DateTime _LastLoginTime;
+        private UserLevel _Level;
+
         private string _Name;
         private string _Password;
-        private UserLevel _Level;
-        private DateTime _LastLoginTime;
-        private DateTime _CreatedTime;
+
+        public DateTime CreatedTime
+        {
+            get => _CreatedTime;
+            set
+            {
+                _CreatedTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public DateTime LastLoginTime
+        {
+            get => _LastLoginTime;
+            set
+            {
+                _LastLoginTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public UserLevel Level
+        {
+            get => _Level;
+            set
+            {
+                _Level = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public string Name
         {
@@ -36,36 +67,6 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _Password = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public UserLevel Level
-        {
-            get => _Level;
-            set
-            {
-                _Level = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public DateTime LastLoginTime
-        {
-            get => _LastLoginTime;
-            set
-            {
-                _LastLoginTime = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public DateTime CreatedTime
-        {
-            get => _CreatedTime;
-            set
-            {
-                _CreatedTime = value;
                 NotifyPropertyChanged();
             }
         }

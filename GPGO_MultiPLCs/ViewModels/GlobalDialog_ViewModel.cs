@@ -156,15 +156,15 @@ namespace GPGO_MultiPLCs.ViewModels
         private bool EnterResult_1;
         private bool EnterResult_2;
 
-        public ObservableConcurrentDictionary<long, ShowingMessage> Msgs { get; }
-
         public RelayCommand CancelCommand_1 { get; }
-
-        public RelayCommand OkayCommand_1 { get; }
 
         public RelayCommand CancelCommand_2 { get; }
 
         public RelayCommand EnterCommand { get; }
+
+        public ObservableConcurrentDictionary<long, ShowingMessage> Msgs { get; }
+
+        public RelayCommand OkayCommand_1 { get; }
 
         public RelayCommand OkayCommand_2 { get; }
 

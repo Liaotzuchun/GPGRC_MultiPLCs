@@ -29,17 +29,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public void Save()
-        {
-            try
-            {
-                File.WriteAllText("Settings.json", JsonConvert.SerializeObject(this, Formatting.Indented), Encoding.Unicode);
-            }
-            catch
-            {
-            }
-        }
-
         public void Load()
         {
             if (File.Exists("Settings.json"))
@@ -65,6 +54,17 @@ namespace GPGO_MultiPLCs.Models
             else
             {
                 Save();
+            }
+        }
+
+        public void Save()
+        {
+            try
+            {
+                File.WriteAllText("Settings.json", JsonConvert.SerializeObject(this, Formatting.Indented), Encoding.Unicode);
+            }
+            catch
+            {
             }
         }
     }
