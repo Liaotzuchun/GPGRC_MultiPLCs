@@ -178,7 +178,44 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public void Save()
+        public string DataOutputPath
+        {
+            get
+            {
+                if (File.Exists("OutputPath.txt"))
+                {
+                    try
+                    {
+                        return File.ReadAllText("OutputPath.txt", Encoding.Unicode);
+                    }
+                    catch
+                    {
+                        File.WriteAllText("OutputPath.txt", "D:\\", Encoding.Unicode);
+                        return "D:\\";
+                    }
+                }
+                else
+                {
+                    File.WriteAllText("OutputPath.txt", "D:\\", Encoding.Unicode);
+                    return "D:\\";
+                }
+            }
+            set
+            {
+                try
+                {
+                    File.WriteAllText("OutputPath.txt", value, Encoding.Unicode);
+                }
+                catch
+                {
+
+                }
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        public void SaveUsers()
         {
             try
             {
@@ -192,7 +229,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public void Load()
+        public void LoadUsers()
         {
             if (File.Exists("Users.json"))
             {
@@ -206,26 +243,26 @@ namespace GPGO_MultiPLCs.ViewModels
                     {
                         Users = new List<User>();
                         File.Move("Users.json", "Users" + DateTime.Now.Ticks + ".back");
-                        Save();
+                        SaveUsers();
                     }
                 }
                 catch
                 {
                     Users = new List<User>();
                     File.Move("Users.json", "Users" + DateTime.Now.Ticks + ".back");
-                    Save();
+                    SaveUsers();
                 }
             }
             else
             {
                 Users = new List<User>();
-                Save();
+                SaveUsers();
             }
         }
 
         public Authenticator_ViewModel()
         {
-            Load();
+            LoadUsers();
 
             NowUser = Users.Where(x => x.Level == User.UserLevel.C && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
 
@@ -238,7 +275,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                               {
                                                   _SelectedUser.Password = _EditPassword;
                                                   _SelectedUser.Level = _EditLevel;
-                                                  Save();
+                                                  SaveUsers();
                                               }
                                           });
 
@@ -249,7 +286,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                Users.Add(new User { Name = _EditName, Password = _EditPassword, Level = _EditLevel, CreatedTime = DateTime.Now });
                                                NotifyPropertyChanged(nameof(ViewUsers));
                                                NotifyPropertyChanged(nameof(Add_Enable));
-                                               Save();
+                                               SaveUsers();
                                            }
                                        });
 
@@ -260,13 +297,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   Users.RemoveAll(x => x.Name == _EditName);
                                                   NotifyPropertyChanged(nameof(ViewUsers));
                                                   NotifyPropertyChanged(nameof(Remove_Enable));
-                                                  Save();
+                                                  SaveUsers();
                                               }
                                           });
 
             Login = new CommandWithResult<bool>(e =>
                                                 {
-                                                    Load();
+                                                    LoadUsers();
 
                                                     if (e is PasswordBox password)
                                                     {
@@ -285,7 +322,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         {
                                                             _user.LastLoginTime = DateTime.Now;
                                                             NowUser = _user;
-                                                            Save();
+                                                            SaveUsers();
 
                                                             return true;
                                                         }
@@ -329,6 +366,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                            if (e is PasswordBox password)
                                            {
                                                password.Clear();
+                                           }
+                                       });
+
+            SetPath = new RelayCommand(e =>
+                                       {
+                                           if(e is string str && Directory.Exists(str))
+                                           {
+                                               DataOutputPath = str;
                                            }
                                        });
         }

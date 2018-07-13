@@ -140,6 +140,7 @@
                                                     Grid.Row="1"
                                                     Grid.Column="1"
                                                     BorderThickness="0,1,0,0"
+                                                    IsEditable="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                                     IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                                     IsHitTestVisible="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                     IsTextSearchEnabled="False"

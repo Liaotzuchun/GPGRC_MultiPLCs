@@ -165,7 +165,7 @@
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush.Color">
                                             <EasingColorKeyFrame
                                                 KeyTime="0"
-                                                Value="{Binding Source={StaticResource DisabledBorderBrush}, Path=Color}" />
+                                                Value="{Binding Source={StaticResource DisabledBackgroundBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -190,7 +190,7 @@
                         x:Name="Border"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="0"
+                        BorderThickness="1"
                         CornerRadius="0">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -239,7 +239,7 @@
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush.Color">
                                             <EasingColorKeyFrame
                                                 KeyTime="0"
-                                                Value="{Binding Source={StaticResource DisabledBorderBrush}, Path=Color}" />
+                                                Value="{Binding Source={StaticResource DisabledBackgroundBrush}, Path=Color}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

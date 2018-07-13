@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style
-        x:Key="LeftScrollViewer"
         TargetType="{x:Type ScrollViewer}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
@@ -11,26 +10,28 @@
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition />
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-
+                        <ScrollContentPresenter
+                            Grid.RowSpan="2"
+                            Grid.ColumnSpan="2"
+                            Margin="{TemplateBinding Padding}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
                         <ScrollBar
                             Name="PART_VerticalScrollBar"
+                            Grid.Column="1"
                             Maximum="{TemplateBinding ScrollableHeight}"
                             ViewportSize="{TemplateBinding ViewportHeight}"
                             Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                             Value="{TemplateBinding VerticalOffset}" />
-
-                        <ScrollContentPresenter Grid.Column="1" />
                         <ScrollBar
                             Name="PART_HorizontalScrollBar"
                             Grid.Row="1"
-                            Grid.Column="1"
                             Maximum="{TemplateBinding ScrollableWidth}"
                             Orientation="Horizontal"
                             ViewportSize="{TemplateBinding ViewportWidth}"
@@ -40,5 +41,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 </ResourceDictionary>

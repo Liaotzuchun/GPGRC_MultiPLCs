@@ -14,7 +14,6 @@
     Icon="/GPGO_MultiPLCs;component/GP.ico"
     Loaded="Window_Loaded"
     SnapsToDevicePixels="True"
-    Topmost="True"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">

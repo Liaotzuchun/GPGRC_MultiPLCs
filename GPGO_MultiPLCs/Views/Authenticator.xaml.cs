@@ -67,6 +67,7 @@ namespace GPGO_MultiPLCs.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            TV.Items.Clear();
             foreach (var s in Directory.GetLogicalDrives())
             {
                 var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
@@ -107,6 +108,33 @@ namespace GPGO_MultiPLCs.Views
         public Authenticator()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            PathText.GetBindingExpression(TextBlock.TextProperty).UpdateTarget();
+
+            if (TV.SelectedItem is TreeViewItem tvi)
+            {
+                tvi.IsSelected = false;
+            }
+
+            TV.Items.Clear();
+            foreach (var s in Directory.GetLogicalDrives())
+            {
+                var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
+
+                item.Items.Add(null);
+                item.Expanded += Folder_Expanded;
+                TV.Items.Add(item);
+            }
+
+            TB.IsChecked = false;
+        }
+
+        private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            NameBox.Clear();
         }
     }
 }

@@ -27,7 +27,9 @@
                         CornerRadius="0">
                         <ScrollViewer
                             x:Name="PART_ContentHost"
-                            Margin="0" />
+                            Margin="0"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -82,7 +84,11 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="1"
                         CornerRadius="0">
-                        <ScrollViewer x:Name="PART_ContentHost" />
+                        <ScrollViewer
+                            x:Name="PART_ContentHost"
+                            Margin="0"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">

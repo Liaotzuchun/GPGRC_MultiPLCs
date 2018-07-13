@@ -147,7 +147,7 @@
                         BorderThickness="1,1,1,0"
                         FontSize="14"
                         PreviewKeyDown="NameBox_PreviewKeyDown"
-                        Text="{Binding TypedName, Mode=TwoWay}" />
+                        Text="{Binding TypedName, Mode=TwoWay}" GotKeyboardFocus="NameBox_GotKeyboardFocus" />
                     <Border
                         Grid.Row="1"
                         Grid.Column="1"
@@ -442,11 +442,12 @@
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1">
                                     <TextBlock
+                                        x:Name="PathText"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         FontFamily="Consolas"
                                         FontSize="14"
-                                        Text="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
+                                        Text="{Binding DataOutputPath, Mode=OneWay}" />
                                 </Border>
                                 <ToggleButton
                                     x:Name="TB"
@@ -468,8 +469,16 @@
                                 <UniformGrid
                                     Grid.Column="1"
                                     Columns="1">
-                                    <Button Content="{DynamicResource 套用}" />
-                                    <Button Content="{DynamicResource 取消}" />
+                                    <Button Content="{DynamicResource 套用}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction
+                                                    Command="{Binding SetPath, Mode=OneTime}"
+                                                    CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button Content="{DynamicResource 取消}" Click="Button_Click" />
                                 </UniformGrid>
                             </Grid>
                         </Grid>
