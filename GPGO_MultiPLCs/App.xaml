@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:GPGO_MultiPLCs"
-    xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     StartupUri="Views/MainWindow.xaml">
 
@@ -41,7 +40,9 @@
                 <ResourceDictionary Source="Views/Languages/TW.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
-            <local:Connector x:Key="Connector" />
+            <local:Connector
+                x:Key="Connector"
+                DataOutputPath="{Binding DataOutputPath, Source={StaticResource AuthenticatorViewModel}}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

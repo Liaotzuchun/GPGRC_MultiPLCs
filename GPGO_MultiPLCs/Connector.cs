@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Threading;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
@@ -7,8 +9,23 @@ using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs
 {
-    public class Connector
+    public class Connector : DependencyObject
     {
+        public static readonly DependencyProperty DataOutputPathProperty =
+            DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Connector), new PropertyMetadata("", DataOutputPathChanged));
+
+        private static void DataOutputPathChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            //! 
+        }
+
+        [Bindable(true)]
+        public string DataOutputPath
+        {
+            get => (string)GetValue(DataOutputPathProperty);
+            set => SetValue(DataOutputPathProperty, value);
+        }
+
         public readonly MongoClient Mongo;
 
         public GlobalDialog_ViewModel DialogVM { get; }
@@ -128,6 +145,8 @@ namespace GPGO_MultiPLCs
             TotalVM.AddRecordToDB += (i, info) =>
                                      {
                                          TraceVM.AddToDB(i, info);
+
+                                         //! 紀錄資料到指定輸出資料夾
                                      };
 
             TraceVM.TodayProductionUpdated += datas =>

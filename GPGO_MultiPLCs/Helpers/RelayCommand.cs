@@ -46,7 +46,7 @@ namespace GPGO_MultiPLCs.Helpers
     /// </summary>
     public sealed class InteractiveCommand : TriggerAction<DependencyObject>
     {
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(InteractiveCommand), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(InteractiveCommand), new PropertyMetadata(null));
 
         public ICommand Command
         {
@@ -187,7 +187,7 @@ namespace GPGO_MultiPLCs.Helpers
     /// </summary>
     public sealed class EventToCommand
     {
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(EventToCommand), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(EventToCommand), new PropertyMetadata(null));
 
         public static ICommand GetCommand(DependencyObject obj)
         {
@@ -200,7 +200,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
 
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(EventToCommand), new UIPropertyMetadata(null));
+            DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(EventToCommand), new PropertyMetadata(null));
 
         public static object GetCommandParameter(DependencyObject obj)
         {
@@ -212,7 +212,7 @@ namespace GPGO_MultiPLCs.Helpers
             obj.SetValue(CommandParameterProperty, value);
         }
 
-        public static readonly DependencyProperty EventProperty = DependencyProperty.RegisterAttached("Event", typeof(RoutedEvent), typeof(EventToCommand), new UIPropertyMetadata(null, EventChanged));
+        public static readonly DependencyProperty EventProperty = DependencyProperty.RegisterAttached("Event", typeof(RoutedEvent), typeof(EventToCommand), new PropertyMetadata(null, EventChanged));
 
         private static void EventChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
