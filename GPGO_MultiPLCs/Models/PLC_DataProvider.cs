@@ -294,25 +294,80 @@ namespace GPGO_MultiPLCs.Models
                                                          {
                                                              var para = (string)o;
 
-                                                             var (result1, intput1) = await dialog.ShowWithIntput("輸入操作人員ID",
-                                                                                                                  para,
-                                                                                                                  x =>
-                                                                                                                  {
-                                                                                                                      var str = x.Trim();
+                                                             var (result1, intput1) =
+                                                                 await dialog.ShowWithIntput(new Dictionary<GlobalTempSettings.Language, string>
+                                                                                             {
+                                                                                                 { GlobalTempSettings.Language.TW, "輸入操作人員ID" },
+                                                                                                 { GlobalTempSettings.Language.CHS, "輸入操作人員ID" },
+                                                                                                 { GlobalTempSettings.Language.EN, "輸入操作人員ID" }
+                                                                                             },
+                                                                                             new Dictionary<GlobalTempSettings.Language, string>
+                                                                                             {
+                                                                                                 { GlobalTempSettings.Language.TW, para },
+                                                                                                 { GlobalTempSettings.Language.CHS, para },
+                                                                                                 { GlobalTempSettings.Language.EN, para }
+                                                                                             },
+                                                                                             x =>
+                                                                                             {
+                                                                                                 var str = x.Trim();
 
-                                                                                                                      return (str.Length > 0 && str.Length < 8, "字數錯誤，請重試!");
-                                                                                                                  });
+                                                                                                 return (str.Length > 0 && str.Length < 8,
+                                                                                                         new Dictionary<GlobalTempSettings.Language, string>
+                                                                                                         {
+                                                                                                             {
+                                                                                                                 GlobalTempSettings.Language.TW,
+                                                                                                                 "字數錯誤，請重試!"
+                                                                                                             },
+                                                                                                             {
+                                                                                                                 GlobalTempSettings.Language.CHS,
+                                                                                                                 "字數錯誤，請重試!"
+                                                                                                             },
+                                                                                                             {
+                                                                                                                 GlobalTempSettings.Language.EN,
+                                                                                                                 "字數錯誤，請重試!"
+                                                                                                             }
+                                                                                                         });
+                                                                                             });
 
                                                              if (result1)
                                                              {
-                                                                 var (result2, intput2) = await dialog.ShowWithIntput("輸入台車Code",
-                                                                                                                      para,
-                                                                                                                      x =>
-                                                                                                                      {
-                                                                                                                          var str = x.Trim();
+                                                                 var (result2, intput2) =
+                                                                     await dialog.ShowWithIntput(new Dictionary<GlobalTempSettings.Language, string>
+                                                                                                 {
+                                                                                                     { GlobalTempSettings.Language.TW, "輸入台車Code" },
+                                                                                                     {
+                                                                                                         GlobalTempSettings.Language.CHS, "輸入台車Code"
+                                                                                                     },
+                                                                                                     { GlobalTempSettings.Language.EN, "輸入台車Code" }
+                                                                                                 },
+                                                                                                 new Dictionary<GlobalTempSettings.Language, string>
+                                                                                                 {
+                                                                                                     { GlobalTempSettings.Language.TW, para },
+                                                                                                     { GlobalTempSettings.Language.CHS, para },
+                                                                                                     { GlobalTempSettings.Language.EN, para }
+                                                                                                 },
+                                                                                                 x =>
+                                                                                                 {
+                                                                                                     var str = x.Trim();
 
-                                                                                                                          return (str.Length > 0 && str.Length < 4, "字數錯誤，請重試!");
-                                                                                                                      });
+                                                                                                     return (str.Length > 0 && str.Length < 4,
+                                                                                                             new Dictionary<GlobalTempSettings.Language, string>
+                                                                                                             {
+                                                                                                                 {
+                                                                                                                     GlobalTempSettings.Language.TW,
+                                                                                                                     "字數錯誤，請重試!"
+                                                                                                                 },
+                                                                                                                 {
+                                                                                                                     GlobalTempSettings
+                                                                                                                         .Language.CHS,
+                                                                                                                     "字數錯誤，請重試!"
+                                                                                                                 },
+                                                                                                                 {
+                                                                                                                     GlobalTempSettings.Language.EN,
+                                                                                                                     "字數錯誤，請重試!"
+                                                                                                                 }
+                                                                                                             });
+                                                                                                 });
 
                                                                  if (result2)
                                                                  {

@@ -440,8 +440,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                    dialog?.Show(new Dictionary<GlobalTempSettings.Language, string>
                                                                 {
                                                                     {GlobalTempSettings.Language.TW, "第" + (index + 1) + "站配方輸入錯誤!"},
-                                                                    {GlobalTempSettings.Language.CHS, "第" + (index + 1) + "站配方輸入錯誤!"},
-                                                                    {GlobalTempSettings.Language.EN, "第" + (index + 1) + "站配方輸入錯誤!"}
+                                                                    {GlobalTempSettings.Language.CHS, "第" + (index + 1) + "站配方输入错误!"},
+                                                                    {GlobalTempSettings.Language.EN, "Oven No" + (index + 1) + " recipe input error!"}
                                                                 }, TimeSpan.FromSeconds(1), DialogMsgType.Alarm);
                                                };
             }
