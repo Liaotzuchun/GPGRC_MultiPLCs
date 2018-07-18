@@ -25,7 +25,7 @@ namespace GPGO_MultiPLCs
 
         private static void LanguageChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            ((Connector)sender).DialogVM.Language = (GlobalTempSettings.Language)e.NewValue;
+            ((Connector)sender).DialogVM.Language = (GlobalTempSettings.Language)Enum.Parse(typeof(GlobalTempSettings.Language), e.NewValue.ToString());
         }
 
         [Bindable(true)]
