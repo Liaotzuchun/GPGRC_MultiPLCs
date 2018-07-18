@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 using GPGO_MultiPLCs.Models;
@@ -144,9 +146,21 @@ namespace GPGO_MultiPLCs
 
             TotalVM.AddRecordToDB += (i, info) =>
                                      {
-                                         TraceVM.AddToDB(i, info);
+                                         if (Directory.Exists(DataOutputPath))
+                                         {
+                                             TraceVM.AddToDB(i, info);
+                                             var path = DataOutputPath + "\\" + info.ProduceCode + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (i + 1).ToString() + "_";
 
-                                         //! 紀錄資料到指定輸出資料夾
+                                             var n = 1;
+                                             while (File.Exists(path + n.ToString()))
+                                             {
+                                                 n++;
+                                             }
+
+                                             File.WriteAllText(path + n.ToString(), info.ToString(), Encoding.ASCII);
+
+                                             //! 紀錄資料到指定輸出資料夾
+                                         }
                                      };
 
             TraceVM.TodayProductionUpdated += datas =>

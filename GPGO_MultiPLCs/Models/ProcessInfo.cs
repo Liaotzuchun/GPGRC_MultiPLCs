@@ -1,12 +1,21 @@
 ﻿using System;
+using System.Text;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
+    public enum CodeType
+    {
+        Panel,
+        SubPanel,
+        JobNo
+    }
+
     [BsonIgnoreExtraElements]
     public class ProcessInfo : ViewModelBase
     {
+        private CodeType _CodeType = CodeType.Panel;
         private DateTime _EndTime;
         private ObservableConcurrentCollection<RecordEvent> _EventList = new ObservableConcurrentCollection<RecordEvent>();
         private bool _FirstPanel;
@@ -26,6 +35,16 @@ namespace GPGO_MultiPLCs.Models
         private short _TotalHeatingTime;
         private string _TrolleyCode;
         private short _WarmingTime;
+
+        public CodeType CodeType
+        {
+            get => _CodeType;
+            set
+            {
+                _CodeType = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public DateTime EndTime
         {
@@ -231,6 +250,55 @@ namespace GPGO_MultiPLCs.Models
             ProcessNumber = 0;
             ProduceCode = "";
             TrolleyCode = "";
+        }
+
+        public new string ToString()
+        {
+            var stb = new StringBuilder();
+            stb.Append("General1=");
+            stb.AppendLine(_OrderCode);
+            stb.Append("General2=");
+            stb.AppendLine(_ProcessNumber.ToString("000"));
+            stb.Append("General3=");
+            stb.AppendLine(_StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            stb.Append("General4=");
+            stb.AppendLine(_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            stb.Append("General5=");
+            stb.AppendLine(_MachineCode);
+            stb.Append("General6=");
+            stb.AppendLine(_CodeType.ToString());
+            stb.Append("General7=");
+            stb.AppendLine(_ProduceCode);
+            stb.Append("General8=");
+            stb.AppendLine(_RecipeName);
+            stb.Append("General9=");
+            stb.AppendLine(_ProcessCount.ToString());
+            stb.Append("General10=");
+            stb.AppendLine(_OrderCount.ToString());
+            stb.Append("General11=");
+            stb.AppendLine(_OperatorID);
+            stb.Append("General12=");
+            stb.AppendLine(""); //!治具編號
+            stb.Append("General13=");
+            stb.AppendLine(_Side);
+            stb.Append("General14=");
+            stb.AppendLine(""); //!PCS序號
+            stb.Append("General15=");
+            stb.AppendLine(_FirstPanel ? "Y" : "N");
+            stb.Append("Machine1=");
+            stb.AppendLine(_TrolleyCode);
+            stb.Append("Machine2=");
+            stb.AppendLine(_TargetOvenTemperature.ToString("0"));
+            stb.Append("Machine3=");
+            stb.AppendLine(_WarmingTime.ToString());
+            stb.Append("Machine4=");
+            stb.AppendLine(_HeatingTime.ToString());
+            stb.Append("Machine5=");
+            stb.AppendLine(_TotalHeatingTime.ToString());
+            stb.Append("Machine6=");
+            stb.AppendLine("");
+
+            return stb.ToString();
         }
 
         #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
