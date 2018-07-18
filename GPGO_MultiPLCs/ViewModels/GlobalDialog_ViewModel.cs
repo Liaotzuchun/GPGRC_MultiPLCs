@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Helpers;
+using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class GlobalDialog_ViewModel : ViewModelBase, IDialogService<string>
     {
-        public async Task<bool> Show(string msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
+        public async Task<bool> Show(Dictionary<GlobalTempSettings.Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
         {
             if (!Lock_1.WaitOne(0))
             {
@@ -21,7 +24,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             EnterResult_1 = false;
             SupportCancel = support_cancel;
-            Message_1 = msg;
+            Message_1 = msg.TryGetValue(Language, out var val) ? val : msg.Values.First();
             IsShown_1 = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
@@ -36,11 +39,11 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult_1;
         }
 
-        public async Task Show(string msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
+        public async Task Show(Dictionary<GlobalTempSettings.Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
         {
             await Task.Factory.StartNew(() =>
                                         {
-                                            var m = new ShowingMessage(msg, type);
+                                            var m = new ShowingMessage(msg.TryGetValue(Language, out var val) ? val : msg.Values.First(), type);
                                             var tag = DateTime.Now.Ticks;
                                             Msgs.Add(tag, m);
                                             Thread.Sleep(delay);
@@ -49,7 +52,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         TaskCreationOptions.LongRunning);
         }
 
-        public async Task<(bool result, string intput)> ShowWithIntput(string msg, string header)
+        public async Task<(bool result, string intput)> ShowWithIntput(Dictionary<GlobalTempSettings.Language, string> msg, Dictionary<GlobalTempSettings.Language, string> header)
         {
             if (!Lock_2.WaitOne(0))
             {
@@ -62,8 +65,8 @@ namespace GPGO_MultiPLCs.ViewModels
             Intput = "";
             ConditionResult = null;
             EnterResult_2 = false;
-            Message_2 = msg;
-            TitleHeader = header;
+            Message_2 = msg.TryGetValue(Language, out var val1) ? val1 : msg.Values.First();
+            TitleHeader = header.TryGetValue(Language, out var val2) ? val2 : header.Values.First();
             IsShown_2 = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
@@ -78,7 +81,9 @@ namespace GPGO_MultiPLCs.ViewModels
             return (EnterResult_2, Intput);
         }
 
-        public async Task<(bool result, string intput)> ShowWithIntput(string msg, string header, Func<string, (bool result, string title_msg)> condition)
+        public async Task<(bool result, string intput)> ShowWithIntput(Dictionary<GlobalTempSettings.Language, string> msg,
+                                                                       Dictionary<GlobalTempSettings.Language, string> header,
+                                                                       Func<string, (bool result, Dictionary<GlobalTempSettings.Language, string> title_msg)> condition)
         {
             if (!Lock_2.WaitOne(0))
             {
@@ -92,8 +97,8 @@ namespace GPGO_MultiPLCs.ViewModels
             Intput = "";
             ConditionResult = null;
             EnterResult_2 = false;
-            Message_2 = msg;
-            TitleHeader = header;
+            Message_2 = msg.TryGetValue(Language, out var val1) ? val1 : msg.Values.First();
+            TitleHeader = header.TryGetValue(Language, out var val2) ? val2 : header.Values.First();
             IsShown_2 = Visibility.Visible;
 
             await Task.Factory.StartNew(() =>
@@ -112,7 +117,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                     if (_ConditionResult != null && EnterResult_2 && !_ConditionResult.Value)
                                                     {
-                                                        Title = title_msg;
+                                                        Title = title_msg.TryGetValue(Language, out var val3) ? val3 : title_msg.Values.First();
                                                         Intput = "";
                                                     }
                                                     else
@@ -139,6 +144,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             return (_ConditionResult != null && EnterResult_2 && _ConditionResult.Value, Intput);
         }
+
+        public GlobalTempSettings.Language Language;
 
         private readonly ManualResetEvent Lock_1;
         private readonly ManualResetEvent Lock_2;

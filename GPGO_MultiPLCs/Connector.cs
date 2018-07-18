@@ -16,9 +16,16 @@ namespace GPGO_MultiPLCs
         public static readonly DependencyProperty DataOutputPathProperty =
             DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Connector), new PropertyMetadata("", DataOutputPathChanged));
 
+        public static readonly DependencyProperty LanguageProperty = DependencyProperty.Register(nameof(Language), typeof(string), typeof(Connector), new PropertyMetadata("", LanguageChanged));
+
         private static void DataOutputPathChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             //! 
+        }
+
+        private static void LanguageChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            ((Connector)sender).DialogVM.Language = (GlobalTempSettings.Language)e.NewValue;
         }
 
         [Bindable(true)]
@@ -26,6 +33,13 @@ namespace GPGO_MultiPLCs
         {
             get => (string)GetValue(DataOutputPathProperty);
             set => SetValue(DataOutputPathProperty, value);
+        }
+
+        [Bindable(true)]
+        public GlobalTempSettings.Language Language
+        {
+            get => (GlobalTempSettings.Language)GetValue(LanguageProperty);
+            set => SetValue(LanguageProperty, value);
         }
 
         public readonly MongoClient Mongo;

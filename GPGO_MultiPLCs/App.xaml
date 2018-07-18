@@ -42,7 +42,8 @@
             <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
             <local:Connector
                 x:Key="Connector"
-                DataOutputPath="{Binding DataOutputPath, Source={StaticResource AuthenticatorViewModel}}" />
+                DataOutputPath="{Binding GT.DataOutputPath, Source={StaticResource AuthenticatorViewModel}}"
+                Language="{Binding GT.Lng, Source={StaticResource AuthenticatorViewModel}}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

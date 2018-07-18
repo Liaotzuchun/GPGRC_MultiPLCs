@@ -252,7 +252,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
             SaveCommand = new RelayCommand(async e =>
                                            {
-                                               if (await dialog.Show("將儲存並覆蓋同名配方，無法復原\n" + "確定儲存?", true, DialogMsgType.Alert))
+                                               if (await dialog.Show(new Dictionary<GlobalTempSettings.Language, string>
+                                                                     {
+                                                                         {GlobalTempSettings.Language.TW, "即將儲存並覆蓋同名配方，無法復原!\n" + "確定儲存?"},
+                                                                         {GlobalTempSettings.Language.CHS, "即将储存并覆盖同名配方，无法复原!\n" + "确定储存?"},
+                                                                         {GlobalTempSettings.Language.EN, "The recipe is going to save or replace the same one, can't be restored! \n" + "OK?"}
+                                                                     }, 
+                                                                     true, DialogMsgType.Alert))
                                                {
                                                    await Save(_TypedName);
                                                }

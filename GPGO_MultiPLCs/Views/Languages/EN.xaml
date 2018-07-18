@@ -28,7 +28,7 @@
     <sys:String x:Key="登出">Logout</sys:String>
     <sys:String x:Key="新增">Add</sys:String>
     <sys:String x:Key="刪除">Delete</sys:String>
-    <sys:String x:Key="修改">Update</sys:String>
+    <sys:String x:Key="修改">Modify</sys:String>
     <sys:String x:Key="上次登入">Last Login</sys:String>
     <sys:String x:Key="創建時間">Created</sys:String>
     <sys:String x:Key="人員管理">Management</sys:String>

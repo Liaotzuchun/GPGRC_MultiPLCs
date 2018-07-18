@@ -421,7 +421,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     info.Clear();
 
                                                     TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
-                                                    dialog?.Show("第" + (index + 1) + "站已完成烘烤!", TimeSpan.FromSeconds(2));
+                                                    dialog?.Show(new Dictionary<GlobalTempSettings.Language, string>
+                                                                 {
+                                                                     {GlobalTempSettings.Language.TW, "第" + (index + 1) + "站已完成烘烤!"},
+                                                                     {GlobalTempSettings.Language.CHS, "第" + (index + 1) + "站已完成烘烤!"},
+                                                                     {GlobalTempSettings.Language.TW, "Oven No" + (index + 1) + "has been finished!"},
+                                                                 }, TimeSpan.FromSeconds(2));
                                                     //}
                                                 };
 
@@ -432,7 +437,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].RecipeKeyInError += () =>
                                                {
-                                                   dialog?.Show("第" + (index + 1) + "站配方輸入錯誤!", TimeSpan.FromSeconds(1), DialogMsgType.Alarm);
+                                                   dialog?.Show(new Dictionary<GlobalTempSettings.Language, string>
+                                                                {
+                                                                    {GlobalTempSettings.Language.TW, "第" + (index + 1) + "站配方輸入錯誤!"},
+                                                                    {GlobalTempSettings.Language.CHS, "第" + (index + 1) + "站配方輸入錯誤!"},
+                                                                    {GlobalTempSettings.Language.EN, "第" + (index + 1) + "站配方輸入錯誤!"}
+                                                                }, TimeSpan.FromSeconds(1), DialogMsgType.Alarm);
                                                };
             }
 

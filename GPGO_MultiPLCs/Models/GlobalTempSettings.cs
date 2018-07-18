@@ -15,7 +15,20 @@ namespace GPGO_MultiPLCs.Models
             EN
         }
 
+        private string _DataOutputPath = "D:\\";
         private int _Lng = (int)Language.TW;
+
+        public string DataOutputPath
+        {
+            get => _DataOutputPath;
+            set
+            {
+                _DataOutputPath = value;
+                NotifyPropertyChanged();
+
+                Save();
+            }
+        }
 
         public int Lng
         {
@@ -38,6 +51,7 @@ namespace GPGO_MultiPLCs.Models
                     if (JsonConvert.DeserializeObject<GlobalTempSettings>(File.ReadAllText("Settings.json", Encoding.Unicode)) is GlobalTempSettings val)
                     {
                         Lng = val.Lng;
+                        DataOutputPath = val.DataOutputPath;
                     }
                     else
                     {

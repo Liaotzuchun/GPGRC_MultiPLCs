@@ -431,7 +431,7 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition />
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="64" />
                                 </Grid.ColumnDefinitions>
                                 <Border
                                     Background="{StaticResource WindowBackgroundBrush2}"
@@ -452,7 +452,7 @@
                                         VerticalAlignment="Center"
                                         FontFamily="Consolas"
                                         FontSize="14"
-                                        Text="{Binding DataOutputPath, Mode=OneWay}" />
+                                        Text="{Binding GT.DataOutputPath, Mode=OneWay}" />
                                 </Border>
                                 <ToggleButton
                                     x:Name="TB"
@@ -464,7 +464,7 @@
                                 IsEnabled="{Binding IsChecked, ElementName=TB, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="64" />
                                 </Grid.ColumnDefinitions>
                                 <TreeView
                                     x:Name="TV"

@@ -54,42 +54,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public string DataOutputPath
-        {
-            get
-            {
-                if (File.Exists("OutputPath.txt"))
-                {
-                    try
-                    {
-                        return File.ReadAllText("OutputPath.txt", Encoding.Unicode);
-                    }
-                    catch
-                    {
-                        File.WriteAllText("OutputPath.txt", "D:\\", Encoding.Unicode);
-
-                        return "D:\\";
-                    }
-                }
-
-                File.WriteAllText("OutputPath.txt", "D:\\", Encoding.Unicode);
-
-                return "D:\\";
-            }
-            set
-            {
-                try
-                {
-                    File.WriteAllText("OutputPath.txt", value, Encoding.Unicode);
-                }
-                catch
-                {
-                }
-
-                NotifyPropertyChanged();
-            }
-        }
-
         public User.UserLevel EditLevel
         {
             get => _EditLevel;
@@ -372,7 +336,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                        {
                                            if (e is string str && Directory.Exists(str))
                                            {
-                                               DataOutputPath = str;
+                                               GT.DataOutputPath = str;
                                            }
                                        });
         }
