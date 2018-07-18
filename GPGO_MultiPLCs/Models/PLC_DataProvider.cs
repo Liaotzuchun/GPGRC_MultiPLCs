@@ -298,8 +298,8 @@ namespace GPGO_MultiPLCs.Models
                                                                  await dialog.ShowWithIntput(new Dictionary<GlobalTempSettings.Language, string>
                                                                                              {
                                                                                                  { GlobalTempSettings.Language.TW, "輸入操作人員ID" },
-                                                                                                 { GlobalTempSettings.Language.CHS, "輸入操作人員ID" },
-                                                                                                 { GlobalTempSettings.Language.EN, "輸入操作人員ID" }
+                                                                                                 { GlobalTempSettings.Language.CHS, "输入操作人员ID" },
+                                                                                                 { GlobalTempSettings.Language.EN, "Enter the Operator ID" }
                                                                                              },
                                                                                              new Dictionary<GlobalTempSettings.Language, string>
                                                                                              {
@@ -320,11 +320,11 @@ namespace GPGO_MultiPLCs.Models
                                                                                                              },
                                                                                                              {
                                                                                                                  GlobalTempSettings.Language.CHS,
-                                                                                                                 "字數錯誤，請重試!"
+                                                                                                                 "字数错误，请重试!"
                                                                                                              },
                                                                                                              {
                                                                                                                  GlobalTempSettings.Language.EN,
-                                                                                                                 "字數錯誤，請重試!"
+                                                                                                                 "Input error, please try again!"
                                                                                                              }
                                                                                                          });
                                                                                              });
@@ -336,9 +336,9 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  {
                                                                                                      { GlobalTempSettings.Language.TW, "輸入台車Code" },
                                                                                                      {
-                                                                                                         GlobalTempSettings.Language.CHS, "輸入台車Code"
+                                                                                                         GlobalTempSettings.Language.CHS, "输入台车Code"
                                                                                                      },
-                                                                                                     { GlobalTempSettings.Language.EN, "輸入台車Code" }
+                                                                                                     { GlobalTempSettings.Language.EN, "Enter the Trolley Code" }
                                                                                                  },
                                                                                                  new Dictionary<GlobalTempSettings.Language, string>
                                                                                                  {
@@ -360,11 +360,11 @@ namespace GPGO_MultiPLCs.Models
                                                                                                                  {
                                                                                                                      GlobalTempSettings
                                                                                                                          .Language.CHS,
-                                                                                                                     "字數錯誤，請重試!"
+                                                                                                                     "字数错误，请重试!"
                                                                                                                  },
                                                                                                                  {
                                                                                                                      GlobalTempSettings.Language.EN,
-                                                                                                                     "字數錯誤，請重試!"
+                                                                                                                     "Input error, please try again!"
                                                                                                                  }
                                                                                                              });
                                                                                                  });

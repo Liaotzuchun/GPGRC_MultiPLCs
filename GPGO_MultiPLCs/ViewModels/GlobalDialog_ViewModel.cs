@@ -30,7 +30,7 @@ namespace GPGO_MultiPLCs.ViewModels
             await Task.Factory.StartNew(() =>
                                         {
                                             Lock_1.Reset();
-                                            Lock_1.WaitOne(9000);
+                                            Lock_1.WaitOne(12000);
                                         },
                                         TaskCreationOptions.LongRunning);
 
