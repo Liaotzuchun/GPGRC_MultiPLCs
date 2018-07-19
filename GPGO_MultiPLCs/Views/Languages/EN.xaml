@@ -72,7 +72,7 @@
     <sys:String x:Key="儲存">Save</sys:String>
     <sys:String x:Key="搜尋">Search</sys:String>
     <sys:String x:Key="更新時間">Updated</sys:String>
-    <sys:String x:Key="使用站點">Used By</sys:String>
+    <sys:String x:Key="使用站點">Currently in use</sys:String>
     <sys:String x:Key="開始日期">Start Date</sys:String>
     <sys:String x:Key="結束日期">End Date</sys:String>
     <sys:String x:Key="本日">Today</sys:String>
