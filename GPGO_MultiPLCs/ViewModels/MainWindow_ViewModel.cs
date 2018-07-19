@@ -7,6 +7,8 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public delegate void LoadedEventHandeler(Dispatcher dp);
 
+        public delegate void IndexChangedHandeler(int index);
+
         private int _ViewIndex;
 
         public RelayCommand LoadedCommand { get; }
@@ -18,10 +20,12 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 _ViewIndex = value;
                 NotifyPropertyChanged();
+                IndexChangedEvent?.Invoke(_ViewIndex);
             }
         }
 
         public event LoadedEventHandeler LoadedEvent;
+        public event IndexChangedHandeler IndexChangedEvent;
 
         public MainWindow_ViewModel()
         {

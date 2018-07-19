@@ -146,6 +146,14 @@ namespace GPGO_MultiPLCs
             TraceVM = new TraceabilityView_ViewModel(Mongo);
             TotalVM = new TotalView_ViewModel(20, DialogVM);
 
+            MainVM.IndexChangedEvent += index =>
+                                        {
+                                            if (index == 0)
+                                            {
+                                                TotalVM.Index = 0;
+                                            }
+                                        };
+
             MainVM.LoadedEvent += async dp =>
                                   {
                                       await dp.InvokeAsync(() =>
