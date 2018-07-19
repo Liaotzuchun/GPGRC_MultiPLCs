@@ -452,12 +452,12 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToInt32(value) == System.Convert.ToInt32(parameter);
+            return value?.ToString() == parameter?.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return System.Convert.ToBoolean(value) ? System.Convert.ToInt32(parameter) : 0;
+            return System.Convert.ToBoolean(value) ? parameter : Activator.CreateInstance(targetType);
         }
     }
 

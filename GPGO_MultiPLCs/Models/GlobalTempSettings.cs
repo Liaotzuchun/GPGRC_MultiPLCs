@@ -16,7 +16,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         private string _DataOutputPath = "D:\\";
-        private int _Lng = (int)Language.TW;
+        private Language _Lng = Language.TW;
 
         public string DataOutputPath
         {
@@ -30,7 +30,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public int Lng
+        public Language Lng
         {
             get => _Lng;
             set

@@ -498,15 +498,15 @@
                     <ToggleButton
                         Checked="RadioButton_Checked"
                         Content="{DynamicResource 繁體中文}"
-                        IsChecked="{Binding GT.Lng, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                        IsChecked="{Binding GT.Lng, ConverterParameter=TW, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                     <ToggleButton
                         Checked="RadioButton_Checked_1"
                         Content="{DynamicResource 簡體中文}"
-                        IsChecked="{Binding GT.Lng, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                        IsChecked="{Binding GT.Lng, ConverterParameter=CHS, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                     <ToggleButton
                         Checked="RadioButton_Checked_2"
                         Content="{DynamicResource 英文}"
-                        IsChecked="{Binding GT.Lng, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                        IsChecked="{Binding GT.Lng, ConverterParameter=EN, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                 </UniformGrid>
             </Grid>
         </Border>
