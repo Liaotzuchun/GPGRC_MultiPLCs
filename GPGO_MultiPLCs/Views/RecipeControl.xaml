@@ -1394,7 +1394,6 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     BorderThickness="0,0,1,1"
-                    Foreground="Blue"
                     Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="1"
@@ -1413,7 +1412,6 @@
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
                     BorderThickness="0,0,1,1"
-                    Foreground="Blue"
                     Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
                     Grid.Column="3"
