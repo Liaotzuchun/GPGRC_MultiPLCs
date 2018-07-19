@@ -486,7 +486,7 @@
                                         </DataGridTemplateColumn.HeaderTemplate>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="models:RecordEvent">
-                                                <TextBlock Text="{Binding Description, Mode=OneWay}" />
+                                                <TextBlock Text="{local:ResourceBinding Description, Mode=OneWay}" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

@@ -139,6 +139,7 @@
     <Compile Include="Views\Helpers\RangeSlider.xaml.cs">
       <DependentUpon>RangeSlider.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Helpers\ResourceBinding.cs" />
     <Compile Include="Views\RecipeControl.xaml.cs">
       <DependentUpon>RecipeControl.xaml</DependentUpon>
     </Compile>

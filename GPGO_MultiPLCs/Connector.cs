@@ -16,16 +16,9 @@ namespace GPGO_MultiPLCs
         public static readonly DependencyProperty DataOutputPathProperty =
             DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Connector), new PropertyMetadata("", DataOutputPathChanged));
 
-        public static readonly DependencyProperty LanguageProperty = DependencyProperty.Register(nameof(Language), typeof(string), typeof(Connector), new PropertyMetadata("", LanguageChanged));
-
         private static void DataOutputPathChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             //! 
-        }
-
-        private static void LanguageChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            ((Connector)sender).DialogVM.Language = (GlobalTempSettings.Language)Enum.Parse(typeof(GlobalTempSettings.Language), e.NewValue.ToString());
         }
 
         [Bindable(true)]
@@ -33,6 +26,13 @@ namespace GPGO_MultiPLCs
         {
             get => (string)GetValue(DataOutputPathProperty);
             set => SetValue(DataOutputPathProperty, value);
+        }
+
+        public static readonly DependencyProperty LanguageProperty = DependencyProperty.Register(nameof(Language), typeof(string), typeof(Connector), new PropertyMetadata("", LanguageChanged));
+
+        private static void LanguageChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            ((Connector)sender).DialogVM.Language = (GlobalTempSettings.Language)Enum.Parse(typeof(GlobalTempSettings.Language), e.NewValue.ToString());
         }
 
         [Bindable(true)]
@@ -52,6 +52,30 @@ namespace GPGO_MultiPLCs
 
         public void MakeTestData(int PLC_Count)
         {
+            var events = new[]
+                         {
+                             "自動停止",
+                             "程式結束",
+                             "電源反相",
+                             "循環風車過載",
+                             "循環風車INV異常",
+                             "第1段恆溫",
+                             "第1段升溫",
+                             "第2段恆溫",
+                             "第2段升溫",
+                             "第3段恆溫",
+                             "第3段升溫",
+                             "第4段恆溫",
+                             "第4段升溫",
+                             "第5段恆溫",
+                             "第5段升溫",
+                             "第6段恆溫",
+                             "第6段升溫",
+                             "第7段恆溫",
+                             "第7段升溫",
+                             "第8段恆溫",
+                             "第8段升溫"
+                         };
             var order_code = new[] { "ooxx", "abc", "zzz", "qoo", "boom", "xxx", "wunmao" };
             var time = DateTime.Now;
 
@@ -94,7 +118,7 @@ namespace GPGO_MultiPLCs
 
                             if (rn.Next(0, 100) > 50)
                             {
-                                info.EventList.Add(new RecordEvent { Type = (EventType)rn.Next(0, 3), Time = t, Description = "警報" + m });
+                                info.EventList.Add(new RecordEvent { Type = (EventType)rn.Next(0, 3), Time = t, Description = events[rn.Next(0, events.Length)] });
                             }
 
                             info.RecordTemperatures.Add(vals);

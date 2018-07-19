@@ -93,4 +93,25 @@
     <sys:String x:Key="上傳紀錄">上傳紀錄</sys:String>
     <sys:String x:Key="瀏覽">瀏覽</sys:String>
     <sys:String x:Key="套用">套用</sys:String>
+    <sys:String x:Key="自動停止">自動停止</sys:String>
+    <sys:String x:Key="程式結束">程式結束</sys:String>
+    <sys:String x:Key="電源反相">電源反相</sys:String>
+    <sys:String x:Key="循環風車過載">循環風車過載</sys:String>
+    <sys:String x:Key="循環風車INV異常">循環風車INV異常</sys:String>
+    <sys:String x:Key="第1段恆溫">第1段恆溫</sys:String>
+    <sys:String x:Key="第1段升溫">第1段升溫</sys:String>
+    <sys:String x:Key="第2段恆溫">第2段恆溫</sys:String>
+    <sys:String x:Key="第2段升溫">第2段升溫</sys:String>
+    <sys:String x:Key="第3段恆溫">第3段恆溫</sys:String>
+    <sys:String x:Key="第3段升溫">第3段升溫</sys:String>
+    <sys:String x:Key="第4段恆溫">第4段恆溫</sys:String>
+    <sys:String x:Key="第4段升溫">第4段升溫</sys:String>
+    <sys:String x:Key="第5段恆溫">第5段恆溫</sys:String>
+    <sys:String x:Key="第5段升溫">第5段升溫</sys:String>
+    <sys:String x:Key="第6段恆溫">第6段恆溫</sys:String>
+    <sys:String x:Key="第6段升溫">第6段升溫</sys:String>
+    <sys:String x:Key="第7段恆溫">第7段恆溫</sys:String>
+    <sys:String x:Key="第7段升溫">第7段升溫</sys:String>
+    <sys:String x:Key="第8段恆溫">第8段恆溫</sys:String>
+    <sys:String x:Key="第8段升溫">第8段升溫</sys:String>
 </ResourceDictionary>

@@ -93,4 +93,25 @@
     <sys:String x:Key="上傳紀錄">Upload</sys:String>
     <sys:String x:Key="瀏覽">Browse</sys:String>
     <sys:String x:Key="套用">Apply</sys:String>
+    <sys:String x:Key="自動停止">AutoMode Stopped</sys:String>
+    <sys:String x:Key="程式結束">Program Stopped</sys:String>
+    <sys:String x:Key="電源反相">Power INV</sys:String>
+    <sys:String x:Key="循環風車過載">Circulating fan overload</sys:String>
+    <sys:String x:Key="循環風車INV異常">Circulating fan INV</sys:String>
+    <sys:String x:Key="第1段恆溫">1st Warming</sys:String>
+    <sys:String x:Key="第1段升溫">1st Heating</sys:String>
+    <sys:String x:Key="第2段恆溫">2nd Warming</sys:String>
+    <sys:String x:Key="第2段升溫">2nd Heating</sys:String>
+    <sys:String x:Key="第3段恆溫">3rd Warming</sys:String>
+    <sys:String x:Key="第3段升溫">3rd Heating</sys:String>
+    <sys:String x:Key="第4段恆溫">4th Warming</sys:String>
+    <sys:String x:Key="第4段升溫">4th Heating</sys:String>
+    <sys:String x:Key="第5段恆溫">5th Warming</sys:String>
+    <sys:String x:Key="第5段升溫">5th Heating</sys:String>
+    <sys:String x:Key="第6段恆溫">6th Warming</sys:String>
+    <sys:String x:Key="第6段升溫">6th Heating</sys:String>
+    <sys:String x:Key="第7段恆溫">7th Warming</sys:String>
+    <sys:String x:Key="第7段升溫">7th Heating</sys:String>
+    <sys:String x:Key="第8段恆溫">8th Warming</sys:String>
+    <sys:String x:Key="第8段升溫">8th Heating</sys:String>
 </ResourceDictionary>
