@@ -307,32 +307,6 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
-    public class IntHAValue : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value != null ? (HorizontalAlignment)value : HorizontalAlignment.Stretch;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (int?)value ?? 3;
-        }
-    }
-
-    public class IntVAValue : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value != null ? (VerticalAlignment)value : VerticalAlignment.Stretch;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (int?)value ?? 3;
-        }
-    }
-
     public class RatioValue : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
