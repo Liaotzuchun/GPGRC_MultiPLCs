@@ -335,9 +335,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      await dialog.ShowWithIntput(new Dictionary<GlobalTempSettings.Language, string>
                                                                                                  {
                                                                                                      { GlobalTempSettings.Language.TW, "輸入台車Code" },
-                                                                                                     {
-                                                                                                         GlobalTempSettings.Language.CHS, "输入台车Code"
-                                                                                                     },
+                                                                                                     { GlobalTempSettings.Language.CHS, "输入台车Code" },
                                                                                                      { GlobalTempSettings.Language.EN, "Enter the Trolley Code" }
                                                                                                  },
                                                                                                  new Dictionary<GlobalTempSettings.Language, string>
@@ -358,8 +356,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                                      "字數錯誤，請重試!"
                                                                                                                  },
                                                                                                                  {
-                                                                                                                     GlobalTempSettings
-                                                                                                                         .Language.CHS,
+                                                                                                                     GlobalTempSettings.Language.CHS,
                                                                                                                      "字数错误，请重试!"
                                                                                                                  },
                                                                                                                  {

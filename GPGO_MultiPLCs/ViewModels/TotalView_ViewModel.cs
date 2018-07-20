@@ -425,7 +425,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  {
                                                                      {GlobalTempSettings.Language.TW, "第" + (index + 1) + "站已完成烘烤!"},
                                                                      {GlobalTempSettings.Language.CHS, "第" + (index + 1) + "站已完成烘烤!"},
-                                                                     {GlobalTempSettings.Language.TW, "Oven No" + (index + 1) + "has been finished!"},
+                                                                     {GlobalTempSettings.Language.EN, "Oven No" + (index + 1) + "has been finished!"},
                                                                  }, TimeSpan.FromSeconds(2));
                                                     //}
                                                 };
