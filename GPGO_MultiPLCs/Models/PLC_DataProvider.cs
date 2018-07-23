@@ -272,7 +272,7 @@ namespace GPGO_MultiPLCs.Models
 
             CheckRecipeCommand_KeyLeave = new RelayCommand(e =>
                                                            {
-                                                               if (_Selected_Name != _Intput_Name)
+                                                               if (_Selected_Name != null && _Selected_Name != _Intput_Name)
                                                                {
                                                                    if (_Recipe_Names.Contains(_Intput_Name))
                                                                    {

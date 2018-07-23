@@ -188,6 +188,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
 
                 TypedName = "";
+
                 Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
                 ViewRecipes = Recipes?.AsQueryable().Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower()));
             }
