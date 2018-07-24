@@ -97,10 +97,4 @@
         充氣時間,
         使用段數
     }
-
-    public enum DataNames_EXT
-    {
-        製造序,
-
-    }
 }

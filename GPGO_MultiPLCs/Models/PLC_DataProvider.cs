@@ -64,7 +64,7 @@ namespace GPGO_MultiPLCs.Models
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
         /// <summary>
-        /// 記錄的資訊
+        /// 紀錄的資訊
         /// </summary>
         public ProcessInfo Process_Info { get; }
 
@@ -144,7 +144,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 用來記錄的任務，可追蹤狀態
+        /// 用來紀錄的任務，可追蹤狀態
         /// </summary>
         public Task RecordingTask
         {
@@ -212,11 +212,16 @@ namespace GPGO_MultiPLCs.Models
                                                 });
         }
 
+        /// <summary>
+        /// 重設CancellationTokenSource狀態
+        /// </summary>
         public void ResetStopTokenSource()
         {
             CTS?.Dispose();
 
             CTS = new CancellationTokenSource();
+
+            //!可註冊取消時須執行的動作
             //CTS.Token.Register(() =>
             //{
             //
@@ -225,7 +230,7 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            StartRecording?.Invoke(RecipeName, LockHandle); //! 引發開始記錄事件並以LockHandle等待配方設定完成
+            StartRecording?.Invoke(RecipeName, LockHandle); //! 引發開始紀錄事件並以LockHandle等待配方設定完成
 
             await Task.Factory.StartNew(() =>
                                         {

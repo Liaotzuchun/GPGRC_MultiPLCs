@@ -4,6 +4,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
+    /// <summary>
+    /// PLC配方
+    /// </summary>
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : ViewModelBase
     {

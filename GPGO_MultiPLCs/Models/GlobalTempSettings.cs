@@ -6,8 +6,14 @@ using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Models
 {
+    /// <summary>
+    /// PC程式參數
+    /// </summary>
     public class GlobalTempSettings : ViewModelBase
     {
+        /// <summary>
+        /// 語言語系類型
+        /// </summary>
         public enum Language
         {
             TW,
@@ -18,6 +24,9 @@ namespace GPGO_MultiPLCs.Models
         private string _DataOutputPath = "D:\\";
         private Language _Lng = Language.TW;
 
+        /// <summary>
+        /// 上傳資料輸出位置
+        /// </summary>
         public string DataOutputPath
         {
             get => _DataOutputPath;
@@ -30,6 +39,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 介面語言
+        /// </summary>
         public Language Lng
         {
             get => _Lng;

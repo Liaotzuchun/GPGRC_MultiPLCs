@@ -237,7 +237,7 @@ namespace GPGO_MultiPLCs.ViewModels
         ///     新增至資料庫
         /// </summary>
         /// <param name="index">PLC序號，由0開始</param>
-        /// <param name="info">記錄資訊</param>
+        /// <param name="info">紀錄資訊</param>
         /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
         /// <param name="UpdateResult">決定是否更新Ram Data</param>
         public async void AddToDB(int index, ProcessInfo info, DateTime dateTime = default(DateTime), bool UpdateResult = false)

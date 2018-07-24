@@ -3,8 +3,14 @@ using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Models
 {
+    /// <summary>
+    /// 使用者帳號
+    /// </summary>
     public sealed class User : ViewModelBase
     {
+        /// <summary>
+        /// 使用者階層
+        /// </summary>
         public enum UserLevel
         {
             D, //Guest
@@ -17,10 +23,12 @@ namespace GPGO_MultiPLCs.Models
         private DateTime _CreatedTime;
         private DateTime _LastLoginTime;
         private UserLevel _Level;
-
         private string _Name;
         private string _Password;
 
+        /// <summary>
+        /// 創建時間
+        /// </summary>
         public DateTime CreatedTime
         {
             get => _CreatedTime;
@@ -31,6 +39,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 最後登入時間
+        /// </summary>
         public DateTime LastLoginTime
         {
             get => _LastLoginTime;
@@ -41,6 +52,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 階層
+        /// </summary>
         public UserLevel Level
         {
             get => _Level;
@@ -51,6 +65,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 名稱
+        /// </summary>
         public string Name
         {
             get => _Name;
@@ -61,6 +78,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 密碼
+        /// </summary>
         public string Password
         {
             get => _Password;

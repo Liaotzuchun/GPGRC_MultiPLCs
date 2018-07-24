@@ -300,6 +300,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      NotifyPropertyChanged(nameof(TotalProductionCount));
                                                  };
 
+            //!PLC的M區位置
             var M_List = new Dictionary<SignalNames, int>
                          {
                              { SignalNames.PC_ByPass, 20 },
@@ -324,6 +325,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              { SignalNames.升恆溫逾時, 723 }
                          };
 
+            //!PLC的D區位置
             var D_List = new Dictionary<DataNames, int>
                          {
                              { DataNames.溫控器溫度, 130 },
@@ -340,6 +342,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              { DataNames.爐內溫度_8, 387 }
                          };
 
+            //!PLC的配方參數位置
             var Recipe_List = new Dictionary<DataNames, int>
                               {
                                   { DataNames.目標溫度_1, 712 },
@@ -392,7 +395,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   { DataNames.配方名稱_13, 762 }
                               };
 
-            //! 註冊PLC事件需引發的動作
+            //!註冊PLC事件需引發的動作
             for (var i = 0; i < PLC_Count; i++)
             {
                 TotalProduction.Add(i, 0);
@@ -414,10 +417,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     //if (info.ProcessCount > 0)
                                                     //{
-                                                    //! 寫入資料庫，上傳
+                                                    //!寫入資料庫，上傳
                                                     AddRecordToDB?.Invoke(index, info);
 
-                                                    //! 完成上傳後，清空生產資訊
+                                                    //!完成上傳後，清空生產資訊
                                                     info.Clear();
 
                                                     TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
@@ -448,7 +451,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             LoadMachineCodes();
 
-            //! 產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
+            //!產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
             var namelists = M_List.Values.OrderBy(x => x)
                                   .Select(x => BitType.M.ToString() + x.ToString())
                                   .Concat(D_List.Values.OrderBy(x => x).Select(x => DataType.D.ToString() + x.ToString()))
@@ -482,7 +485,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 {
                                     if (!Gate_Status)
                                     {
-                                        if (Connect() && Initial() && SetReadLists(namearray)) //連線並發送訂閱列表
+                                        if (Connect() && Initial() && SetReadLists(namearray)) //!連線並發送訂閱列表
                                         {
                                             Gate_Status = true;
                                         }
