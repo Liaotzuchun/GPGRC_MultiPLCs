@@ -344,6 +344,9 @@
                                                     Command="{Binding CheckInCommand, Mode=OneTime}"
                                                     CommandParameter="{Binding Text, ElementName=TextBlock, Mode=OneWay}" />
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </ToggleButton>
                                 </Grid>
