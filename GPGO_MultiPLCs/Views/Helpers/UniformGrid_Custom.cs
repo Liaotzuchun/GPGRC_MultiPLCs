@@ -5,6 +5,9 @@ using System.Windows.Controls.Primitives;
 
 namespace GPGO_MultiPLCs.Views
 {
+    /// <summary>
+    /// 使uniformgrid可選擇由左至右排列優先還是由上至下優先
+    /// </summary>
     public class UniformGrid_H : UniformGrid
     {
         private int _columns;

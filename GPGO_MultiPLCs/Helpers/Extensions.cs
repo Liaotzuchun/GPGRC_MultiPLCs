@@ -7,6 +7,9 @@ using System.Windows.Media;
 
 namespace GPGO_MultiPLCs.Helpers
 {
+    /// <summary>
+    /// 各種擴充
+    /// </summary>
     public static class Extensions
     {
         private static readonly int[] bitnum =

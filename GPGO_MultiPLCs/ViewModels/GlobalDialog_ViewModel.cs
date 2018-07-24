@@ -10,6 +10,9 @@ using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
+    /// <summary>
+    /// 實作IDialogService的對話窗
+    /// </summary>
     public class GlobalDialog_ViewModel : ViewModelBase, IDialogService<string>
     {
         public async Task<bool> Show(Dictionary<GlobalTempSettings.Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)

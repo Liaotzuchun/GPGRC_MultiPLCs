@@ -3,6 +3,12 @@ using System.Linq;
 
 namespace GPGO_MultiPLCs.Helpers
 {
+    /// <summary>
+    /// 提供兩個key當索引的Dictionary集合
+    /// </summary>
+    /// <typeparam name="TKey1">key1</typeparam>
+    /// <typeparam name="TKey2">key2</typeparam>
+    /// <typeparam name="TValue">值</typeparam>
     public sealed class TwoKeyDictionary<TKey1, TKey2, TValue>
     {
         public delegate void Key1Updated(TKey1 name, TValue value);

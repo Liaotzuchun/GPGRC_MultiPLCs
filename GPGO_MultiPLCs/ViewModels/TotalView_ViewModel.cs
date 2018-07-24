@@ -13,8 +13,16 @@ using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
+    /// <summary>
+    /// P生產總覽
+    /// </summary>
     public class TotalView_ViewModel : ViewModelBase, IGPServiceCallback
     {
+        /// <summary>
+        /// PLC Gate通知PLC資訊更新
+        /// </summary>
+        /// <param name="index">PLC序號</param>
+        /// <param name="val">更新值集合</param>
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
             if (index < PLC_All.Length && index > -1)
@@ -33,6 +41,11 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// PLC連線狀態
+        /// </summary>
+        /// <param name="index">PLC序號</param>
+        /// <param name="val">是否連線</param>
         void IGPServiceCallback.Status_Changed(int index, bool val)
         {
             if (index < PLC_All.Length && index > -1)
@@ -72,6 +85,9 @@ namespace GPGO_MultiPLCs.ViewModels
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
         public int TotalProductionCount => TotalProduction.Sum(x => x.Value);
 
+        /// <summary>
+        /// PLC Gate連線狀態
+        /// </summary>
         public bool Gate_Status
         {
             get => _Gate_Status;
@@ -82,6 +98,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 烤箱總覽和詳細資訊檢視頁面切換index
+        /// </summary>
         public int Index
         {
             get => _Index;
@@ -96,6 +115,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// PLC詳細資訊檢視index
+        /// </summary>
         public int ViewIndex
         {
             get => _ViewIndex;
@@ -172,6 +194,12 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 將配方寫入PLC
+        /// </summary>
+        /// <param name="index">PLC序號</param>
+        /// <param name="recipe">配方</param>
+        /// <returns></returns>
         public async Task SetRecipe(int index, PLC_Recipe recipe)
         {
             if (recipe == null)
@@ -222,6 +250,10 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 設定使用的PLC配方(透過配方名)
+        /// </summary>
+        /// <param name="names">配方名</param>
         public void SetRecipeNames(ICollection<string> names)
         {
             foreach (var plc in PLC_All)
@@ -230,6 +262,10 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 發送PC和PLC間的檢查信號
+        /// </summary>
+        /// <returns></returns>
         private bool Check()
         {
             try
@@ -249,6 +285,10 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 和PLC Gate連線
+        /// </summary>
+        /// <returns></returns>
         private bool Connect()
         {
             try
@@ -264,6 +304,10 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 剛連線並初始化參數
+        /// </summary>
+        /// <returns></returns>
         private bool Initial()
         {
             try

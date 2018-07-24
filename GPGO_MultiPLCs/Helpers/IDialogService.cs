@@ -12,6 +12,10 @@ namespace GPGO_MultiPLCs.Helpers
         Alarm
     }
 
+    /// <summary>
+    /// 可供顯示對話窗口的基礎介面
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IDialogService<T>
     {
         Task<bool> Show(Dictionary<GlobalTempSettings.Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal);

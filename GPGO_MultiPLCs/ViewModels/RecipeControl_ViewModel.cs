@@ -8,6 +8,9 @@ using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
+    /// <summary>
+    /// 配方管理
+    /// </summary>
     public class RecipeControl_ViewModel : ViewModelBase
     {
         public delegate void ListUpdated(List<PLC_Recipe> list);

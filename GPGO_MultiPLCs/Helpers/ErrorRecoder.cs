@@ -6,12 +6,15 @@ using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Helpers
 {
+    /// <summary>
+    /// 提供任何地方紀錄的靜態類別
+    /// </summary>
     public static class ErrorRecoder
     {
         private static readonly object Lock_Obj = new object();
 
         /// <summary>
-        ///     紀錄例外
+        /// 紀錄例外
         /// </summary>
         /// <param name="ex">例外</param>
         /// <param name="note">附註</param>
