@@ -7,14 +7,14 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : ViewModelBase
     {
-        private short _ConstantTime_1;
-        private short _ConstantTime_2;
-        private short _ConstantTime_3;
-        private short _ConstantTime_4;
-        private short _ConstantTime_5;
-        private short _ConstantTime_6;
-        private short _ConstantTime_7;
-        private short _ConstantTime_8;
+        private short _WarmingTime_1;
+        private short _WarmingTime_2;
+        private short _WarmingTime_3;
+        private short _WarmingTime_4;
+        private short _WarmingTime_5;
+        private short _WarmingTime_6;
+        private short _WarmingTime_7;
+        private short _WarmingTime_8;
         private short _CoolingTemperature;
         private short _HeatingTime_1;
         private short _HeatingTime_2;
@@ -55,82 +55,82 @@ namespace GPGO_MultiPLCs.Models
         public short Time_Max => 600;
         public short Time_Min => 1;
 
-        public short ConstantTime_1
+        public short WarmingTime_1
         {
-            get => _ConstantTime_1;
+            get => _WarmingTime_1;
             set
             {
-                _ConstantTime_1 = value;
+                _WarmingTime_1 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public short ConstantTime_2
+        public short WarmingTime_2
         {
-            get => _ConstantTime_2;
+            get => _WarmingTime_2;
             set
             {
-                _ConstantTime_2 = value;
+                _WarmingTime_2 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public short ConstantTime_3
+        public short WarmingTime_3
         {
-            get => _ConstantTime_3;
+            get => _WarmingTime_3;
             set
             {
-                _ConstantTime_3 = value;
+                _WarmingTime_3 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public short ConstantTime_4
+        public short WarmingTime_4
         {
-            get => _ConstantTime_4;
+            get => _WarmingTime_4;
             set
             {
-                _ConstantTime_4 = value;
+                _WarmingTime_4 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public short ConstantTime_5
+        public short WarmingTime_5
         {
-            get => _ConstantTime_5;
+            get => _WarmingTime_5;
             set
             {
-                _ConstantTime_5 = value;
+                _WarmingTime_5 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public short ConstantTime_6
+        public short WarmingTime_6
         {
-            get => _ConstantTime_6;
+            get => _WarmingTime_6;
             set
             {
-                _ConstantTime_6 = value;
+                _WarmingTime_6 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public short ConstantTime_7
+        public short WarmingTime_7
         {
-            get => _ConstantTime_7;
+            get => _WarmingTime_7;
             set
             {
-                _ConstantTime_7 = value;
+                _WarmingTime_7 = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public short ConstantTime_8
+        public short WarmingTime_8
         {
-            get => _ConstantTime_8;
+            get => _WarmingTime_8;
             set
             {
-                _ConstantTime_8 = value;
+                _WarmingTime_8 = value;
                 NotifyPropertyChanged();
             }
         }
@@ -450,14 +450,14 @@ namespace GPGO_MultiPLCs.Models
                        ThermostaticTemperature_6 = _ThermostaticTemperature_6,
                        ThermostaticTemperature_7 = _ThermostaticTemperature_7,
                        ThermostaticTemperature_8 = _ThermostaticTemperature_8,
-                       ConstantTime_1 = _ConstantTime_1,
-                       ConstantTime_2 = _ConstantTime_2,
-                       ConstantTime_3 = _ConstantTime_3,
-                       ConstantTime_4 = _ConstantTime_4,
-                       ConstantTime_5 = _ConstantTime_5,
-                       ConstantTime_6 = _ConstantTime_6,
-                       ConstantTime_7 = _ConstantTime_7,
-                       ConstantTime_8 = _ConstantTime_8,
+                       WarmingTime_1 = _WarmingTime_1,
+                       WarmingTime_2 = _WarmingTime_2,
+                       WarmingTime_3 = _WarmingTime_3,
+                       WarmingTime_4 = _WarmingTime_4,
+                       WarmingTime_5 = _WarmingTime_5,
+                       WarmingTime_6 = _WarmingTime_6,
+                       WarmingTime_7 = _WarmingTime_7,
+                       WarmingTime_8 = _WarmingTime_8,
                        CoolingTemperature = _CoolingTemperature,
                        HeatingTime_1 = _HeatingTime_1,
                        HeatingTime_2 = _HeatingTime_2,
@@ -493,14 +493,14 @@ namespace GPGO_MultiPLCs.Models
             ThermostaticTemperature_6 = 200;
             ThermostaticTemperature_7 = 200;
             ThermostaticTemperature_8 = 200;
-            ConstantTime_1 = 10;
-            ConstantTime_2 = 10;
-            ConstantTime_3 = 10;
-            ConstantTime_4 = 10;
-            ConstantTime_5 = 10;
-            ConstantTime_6 = 10;
-            ConstantTime_7 = 10;
-            ConstantTime_8 = 10;
+            WarmingTime_1 = 10;
+            WarmingTime_2 = 10;
+            WarmingTime_3 = 10;
+            WarmingTime_4 = 10;
+            WarmingTime_5 = 10;
+            WarmingTime_6 = 10;
+            WarmingTime_7 = 10;
+            WarmingTime_8 = 10;
             CoolingTemperature = 40;
             HeatingTime_1 = 10;
             HeatingTime_2 = 10;

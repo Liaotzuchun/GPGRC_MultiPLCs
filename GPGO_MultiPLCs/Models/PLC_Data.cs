@@ -2,6 +2,9 @@
 
 namespace GPGO_MultiPLCs.Models
 {
+    /// <summary>
+    /// PLC基礎資料
+    /// </summary>
     public abstract class PLC_Data : ViewModelBase
     {
         public TwoKeyDictionary<DataNames, int, short> D_Values;
@@ -296,7 +299,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ConstantTime_1
+        public short WarmingTime_1
         {
             get => Recipe_Values[DataNames.恆溫時間_1];
             set
@@ -306,7 +309,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ConstantTime_2
+        public short WarmingTime_2
         {
             get => Recipe_Values[DataNames.恆溫時間_2];
             set
@@ -316,7 +319,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ConstantTime_3
+        public short WarmingTime_3
         {
             get => Recipe_Values[DataNames.恆溫時間_3];
             set
@@ -326,7 +329,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ConstantTime_4
+        public short WarmingTime_4
         {
             get => Recipe_Values[DataNames.恆溫時間_4];
             set
@@ -336,7 +339,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ConstantTime_5
+        public short WarmingTime_5
         {
             get => Recipe_Values[DataNames.恆溫時間_5];
             set
@@ -346,7 +349,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ConstantTime_6
+        public short WarmingTime_6
         {
             get => Recipe_Values[DataNames.恆溫時間_6];
             set
@@ -356,7 +359,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ConstantTime_7
+        public short WarmingTime_7
         {
             get => Recipe_Values[DataNames.恆溫時間_7];
             set
@@ -366,7 +369,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ConstantTime_8
+        public short WarmingTime_8
         {
             get => Recipe_Values[DataNames.恆溫時間_8];
             set

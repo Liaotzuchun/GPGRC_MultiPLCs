@@ -163,7 +163,8 @@
                             ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                             ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                             IsHitTestVisible="False"
-                            TextElement.FontSize="14" />
+                            TextElement.FontSize="14"
+                            TextElement.Foreground="{TemplateBinding Foreground}" />
                         <TextBox
                             x:Name="PART_EditableTextBox"
                             HorizontalAlignment="Center"
@@ -218,6 +219,9 @@
                             <Setter Property="IsTabStop" Value="False" />
                             <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

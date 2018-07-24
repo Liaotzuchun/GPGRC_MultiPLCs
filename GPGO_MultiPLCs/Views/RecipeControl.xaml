@@ -1041,7 +1041,7 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding ConstantTime_1, Mode=TwoWay}" />
+                            Value="{Binding WarmingTime_1, Mode=TwoWay}" />
                     </Border>
                     <Border
                         Background="{StaticResource LightColorBrush}"
@@ -1056,7 +1056,7 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding ConstantTime_2, Mode=TwoWay}" />
+                            Value="{Binding WarmingTime_2, Mode=TwoWay}" />
                     </Border>
                     <Border
                         Background="{StaticResource LightColorBrush}"
@@ -1071,7 +1071,7 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding ConstantTime_3, Mode=TwoWay}" />
+                            Value="{Binding WarmingTime_3, Mode=TwoWay}" />
                     </Border>
                     <Border
                         Background="{StaticResource LightColorBrush}"
@@ -1086,7 +1086,7 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding ConstantTime_4, Mode=TwoWay}" />
+                            Value="{Binding WarmingTime_4, Mode=TwoWay}" />
                     </Border>
                     <Border
                         Background="{StaticResource LightColorBrush}"
@@ -1101,7 +1101,7 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding ConstantTime_5, Mode=TwoWay}" />
+                            Value="{Binding WarmingTime_5, Mode=TwoWay}" />
                     </Border>
                     <Border
                         Background="{StaticResource LightColorBrush}"
@@ -1116,7 +1116,7 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding ConstantTime_6, Mode=TwoWay}" />
+                            Value="{Binding WarmingTime_6, Mode=TwoWay}" />
                     </Border>
                     <Border
                         Background="{StaticResource LightColorBrush}"
@@ -1131,7 +1131,7 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding ConstantTime_7, Mode=TwoWay}" />
+                            Value="{Binding WarmingTime_7, Mode=TwoWay}" />
                     </Border>
                     <Border
                         Background="{StaticResource LightColorBrush}"
@@ -1146,7 +1146,7 @@
                             Minimum="{Binding Time_Min, Mode=OneWay}"
                             SmallChange="1"
                             TickFrequency="1"
-                            Value="{Binding ConstantTime_8, Mode=TwoWay}" />
+                            Value="{Binding WarmingTime_8, Mode=TwoWay}" />
                     </Border>
                 </UniformGrid>
                 <UniformGrid
@@ -1256,7 +1256,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Run Text="{Binding ConstantTime_1, Mode=OneWay}" />
+                            <Run Text="{Binding WarmingTime_1, Mode=OneWay}" />
                             <Run Text=" " />
                             <Run Text="{DynamicResource 分}" />
                         </TextBlock>
@@ -1268,7 +1268,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Run Text="{Binding ConstantTime_2, Mode=OneWay}" />
+                            <Run Text="{Binding WarmingTime_2, Mode=OneWay}" />
                             <Run Text=" " />
                             <Run Text="{DynamicResource 分}" />
                         </TextBlock>
@@ -1280,7 +1280,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Run Text="{Binding ConstantTime_3, Mode=OneWay}" />
+                            <Run Text="{Binding WarmingTime_3, Mode=OneWay}" />
                             <Run Text=" " />
                             <Run Text="{DynamicResource 分}" />
                         </TextBlock>
@@ -1292,7 +1292,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Run Text="{Binding ConstantTime_4, Mode=OneWay}" />
+                            <Run Text="{Binding WarmingTime_4, Mode=OneWay}" />
                             <Run Text=" " />
                             <Run Text="{DynamicResource 分}" />
                         </TextBlock>
@@ -1304,7 +1304,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Run Text="{Binding ConstantTime_5, Mode=OneWay}" />
+                            <Run Text="{Binding WarmingTime_5, Mode=OneWay}" />
                             <Run Text=" " />
                             <Run Text="{DynamicResource 分}" />
                         </TextBlock>
@@ -1316,7 +1316,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Run Text="{Binding ConstantTime_6, Mode=OneWay}" />
+                            <Run Text="{Binding WarmingTime_6, Mode=OneWay}" />
                             <Run Text=" " />
                             <Run Text="{DynamicResource 分}" />
                         </TextBlock>
@@ -1328,7 +1328,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Run Text="{Binding ConstantTime_7, Mode=OneWay}" />
+                            <Run Text="{Binding WarmingTime_7, Mode=OneWay}" />
                             <Run Text=" " />
                             <Run Text="{DynamicResource 分}" />
                         </TextBlock>
@@ -1340,7 +1340,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Run Text="{Binding ConstantTime_8, Mode=OneWay}" />
+                            <Run Text="{Binding WarmingTime_8, Mode=OneWay}" />
                             <Run Text=" " />
                             <Run Text="{DynamicResource 分}" />
                         </TextBlock>

@@ -142,7 +142,7 @@
                                                     BorderThickness="0,1,0,0"
                                                     IsEditable="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                                     IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
-                                                    IsHitTestVisible="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                                    IsHitTestVisible="{Binding IsEditable, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                     IsTextSearchEnabled="False"
                                                     ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
                                                     PreviewGotKeyboardFocus="CB_PreviewGotKeyboardFocus"
@@ -1353,7 +1353,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center">
-                                                <Run Text="{Binding ConstantTime_1, Mode=OneWay}" />
+                                                <Run Text="{Binding WarmingTime_1, Mode=OneWay}" />
                                                 <Run Text=" " />
                                                 <Run Text="{DynamicResource 分}" />
                                             </TextBlock>
@@ -1365,7 +1365,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center">
-                                                <Run Text="{Binding ConstantTime_2, Mode=OneWay}" />
+                                                <Run Text="{Binding WarmingTime_2, Mode=OneWay}" />
                                                 <Run Text=" " />
                                                 <Run Text="{DynamicResource 分}" />
                                             </TextBlock>
@@ -1377,7 +1377,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center">
-                                                <Run Text="{Binding ConstantTime_3, Mode=OneWay}" />
+                                                <Run Text="{Binding WarmingTime_3, Mode=OneWay}" />
                                                 <Run Text=" " />
                                                 <Run Text="{DynamicResource 分}" />
                                             </TextBlock>
@@ -1389,7 +1389,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center">
-                                                <Run Text="{Binding ConstantTime_4, Mode=OneWay}" />
+                                                <Run Text="{Binding WarmingTime_4, Mode=OneWay}" />
                                                 <Run Text=" " />
                                                 <Run Text="{DynamicResource 分}" />
                                             </TextBlock>
@@ -1401,7 +1401,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center">
-                                                <Run Text="{Binding ConstantTime_5, Mode=OneWay}" />
+                                                <Run Text="{Binding WarmingTime_5, Mode=OneWay}" />
                                                 <Run Text=" " />
                                                 <Run Text="{DynamicResource 分}" />
                                             </TextBlock>
@@ -1413,7 +1413,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center">
-                                                <Run Text="{Binding ConstantTime_6, Mode=OneWay}" />
+                                                <Run Text="{Binding WarmingTime_6, Mode=OneWay}" />
                                                 <Run Text=" " />
                                                 <Run Text="{DynamicResource 分}" />
                                             </TextBlock>
@@ -1425,7 +1425,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center">
-                                                <Run Text="{Binding ConstantTime_7, Mode=OneWay}" />
+                                                <Run Text="{Binding WarmingTime_7, Mode=OneWay}" />
                                                 <Run Text=" " />
                                                 <Run Text="{DynamicResource 分}" />
                                             </TextBlock>
@@ -1436,7 +1436,7 @@
                                             <TextBlock
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center">
-                                                <Run Text="{Binding ConstantTime_8, Mode=OneWay}" />
+                                                <Run Text="{Binding WarmingTime_8, Mode=OneWay}" />
                                                 <Run Text=" " />
                                                 <Run Text="{DynamicResource 分}" />
                                             </TextBlock>

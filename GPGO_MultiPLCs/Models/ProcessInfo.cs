@@ -19,7 +19,7 @@ namespace GPGO_MultiPLCs.Models
         private DateTime _EndTime;
         private ObservableConcurrentCollection<RecordEvent> _EventList = new ObservableConcurrentCollection<RecordEvent>();
         private bool _FirstPanel;
-        private short _HeatingTime;
+        private int _HeatingTime;
         private string _MachineCode;
         private string _OperatorID;
         private string _OrderCode;
@@ -32,10 +32,13 @@ namespace GPGO_MultiPLCs.Models
         private string _Side;
         private DateTime _StartTime;
         private double _TargetOvenTemperature;
-        private short _TotalHeatingTime;
+        private int _TotalHeatingTime;
         private string _TrolleyCode;
-        private short _WarmingTime;
+        private int _WarmingTime;
 
+        /// <summary>
+        /// 條碼類型
+        /// </summary>
         public CodeType CodeType
         {
             get => _CodeType;
@@ -46,6 +49,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 結束時間
+        /// </summary>
         public DateTime EndTime
         {
             get => _EndTime;
@@ -56,6 +62,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 事件紀錄
+        /// </summary>
         public ObservableConcurrentCollection<RecordEvent> EventList
         {
             get => _EventList;
@@ -66,6 +75,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 是否為首件
+        /// </summary>
         public bool FirstPanel
         {
             get => _FirstPanel;
@@ -76,7 +88,10 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short HeatingTime
+        /// <summary>
+        /// 加熱時間(升溫至目標溫度)
+        /// </summary>
+        public int HeatingTime
         {
             get => _HeatingTime;
             set
@@ -86,6 +101,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 機台編號
+        /// </summary>
         public string MachineCode
         {
             get => _MachineCode;
@@ -96,6 +114,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 操作人員ID
+        /// </summary>
         public string OperatorID
         {
             get => _OperatorID;
@@ -106,6 +127,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 工單號
+        /// </summary>
         public string OrderCode
         {
             get => _OrderCode;
@@ -116,6 +140,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 工單材料總量
+        /// </summary>
         public int OrderCount
         {
             get => _OrderCount;
@@ -126,6 +153,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 單一製造序材料數量
+        /// </summary>
         public int ProcessCount
         {
             get => _ProcessCount;
@@ -136,6 +166,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 製造序
+        /// </summary>
         public int ProcessNumber
         {
             get => _ProcessNumber;
@@ -147,7 +180,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        ///     = OrderCode + ProcessNumber
+        /// 條碼 = OrderCode + ProcessNumber
         /// </summary>
         public string ProduceCode
         {
@@ -159,6 +192,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 配方名
+        /// </summary>
         public string RecipeName
         {
             get => _RecipeName;
@@ -169,6 +205,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 紀錄溫度
+        /// </summary>
         public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
         {
             get => _RecordTemperatures;
@@ -179,6 +218,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 正反面
+        /// </summary>
         public string Side
         {
             get => _Side;
@@ -189,6 +231,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 開始時間
+        /// </summary>
         public DateTime StartTime
         {
             get => _StartTime;
@@ -199,6 +244,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 目標溫度
+        /// </summary>
         public double TargetOvenTemperature
         {
             get => _TargetOvenTemperature;
@@ -209,7 +257,10 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short TotalHeatingTime
+        /// <summary>
+        /// 總烘烤時間
+        /// </summary>
+        public int TotalHeatingTime
         {
             get => _TotalHeatingTime;
             set
@@ -219,6 +270,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 台車編號
+        /// </summary>
         public string TrolleyCode
         {
             get => _TrolleyCode;
@@ -229,7 +283,10 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short WarmingTime
+        /// <summary>
+        /// 恆溫時間
+        /// </summary>
+        public int WarmingTime
         {
             get => _WarmingTime;
             set
@@ -278,11 +335,11 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("General11=");
             stb.AppendLine(_OperatorID);
             stb.Append("General12=");
-            stb.AppendLine(""); //!治具編號
+            stb.AppendLine("");
             stb.Append("General13=");
             stb.AppendLine(_Side);
             stb.Append("General14=");
-            stb.AppendLine(""); //!PCS序號
+            stb.AppendLine("");
             stb.Append("General15=");
             stb.AppendLine(_FirstPanel ? "Y" : "N");
             stb.Append("Machine1=");

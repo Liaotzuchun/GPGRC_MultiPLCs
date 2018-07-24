@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,6 +9,9 @@ using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Models
 {
+    /// <summary>
+    /// 連接PLC並提供PLC資訊
+    /// </summary>
     public class PLC_DataProvider : PLC_Data
     {
         public enum Status
@@ -27,7 +31,11 @@ namespace GPGO_MultiPLCs.Models
 
         public delegate void SwitchRecipeEventHandler(string recipe);
 
+        /// <summary>
+        /// 控制紀錄任務結束
+        /// </summary>
         public CancellationTokenSource CTS;
+
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
         private string _Intput_Name;
@@ -36,16 +44,33 @@ namespace GPGO_MultiPLCs.Models
         private Task _RecordingTask;
         private string _Selected_Name;
 
+        /// <summary>
+        /// 投產
+        /// </summary>
         public CommandWithResult<bool> CheckInCommand { get; }
+
+        /// <summary>
+        /// 取消投產
+        /// </summary>
+        public RelayCommand CancelCheckInCommand { get; }
 
         public RelayCommand CheckRecipeCommand_KeyIn { get; }
 
         public RelayCommand CheckRecipeCommand_KeyLeave { get; }
 
+        /// <summary>
+        /// 取得是否正在紀錄溫度
+        /// </summary>
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
+        /// <summary>
+        /// 記錄的資訊
+        /// </summary>
         public ProcessInfo Process_Info { get; }
 
+        /// <summary>
+        /// 生產進度
+        /// </summary>
         public double Progress
         {
             get
@@ -61,6 +86,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 進度狀態
+        /// </summary>
         public Status ProgressStatus
         {
             get
@@ -79,6 +107,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// OP輸入的配方名稱
+        /// </summary>
         public string Intput_Name
         {
             get => _Intput_Name;
@@ -89,6 +120,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// PLC連線狀態
+        /// </summary>
         public bool OnlineStatus
         {
             get => _OnlineStatus;
@@ -109,6 +143,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 用來記錄的任務，可追蹤狀態
+        /// </summary>
         public Task RecordingTask
         {
             get => _RecordingTask;
@@ -132,6 +169,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// OP選擇的配方名稱
+        /// </summary>
         public string Selected_Name
         {
             get => _Selected_Name;
@@ -145,7 +185,6 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public event MachineCodeChangedHandler MachineCodeChanged;
-
         public event Action RecipeKeyInError;
         public event RecordingFinishedEventHandler RecordingFinished;
         public event StartRecordingHandler StartRecording;
@@ -186,7 +225,7 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            StartRecording?.Invoke(RecipeName, LockHandle); //! 引發開始記錄事件並以LockHandle等待完成
+            StartRecording?.Invoke(RecipeName, LockHandle); //! 引發開始記錄事件並以LockHandle等待配方設定完成
 
             await Task.Factory.StartNew(() =>
                                         {
@@ -252,7 +291,7 @@ namespace GPGO_MultiPLCs.Models
         {
             CheckRecipeCommand_KeyIn = new RelayCommand(e =>
                                                         {
-                                                            if (_Selected_Name != _Intput_Name)
+                                                            if (_Selected_Name != null && _Selected_Name != _Intput_Name)
                                                             {
                                                                 var args = (KeyEventArgs)e;
                                                                 if (args.Key == Key.Enter)
@@ -371,7 +410,37 @@ namespace GPGO_MultiPLCs.Models
                                                                      Process_Info.OperatorID = intput1;
                                                                      Process_Info.TrolleyCode = intput2;
 
+                                                                     //? 取得上位資訊(料號、總量、投產量)
+
                                                                      SwitchRecipeEvent?.Invoke(_Selected_Name); //! 投產成功，獲取配方參數並寫入PLC
+
+                                                                     Process_Info.RecipeName = RecipeName;
+                                                                     Process_Info.HeatingTime = new int[]
+                                                                                                {
+                                                                                                    HeatingTime_1,
+                                                                                                    HeatingTime_2,
+                                                                                                    HeatingTime_3,
+                                                                                                    HeatingTime_4,
+                                                                                                    HeatingTime_5,
+                                                                                                    HeatingTime_6,
+                                                                                                    HeatingTime_7,
+                                                                                                    HeatingTime_8
+                                                                                                }.Sum();
+
+                                                                     Process_Info.WarmingTime = new int[]
+                                                                                                {
+                                                                                                    WarmingTime_1,
+                                                                                                    WarmingTime_2,
+                                                                                                    WarmingTime_3,
+                                                                                                    WarmingTime_4,
+                                                                                                    WarmingTime_5,
+                                                                                                    WarmingTime_6,
+                                                                                                    WarmingTime_7,
+                                                                                                    WarmingTime_8
+                                                                                                }.Sum();
+
+                                                                     Process_Info.TotalHeatingTime = Process_Info.HeatingTime + Process_Info.HeatingTime;
+                                                                     Process_Info.TargetOvenTemperature = TargetTemperature_1;
 
                                                                      return true;
                                                                  }
@@ -379,6 +448,11 @@ namespace GPGO_MultiPLCs.Models
 
                                                              return false;
                                                          });
+
+            CancelCheckInCommand = new RelayCommand(e =>
+                                                    {
+                                                        Process_Info.Clear();
+                                                    });
 
             Process_Info = new ProcessInfo();
             Process_Info.PropertyChanged += (s, e) =>
@@ -430,35 +504,35 @@ namespace GPGO_MultiPLCs.Models
                             { DataNames.目標溫度_1, nameof(TargetTemperature_1) },
                             { DataNames.升溫時間_1, nameof(HeatingTime_1) },
                             { DataNames.恆溫溫度_1, nameof(ThermostaticTemperature_1) },
-                            { DataNames.恆溫時間_1, nameof(ConstantTime_1) },
+                            { DataNames.恆溫時間_1, nameof(WarmingTime_1) },
                             { DataNames.目標溫度_2, nameof(TargetTemperature_2) },
                             { DataNames.升溫時間_2, nameof(HeatingTime_2) },
                             { DataNames.恆溫溫度_2, nameof(ThermostaticTemperature_2) },
-                            { DataNames.恆溫時間_2, nameof(ConstantTime_2) },
+                            { DataNames.恆溫時間_2, nameof(WarmingTime_2) },
                             { DataNames.目標溫度_3, nameof(TargetTemperature_3) },
                             { DataNames.升溫時間_3, nameof(HeatingTime_3) },
                             { DataNames.恆溫溫度_3, nameof(ThermostaticTemperature_3) },
-                            { DataNames.恆溫時間_3, nameof(ConstantTime_3) },
+                            { DataNames.恆溫時間_3, nameof(WarmingTime_3) },
                             { DataNames.目標溫度_4, nameof(TargetTemperature_4) },
                             { DataNames.升溫時間_4, nameof(HeatingTime_4) },
                             { DataNames.恆溫溫度_4, nameof(ThermostaticTemperature_4) },
-                            { DataNames.恆溫時間_4, nameof(ConstantTime_4) },
+                            { DataNames.恆溫時間_4, nameof(WarmingTime_4) },
                             { DataNames.目標溫度_5, nameof(TargetTemperature_5) },
                             { DataNames.升溫時間_5, nameof(HeatingTime_5) },
                             { DataNames.恆溫溫度_5, nameof(ThermostaticTemperature_5) },
-                            { DataNames.恆溫時間_5, nameof(ConstantTime_5) },
+                            { DataNames.恆溫時間_5, nameof(WarmingTime_5) },
                             { DataNames.目標溫度_6, nameof(TargetTemperature_6) },
                             { DataNames.升溫時間_6, nameof(HeatingTime_6) },
                             { DataNames.恆溫溫度_6, nameof(ThermostaticTemperature_6) },
-                            { DataNames.恆溫時間_6, nameof(ConstantTime_6) },
+                            { DataNames.恆溫時間_6, nameof(WarmingTime_6) },
                             { DataNames.目標溫度_7, nameof(TargetTemperature_7) },
                             { DataNames.升溫時間_7, nameof(HeatingTime_7) },
                             { DataNames.恆溫溫度_7, nameof(ThermostaticTemperature_7) },
-                            { DataNames.恆溫時間_7, nameof(ConstantTime_7) },
+                            { DataNames.恆溫時間_7, nameof(WarmingTime_7) },
                             { DataNames.目標溫度_8, nameof(TargetTemperature_8) },
                             { DataNames.升溫時間_8, nameof(HeatingTime_8) },
                             { DataNames.恆溫溫度_8, nameof(ThermostaticTemperature_8) },
-                            { DataNames.恆溫時間_8, nameof(ConstantTime_8) },
+                            { DataNames.恆溫時間_8, nameof(WarmingTime_8) },
                             { DataNames.降溫溫度, nameof(CoolingTemperature) },
                             { DataNames.充氣時間, nameof(InflatingTime) },
                             { DataNames.使用段數, nameof(UsedSegmentCounts) },

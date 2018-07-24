@@ -64,10 +64,10 @@
 
     <SolidColorBrush
         x:Key="DisabledBackgroundBrush"
-        Color="#96A69E" />
+        Color="#ACB9B3" />
     <SolidColorBrush
         x:Key="DisabledBorderBrush"
-        Color="#8A9A92" />
+        Color="#96A69E" />
 
     <SolidColorBrush
         x:Key="GlyphBrush"

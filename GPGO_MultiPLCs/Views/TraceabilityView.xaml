@@ -851,7 +851,7 @@
                             <RowDefinition Height="40" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Grid TextElement.FontSize="16">
+                        <Grid TextElement.FontSize="14">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="110" />
                                 <ColumnDefinition />
