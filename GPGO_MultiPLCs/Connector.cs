@@ -50,6 +50,10 @@ namespace GPGO_MultiPLCs
         public TotalView_ViewModel TotalVM { get; }
         public TraceabilityView_ViewModel TraceVM { get; }
 
+        /// <summary>
+        ///     產生測試資料至資料庫
+        /// </summary>
+        /// <param name="PLC_Count"></param>
         public void MakeTestData(int PLC_Count)
         {
             var events = new[]
@@ -146,6 +150,7 @@ namespace GPGO_MultiPLCs
             TraceVM = new TraceabilityView_ViewModel(Mongo);
             TotalVM = new TotalView_ViewModel(20, DialogVM);
 
+            //!當回到主頁時，也將生產總覽回到總覽頁
             MainVM.IndexChangedEvent += index =>
                                         {
                                             if (index == 0)
@@ -154,6 +159,7 @@ namespace GPGO_MultiPLCs
                                             }
                                         };
 
+            //!當主視窗讀取完成時，再讀取配方和生產履歷資料庫
             MainVM.LoadedEvent += async dp =>
                                   {
                                       await dp.InvokeAsync(() =>
@@ -164,6 +170,7 @@ namespace GPGO_MultiPLCs
                                                            DispatcherPriority.SystemIdle);
                                   };
 
+            //!當配方列表更新時，依據使用站別發佈配方
             RecipeVM.ListUpdatedEvent += async list =>
                                          {
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
@@ -180,6 +187,7 @@ namespace GPGO_MultiPLCs
                                              }
                                          };
 
+            //!當某站烤箱要求配方時，自資料庫讀取配方並發送
             TotalVM.WantRecipe += async (i, recipe, obj) =>
                                   {
                                       if (!string.IsNullOrEmpty(recipe))
@@ -190,25 +198,29 @@ namespace GPGO_MultiPLCs
                                       obj?.Set();
                                   };
 
+            //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾
             TotalVM.AddRecordToDB += (i, info) =>
                                      {
-                                         if (Directory.Exists(DataOutputPath))
+                                         TraceVM.AddToDB(i, info);
+
+                                         if (!Directory.Exists(DataOutputPath))
                                          {
-                                             TraceVM.AddToDB(i, info);
-                                             var path = DataOutputPath + "\\" + info.ProduceCode + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (i + 1).ToString() + "_";
-
-                                             var n = 1;
-                                             while (File.Exists(path + n.ToString()))
-                                             {
-                                                 n++;
-                                             }
-
-                                             File.WriteAllText(path + n.ToString(), info.ToString(), Encoding.ASCII);
-
-                                             //! 紀錄資料到指定輸出資料夾
+                                             Directory.CreateDirectory(DataOutputPath);
                                          }
+
+                                         var path = DataOutputPath + "\\" + info.ProduceCode + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (i + 1).ToString() + "_";
+
+                                         var n = 1;
+                                         while (File.Exists(path + n.ToString()))
+                                         {
+                                             n++;
+                                         }
+
+                                         File.WriteAllText(path + n.ToString(), info.ToString(), Encoding.ASCII);
+                                         //!紀錄資料到指定輸出資料夾
                                      };
 
+            //!更新每日產量
             TraceVM.TodayProductionUpdated += datas =>
                                               {
                                                   foreach (var (station, production) in datas)
