@@ -63,7 +63,11 @@ namespace GPGO_MultiPLCs.ViewModels
         /// </summary>
         private const int Check_Dev = 21;
 
+        /// <summary>
+        /// 保持PLC Gate連線
+        /// </summary>
         private readonly Timer Checker;
+
         private readonly InstanceContext site;
         private bool _Gate_Status;
 
@@ -79,9 +83,24 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private GPServiceClient PLC_Client;
 
+        /// <summary>
+        /// 回到總覽頁
+        /// </summary>
         public RelayCommand BackCommand { get; }
+
+        /// <summary>
+        /// 所有PLC
+        /// </summary>
         public PLC_DataProvider[] PLC_All { get; }
+
+        /// <summary>
+        /// 檢視詳細資訊的PLC
+        /// </summary>
         public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
+
+        /// <summary>
+        /// 產量統計
+        /// </summary>
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
         public int TotalProductionCount => TotalProduction.Sum(x => x.Value);
 
@@ -175,6 +194,11 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 設定PLC監控讀取列表
+        /// </summary>
+        /// <param name="list">所有PLC的讀取列表</param>
+        /// <returns></returns>
         public bool SetReadLists(string[][] list)
         {
             try
@@ -291,6 +315,11 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <returns></returns>
         private bool Connect()
         {
+            if (PLC_Client?.State == CommunicationState.Opened)
+            {
+                PLC_Client.Close();
+            }
+
             try
             {
                 PLC_Client = new GPServiceClient(site);
@@ -339,6 +368,7 @@ namespace GPGO_MultiPLCs.ViewModels
             PLC_All = new PLC_DataProvider[PLC_Count];
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
 
+            //!當各PLC產量變更時更新總量顯示
             TotalProduction.CollectionChanged += (obj, args) =>
                                                  {
                                                      NotifyPropertyChanged(nameof(TotalProductionCount));
@@ -447,16 +477,19 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i] = new PLC_DataProvider(M_List, D_List, Recipe_List, dialog);
                 var index = i;
 
+                //!PLC由OP指定變更配方時
                 PLC_All[i].SwitchRecipeEvent += recipe =>
                                                 {
                                                     WantRecipe?.Invoke(index, recipe);
                                                 };
 
+                //!烤箱自動啟動時，開始紀錄
                 PLC_All[i].StartRecording += (recipe, obj) =>
                                              {
                                                  WantRecipe?.Invoke(index, recipe, obj);
                                              };
 
+                //!烘烤流程結束時
                 PLC_All[i].RecordingFinished += info =>
                                                 {
                                                     //if (info.ProcessCount > 0)
@@ -477,11 +510,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     //}
                                                 };
 
+                //!由OP變更設備代碼時
                 PLC_All[i].MachineCodeChanged += code =>
                                                  {
                                                      SaveMachineCodes();
                                                  };
 
+                //!PLC配方輸入錯誤時
                 PLC_All[i].RecipeKeyInError += () =>
                                                {
                                                    dialog?.Show(new Dictionary<GlobalTempSettings.Language, string>
@@ -493,6 +528,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                };
             }
 
+            //!讀取設備碼
             LoadMachineCodes();
 
             //!產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
