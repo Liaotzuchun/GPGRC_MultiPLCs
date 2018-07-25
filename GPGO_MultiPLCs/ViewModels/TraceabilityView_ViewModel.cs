@@ -30,7 +30,9 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
+
         private readonly MongoClient Mongo_Client;
+
         private DateTime _Date1;
         private DateTime _Date2;
         private int _FilterIndex;
@@ -41,30 +43,74 @@ namespace GPGO_MultiPLCs.ViewModels
         private bool _Standby = true;
         private List<ProcessInfo> _ViewResults;
 
+        /// <summary>
+        /// 位移+1天
+        /// </summary>
         public RelayCommand AddDayCommand { get; }
+
+        /// <summary>
+        /// 位移+1月
+        /// </summary>
         public RelayCommand AddMonthCommand { get; }
+
+        /// <summary>
+        /// 位移+1週
+        /// </summary>
         public RelayCommand AddWeekCommand { get; }
+
+        /// <summary>
+        /// 位移-1天
+        /// </summary>
+        public RelayCommand SubDayCommand { get; }
+
+        /// <summary>
+        /// 位移-1月
+        /// </summary>
+        public RelayCommand SubMonthCommand { get; }
+
+        /// <summary>
+        /// 位移-1週
+        /// </summary>
+        public RelayCommand SubWeekCommand { get; }
+
+        /// <summary>
+        /// 指定至本月
+        /// </summary>
+        public RelayCommand ThisMonthCommand { get; }
+
+        /// <summary>
+        /// 指定至本週
+        /// </summary>
+        public RelayCommand ThisWeekCommand { get; }
+
+        /// <summary>
+        /// 指定至本日
+        /// </summary>
+        public RelayCommand TodayCommand { get; }
 
         /// <summary>
         ///     基於PLC站號的Filter，站號由1開始
         /// </summary>
         public List<int> EnumFilter => _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).ToList();
 
+        /// <summary>
+        /// 日期範圍的開始
+        /// </summary>
         public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.AddedTime : null;
 
+        /// <summary>
+        /// 日期範圍的結束
+        /// </summary>
+        public DateTime? UpperDate => _Results?.Count > 0 ? _Results[_Index2]?.AddedTime : null;
+
+        /// <summary>
+        /// 總量統計
+        /// </summary>
         public int ProduceTotalCount => _ViewResults?.Count > 0 ? _ViewResults.Sum(x => x.ProcessCount) : 0;
 
         public PlotModel ResultView { get; }
-        public RelayCommand SubDayCommand { get; }
-        public RelayCommand SubMonthCommand { get; }
-        public RelayCommand SubWeekCommand { get; }
-        public RelayCommand ThisMonthCommand { get; }
-        public RelayCommand ThisWeekCommand { get; }
-        public RelayCommand TodayCommand { get; }
 
         public int TotalCount => _Results?.Count > 0 ? _Results.Count - 1 : 0;
-
-        public DateTime? UpperDate => _Results?.Count > 0 ? _Results[_Index2]?.AddedTime : null;
 
         /// <summary>
         ///     選取的開始日期(資料庫)
@@ -118,6 +164,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 切換烤箱站別顯示
+        /// </summary>
         public int FilterIndex
         {
             get => _FilterIndex;
@@ -176,6 +225,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 切換分類統計
+        /// </summary>
         public int Mode
         {
             get => _Mode;
@@ -214,6 +266,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 辨別是否處在讀取資料中
+        /// </summary>
         public bool Standby
         {
             get => _Standby;
@@ -224,6 +279,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 顯示的資料列表
+        /// </summary>
         public List<ProcessInfo> ViewResults
         {
             get => _ViewResults;
@@ -234,6 +292,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 本日產量更新事件
+        /// </summary>
         public event TodayProduction TodayProductionUpdated;
 
         /// <summary>
@@ -429,6 +490,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Mongo_Client = mongo;
 
+            //!定義更新圖表的委派
             void Act()
             {
                 NotifyPropertyChanged(nameof(Date1));

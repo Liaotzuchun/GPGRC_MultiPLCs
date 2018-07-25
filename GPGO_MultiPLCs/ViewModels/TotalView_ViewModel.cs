@@ -156,6 +156,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event WantRecipeHandler WantRecipe;
 
+        /// <summary>
+        /// 讀取設備碼
+        /// </summary>
         public void LoadMachineCodes()
         {
             if (File.Exists("MachineCodes.json"))
@@ -182,6 +185,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>
+        /// 儲存設備碼
+        /// </summary>
         public void SaveMachineCodes()
         {
             try
@@ -528,7 +534,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                };
             }
 
-            //!讀取設備碼
             LoadMachineCodes();
 
             //!產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制

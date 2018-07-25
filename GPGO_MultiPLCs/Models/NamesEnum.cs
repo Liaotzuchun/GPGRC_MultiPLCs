@@ -1,5 +1,8 @@
 ﻿namespace GPGO_MultiPLCs.Models
 {
+    /// <summary>
+    /// PLC訊號
+    /// </summary>
     public enum SignalNames
     {
         //! PLC->PC
@@ -31,6 +34,9 @@
         PC_HeartBeat
     }
 
+    /// <summary>
+    /// PLC資料
+    /// </summary>
     public enum DataNames
     {
         //! PLC->PC
