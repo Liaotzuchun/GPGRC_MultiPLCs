@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
@@ -296,6 +299,9 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>
+        /// 初始化清除資訊
+        /// </summary>
         public void Clear()
         {
             StartTime = new DateTime();
@@ -309,6 +315,16 @@ namespace GPGO_MultiPLCs.Models
             TrolleyCode = "";
         }
 
+        /// <summary>
+        /// 將此類別之屬性值轉換成Dictionary輸出
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string,object> ToDictionary() => GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => prop.Name, prop => prop.GetValue(this, null));
+
+        /// <summary>
+        /// 輸出客戶指定之文字字串
+        /// </summary>
+        /// <returns></returns>
         public new string ToString()
         {
             var stb = new StringBuilder();

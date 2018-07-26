@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using MongoDB.Driver;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using OfficeOpenXml;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -89,7 +93,12 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand TodayCommand { get; }
 
         /// <summary>
-        ///     基於PLC站號的Filter，站號由1開始
+        /// 輸出Excel報表
+        /// </summary>
+        public RelayCommand ToExcelCommand { get; }
+
+        /// <summary>
+        /// 基於PLC站號的Filter，站號由1開始
         /// </summary>
         public List<int> EnumFilter => _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).ToList();
 
@@ -113,7 +122,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public int TotalCount => _Results?.Count > 0 ? _Results.Count - 1 : 0;
 
         /// <summary>
-        ///     選取的開始日期(資料庫)
+        /// 選取的開始日期(資料庫)
         /// </summary>
         public DateTime Date1
         {
@@ -139,7 +148,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>
-        ///     選取的結束日期(資料庫)
+        /// 選取的結束日期(資料庫)
         /// </summary>
         public DateTime Date2
         {
@@ -188,7 +197,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>
-        ///     篩選的開始時間點(RAM)
+        /// 篩選的開始時間點(RAM)
         /// </summary>
         public int Index1
         {
@@ -207,7 +216,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>
-        ///     篩選的結束時間點(RAM)
+        /// 篩選的結束時間點(RAM)
         /// </summary>
         public int Index2
         {
@@ -246,7 +255,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>
-        ///     資料庫查詢結果
+        /// 資料庫查詢結果
         /// </summary>
         public List<ProcessInfo> Results
         {
@@ -298,7 +307,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public event TodayProduction TodayProductionUpdated;
 
         /// <summary>
-        ///     新增至資料庫
+        /// 新增至資料庫
         /// </summary>
         /// <param name="index">PLC序號，由0開始</param>
         /// <param name="info">紀錄資訊</param>
@@ -456,7 +465,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>
-        ///     依據條件，更新查詢資料庫結果列表
+        /// 依據條件，更新查詢資料庫結果列表
         /// </summary>
         /// <param name="date1">起始時間</param>
         /// <param name="date2">結束時間</param>
@@ -570,6 +579,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                    Act();
                                                });
 
+            ToExcelCommand =new RelayCommand(o=>
+                                             {
+                                                 SaveToExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                             });
+
             var linearAxis = new LinearAxis
                              {
                                  IsPanEnabled = false,
@@ -649,6 +663,63 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView.Axes.Add(categoryAxis1);
         }
 
-        //todo  輸出excel
+        public async void SaveToExcel(string save_path)
+        {
+            Standby = false;
+
+            var dic = save_path + "\\Reports";
+            if (!Directory.Exists(save_path))
+            {
+                Directory.CreateDirectory(dic);
+            }
+
+            var fi = dic + "\\" + new FileInfo(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".xlsx");
+
+            if (_ViewResults.Any())
+            {
+                await Task.Factory.StartNew(() =>
+                                            {
+                                                var n = _ViewResults.Count;
+                                                var xlwb = new ExcelPackage();
+                                                var wsht = xlwb.Workbook.Worksheets.Add(n + (n <= 1 ? " result" : " results"));
+                                                wsht.DefaultColWidth = 24;
+                                                wsht.View.ShowGridLines = false;
+                                                wsht.View.FreezePanes(3, 2);
+                                                wsht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                                                wsht.Cells.Style.Font.SetFromFont(new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Regular));
+
+                                                var keys = typeof(ProcessInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(x => x.Name).ToArray();
+
+                                                for (var i = 0; i < keys.Length; i++)
+                                                {
+                                                    wsht.Cells[2, i + 1].Value = keys[i];
+                                                    wsht.Cells[2, i + 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                                    wsht.Cells[2, i + 1].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.GreenYellow);
+                                                }
+
+                                                for (var i = 0; i < n; i++)
+                                                {
+                                                    var values = _ViewResults[i].ToDictionary().Values.ToArray();
+                                                    
+                                                    for (var j = 1; j < values.Length; j++)
+                                                    {
+                                                        if(values[j] is DateTime date)
+                                                        {
+                                                            wsht.Cells[j + 3, i + 1].Value = date.ToOADate();
+                                                            wsht.Cells[j + 3, i + 1].Style.Numberformat.Format = "yyyy/MM/dd hh:mm:ss";
+                                                            wsht.Cells[3, 1, 8, 1].AutoFilter = true;
+                                                        }
+                                                        else
+                                                        {
+                                                            wsht.Cells[j + 3, i + 1].Value = values[j];
+                                                        }
+                                                    }
+                                                }
+
+                                            }, TaskCreationOptions.LongRunning);
+            }
+
+            Standby = true;
+        }
     }
 }
