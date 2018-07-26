@@ -58,7 +58,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 結束時間
         /// </summary>
-        [EN_Name(">Closing Time")]
+        [EN_Name("Closing Time")]
         [CHT_Name("結束時間")]
         [CHS_Name("结束时间")]
         public DateTime EndTime

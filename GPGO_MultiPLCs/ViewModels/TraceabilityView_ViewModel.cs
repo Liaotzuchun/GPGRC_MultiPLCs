@@ -682,9 +682,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 var n = _ViewResults.Count;
                                                 var xlwb = new ExcelPackage();
                                                 var wsht = xlwb.Workbook.Worksheets.Add(n + (n <= 1 ? " result" : " results"));
-                                                wsht.DefaultColWidth = 24;
                                                 wsht.View.ShowGridLines = false;
-                                                wsht.View.FreezePanes(3, 2);
+                                                wsht.View.FreezePanes(4, 2);
                                                 wsht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                                                 wsht.Cells.Style.Font.SetFromFont(new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Regular));
 
@@ -706,7 +705,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         if(values[j] is DateTime date)
                                                         {
                                                             wsht.Cells[i + 4, j + 1].Value = date.ToOADate();
-                                                            wsht.Cells[i + 4, j + 1].Style.Numberformat.Format = "yyyy/MM/dd hh:mm:ss";
+                                                            wsht.Cells[i + 4, j + 1].Style.Numberformat.Format = "yyyy/MM/dd HH:mm:ss";
                                                         }
                                                         else if (values[j] is string str)
                                                         {
@@ -718,12 +717,53 @@ namespace GPGO_MultiPLCs.ViewModels
                                                             wsht.Cells[i + 4, j + 1].Value = values[j];
                                                         }
                                                     }
+
+                                                    var temps = _ViewResults[i].RecordTemperatures.ToArray();
+                                                    var record_sht = xlwb.Workbook.Worksheets.Add("Records " + (i + 1));
+                                                    record_sht.View.ShowGridLines = false;
+                                                    record_sht.View.FreezePanes(4, 2);
+                                                    record_sht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                                                    record_sht.Cells.Style.Font.SetFromFont(new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Regular));
+                                                    record_sht.Cells[3, 1].Value = nameof(RecordTemperatures.Time);
+                                                    record_sht.Cells[3, 2].Value = nameof(RecordTemperatures.ThermostatTemperature);
+                                                    record_sht.Cells[3, 3].Value = nameof(RecordTemperatures.OvenTemperatures_0);
+                                                    record_sht.Cells[3, 4].Value = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                    record_sht.Cells[3, 5].Value = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                    record_sht.Cells[3, 6].Value = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                    record_sht.Cells[3, 7].Value = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                    record_sht.Cells[3, 8].Value = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                    record_sht.Cells[3, 9].Value = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                    record_sht.Cells[3, 10].Value = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                    record_sht.Cells[3, 1, 3, 10].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                                    record_sht.Cells[3, 1, 3, 10].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.GreenYellow);
+
+                                                    for (var j = 0; j < temps.Length; j++)
+                                                    {
+                                                        record_sht.Cells[4 + j, 1].Value = temps[j].Time;
+                                                        record_sht.Cells[4 + j, 1].Style.Numberformat.Format = "[h]:mm:ss";
+                                                        record_sht.Cells[4 + j, 2].Value = temps[j].ThermostatTemperature;
+                                                        record_sht.Cells[4 + j, 3].Value = temps[j].OvenTemperatures_0;
+                                                        record_sht.Cells[4 + j, 4].Value = temps[j].OvenTemperatures_1;
+                                                        record_sht.Cells[4 + j, 5].Value = temps[j].OvenTemperatures_2;
+                                                        record_sht.Cells[4 + j, 6].Value = temps[j].OvenTemperatures_3;
+                                                        record_sht.Cells[4 + j, 7].Value = temps[j].OvenTemperatures_4;
+                                                        record_sht.Cells[4 + j, 8].Value = temps[j].OvenTemperatures_5;
+                                                        record_sht.Cells[4 + j, 9].Value = temps[j].OvenTemperatures_6;
+                                                        record_sht.Cells[4 + j, 10].Value = temps[j].OvenTemperatures_7;
+                                                    }
+
+                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].AutoFitColumns();
                                                 }
 
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].AutoFitColumns();
 
                                                 xlwb.SaveAs(fi);
                                                 xlwb.Dispose();
