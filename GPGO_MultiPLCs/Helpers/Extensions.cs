@@ -47,6 +47,11 @@ namespace GPGO_MultiPLCs.Helpers
             1073741824
         };
 
+        /// <summary>
+        /// short陣列轉成ASCII字串
+        /// </summary>
+        /// <param name="vals"></param>
+        /// <returns></returns>
         public static string ASCIIfromShorts(this IEnumerable<short> vals)
         {
             var bytes = new List<byte>();
@@ -62,6 +67,11 @@ namespace GPGO_MultiPLCs.Helpers
             return str;
         }
 
+        /// <summary>
+        /// ASCII字串轉換成short陣列
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static short[] ASCIItoShorts(this string val)
         {
             var bytes = Encoding.ASCII.GetBytes(val);
@@ -83,6 +93,11 @@ namespace GPGO_MultiPLCs.Helpers
             return vals.ToArray();
         }
 
+        /// <summary>
+        /// bit陣列(只有0/1的byte陣列)轉換至int整數
+        /// </summary>
+        /// <param name="bits"></param>
+        /// <returns></returns>
         public static int BitBytesToInt(this byte[] bits)
         {
             long val = 0;
@@ -110,6 +125,11 @@ namespace GPGO_MultiPLCs.Helpers
             return (int)val;
         }
 
+        /// <summary>
+        /// bit陣列(只有0/1的byte陣列)轉換至short整數
+        /// </summary>
+        /// <param name="bits"></param>
+        /// <returns></returns>
         public static short BitBytesToShort(this byte[] bits)
         {
             var val = 0;
@@ -137,6 +157,11 @@ namespace GPGO_MultiPLCs.Helpers
             return (short)val;
         }
 
+        /// <summary>
+        /// bit陣列(boolean陣列)轉換至int整數
+        /// </summary>
+        /// <param name="bits"></param>
+        /// <returns></returns>
         public static int BitsToInt(this bool[] bits)
         {
             long val = 0;
@@ -164,6 +189,11 @@ namespace GPGO_MultiPLCs.Helpers
             return (int)val;
         }
 
+        /// <summary>
+        /// bit陣列(boolean陣列)轉換至short整數
+        /// </summary>
+        /// <param name="bits"></param>
+        /// <returns></returns>
         public static short BitsToShort(this bool[] bits)
         {
             var val = 0;
@@ -191,11 +221,22 @@ namespace GPGO_MultiPLCs.Helpers
             return (short)val;
         }
 
+        /// <summary>
+        /// byte陣列轉換至16進位字串
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static string BytesToHex(this byte[] val)
         {
             return BitConverter.ToString(val);
         }
 
+        /// <summary>
+        /// 物件深層拷貝，產生一新物件(僅限public屬性和field)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
         public static void CopyAll<T>(T source, T target)
         {
             var type = typeof(T);
@@ -297,16 +338,31 @@ namespace GPGO_MultiPLCs.Helpers
             return Convert.ToByte(val, 16);
         }
 
+        /// <summary>
+        /// 16進位字串轉換至byte陣列
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static byte[] HexToBytes(this string[] val)
         {
             return val.Select(x => Convert.ToByte(x, 16)).ToArray();
         }
 
+        /// <summary>
+        /// 16進位字串轉換成整int數
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static int HexToInt(this string val)
         {
             return int.Parse(val, NumberStyles.HexNumber);
         }
 
+        /// <summary>
+        /// int整數轉換至bit陣列(0/1的byte陣列)
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static byte[] IntToBitBytes(this int val)
         {
             var _val = (long)val;
@@ -329,6 +385,11 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
+        /// <summary>
+        /// int整數轉換至bit陣列(boolean陣列)
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static bool[] IntToBits(this int val)
         {
             var _val = (long)val;
@@ -351,7 +412,12 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
-        public static int ReadShortsToInt(this (short, short) val)
+        /// <summary>
+        /// 2個short值轉int整數
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static int ShortsToInt(this (short, short) val)
         {
             var byte1 = BitConverter.GetBytes(val.Item1);
             var byte2 = BitConverter.GetBytes(val.Item2);
@@ -361,6 +427,11 @@ namespace GPGO_MultiPLCs.Helpers
             return final;
         }
 
+        /// <summary>
+        /// short轉換至bit陣列(0/1的byte陣列)
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static byte[] ShortToBitBytes(this short val)
         {
             var _val = (int)val;
@@ -383,6 +454,11 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
+        /// <summary>
+        /// short轉換至bit陣列(boolean陣列)
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static bool[] ShortToBits(this short val)
         {
             var _val = (int)val;
@@ -405,6 +481,12 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
+        /// <summary>
+        /// 取得日期的當週起始日
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="startOfWeek"></param>
+        /// <returns></returns>
         public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
         {
             var diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
@@ -412,6 +494,11 @@ namespace GPGO_MultiPLCs.Helpers
             return dt.AddDays(-1 * diff).Date;
         }
 
+        /// <summary>
+        /// short陣列轉換至UTF8字串
+        /// </summary>
+        /// <param name="vals"></param>
+        /// <returns></returns>
         public static string UTF8fromShorts(this IEnumerable<short> vals)
         {
             var bytes = new List<byte>();
@@ -427,6 +514,11 @@ namespace GPGO_MultiPLCs.Helpers
             return str;
         }
 
+        /// <summary>
+        /// UTF8字串轉換至short陣列
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static short[] UTF8toShorts(this string val)
         {
             var bytes = Encoding.UTF8.GetBytes(val);
@@ -448,7 +540,12 @@ namespace GPGO_MultiPLCs.Helpers
             return vals.ToArray();
         }
 
-        public static (short, short) WriteIntToShorts(this int value)
+        /// <summary>
+        /// int整數轉換至2個short值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static (short, short) IntToShorts(this int value)
         {
             var temp = ((short)0, (short)0);
             var byarrBufferByte = BitConverter.GetBytes(value);
