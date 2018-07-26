@@ -114,5 +114,5 @@
     <sys:String x:Key="第7段升溫">第7段升温</sys:String>
     <sys:String x:Key="第8段恆溫">第8段恒温</sys:String>
     <sys:String x:Key="第8段升溫">第8段升温</sys:String>
-    <sys:String x:Key="報表匯出">报表导出</sys:String>
+    <sys:String x:Key="報表匯出">导出</sys:String>
 </ResourceDictionary>
