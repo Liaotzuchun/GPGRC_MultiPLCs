@@ -35,12 +35,13 @@
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="140" />
+                    <ColumnDefinition Width="130" />
                     <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="110" />
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="70" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
@@ -382,6 +383,13 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <Button Grid.Column="6" Grid.RowSpan="2" Content="{DynamicResource 報表匯出}" FontSize="14">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding ToExcelCommand, Mode=OneTime}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </Grid>
             <DataGrid
                 x:Name="dg"

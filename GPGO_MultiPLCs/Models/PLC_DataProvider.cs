@@ -339,35 +339,35 @@ namespace GPGO_MultiPLCs.Models
                                                              var para = (string)o;
 
                                                              var (result1, intput1) =
-                                                                 await dialog.ShowWithIntput(new Dictionary<GlobalTempSettings.Language, string>
+                                                                 await dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                              {
-                                                                                                 { GlobalTempSettings.Language.TW, "輸入操作人員ID" },
-                                                                                                 { GlobalTempSettings.Language.CHS, "输入操作人员ID" },
-                                                                                                 { GlobalTempSettings.Language.EN, "Enter the Operator ID" }
+                                                                                                 { Language.TW, "輸入操作人員ID" },
+                                                                                                 { Language.CHS, "输入操作人员ID" },
+                                                                                                 { Language.EN, "Enter the Operator ID" }
                                                                                              },
-                                                                                             new Dictionary<GlobalTempSettings.Language, string>
+                                                                                             new Dictionary<Language, string>
                                                                                              {
-                                                                                                 { GlobalTempSettings.Language.TW, para },
-                                                                                                 { GlobalTempSettings.Language.CHS, para },
-                                                                                                 { GlobalTempSettings.Language.EN, para }
+                                                                                                 { Language.TW, para },
+                                                                                                 { Language.CHS, para },
+                                                                                                 { Language.EN, para }
                                                                                              },
                                                                                              x =>
                                                                                              {
                                                                                                  var str = x.Trim();
 
                                                                                                  return (str.Length > 0 && str.Length < 8,
-                                                                                                         new Dictionary<GlobalTempSettings.Language, string>
+                                                                                                         new Dictionary<Language, string>
                                                                                                          {
                                                                                                              {
-                                                                                                                 GlobalTempSettings.Language.TW,
+                                                                                                                 Language.TW,
                                                                                                                  "字數錯誤，請重試!"
                                                                                                              },
                                                                                                              {
-                                                                                                                 GlobalTempSettings.Language.CHS,
+                                                                                                                 Language.CHS,
                                                                                                                  "字数错误，请重试!"
                                                                                                              },
                                                                                                              {
-                                                                                                                 GlobalTempSettings.Language.EN,
+                                                                                                                 Language.EN,
                                                                                                                  "Input error, please try again!"
                                                                                                              }
                                                                                                          });
@@ -376,35 +376,35 @@ namespace GPGO_MultiPLCs.Models
                                                              if (result1)
                                                              {
                                                                  var (result2, intput2) =
-                                                                     await dialog.ShowWithIntput(new Dictionary<GlobalTempSettings.Language, string>
+                                                                     await dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     { GlobalTempSettings.Language.TW, "輸入台車Code" },
-                                                                                                     { GlobalTempSettings.Language.CHS, "输入台车Code" },
-                                                                                                     { GlobalTempSettings.Language.EN, "Enter the Trolley Code" }
+                                                                                                     { Language.TW, "輸入台車Code" },
+                                                                                                     { Language.CHS, "输入台车Code" },
+                                                                                                     { Language.EN, "Enter the Trolley Code" }
                                                                                                  },
-                                                                                                 new Dictionary<GlobalTempSettings.Language, string>
+                                                                                                 new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     { GlobalTempSettings.Language.TW, para },
-                                                                                                     { GlobalTempSettings.Language.CHS, para },
-                                                                                                     { GlobalTempSettings.Language.EN, para }
+                                                                                                     { Language.TW, para },
+                                                                                                     { Language.CHS, para },
+                                                                                                     { Language.EN, para }
                                                                                                  },
                                                                                                  x =>
                                                                                                  {
                                                                                                      var str = x.Trim();
 
                                                                                                      return (str.Length > 0 && str.Length < 4,
-                                                                                                             new Dictionary<GlobalTempSettings.Language, string>
+                                                                                                             new Dictionary<Language, string>
                                                                                                              {
                                                                                                                  {
-                                                                                                                     GlobalTempSettings.Language.TW,
+                                                                                                                     Language.TW,
                                                                                                                      "字數錯誤，請重試!"
                                                                                                                  },
                                                                                                                  {
-                                                                                                                     GlobalTempSettings.Language.CHS,
+                                                                                                                     Language.CHS,
                                                                                                                      "字数错误，请重试!"
                                                                                                                  },
                                                                                                                  {
-                                                                                                                     GlobalTempSettings.Language.EN,
+                                                                                                                     Language.EN,
                                                                                                                      "Input error, please try again!"
                                                                                                                  }
                                                                                                              });

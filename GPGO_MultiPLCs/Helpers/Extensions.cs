@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Media;
 
@@ -237,7 +238,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        public static void CopyAll<T>(T source, T target)
+        public static void CopyAll<T>(this T source, T target)
         {
             var type = typeof(T);
             foreach (var sourceProperty in type.GetProperties())
@@ -260,7 +261,15 @@ namespace GPGO_MultiPLCs.Helpers
         }
 
         /// <summary>
-        ///     由HDV產生RGB Color
+        /// 將物件的公開屬性轉換為Dictionary
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Dictionary<string, object> ToDictionary<T>(this T source) => typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => prop.Name, prop => prop.GetValue(source, null));
+
+        /// <summary>
+        /// 由HDV產生RGB Color
         /// </summary>
         /// <param name="hue">色相，0~1</param>
         /// <param name="sat">飽和度，0~1</param>

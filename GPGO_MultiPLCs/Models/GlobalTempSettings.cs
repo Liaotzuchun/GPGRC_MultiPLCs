@@ -11,16 +11,6 @@ namespace GPGO_MultiPLCs.Models
     /// </summary>
     public class GlobalTempSettings : ViewModelBase
     {
-        /// <summary>
-        /// 語言語系類型
-        /// </summary>
-        public enum Language
-        {
-            TW,
-            CHS,
-            EN
-        }
-
         private string _DataOutputPath = "D:\\";
         private Language _Lng = Language.TW;
 

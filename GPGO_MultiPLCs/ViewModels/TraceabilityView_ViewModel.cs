@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
@@ -27,6 +26,7 @@ namespace GPGO_MultiPLCs.ViewModels
             Pie
         }
 
+        public Language Language = Language.TW;
         public delegate void TodayProduction(List<(int station, int production)> list);
 
         private readonly OxyColor bgcolor = OxyColor.FromRgb(240, 255, 235);
@@ -668,17 +668,17 @@ namespace GPGO_MultiPLCs.ViewModels
             Standby = false;
 
             var dic = save_path + "\\Reports";
-            if (!Directory.Exists(save_path))
+            if (!Directory.Exists(dic))
             {
                 Directory.CreateDirectory(dic);
             }
-
-            var fi = dic + "\\" + new FileInfo(DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".xlsx");
 
             if (_ViewResults.Any())
             {
                 await Task.Factory.StartNew(() =>
                                             {
+                                                var fi = new FileInfo(dic + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".xlsx");
+
                                                 var n = _ViewResults.Count;
                                                 var xlwb = new ExcelPackage();
                                                 var wsht = xlwb.Workbook.Worksheets.Add(n + (n <= 1 ? " result" : " results"));
@@ -688,34 +688,45 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                                                 wsht.Cells.Style.Font.SetFromFont(new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Regular));
 
-                                                var keys = typeof(ProcessInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(x => x.Name).ToArray();
+                                                var keys = _ViewResults[0].ToDic(Language).Keys.ToArray();
 
                                                 for (var i = 0; i < keys.Length; i++)
                                                 {
-                                                    wsht.Cells[2, i + 1].Value = keys[i];
-                                                    wsht.Cells[2, i + 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                                                    wsht.Cells[2, i + 1].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.GreenYellow);
+                                                    wsht.Cells[3, i + 1].Value = keys[i];
+                                                    wsht.Cells[3, i + 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                                    wsht.Cells[3, i + 1].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.GreenYellow);
                                                 }
 
                                                 for (var i = 0; i < n; i++)
                                                 {
-                                                    var values = _ViewResults[i].ToDictionary().Values.ToArray();
+                                                    var values = _ViewResults[i].ToDic(Language).Values.ToArray();
                                                     
-                                                    for (var j = 1; j < values.Length; j++)
+                                                    for (var j = 0; j < values.Length; j++)
                                                     {
                                                         if(values[j] is DateTime date)
                                                         {
-                                                            wsht.Cells[j + 3, i + 1].Value = date.ToOADate();
-                                                            wsht.Cells[j + 3, i + 1].Style.Numberformat.Format = "yyyy/MM/dd hh:mm:ss";
-                                                            wsht.Cells[3, 1, 8, 1].AutoFilter = true;
+                                                            wsht.Cells[i + 4, j + 1].Value = date.ToOADate();
+                                                            wsht.Cells[i + 4, j + 1].Style.Numberformat.Format = "yyyy/MM/dd hh:mm:ss";
+                                                        }
+                                                        else if (values[j] is string str)
+                                                        {
+                                                            wsht.Cells[i + 4, j + 1].Value = str;
+                                                            wsht.Cells[i + 4, j + 1].Style.Numberformat.Format = "@";
                                                         }
                                                         else
                                                         {
-                                                            wsht.Cells[j + 3, i + 1].Value = values[j];
+                                                            wsht.Cells[i + 4, j + 1].Value = values[j];
                                                         }
                                                     }
                                                 }
 
+                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+
+                                                xlwb.SaveAs(fi);
+                                                xlwb.Dispose();
                                             }, TaskCreationOptions.LongRunning);
             }
 

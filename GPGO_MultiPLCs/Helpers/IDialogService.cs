@@ -37,7 +37,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="support_cancel">是否顯示取消鍵</param>
         /// <param name="type">訊息類型</param>
         /// <returns></returns>
-        Task<bool> Show(Dictionary<GlobalTempSettings.Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal);
+        Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal);
 
         /// <summary>
         /// 顯示提示訊息(指定時間內消失)
@@ -46,7 +46,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="delay">存留時間</param>
         /// <param name="type">訊息類型</param>
         /// <returns></returns>
-        Task Show(Dictionary<GlobalTempSettings.Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal);
+        Task Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal);
 
         /// <summary>
         /// 顯示OP可輸入的訊息對話視窗
@@ -54,7 +54,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="msg">顯示訊息</param>
         /// <param name="header">顯示標題</param>
         /// <returns>OP輸入的訊息</returns>
-        Task<(bool result, T intput)> ShowWithIntput(Dictionary<GlobalTempSettings.Language, string> msg, Dictionary<GlobalTempSettings.Language, string> header);
+        Task<(bool result, T intput)> ShowWithIntput(Dictionary<Language, string> msg, Dictionary<Language, string> header);
 
         /// <summary>
         /// 顯示OP可輸入的訊息對話視窗，並可依據條件比對回傳比對結果
@@ -63,8 +63,8 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="header">標題訊息</param>
         /// <param name="condition_fun">條件委派</param>
         /// <returns>OP輸入的訊息和條件比對結果</returns>
-        Task<(bool result, T intput)> ShowWithIntput(Dictionary<GlobalTempSettings.Language, string> msg,
-                                                     Dictionary<GlobalTempSettings.Language, string> header,
-                                                     Func<T, (bool result, Dictionary<GlobalTempSettings.Language, string> title_msg)> condition_fun);
+        Task<(bool result, T intput)> ShowWithIntput(Dictionary<Language, string> msg,
+                                                     Dictionary<Language, string> header,
+                                                     Func<T, (bool result, Dictionary<Language, string> title_msg)> condition_fun);
     }
 }

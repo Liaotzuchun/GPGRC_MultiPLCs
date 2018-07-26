@@ -15,7 +15,7 @@ namespace GPGO_MultiPLCs.ViewModels
     /// </summary>
     public class GlobalDialog_ViewModel : ViewModelBase, IDialogService<string>
     {
-        public async Task<bool> Show(Dictionary<GlobalTempSettings.Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
+        public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
         {
             if (!Lock_1.WaitOne(0))
             {
@@ -42,7 +42,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult_1;
         }
 
-        public async Task Show(Dictionary<GlobalTempSettings.Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
+        public async Task Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
         {
             await Task.Factory.StartNew(() =>
                                         {
@@ -55,7 +55,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         TaskCreationOptions.LongRunning);
         }
 
-        public async Task<(bool result, string intput)> ShowWithIntput(Dictionary<GlobalTempSettings.Language, string> msg, Dictionary<GlobalTempSettings.Language, string> header)
+        public async Task<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
         {
             if (!Lock_2.WaitOne(0))
             {
@@ -84,9 +84,9 @@ namespace GPGO_MultiPLCs.ViewModels
             return (EnterResult_2, Intput);
         }
 
-        public async Task<(bool result, string intput)> ShowWithIntput(Dictionary<GlobalTempSettings.Language, string> msg,
-                                                                       Dictionary<GlobalTempSettings.Language, string> header,
-                                                                       Func<string, (bool result, Dictionary<GlobalTempSettings.Language, string> title_msg)> condition)
+        public async Task<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg,
+                                                                       Dictionary<Language, string> header,
+                                                                       Func<string, (bool result, Dictionary<Language, string> title_msg)> condition)
         {
             if (!Lock_2.WaitOne(0))
             {
@@ -148,7 +148,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return (_ConditionResult != null && EnterResult_2 && _ConditionResult.Value, Intput);
         }
 
-        public GlobalTempSettings.Language Language;
+        public Language Language;
 
         private readonly ManualResetEvent Lock_1;
         private readonly ManualResetEvent Lock_2;
