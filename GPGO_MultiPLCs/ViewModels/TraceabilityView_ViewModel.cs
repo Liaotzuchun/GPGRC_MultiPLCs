@@ -836,8 +836,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 var _s8 = _chart.Series.Add(wsht.Cells[4, 9, 4, 9], wsht.Cells[4, 1, 4, 1]);
                                                 var _s9 = _chart.Series.Add(wsht.Cells[4, 10, 4, 10], wsht.Cells[4, 1, 4, 1]);
 
-                                                xlwb.Workbook.Names["xx"].Value = "INDIRECT(\"$" + (keys.Length + 1).GetExcelColumnName() + "$4\")";
-
                                                 var x = "INDIRECT(\"$" + (keys.Length+1).GetExcelColumnName() + "$4\")";
                                                 _s1.XSeries = x;
                                                 _s1.Series = "INDIRECT(\"$" + (keys.Length + 1).GetExcelColumnName() + "$4\")";
