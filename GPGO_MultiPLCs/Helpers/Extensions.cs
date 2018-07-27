@@ -563,5 +563,20 @@ namespace GPGO_MultiPLCs.Helpers
 
             return temp;
         }
+
+        public static string GetExcelColumnName(this int columnNumber)
+        {
+            var dividend = columnNumber;
+            var columnName = string.Empty;
+
+            while (dividend > 0)
+            {
+                var modulo = (dividend - 1) % 26;
+                columnName = Convert.ToChar(65 + modulo) + columnName;
+                dividend = (dividend - modulo) / 26;
+            }
+
+            return columnName;
+        }
     }
 }

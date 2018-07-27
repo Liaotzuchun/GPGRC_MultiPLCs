@@ -687,9 +687,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.View.ShowGridLines = false;
                                                 wsht.View.FreezePanes(4, 2);
                                                 wsht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-                                                wsht.Cells.Style.Font.SetFromFont(new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Regular));
+                                                wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
 
-                                                var sheet_list = new List<ExcelWorksheet>();
                                                 var keys = _ViewResults[0].ToDic(Language).Keys.ToArray();
 
                                                 for (var i = 0; i < keys.Length; i++)
@@ -702,7 +701,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 for (var i = 0; i < n; i++)
                                                 {
                                                     var values = _ViewResults[i].ToDic(Language).Values.ToArray();
-                                                    
+                                                    var temps = _ViewResults[i].RecordTemperatures.ToArray();
+
                                                     for (var j = 0; j < values.Length; j++)
                                                     {
                                                         if(values[j] is DateTime date)
@@ -721,10 +721,19 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         }
                                                     }
 
-                                                    var temps = _ViewResults[i].RecordTemperatures.ToArray();
-                                                    var record_sht = xlwb.Workbook.Worksheets.Add("Records " + (i + 1));
-                                                    sheet_list.Add(record_sht);
+                                                    var sheet_name = "Records " + (i + 1);
+                                                    wsht.Cells[i + 4, values.Length + 1].Value ="'" + sheet_name + "'!" + "$A$4:$A$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 2].Value ="'" + sheet_name + "'!" + "$B$4:$B$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 3].Value ="'" + sheet_name + "'!" + "$C$4:$C$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 4].Value ="'" + sheet_name + "'!" + "$D$4:$D$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 5].Value ="'" + sheet_name + "'!" + "$E$4:$E$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 6].Value ="'" + sheet_name + "'!" + "$F$4:$F$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 7].Value ="'" + sheet_name + "'!" + "$G$4:$G$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 8].Value ="'" + sheet_name + "'!" + "$H$4:$H$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 9].Value ="'" + sheet_name + "'!" + "$I$4:$I$" + (temps.Length + 3);
+                                                    wsht.Cells[i + 4, values.Length + 10].Value = "'" + sheet_name + "'!" + "$J$4:$J$" + (temps.Length + 3);
 
+                                                    var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
                                                     record_sht.View.ShowGridLines = false;
                                                     record_sht.View.FreezePanes(4, 2);
                                                     record_sht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
@@ -757,6 +766,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         record_sht.Cells[4 + j, 10].Value = temps[j].OvenTemperatures_7;
                                                     }
 
+                                                    //record_sht.Cells[2, 1].Value = "$A$4:$A$" + (temps.Length + 3);
+                                                    //record_sht.Cells[2, 2].Value = "$B$4:$B$" + (temps.Length + 3);
+                                                    //record_sht.Cells[2, 3].Value = "$C$4:$C$" + (temps.Length + 3);
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
@@ -809,7 +821,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].AutoFitColumns();
-                                                wsht.Cells[1,1].Formula= "\"Records \" & Cell(\"row\")";
+                                                wsht.Cells[1, 1].Formula = "Cell(\"row\")";
+                                                //wsht.Cells[2, 1].Formula = "INDIRECT(\"$" + (keys.Length + 1).GetExcelColumnName() + "$4\")";
 
                                                 var _chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
                                                 _chart.SetSize(900, 300);
@@ -822,25 +835,28 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 var _s7 = _chart.Series.Add(wsht.Cells[4, 8, 4, 8], wsht.Cells[4, 1, 4, 1]);
                                                 var _s8 = _chart.Series.Add(wsht.Cells[4, 9, 4, 9], wsht.Cells[4, 1, 4, 1]);
                                                 var _s9 = _chart.Series.Add(wsht.Cells[4, 10, 4, 10], wsht.Cells[4, 1, 4, 1]);
-                                                var x = "INDIRECT(\"$A$1\")" + "!$A$4:$A$103";
+
+                                                xlwb.Workbook.Names["xx"].Value = "INDIRECT(\"$" + (keys.Length + 1).GetExcelColumnName() + "$4\")";
+
+                                                var x = "INDIRECT(\"$" + (keys.Length+1).GetExcelColumnName() + "$4\")";
                                                 _s1.XSeries = x;
-                                                _s1.Series = "INDIRECT(\"$A$1\")" + "!$B$4:$B$103";
+                                                _s1.Series = "INDIRECT(\"$" + (keys.Length + 1).GetExcelColumnName() + "$4\")";
                                                 _s2.XSeries = x;
-                                                _s2.Series = "INDIRECT(\"$A$1\")" + "!$C$4:$C$103";
+                                                _s2.Series = "INDIRECT(\"$" + (keys.Length + 2).GetExcelColumnName() + "$4\")";
                                                 _s3.XSeries = x;
-                                                _s3.Series = "INDIRECT(\"$A$1\")" + "!$D$4:$D$103";
+                                                _s3.Series = "INDIRECT(\"$" + (keys.Length + 3).GetExcelColumnName() + "$4\")";
                                                 _s4.XSeries = x;
-                                                _s4.Series = "INDIRECT(\"$A$1\")" + "!$E$4:$E$103";
+                                                _s4.Series = "INDIRECT(\"$" + (keys.Length + 4).GetExcelColumnName() + "$4\")";
                                                 _s5.XSeries = x;
-                                                _s5.Series = "INDIRECT(\"$A$1\")" + "!$F$4:$F$103";
+                                                _s5.Series = "INDIRECT(\"$" + (keys.Length + 5).GetExcelColumnName() + "$4\")";
                                                 _s6.XSeries = x;
-                                                _s6.Series = "INDIRECT(\"$A$1\")" + "!$G$4:$G$103";
+                                                _s6.Series = "INDIRECT(\"$" + (keys.Length + 6).GetExcelColumnName() + "$4\")";
                                                 _s7.XSeries = x;
-                                                _s7.Series = "INDIRECT(\"$A$1\")" + "!$H$4:$H$103";
+                                                _s7.Series = "INDIRECT(\"$" + (keys.Length + 7).GetExcelColumnName() + "$4\")";
                                                 _s8.XSeries = x;
-                                                _s8.Series = "INDIRECT(\"$A$1\")" + "!$I$4:$I$103";
+                                                _s8.Series = "INDIRECT(\"$" + (keys.Length + 8).GetExcelColumnName() + "$4\")";
                                                 _s9.XSeries = x;
-                                                _s9.Series = "INDIRECT(\"$A$1\")" + "!$J$4:$J$103";
+                                                _s9.Series = "INDIRECT(\"$" + (keys.Length + 9).GetExcelColumnName() + "$4\")";
                                                 _s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
                                                 _s2.Header = nameof(RecordTemperatures.OvenTemperatures_0);
                                                 _s3.Header = nameof(RecordTemperatures.OvenTemperatures_1);
