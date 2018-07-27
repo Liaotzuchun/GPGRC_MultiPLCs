@@ -510,6 +510,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                 var n = _ViewResults.Count;
                                                 var xlwb = new ExcelPackage();
+                                                xlwb.Workbook.CreateVBAProject();
                                                 var wsht = xlwb.Workbook.Worksheets.Add(n + (n <= 1 ? " result" : " results"));
                                                 wsht.View.ShowGridLines = false;
                                                 wsht.View.FreezePanes(4, 1);
@@ -572,7 +573,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     for (var j = 0; j < temps.Length; j++)
                                                     {
                                                         record_sht.Cells[4 + j, 1].Value = temps[j].Time;
-                                                        record_sht.Cells[4 + j, 1].Style.Numberformat.Format = "[h]:mm";
+                                                        record_sht.Cells[4 + j, 1].Style.Numberformat.Format = "[h]:mm:ss";
                                                         record_sht.Cells[4 + j, 2].Value = temps[j].ThermostatTemperature;
                                                         record_sht.Cells[4 + j, 3].Value = temps[j].OvenTemperatures_1;
                                                         record_sht.Cells[4 + j, 4].Value = temps[j].OvenTemperatures_2;
@@ -589,6 +590,22 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].AutoFitColumns();
+
+                                                    var code = new StringBuilder();
+                                                    code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
+                                                    code.AppendLine("Dim num As Integer");
+                                                    code.AppendLine("num = ActiveCell.Row - 3");
+                                                    code.AppendLine("If num < 1 Then");
+                                                    code.AppendLine("num = 1");
+                                                    code.AppendLine("End If");
+                                                    code.AppendLine("Range(\"A1\").Value = num");
+                                                    code.AppendLine("End Sub");
+                                                    record_sht.CodeModule.Code = code.ToString();
+
+                                                    var condition = record_sht.ConditionalFormatting.AddExpression(new ExcelAddress(record_sht.Cells[4, 1, temps.Length + 3, 10].Address));
+                                                    condition.Formula = "ROW()=CELL(\"row\")";
+                                                    condition.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                    condition.Style.Fill.BackgroundColor.Color = Color.LemonChiffon;
 
                                                     var chart = (ExcelLineChart)record_sht.Drawings.AddChart("", eChartType.Line);
                                                     chart.SetSize(970, 300);
@@ -622,10 +639,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                     record_sht.Row(1).Height = 220;
 
-                                                    chart.XAxis.Title.Text = "Timespan (Hour:Min)";
+                                                    chart.XAxis.Title.Text = "Timespan (H:M:S)";
                                                     chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
                                                     chart.YAxis.Title.Text = "Temperature (°C)";
-                                                    chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                    chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
                                                     chart.RoundedCorners = false;
                                                     chart.SetPosition(0, 0, 0, 0);
                                                 }
@@ -638,17 +655,22 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                 //wsht.Cells[1, 1].Formula = "CELL(\"row\")-3";
                                                 wsht.Cells[1, 1].Value = 1;
-                                                xlwb.Workbook.CreateVBAProject();
-                                                var code = new StringBuilder();
-                                                code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
-                                                code.AppendLine("Dim num As Integer");
-                                                code.AppendLine("num = ActiveCell.Row - 3");
-                                                code.AppendLine("If num < 1 Then");
-                                                code.AppendLine("num = 1");
-                                                code.AppendLine("End If");
-                                                code.AppendLine("Range(\"A1\").Value = num");
-                                                code.AppendLine("End Sub");
-                                                wsht.CodeModule.Code = code.ToString();
+
+                                                var _code = new StringBuilder();
+                                                _code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
+                                                _code.AppendLine("Dim num As Integer");
+                                                _code.AppendLine("num = ActiveCell.Row - 3");
+                                                _code.AppendLine("If num < 1 Then");
+                                                _code.AppendLine("num = 1");
+                                                _code.AppendLine("End If");
+                                                _code.AppendLine("Range(\"A1\").Value = num");
+                                                _code.AppendLine("End Sub");
+                                                wsht.CodeModule.Code = _code.ToString();
+
+                                                var _condition = wsht.ConditionalFormatting.AddExpression(new ExcelAddress(wsht.Cells[4, 1, _ViewResults.Count + 3, keys.Length].Address));
+                                                _condition.Formula = "ROW()=CELL(\"row\")";
+                                                _condition.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                _condition.Style.Fill.BackgroundColor.Color = Color.LemonChiffon;
 
                                                 var ooxx = new ExcelNamedRange("ooxx", null, wsht, "A1", 1);
                                                 xlwb.Workbook.Names.Add("ooxx", ooxx);
@@ -657,7 +679,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 for(var i = 1; i <= max_count; i++)
                                                 {
                                                     data_sht.Cells[i, 1].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$A$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 1].Style.Numberformat.Format = "[h]:mm";
+                                                    data_sht.Cells[i, 1].Style.Numberformat.Format = "[h]:mm:ss";
                                                     data_sht.Cells[i, 2].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$B$" + (i + 3) + "\")";
                                                     data_sht.Cells[i, 3].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$C$" + (i + 3) + "\")";
                                                     data_sht.Cells[i, 4].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$D$" + (i + 3) + "\")";
@@ -701,7 +723,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                 wsht.Row(1).Height = 220;
 
-                                                _chart.XAxis.Title.Text = "Timespan (Hour:Min)";
+                                                _chart.XAxis.Title.Text = "Timespan (H:M:S)";
                                                 _chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
                                                 _chart.YAxis.Title.Text = "Temperature (°C)";
                                                 _chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
