@@ -672,16 +672,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 var _s8 = _chart.Series.Add(wsht.Cells[4, 9, 4, 9], wsht.Cells[1, 1]);
                                                 var _s9 = _chart.Series.Add(wsht.Cells[4, 10, 4, 10], wsht.Cells[1, 1]);
 
-                                                var time = new ExcelNamedRange("time", null, wsht, "A2", 1) { Formula = "INDIRECT(\"$A$1\")" };
-                                                var t0 = new ExcelNamedRange("t0", null, wsht, "B2", 2) { Formula = "INDIRECT(\"$B$1\")" };
-                                                var t1 = new ExcelNamedRange("t1", null, wsht, "C2", 3) { Formula = "INDIRECT(\"$C$1\")" };
-                                                var t2 = new ExcelNamedRange("t2", null, wsht, "D2", 4) { Formula = "INDIRECT(\"$D$1\")" };
-                                                var t3 = new ExcelNamedRange("t3", null, wsht, "E2", 5) { Formula = "INDIRECT(\"$E$1\")" };
-                                                var t4 = new ExcelNamedRange("t4", null, wsht, "F2", 6) { Formula = "INDIRECT(\"$F$1\")" };
-                                                var t5 = new ExcelNamedRange("t5", null, wsht, "G2", 7) { Formula = "INDIRECT(\"$G$1\")" };
-                                                var t6 = new ExcelNamedRange("t6", null, wsht, "H2", 8) { Formula = "INDIRECT(\"$H$1\")" };
-                                                var t7 = new ExcelNamedRange("t7", null, wsht, "I2", 9) { Formula = "INDIRECT(\"$I$1\")" };
-                                                var t8 = new ExcelNamedRange("t8", null, wsht, "J2", 10) { Formula = "INDIRECT(\"$J$1\")" };
+                                                var time = new ExcelNamedRange("time", wsht, wsht, "A2", 1) { Formula = "INDIRECT(\"$A$1\")" };
+                                                var t0 = new ExcelNamedRange("t0", wsht, wsht, "B2", 2) { Formula = "INDIRECT(\"$B$1\")" };
+                                                var t1 = new ExcelNamedRange("t1", wsht, wsht, "C2", 3) { Formula = "INDIRECT(\"$C$1\")" };
+                                                var t2 = new ExcelNamedRange("t2", wsht, wsht, "D2", 4) { Formula = "INDIRECT(\"$D$1\")" };
+                                                var t3 = new ExcelNamedRange("t3", wsht, wsht, "E2", 5) { Formula = "INDIRECT(\"$E$1\")" };
+                                                var t4 = new ExcelNamedRange("t4", wsht, wsht, "F2", 6) { Formula = "INDIRECT(\"$F$1\")" };
+                                                var t5 = new ExcelNamedRange("t5", wsht, wsht, "G2", 7) { Formula = "INDIRECT(\"$G$1\")" };
+                                                var t6 = new ExcelNamedRange("t6", wsht, wsht, "H2", 8) { Formula = "INDIRECT(\"$H$1\")" };
+                                                var t7 = new ExcelNamedRange("t7", wsht, wsht, "I2", 9) { Formula = "INDIRECT(\"$I$1\")" };
+                                                var t8 = new ExcelNamedRange("t8", wsht, wsht, "J2", 10) { Formula = "INDIRECT(\"$J$1\")" };
 
                                                 wsht.Names.Add("time", time);
                                                 wsht.Names.Add("t0", t0);
