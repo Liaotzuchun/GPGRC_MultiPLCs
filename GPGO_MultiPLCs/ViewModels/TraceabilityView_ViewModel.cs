@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
@@ -505,7 +506,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 await Task.Factory.StartNew(() =>
                                             {
-                                                var fi = new FileInfo(dic + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".xlsx");
+                                                var fi = new FileInfo(dic + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".xlsm");
 
                                                 var n = _ViewResults.Count;
                                                 var xlwb = new ExcelPackage();
@@ -636,7 +637,19 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].AutoFitColumns();
 
-                                                wsht.Cells[1, 1].Formula = "CELL(\"row\")-3";
+                                                //wsht.Cells[1, 1].Formula = "CELL(\"row\")-3";
+                                                xlwb.Workbook.CreateVBAProject();
+                                                var code = new StringBuilder();
+                                                code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
+                                                code.AppendLine("Dim num As Integer");
+                                                code.AppendLine("num = ActiveCell.Row - 3");
+                                                code.AppendLine("If num < 1 Then");
+                                                code.AppendLine("num = 1");
+                                                code.AppendLine("End If");
+                                                code.AppendLine("Range(\"A1\").Value = num");
+                                                code.AppendLine("End Sub");
+                                                wsht.CodeModule.Code = code.ToString();
+
                                                 var ooxx = new ExcelNamedRange("ooxx", null, wsht, "A1", 1);
                                                 xlwb.Workbook.Names.Add("ooxx", ooxx);
                                                 var data_sht = xlwb.Workbook.Worksheets.Add("Data");
