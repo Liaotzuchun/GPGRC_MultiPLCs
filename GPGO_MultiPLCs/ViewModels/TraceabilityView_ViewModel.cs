@@ -511,11 +511,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 var xlwb = new ExcelPackage();
                                                 var wsht = xlwb.Workbook.Worksheets.Add(n + (n <= 1 ? " result" : " results"));
                                                 wsht.View.ShowGridLines = false;
-                                                wsht.View.FreezePanes(4, 2);
+                                                wsht.View.FreezePanes(4, 1);
                                                 wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                 wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
 
                                                 var keys = _ViewResults[0].ToDic(Language).Keys.ToArray();
+                                                var max_count = 0;
 
                                                 for (var i = 0; i < keys.Length; i++)
                                                 {
@@ -528,6 +529,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     var values = _ViewResults[i].ToDic(Language).Values.ToArray();
                                                     var temps = _ViewResults[i].RecordTemperatures.ToArray();
+
+                                                    if (temps.Length > max_count) max_count = temps.Length;
 
                                                     for (var j = 0; j < values.Length; j++)
                                                     {
@@ -547,21 +550,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         }
                                                     }
 
-                                                    var sheet_name = "Records " + (i + 1);
-                                                    wsht.Cells[i + 4, values.Length + 1].Value = "'" + sheet_name + "'!" + "$A$4:$A$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 2].Value = "'" + sheet_name + "'!" + "$B$4:$B$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 3].Value = "'" + sheet_name + "'!" + "$C$4:$C$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 4].Value = "'" + sheet_name + "'!" + "$D$4:$D$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 5].Value = "'" + sheet_name + "'!" + "$E$4:$E$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 6].Value = "'" + sheet_name + "'!" + "$F$4:$F$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 7].Value = "'" + sheet_name + "'!" + "$G$4:$G$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 8].Value = "'" + sheet_name + "'!" + "$H$4:$H$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 9].Value = "'" + sheet_name + "'!" + "$I$4:$I$" + (temps.Length + 3);
-                                                    wsht.Cells[i + 4, values.Length + 10].Value = "'" + sheet_name + "'!" + "$J$4:$J$" + (temps.Length + 3);
-
-                                                    var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
+                                                    var record_sht = xlwb.Workbook.Worksheets.Add("Records " + (i + 1));
                                                     record_sht.View.ShowGridLines = false;
-                                                    record_sht.View.FreezePanes(4, 2);
+                                                    record_sht.View.FreezePanes(4, 1);
                                                     record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                     record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
                                                     record_sht.Cells[3, 1].Value = nameof(RecordTemperatures.Time);
@@ -592,9 +583,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         record_sht.Cells[4 + j, 10].Value = temps[j].OvenTemperatures_7;
                                                     }
 
-                                                    //record_sht.Cells[2, 1].Value = "$A$4:$A$" + (temps.Length + 3);
-                                                    //record_sht.Cells[2, 2].Value = "$B$4:$B$" + (temps.Length + 3);
-                                                    //record_sht.Cells[2, 3].Value = "$C$4:$C$" + (temps.Length + 3);
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Right.Style = ExcelBorderStyle.Thin;
@@ -648,71 +636,37 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].AutoFitColumns();
 
-                                                wsht.Cells[1, 1].Formula = "INDIRECT(\"$" + (keys.Length + 1).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 2].Formula = "INDIRECT(\"$" + (keys.Length + 2).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 3].Formula = "INDIRECT(\"$" + (keys.Length + 3).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 4].Formula = "INDIRECT(\"$" + (keys.Length + 4).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 5].Formula = "INDIRECT(\"$" + (keys.Length + 5).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 6].Formula = "INDIRECT(\"$" + (keys.Length + 6).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 7].Formula = "INDIRECT(\"$" + (keys.Length + 7).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 8].Formula = "INDIRECT(\"$" + (keys.Length + 8).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 9].Formula = "INDIRECT(\"$" + (keys.Length + 9).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                wsht.Cells[1, 10].Formula = "INDIRECT(\"$" + (keys.Length + 10).GetExcelColumnName() + "$\"&CELL(\"row\"))";
-                                                //wsht.Cells[2, 1].Formula = "INDIRECT(\"$" + (keys.Length + 1).GetExcelColumnName() + "$4\")";
+                                                wsht.Cells[1, 1].Formula = "CELL(\"row\")-3";
+                                                var ooxx = new ExcelNamedRange("ooxx", null, wsht, "A1", 1);
+                                                xlwb.Workbook.Names.Add("ooxx", ooxx);
+                                                var data_sht = xlwb.Workbook.Worksheets.Add("Data");
+
+                                                for(var i = 1; i <= max_count; i++)
+                                                {
+                                                    data_sht.Cells[i, 1].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$A$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 1].Style.Numberformat.Format = "[h]:mm:ss";
+                                                    data_sht.Cells[i, 2].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$B$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 3].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$C$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 4].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$D$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 5].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$E$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 6].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$F$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 7].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$G$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 8].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$H$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 9].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$I$" + (i + 3) + "\")";
+                                                    data_sht.Cells[i, 10].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$J$" + (i + 3) + "\")";
+                                                }
 
                                                 var _chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
                                                 _chart.SetSize(900, 300);
-                                                var _s1 = _chart.Series.Add(wsht.Cells[4, 2, 4, 2], wsht.Cells[1, 1]);
-                                                var _s2 = _chart.Series.Add(wsht.Cells[4, 3, 4, 3], wsht.Cells[1, 1]);
-                                                var _s3 = _chart.Series.Add(wsht.Cells[4, 4, 4, 4], wsht.Cells[1, 1]);
-                                                var _s4 = _chart.Series.Add(wsht.Cells[4, 5, 4, 5], wsht.Cells[1, 1]);
-                                                var _s5 = _chart.Series.Add(wsht.Cells[4, 6, 4, 6], wsht.Cells[1, 1]);
-                                                var _s6 = _chart.Series.Add(wsht.Cells[4, 7, 4, 7], wsht.Cells[1, 1]);
-                                                var _s7 = _chart.Series.Add(wsht.Cells[4, 8, 4, 8], wsht.Cells[1, 1]);
-                                                var _s8 = _chart.Series.Add(wsht.Cells[4, 9, 4, 9], wsht.Cells[1, 1]);
-                                                var _s9 = _chart.Series.Add(wsht.Cells[4, 10, 4, 10], wsht.Cells[1, 1]);
-
-                                                var time = new ExcelNamedRange("time", wsht, wsht, "A2", 1) { Formula = "INDIRECT(\"$A$1\")" };
-                                                var t0 = new ExcelNamedRange("t0", wsht, wsht, "B2", 2) { Formula = "INDIRECT(\"$B$1\")" };
-                                                var t1 = new ExcelNamedRange("t1", wsht, wsht, "C2", 3) { Formula = "INDIRECT(\"$C$1\")" };
-                                                var t2 = new ExcelNamedRange("t2", wsht, wsht, "D2", 4) { Formula = "INDIRECT(\"$D$1\")" };
-                                                var t3 = new ExcelNamedRange("t3", wsht, wsht, "E2", 5) { Formula = "INDIRECT(\"$E$1\")" };
-                                                var t4 = new ExcelNamedRange("t4", wsht, wsht, "F2", 6) { Formula = "INDIRECT(\"$F$1\")" };
-                                                var t5 = new ExcelNamedRange("t5", wsht, wsht, "G2", 7) { Formula = "INDIRECT(\"$G$1\")" };
-                                                var t6 = new ExcelNamedRange("t6", wsht, wsht, "H2", 8) { Formula = "INDIRECT(\"$H$1\")" };
-                                                var t7 = new ExcelNamedRange("t7", wsht, wsht, "I2", 9) { Formula = "INDIRECT(\"$I$1\")" };
-                                                var t8 = new ExcelNamedRange("t8", wsht, wsht, "J2", 10) { Formula = "INDIRECT(\"$J$1\")" };
-
-                                                wsht.Names.Add("time", time);
-                                                wsht.Names.Add("t0", t0);
-                                                wsht.Names.Add("t1", t1);
-                                                wsht.Names.Add("t2", t2);
-                                                wsht.Names.Add("t3", t3);
-                                                wsht.Names.Add("t4", t4);
-                                                wsht.Names.Add("t5", t5);
-                                                wsht.Names.Add("t6", t6);
-                                                wsht.Names.Add("t7", t7);
-                                                wsht.Names.Add("t8", t8);
-
-                                                var x = "time";
-                                                _s1.XSeries = x;
-                                                _s1.Series = "t0";
-                                                _s2.XSeries = x;
-                                                _s2.Series = "t1";
-                                                _s3.XSeries = x;
-                                                _s3.Series = "t2";
-                                                _s4.XSeries = x;
-                                                _s4.Series = "t3";
-                                                _s5.XSeries = x;
-                                                _s5.Series = "t4";
-                                                _s6.XSeries = x;
-                                                _s6.Series = "t5";
-                                                _s7.XSeries = x;
-                                                _s7.Series = "t6";
-                                                _s8.XSeries = x;
-                                                _s8.Series = "t7";
-                                                _s9.XSeries = x;
-                                                _s9.Series = "t8";
+                                                var _s1 = _chart.Series.Add(data_sht.Cells[1, 2, max_count, 2], data_sht.Cells[1, 1, max_count, 1]);
+                                                var _s2 = _chart.Series.Add(data_sht.Cells[1, 3, max_count, 3], data_sht.Cells[1, 1, max_count, 1]);
+                                                var _s3 = _chart.Series.Add(data_sht.Cells[1, 4, max_count, 4], data_sht.Cells[1, 1, max_count, 1]);
+                                                var _s4 = _chart.Series.Add(data_sht.Cells[1, 5, max_count, 5], data_sht.Cells[1, 1, max_count, 1]);
+                                                var _s5 = _chart.Series.Add(data_sht.Cells[1, 6, max_count, 6], data_sht.Cells[1, 1, max_count, 1]);
+                                                var _s6 = _chart.Series.Add(data_sht.Cells[1, 7, max_count, 7], data_sht.Cells[1, 1, max_count, 1]);
+                                                var _s7 = _chart.Series.Add(data_sht.Cells[1, 8, max_count, 8], data_sht.Cells[1, 1, max_count, 1]);
+                                                var _s8 = _chart.Series.Add(data_sht.Cells[1, 9, max_count, 9], data_sht.Cells[1, 1, max_count, 1]);
+                                                var _s9 = _chart.Series.Add(data_sht.Cells[1, 10, max_count, 10], data_sht.Cells[1, 1, max_count, 1]);
                                                 _s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
                                                 _s2.Header = nameof(RecordTemperatures.OvenTemperatures_0);
                                                 _s3.Header = nameof(RecordTemperatures.OvenTemperatures_1);
@@ -740,7 +694,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 _chart.YAxis.Title.Font.Size = 12;
                                                 _chart.Border.Width = 0;
                                                 _chart.Border.Fill.Color = Color.Transparent;
-                                                _chart.SetPosition(0, 0, 1, 0);
+                                                _chart.SetPosition(0, 0, 0, 0);
 
                                                 xlwb.SaveAs(fi);
                                                 xlwb.Dispose();
