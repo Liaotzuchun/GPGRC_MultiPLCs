@@ -39,16 +39,15 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class RecordTemperatures
     {
-        public double Avg => new[] { OvenTemperatures_0, OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7 }
+        public double Avg => new[] { OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8 }
             .Average();
 
-        public double Max => new[] { OvenTemperatures_0, OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7 }
+        public double Max => new[] { OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8 }
             .Max();
 
-        public double Min => new[] { OvenTemperatures_0, OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7 }
+        public double Min => new[] { OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8 }
             .Min();
 
-        public double OvenTemperatures_0 { get; set; }
         public double OvenTemperatures_1 { get; set; }
         public double OvenTemperatures_2 { get; set; }
         public double OvenTemperatures_3 { get; set; }
@@ -56,6 +55,7 @@ namespace GPGO_MultiPLCs.Models
         public double OvenTemperatures_5 { get; set; }
         public double OvenTemperatures_6 { get; set; }
         public double OvenTemperatures_7 { get; set; }
+        public double OvenTemperatures_8 { get; set; }
         public double ThermostatTemperature { get; set; }
         public TimeSpan Time { get; set; }
     }

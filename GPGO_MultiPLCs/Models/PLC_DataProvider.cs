@@ -201,14 +201,14 @@ namespace GPGO_MultiPLCs.Models
                                                 {
                                                     Time = time,
                                                     ThermostatTemperature = t0,
-                                                    OvenTemperatures_0 = t1,
-                                                    OvenTemperatures_1 = t2,
-                                                    OvenTemperatures_2 = t3,
-                                                    OvenTemperatures_3 = t4,
-                                                    OvenTemperatures_4 = t5,
-                                                    OvenTemperatures_5 = t6,
-                                                    OvenTemperatures_6 = t7,
-                                                    OvenTemperatures_7 = t8
+                                                    OvenTemperatures_1 = t1,
+                                                    OvenTemperatures_2 = t2,
+                                                    OvenTemperatures_3 = t3,
+                                                    OvenTemperatures_4 = t4,
+                                                    OvenTemperatures_5 = t5,
+                                                    OvenTemperatures_6 = t6,
+                                                    OvenTemperatures_7 = t7,
+                                                    OvenTemperatures_8 = t8
                                                 });
         }
 

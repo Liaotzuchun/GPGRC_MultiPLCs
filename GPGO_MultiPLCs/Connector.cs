@@ -111,14 +111,14 @@ namespace GPGO_MultiPLCs
                                        {
                                            Time = t,
                                            ThermostatTemperature = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_0 = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_1 = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_2 = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_3 = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_4 = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_5 = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_6 = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_7 = rn.Next(40 + mins * 2, 40 + mins * 5)
+                                           OvenTemperatures_7 = rn.Next(40 + mins * 2, 40 + mins * 5),
+                                           OvenTemperatures_8 = rn.Next(40 + mins * 2, 40 + mins * 5)
                                        };
 
                             if (rn.Next(0, 100) > 50)

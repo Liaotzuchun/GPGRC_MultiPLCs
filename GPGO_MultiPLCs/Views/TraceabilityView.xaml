@@ -576,7 +576,7 @@
                                     <oxy:LineSeries
                                         Title="{DynamicResource 爐內溫度8}"
                                         DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_7"
+                                        DataFieldY="OvenTemperatures_8"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                         LineStyle="Solid"
                                         MarkerFill="BurlyWood"
@@ -587,7 +587,7 @@
                                     <oxy:LineSeries
                                         Title="{DynamicResource 爐內溫度7}"
                                         DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_6"
+                                        DataFieldY="OvenTemperatures_7"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                         LineStyle="Solid"
                                         MarkerFill="Brown"
@@ -598,7 +598,7 @@
                                     <oxy:LineSeries
                                         Title="{DynamicResource 爐內溫度6}"
                                         DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_5"
+                                        DataFieldY="OvenTemperatures_6"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                         LineStyle="Solid"
                                         MarkerFill="Magenta"
@@ -609,7 +609,7 @@
                                     <oxy:LineSeries
                                         Title="{DynamicResource 爐內溫度5}"
                                         DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_4"
+                                        DataFieldY="OvenTemperatures_5"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                         LineStyle="Solid"
                                         MarkerFill="DarkOrchid"
@@ -620,7 +620,7 @@
                                     <oxy:LineSeries
                                         Title="{DynamicResource 爐內溫度4}"
                                         DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_3"
+                                        DataFieldY="OvenTemperatures_4"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                         LineStyle="Solid"
                                         MarkerFill="DodgerBlue"
@@ -631,7 +631,7 @@
                                     <oxy:LineSeries
                                         Title="{DynamicResource 爐內溫度3}"
                                         DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_2"
+                                        DataFieldY="OvenTemperatures_3"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                         LineStyle="Solid"
                                         MarkerFill="Lime"
@@ -642,7 +642,7 @@
                                     <oxy:LineSeries
                                         Title="{DynamicResource 爐內溫度2}"
                                         DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_1"
+                                        DataFieldY="OvenTemperatures_2"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                         LineStyle="Solid"
                                         MarkerFill="Gold"
@@ -653,7 +653,7 @@
                                     <oxy:LineSeries
                                         Title="{DynamicResource 爐內溫度1}"
                                         DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_0"
+                                        DataFieldY="OvenTemperatures_1"
                                         ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                         LineStyle="Solid"
                                         MarkerFill="DarkOrange"
