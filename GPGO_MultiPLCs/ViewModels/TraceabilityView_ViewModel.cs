@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.Chart;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -687,6 +689,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
                                                 wsht.Cells.Style.Font.SetFromFont(new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Regular));
 
+                                                var sheet_list = new List<ExcelWorksheet>();
                                                 var keys = _ViewResults[0].ToDic(Language).Keys.ToArray();
 
                                                 for (var i = 0; i < keys.Length; i++)
@@ -720,6 +723,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                     var temps = _ViewResults[i].RecordTemperatures.ToArray();
                                                     var record_sht = xlwb.Workbook.Worksheets.Add("Records " + (i + 1));
+                                                    sheet_list.Add(record_sht);
+
                                                     record_sht.View.ShowGridLines = false;
                                                     record_sht.View.FreezePanes(4, 2);
                                                     record_sht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
@@ -757,6 +762,46 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].AutoFitColumns();
+
+                                                    var chart = (ExcelLineChart)record_sht.Drawings.AddChart("", eChartType.Line);
+                                                    chart.SetSize(900, 300);
+                                                    var s1 = chart.Series.Add(record_sht.Cells[4, 2, temps.Length + 3, 2], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                    var s2 = chart.Series.Add(record_sht.Cells[4, 3, temps.Length + 3, 3], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                    var s3 = chart.Series.Add(record_sht.Cells[4, 4, temps.Length + 3, 4], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                    var s4 = chart.Series.Add(record_sht.Cells[4, 5, temps.Length + 3, 5], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                    var s5 = chart.Series.Add(record_sht.Cells[4, 6, temps.Length + 3, 6], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                    var s6 = chart.Series.Add(record_sht.Cells[4, 7, temps.Length + 3, 7], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                    var s7 = chart.Series.Add(record_sht.Cells[4, 8, temps.Length + 3, 8], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                    var s8 = chart.Series.Add(record_sht.Cells[4, 9, temps.Length + 3, 9], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                    var s9 = chart.Series.Add(record_sht.Cells[4, 10, temps.Length + 3, 10], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+
+                                                    s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
+                                                    s2.Header = nameof(RecordTemperatures.OvenTemperatures_0);
+                                                    s3.Header = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                    s4.Header = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                    s5.Header = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                    s6.Header = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                    s7.Header = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                    s8.Header = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                    s9.Header = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                    s1.Border.Fill.Color = Color.Red;
+                                                    s2.Border.Fill.Color = Color.DarkOrange;
+                                                    s1.Border.Fill.Color = Color.Gold;
+                                                    s4.Border.Fill.Color = Color.Lime;
+                                                    s5.Border.Fill.Color = Color.DodgerBlue;
+                                                    s6.Border.Fill.Color = Color.DarkOrchid;
+                                                    s7.Border.Fill.Color = Color.Magenta;
+                                                    s8.Border.Fill.Color = Color.Brown;
+                                                    s9.Border.Fill.Color = Color.BurlyWood;
+
+                                                    record_sht.Row(1).Height = 230;
+
+                                                    chart.XAxis.Title.Text = "Time";
+                                                    chart.XAxis.Title.Font.Size = 12;
+                                                    chart.YAxis.Title.Text = "°C";
+                                                    chart.YAxis.Title.Font.Size = 12;
+                                                    chart.Border.Width = 0;
+                                                    chart.SetPosition(0, 0, 1, 0);
                                                 }
 
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
@@ -765,6 +810,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].AutoFitColumns();
 
+                                                wsht.Cells[1,1].Formula= "Cell(\"row\")";
+                                                
                                                 xlwb.SaveAs(fi);
                                                 xlwb.Dispose();
                                             }, TaskCreationOptions.LongRunning);
