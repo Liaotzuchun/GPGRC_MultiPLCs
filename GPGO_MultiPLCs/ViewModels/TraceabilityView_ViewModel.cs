@@ -696,7 +696,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     wsht.Cells[3, i + 1].Value = keys[i];
                                                     wsht.Cells[3, i + 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                                                    wsht.Cells[3, i + 1].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.GreenYellow);
+                                                    wsht.Cells[3, i + 1].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
                                                 }
 
                                                 for (var i = 0; i < n; i++)
@@ -728,7 +728,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     record_sht.View.ShowGridLines = false;
                                                     record_sht.View.FreezePanes(4, 2);
                                                     record_sht.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-                                                    record_sht.Cells.Style.Font.SetFromFont(new System.Drawing.Font("Segoe UI", 11, System.Drawing.FontStyle.Regular));
+                                                    record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
                                                     record_sht.Cells[3, 1].Value = nameof(RecordTemperatures.Time);
                                                     record_sht.Cells[3, 2].Value = nameof(RecordTemperatures.ThermostatTemperature);
                                                     record_sht.Cells[3, 3].Value = nameof(RecordTemperatures.OvenTemperatures_0);
@@ -740,7 +740,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     record_sht.Cells[3, 9].Value = nameof(RecordTemperatures.OvenTemperatures_6);
                                                     record_sht.Cells[3, 10].Value = nameof(RecordTemperatures.OvenTemperatures_7);
                                                     record_sht.Cells[3, 1, 3, 10].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                                                    record_sht.Cells[3, 1, 3, 10].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.GreenYellow);
+                                                    record_sht.Cells[3, 1, 3, 10].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
 
                                                     for (var j = 0; j < temps.Length; j++)
                                                     {
@@ -774,7 +774,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     var s7 = chart.Series.Add(record_sht.Cells[4, 8, temps.Length + 3, 8], record_sht.Cells[4, 1, temps.Length + 3, 1]);
                                                     var s8 = chart.Series.Add(record_sht.Cells[4, 9, temps.Length + 3, 9], record_sht.Cells[4, 1, temps.Length + 3, 1]);
                                                     var s9 = chart.Series.Add(record_sht.Cells[4, 10, temps.Length + 3, 10], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-
                                                     s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
                                                     s2.Header = nameof(RecordTemperatures.OvenTemperatures_0);
                                                     s3.Header = nameof(RecordTemperatures.OvenTemperatures_1);
@@ -801,6 +800,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     chart.YAxis.Title.Text = "°C";
                                                     chart.YAxis.Title.Font.Size = 12;
                                                     chart.Border.Width = 0;
+                                                    chart.Border.Fill.Color = Color.Transparent;
                                                     chart.SetPosition(0, 0, 1, 0);
                                                 }
 
@@ -809,9 +809,67 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                                                 wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].AutoFitColumns();
+                                                wsht.Cells[1,1].Formula= "\"Records \" & Cell(\"row\")";
 
-                                                wsht.Cells[1,1].Formula= "Cell(\"row\")";
-                                                
+                                                var _chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
+                                                _chart.SetSize(900, 300);
+                                                var _s1 = _chart.Series.Add(wsht.Cells[4, 2, 4, 2], wsht.Cells[4, 1, 4, 1]);
+                                                var _s2 = _chart.Series.Add(wsht.Cells[4, 3, 4, 3], wsht.Cells[4, 1, 4, 1]);
+                                                var _s3 = _chart.Series.Add(wsht.Cells[4, 4, 4, 4], wsht.Cells[4, 1, 4, 1]);
+                                                var _s4 = _chart.Series.Add(wsht.Cells[4, 5, 4, 5], wsht.Cells[4, 1, 4, 1]);
+                                                var _s5 = _chart.Series.Add(wsht.Cells[4, 6, 4, 6], wsht.Cells[4, 1, 4, 1]);
+                                                var _s6 = _chart.Series.Add(wsht.Cells[4, 7, 4, 7], wsht.Cells[4, 1, 4, 1]);
+                                                var _s7 = _chart.Series.Add(wsht.Cells[4, 8, 4, 8], wsht.Cells[4, 1, 4, 1]);
+                                                var _s8 = _chart.Series.Add(wsht.Cells[4, 9, 4, 9], wsht.Cells[4, 1, 4, 1]);
+                                                var _s9 = _chart.Series.Add(wsht.Cells[4, 10, 4, 10], wsht.Cells[4, 1, 4, 1]);
+                                                var x = "INDIRECT(\"$A$1\")" + "!$A$4:$A$103";
+                                                _s1.XSeries = x;
+                                                _s1.Series = "INDIRECT(\"$A$1\")" + "!$B$4:$B$103";
+                                                _s2.XSeries = x;
+                                                _s2.Series = "INDIRECT(\"$A$1\")" + "!$C$4:$C$103";
+                                                _s3.XSeries = x;
+                                                _s3.Series = "INDIRECT(\"$A$1\")" + "!$D$4:$D$103";
+                                                _s4.XSeries = x;
+                                                _s4.Series = "INDIRECT(\"$A$1\")" + "!$E$4:$E$103";
+                                                _s5.XSeries = x;
+                                                _s5.Series = "INDIRECT(\"$A$1\")" + "!$F$4:$F$103";
+                                                _s6.XSeries = x;
+                                                _s6.Series = "INDIRECT(\"$A$1\")" + "!$G$4:$G$103";
+                                                _s7.XSeries = x;
+                                                _s7.Series = "INDIRECT(\"$A$1\")" + "!$H$4:$H$103";
+                                                _s8.XSeries = x;
+                                                _s8.Series = "INDIRECT(\"$A$1\")" + "!$I$4:$I$103";
+                                                _s9.XSeries = x;
+                                                _s9.Series = "INDIRECT(\"$A$1\")" + "!$J$4:$J$103";
+                                                _s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
+                                                _s2.Header = nameof(RecordTemperatures.OvenTemperatures_0);
+                                                _s3.Header = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                _s4.Header = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                _s5.Header = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                _s6.Header = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                _s7.Header = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                _s8.Header = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                _s9.Header = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                _s1.Border.Fill.Color = Color.Red;
+                                                _s2.Border.Fill.Color = Color.DarkOrange;
+                                                _s1.Border.Fill.Color = Color.Gold;
+                                                _s4.Border.Fill.Color = Color.Lime;
+                                                _s5.Border.Fill.Color = Color.DodgerBlue;
+                                                _s6.Border.Fill.Color = Color.DarkOrchid;
+                                                _s7.Border.Fill.Color = Color.Magenta;
+                                                _s8.Border.Fill.Color = Color.Brown;
+                                                _s9.Border.Fill.Color = Color.BurlyWood;
+
+                                                wsht.Row(1).Height = 230;
+
+                                                _chart.XAxis.Title.Text = "Time";
+                                                _chart.XAxis.Title.Font.Size = 12;
+                                                _chart.YAxis.Title.Text = "°C";
+                                                _chart.YAxis.Title.Font.Size = 12;
+                                                _chart.Border.Width = 0;
+                                                _chart.Border.Fill.Color = Color.Transparent;
+                                                _chart.SetPosition(0, 0, 1, 0);
+
                                                 xlwb.SaveAs(fi);
                                                 xlwb.Dispose();
                                             }, TaskCreationOptions.LongRunning);
