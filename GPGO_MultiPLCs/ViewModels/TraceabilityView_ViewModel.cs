@@ -557,6 +557,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 foreach (var sheet in xlwb.Workbook.Worksheets)
                                                 {
                                                     sheet.Protection.IsProtected = true;
+                                                    sheet.Protection.AllowAutoFilter = true;
+                                                    sheet.Protection.AllowSelectLockedCells = true;
+                                                    sheet.Protection.AllowSelectUnlockedCells = true;
+                                                    sheet.Protection.AllowSort = true;
                                                     sheet.Cells[1, 1].Style.Locked = false;
                                                 }
 
