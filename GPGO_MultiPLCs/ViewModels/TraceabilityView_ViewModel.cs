@@ -357,9 +357,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     }
 
                                                     var sheet_name = "Records " + (i + 1);
-                                                    wsht.Cells[i + 4, values.Length].Hyperlink = new Uri("#'" + sheet_name + "'!$A$4", UriKind.Relative);
-                                                    //wsht.Cells[i + 4, values.Length].Style.Font.UnderLine = true;
+                                                    wsht.Cells[i + 4, values.Length].Formula = "HYPERLINK(\"#'" + sheet_name + "'!$A$4\",\"@\")";
                                                     wsht.Cells[i + 4, values.Length].Style.Font.Color.SetColor(Color.Blue);
+                                                    wsht.Cells[i + 4, values.Length].Style.Font.UnderLine = false;
 
                                                     var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
                                                     record_sht.View.ShowGridLines = false;
@@ -367,9 +367,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                     record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
                                                     record_sht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                                                    record_sht.Cells[2, 1].Value = "<<<<<<Back";
+                                                    record_sht.Cells[2, 1].Formula = "HYPERLINK(\"#'" + wsht.Name + "'!$A$4\",\"<<<<<<Back\")";
                                                     record_sht.Cells[2, 1].Style.Font.Color.SetColor(Color.Blue);
-                                                    record_sht.Cells[2, 1].Hyperlink = new Uri("#'" + wsht.Name + "'!$A$4", UriKind.Relative);
+                                                    record_sht.Cells[2, 1].Style.Font.UnderLine = false;
                                                     record_sht.Cells[3, 1].Value = nameof(RecordTemperatures.Time);
                                                     record_sht.Cells[3, 2].Value = nameof(RecordTemperatures.ThermostatTemperature);
                                                     record_sht.Cells[3, 3].Value = nameof(RecordTemperatures.OvenTemperatures_1);
@@ -553,6 +553,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 _chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
                                                 _chart.RoundedCorners = false;
                                                 _chart.SetPosition(0, 0, 0, 0);
+
+                                                foreach (var sheet in xlwb.Workbook.Worksheets)
+                                                {
+                                                    sheet.Protection.IsProtected = true;
+                                                    sheet.Cells[1, 1].Style.Locked = false;
+                                                }
 
                                                 xlwb.SaveAs(fi);
                                                 xlwb.Dispose();
