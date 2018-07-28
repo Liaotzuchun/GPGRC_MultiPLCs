@@ -11,25 +11,18 @@ using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    /// <summary>
-    /// 提供身分驗證登入和系統設定
-    /// </summary>
+    /// <summary>提供身分驗證登入和系統設定</summary>
     public class Authenticator_ViewModel : ViewModelBase
     {
-        /// <summary>
-        /// 最高權限帳號
-        /// </summary>
+        /// <summary>最高權限帳號</summary>
         private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };
 
-        /// <summary>
-        /// 最低權限帳號，訪客
-        /// </summary>
+        /// <summary>最低權限帳號，訪客</summary>
         private readonly User Guest = new User { Name = "", Password = "", Level = User.UserLevel.D };
 
-        /// <summary>
-        /// 所有權限階級
-        /// </summary>
+        /// <summary>所有權限階級</summary>
         private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.A, User.UserLevel.B, User.UserLevel.C };
+
         private bool _Add_Enable;
         private User.UserLevel _EditLevel;
         private string _EditName;
@@ -41,69 +34,43 @@ namespace GPGO_MultiPLCs.ViewModels
         private string _TypedName;
         private bool _Update_Enable;
 
-        /// <summary>
-        /// 所有使用者列表
-        /// </summary>
+        /// <summary>所有使用者列表</summary>
         private List<User> Users;
 
-        /// <summary>
-        /// 新增使用者帳號
-        /// </summary>
+        /// <summary>新增使用者帳號</summary>
         public RelayCommand AddUser { get; }
 
-        /// <summary>
-        /// 新增帳號可選擇指定的權限階級
-        /// </summary>
+        /// <summary>新增帳號可選擇指定的權限階級</summary>
         public IEnumerable<User.UserLevel> EditLevels => Levels.Where(x => x < _NowUser.Level);
 
-        /// <summary>
-        /// 當登入視窗關閉時
-        /// </summary>
+        /// <summary>當登入視窗關閉時</summary>
         public RelayCommand ExitLog { get; }
 
-        /// <summary>
-        /// 系統參數
-        /// </summary>
+        /// <summary>系統參數</summary>
         public GlobalTempSettings GT { get; }
 
-        /// <summary>
-        /// 登入使用者
-        /// </summary>
+        /// <summary>登入使用者</summary>
         public CommandWithResult<bool> Login { get; }
 
-        /// <summary>
-        /// 登出使用者
-        /// </summary>
+        /// <summary>登出使用者</summary>
         public RelayCommand Logout { get; }
 
-        /// <summary>
-        /// 移除使用者
-        /// </summary>
+        /// <summary>移除使用者</summary>
         public RelayCommand RemoveUser { get; }
 
-        /// <summary>
-        /// 設定資料輸出路徑
-        /// </summary>
+        /// <summary>設定資料輸出路徑</summary>
         public RelayCommand SetPath { get; }
 
-        /// <summary>
-        /// 登入視窗開啟時
-        /// </summary>
+        /// <summary>登入視窗開啟時</summary>
         public RelayCommand StartLog { get; }
 
-        /// <summary>
-        /// 更新使用者列表
-        /// </summary>
+        /// <summary>更新使用者列表</summary>
         public RelayCommand UpdateUser { get; }
 
-        /// <summary>
-        /// 依據權限過濾顯示的使用者列表
-        /// </summary>
+        /// <summary>依據權限過濾顯示的使用者列表</summary>
         public IQueryable<User> ViewUsers => Users?.AsQueryable().Where(x => x.Level < _NowUser.Level);
 
-        /// <summary>
-        /// 辨別是否可新增使用者
-        /// </summary>
+        /// <summary>辨別是否可新增使用者</summary>
         public bool Add_Enable
         {
             get => _Add_Enable;
@@ -114,35 +81,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 辨別是否可移除使用者
-        /// </summary>
-        public bool Remove_Enable
-        {
-            get => _Remove_Enable;
-            set
-            {
-                _Remove_Enable = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// 辨別是否可變更使用者設定
-        /// </summary>
-        public bool Update_Enable
-        {
-            get => _Update_Enable;
-            set
-            {
-                _Update_Enable = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// 設定權限
-        /// </summary>
+        /// <summary>設定權限</summary>
         public User.UserLevel EditLevel
         {
             get => _EditLevel;
@@ -155,9 +94,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 設定使用者名稱
-        /// </summary>
+        /// <summary>設定使用者名稱</summary>
         public string EditName
         {
             get => _EditName;
@@ -171,9 +108,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 設定使用者密碼
-        /// </summary>
+        /// <summary>設定使用者密碼</summary>
         public string EditPassword
         {
             get => _EditPassword;
@@ -187,9 +122,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 是否顯示系統參數頁面
-        /// </summary>
+        /// <summary>是否顯示系統參數頁面</summary>
         public Visibility IsShown
         {
             get => _IsShown;
@@ -200,9 +133,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 目前登入的使用者
-        /// </summary>
+        /// <summary>目前登入的使用者</summary>
         public User NowUser
         {
             get => _NowUser;
@@ -217,9 +148,18 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 目前選取的使用者
-        /// </summary>
+        /// <summary>辨別是否可移除使用者</summary>
+        public bool Remove_Enable
+        {
+            get => _Remove_Enable;
+            set
+            {
+                _Remove_Enable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>目前選取的使用者</summary>
         public User SelectedUser
         {
             get => _SelectedUser;
@@ -252,9 +192,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 登入名稱
-        /// </summary>
+        /// <summary>登入名稱</summary>
         public string TypedName
         {
             get => _TypedName;
@@ -265,9 +203,18 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 讀取所有使用者列表
-        /// </summary>
+        /// <summary>辨別是否可變更使用者設定</summary>
+        public bool Update_Enable
+        {
+            get => _Update_Enable;
+            set
+            {
+                _Update_Enable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>讀取所有使用者列表</summary>
         public void LoadUsers()
         {
             if (File.Exists("Users.json"))
@@ -299,9 +246,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 儲存使用者列表
-        /// </summary>
+        /// <summary>儲存使用者列表</summary>
         public void SaveUsers()
         {
             try

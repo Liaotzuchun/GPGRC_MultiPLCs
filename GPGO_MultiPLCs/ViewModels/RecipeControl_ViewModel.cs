@@ -8,9 +8,7 @@ using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    /// <summary>
-    /// 配方管理
-    /// </summary>
+    /// <summary>配方管理</summary>
     public class RecipeControl_ViewModel : ViewModelBase
     {
         public delegate void ListUpdated(List<PLC_Recipe> list);
@@ -24,42 +22,31 @@ namespace GPGO_MultiPLCs.ViewModels
         private string _TypedName;
         private IQueryable<PLC_Recipe> _ViewRecipes;
 
-        /// <summary>
-        /// 所有配方的列表
-        /// </summary>
+        /// <summary>所有配方的列表</summary>
         private List<PLC_Recipe> Recipes;
 
-        /// <summary>
-        /// 辨識是否可新增配方(列表中沒有和輸入名相同的配方)
-        /// </summary>
+        /// <summary>辨識是否可新增配方(列表中沒有和輸入名相同的配方)</summary>
         public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
+
         public RelayCommand AddCommand { get; }
 
-        /// <summary>
-        /// 辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)
-        /// </summary>
+        /// <summary>辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)</summary>
         public bool Delete_Enable => _Selected_PLC_Recipe != null && !_Selected_PLC_Recipe.Used_Stations.Any(x => x);
+
         public RelayCommand DeleteCommand { get; }
 
-        /// <summary>
-        /// 辨別是否可儲存配方(有正在選取的配方)
-        /// </summary>
-        public bool Save_Enable => _Selected_PLC_Recipe != null;
-        public RelayCommand SaveCommand { get; }
-
-        /// <summary>
-        /// 讀取配方列表
-        /// </summary>
+        /// <summary>讀取配方列表</summary>
         public RelayCommand InitialLoadCommand { get; }
 
-        /// <summary>
-        /// 重新讀取配方參數(未儲存時)
-        /// </summary>
+        /// <summary>重新讀取配方參數(未儲存時)</summary>
         public RelayCommand ResetCommand { get; }
 
-        /// <summary>
-        /// 配方搜尋的關鍵字
-        /// </summary>
+        /// <summary>辨別是否可儲存配方(有正在選取的配方)</summary>
+        public bool Save_Enable => _Selected_PLC_Recipe != null;
+
+        public RelayCommand SaveCommand { get; }
+
+        /// <summary>配方搜尋的關鍵字</summary>
         public string SearchName
         {
             get => _SearchName;
@@ -73,9 +60,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 目前選取的配方
-        /// </summary>
+        /// <summary>目前選取的配方</summary>
         public PLC_Recipe Selected_PLC_Recipe
         {
             get => _Selected_PLC_Recipe;
@@ -86,9 +71,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 目前選取配方在列表中的index
-        /// </summary>
+        /// <summary>目前選取配方在列表中的index</summary>
         public int Selected_PLC_Recipe_Index
         {
             get => _Selected_PLC_Recipe_Index;
@@ -112,9 +95,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 辨識是否不在忙碌中
-        /// </summary>
+        /// <summary>辨識是否不在忙碌中</summary>
         public bool Standby
         {
             get => _Standby;
@@ -125,9 +106,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 輸入/選定的配方名
-        /// </summary>
+        /// <summary>輸入/選定的配方名</summary>
         public string TypedName
         {
             get => _TypedName;
@@ -148,9 +127,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 顯示的配方列表(依據搜尋條件)
-        /// </summary>
+        /// <summary>顯示的配方列表(依據搜尋條件)</summary>
         public IQueryable<PLC_Recipe> ViewRecipes
         {
             get => _ViewRecipes;
@@ -161,19 +138,13 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 配方列表更新事件
-        /// </summary>
+        /// <summary>配方列表更新事件</summary>
         public event ListUpdated ListUpdatedEvent;
 
-        /// <summary>
-        /// 單一配方讀取完成事件
-        /// </summary>
+        /// <summary>單一配方讀取完成事件</summary>
         public event Action RecipeLoadedEvent;
 
-        /// <summary>
-        /// 獲取指定配方
-        /// </summary>
+        /// <summary>獲取指定配方</summary>
         /// <param name="index">烤箱站號</param>
         /// <param name="name">配方名</param>
         /// <returns></returns>
@@ -208,9 +179,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return result;
         }
 
-        /// <summary>
-        /// 讀取配方
-        /// </summary>
+        /// <summary>讀取配方</summary>
         /// <param name="name">配方名</param>
         /// <returns></returns>
         private async Task Load(string name)
@@ -241,9 +210,7 @@ namespace GPGO_MultiPLCs.ViewModels
             Standby = true;
         }
 
-        /// <summary>
-        /// 更新配方列表
-        /// </summary>
+        /// <summary>更新配方列表</summary>
         /// <returns></returns>
         private async Task RefreshList()
         {
@@ -270,9 +237,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 儲存配方
-        /// </summary>
+        /// <summary>儲存配方</summary>
         /// <param name="name">配方名</param>
         /// <returns></returns>
         private async Task Save(string name)
@@ -325,11 +290,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                            {
                                                if (await dialog.Show(new Dictionary<Language, string>
                                                                      {
-                                                                         {Language.TW, "即將儲存並覆蓋同名配方，無法復原!\n" + "確定儲存?"},
-                                                                         {Language.CHS, "即将储存并覆盖同名配方，无法复原!\n" + "确定储存?"},
-                                                                         {Language.EN, "The recipe is going to save or replace the same one,\n" + "Can't be restored!" + " OK?"}
-                                                                     }, 
-                                                                     true, DialogMsgType.Alert))
+                                                                         { Language.TW, "即將儲存並覆蓋同名配方，無法復原!\n" + "確定儲存?" },
+                                                                         { Language.CHS, "即将储存并覆盖同名配方，无法复原!\n" + "确定储存?" },
+                                                                         {
+                                                                             Language.EN,
+                                                                             "The recipe is going to save or replace the same one,\n" + "Can't be restored!" + " OK?"
+                                                                         }
+                                                                     },
+                                                                     true,
+                                                                     DialogMsgType.Alert))
                                                {
                                                    await Save(_TypedName);
                                                }

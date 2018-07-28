@@ -6,9 +6,7 @@ using System.Windows.Markup;
 
 namespace GPGO_MultiPLCs.Views
 {
-    /// <summary>
-    /// 使轉換器之參數可供binding
-    /// </summary>
+    /// <summary>使轉換器之參數可供binding</summary>
     public class BindableBinding : MarkupExtension
     {
         private readonly Binding binding = new Binding();

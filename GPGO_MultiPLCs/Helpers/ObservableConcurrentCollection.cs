@@ -9,8 +9,8 @@ using System.Threading;
 namespace GPGO_MultiPLCs.Helpers
 {
     /// <summary>
-    ///     Provides a base implementation for producer-consumer collections that wrap other
-    ///     producer-consumer collections.
+    ///     Provides a base implementation for producer-consumer collections that wrap other producer-consumer
+    ///     collections.
     /// </summary>
     /// <typeparam name="T">Specifies the type of elements in the collection.</typeparam>
     [Serializable]
@@ -72,12 +72,10 @@ namespace GPGO_MultiPLCs.Helpers
 
         /// <summary>Attempts to remove and return an item from the collection.</summary>
         /// <param name="item">
-        ///     When this method returns, if the operation was successful, item contains the item removed. If
-        ///     no item was available to be removed, the value is unspecified.
+        ///     When this method returns, if the operation was successful, item contains the item removed. If no
+        ///     item was available to be removed, the value is unspecified.
         /// </param>
-        /// <returns>
-        ///     true if an element was removed and returned from the collection; otherwise, false.
-        /// </returns>
+        /// <returns>true if an element was removed and returned from the collection; otherwise, false.</returns>
         bool IProducerConsumerCollection<T>.TryTake(out T item)
         {
             return TryTake(out item);
@@ -96,12 +94,10 @@ namespace GPGO_MultiPLCs.Helpers
 
         /// <summary>Attempts to remove and return an item from the collection.</summary>
         /// <param name="item">
-        ///     When this method returns, if the operation was successful, item contains the item removed. If
-        ///     no item was available to be removed, the value is unspecified.
+        ///     When this method returns, if the operation was successful, item contains the item removed. If no
+        ///     item was available to be removed, the value is unspecified.
         /// </param>
-        /// <returns>
-        ///     true if an element was removed and returned from the collection; otherwise, false.
-        /// </returns>
+        /// <returns>true if an element was removed and returned from the collection; otherwise, false.</returns>
         protected virtual bool TryTake(out T item)
         {
             return ContainedCollection.TryTake(out item);
@@ -168,9 +164,7 @@ namespace GPGO_MultiPLCs.Helpers
             return result;
         }
 
-        /// <summary>
-        ///     Notifies observers of CollectionChanged or PropertyChanged of an update to the dictionary.
-        /// </summary>
+        /// <summary>Notifies observers of CollectionChanged or PropertyChanged of an update to the dictionary.</summary>
         private void NotifyObserversOfChange()
         {
             var collectionHandler = CollectionChanged;
@@ -187,17 +181,14 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        /// <summary>
-        ///     Initializes an instance of the ObservableConcurrentCollection class with an underlying
-        ///     queue data structure.
-        /// </summary>
+        /// <summary>Initializes an instance of the ObservableConcurrentCollection class with an underlying queue data structure.</summary>
         public ObservableConcurrentCollection() : this(new ConcurrentQueue<T>())
         {
         }
 
         /// <summary>
-        ///     Initializes an instance of the ObservableConcurrentCollection class with the specified
-        ///     collection as the underlying data structure.
+        ///     Initializes an instance of the ObservableConcurrentCollection class with the specified collection as the
+        ///     underlying data structure.
         /// </summary>
         public ObservableConcurrentCollection(IProducerConsumerCollection<T> collection) : base(collection)
         {

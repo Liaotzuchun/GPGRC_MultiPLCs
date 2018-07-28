@@ -3,9 +3,7 @@ using System.Linq;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    /// <summary>
-    /// 提供兩個key當索引的Dictionary集合
-    /// </summary>
+    /// <summary>提供兩個key當索引的Dictionary集合</summary>
     /// <typeparam name="TKey1">key1</typeparam>
     /// <typeparam name="TKey2">key2</typeparam>
     /// <typeparam name="TValue">值</typeparam>

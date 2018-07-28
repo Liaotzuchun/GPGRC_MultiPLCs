@@ -8,9 +8,7 @@ using System.Windows.Media;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    /// <summary>
-    /// 各種擴充
-    /// </summary>
+    /// <summary>各種擴充</summary>
     public static class Extensions
     {
         private static readonly int[] bitnum =
@@ -48,9 +46,7 @@ namespace GPGO_MultiPLCs.Helpers
             1073741824
         };
 
-        /// <summary>
-        /// short陣列轉成ASCII字串
-        /// </summary>
+        /// <summary>short陣列轉成ASCII字串</summary>
         /// <param name="vals"></param>
         /// <returns></returns>
         public static string ASCIIfromShorts(this IEnumerable<short> vals)
@@ -68,9 +64,7 @@ namespace GPGO_MultiPLCs.Helpers
             return str;
         }
 
-        /// <summary>
-        /// ASCII字串轉換成short陣列
-        /// </summary>
+        /// <summary>ASCII字串轉換成short陣列</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static short[] ASCIItoShorts(this string val)
@@ -94,9 +88,7 @@ namespace GPGO_MultiPLCs.Helpers
             return vals.ToArray();
         }
 
-        /// <summary>
-        /// bit陣列(只有0/1的byte陣列)轉換至int整數
-        /// </summary>
+        /// <summary>bit陣列(只有0/1的byte陣列)轉換至int整數</summary>
         /// <param name="bits"></param>
         /// <returns></returns>
         public static int BitBytesToInt(this byte[] bits)
@@ -126,9 +118,7 @@ namespace GPGO_MultiPLCs.Helpers
             return (int)val;
         }
 
-        /// <summary>
-        /// bit陣列(只有0/1的byte陣列)轉換至short整數
-        /// </summary>
+        /// <summary>bit陣列(只有0/1的byte陣列)轉換至short整數</summary>
         /// <param name="bits"></param>
         /// <returns></returns>
         public static short BitBytesToShort(this byte[] bits)
@@ -158,9 +148,7 @@ namespace GPGO_MultiPLCs.Helpers
             return (short)val;
         }
 
-        /// <summary>
-        /// bit陣列(boolean陣列)轉換至int整數
-        /// </summary>
+        /// <summary>bit陣列(boolean陣列)轉換至int整數</summary>
         /// <param name="bits"></param>
         /// <returns></returns>
         public static int BitsToInt(this bool[] bits)
@@ -190,9 +178,7 @@ namespace GPGO_MultiPLCs.Helpers
             return (int)val;
         }
 
-        /// <summary>
-        /// bit陣列(boolean陣列)轉換至short整數
-        /// </summary>
+        /// <summary>bit陣列(boolean陣列)轉換至short整數</summary>
         /// <param name="bits"></param>
         /// <returns></returns>
         public static short BitsToShort(this bool[] bits)
@@ -222,9 +208,7 @@ namespace GPGO_MultiPLCs.Helpers
             return (short)val;
         }
 
-        /// <summary>
-        /// byte陣列轉換至16進位字串
-        /// </summary>
+        /// <summary>byte陣列轉換至16進位字串</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static string BytesToHex(this byte[] val)
@@ -232,9 +216,7 @@ namespace GPGO_MultiPLCs.Helpers
             return BitConverter.ToString(val);
         }
 
-        /// <summary>
-        /// 物件深層拷貝，產生一新物件(僅限public屬性和field)
-        /// </summary>
+        /// <summary>物件深層拷貝，產生一新物件(僅限public屬性和field)</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="target"></param>
@@ -260,17 +242,7 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        /// <summary>
-        /// 將物件的公開屬性轉換為Dictionary
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static Dictionary<string, object> ToDictionary<T>(this T source) => typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => prop.Name, prop => prop.GetValue(source, null));
-
-        /// <summary>
-        /// 由HDV產生RGB Color
-        /// </summary>
+        /// <summary>由HDV產生RGB Color</summary>
         /// <param name="hue">色相，0~1</param>
         /// <param name="sat">飽和度，0~1</param>
         /// <param name="val">亮度，0~1</param>
@@ -342,14 +314,27 @@ namespace GPGO_MultiPLCs.Helpers
             return Color.FromRgb((byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
         }
 
+        public static string GetExcelColumnName(this int columnNumber)
+        {
+            var dividend = columnNumber;
+            var columnName = string.Empty;
+
+            while (dividend > 0)
+            {
+                var modulo = (dividend - 1) % 26;
+                columnName = Convert.ToChar(65 + modulo) + columnName;
+                dividend = (dividend - modulo) / 26;
+            }
+
+            return columnName;
+        }
+
         public static byte HexToByte(this string val)
         {
             return Convert.ToByte(val, 16);
         }
 
-        /// <summary>
-        /// 16進位字串轉換至byte陣列
-        /// </summary>
+        /// <summary>16進位字串轉換至byte陣列</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static byte[] HexToBytes(this string[] val)
@@ -357,9 +342,7 @@ namespace GPGO_MultiPLCs.Helpers
             return val.Select(x => Convert.ToByte(x, 16)).ToArray();
         }
 
-        /// <summary>
-        /// 16進位字串轉換成整int數
-        /// </summary>
+        /// <summary>16進位字串轉換成整int數</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static int HexToInt(this string val)
@@ -367,9 +350,7 @@ namespace GPGO_MultiPLCs.Helpers
             return int.Parse(val, NumberStyles.HexNumber);
         }
 
-        /// <summary>
-        /// int整數轉換至bit陣列(0/1的byte陣列)
-        /// </summary>
+        /// <summary>int整數轉換至bit陣列(0/1的byte陣列)</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static byte[] IntToBitBytes(this int val)
@@ -394,9 +375,7 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
-        /// <summary>
-        /// int整數轉換至bit陣列(boolean陣列)
-        /// </summary>
+        /// <summary>int整數轉換至bit陣列(boolean陣列)</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static bool[] IntToBits(this int val)
@@ -421,9 +400,20 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
-        /// <summary>
-        /// 2個short值轉int整數
-        /// </summary>
+        /// <summary>int整數轉換至2個short值</summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static (short, short) IntToShorts(this int value)
+        {
+            var temp = ((short)0, (short)0);
+            var byarrBufferByte = BitConverter.GetBytes(value);
+            temp.Item1 = BitConverter.ToInt16(byarrBufferByte, 0);
+            temp.Item2 = BitConverter.ToInt16(byarrBufferByte, 2);
+
+            return temp;
+        }
+
+        /// <summary>2個short值轉int整數</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static int ShortsToInt(this (short, short) val)
@@ -436,9 +426,7 @@ namespace GPGO_MultiPLCs.Helpers
             return final;
         }
 
-        /// <summary>
-        /// short轉換至bit陣列(0/1的byte陣列)
-        /// </summary>
+        /// <summary>short轉換至bit陣列(0/1的byte陣列)</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static byte[] ShortToBitBytes(this short val)
@@ -463,9 +451,7 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
-        /// <summary>
-        /// short轉換至bit陣列(boolean陣列)
-        /// </summary>
+        /// <summary>short轉換至bit陣列(boolean陣列)</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static bool[] ShortToBits(this short val)
@@ -490,9 +476,7 @@ namespace GPGO_MultiPLCs.Helpers
             return bits;
         }
 
-        /// <summary>
-        /// 取得日期的當週起始日
-        /// </summary>
+        /// <summary>取得日期的當週起始日</summary>
         /// <param name="dt"></param>
         /// <param name="startOfWeek"></param>
         /// <returns></returns>
@@ -503,9 +487,16 @@ namespace GPGO_MultiPLCs.Helpers
             return dt.AddDays(-1 * diff).Date;
         }
 
-        /// <summary>
-        /// short陣列轉換至UTF8字串
-        /// </summary>
+        /// <summary>將物件的公開屬性轉換為Dictionary</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Dictionary<string, object> ToDictionary<T>(this T source)
+        {
+            return typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => prop.Name, prop => prop.GetValue(source, null));
+        }
+
+        /// <summary>short陣列轉換至UTF8字串</summary>
         /// <param name="vals"></param>
         /// <returns></returns>
         public static string UTF8fromShorts(this IEnumerable<short> vals)
@@ -523,9 +514,7 @@ namespace GPGO_MultiPLCs.Helpers
             return str;
         }
 
-        /// <summary>
-        /// UTF8字串轉換至short陣列
-        /// </summary>
+        /// <summary>UTF8字串轉換至short陣列</summary>
         /// <param name="val"></param>
         /// <returns></returns>
         public static short[] UTF8toShorts(this string val)
@@ -547,36 +536,6 @@ namespace GPGO_MultiPLCs.Helpers
             vals.Add(BitConverter.ToInt16(temp, 0));
 
             return vals.ToArray();
-        }
-
-        /// <summary>
-        /// int整數轉換至2個short值
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static (short, short) IntToShorts(this int value)
-        {
-            var temp = ((short)0, (short)0);
-            var byarrBufferByte = BitConverter.GetBytes(value);
-            temp.Item1 = BitConverter.ToInt16(byarrBufferByte, 0);
-            temp.Item2 = BitConverter.ToInt16(byarrBufferByte, 2);
-
-            return temp;
-        }
-
-        public static string GetExcelColumnName(this int columnNumber)
-        {
-            var dividend = columnNumber;
-            var columnName = string.Empty;
-
-            while (dividend > 0)
-            {
-                var modulo = (dividend - 1) % 26;
-                columnName = Convert.ToChar(65 + modulo) + columnName;
-                dividend = (dividend - modulo) / 26;
-            }
-
-            return columnName;
         }
     }
 }

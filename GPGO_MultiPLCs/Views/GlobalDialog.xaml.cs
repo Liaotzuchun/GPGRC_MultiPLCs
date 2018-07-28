@@ -4,9 +4,7 @@ using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views
 {
-    /// <summary>
-    ///     GlobalDialog.xaml 的互動邏輯
-    /// </summary>
+    /// <summary>GlobalDialog.xaml 的互動邏輯</summary>
     public partial class GlobalDialog : UserControl
     {
         private void Intput_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

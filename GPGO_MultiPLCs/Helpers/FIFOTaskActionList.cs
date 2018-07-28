@@ -3,9 +3,7 @@ using System.Threading.Tasks;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    /// <summary>
-    /// 同一時間只會允許單一任務執行的FIFO任務執行集合
-    /// </summary>
+    /// <summary>同一時間只會允許單一任務執行的FIFO任務執行集合</summary>
     public sealed class FIFOTaskActionList
     {
         private readonly ConcurrentQueue<Task> Tasks = new ConcurrentQueue<Task>();

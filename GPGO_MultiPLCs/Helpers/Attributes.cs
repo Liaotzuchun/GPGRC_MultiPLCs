@@ -7,14 +7,14 @@ namespace GPGO_MultiPLCs.Helpers
     {
         public string Name { get; }
 
-        public EN_Name(string name)
-        {
-            Name = name;
-        }
-
         public override string ToString()
         {
             return Name;
+        }
+
+        public EN_Name(string name)
+        {
+            Name = name;
         }
     }
 
@@ -23,14 +23,14 @@ namespace GPGO_MultiPLCs.Helpers
     {
         public string Name { get; }
 
-        public CHT_Name(string name)
-        {
-            Name = name;
-        }
-
         public override string ToString()
         {
             return Name;
+        }
+
+        public CHT_Name(string name)
+        {
+            Name = name;
         }
     }
 
@@ -39,14 +39,14 @@ namespace GPGO_MultiPLCs.Helpers
     {
         public string Name { get; }
 
-        public CHS_Name(string name)
-        {
-            Name = name;
-        }
-
         public override string ToString()
         {
             return Name;
+        }
+
+        public CHS_Name(string name)
+        {
+            Name = name;
         }
     }
 }

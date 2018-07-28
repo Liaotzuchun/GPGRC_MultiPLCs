@@ -7,9 +7,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
-    /// <summary>
-    /// 定義事件type的代表顏色
-    /// </summary>
+    /// <summary>定義事件type的代表顏色</summary>
     public class EventTypeToColor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -33,9 +31,7 @@ namespace GPGO_MultiPLCs.Models
         }
     }
 
-    /// <summary>
-    /// 溫度紀錄
-    /// </summary>
+    /// <summary>溫度紀錄</summary>
     [BsonIgnoreExtraElements]
     public class RecordTemperatures
     {
@@ -60,9 +56,7 @@ namespace GPGO_MultiPLCs.Models
         public TimeSpan Time { get; set; }
     }
 
-    /// <summary>
-    /// 事件類型
-    /// </summary>
+    /// <summary>事件類型</summary>
     public enum EventType
     {
         Normal,
@@ -70,9 +64,7 @@ namespace GPGO_MultiPLCs.Models
         Alarm
     }
 
-    /// <summary>
-    /// 事件紀錄
-    /// </summary>
+    /// <summary>事件紀錄</summary>
     [BsonIgnoreExtraElements]
     public class RecordEvent
     {

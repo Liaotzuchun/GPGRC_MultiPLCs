@@ -9,9 +9,7 @@ using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Models
 {
-    /// <summary>
-    /// 連接PLC並提供PLC資訊
-    /// </summary>
+    /// <summary>連接PLC並提供PLC資訊</summary>
     public class PLC_DataProvider : PLC_Data
     {
         public enum Status
@@ -31,9 +29,7 @@ namespace GPGO_MultiPLCs.Models
 
         public delegate void SwitchRecipeEventHandler(string recipe);
 
-        /// <summary>
-        /// 控制紀錄任務結束
-        /// </summary>
+        /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
 
         private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
@@ -44,33 +40,23 @@ namespace GPGO_MultiPLCs.Models
         private Task _RecordingTask;
         private string _Selected_Name;
 
-        /// <summary>
-        /// 投產
-        /// </summary>
-        public CommandWithResult<bool> CheckInCommand { get; }
-
-        /// <summary>
-        /// 取消投產
-        /// </summary>
+        /// <summary>取消投產</summary>
         public RelayCommand CancelCheckInCommand { get; }
+
+        /// <summary>投產</summary>
+        public CommandWithResult<bool> CheckInCommand { get; }
 
         public RelayCommand CheckRecipeCommand_KeyIn { get; }
 
         public RelayCommand CheckRecipeCommand_KeyLeave { get; }
 
-        /// <summary>
-        /// 取得是否正在紀錄溫度
-        /// </summary>
+        /// <summary>取得是否正在紀錄溫度</summary>
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
-        /// <summary>
-        /// 紀錄的資訊
-        /// </summary>
+        /// <summary>紀錄的資訊</summary>
         public ProcessInfo Process_Info { get; }
 
-        /// <summary>
-        /// 生產進度
-        /// </summary>
+        /// <summary>生產進度</summary>
         public double Progress
         {
             get
@@ -86,9 +72,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 進度狀態
-        /// </summary>
+        /// <summary>進度狀態</summary>
         public Status ProgressStatus
         {
             get
@@ -107,9 +91,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// OP輸入的配方名稱
-        /// </summary>
+        /// <summary>OP輸入的配方名稱</summary>
         public string Intput_Name
         {
             get => _Intput_Name;
@@ -120,9 +102,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// PLC連線狀態
-        /// </summary>
+        /// <summary>PLC連線狀態</summary>
         public bool OnlineStatus
         {
             get => _OnlineStatus;
@@ -143,9 +123,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 用來紀錄的任務，可追蹤狀態
-        /// </summary>
+        /// <summary>用來紀錄的任務，可追蹤狀態</summary>
         public Task RecordingTask
         {
             get => _RecordingTask;
@@ -169,9 +147,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// OP選擇的配方名稱
-        /// </summary>
+        /// <summary>OP選擇的配方名稱</summary>
         public string Selected_Name
         {
             get => _Selected_Name;
@@ -212,9 +188,7 @@ namespace GPGO_MultiPLCs.Models
                                                 });
         }
 
-        /// <summary>
-        /// 重設CancellationTokenSource狀態
-        /// </summary>
+        /// <summary>重設CancellationTokenSource狀態</summary>
         public void ResetStopTokenSource()
         {
             CTS?.Dispose();
@@ -345,12 +319,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  { Language.CHS, "输入操作人员ID" },
                                                                                                  { Language.EN, "Enter the Operator ID" }
                                                                                              },
-                                                                                             new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 { Language.TW, para },
-                                                                                                 { Language.CHS, para },
-                                                                                                 { Language.EN, para }
-                                                                                             },
+                                                                                             new Dictionary<Language, string> { { Language.TW, para }, { Language.CHS, para }, { Language.EN, para } },
                                                                                              x =>
                                                                                              {
                                                                                                  var str = x.Trim();
@@ -358,18 +327,9 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  return (str.Length > 0 && str.Length < 8,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
-                                                                                                             {
-                                                                                                                 Language.TW,
-                                                                                                                 "字數錯誤，請重試!"
-                                                                                                             },
-                                                                                                             {
-                                                                                                                 Language.CHS,
-                                                                                                                 "字数错误，请重试!"
-                                                                                                             },
-                                                                                                             {
-                                                                                                                 Language.EN,
-                                                                                                                 "Input error, please try again!"
-                                                                                                             }
+                                                                                                             { Language.TW, "字數錯誤，請重試!" },
+                                                                                                             { Language.CHS, "字数错误，请重试!" },
+                                                                                                             { Language.EN, "Input error, please try again!" }
                                                                                                          });
                                                                                              });
 
@@ -395,18 +355,9 @@ namespace GPGO_MultiPLCs.Models
                                                                                                      return (str.Length > 0 && str.Length < 4,
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
-                                                                                                                 {
-                                                                                                                     Language.TW,
-                                                                                                                     "字數錯誤，請重試!"
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     Language.CHS,
-                                                                                                                     "字数错误，请重试!"
-                                                                                                                 },
-                                                                                                                 {
-                                                                                                                     Language.EN,
-                                                                                                                     "Input error, please try again!"
-                                                                                                                 }
+                                                                                                                 { Language.TW, "字數錯誤，請重試!" },
+                                                                                                                 { Language.CHS, "字数错误，请重试!" },
+                                                                                                                 { Language.EN, "Input error, please try again!" }
                                                                                                              });
                                                                                                  });
 

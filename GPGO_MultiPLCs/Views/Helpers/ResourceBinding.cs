@@ -7,9 +7,7 @@ using System.Windows.Markup;
 
 namespace GPGO_MultiPLCs.Views
 {
-    /// <summary>
-    /// 讓Resourcekey可提供binding
-    /// </summary>
+    /// <summary>讓Resourcekey可提供binding</summary>
     public class ResourceBinding : MarkupExtension
     {
         public static readonly DependencyProperty ResourceBindingKeyHelperProperty =
@@ -53,36 +51,36 @@ namespace GPGO_MultiPLCs.Views
             obj.SetValue(ResourceBindingKeyHelperProperty, value);
         }
 
-        public object FallbackValue { get; set; }
-
-        public object Source { get; set; }
-
-        public PropertyPath Path { get; set; }
-
-        [DefaultValue(null)]
-        public string XPath { get; set; }
-
-        [DefaultValue(BindingMode.Default)]
-        public BindingMode Mode { get; set; }
-
-        [DefaultValue(UpdateSourceTrigger.Default)]
-        public UpdateSourceTrigger UpdateSourceTrigger { get; set; }
-
         [DefaultValue(null)]
         public IValueConverter Converter { get; set; }
-
-        [DefaultValue(null)]
-        public object ConverterParameter { get; set; }
 
         [DefaultValue(null)]
         [TypeConverter(typeof(CultureInfoIetfLanguageTagConverter))]
         public CultureInfo ConverterCulture { get; set; }
 
         [DefaultValue(null)]
-        public RelativeSource RelativeSource { get; set; }
+        public object ConverterParameter { get; set; }
 
         [DefaultValue(null)]
         public string ElementName { get; set; }
+
+        public object FallbackValue { get; set; }
+
+        [DefaultValue(BindingMode.Default)]
+        public BindingMode Mode { get; set; }
+
+        public PropertyPath Path { get; set; }
+
+        [DefaultValue(null)]
+        public RelativeSource RelativeSource { get; set; }
+
+        public object Source { get; set; }
+
+        [DefaultValue(UpdateSourceTrigger.Default)]
+        public UpdateSourceTrigger UpdateSourceTrigger { get; set; }
+
+        [DefaultValue(null)]
+        public string XPath { get; set; }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

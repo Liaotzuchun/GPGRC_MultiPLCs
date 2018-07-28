@@ -8,9 +8,7 @@ using System.Windows.Interactivity;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    /// <summary>
-    /// 提供可繫結的command
-    /// </summary>
+    /// <summary>提供可繫結的command</summary>
     public sealed class RelayCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
@@ -44,9 +42,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    /// <summary>
-    /// 替代InvokeCommandAction，可傳遞EventArgs
-    /// </summary>
+    /// <summary>替代InvokeCommandAction，可傳遞EventArgs</summary>
     public sealed class InteractiveCommand : TriggerAction<DependencyObject>
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(InteractiveCommand), new PropertyMetadata(null));
@@ -114,9 +110,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    /// <summary>
-    /// 提供能代入Function並提供Result存取的Command
-    /// </summary>
+    /// <summary>提供能代入Function並提供Result存取的Command</summary>
     /// <typeparam name="T"></typeparam>
     public sealed class CommandWithResult<T> : ViewModelBase, ICommand
     {
@@ -185,9 +179,7 @@ namespace GPGO_MultiPLCs.Helpers
         #endregion
     }
 
-    /// <summary>
-    /// Attached Behaviour，提供更簡易的Command繫結方式(缺點是只能單一事件繫結)
-    /// </summary>
+    /// <summary>Attached Behaviour，提供更簡易的Command繫結方式(缺點是只能單一事件繫結)</summary>
     public sealed class EventToCommand
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.RegisterAttached("Command", typeof(ICommand), typeof(EventToCommand), new PropertyMetadata(null));

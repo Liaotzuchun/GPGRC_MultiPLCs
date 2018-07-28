@@ -5,9 +5,9 @@ namespace GPGO_MultiPLCs.ViewModels
 {
     public class MainWindow_ViewModel : ViewModelBase
     {
-        public delegate void LoadedEventHandeler(Dispatcher dp);
-
         public delegate void IndexChangedHandeler(int index);
+
+        public delegate void LoadedEventHandeler(Dispatcher dp);
 
         private int _ViewIndex;
 
@@ -24,8 +24,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public event LoadedEventHandeler LoadedEvent;
         public event IndexChangedHandeler IndexChangedEvent;
+
+        public event LoadedEventHandeler LoadedEvent;
 
         public MainWindow_ViewModel()
         {

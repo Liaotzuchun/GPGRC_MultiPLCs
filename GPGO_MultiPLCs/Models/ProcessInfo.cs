@@ -39,9 +39,7 @@ namespace GPGO_MultiPLCs.Models
         private string _TrolleyCode;
         private int _WarmingTime;
 
-        /// <summary>
-        /// 條碼類型
-        /// </summary>
+        /// <summary>條碼類型</summary>
         [EN_Name("Code Type")]
         [CHT_Name("條碼類型")]
         [CHS_Name("条码类型")]
@@ -55,9 +53,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 結束時間
-        /// </summary>
+        /// <summary>結束時間</summary>
         [EN_Name("Closing Time")]
         [CHT_Name("結束時間")]
         [CHS_Name("结束时间")]
@@ -71,9 +67,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 事件紀錄
-        /// </summary>
+        /// <summary>事件紀錄</summary>
         [EN_Name("Events")]
         [CHT_Name("事件紀錄")]
         [CHS_Name("事件纪录")]
@@ -87,9 +81,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 是否為首件
-        /// </summary>
+        /// <summary>是否為首件</summary>
         [EN_Name("First Article")]
         [CHT_Name("首件")]
         [CHS_Name("首件")]
@@ -103,9 +95,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 加熱時間(升溫至目標溫度)
-        /// </summary>
+        /// <summary>加熱時間(升溫至目標溫度)</summary>
         [EN_Name("Heating Time")]
         [CHT_Name("加熱時間")]
         [CHS_Name("加热时间")]
@@ -119,9 +109,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 機台編號
-        /// </summary>
+        /// <summary>機台編號</summary>
         [EN_Name("Device")]
         [CHT_Name("設備編號")]
         [CHS_Name("设备编号")]
@@ -135,9 +123,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 操作人員ID
-        /// </summary>
+        /// <summary>操作人員ID</summary>
         [EN_Name("Operator")]
         [CHT_Name("操作員")]
         [CHS_Name("操作员")]
@@ -151,9 +137,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 工單號
-        /// </summary>
+        /// <summary>工單號</summary>
         [EN_Name("Order")]
         [CHT_Name("工單")]
         [CHS_Name("工单")]
@@ -167,9 +151,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 工單材料總量
-        /// </summary>
+        /// <summary>工單材料總量</summary>
         [EN_Name("Order Quantity")]
         [CHT_Name("工單總量")]
         [CHS_Name("工单总量")]
@@ -183,9 +165,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 單一製造序材料數量
-        /// </summary>
+        /// <summary>單一製造序材料數量</summary>
         [EN_Name("Quantity")]
         [CHT_Name("數量")]
         [CHS_Name("数量")]
@@ -199,9 +179,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 製造序
-        /// </summary>
+        /// <summary>製造序</summary>
         [EN_Name("SN")]
         [CHT_Name("序號")]
         [CHS_Name("序号")]
@@ -215,9 +193,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 條碼 = OrderCode + ProcessNumber
-        /// </summary>
+        /// <summary>條碼 = OrderCode + ProcessNumber</summary>
         [EN_Name("Product ID")]
         [CHT_Name("產品編號")]
         [CHS_Name("产品编号")]
@@ -231,9 +207,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 配方名
-        /// </summary>
+        /// <summary>配方名</summary>
         [EN_Name("Recipe")]
         [CHT_Name("配方")]
         [CHS_Name("配方")]
@@ -247,9 +221,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 紀錄溫度
-        /// </summary>
+        /// <summary>紀錄溫度</summary>
         [EN_Name("Temperatures")]
         [CHT_Name("溫度紀錄")]
         [CHS_Name("温度纪录")]
@@ -263,9 +235,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 正反面
-        /// </summary>
+        /// <summary>正反面</summary>
         [EN_Name("Side")]
         [CHT_Name("正反面")]
         [CHS_Name("正反面")]
@@ -279,9 +249,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 開始時間
-        /// </summary>
+        /// <summary>開始時間</summary>
         [EN_Name("Starting Time")]
         [CHT_Name("開始時間")]
         [CHS_Name("开始时间")]
@@ -295,9 +263,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 目標溫度
-        /// </summary>
+        /// <summary>目標溫度</summary>
         [EN_Name("Target Temperature")]
         [CHT_Name("目標溫度")]
         [CHS_Name("目标温度")]
@@ -311,9 +277,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 總烘烤時間
-        /// </summary>
+        /// <summary>總烘烤時間</summary>
         [EN_Name("Total Heating Time")]
         [CHT_Name("總烘烤時間")]
         [CHS_Name("总烘烤时间")]
@@ -327,9 +291,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 台車編號
-        /// </summary>
+        /// <summary>台車編號</summary>
         [EN_Name("Trolley")]
         [CHT_Name("台車")]
         [CHS_Name("台车")]
@@ -343,9 +305,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 恆溫時間
-        /// </summary>
+        /// <summary>恆溫時間</summary>
         [EN_Name("Warming Time")]
         [CHT_Name("恆溫時間")]
         [CHS_Name("恒温时间")]
@@ -359,9 +319,26 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>
-        /// 初始化清除資訊
-        /// </summary>
+        private static string GetName(PropertyInfo info, Language lng)
+        {
+            switch (lng)
+            {
+                case Language.EN:
+
+                    return info.IsDefined(typeof(EN_Name), false) ? info.GetCustomAttributes(typeof(EN_Name), false).First().ToString() : info.Name;
+                case Language.TW:
+
+                    return info.IsDefined(typeof(CHT_Name), false) ? info.GetCustomAttributes(typeof(CHT_Name), false).First().ToString() : info.Name;
+                case Language.CHS:
+
+                    return info.IsDefined(typeof(CHS_Name), false) ? info.GetCustomAttributes(typeof(CHS_Name), false).First().ToString() : info.Name;
+                default:
+
+                    return info.Name;
+            }
+        }
+
+        /// <summary>初始化清除資訊</summary>
         public void Clear()
         {
             StartTime = new DateTime();
@@ -375,44 +352,29 @@ namespace GPGO_MultiPLCs.Models
             TrolleyCode = "";
         }
 
-        private static string GetName(PropertyInfo info, Language lng)
-        {
-            switch (lng)
-            {
-                case Language.EN:
-                    return info.IsDefined(typeof(EN_Name), false) ? info.GetCustomAttributes(typeof(EN_Name), false).First().ToString() : info.Name;
-                case Language.TW:
-                    return info.IsDefined(typeof(CHT_Name), false) ? info.GetCustomAttributes(typeof(CHT_Name), false).First().ToString() : info.Name;
-                case Language.CHS:
-                    return info.IsDefined(typeof(CHS_Name), false) ? info.GetCustomAttributes(typeof(CHS_Name), false).First().ToString() : info.Name;
-                default:
-                    return info.Name;
-            }
-        }
-
-        /// <summary>
-        /// 匯出成Dictionary
-        /// </summary>
+        /// <summary>匯出成Dictionary</summary>
         /// <param name="lng">語系</param>
         /// <returns></returns>
-        public Dictionary<string, object> ToDic(Language lng) => new Dictionary<string, object>
-                                                                 {
-                                                                     { GetName(GetType().GetProperty(nameof(AddedTime)),lng), AddedTime },
-                                                                     { GetName(GetType().GetProperty(nameof(StationNumber)),lng), StationNumber },
-                                                                     { GetName(GetType().GetProperty(nameof(RecipeName)),lng), RecipeName },
-                                                                     { GetName(GetType().GetProperty(nameof(MachineCode)),lng), MachineCode },
-                                                                     { GetName(GetType().GetProperty(nameof(OrderCode)),lng), OrderCode },
-                                                                     { GetName(GetType().GetProperty(nameof(OperatorID)),lng), OperatorID },
-                                                                     { GetName(GetType().GetProperty(nameof(TrolleyCode)),lng), TrolleyCode },
-                                                                     { GetName(GetType().GetProperty(nameof(ProcessCount)),lng), ProcessCount },
-                                                                     { GetName(GetType().GetProperty(nameof(Side)),lng), Side },
-                                                                     { GetName(GetType().GetProperty(nameof(StartTime)),lng), StartTime },
-                                                                     { GetName(GetType().GetProperty(nameof(EndTime)),lng), EndTime }
-                                                                 };
+        public Dictionary<string, object> ToDic(Language lng)
+        {
+            return new Dictionary<string, object>
+                   {
+                       { GetName(GetType().GetProperty(nameof(AddedTime)), lng), AddedTime },
+                       { GetName(GetType().GetProperty(nameof(StationNumber)), lng), StationNumber },
+                       { GetName(GetType().GetProperty(nameof(RecipeName)), lng), RecipeName },
+                       { GetName(GetType().GetProperty(nameof(MachineCode)), lng), MachineCode },
+                       { GetName(GetType().GetProperty(nameof(OrderCode)), lng), OrderCode },
+                       { GetName(GetType().GetProperty(nameof(OperatorID)), lng), OperatorID },
+                       { GetName(GetType().GetProperty(nameof(TrolleyCode)), lng), TrolleyCode },
+                       { GetName(GetType().GetProperty(nameof(ProcessCount)), lng), ProcessCount },
+                       { GetName(GetType().GetProperty(nameof(Side)), lng), Side },
+                       { GetName(GetType().GetProperty(nameof(StartTime)), lng), StartTime },
+                       { GetName(GetType().GetProperty(nameof(EndTime)), lng), EndTime },
+                       { GetName(GetType().GetProperty(nameof(RecordTemperatures)), lng), "Link" }
+                   };
+        }
 
-        /// <summary>
-        /// 輸出客戶指定之文字字串
-        /// </summary>
+        /// <summary>輸出客戶指定之文字字串</summary>
         /// <returns></returns>
         public new string ToString()
         {
@@ -465,18 +427,14 @@ namespace GPGO_MultiPLCs.Models
 
         #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
 
-        /// <summary>
-        /// 新增至資料庫的時間
-        /// </summary>
+        /// <summary>新增至資料庫的時間</summary>
         [BsonId]
         [EN_Name("Recorded")]
         [CHT_Name("紀錄時間")]
         [CHS_Name("纪录时间")]
         public DateTime AddedTime { get; set; }
 
-        /// <summary>
-        /// PLC站號
-        /// </summary>
+        /// <summary>PLC站號</summary>
         [EN_Name("Oven No.")]
         [CHT_Name("烤箱序號")]
         [CHS_Name("烤箱序号")]

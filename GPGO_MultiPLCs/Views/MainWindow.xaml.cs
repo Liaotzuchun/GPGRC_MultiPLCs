@@ -3,9 +3,7 @@ using System.Windows.Controls;
 
 namespace GPGO_MultiPLCs
 {
-    /// <summary>
-    ///     MainWindow.xaml 的互動邏輯
-    /// </summary>
+    /// <summary>MainWindow.xaml 的互動邏輯</summary>
     public partial class MainWindow : Window
     {
         private void Window_Loaded(object sender, RoutedEventArgs e)

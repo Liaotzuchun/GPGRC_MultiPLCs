@@ -95,9 +95,7 @@ namespace GPGO_MultiPLCs.Helpers
             _context = sc;
         }
 
-        /// <summary>
-        ///     Notifies observers of CollectionChanged or PropertyChanged of an update to the dictionary.
-        /// </summary>
+        /// <summary>Notifies observers of CollectionChanged or PropertyChanged of an update to the dictionary.</summary>
         private void NotifyObserversOfChange()
         {
             var collectionHandler = CollectionChanged;
@@ -169,9 +167,7 @@ namespace GPGO_MultiPLCs.Helpers
             NotifyObserversOfChange();
         }
 
-        /// <summary>
-        ///     Initializes an instance of the ObservableConcurrentDictionary class.
-        /// </summary>
+        /// <summary>Initializes an instance of the ObservableConcurrentDictionary class.</summary>
         public ObservableConcurrentDictionary()
         {
             _context = AsyncOperationManager.SynchronizationContext;

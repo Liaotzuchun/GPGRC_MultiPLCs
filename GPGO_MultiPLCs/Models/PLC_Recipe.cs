@@ -4,20 +4,10 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
-    /// <summary>
-    /// PLC配方
-    /// </summary>
+    /// <summary>PLC配方</summary>
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : ViewModelBase
     {
-        private short _WarmingTime_1;
-        private short _WarmingTime_2;
-        private short _WarmingTime_3;
-        private short _WarmingTime_4;
-        private short _WarmingTime_5;
-        private short _WarmingTime_6;
-        private short _WarmingTime_7;
-        private short _WarmingTime_8;
         private short _CoolingTemperature;
         private short _HeatingTime_1;
         private short _HeatingTime_2;
@@ -48,6 +38,14 @@ namespace GPGO_MultiPLCs.Models
         private DateTime _Updated;
         private bool[] _Used_Stations = new bool[20]; //!定義PLC站數，以供讀取時分配
         private short _UsedSegmentCounts;
+        private short _WarmingTime_1;
+        private short _WarmingTime_2;
+        private short _WarmingTime_3;
+        private short _WarmingTime_4;
+        private short _WarmingTime_5;
+        private short _WarmingTime_6;
+        private short _WarmingTime_7;
+        private short _WarmingTime_8;
 
         public short SegmentCounts_Max => 8;
         public short SegmentCounts_Min => 1;
@@ -57,86 +55,6 @@ namespace GPGO_MultiPLCs.Models
 
         public short Time_Max => 600;
         public short Time_Min => 1;
-
-        public short WarmingTime_1
-        {
-            get => _WarmingTime_1;
-            set
-            {
-                _WarmingTime_1 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short WarmingTime_2
-        {
-            get => _WarmingTime_2;
-            set
-            {
-                _WarmingTime_2 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short WarmingTime_3
-        {
-            get => _WarmingTime_3;
-            set
-            {
-                _WarmingTime_3 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short WarmingTime_4
-        {
-            get => _WarmingTime_4;
-            set
-            {
-                _WarmingTime_4 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short WarmingTime_5
-        {
-            get => _WarmingTime_5;
-            set
-            {
-                _WarmingTime_5 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short WarmingTime_6
-        {
-            get => _WarmingTime_6;
-            set
-            {
-                _WarmingTime_6 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short WarmingTime_7
-        {
-            get => _WarmingTime_7;
-            set
-            {
-                _WarmingTime_7 = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public short WarmingTime_8
-        {
-            get => _WarmingTime_8;
-            set
-            {
-                _WarmingTime_8 = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         public short CoolingTemperature
         {
@@ -435,6 +353,86 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _UsedSegmentCounts = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime_1
+        {
+            get => _WarmingTime_1;
+            set
+            {
+                _WarmingTime_1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime_2
+        {
+            get => _WarmingTime_2;
+            set
+            {
+                _WarmingTime_2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime_3
+        {
+            get => _WarmingTime_3;
+            set
+            {
+                _WarmingTime_3 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime_4
+        {
+            get => _WarmingTime_4;
+            set
+            {
+                _WarmingTime_4 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime_5
+        {
+            get => _WarmingTime_5;
+            set
+            {
+                _WarmingTime_5 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime_6
+        {
+            get => _WarmingTime_6;
+            set
+            {
+                _WarmingTime_6 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime_7
+        {
+            get => _WarmingTime_7;
+            set
+            {
+                _WarmingTime_7 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public short WarmingTime_8
+        {
+            get => _WarmingTime_8;
+            set
+            {
+                _WarmingTime_8 = value;
                 NotifyPropertyChanged();
             }
         }

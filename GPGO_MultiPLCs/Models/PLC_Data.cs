@@ -2,9 +2,7 @@
 
 namespace GPGO_MultiPLCs.Models
 {
-    /// <summary>
-    /// PLC基礎資料
-    /// </summary>
+    /// <summary>PLC基礎資料</summary>
     public abstract class PLC_Data : ViewModelBase
     {
         public TwoKeyDictionary<DataNames, int, short> D_Values;

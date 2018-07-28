@@ -13,14 +13,10 @@ using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    /// <summary>
-    /// 生產總覽
-    /// </summary>
+    /// <summary>生產總覽</summary>
     public class TotalView_ViewModel : ViewModelBase, IGPServiceCallback
     {
-        /// <summary>
-        /// PLC Gate通知PLC資訊更新
-        /// </summary>
+        /// <summary>PLC Gate通知PLC資訊更新</summary>
         /// <param name="index">PLC序號</param>
         /// <param name="val">更新值集合</param>
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
@@ -41,9 +37,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// PLC連線狀態
-        /// </summary>
+        /// <summary>PLC連線狀態</summary>
         /// <param name="index">PLC序號</param>
         /// <param name="val">是否連線</param>
         void IGPServiceCallback.Status_Changed(int index, bool val)
@@ -58,55 +52,38 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
 
-        /// <summary>
-        ///     心跳信號位置
-        /// </summary>
+        /// <summary>心跳信號位置</summary>
         private const int Check_Dev = 21;
 
-        /// <summary>
-        /// 保持PLC Gate連線
-        /// </summary>
+        /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
 
         private readonly InstanceContext site;
         private bool _Gate_Status;
 
-        /// <summary>
-        ///     生產Tab頁面的Index
-        /// </summary>
+        /// <summary>生產Tab頁面的Index</summary>
         private int _Index;
 
-        /// <summary>
-        ///     選取PLC的Index
-        /// </summary>
+        /// <summary>選取PLC的Index</summary>
         private int _ViewIndex = -1;
 
         private GPServiceClient PLC_Client;
 
-        /// <summary>
-        /// 回到總覽頁
-        /// </summary>
+        /// <summary>回到總覽頁</summary>
         public RelayCommand BackCommand { get; }
 
-        /// <summary>
-        /// 所有PLC
-        /// </summary>
+        /// <summary>所有PLC</summary>
         public PLC_DataProvider[] PLC_All { get; }
 
-        /// <summary>
-        /// 檢視詳細資訊的PLC
-        /// </summary>
+        /// <summary>檢視詳細資訊的PLC</summary>
         public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
 
-        /// <summary>
-        /// 產量統計
-        /// </summary>
+        /// <summary>產量統計</summary>
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
+
         public int TotalProductionCount => TotalProduction.Sum(x => x.Value);
 
-        /// <summary>
-        /// PLC Gate連線狀態
-        /// </summary>
+        /// <summary>PLC Gate連線狀態</summary>
         public bool Gate_Status
         {
             get => _Gate_Status;
@@ -117,9 +94,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 烤箱總覽和詳細資訊檢視頁面切換index
-        /// </summary>
+        /// <summary>烤箱總覽和詳細資訊檢視頁面切換index</summary>
         public int Index
         {
             get => _Index;
@@ -134,9 +109,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// PLC詳細資訊檢視index
-        /// </summary>
+        /// <summary>PLC詳細資訊檢視index</summary>
         public int ViewIndex
         {
             get => _ViewIndex;
@@ -156,9 +129,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event WantRecipeHandler WantRecipe;
 
-        /// <summary>
-        /// 讀取設備碼
-        /// </summary>
+        /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
         {
             if (File.Exists("MachineCodes.json"))
@@ -185,9 +156,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 儲存設備碼
-        /// </summary>
+        /// <summary>儲存設備碼</summary>
         public void SaveMachineCodes()
         {
             try
@@ -200,9 +169,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 設定PLC監控讀取列表
-        /// </summary>
+        /// <summary>設定PLC監控讀取列表</summary>
         /// <param name="list">所有PLC的讀取列表</param>
         /// <returns></returns>
         public bool SetReadLists(string[][] list)
@@ -224,9 +191,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 將配方寫入PLC
-        /// </summary>
+        /// <summary>將配方寫入PLC</summary>
         /// <param name="index">PLC序號</param>
         /// <param name="recipe">配方</param>
         /// <returns></returns>
@@ -280,9 +245,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 設定使用的PLC配方(透過配方名)
-        /// </summary>
+        /// <summary>設定使用的PLC配方(透過配方名)</summary>
         /// <param name="names">配方名</param>
         public void SetRecipeNames(ICollection<string> names)
         {
@@ -292,9 +255,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 發送PC和PLC間的檢查信號
-        /// </summary>
+        /// <summary>發送PC和PLC間的檢查信號</summary>
         /// <returns></returns>
         private bool Check()
         {
@@ -315,9 +276,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 和PLC Gate連線
-        /// </summary>
+        /// <summary>和PLC Gate連線</summary>
         /// <returns></returns>
         private bool Connect()
         {
@@ -339,9 +298,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>
-        /// 剛連線並初始化參數
-        /// </summary>
+        /// <summary>剛連線並初始化參數</summary>
         /// <returns></returns>
         private bool Initial()
         {
@@ -509,10 +466,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
                                                     dialog?.Show(new Dictionary<Language, string>
                                                                  {
-                                                                     {Language.TW, "第" + (index + 1) + "站已完成烘烤!"},
-                                                                     {Language.CHS, "第" + (index + 1) + "站已完成烘烤!"},
-                                                                     {Language.EN, "Oven No" + (index + 1) + "has been finished!"},
-                                                                 }, TimeSpan.FromSeconds(2));
+                                                                     { Language.TW, "第" + (index + 1) + "站已完成烘烤!" },
+                                                                     { Language.CHS, "第" + (index + 1) + "站已完成烘烤!" },
+                                                                     { Language.EN, "Oven No" + (index + 1) + "has been finished!" }
+                                                                 },
+                                                                 TimeSpan.FromSeconds(2));
                                                     //}
                                                 };
 
@@ -527,10 +485,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                {
                                                    dialog?.Show(new Dictionary<Language, string>
                                                                 {
-                                                                    {Language.TW, "第" + (index + 1) + "站配方輸入錯誤!"},
-                                                                    {Language.CHS, "第" + (index + 1) + "站配方输入错误!"},
-                                                                    {Language.EN, "Oven No" + (index + 1) + " recipe input error!"}
-                                                                }, TimeSpan.FromSeconds(1), DialogMsgType.Alarm);
+                                                                    { Language.TW, "第" + (index + 1) + "站配方輸入錯誤!" },
+                                                                    { Language.CHS, "第" + (index + 1) + "站配方输入错误!" },
+                                                                    { Language.EN, "Oven No" + (index + 1) + " recipe input error!" }
+                                                                },
+                                                                TimeSpan.FromSeconds(1),
+                                                                DialogMsgType.Alarm);
                                                };
             }
 

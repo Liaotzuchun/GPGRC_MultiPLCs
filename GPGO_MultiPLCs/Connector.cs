@@ -51,9 +51,7 @@ namespace GPGO_MultiPLCs
         public TotalView_ViewModel TotalVM { get; }
         public TraceabilityView_ViewModel TraceVM { get; }
 
-        /// <summary>
-        ///     產生測試資料至資料庫
-        /// </summary>
+        /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
         public void MakeTestData(int PLC_Count)
         {
