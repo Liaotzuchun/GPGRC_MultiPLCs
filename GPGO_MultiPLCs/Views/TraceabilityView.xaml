@@ -383,7 +383,24 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button Grid.Column="6" Grid.RowSpan="2" Content="{DynamicResource 報表匯出}" FontSize="14" Margin="4,0,0,0">
+                <Button
+                    Grid.RowSpan="2"
+                    Grid.Column="6"
+                    Margin="4,0,0,0"
+                    Content="{DynamicResource 報表匯出}"
+                    FontSize="14">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
+                            <Binding
+                                Converter="{StaticResource IsLessThanValue}"
+                                ConverterParameter="1000"
+                                Mode="OneWay"
+                                Path="ViewResults.Count" />
+                            <Binding
+                                Mode="OneWay"
+                                Path="Standby" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding ToExcelCommand, Mode=OneTime}" />

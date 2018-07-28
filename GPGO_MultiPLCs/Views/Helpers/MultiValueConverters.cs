@@ -57,7 +57,7 @@ namespace GPGO_MultiPLCs.Views
         {
             try
             {
-                return values.Cast<Visibility>().Any(x => x == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
+                return values.Any(x => x is Visibility y && y == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
             }
             catch (Exception)
             {
@@ -77,7 +77,7 @@ namespace GPGO_MultiPLCs.Views
         {
             try
             {
-                return values.Cast<bool>().Any(x => x);
+                return values.Any(x => x is bool y && y);
             }
             catch (Exception)
             {
@@ -97,7 +97,7 @@ namespace GPGO_MultiPLCs.Views
         {
             try
             {
-                return values.Cast<bool>().Any(x => x) ? 1 : 0;
+                return values.Any(x => x is bool y && y) ? 1 : 0;
             }
             catch (Exception)
             {
@@ -115,7 +115,7 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values.Cast<bool>().All(x => x);
+            return values.All(x => x is bool y && y);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

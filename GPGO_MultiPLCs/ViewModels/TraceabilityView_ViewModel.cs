@@ -37,7 +37,6 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
-
         private readonly MongoClient Mongo_Client;
 
         private DateTime _Date1;
