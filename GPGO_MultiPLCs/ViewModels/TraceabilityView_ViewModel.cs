@@ -288,6 +288,8 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
+        /// <param name="save_path"></param>
         public async void SaveToExcel(string save_path)
         {
             Standby = false;
@@ -312,6 +314,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 wsht.View.FreezePanes(4, 1);
                                                 wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                 wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
+                                                wsht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
                                                 var keys = _ViewResults[0].ToDic(Language).Keys.ToArray();
                                                 var max_count = 0;
@@ -355,7 +358,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                     var sheet_name = "Records " + (i + 1);
                                                     wsht.Cells[i + 4, values.Length].Hyperlink = new Uri("#'" + sheet_name + "'!$A$4", UriKind.Relative);
-                                                    wsht.Cells[i + 4, values.Length].Style.Font.UnderLine = true;
+                                                    //wsht.Cells[i + 4, values.Length].Style.Font.UnderLine = true;
                                                     wsht.Cells[i + 4, values.Length].Style.Font.Color.SetColor(Color.Blue);
 
                                                     var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
@@ -363,6 +366,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     record_sht.View.FreezePanes(4, 1);
                                                     record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                     record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
+                                                    record_sht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                                                    record_sht.Cells[2, 1].Value = "<<<<<<Back";
+                                                    record_sht.Cells[2, 1].Style.Font.Color.SetColor(Color.Blue);
+                                                    record_sht.Cells[2, 1].Hyperlink = new Uri("#'" + wsht.Name + "'!$A$4", UriKind.Relative);
                                                     record_sht.Cells[3, 1].Value = nameof(RecordTemperatures.Time);
                                                     record_sht.Cells[3, 2].Value = nameof(RecordTemperatures.ThermostatTemperature);
                                                     record_sht.Cells[3, 3].Value = nameof(RecordTemperatures.OvenTemperatures_1);
@@ -447,7 +454,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     s8.Border.Fill.Color = Color.Brown;
                                                     s9.Border.Fill.Color = Color.BurlyWood;
 
-                                                    record_sht.Row(1).Height = 220;
+                                                    record_sht.Row(1).Height = 225;
 
                                                     chart.XAxis.Title.Text = "Timespan (H:M:S)";
                                                     chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
@@ -467,8 +474,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     wsht.Column(i).Width += 2;
                                                 }
 
-                                                //wsht.Cells[1, 1].Formula = "CELL(\"row\")-3";
-                                                wsht.Cells[1, 1].Value = 1;
+                                                wsht.Cells[1, 1].Formula = "IF((CELL(\"row\")-3)<1,1,CELL(\"row\")-3)";
 
                                                 var _code = new StringBuilder();
                                                 _code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
@@ -539,7 +545,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 _s8.Border.Fill.Color = Color.Brown;
                                                 _s9.Border.Fill.Color = Color.BurlyWood;
 
-                                                wsht.Row(1).Height = 220;
+                                                wsht.Row(1).Height = 225;
 
                                                 _chart.XAxis.Title.Text = "Timespan (H:M:S)";
                                                 _chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));

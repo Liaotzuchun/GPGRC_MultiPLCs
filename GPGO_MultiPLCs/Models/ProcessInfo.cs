@@ -370,7 +370,7 @@ namespace GPGO_MultiPLCs.Models
                        { GetName(GetType().GetProperty(nameof(Side)), lng), Side },
                        { GetName(GetType().GetProperty(nameof(StartTime)), lng), StartTime },
                        { GetName(GetType().GetProperty(nameof(EndTime)), lng), EndTime },
-                       { GetName(GetType().GetProperty(nameof(RecordTemperatures)), lng), "Link" }
+                       { GetName(GetType().GetProperty(nameof(RecordTemperatures)), lng), "@" }
                    };
         }
 
