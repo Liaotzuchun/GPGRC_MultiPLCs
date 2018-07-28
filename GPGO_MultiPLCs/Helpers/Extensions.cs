@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Media;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace GPGO_MultiPLCs.Helpers
 {
@@ -411,6 +414,34 @@ namespace GPGO_MultiPLCs.Helpers
             temp.Item2 = BitConverter.ToInt16(byarrBufferByte, 2);
 
             return temp;
+        }
+
+        /// <summary>XML序列化</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string SerializeToXML<T>(this T value)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                var xmlserializer = new XmlSerializer(typeof(T));
+                var stringWriter = new StringWriter();
+                using (var writer = XmlWriter.Create(stringWriter))
+                {
+                    xmlserializer.Serialize(writer, value);
+
+                    return stringWriter.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred", ex);
+            }
         }
 
         /// <summary>2個short值轉int整數</summary>
