@@ -341,7 +341,19 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ViewResults.Count, Mode=OneWay}" />
+                            Text="{Binding ViewResults.Count, Mode=OneWay}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding ViewResults.Count, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1001}"
+                                            Value="True">
+                                            <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Border>
                 </Grid>
                 <ToggleButton
