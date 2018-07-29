@@ -14,6 +14,7 @@ using OfficeOpenXml.Style;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+
 //using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
@@ -38,7 +39,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
-        private readonly MongoClient Mongo_Client;
+        private readonly IMongoCollection<ProcessInfo> ProcessInfoCollection;
 
         private DateTime _Date1;
         private DateTime _Date2;
@@ -273,14 +274,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                var db = Mongo_Client.GetDatabase("GP");
-                var Sets = db.GetCollection<ProcessInfo>("Product_Infos");
-
-                await Sets.InsertOneAsync(info);
+                await ProcessInfoCollection.InsertOneAsync(info);
 
                 if (UpdateResult)
                 {
-                    Results = await (await Sets.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1))).ToListAsync();
+                    Results = await (await ProcessInfoCollection.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1))).ToListAsync();
                 }
             }
             catch (Exception ex)
@@ -726,10 +724,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                var db = Mongo_Client.GetDatabase("GP");
-                var Sets = db.GetCollection<ProcessInfo>("Product_Infos");
-
-                Results = await (await Sets.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1))).ToListAsync();
+                Results = await (await ProcessInfoCollection.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1))).ToListAsync();
             }
             catch (Exception)
             {
@@ -746,9 +741,9 @@ namespace GPGO_MultiPLCs.ViewModels
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
 
-        public TraceabilityView_ViewModel(MongoClient mongo)
+        public TraceabilityView_ViewModel(IMongoCollection<ProcessInfo> mongo)
         {
-            Mongo_Client = mongo;
+            ProcessInfoCollection = mongo;
 
             //!定義更新圖表的委派
             void Act()

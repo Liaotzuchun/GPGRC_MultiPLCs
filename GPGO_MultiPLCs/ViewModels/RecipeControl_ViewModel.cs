@@ -13,7 +13,7 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public delegate void ListUpdated(List<PLC_Recipe> list);
 
-        private readonly MongoClient Mongo_Client;
+        private readonly IMongoCollection<PLC_Recipe> RecipeCollection;
 
         private string _SearchName;
         private PLC_Recipe _Selected_PLC_Recipe;
@@ -156,17 +156,14 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 try
                 {
-                    var db = Mongo_Client.GetDatabase("GP");
-                    var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
-
                     foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
                     {
                         recipe.Used_Stations[index] = false;
-                        await Sets.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, recipe.Used_Stations));
+                        await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, recipe.Used_Stations));
                     }
 
                     result.Used_Stations[index] = true;
-                    await Sets.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, result.Used_Stations));
+                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, result.Used_Stations));
 
                     //ViewRecipes = Recipes.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
                 }
@@ -186,13 +183,11 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Standby = false;
 
-            if (Mongo_Client != null && !string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 try
                 {
-                    var db = Mongo_Client.GetDatabase("GP");
-                    var Load_Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
-                    var temp = await (await Load_Sets.FindAsync(x => x.RecipeName.Equals(name))).ToListAsync();
+                    var temp = await (await RecipeCollection.FindAsync(x => x.RecipeName.Equals(name))).ToListAsync();
 
                     if (temp.Count > 0)
                     {
@@ -216,12 +211,9 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                var db = Mongo_Client.GetDatabase("GP");
-                var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
-
                 TypedName = "";
 
-                Recipes = await (await Sets.FindAsync(x => true)).ToListAsync();
+                Recipes = await (await RecipeCollection.FindAsync(x => true)).ToListAsync();
                 ViewRecipes = Recipes?.AsQueryable().Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower()));
             }
             catch (Exception ex)
@@ -246,18 +238,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
             var TempSet = Selected_PLC_Recipe == null ? new PLC_Recipe(name) : Selected_PLC_Recipe.Copy();
 
-            if (Mongo_Client != null)
+            try
             {
-                try
-                {
-                    var db = Mongo_Client.GetDatabase("GP");
-                    var Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
-                    await Sets.ReplaceOneAsync(x => x.RecipeName.Equals(TempSet.RecipeName), TempSet, new UpdateOptions { IsUpsert = true });
-                }
-                catch (Exception ex)
-                {
-                    ErrorRecoder.RecordError(ex);
-                }
+                await RecipeCollection.ReplaceOneAsync(x => x.RecipeName.Equals(TempSet.RecipeName), TempSet, new UpdateOptions { IsUpsert = true });
+            }
+            catch (Exception ex)
+            {
+                ErrorRecoder.RecordError(ex);
             }
 
             await RefreshList();
@@ -265,9 +252,9 @@ namespace GPGO_MultiPLCs.ViewModels
             Standby = true;
         }
 
-        public RecipeControl_ViewModel(MongoClient mongo, IDialogService<string> dialog)
+        public RecipeControl_ViewModel(IMongoCollection<PLC_Recipe> mongo, IDialogService<string> dialog)
         {
-            Mongo_Client = mongo;
+            RecipeCollection = mongo;
 
             InitialLoadCommand = new RelayCommand(async e =>
                                                   {
@@ -326,9 +313,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  try
                                                  {
-                                                     var db = Mongo_Client.GetDatabase("GP");
-                                                     var Load_Sets = db.GetCollection<PLC_Recipe>("PLC_Recipes");
-                                                     await Load_Sets.DeleteOneAsync(x => x.RecipeName.Equals(_TypedName));
+                                                     await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(_TypedName));
                                                  }
                                                  catch (Exception)
                                                  {

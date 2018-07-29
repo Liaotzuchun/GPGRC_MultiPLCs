@@ -142,11 +142,12 @@ namespace GPGO_MultiPLCs
         public Connector()
         {
             Mongo = new MongoClient("mongodb://localhost:27017");
+            var db = Mongo.GetDatabase("GP");
 
             DialogVM = new GlobalDialog_ViewModel();
             MainVM = new MainWindow_ViewModel();
-            RecipeVM = new RecipeControl_ViewModel(Mongo, DialogVM);
-            TraceVM = new TraceabilityView_ViewModel(Mongo);
+            RecipeVM = new RecipeControl_ViewModel(db.GetCollection<PLC_Recipe>("PLC_Recipes"), DialogVM);
+            TraceVM = new TraceabilityView_ViewModel(db.GetCollection<ProcessInfo>("Product_Infos"));
             TotalVM = new TotalView_ViewModel(20, DialogVM);
 
             //!當回到主頁時，也將生產總覽回到總覽頁
