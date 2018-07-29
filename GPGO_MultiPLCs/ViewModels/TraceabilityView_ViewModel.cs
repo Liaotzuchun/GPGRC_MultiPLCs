@@ -15,8 +15,6 @@ using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
 
-//using Newtonsoft.Json;
-
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>生產紀錄追蹤</summary>
@@ -504,6 +502,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 var ooxx = new ExcelNamedRange("ooxx", null, wsht, "A1", 1);
                                                 xlwb.Workbook.Names.Add("ooxx", ooxx);
                                                 var data_sht = xlwb.Workbook.Worksheets.Add("Data");
+                                                data_sht.Hidden = eWorkSheetHidden.VeryHidden;
 
                                                 for (var i = 1; i <= max_count; i++)
                                                 {
