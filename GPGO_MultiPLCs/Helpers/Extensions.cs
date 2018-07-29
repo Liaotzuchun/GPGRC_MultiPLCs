@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Media;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace GPGO_MultiPLCs.Helpers
 {
@@ -245,6 +242,17 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
+        /// <summary>傳回所有符合條件的位置index</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="vals"></param>
+        /// <param name="val"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static int[] FindIndexes<T>(this IEnumerable<T> vals, T val, Func<T, bool> func = null)
+        {
+            return vals.Select((x, i) => func?.Invoke(val) ?? x.Equals(val) ? i : -1).Where(x => x != -1).ToArray();
+        }
+
         /// <summary>由HDV產生RGB Color</summary>
         /// <param name="hue">色相，0~1</param>
         /// <param name="sat">飽和度，0~1</param>
@@ -317,9 +325,20 @@ namespace GPGO_MultiPLCs.Helpers
             return Color.FromRgb((byte)(r * 255), (byte)(g * 255), (byte)(b * 255));
         }
 
-        public static string GetExcelColumnName(this int columnNumber)
+        /// <summary>將Excel欄序數轉為整數</summary>
+        /// <param name="ColumnName"></param>
+        /// <returns></returns>
+        public static int GetColumnNmuber(this string ColumnName)
         {
-            var dividend = columnNumber;
+            return ColumnName.Select(c => Convert.ToInt32(c) - Convert.ToInt32("A"[0]) + 1).Aggregate((m, n) => m * 26 + n);
+        }
+
+        /// <summary>將欄序整數轉換至Excel的欄序數，1=A，2=B，Z=26...</summary>
+        /// <param name="ColumnNumber">欄數</param>
+        /// <returns></returns>
+        public static string GetExcelColumnName(this int ColumnNumber)
+        {
+            var dividend = ColumnNumber;
             var columnName = string.Empty;
 
             while (dividend > 0)
@@ -414,34 +433,6 @@ namespace GPGO_MultiPLCs.Helpers
             temp.Item2 = BitConverter.ToInt16(byarrBufferByte, 2);
 
             return temp;
-        }
-
-        /// <summary>XML序列化</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static string SerializeToXML<T>(this T value)
-        {
-            if (value == null)
-            {
-                return string.Empty;
-            }
-
-            try
-            {
-                var xmlserializer = new XmlSerializer(typeof(T));
-                var stringWriter = new StringWriter();
-                using (var writer = XmlWriter.Create(stringWriter))
-                {
-                    xmlserializer.Serialize(writer, value);
-
-                    return stringWriter.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred", ex);
-            }
         }
 
         /// <summary>2個short值轉int整數</summary>
