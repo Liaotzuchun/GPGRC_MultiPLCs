@@ -576,9 +576,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 xlwb.Workbook.Properties.Company = "Group Up Industrial Co., Ltd.";
                                                 xlwb.Workbook.Properties.Comments = "Made by the Program of GP";
                                                 xlwb.Workbook.Properties.Created = created;
-                                                xlwb.Workbook.Protection.LockRevision = true;
-                                                xlwb.Workbook.Protection.LockStructure = true;
-                                                xlwb.Workbook.Protection.SetPassword("23555277");
+                                                //!活頁簿保護不受web瀏覽支援(會無法開啟)
+                                                // xlwb.Workbook.Protection.LockRevision = true;
+                                                // xlwb.Workbook.Protection.LockStructure = true;
+                                                // xlwb.Workbook.Protection.SetPassword("23555277");
                                                 xlwb.SaveAs(fi);
                                                 xlwb.Dispose();
                                             },
