@@ -730,7 +730,7 @@
                                             Header="{DynamicResource 全部}" />
                                         <MenuItem
                                             FontSize="14"
-                                            Header="{DynamicResource 過濾}"
+                                            Header="{DynamicResource 篩選}"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
                                                 <CompositeCollection>
@@ -761,7 +761,7 @@
                                             Header="{DynamicResource 全部}" />
                                         <MenuItem
                                             FontSize="14"
-                                            Header="ooxx"
+                                            Header="{DynamicResource 篩選}"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
                                                 <CompositeCollection>
@@ -792,7 +792,7 @@
                                             Header="{DynamicResource 全部}" />
                                         <MenuItem
                                             FontSize="14"
-                                            Header="ooxx"
+                                            Header="{DynamicResource 篩選}"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
                                                 <CompositeCollection>
@@ -823,7 +823,7 @@
                                             Header="{DynamicResource 全部}" />
                                         <MenuItem
                                             FontSize="14"
-                                            Header="ooxx"
+                                            Header="{DynamicResource 篩選}"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
                                                 <CompositeCollection>
@@ -854,7 +854,7 @@
                                             Header="{DynamicResource 全部}" />
                                         <MenuItem
                                             FontSize="14"
-                                            Header="ooxx"
+                                            Header="{DynamicResource 篩選}"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
                                                 <CompositeCollection>
@@ -897,7 +897,7 @@
                                             Header="{DynamicResource 全部}" />
                                         <MenuItem
                                             FontSize="14"
-                                            Header="ooxx"
+                                            Header="{DynamicResource 篩選}"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
                                                 <CompositeCollection>
