@@ -262,13 +262,13 @@ namespace GPGO_MultiPLCs.ViewModels
         public event TodayProduction TodayProductionUpdated;
 
         /// <summary>新增至資料庫</summary>
-        /// <param name="index">PLC序號，由0開始</param>
+        /// <param name="index">PLC序號，由0開始(寫入時會自動+1)</param>
         /// <param name="info">紀錄資訊</param>
         /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
         /// <param name="UpdateResult">決定是否更新Ram Data</param>
         public async void AddToDB(int index, ProcessInfo info, DateTime dateTime = default(DateTime), bool UpdateResult = false)
         {
-            info.StationNumber = index;
+            info.StationNumber = index + 1;
             info.AddedTime = dateTime == default(DateTime) ? DateTime.Now : dateTime;
 
             try
@@ -302,287 +302,296 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 await Task.Factory.StartNew(() =>
                                             {
+                                                var queue = new Queue<ProcessInfo>(_ViewResults);
+                                                var index = 0;
                                                 var created = DateTime.Now;
-                                                var fi = new FileInfo(dic + "\\" + created.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".xlsm");
 
-                                                var n = _ViewResults.Count;
-                                                var xlwb = new ExcelPackage();
-                                                xlwb.Workbook.CreateVBAProject();
-                                                var wsht = xlwb.Workbook.Worksheets.Add(n + (n <= 1 ? " result" : " results"));
-                                                wsht.View.ShowGridLines = false;
-                                                wsht.View.FreezePanes(4, 1);
-                                                wsht.Row(1).Height = 225;
-                                                wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                                wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
-                                                wsht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-                                                var keys = _ViewResults[0].ToDic(Language).Keys.ToArray();
-                                                var max_count = 0;
-
-                                                for (var i = 0; i < keys.Length; i++)
+                                                while (queue.Count > 0)
                                                 {
-                                                    wsht.Cells[3, i + 1].Value = keys[i];
-                                                    wsht.Cells[3, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                                    wsht.Cells[3, i + 1].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
-                                                }
+                                                    var count = queue.Count;
+                                                    index += 1;
+                                                    var datas = queue.Dequeue(count > 500 ? 500 : count).ToArray();
+                                                    var fi = new FileInfo(dic + "\\" + created.ToString("yyyy-MM-dd-HH-mm-ss-fff(") + index + ").xlsm");
 
-                                                wsht.Cells[3, 1, 3, keys.Length].AutoFilter = true;
+                                                    var n = datas.Length;
+                                                    var xlwb = new ExcelPackage();
+                                                    xlwb.Workbook.CreateVBAProject();
+                                                    var wsht = xlwb.Workbook.Worksheets.Add(n + (n <= 1 ? " result" : " results"));
+                                                    wsht.View.ShowGridLines = false;
+                                                    wsht.View.FreezePanes(4, 1);
+                                                    wsht.Row(1).Height = 225;
+                                                    wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                    wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
+                                                    wsht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                                                for (var i = 0; i < n; i++)
-                                                {
-                                                    var values = _ViewResults[i].ToDic(Language).Values.ToArray();
-                                                    var temps = _ViewResults[i].RecordTemperatures.ToArray();
+                                                    var keys = datas[0].ToDic(Language).Keys.ToArray();
+                                                    var max_count = 0;
 
-                                                    if (temps.Length > max_count)
+                                                    for (var i = 0; i < keys.Length; i++)
                                                     {
-                                                        max_count = temps.Length;
+                                                        wsht.Cells[3, i + 1].Value = keys[i];
+                                                        wsht.Cells[3, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                        wsht.Cells[3, i + 1].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
                                                     }
 
-                                                    for (var j = 0; j < values.Length; j++)
+                                                    wsht.Cells[3, 1, 3, keys.Length].AutoFilter = true;
+
+                                                    for (var i = 0; i < n; i++)
                                                     {
-                                                        if (values[j] is DateTime date)
+                                                        var values = datas[i].ToDic(Language).Values.ToArray();
+                                                        var temps = datas[i].RecordTemperatures.ToArray();
+
+                                                        if (temps.Length > max_count)
                                                         {
-                                                            wsht.Cells[i + 4, j + 1].Value = date.ToOADate();
-                                                            wsht.Cells[i + 4, j + 1].Style.Numberformat.Format = "yyyy/MM/dd HH:mm:ss";
+                                                            max_count = temps.Length;
                                                         }
-                                                        else if (values[j] is string str)
+
+                                                        for (var j = 0; j < values.Length; j++)
                                                         {
-                                                            wsht.Cells[i + 4, j + 1].Value = str;
-                                                            wsht.Cells[i + 4, j + 1].Style.Numberformat.Format = "@";
+                                                            if (values[j] is DateTime date)
+                                                            {
+                                                                wsht.Cells[i + 4, j + 1].Value = date.ToOADate();
+                                                                wsht.Cells[i + 4, j + 1].Style.Numberformat.Format = "yyyy/MM/dd HH:mm:ss";
+                                                            }
+                                                            else if (values[j] is string str)
+                                                            {
+                                                                wsht.Cells[i + 4, j + 1].Value = str;
+                                                                wsht.Cells[i + 4, j + 1].Style.Numberformat.Format = "@";
+                                                            }
+                                                            else
+                                                            {
+                                                                wsht.Cells[i + 4, j + 1].Value = values[j];
+                                                            }
                                                         }
-                                                        else
+
+                                                        var sheet_name = "Records " + (i + 1);
+                                                        wsht.Cells[i + 4, values.Length].Formula = "HYPERLINK(\"#'" + sheet_name + "'!$A$4\",\"@\")";
+                                                        wsht.Cells[i + 4, values.Length].Style.Font.Color.SetColor(Color.Blue);
+                                                        wsht.Cells[i + 4, values.Length].Style.Font.UnderLine = false;
+
+                                                        var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
+                                                        record_sht.View.ShowGridLines = false;
+                                                        record_sht.View.FreezePanes(4, 1);
+                                                        record_sht.Row(1).Height = 225;
+                                                        record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                        record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
+                                                        record_sht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                                                        record_sht.Cells[2, 1].Formula = "HYPERLINK(\"#'" + wsht.Name + "'!$A$" + (i + 4) + "\",\"<<<<<<Back\")";
+                                                        record_sht.Cells[2, 1].Style.Font.Color.SetColor(Color.Blue);
+                                                        record_sht.Cells[2, 1].Style.Font.UnderLine = false;
+                                                        record_sht.Cells[3, 1].Value = nameof(RecordTemperatures.Time);
+                                                        record_sht.Cells[3, 2].Value = nameof(RecordTemperatures.ThermostatTemperature);
+                                                        record_sht.Cells[3, 3].Value = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                        record_sht.Cells[3, 4].Value = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                        record_sht.Cells[3, 5].Value = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                        record_sht.Cells[3, 6].Value = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                        record_sht.Cells[3, 7].Value = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                        record_sht.Cells[3, 8].Value = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                        record_sht.Cells[3, 9].Value = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                        record_sht.Cells[3, 10].Value = nameof(RecordTemperatures.OvenTemperatures_8);
+                                                        record_sht.Cells[3, 1, 3, 10].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                        record_sht.Cells[3, 1, 3, 10].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
+
+                                                        for (var j = 0; j < temps.Length; j++)
                                                         {
-                                                            wsht.Cells[i + 4, j + 1].Value = values[j];
+                                                            record_sht.Cells[4 + j, 1].Value = temps[j].Time;
+                                                            record_sht.Cells[4 + j, 1].Style.Numberformat.Format = "[h]:mm:ss";
+                                                            record_sht.Cells[4 + j, 2].Value = temps[j].ThermostatTemperature;
+                                                            record_sht.Cells[4 + j, 3].Value = temps[j].OvenTemperatures_1;
+                                                            record_sht.Cells[4 + j, 4].Value = temps[j].OvenTemperatures_2;
+                                                            record_sht.Cells[4 + j, 5].Value = temps[j].OvenTemperatures_3;
+                                                            record_sht.Cells[4 + j, 6].Value = temps[j].OvenTemperatures_4;
+                                                            record_sht.Cells[4 + j, 7].Value = temps[j].OvenTemperatures_5;
+                                                            record_sht.Cells[4 + j, 8].Value = temps[j].OvenTemperatures_6;
+                                                            record_sht.Cells[4 + j, 9].Value = temps[j].OvenTemperatures_7;
+                                                            record_sht.Cells[4 + j, 10].Value = temps[j].OvenTemperatures_8;
                                                         }
+
+                                                        record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                                                        record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                                                        record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                                                        record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                                                        record_sht.Cells[3, 1, temps.Length + 3, 10].AutoFitColumns();
+
+                                                        var record_code = new StringBuilder();
+                                                        record_code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
+                                                        record_code.AppendLine("Dim num As Integer");
+                                                        record_code.AppendLine("num = ActiveCell.Row - 3");
+                                                        record_code.AppendLine("If num < 1 Then");
+                                                        record_code.AppendLine("num = 1");
+                                                        record_code.AppendLine("End If");
+                                                        record_code.AppendLine("Range(\"A1\").Value = num");
+                                                        record_code.AppendLine("End Sub");
+                                                        record_sht.CodeModule.Code = record_code.ToString();
+
+                                                        var record_condition_h = record_sht.ConditionalFormatting.AddExpression(new ExcelAddress(record_sht.Cells[4, 1, temps.Length + 3, 10].Address));
+                                                        record_condition_h.Formula = "ROW()=CELL(\"row\")";
+                                                        record_condition_h.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                        record_condition_h.Style.Fill.BackgroundColor.Color = Color.LemonChiffon;
+                                                        var record_condition_v = record_sht.ConditionalFormatting.AddExpression(new ExcelAddress(record_sht.Cells[4, 1, temps.Length + 3, 10].Address));
+                                                        record_condition_v.Formula = "COLUMN()=CELL(\"col\")";
+                                                        record_condition_v.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                        record_condition_v.Style.Fill.BackgroundColor.Color = Color.Honeydew;
+
+                                                        var record_chart = (ExcelLineChart)record_sht.Drawings.AddChart("", eChartType.Line);
+                                                        record_chart.SetSize(970, 300);
+                                                        var record_s1 = record_chart.Series.Add(record_sht.Cells[4, 2, temps.Length + 3, 2], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        var record_s2 = record_chart.Series.Add(record_sht.Cells[4, 3, temps.Length + 3, 3], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        var record_s3 = record_chart.Series.Add(record_sht.Cells[4, 4, temps.Length + 3, 4], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        var record_s4 = record_chart.Series.Add(record_sht.Cells[4, 5, temps.Length + 3, 5], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        var record_s5 = record_chart.Series.Add(record_sht.Cells[4, 6, temps.Length + 3, 6], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        var record_s6 = record_chart.Series.Add(record_sht.Cells[4, 7, temps.Length + 3, 7], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        var record_s7 = record_chart.Series.Add(record_sht.Cells[4, 8, temps.Length + 3, 8], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        var record_s8 = record_chart.Series.Add(record_sht.Cells[4, 9, temps.Length + 3, 9], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        var record_s9 = record_chart.Series.Add(record_sht.Cells[4, 10, temps.Length + 3, 10], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                        record_s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
+                                                        record_s2.Header = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                        record_s3.Header = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                        record_s4.Header = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                        record_s5.Header = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                        record_s6.Header = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                        record_s7.Header = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                        record_s8.Header = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                        record_s9.Header = nameof(RecordTemperatures.OvenTemperatures_8);
+                                                        record_s1.Border.Fill.Color = Color.Red;
+                                                        record_s2.Border.Fill.Color = Color.DarkOrange;
+                                                        record_s3.Border.Fill.Color = Color.Gold;
+                                                        record_s4.Border.Fill.Color = Color.Lime;
+                                                        record_s5.Border.Fill.Color = Color.DodgerBlue;
+                                                        record_s6.Border.Fill.Color = Color.DarkOrchid;
+                                                        record_s7.Border.Fill.Color = Color.Magenta;
+                                                        record_s8.Border.Fill.Color = Color.Brown;
+                                                        record_s9.Border.Fill.Color = Color.BurlyWood;
+
+                                                        record_chart.XAxis.Title.Text = "Timespan (H:M:S)";
+                                                        record_chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                        record_chart.XAxis.MajorTickMark = eAxisTickMark.In;
+                                                        record_chart.XAxis.MinorTickMark = eAxisTickMark.None;
+                                                        record_chart.YAxis.Title.Text = "Temperature (°C)";
+                                                        record_chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                        record_chart.YAxis.MajorTickMark = eAxisTickMark.In;
+                                                        record_chart.YAxis.MinorTickMark = eAxisTickMark.None;
+                                                        record_chart.RoundedCorners = false;
+                                                        record_chart.Border.Fill.Color = Color.Black;
+                                                        record_chart.SetPosition(0, 0, 0, 0);
                                                     }
 
-                                                    var sheet_name = "Records " + (i + 1);
-                                                    wsht.Cells[i + 4, values.Length].Formula = "HYPERLINK(\"#'" + sheet_name + "'!$A$4\",\"@\")";
-                                                    wsht.Cells[i + 4, values.Length].Style.Font.Color.SetColor(Color.Blue);
-                                                    wsht.Cells[i + 4, values.Length].Style.Font.UnderLine = false;
-
-                                                    var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
-                                                    record_sht.View.ShowGridLines = false;
-                                                    record_sht.View.FreezePanes(4, 1);
-                                                    record_sht.Row(1).Height = 225;
-                                                    record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                                    record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
-                                                    record_sht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                                                    record_sht.Cells[2, 1].Formula = "HYPERLINK(\"#'" + wsht.Name + "'!$A$" + (i + 4) + "\",\"<<<<<<Back\")";
-                                                    record_sht.Cells[2, 1].Style.Font.Color.SetColor(Color.Blue);
-                                                    record_sht.Cells[2, 1].Style.Font.UnderLine = false;
-                                                    record_sht.Cells[3, 1].Value = nameof(RecordTemperatures.Time);
-                                                    record_sht.Cells[3, 2].Value = nameof(RecordTemperatures.ThermostatTemperature);
-                                                    record_sht.Cells[3, 3].Value = nameof(RecordTemperatures.OvenTemperatures_1);
-                                                    record_sht.Cells[3, 4].Value = nameof(RecordTemperatures.OvenTemperatures_2);
-                                                    record_sht.Cells[3, 5].Value = nameof(RecordTemperatures.OvenTemperatures_3);
-                                                    record_sht.Cells[3, 6].Value = nameof(RecordTemperatures.OvenTemperatures_4);
-                                                    record_sht.Cells[3, 7].Value = nameof(RecordTemperatures.OvenTemperatures_5);
-                                                    record_sht.Cells[3, 8].Value = nameof(RecordTemperatures.OvenTemperatures_6);
-                                                    record_sht.Cells[3, 9].Value = nameof(RecordTemperatures.OvenTemperatures_7);
-                                                    record_sht.Cells[3, 10].Value = nameof(RecordTemperatures.OvenTemperatures_8);
-                                                    record_sht.Cells[3, 1, 3, 10].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                                    record_sht.Cells[3, 1, 3, 10].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
-
-                                                    for (var j = 0; j < temps.Length; j++)
+                                                    wsht.Cells[3, 1, n + 3, keys.Length].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                                                    wsht.Cells[3, 1, n + 3, keys.Length].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                                                    wsht.Cells[3, 1, n + 3, keys.Length].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                                                    wsht.Cells[3, 1, n + 3, keys.Length].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                                                    wsht.Cells[3, 1, n + 3, keys.Length].AutoFitColumns();
+                                                    for (var i = 1; i <= keys.Length; i++)
                                                     {
-                                                        record_sht.Cells[4 + j, 1].Value = temps[j].Time;
-                                                        record_sht.Cells[4 + j, 1].Style.Numberformat.Format = "[h]:mm:ss";
-                                                        record_sht.Cells[4 + j, 2].Value = temps[j].ThermostatTemperature;
-                                                        record_sht.Cells[4 + j, 3].Value = temps[j].OvenTemperatures_1;
-                                                        record_sht.Cells[4 + j, 4].Value = temps[j].OvenTemperatures_2;
-                                                        record_sht.Cells[4 + j, 5].Value = temps[j].OvenTemperatures_3;
-                                                        record_sht.Cells[4 + j, 6].Value = temps[j].OvenTemperatures_4;
-                                                        record_sht.Cells[4 + j, 7].Value = temps[j].OvenTemperatures_5;
-                                                        record_sht.Cells[4 + j, 8].Value = temps[j].OvenTemperatures_6;
-                                                        record_sht.Cells[4 + j, 9].Value = temps[j].OvenTemperatures_7;
-                                                        record_sht.Cells[4 + j, 10].Value = temps[j].OvenTemperatures_8;
+                                                        wsht.Column(i).Width += 2;
                                                     }
 
-                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                                                    record_sht.Cells[3, 1, temps.Length + 3, 10].AutoFitColumns();
+                                                    wsht.Cells[1, 1].Formula = "IF((CELL(\"row\")-3)<1,1,CELL(\"row\")-3)";
 
-                                                    var record_code = new StringBuilder();
-                                                    record_code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
-                                                    record_code.AppendLine("Dim num As Integer");
-                                                    record_code.AppendLine("num = ActiveCell.Row - 3");
-                                                    record_code.AppendLine("If num < 1 Then");
-                                                    record_code.AppendLine("num = 1");
-                                                    record_code.AppendLine("End If");
-                                                    record_code.AppendLine("Range(\"A1\").Value = num");
-                                                    record_code.AppendLine("End Sub");
-                                                    record_sht.CodeModule.Code = record_code.ToString();
+                                                    var code = new StringBuilder();
+                                                    code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
+                                                    code.AppendLine("Dim num As Integer");
+                                                    code.AppendLine("num = ActiveCell.Row - 3");
+                                                    code.AppendLine("If num < 1 Then");
+                                                    code.AppendLine("num = 1");
+                                                    code.AppendLine("End If");
+                                                    code.AppendLine("Range(\"A1\").Value = num");
+                                                    code.AppendLine("End Sub");
+                                                    wsht.CodeModule.Code = code.ToString();
 
-                                                    var record_condition_h = record_sht.ConditionalFormatting.AddExpression(new ExcelAddress(record_sht.Cells[4, 1, temps.Length + 3, 10].Address));
-                                                    record_condition_h.Formula = "ROW()=CELL(\"row\")";
-                                                    record_condition_h.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                                    record_condition_h.Style.Fill.BackgroundColor.Color = Color.LemonChiffon;
-                                                    var record_condition_v = record_sht.ConditionalFormatting.AddExpression(new ExcelAddress(record_sht.Cells[4, 1, temps.Length + 3, 10].Address));
-                                                    record_condition_v.Formula = "COLUMN()=CELL(\"col\")";
-                                                    record_condition_v.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                                    record_condition_v.Style.Fill.BackgroundColor.Color = Color.Honeydew;
+                                                    var condition_h = wsht.ConditionalFormatting.AddExpression(new ExcelAddress(wsht.Cells[4, 1, n + 3, keys.Length].Address));
+                                                    condition_h.Formula = "ROW()=CELL(\"row\")";
+                                                    condition_h.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                    condition_h.Style.Fill.BackgroundColor.Color = Color.LemonChiffon;
+                                                    var condition_v = wsht.ConditionalFormatting.AddExpression(new ExcelAddress(wsht.Cells[4, 1, n + 3, keys.Length].Address));
+                                                    condition_v.Formula = "COLUMN()=CELL(\"col\")";
+                                                    condition_v.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                    condition_v.Style.Fill.BackgroundColor.Color = Color.Honeydew;
 
-                                                    var record_chart = (ExcelLineChart)record_sht.Drawings.AddChart("", eChartType.Line);
-                                                    record_chart.SetSize(970, 300);
-                                                    var record_s1 = record_chart.Series.Add(record_sht.Cells[4, 2, temps.Length + 3, 2], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    var record_s2 = record_chart.Series.Add(record_sht.Cells[4, 3, temps.Length + 3, 3], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    var record_s3 = record_chart.Series.Add(record_sht.Cells[4, 4, temps.Length + 3, 4], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    var record_s4 = record_chart.Series.Add(record_sht.Cells[4, 5, temps.Length + 3, 5], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    var record_s5 = record_chart.Series.Add(record_sht.Cells[4, 6, temps.Length + 3, 6], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    var record_s6 = record_chart.Series.Add(record_sht.Cells[4, 7, temps.Length + 3, 7], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    var record_s7 = record_chart.Series.Add(record_sht.Cells[4, 8, temps.Length + 3, 8], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    var record_s8 = record_chart.Series.Add(record_sht.Cells[4, 9, temps.Length + 3, 9], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    var record_s9 = record_chart.Series.Add(record_sht.Cells[4, 10, temps.Length + 3, 10], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                    record_s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
-                                                    record_s2.Header = nameof(RecordTemperatures.OvenTemperatures_1);
-                                                    record_s3.Header = nameof(RecordTemperatures.OvenTemperatures_2);
-                                                    record_s4.Header = nameof(RecordTemperatures.OvenTemperatures_3);
-                                                    record_s5.Header = nameof(RecordTemperatures.OvenTemperatures_4);
-                                                    record_s6.Header = nameof(RecordTemperatures.OvenTemperatures_5);
-                                                    record_s7.Header = nameof(RecordTemperatures.OvenTemperatures_6);
-                                                    record_s8.Header = nameof(RecordTemperatures.OvenTemperatures_7);
-                                                    record_s9.Header = nameof(RecordTemperatures.OvenTemperatures_8);
-                                                    record_s1.Border.Fill.Color = Color.Red;
-                                                    record_s2.Border.Fill.Color = Color.DarkOrange;
-                                                    record_s3.Border.Fill.Color = Color.Gold;
-                                                    record_s4.Border.Fill.Color = Color.Lime;
-                                                    record_s5.Border.Fill.Color = Color.DodgerBlue;
-                                                    record_s6.Border.Fill.Color = Color.DarkOrchid;
-                                                    record_s7.Border.Fill.Color = Color.Magenta;
-                                                    record_s8.Border.Fill.Color = Color.Brown;
-                                                    record_s9.Border.Fill.Color = Color.BurlyWood;
+                                                    var ooxx = new ExcelNamedRange("ooxx", null, wsht, "A1", 1);
+                                                    xlwb.Workbook.Names.Add("ooxx", ooxx);
+                                                    var data_sht = xlwb.Workbook.Worksheets.Add("Data");
+                                                    data_sht.Hidden = eWorkSheetHidden.VeryHidden;
 
-                                                    record_chart.XAxis.Title.Text = "Timespan (H:M:S)";
-                                                    record_chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
-                                                    record_chart.XAxis.MajorTickMark = eAxisTickMark.In;
-                                                    record_chart.XAxis.MinorTickMark = eAxisTickMark.None;
-                                                    record_chart.YAxis.Title.Text = "Temperature (°C)";
-                                                    record_chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
-                                                    record_chart.YAxis.MajorTickMark = eAxisTickMark.In;
-                                                    record_chart.YAxis.MinorTickMark = eAxisTickMark.None;
-                                                    record_chart.RoundedCorners = false;
-                                                    record_chart.Border.Fill.Color = Color.Black;
-                                                    record_chart.SetPosition(0, 0, 0, 0);
+                                                    for (var i = 1; i <= max_count; i++)
+                                                    {
+                                                        data_sht.Cells[i, 1].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$A$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 1].Style.Numberformat.Format = "[h]:mm:ss";
+                                                        data_sht.Cells[i, 2].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$B$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 3].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$C$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 4].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$D$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 5].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$E$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 6].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$F$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 7].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$G$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 8].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$H$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 9].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$I$" + (i + 3) + "\")";
+                                                        data_sht.Cells[i, 10].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$J$" + (i + 3) + "\")";
+                                                    }
+
+                                                    var chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
+                                                    chart.SetSize(970, 300);
+                                                    var s1 = chart.Series.Add(data_sht.Cells[1, 2, max_count, 2], data_sht.Cells[1, 1, max_count, 1]);
+                                                    var s2 = chart.Series.Add(data_sht.Cells[1, 3, max_count, 3], data_sht.Cells[1, 1, max_count, 1]);
+                                                    var s3 = chart.Series.Add(data_sht.Cells[1, 4, max_count, 4], data_sht.Cells[1, 1, max_count, 1]);
+                                                    var s4 = chart.Series.Add(data_sht.Cells[1, 5, max_count, 5], data_sht.Cells[1, 1, max_count, 1]);
+                                                    var s5 = chart.Series.Add(data_sht.Cells[1, 6, max_count, 6], data_sht.Cells[1, 1, max_count, 1]);
+                                                    var s6 = chart.Series.Add(data_sht.Cells[1, 7, max_count, 7], data_sht.Cells[1, 1, max_count, 1]);
+                                                    var s7 = chart.Series.Add(data_sht.Cells[1, 8, max_count, 8], data_sht.Cells[1, 1, max_count, 1]);
+                                                    var s8 = chart.Series.Add(data_sht.Cells[1, 9, max_count, 9], data_sht.Cells[1, 1, max_count, 1]);
+                                                    var s9 = chart.Series.Add(data_sht.Cells[1, 10, max_count, 10], data_sht.Cells[1, 1, max_count, 1]);
+                                                    s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
+                                                    s2.Header = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                    s3.Header = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                    s4.Header = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                    s5.Header = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                    s6.Header = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                    s7.Header = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                    s8.Header = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                    s9.Header = nameof(RecordTemperatures.OvenTemperatures_8);
+                                                    s1.Border.Fill.Color = Color.Red;
+                                                    s2.Border.Fill.Color = Color.DarkOrange;
+                                                    s3.Border.Fill.Color = Color.Gold;
+                                                    s4.Border.Fill.Color = Color.Lime;
+                                                    s5.Border.Fill.Color = Color.DodgerBlue;
+                                                    s6.Border.Fill.Color = Color.DarkOrchid;
+                                                    s7.Border.Fill.Color = Color.Magenta;
+                                                    s8.Border.Fill.Color = Color.Brown;
+                                                    s9.Border.Fill.Color = Color.BurlyWood;
+
+                                                    chart.XAxis.Title.Text = "Timespan (H:M:S)";
+                                                    chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                    chart.XAxis.MajorTickMark = eAxisTickMark.In;
+                                                    chart.XAxis.MinorTickMark = eAxisTickMark.None;
+                                                    chart.YAxis.Title.Text = "Temperature (°C)";
+                                                    chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                    chart.YAxis.MajorTickMark = eAxisTickMark.In;
+                                                    chart.YAxis.MinorTickMark = eAxisTickMark.None;
+                                                    chart.RoundedCorners = false;
+                                                    chart.Border.Fill.Color = Color.Black;
+                                                    chart.SetPosition(0, 0, 0, 0);
+
+                                                    foreach (var sheet in xlwb.Workbook.Worksheets)
+                                                    {
+                                                        sheet.Protection.IsProtected = true;
+                                                        sheet.Protection.AllowAutoFilter = true;
+                                                        sheet.Protection.AllowSelectLockedCells = true;
+                                                        sheet.Protection.AllowSelectUnlockedCells = true;
+                                                        sheet.Protection.AllowSort = true;
+                                                        sheet.Protection.SetPassword("23555277");
+                                                        sheet.Cells[1, 1].Style.Locked = false;
+                                                    }
+
+                                                    xlwb.Workbook.Properties.Author = "Luo Wunmao";
+                                                    xlwb.Workbook.Properties.Company = "Group Up Industrial Co., Ltd.";
+                                                    xlwb.Workbook.Properties.Comments = "Made by the Program of GP";
+                                                    xlwb.Workbook.Properties.Created = created;
+                                                    //!活頁簿保護不受web瀏覽支援(會無法開啟)
+                                                    // xlwb.Workbook.Protection.LockRevision = true;
+                                                    // xlwb.Workbook.Protection.LockStructure = true;
+                                                    // xlwb.Workbook.Protection.SetPassword("23555277");
+                                                    xlwb.SaveAs(fi);
+                                                    xlwb.Dispose();
                                                 }
-
-                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                                                wsht.Cells[3, 1, _ViewResults.Count + 3, keys.Length].AutoFitColumns();
-                                                for (var i = 1; i <= keys.Length; i++)
-                                                {
-                                                    wsht.Column(i).Width += 2;
-                                                }
-
-                                                wsht.Cells[1, 1].Formula = "IF((CELL(\"row\")-3)<1,1,CELL(\"row\")-3)";
-
-                                                var code = new StringBuilder();
-                                                code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
-                                                code.AppendLine("Dim num As Integer");
-                                                code.AppendLine("num = ActiveCell.Row - 3");
-                                                code.AppendLine("If num < 1 Then");
-                                                code.AppendLine("num = 1");
-                                                code.AppendLine("End If");
-                                                code.AppendLine("Range(\"A1\").Value = num");
-                                                code.AppendLine("End Sub");
-                                                wsht.CodeModule.Code = code.ToString();
-
-                                                var condition_h = wsht.ConditionalFormatting.AddExpression(new ExcelAddress(wsht.Cells[4, 1, _ViewResults.Count + 3, keys.Length].Address));
-                                                condition_h.Formula = "ROW()=CELL(\"row\")";
-                                                condition_h.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                                condition_h.Style.Fill.BackgroundColor.Color = Color.LemonChiffon;
-                                                var condition_v = wsht.ConditionalFormatting.AddExpression(new ExcelAddress(wsht.Cells[4, 1, _ViewResults.Count + 3, keys.Length].Address));
-                                                condition_v.Formula = "COLUMN()=CELL(\"col\")";
-                                                condition_v.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                                condition_v.Style.Fill.BackgroundColor.Color = Color.Honeydew;
-
-                                                var ooxx = new ExcelNamedRange("ooxx", null, wsht, "A1", 1);
-                                                xlwb.Workbook.Names.Add("ooxx", ooxx);
-                                                var data_sht = xlwb.Workbook.Worksheets.Add("Data");
-                                                data_sht.Hidden = eWorkSheetHidden.VeryHidden;
-
-                                                for (var i = 1; i <= max_count; i++)
-                                                {
-                                                    data_sht.Cells[i, 1].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$A$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 1].Style.Numberformat.Format = "[h]:mm:ss";
-                                                    data_sht.Cells[i, 2].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$B$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 3].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$C$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 4].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$D$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 5].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$E$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 6].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$F$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 7].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$G$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 8].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$H$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 9].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$I$" + (i + 3) + "\")";
-                                                    data_sht.Cells[i, 10].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$J$" + (i + 3) + "\")";
-                                                }
-
-                                                var chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
-                                                chart.SetSize(970, 300);
-                                                var s1 = chart.Series.Add(data_sht.Cells[1, 2, max_count, 2], data_sht.Cells[1, 1, max_count, 1]);
-                                                var s2 = chart.Series.Add(data_sht.Cells[1, 3, max_count, 3], data_sht.Cells[1, 1, max_count, 1]);
-                                                var s3 = chart.Series.Add(data_sht.Cells[1, 4, max_count, 4], data_sht.Cells[1, 1, max_count, 1]);
-                                                var s4 = chart.Series.Add(data_sht.Cells[1, 5, max_count, 5], data_sht.Cells[1, 1, max_count, 1]);
-                                                var s5 = chart.Series.Add(data_sht.Cells[1, 6, max_count, 6], data_sht.Cells[1, 1, max_count, 1]);
-                                                var s6 = chart.Series.Add(data_sht.Cells[1, 7, max_count, 7], data_sht.Cells[1, 1, max_count, 1]);
-                                                var s7 = chart.Series.Add(data_sht.Cells[1, 8, max_count, 8], data_sht.Cells[1, 1, max_count, 1]);
-                                                var s8 = chart.Series.Add(data_sht.Cells[1, 9, max_count, 9], data_sht.Cells[1, 1, max_count, 1]);
-                                                var s9 = chart.Series.Add(data_sht.Cells[1, 10, max_count, 10], data_sht.Cells[1, 1, max_count, 1]);
-                                                s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
-                                                s2.Header = nameof(RecordTemperatures.OvenTemperatures_1);
-                                                s3.Header = nameof(RecordTemperatures.OvenTemperatures_2);
-                                                s4.Header = nameof(RecordTemperatures.OvenTemperatures_3);
-                                                s5.Header = nameof(RecordTemperatures.OvenTemperatures_4);
-                                                s6.Header = nameof(RecordTemperatures.OvenTemperatures_5);
-                                                s7.Header = nameof(RecordTemperatures.OvenTemperatures_6);
-                                                s8.Header = nameof(RecordTemperatures.OvenTemperatures_7);
-                                                s9.Header = nameof(RecordTemperatures.OvenTemperatures_8);
-                                                s1.Border.Fill.Color = Color.Red;
-                                                s2.Border.Fill.Color = Color.DarkOrange;
-                                                s3.Border.Fill.Color = Color.Gold;
-                                                s4.Border.Fill.Color = Color.Lime;
-                                                s5.Border.Fill.Color = Color.DodgerBlue;
-                                                s6.Border.Fill.Color = Color.DarkOrchid;
-                                                s7.Border.Fill.Color = Color.Magenta;
-                                                s8.Border.Fill.Color = Color.Brown;
-                                                s9.Border.Fill.Color = Color.BurlyWood;
-
-                                                chart.XAxis.Title.Text = "Timespan (H:M:S)";
-                                                chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
-                                                chart.XAxis.MajorTickMark = eAxisTickMark.In;
-                                                chart.XAxis.MinorTickMark = eAxisTickMark.None;
-                                                chart.YAxis.Title.Text = "Temperature (°C)";
-                                                chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
-                                                chart.YAxis.MajorTickMark = eAxisTickMark.In;
-                                                chart.YAxis.MinorTickMark = eAxisTickMark.None;
-                                                chart.RoundedCorners = false;
-                                                chart.Border.Fill.Color = Color.Black;
-                                                chart.SetPosition(0, 0, 0, 0);
-
-                                                foreach (var sheet in xlwb.Workbook.Worksheets)
-                                                {
-                                                    sheet.Protection.IsProtected = true;
-                                                    sheet.Protection.AllowAutoFilter = true;
-                                                    sheet.Protection.AllowSelectLockedCells = true;
-                                                    sheet.Protection.AllowSelectUnlockedCells = true;
-                                                    sheet.Protection.AllowSort = true;
-                                                    sheet.Protection.SetPassword("23555277");
-                                                    sheet.Cells[1, 1].Style.Locked = false;
-                                                }
-
-                                                xlwb.Workbook.Properties.Author = "Luo Wunmao";
-                                                xlwb.Workbook.Properties.Company = "Group Up Industrial Co., Ltd.";
-                                                xlwb.Workbook.Properties.Comments = "Made by the Program of GP";
-                                                xlwb.Workbook.Properties.Created = created;
-                                                //!活頁簿保護不受web瀏覽支援(會無法開啟)
-                                                // xlwb.Workbook.Protection.LockRevision = true;
-                                                // xlwb.Workbook.Protection.LockStructure = true;
-                                                // xlwb.Workbook.Protection.SetPassword("23555277");
-                                                xlwb.SaveAs(fi);
-                                                xlwb.Dispose();
                                             },
                                             TaskCreationOptions.LongRunning);
             }

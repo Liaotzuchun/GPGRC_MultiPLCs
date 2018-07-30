@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Threading;
-using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Driver;

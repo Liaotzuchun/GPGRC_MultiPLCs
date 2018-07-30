@@ -341,19 +341,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding ViewResults.Count, Mode=OneWay}">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Style.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding ViewResults.Count, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1001}"
-                                            Value="True">
-                                            <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                            Text="{Binding ViewResults.Count, Mode=OneWay}" />
                     </Border>
                 </Grid>
                 <ToggleButton
@@ -400,19 +388,8 @@
                     Grid.Column="6"
                     Margin="4,0,0,0"
                     Content="{DynamicResource 報表匯出}"
-                    FontSize="14">
-                    <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
-                            <Binding
-                                Converter="{StaticResource IsLessThanValue}"
-                                ConverterParameter="1000"
-                                Mode="OneWay"
-                                Path="ViewResults.Count" />
-                            <Binding
-                                Mode="OneWay"
-                                Path="Standby" />
-                        </MultiBinding>
-                    </Button.IsEnabled>
+                    FontSize="14"
+                    IsEnabled="{Binding Standby, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding ToExcelCommand, Mode=OneTime}" />
