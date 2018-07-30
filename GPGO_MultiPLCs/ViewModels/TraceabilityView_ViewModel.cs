@@ -299,7 +299,7 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _Results = value;
-                OvenFilter.Filter = _Results?.Select(x => x.StationNumber + 1).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                OvenFilter.Filter = _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                 RecipeFilter.Filter = _Results?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                 OrderFilter.Filter = _Results?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                 OpFilter.Filter = _Results?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
@@ -309,7 +309,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(TotalCount));
 
-                TodayProductionUpdated?.Invoke(_Results?.Where(x => x.AddedTime.Day == DateTime.Today.Day).GroupBy(x => x.StationNumber).Select(x => (x.Key, x.Sum(y => y.ProcessCount))).ToList());
+                TodayProductionUpdated?.Invoke(_Results?.Where(x => x.AddedTime.Day == DateTime.Today.Day).GroupBy(x => x.StationNumber - 1).Select(x => (x.Key, x.Sum(y => y.ProcessCount))).ToList());
 
                 UpdateViewResult();
                 UpdateChart(_Date1, _Date2);
@@ -694,7 +694,7 @@ namespace GPGO_MultiPLCs.ViewModels
             if (_ViewResults?.Count > 0)
             {
                 var ByDate = date2 - date1 > TimeSpan.FromDays(1);
-                var result2 = _ViewResults.GroupBy(x => (ChartMode)_Mode == ChartMode.ByOrder ? (x.StationNumber + 1).ToString("00") : x.OrderCode)
+                var result2 = _ViewResults.GroupBy(x => (ChartMode)_Mode == ChartMode.ByOrder ? x.StationNumber.ToString("00") : x.OrderCode)
                                           .OrderBy(x => x.Key)
                                           .Select(x => (x.Key, x))
                                           .ToArray();
@@ -706,7 +706,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                    {
                                                        if ((ChartMode)_Mode == ChartMode.ByPLC)
                                                        {
-                                                           return (x.StationNumber + 1).ToString("00");
+                                                           return (x.StationNumber).ToString("00");
                                                        }
 
                                                        if ((ChartMode)_Mode == ChartMode.ByOrder)
@@ -777,7 +777,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                      if ((ChartMode)_Mode == ChartMode.ByPLC)
                                                      {
-                                                         return (x.StationNumber + 1).ToString("00") == categories[j];
+                                                         return (x.StationNumber).ToString("00") == categories[j];
                                                      }
 
                                                      if ((ChartMode)_Mode == ChartMode.ByOrder)
@@ -828,7 +828,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private void UpdateViewResult()
         {
             ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ? _Results?.GetRange(_Index1, _Index2 - _Index1 + 1)
-                                                                              .Where(x => _OvenFilter.Check(x.StationNumber + 1) &&
+                                                                              .Where(x => _OvenFilter.Check(x.StationNumber) &&
                                                                                           _RecipeFilter.Check(x.RecipeName) &&
                                                                                           _OrderFilter.Check(x.OrderCode) &&
                                                                                           _OpFilter.Check(x.OperatorID) &&

@@ -44,8 +44,9 @@
         <DataTemplate
             x:Key="EqualFilterTemplate"
             DataType="helpers:EqualFilter">
-            <CheckBox
-                Content="{Binding Value, Mode=OneWay}"
+            <MenuItem
+                Header="{Binding Value, Mode=OneWay}"
+                IsCheckable="True"
                 IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
         </DataTemplate>
     </UserControl.Resources>
@@ -723,10 +724,12 @@
                             <DataTemplate>
                                 <Menu>
                                     <MenuItem Header="{DynamicResource 烤箱序號}">
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
                                             Command="{Binding DataContext.OvenFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                            FontSize="14"
                                             Header="{DynamicResource 全部}" />
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
+                                            FontSize="14"
                                             Header="{DynamicResource 過濾}"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
@@ -741,7 +744,7 @@
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
-                                <TextBlock Text="{Binding StationNumber, ConverterParameter=1, Converter={StaticResource AddValue}, Mode=OneWay}" />
+                                <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -752,10 +755,12 @@
                                     <MenuItem
                                         Header="{DynamicResource 配方}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
                                             Command="{Binding DataContext.RecipeFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                            FontSize="14"
                                             Header="{DynamicResource 全部}" />
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
+                                            FontSize="14"
                                             Header="ooxx"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
@@ -781,10 +786,12 @@
                                     <MenuItem
                                         Header="{DynamicResource 工單}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
                                             Command="{Binding DataContext.OrderFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                            FontSize="14"
                                             Header="{DynamicResource 全部}" />
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
+                                            FontSize="14"
                                             Header="ooxx"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
@@ -810,10 +817,12 @@
                                     <MenuItem
                                         Header="{DynamicResource 操作員}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
                                             Command="{Binding DataContext.OpFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                            FontSize="14"
                                             Header="{DynamicResource 全部}" />
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
+                                            FontSize="14"
                                             Header="ooxx"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
@@ -839,10 +848,12 @@
                                     <MenuItem
                                         Header="{DynamicResource 台車}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
                                             Command="{Binding DataContext.TrolleyFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                            FontSize="14"
                                             Header="{DynamicResource 全部}" />
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
+                                            FontSize="14"
                                             Header="ooxx"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
@@ -880,10 +891,12 @@
                                     <MenuItem
                                         Header="{DynamicResource 正反面}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
                                             Command="{Binding DataContext.SideFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                            FontSize="14"
                                             Header="{DynamicResource 全部}" />
-                                        <MenuItem FontSize="14"
+                                        <MenuItem
+                                            FontSize="14"
                                             Header="ooxx"
                                             ItemTemplate="{StaticResource EqualFilterTemplate}">
                                             <MenuItem.ItemsSource>
