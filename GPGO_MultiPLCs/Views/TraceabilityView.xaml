@@ -359,8 +359,8 @@
                     Margin="4,0,0,0"
                     BorderThickness="1"
                     IsEnabledChanged="CB_IsEnabledChanged"
-                    ItemsSource="{Binding EnumFilter, Mode=OneWay}"
-                    SelectedItem="{Binding FilterIndex, Mode=OneWayToSource}"
+                    ItemsSource="{Binding OvenFilter, Mode=OneWay}"
+                    SelectedItem="{Binding OvenIndex, Mode=OneWayToSource}"
                     Validation.ErrorTemplate="{x:Null}">
                     <ComboBox.IsEnabled>
                         <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
@@ -720,7 +720,7 @@
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{DynamicResource 紀錄時間}" />
@@ -732,7 +732,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{DynamicResource 烤箱序號}" />
@@ -756,19 +756,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{DynamicResource 設備}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:ProcessInfo">
-                                <TextBlock Text="{Binding MachineCode, Mode=OneWay}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="80">
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{DynamicResource 工單}" />
@@ -780,7 +768,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{DynamicResource 操作員}" />
@@ -792,7 +780,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{DynamicResource 台車}" />
@@ -828,7 +816,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{DynamicResource 開始時間}" />
@@ -840,7 +828,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{DynamicResource 結束時間}" />
@@ -894,8 +882,7 @@
                                 Width="{Binding ActualWidth, ElementName=tb1, Mode=OneWay}"
                                 Padding="8"
                                 Content="{DynamicResource 設備}"
-                                IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"
-                                Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, ElementName=TotalTB}" />
+                                IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"/>
                             <ToggleButton
                                 Grid.Column="3"
                                 Padding="8"
