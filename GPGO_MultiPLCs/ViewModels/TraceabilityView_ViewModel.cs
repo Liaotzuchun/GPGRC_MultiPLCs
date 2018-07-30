@@ -310,7 +310,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     var count = queue.Count;
                                                     index += 1;
-                                                    var datas = queue.Dequeue(count > 500 ? 500 : count).ToArray();
+                                                    var datas = queue.Dequeue(count > 550 ? 500 : count).ToArray();
                                                     var fi = new FileInfo(dic + "\\" + created.ToString("yyyy-MM-dd-HH-mm-ss-fff(") + index + ").xlsm");
 
                                                     var n = datas.Length;
