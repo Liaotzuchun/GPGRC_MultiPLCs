@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:GPGO_MultiPLCs.Helpers"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,6 +23,32 @@
 
     <UserControl.Resources>
         <models:EventTypeToColor x:Key="EventTypeToColor" />
+        <TextBlock x:Key="ooxx" Text="ooxx"/>
+        <CollectionViewSource
+            x:Key="OvenFilter"
+            Source="{Binding OvenFilter.Filter, Mode=OneWay}" />
+        <CollectionViewSource
+            x:Key="RecipeFilter"
+            Source="{Binding RecipeFilter.Filter, Mode=OneWay}" />
+        <CollectionViewSource
+            x:Key="OrderFilter"
+            Source="{Binding OrderFilter.Filter, Mode=OneWay}" />
+        <CollectionViewSource
+            x:Key="OpFilter"
+            Source="{Binding OpFilter.Filter, Mode=OneWay}" />
+        <CollectionViewSource
+            x:Key="TrolleyFilter"
+            Source="{Binding TrolleyFilter.Filter, Mode=OneWay}" />
+        <CollectionViewSource
+            x:Key="SideFilter"
+            Source="{Binding SideFilter.Filter, Mode=OneWay}" />
+        <DataTemplate
+            x:Key="EqualFilterTemplate"
+            DataType="helpers:EqualFilter">
+            <CheckBox
+                Content="{Binding Value, Mode=OneWay}"
+                IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid Background="{StaticResource WindowBackgroundBrush2}">
@@ -35,13 +62,12 @@
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition Width="140" />
                     <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="110" />
-                    <ColumnDefinition Width="70" />
+                    <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
@@ -344,48 +370,9 @@
                             Text="{Binding ViewResults.Count, Mode=OneWay}" />
                     </Border>
                 </Grid>
-                <ToggleButton
-                    x:Name="TotalTB"
-                    Grid.Column="5"
-                    Margin="4,0,0,0"
-                    Content="{DynamicResource 全部站點}"
-                    IsChecked="True"
-                    IsEnabled="{Binding IsEnabled, ElementName=RS, Mode=OneWay}"
-                    Style="{StaticResource ToggleSwich}" />
-                <ComboBox
-                    x:Name="CB"
-                    Grid.Row="1"
-                    Grid.Column="5"
-                    Margin="4,0,0,0"
-                    BorderThickness="1"
-                    IsEnabledChanged="CB_IsEnabledChanged"
-                    ItemsSource="{Binding OvenFilter, Mode=OneWay}"
-                    SelectedItem="{Binding OvenIndex, Mode=OneWayToSource}"
-                    Validation.ErrorTemplate="{x:Null}">
-                    <ComboBox.IsEnabled>
-                        <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
-                            <Binding
-                                Converter="{StaticResource BoolNot}"
-                                ElementName="TotalTB"
-                                Mode="OneWay"
-                                Path="IsChecked" />
-                            <Binding
-                                ElementName="RS"
-                                Mode="OneWay"
-                                Path="IsEnabled" />
-                        </MultiBinding>
-                    </ComboBox.IsEnabled>
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                FontSize="16"
-                                Text="{Binding Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=1, StringFormat=No. \{0:00\}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
                 <Button
                     Grid.RowSpan="2"
-                    Grid.Column="6"
+                    Grid.Column="5"
                     Margin="4,0,0,0"
                     Content="{DynamicResource 報表匯出}"
                     FontSize="14"
@@ -735,7 +722,19 @@
                     <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{DynamicResource 烤箱序號}" />
+                                <Menu>
+                                    <MenuItem
+                                        Header="{DynamicResource 烤箱序號}"
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Header="{Binding Text, Source={StaticResource ooxx}}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource OvenFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
@@ -747,7 +746,20 @@
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{DynamicResource 配方}" />
+                                <Menu>
+                                    <MenuItem
+                                        Header="{DynamicResource 配方}"
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{Binding DataContext.RecipeFilter.AllCommand, ElementName=UC, Mode=OneTime}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource RecipeFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
@@ -759,7 +771,20 @@
                     <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{DynamicResource 工單}" />
+                                <Menu>
+                                    <MenuItem
+                                        Header="{DynamicResource 工單}"
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{Binding DataContext.OrderFilter.AllCommand, ElementName=UC, Mode=OneTime}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource OrderFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
@@ -771,7 +796,20 @@
                     <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{DynamicResource 操作員}" />
+                                <Menu>
+                                    <MenuItem
+                                        Header="{DynamicResource 操作員}"
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{Binding DataContext.OpFilter.AllCommand, ElementName=UC, Mode=OneTime}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource OpFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
@@ -783,7 +821,20 @@
                     <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{DynamicResource 台車}" />
+                                <Menu>
+                                    <MenuItem
+                                        Header="{DynamicResource 台車}"
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{Binding DataContext.TrolleyFilter.AllCommand, ElementName=UC, Mode=OneTime}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource TrolleyFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
@@ -807,7 +858,20 @@
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{DynamicResource 正反面}" />
+                                <Menu>
+                                    <MenuItem
+                                        Header="{DynamicResource 正反面}"
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{Binding DataContext.SideFilter.AllCommand, ElementName=UC, Mode=OneTime}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource SideFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
@@ -882,7 +946,7 @@
                                 Width="{Binding ActualWidth, ElementName=tb1, Mode=OneWay}"
                                 Padding="8"
                                 Content="{DynamicResource 設備}"
-                                IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}"/>
+                                IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                             <ToggleButton
                                 Grid.Column="3"
                                 Padding="8"

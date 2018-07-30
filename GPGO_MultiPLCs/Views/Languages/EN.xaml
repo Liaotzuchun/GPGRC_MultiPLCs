@@ -81,7 +81,7 @@
     <sys:String x:Key="起點">Start</sys:String>
     <sys:String x:Key="終點">End</sys:String>
     <sys:String x:Key="總筆數">Counts</sys:String>
-    <sys:String x:Key="全部站點">All Devices</sys:String>
+    <sys:String x:Key="全部">All</sys:String>
     <sys:String x:Key="紀錄時間">Recorded</sys:String>
     <sys:String x:Key="烤箱序號">Oven No.</sys:String>
     <sys:String x:Key="正反面">Side</sys:String>

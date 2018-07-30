@@ -81,7 +81,7 @@
     <sys:String x:Key="起點">起点</sys:String> 
     <sys:String x:Key="終點">终点</sys:String>
     <sys:String x:Key="總筆數">总笔数</sys:String> 
-    <sys:String x:Key="全部站點">全部站点</sys:String>
+    <sys:String x:Key="全部">全部</sys:String>
     <sys:String x:Key="紀錄時間">纪录时间</sys:String> 
     <sys:String x:Key="烤箱序號">烤箱序号</sys:String>
     <sys:String x:Key="正反面">正反面</sys:String> 

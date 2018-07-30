@@ -14,6 +14,7 @@ using OfficeOpenXml.Style;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+
 //using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
@@ -21,39 +22,6 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>生產紀錄追蹤</summary>
     public class TraceabilityView_ViewModel : ViewModelBase
     {
-        public class Filter<T> : ViewModelBase
-        {
-            private T _Value;
-            private bool _IsEnabled;
-
-            public T Value
-            {
-                get => _Value;
-                set
-                {
-                    _Value = value;
-                    NotifyPropertyChanged();
-                }
-            }
-
-            public bool IsEnabled
-            {
-                get => _IsEnabled;
-                set
-                {
-                    _IsEnabled = value;
-                    NotifyPropertyChanged();
-                }
-            }
-
-            public Filter(T tagValue)
-            {
-                Value = tagValue;
-            }
-
-            public bool Check(T val) => Value.Equals(val);
-        }
-
         public enum ChartMode
         {
             ByDateTime,
@@ -81,12 +49,12 @@ namespace GPGO_MultiPLCs.ViewModels
         private List<ProcessInfo> _Results;
         private bool _Standby = true;
         private List<ProcessInfo> _ViewResults;
-        private List<Filter<int>> _OvenFilter;
-        private List<Filter<string>> _RecipeFilter;
-        private List<Filter<string>> _OrderFilter;
-        private List<Filter<string>> _OpFilter;
-        private List<Filter<string>> _TrolleyFilter;
-        private List<Filter<string>> _SideFilter;
+        private FilterGroup _OvenFilter;
+        private FilterGroup _RecipeFilter;
+        private FilterGroup _OrderFilter;
+        private FilterGroup _OpFilter;
+        private FilterGroup _TrolleyFilter;
+        private FilterGroup _SideFilter;
 
         /// <summary>位移+1天</summary>
         public RelayCommand AddDayCommand { get; }
@@ -96,72 +64,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>位移+1週</summary>
         public RelayCommand AddWeekCommand { get; }
-
-        /// <summary>基於PLC站號的Filter，站號由1開始</summary>
-        public List<Filter<int>> OvenFilter
-        {
-            get => _OvenFilter;
-            set
-            {
-                _OvenFilter = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>基於配方的Filter</summary>
-        public List<Filter<string>> RecipeFilter
-        {
-            get => _RecipeFilter;
-            set
-            {
-                _RecipeFilter = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>基於工單的Filter</summary>
-        public List<Filter<string>> OrderFilter
-        {
-            get => _OrderFilter;
-            set
-            {
-                _OrderFilter = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>基於操作員的Filter</summary>
-        public List<Filter<string>> OpFilter
-        {
-            get => _OpFilter;
-            set
-            {
-                _OpFilter = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>基於台車的Filter</summary>
-        public List<Filter<string>> TrolleyFilter
-        {
-            get => _TrolleyFilter;
-            set
-            {
-                _TrolleyFilter = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>基於正反面的Filter</summary>
-        public List<Filter<string>> SideFilter
-        {
-            get => _SideFilter;
-            set
-            {
-                _SideFilter = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         /// <summary>日期範圍的開始</summary>
         public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.AddedTime : null;
@@ -196,6 +98,108 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>日期範圍的結束</summary>
         public DateTime? UpperDate => _Results?.Count > 0 ? _Results[_Index2]?.AddedTime : null;
+
+        /// <summary>基於PLC站號的Filter</summary>
+        public FilterGroup OvenFilter
+        {
+            get => _OvenFilter;
+            set
+            {
+                _OvenFilter = value;
+                _OvenFilter.StatusChanged += () =>
+                                             {
+                                                 UpdateViewResult();
+                                                 UpdateChart(_Date1, _Date2);
+                                             };
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>基於配方的Filter</summary>
+        public FilterGroup RecipeFilter
+        {
+            get => _RecipeFilter;
+            set
+            {
+                _RecipeFilter = value;
+                _RecipeFilter.StatusChanged += () =>
+                                               {
+                                                   UpdateViewResult();
+                                                   UpdateChart(_Date1, _Date2);
+                                               };
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>基於工單的Filter</summary>
+        public FilterGroup OrderFilter
+        {
+            get => _OrderFilter;
+            set
+            {
+                _OrderFilter = value;
+                _OrderFilter.StatusChanged += () =>
+                                              {
+                                                  UpdateViewResult();
+                                                  UpdateChart(_Date1, _Date2);
+                                              };
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>基於操作員的Filter</summary>
+        public FilterGroup OpFilter
+        {
+            get => _OpFilter;
+            set
+            {
+                _OpFilter = value;
+                _OpFilter.StatusChanged += () =>
+                                           {
+                                               UpdateViewResult();
+                                               UpdateChart(_Date1, _Date2);
+                                           };
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>基於台車的Filter</summary>
+        public FilterGroup TrolleyFilter
+        {
+            get => _TrolleyFilter;
+            set
+            {
+                _TrolleyFilter = value;
+                _TrolleyFilter.StatusChanged += () =>
+                                                {
+                                                    UpdateViewResult();
+                                                    UpdateChart(_Date1, _Date2);
+                                                };
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>基於正反面的Filter</summary>
+        public FilterGroup SideFilter
+        {
+            get => _SideFilter;
+            set
+            {
+                _SideFilter = value;
+                _SideFilter.StatusChanged += () =>
+                                             {
+                                                 UpdateViewResult();
+                                                 UpdateChart(_Date1, _Date2);
+                                             };
+
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>選取的開始日期(資料庫)</summary>
         public DateTime Date1
@@ -254,10 +258,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 _Index1 = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(LowerDate));
-                NotifyPropertyChanged(nameof(OvenFilter));
 
                 UpdateViewResult();
-
                 UpdateChart(_Date1, _Date2);
             }
         }
@@ -271,10 +273,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 _Index2 = value;
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(UpperDate));
-                NotifyPropertyChanged(nameof(OvenFilter));
 
                 UpdateViewResult();
-
                 UpdateChart(_Date1, _Date2);
             }
         }
@@ -299,20 +299,19 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _Results = value;
+                OvenFilter.Filter = _Results?.Select(x => x.StationNumber + 1).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                RecipeFilter.Filter = _Results?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                OrderFilter.Filter = _Results?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                OpFilter.Filter = _Results?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                TrolleyFilter.Filter = _Results?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                SideFilter.Filter = _Results?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(TotalCount));
-
-                OvenFilter = _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new Filter<int>(x)).ToList();
-                RecipeFilter = _Results?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new Filter<string>(x)).ToList();
-                OrderFilter = _Results?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new Filter<string>(x)).ToList();
-                OpFilter = _Results?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new Filter<string>(x)).ToList();
-                TrolleyFilter = _Results?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new Filter<string>(x)).ToList();
-                SideFilter = _Results?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new Filter<string>(x)).ToList();
 
                 TodayProductionUpdated?.Invoke(_Results?.Where(x => x.AddedTime.Day == DateTime.Today.Day).GroupBy(x => x.StationNumber).Select(x => (x.Key, x.Sum(y => y.ProcessCount))).ToList());
 
                 UpdateViewResult();
-
                 UpdateChart(_Date1, _Date2);
             }
         }
@@ -828,13 +827,14 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ? 
-                          _Results?.GetRange(_Index1, _Index2 - _Index1 + 1)
-                                  .Where(x =>
-                                         {
-                                             return _OvenFilter.TrueForAll(e => e.Check(x.StationNumber));
-                                         }).ToList() :
-                          null;
+            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ? _Results?.GetRange(_Index1, _Index2 - _Index1 + 1)
+                                                                              .Where(x => _OvenFilter.Check(x.StationNumber + 1) &&
+                                                                                          _RecipeFilter.Check(x.RecipeName) &&
+                                                                                          _OrderFilter.Check(x.OrderCode) &&
+                                                                                          _OpFilter.Check(x.OperatorID) &&
+                                                                                          _TrolleyFilter.Check(x.TrolleyCode) &&
+                                                                                          _SideFilter.Check(x.Side))
+                                                                              .ToList() : null;
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
@@ -1007,6 +1007,13 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView.Axes.Add(linearAxis);
             ResultView.Axes.Add(categoryAxis2);
             ResultView.Axes.Add(categoryAxis1);
+
+            OvenFilter = new FilterGroup();
+            RecipeFilter = new FilterGroup();
+            OrderFilter = new FilterGroup();
+            OpFilter = new FilterGroup();
+            TrolleyFilter = new FilterGroup();
+            SideFilter = new FilterGroup();
         }
     }
 }
