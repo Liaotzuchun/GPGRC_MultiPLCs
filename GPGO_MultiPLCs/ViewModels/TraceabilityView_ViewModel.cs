@@ -310,7 +310,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     var count = queue.Count;
                                                     index += 1;
-                                                    var datas = queue.Dequeue(count > 550 ? 500 : count).ToArray();
+                                                    var datas = queue.Dequeue(count > 600 ? 500 : count).ToArray();
                                                     var fi = new FileInfo(dic + "\\" + created.ToString("yyyy-MM-dd-HH-mm-ss-fff(") + index + ").xlsm");
 
                                                     var n = datas.Length;
@@ -510,6 +510,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                     var ooxx = new ExcelNamedRange("ooxx", null, wsht, "A1", 1);
                                                     xlwb.Workbook.Names.Add("ooxx", ooxx);
+
+                                                    //!首頁溫度曲線所需的分頁
                                                     var data_sht = xlwb.Workbook.Worksheets.Add("Data");
                                                     data_sht.Hidden = eWorkSheetHidden.VeryHidden;
 
