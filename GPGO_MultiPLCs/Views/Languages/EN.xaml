@@ -115,4 +115,5 @@
     <sys:String x:Key="第8段恆溫">8th Warming</sys:String>
     <sys:String x:Key="第8段升溫">8th Heating</sys:String>
     <sys:String x:Key="報表匯出">Export</sys:String>
+    <sys:String x:Key="過濾">Filter</sys:String>
 </ResourceDictionary>
