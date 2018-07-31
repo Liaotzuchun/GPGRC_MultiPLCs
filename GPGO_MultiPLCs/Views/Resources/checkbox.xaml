@@ -162,41 +162,46 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="IsHitTestVisible" Value="True" />
+        <Setter Property="Margin" Value="8,4" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Grid Background="Transparent">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Border
-                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                            Background="{StaticResource DisabledBackgroundBrush}"
-                            BorderBrush="{StaticResource DisabledBorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}" />
-                        <Border
-                            x:Name="CheckMark"
-                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Opacity="0" />
-                        <Rectangle
-                            Grid.Column="1"
-                            Width="5"
-                            Visibility="{Binding Visibility, ElementName=CP, Mode=OneWay}" />
-                        <ContentPresenter
-                            x:Name="CP"
-                            Grid.Column="2"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            RecognizesAccessKey="True"
-                            Visibility="{Binding Content, Converter={StaticResource NullVis}, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
-                    </Grid>
+                    <Border Background="Transparent">
+                        <Grid Margin="{TemplateBinding Margin}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border
+                                Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                MaxHeight="20"
+                                Background="{StaticResource DisabledBackgroundBrush}"
+                                BorderBrush="{StaticResource DisabledBorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+                            <Border
+                                x:Name="CheckMark"
+                                Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                MaxHeight="20"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Opacity="0" />
+                            <Rectangle
+                                Grid.Column="1"
+                                Width="5"
+                                Visibility="{Binding Visibility, ElementName=CP, Mode=OneWay}" />
+                            <ContentPresenter
+                                x:Name="CP"
+                                Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                RecognizesAccessKey="True"
+                                Visibility="{Binding Content, Converter={StaticResource NullVis}, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
+                        </Grid>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="CheckMark" Property="Opacity" Value="1" />
@@ -205,5 +210,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch" />
     </Style>
 </ResourceDictionary>

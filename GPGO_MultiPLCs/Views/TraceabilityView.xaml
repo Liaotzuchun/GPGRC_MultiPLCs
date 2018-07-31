@@ -46,7 +46,8 @@
             DataType="helpers:EqualFilter">
             <CheckBox
                 Content="{Binding Value, Mode=OneWay}"
-                IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                Style="{StaticResource SignalView}" />
         </DataTemplate>
         <helpers:DependencyCommand
             x:Key="OvenFilterCommand"
@@ -745,10 +746,17 @@
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
                                         <MenuItem.ItemsSource>
                                             <CompositeCollection>
-                                                <MenuItem
-                                                    Command="{StaticResource OvenFilterCommand}"
-                                                    FontSize="14"
-                                                    Header="{DynamicResource 全部}" />
+                                                <MenuItem Command="{StaticResource OvenFilterCommand}">
+                                                    <MenuItem.Header>
+                                                        <TextBlock
+                                                            Margin="8,4"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="14"
+                                                            Text="{DynamicResource 全部}" />
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <Separator />
                                                 <CollectionContainer Collection="{Binding Source={StaticResource OvenFilter}, Mode=OneWay}" />
                                             </CompositeCollection>
                                         </MenuItem.ItemsSource>
@@ -771,10 +779,17 @@
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
                                         <MenuItem.ItemsSource>
                                             <CompositeCollection>
-                                                <MenuItem
-                                                    Command="{StaticResource RecipeFilterCommand}"
-                                                    FontSize="14"
-                                                    Header="{DynamicResource 全部}" />
+                                                <MenuItem Command="{StaticResource RecipeFilterCommand}">
+                                                    <MenuItem.Header>
+                                                        <TextBlock
+                                                            Margin="8,4"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="14"
+                                                            Text="{DynamicResource 全部}" />
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <Separator />
                                                 <CollectionContainer Collection="{Binding Source={StaticResource RecipeFilter}, Mode=OneWay}" />
                                             </CompositeCollection>
                                         </MenuItem.ItemsSource>
@@ -797,10 +812,17 @@
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
                                         <MenuItem.ItemsSource>
                                             <CompositeCollection>
-                                                <MenuItem
-                                                    Command="{StaticResource OrderFilterCommand}"
-                                                    FontSize="14"
-                                                    Header="{DynamicResource 全部}" />
+                                                <MenuItem Command="{StaticResource OrderFilterCommand}">
+                                                    <MenuItem.Header>
+                                                        <TextBlock
+                                                            Margin="8,4"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="14"
+                                                            Text="{DynamicResource 全部}" />
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <Separator />
                                                 <CollectionContainer Collection="{Binding Source={StaticResource OrderFilter}, Mode=OneWay}" />
                                             </CompositeCollection>
                                         </MenuItem.ItemsSource>
@@ -823,10 +845,17 @@
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
                                         <MenuItem.ItemsSource>
                                             <CompositeCollection>
-                                                <MenuItem
-                                                    Command="{StaticResource OpFilterCommand}"
-                                                    FontSize="14"
-                                                    Header="{DynamicResource 全部}" />
+                                                <MenuItem Command="{StaticResource OpFilterCommand}">
+                                                    <MenuItem.Header>
+                                                        <TextBlock
+                                                            Margin="8,4"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="14"
+                                                            Text="{DynamicResource 全部}" />
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <Separator />
                                                 <CollectionContainer Collection="{Binding Source={StaticResource OpFilter}, Mode=OneWay}" />
                                             </CompositeCollection>
                                         </MenuItem.ItemsSource>
@@ -849,10 +878,17 @@
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
                                         <MenuItem.ItemsSource>
                                             <CompositeCollection>
-                                                <MenuItem
-                                                    Command="{StaticResource TrolleyFilterCommand}"
-                                                    FontSize="14"
-                                                    Header="{DynamicResource 全部}" />
+                                                <MenuItem Command="{StaticResource TrolleyFilterCommand}">
+                                                    <MenuItem.Header>
+                                                        <TextBlock
+                                                            Margin="8,4"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="14"
+                                                            Text="{DynamicResource 全部}" />
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <Separator />
                                                 <CollectionContainer Collection="{Binding Source={StaticResource TrolleyFilter}, Mode=OneWay}" />
                                             </CompositeCollection>
                                         </MenuItem.ItemsSource>
@@ -887,10 +923,17 @@
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
                                         <MenuItem.ItemsSource>
                                             <CompositeCollection>
-                                                <MenuItem
-                                                    Command="{StaticResource SideFilterCommand}"
-                                                    FontSize="14"
-                                                    Header="{DynamicResource 全部}" />
+                                                <MenuItem Command="{StaticResource SideFilterCommand}">
+                                                    <MenuItem.Header>
+                                                        <TextBlock
+                                                            Margin="8,4"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="14"
+                                                            Text="{DynamicResource 全部}" />
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <Separator />
                                                 <CollectionContainer Collection="{Binding Source={StaticResource SideFilter}, Mode=OneWay}" />
                                             </CompositeCollection>
                                         </MenuItem.ItemsSource>

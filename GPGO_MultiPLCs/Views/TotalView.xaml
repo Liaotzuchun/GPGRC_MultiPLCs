@@ -1766,7 +1766,7 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
                                             <CheckBox
-                                                Height="20"
+                                                HorizontalAlignment="Center"
                                                 Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                 IsChecked="{Binding ProgramStop, Mode=OneWay}"
                                                 Style="{StaticResource SignalView}" />
@@ -1776,7 +1776,7 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
                                             <CheckBox
-                                                Height="20"
+                                                HorizontalAlignment="Center"
                                                 Background="{StaticResource ErrorBrush}"
                                                 BorderBrush="{StaticResource ErrorBorderBrush}"
                                                 Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -1788,7 +1788,7 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
                                             <CheckBox
-                                                Height="20"
+                                                HorizontalAlignment="Center"
                                                 Background="{StaticResource ErrorBrush}"
                                                 BorderBrush="{StaticResource ErrorBorderBrush}"
                                                 Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -1813,7 +1813,7 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
                                             <CheckBox
-                                                Height="20"
+                                                HorizontalAlignment="Center"
                                                 Background="{StaticResource ErrorBrush}"
                                                 BorderBrush="{StaticResource ErrorBorderBrush}"
                                                 Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -1838,7 +1838,7 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
                                             <CheckBox
-                                                Height="20"
+                                                HorizontalAlignment="Center"
                                                 Background="{StaticResource ErrorBrush}"
                                                 BorderBrush="{StaticResource ErrorBorderBrush}"
                                                 Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -1850,7 +1850,7 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
                                             <CheckBox
-                                                Height="20"
+                                                HorizontalAlignment="Center"
                                                 Background="{StaticResource ErrorBrush}"
                                                 BorderBrush="{StaticResource ErrorBorderBrush}"
                                                 Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"

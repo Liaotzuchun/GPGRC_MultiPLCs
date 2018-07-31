@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="Views/Resources/RadioButton.xaml" />
                 <ResourceDictionary Source="Views/Resources/ComboBox.xaml" />
                 <ResourceDictionary Source="Views/Resources/ListBox.xaml" />
-                <!--<ResourceDictionary Source="Views/Resources/Menu.xaml" />-->
+                <ResourceDictionary Source="Views/Resources/Menu.xaml" />
                 <ResourceDictionary Source="Views/Resources/ScrollBar.xaml" />
                 <ResourceDictionary Source="Views/Resources/Expander.xaml" />
                 <ResourceDictionary Source="Views/Resources/GroupBox.xaml" />
