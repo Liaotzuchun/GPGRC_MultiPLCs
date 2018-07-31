@@ -26,4 +26,5 @@
     <local:EnumToIntConverter x:Key="EnumToIntConverter" />
     <local:CountVis x:Key="CountVis" />
     <local:DateTimeZeroToEmpty x:Key="DateTimeZeroToEmpty" />
+    <local:SumValueConverter x:Key="SumValueConverter" />
 </ResourceDictionary>

@@ -26,7 +26,6 @@
         <Style
             x:Key="ColumnFilterStyle"
             TargetType="DataGridColumnHeader">
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
             <Setter Property="Template">
@@ -37,8 +36,7 @@
                             Background="{StaticResource WindowBackgroundBrush2}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="0,0,1,1">
-                            <ContentPresenter
-                                HorizontalAlignment="Center"/>
+                            <ContentPresenter/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>

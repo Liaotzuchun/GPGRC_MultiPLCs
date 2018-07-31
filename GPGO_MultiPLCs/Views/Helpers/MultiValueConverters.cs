@@ -32,6 +32,25 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
+    public class SumValueConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            var val = 0.0;
+            foreach (var v in values)
+            {
+                val += (double)v;
+            }
+
+            return val + (parameter == null ? 0 : System.Convert.ToDouble(parameter));
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class RatioValueConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

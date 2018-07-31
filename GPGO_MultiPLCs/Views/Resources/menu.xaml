@@ -10,10 +10,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Menu}">
                     <Border BorderBrush="{x:Null}">
-                        <StackPanel
+                        <UniformGrid
                             ClipToBounds="True"
                             IsItemsHost="True"
-                            Orientation="Horizontal" />
+                            Rows="1" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -228,9 +228,24 @@
                     AllowsTransparency="True"
                     Focusable="False"
                     IsOpen="{TemplateBinding IsSubmenuOpen}"
-                    Placement="Bottom"
-                    PopupAnimation="Fade"
-                    VerticalOffset="4">
+                    Placement="Center"
+                    PopupAnimation="Fade">
+                    <Popup.VerticalOffset>
+                        <MultiBinding
+                            Converter="{StaticResource SumValueConverter}"
+                            ConverterParameter="4">
+                            <Binding
+                                Converter="{StaticResource RatioValue}"
+                                ConverterParameter="0.5"
+                                ElementName="SubmenuBorder"
+                                Path="ActualHeight" />
+                            <Binding
+                                Converter="{StaticResource RatioValue}"
+                                ConverterParameter="0.5"
+                                ElementName="Border"
+                                Path="ActualHeight" />
+                        </MultiBinding>
+                    </Popup.VerticalOffset>
                     <Border
                         Name="SubmenuBorder"
                         Margin="15"
