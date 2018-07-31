@@ -31,6 +31,7 @@
         </Setter>
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
+
     <Style
         x:Key="DataGridCellStyle"
         TargetType="{x:Type DataGridCell}">
@@ -60,6 +61,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
     <Style
         x:Key="RowHeaderStyle"
         TargetType="DataGridRowHeader">
@@ -85,6 +87,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     <Style
         x:Key="DataGridRowStyle"
         TargetType="{x:Type DataGridRow}">

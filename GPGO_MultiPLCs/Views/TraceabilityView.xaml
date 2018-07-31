@@ -23,6 +23,27 @@
 
     <UserControl.Resources>
         <models:EventTypeToColor x:Key="EventTypeToColor" />
+        <Style
+            x:Key="ColumnFilterStyle"
+            TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border
+                            Margin="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                            <ContentPresenter
+                                HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <CollectionViewSource
             x:Key="OvenFilter"
             Source="{Binding OvenFilter.Filter, Mode=OneWay}" />
@@ -721,7 +742,9 @@
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn MinWidth="60">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 紀錄時間}" />
                         </DataGridTemplateColumn.Header>
@@ -731,24 +754,43 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="60">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{DynamicResource 烤箱序號}" />
-                                            <Path
-                                                Grid.Column="1"
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Data="{StaticResource DownArrow}"
-                                                Fill="{StaticResource BaseForeground}" />
-                                        </Grid>
+                                        <Border>
+                                            <Grid
+                                                Margin="4,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="10" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Margin="4,0"
+                                                    Text="{DynamicResource 烤箱序號}" />
+                                                <Path
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="{StaticResource DownArrow}"
+                                                    Fill="{StaticResource BaseForeground}" />
+                                                <Rectangle
+                                                    Grid.Column="1"
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Fill="{StaticResource EnergyBrush}"
+                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    StrokeThickness="1"
+                                                    Visibility="{Binding Result, Source={StaticResource OvenFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                            </Grid>
+                                        </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
@@ -777,24 +819,43 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn
+                        Width="*"
+                        HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{DynamicResource 配方}" />
-                                            <Path
-                                                Grid.Column="1"
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Data="{StaticResource DownArrow}"
-                                                Fill="{StaticResource BaseForeground}" />
-                                        </Grid>
+                                        <Border>
+                                            <Grid
+                                                Margin="4,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="10" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Margin="4,0"
+                                                    Text="{DynamicResource 配方}" />
+                                                <Path
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="{StaticResource DownArrow}"
+                                                    Fill="{StaticResource BaseForeground}" />
+                                                <Rectangle
+                                                    Grid.Column="1"
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Fill="{StaticResource EnergyBrush}"
+                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    StrokeThickness="1"
+                                                    Visibility="{Binding Result, Source={StaticResource RecipeFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                            </Grid>
+                                        </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
@@ -823,24 +884,44 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="60">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="60"
+                        HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{DynamicResource 工單}" />
-                                            <Path
-                                                Grid.Column="1"
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Data="{StaticResource DownArrow}"
-                                                Fill="{StaticResource BaseForeground}" />
-                                        </Grid>
+                                        <Border>
+                                            <Grid
+                                                Margin="4,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="10" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Margin="4,0"
+                                                    Text="{DynamicResource 工單}" />
+                                                <Path
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="{StaticResource DownArrow}"
+                                                    Fill="{StaticResource BaseForeground}" />
+                                                <Rectangle
+                                                    Grid.Column="1"
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Fill="{StaticResource EnergyBrush}"
+                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    StrokeThickness="1"
+                                                    Visibility="{Binding Result, Source={StaticResource OrderFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                            </Grid>
+                                        </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
@@ -869,24 +950,44 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="60">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="60"
+                        HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{DynamicResource 操作員}" />
-                                            <Path
-                                                Grid.Column="1"
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Data="{StaticResource DownArrow}"
-                                                Fill="{StaticResource BaseForeground}" />
-                                        </Grid>
+                                        <Border>
+                                            <Grid
+                                                Margin="4,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="10" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Margin="4,0"
+                                                    Text="{DynamicResource 操作員}" />
+                                                <Path
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="{StaticResource DownArrow}"
+                                                    Fill="{StaticResource BaseForeground}" />
+                                                <Rectangle
+                                                    Grid.Column="1"
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Fill="{StaticResource EnergyBrush}"
+                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    StrokeThickness="1"
+                                                    Visibility="{Binding Result, Source={StaticResource OpFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                            </Grid>
+                                        </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
@@ -915,24 +1016,44 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="60">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="60"
+                        HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{DynamicResource 台車}" />
-                                            <Path
-                                                Grid.Column="1"
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Data="{StaticResource DownArrow}"
-                                                Fill="{StaticResource BaseForeground}" />
-                                        </Grid>
+                                        <Border>
+                                            <Grid
+                                                Margin="4,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="10" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Margin="4,0"
+                                                    Text="{DynamicResource 台車}" />
+                                                <Path
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="{StaticResource DownArrow}"
+                                                    Fill="{StaticResource BaseForeground}" />
+                                                <Rectangle
+                                                    Grid.Column="1"
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Fill="{StaticResource EnergyBrush}"
+                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    StrokeThickness="1"
+                                                    Visibility="{Binding Result, Source={StaticResource TrolleyFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                            </Grid>
+                                        </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
@@ -961,7 +1082,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 張數}" />
                         </DataGridTemplateColumn.Header>
@@ -971,24 +1092,43 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{DynamicResource 正反面}" />
-                                            <Path
-                                                Grid.Column="1"
-                                                Margin="4,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Data="{StaticResource DownArrow}"
-                                                Fill="{StaticResource BaseForeground}" />
-                                        </Grid>
+                                        <Border>
+                                            <Grid
+                                                Margin="4,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="10" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Margin="4,0"
+                                                    Text="{DynamicResource 正反面}" />
+                                                <Path
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="{StaticResource DownArrow}"
+                                                    Fill="{StaticResource BaseForeground}" />
+                                                <Rectangle
+                                                    Grid.Column="1"
+                                                    Width="10"
+                                                    Height="10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Fill="{StaticResource EnergyBrush}"
+                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    StrokeThickness="1"
+                                                    Visibility="{Binding Result, Source={StaticResource SideFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                            </Grid>
+                                        </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
@@ -1017,7 +1157,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="60">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 開始時間}" />
                         </DataGridTemplateColumn.Header>
@@ -1027,7 +1169,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="60">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 結束時間}" />
                         </DataGridTemplateColumn.Header>

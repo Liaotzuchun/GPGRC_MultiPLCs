@@ -10,6 +10,7 @@
     d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
     IsVisibleChanged="UserControl_IsVisibleChanged"
     Loaded="UserControl_Loaded"
+    UseLayoutRounding="True"
     Visibility="{Binding IsShown, Mode=OneWay}"
     mc:Ignorable="d">
 
@@ -24,12 +25,19 @@
             </i:Interaction.Triggers>
         </Border>
         <Border
-            Width="500"
+            Width="540"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{StaticResource WindowBackgroundBrush2}"
             BorderBrush="{Binding BorderBrush, ElementName=Border, Mode=OneWay}"
             BorderThickness="1">
+            <Border.Effect>
+                <DropShadowEffect
+                    BlurRadius="16"
+                    Direction="270"
+                    Opacity="0.3"
+                    ShadowDepth="8" />
+            </Border.Effect>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20" />

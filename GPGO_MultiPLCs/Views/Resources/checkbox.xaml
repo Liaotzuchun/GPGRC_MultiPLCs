@@ -178,8 +178,8 @@
                             <Border
                                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                 MaxHeight="20"
-                                Background="{StaticResource DisabledBackgroundBrush}"
-                                BorderBrush="{StaticResource DisabledBorderBrush}"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="{TemplateBinding BorderThickness}" />
                             <Border
                                 x:Name="CheckMark"

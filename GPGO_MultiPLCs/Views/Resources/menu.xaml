@@ -9,9 +9,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Menu}">
-                    <Border
-                        BorderBrush="{x:Null}"
-                        BorderThickness="1">
+                    <Border BorderBrush="{x:Null}">
                         <StackPanel
                             ClipToBounds="True"
                             IsItemsHost="True"
@@ -216,7 +214,9 @@
     <ControlTemplate
         x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}"
         TargetType="{x:Type MenuItem}">
-        <Border Name="Border">
+        <Border
+            Name="Border"
+            Background="Transparent">
             <Grid>
                 <ContentPresenter
                     HorizontalAlignment="Center"
@@ -229,12 +229,20 @@
                     Focusable="False"
                     IsOpen="{TemplateBinding IsSubmenuOpen}"
                     Placement="Bottom"
-                    PopupAnimation="Fade">
+                    PopupAnimation="Fade"
+                    VerticalOffset="4">
                     <Border
                         Name="SubmenuBorder"
-                        Background="{StaticResource LightBrush}"
+                        Margin="15"
+                        Background="{StaticResource LightColorBrush}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="15"
+                                Direction="270"
+                                Opacity="0.25" />
+                        </Border.Effect>
                         <ScrollViewer
                             CanContentScroll="True"
                             Style="{StaticResource MenuScrollViewer}">
@@ -251,12 +259,10 @@
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource EnergyBrush}" />
             </Trigger>
             <Trigger Property="IsSubmenuOpen" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource LightColorBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
@@ -378,13 +384,12 @@
                     Name="Popup"
                     AllowsTransparency="True"
                     Focusable="False"
-                    HorizontalOffset="-4"
                     IsOpen="{TemplateBinding IsSubmenuOpen}"
                     Placement="Right"
                     PopupAnimation="Fade">
                     <Border
                         Name="SubmenuBorder"
-                        Background="{StaticResource LightBrush}"
+                        Background="{StaticResource LightColorBrush}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1">
                         <ScrollViewer

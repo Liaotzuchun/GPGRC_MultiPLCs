@@ -9,6 +9,7 @@
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:GlobalDialog_ViewModel}"
     IsVisibleChanged="UserControl_IsVisibleChanged"
+    UseLayoutRounding="True"
     mc:Ignorable="d">
     <UserControl.Visibility>
         <MultiBinding
@@ -35,7 +36,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ItemsControl
-                Width="400"
+                Width="440"
                 VerticalAlignment="Center"
                 ItemsSource="{Binding Msgs, Mode=OneTime}"
                 KeyboardNavigation.TabNavigation="None"
@@ -54,14 +55,20 @@
                     <DataTemplate>
                         <Grid
                             Height="200"
-                            Margin="4"
+                            Margin="16"
                             Background="{StaticResource LightColorBrush}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <TabControl
-                                SelectedIndex="{Binding Value.Type, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}">
+                            <Grid.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="16"
+                                    Direction="270"
+                                    Opacity="0.3"
+                                    ShadowDepth="8" />
+                            </Grid.Effect>
+                            <TabControl SelectedIndex="{Binding Value.Type, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}">
                                 <TabItem
                                     Width="0"
                                     Height="0">
@@ -121,9 +128,9 @@
             </ItemsControl>
             <Grid
                 Grid.Column="1"
-                Width="400"
-                Height="200"
-                Margin="4"
+                Width="440"
+                Height="240"
+                Margin="16"
                 VerticalAlignment="Center"
                 Background="{StaticResource LightColorBrush}"
                 KeyboardNavigation.TabNavigation="Cycle"
@@ -132,6 +139,13 @@
                     <RowDefinition Height="40" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
+                <Grid.Effect>
+                    <DropShadowEffect
+                        BlurRadius="16"
+                        Direction="270"
+                        Opacity="0.3"
+                        ShadowDepth="8" />
+                </Grid.Effect>
                 <Border
                     Background="{StaticResource WorkingBrush}"
                     BorderBrush="{StaticResource WorkingBorderBrush}"
@@ -184,9 +198,9 @@
             </Grid>
             <Grid
                 Grid.Column="2"
-                Width="400"
-                Height="200"
-                Margin="4"
+                Width="440"
+                Height="240"
+                Margin="16"
                 VerticalAlignment="Center"
                 Background="{StaticResource LightColorBrush}"
                 KeyboardNavigation.TabNavigation="Cycle"
@@ -195,6 +209,13 @@
                     <RowDefinition Height="40" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
+                <Grid.Effect>
+                    <DropShadowEffect
+                        BlurRadius="16"
+                        Direction="270"
+                        Opacity="0.3"
+                        ShadowDepth="8" />
+                </Grid.Effect>
                 <Border
                     Background="{StaticResource WorkingBrush}"
                     BorderBrush="{StaticResource WorkingBorderBrush}"
