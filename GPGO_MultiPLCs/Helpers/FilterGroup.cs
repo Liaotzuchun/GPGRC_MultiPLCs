@@ -6,7 +6,7 @@ namespace GPGO_MultiPLCs.Helpers
 {
     public class EqualFilter : ViewModelBase
     {
-        public bool _IsEnabled;
+        private bool _IsEnabled;
         private object _Value;
 
         public bool IsEnabled
@@ -35,6 +35,12 @@ namespace GPGO_MultiPLCs.Helpers
         public bool Check(object val)
         {
             return val == null || IsEnabled && Value.Equals(val);
+        }
+
+        public void SetEnabled(bool val)
+        {
+            _IsEnabled = val;
+            NotifyPropertyChanged(nameof(IsEnabled));
         }
 
         public EqualFilter(object tagValue)
@@ -82,7 +88,7 @@ namespace GPGO_MultiPLCs.Helpers
                                                      {
                                                          foreach (var f in _Filter)
                                                          {
-                                                             f._IsEnabled = false;
+                                                             f.SetEnabled(false);
                                                          }
 
                                                          StatusChanged?.Invoke();
