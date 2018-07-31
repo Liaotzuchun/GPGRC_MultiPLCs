@@ -91,16 +91,16 @@
                             Fill="Transparent" />
                         <ContentPresenter
                             x:Name="ContentContainer"
+                            Margin="4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="B1" Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" />
-                            <Setter TargetName="ContentContainer" Property="Margin" Value="3,3,1,1" />
-                            <Setter TargetName="L1" Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
-                            <Setter TargetName="R1" Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" />
-                            <Setter TargetName="T1" Property="Fill" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
+                            <Setter TargetName="B1" Property="Fill" Value="{StaticResource PressedBrush}" />
+                            <Setter TargetName="L1" Property="Fill" Value="{StaticResource PressedBrush}" />
+                            <Setter TargetName="R1" Property="Fill" Value="{StaticResource PressedBrush}" />
+                            <Setter TargetName="T1" Property="Fill" Value="{StaticResource PressedBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -153,7 +153,7 @@
                             </RepeatButton.Visibility>
                             <Path
                                 Data="{StaticResource UpArrow}"
-                                Fill="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}" />
+                                Fill="{StaticResource BaseForeground}" />
                         </RepeatButton>
                         <Border
                             Grid.Row="1"
@@ -188,7 +188,7 @@
                             </RepeatButton.Visibility>
                             <Path
                                 Data="{StaticResource DownArrow}"
-                                Fill="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}" />
+                                Fill="{StaticResource BaseForeground}" />
                         </RepeatButton>
                     </Grid>
                 </ControlTemplate>
@@ -257,10 +257,6 @@
             <Trigger Property="IsSubmenuOpen" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
-            </Trigger>
-            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
-                <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,0,0" />
-                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
@@ -427,10 +423,6 @@
             <Trigger Property="IsHighlighted" Value="True">
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
-            </Trigger>
-            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
-                <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0" />
-                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />

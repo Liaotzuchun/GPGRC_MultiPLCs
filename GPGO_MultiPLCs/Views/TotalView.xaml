@@ -1994,11 +1994,9 @@
                                     </DataGrid.RowHeaderStyle>
                                     <DataGrid.Columns>
                                         <DataGridTemplateColumn Width="60">
-                                            <DataGridTemplateColumn.HeaderTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{DynamicResource 時間}" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.HeaderTemplate>
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="{DynamicResource 時間}" />
+                                            </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate DataType="models:RecordEvent">
                                                     <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
@@ -2006,13 +2004,11 @@
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <DataGridTemplateColumn Width="*">
-                                            <DataGridTemplateColumn.HeaderTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock
-                                                        Text="{DynamicResource 事件}"
-                                                        TextTrimming="CharacterEllipsis" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.HeaderTemplate>
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock
+                                                    Text="{DynamicResource 事件}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                            </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate DataType="models:RecordEvent">
                                                     <TextBlock Text="{local:ResourceBinding Description, Mode=OneWay}" />

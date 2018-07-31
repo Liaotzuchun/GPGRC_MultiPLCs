@@ -89,11 +89,9 @@
                     Grid.RowSpan="3">
                     <Rectangle.Fill>
                         <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                            <GradientStop Offset="0"
-                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                            <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                             <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource LightBrush}}" />
-                            <GradientStop Offset="1"
-                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
@@ -148,8 +146,9 @@
                         Grid.Column="2"
                         BorderThickness="1,1,1,0"
                         FontSize="14"
+                        GotKeyboardFocus="NameBox_GotKeyboardFocus"
                         PreviewKeyDown="NameBox_PreviewKeyDown"
-                        Text="{Binding TypedName, Mode=TwoWay}" GotKeyboardFocus="NameBox_GotKeyboardFocus" />
+                        Text="{Binding TypedName, Mode=TwoWay}" />
                     <Border
                         Grid.Row="1"
                         Grid.Column="1"
@@ -188,8 +187,7 @@
                                 <Setter Property="Background" Value="LightSlateGray" />
                                 <Setter Property="Grid.Column" Value="4" />
                                 <Setter Property="Grid.RowSpan" Value="2" />
-                                <Setter Property="Width"
-                                        Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+                                <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                 <Style.Triggers>
                                     <DataTrigger
                                         Binding="{Binding NowUser.Level, Mode=OneWay}"
@@ -352,11 +350,9 @@
                             VerticalScrollBarVisibility="Visible">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Width="*">
-                                    <DataGridTemplateColumn.HeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{DynamicResource 帳號}" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 帳號}" />
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
                                             <TextBlock Text="{Binding Name, Mode=OneWay}" />
@@ -364,11 +360,9 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Width="*">
-                                    <DataGridTemplateColumn.HeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{DynamicResource 密碼}" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 密碼}" />
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
                                             <TextBlock Text="{Binding Password, Mode=OneWay}" />
@@ -376,11 +370,9 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.HeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{DynamicResource 層級}" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 層級}" />
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
                                             <TextBlock Text="{Binding Level, Mode=OneWay}" />
@@ -388,28 +380,22 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.HeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{DynamicResource 上次登入}" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 上次登入}" />
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
-                                            <TextBlock
-                                                Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
+                                            <TextBlock Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.HeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{DynamicResource 創建時間}" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 創建時間}" />
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:User">
-                                            <TextBlock
-                                                Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
+                                            <TextBlock Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -483,7 +469,9 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Button>
-                                    <Button Content="{DynamicResource 取消}" Click="Button_Click" />
+                                    <Button
+                                        Click="Button_Click"
+                                        Content="{DynamicResource 取消}" />
                                 </UniformGrid>
                             </Grid>
                         </Grid>

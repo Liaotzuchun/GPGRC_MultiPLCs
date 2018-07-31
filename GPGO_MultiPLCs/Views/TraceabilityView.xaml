@@ -485,11 +485,9 @@
                                 </DataGrid.RowHeaderStyle>
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Width="60">
-                                        <DataGridTemplateColumn.HeaderTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{DynamicResource 時間}" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.HeaderTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock Text="{DynamicResource 時間}" />
+                                        </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="models:RecordEvent">
                                                 <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
@@ -497,11 +495,9 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                     <DataGridTemplateColumn Width="*">
-                                        <DataGridTemplateColumn.HeaderTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{DynamicResource 事件}" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.HeaderTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock Text="{DynamicResource 事件}" />
+                                        </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="models:RecordEvent">
                                                 <TextBlock
@@ -726,11 +722,9 @@
                 </DataGrid.RowDetailsTemplate>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn MinWidth="60">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{DynamicResource 紀錄時間}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 紀錄時間}" />
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
@@ -738,32 +732,45 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn MinWidth="60">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Menu>
-                                    <MenuItem
-                                        Header="{DynamicResource 烤箱序號}"
-                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem.ItemsSource>
-                                            <CompositeCollection>
-                                                <MenuItem Command="{StaticResource OvenFilterCommand}">
-                                                    <MenuItem.Header>
+                        <DataGridTemplateColumn.Header>
+                            <Menu>
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{DynamicResource 烤箱序號}" />
+                                            <Path
+                                                Grid.Column="1"
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Data="{StaticResource DownArrow}"
+                                                Fill="{StaticResource BaseForeground}" />
+                                        </Grid>
+                                    </MenuItem.Header>
+                                    <MenuItem.ItemsSource>
+                                        <CompositeCollection>
+                                            <MenuItem Command="{StaticResource OvenFilterCommand}">
+                                                <MenuItem.Header>
+                                                    <Border Background="Transparent">
                                                         <TextBlock
                                                             Margin="8,4"
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
                                                             Text="{DynamicResource 全部}" />
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <Separator />
-                                                <CollectionContainer Collection="{Binding Source={StaticResource OvenFilter}, Mode=OneWay}" />
-                                            </CompositeCollection>
-                                        </MenuItem.ItemsSource>
-                                    </MenuItem>
-                                </Menu>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                                                    </Border>
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <Separator />
+                                            <CollectionContainer Collection="{Binding Source={StaticResource OvenFilter}, Mode=OneWay}" />
+                                        </CompositeCollection>
+                                    </MenuItem.ItemsSource>
+                                </MenuItem>
+                            </Menu>
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
@@ -771,32 +778,45 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="*">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Menu>
-                                    <MenuItem
-                                        Header="{DynamicResource 配方}"
-                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem.ItemsSource>
-                                            <CompositeCollection>
-                                                <MenuItem Command="{StaticResource RecipeFilterCommand}">
-                                                    <MenuItem.Header>
+                        <DataGridTemplateColumn.Header>
+                            <Menu>
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{DynamicResource 配方}" />
+                                            <Path
+                                                Grid.Column="1"
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Data="{StaticResource DownArrow}"
+                                                Fill="{StaticResource BaseForeground}" />
+                                        </Grid>
+                                    </MenuItem.Header>
+                                    <MenuItem.ItemsSource>
+                                        <CompositeCollection>
+                                            <MenuItem Command="{StaticResource RecipeFilterCommand}">
+                                                <MenuItem.Header>
+                                                    <Border Background="Transparent">
                                                         <TextBlock
                                                             Margin="8,4"
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
                                                             Text="{DynamicResource 全部}" />
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <Separator />
-                                                <CollectionContainer Collection="{Binding Source={StaticResource RecipeFilter}, Mode=OneWay}" />
-                                            </CompositeCollection>
-                                        </MenuItem.ItemsSource>
-                                    </MenuItem>
-                                </Menu>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                                                    </Border>
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <Separator />
+                                            <CollectionContainer Collection="{Binding Source={StaticResource RecipeFilter}, Mode=OneWay}" />
+                                        </CompositeCollection>
+                                    </MenuItem.ItemsSource>
+                                </MenuItem>
+                            </Menu>
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding RecipeName, Mode=OneWay}" />
@@ -804,32 +824,45 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn MinWidth="60">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Menu>
-                                    <MenuItem
-                                        Header="{DynamicResource 工單}"
-                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem.ItemsSource>
-                                            <CompositeCollection>
-                                                <MenuItem Command="{StaticResource OrderFilterCommand}">
-                                                    <MenuItem.Header>
+                        <DataGridTemplateColumn.Header>
+                            <Menu>
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{DynamicResource 工單}" />
+                                            <Path
+                                                Grid.Column="1"
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Data="{StaticResource DownArrow}"
+                                                Fill="{StaticResource BaseForeground}" />
+                                        </Grid>
+                                    </MenuItem.Header>
+                                    <MenuItem.ItemsSource>
+                                        <CompositeCollection>
+                                            <MenuItem Command="{StaticResource OrderFilterCommand}">
+                                                <MenuItem.Header>
+                                                    <Border Background="Transparent">
                                                         <TextBlock
                                                             Margin="8,4"
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
                                                             Text="{DynamicResource 全部}" />
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <Separator />
-                                                <CollectionContainer Collection="{Binding Source={StaticResource OrderFilter}, Mode=OneWay}" />
-                                            </CompositeCollection>
-                                        </MenuItem.ItemsSource>
-                                    </MenuItem>
-                                </Menu>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                                                    </Border>
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <Separator />
+                                            <CollectionContainer Collection="{Binding Source={StaticResource OrderFilter}, Mode=OneWay}" />
+                                        </CompositeCollection>
+                                    </MenuItem.ItemsSource>
+                                </MenuItem>
+                            </Menu>
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding OrderCode, Mode=OneWay}" />
@@ -837,32 +870,45 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn MinWidth="60">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Menu>
-                                    <MenuItem
-                                        Header="{DynamicResource 操作員}"
-                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem.ItemsSource>
-                                            <CompositeCollection>
-                                                <MenuItem Command="{StaticResource OpFilterCommand}">
-                                                    <MenuItem.Header>
+                        <DataGridTemplateColumn.Header>
+                            <Menu>
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{DynamicResource 操作員}" />
+                                            <Path
+                                                Grid.Column="1"
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Data="{StaticResource DownArrow}"
+                                                Fill="{StaticResource BaseForeground}" />
+                                        </Grid>
+                                    </MenuItem.Header>
+                                    <MenuItem.ItemsSource>
+                                        <CompositeCollection>
+                                            <MenuItem Command="{StaticResource OpFilterCommand}">
+                                                <MenuItem.Header>
+                                                    <Border Background="Transparent">
                                                         <TextBlock
                                                             Margin="8,4"
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
                                                             Text="{DynamicResource 全部}" />
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <Separator />
-                                                <CollectionContainer Collection="{Binding Source={StaticResource OpFilter}, Mode=OneWay}" />
-                                            </CompositeCollection>
-                                        </MenuItem.ItemsSource>
-                                    </MenuItem>
-                                </Menu>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                                                    </Border>
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <Separator />
+                                            <CollectionContainer Collection="{Binding Source={StaticResource OpFilter}, Mode=OneWay}" />
+                                        </CompositeCollection>
+                                    </MenuItem.ItemsSource>
+                                </MenuItem>
+                            </Menu>
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding OperatorID, Mode=OneWay}" />
@@ -870,32 +916,45 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn MinWidth="60">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Menu>
-                                    <MenuItem
-                                        Header="{DynamicResource 台車}"
-                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem.ItemsSource>
-                                            <CompositeCollection>
-                                                <MenuItem Command="{StaticResource TrolleyFilterCommand}">
-                                                    <MenuItem.Header>
+                        <DataGridTemplateColumn.Header>
+                            <Menu>
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{DynamicResource 台車}" />
+                                            <Path
+                                                Grid.Column="1"
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Data="{StaticResource DownArrow}"
+                                                Fill="{StaticResource BaseForeground}" />
+                                        </Grid>
+                                    </MenuItem.Header>
+                                    <MenuItem.ItemsSource>
+                                        <CompositeCollection>
+                                            <MenuItem Command="{StaticResource TrolleyFilterCommand}">
+                                                <MenuItem.Header>
+                                                    <Border Background="Transparent">
                                                         <TextBlock
                                                             Margin="8,4"
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
                                                             Text="{DynamicResource 全部}" />
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <Separator />
-                                                <CollectionContainer Collection="{Binding Source={StaticResource TrolleyFilter}, Mode=OneWay}" />
-                                            </CompositeCollection>
-                                        </MenuItem.ItemsSource>
-                                    </MenuItem>
-                                </Menu>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                                                    </Border>
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <Separator />
+                                            <CollectionContainer Collection="{Binding Source={StaticResource TrolleyFilter}, Mode=OneWay}" />
+                                        </CompositeCollection>
+                                    </MenuItem.ItemsSource>
+                                </MenuItem>
+                            </Menu>
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding TrolleyCode, Mode=OneWay}" />
@@ -903,11 +962,9 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{DynamicResource 張數}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 張數}" />
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding ProcessCount, Mode=OneWay}" />
@@ -915,32 +972,45 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Menu>
-                                    <MenuItem
-                                        Header="{DynamicResource 正反面}"
-                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem.ItemsSource>
-                                            <CompositeCollection>
-                                                <MenuItem Command="{StaticResource SideFilterCommand}">
-                                                    <MenuItem.Header>
+                        <DataGridTemplateColumn.Header>
+                            <Menu>
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <MenuItem.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{DynamicResource 正反面}" />
+                                            <Path
+                                                Grid.Column="1"
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Data="{StaticResource DownArrow}"
+                                                Fill="{StaticResource BaseForeground}" />
+                                        </Grid>
+                                    </MenuItem.Header>
+                                    <MenuItem.ItemsSource>
+                                        <CompositeCollection>
+                                            <MenuItem Command="{StaticResource SideFilterCommand}">
+                                                <MenuItem.Header>
+                                                    <Border Background="Transparent">
                                                         <TextBlock
                                                             Margin="8,4"
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
                                                             FontSize="14"
                                                             Text="{DynamicResource 全部}" />
-                                                    </MenuItem.Header>
-                                                </MenuItem>
-                                                <Separator />
-                                                <CollectionContainer Collection="{Binding Source={StaticResource SideFilter}, Mode=OneWay}" />
-                                            </CompositeCollection>
-                                        </MenuItem.ItemsSource>
-                                    </MenuItem>
-                                </Menu>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                                                    </Border>
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <Separator />
+                                            <CollectionContainer Collection="{Binding Source={StaticResource SideFilter}, Mode=OneWay}" />
+                                        </CompositeCollection>
+                                    </MenuItem.ItemsSource>
+                                </MenuItem>
+                            </Menu>
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding Side, Mode=OneWay}" />
@@ -948,11 +1018,9 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn MinWidth="60">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{DynamicResource 開始時間}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 開始時間}" />
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
@@ -960,11 +1028,9 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn MinWidth="60">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{DynamicResource 結束時間}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 結束時間}" />
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />

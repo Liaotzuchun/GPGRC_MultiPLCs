@@ -6,7 +6,7 @@ namespace GPGO_MultiPLCs.Helpers
 {
     public class EqualFilter : ViewModelBase
     {
-        private bool _IsEnabled;
+        public bool _IsEnabled;
         private object _Value;
 
         public bool IsEnabled
@@ -47,7 +47,7 @@ namespace GPGO_MultiPLCs.Helpers
     {
         private List<EqualFilter> _Filter;
 
-        public RelayCommand AllCommand { get; }
+        public CommandWithResult<bool> AllCommand { get; }
 
         public List<EqualFilter> Filter
         {
@@ -58,7 +58,11 @@ namespace GPGO_MultiPLCs.Helpers
 
                 foreach (var filter in _Filter)
                 {
-                    filter.IsEnableChanged += () => StatusChanged?.Invoke();
+                    filter.IsEnableChanged += () =>
+                                              {
+                                                  AllCommand.Result = _Filter.Any(x => x.IsEnabled);
+                                                  StatusChanged?.Invoke();
+                                              };
                 }
 
                 NotifyPropertyChanged();
@@ -74,15 +78,17 @@ namespace GPGO_MultiPLCs.Helpers
 
         public FilterGroup()
         {
-            AllCommand = new RelayCommand(e =>
-                                          {
-                                              foreach (var f in _Filter)
-                                              {
-                                                  f.IsEnabled = false;
-                                              }
+            AllCommand = new CommandWithResult<bool>(e =>
+                                                     {
+                                                         foreach (var f in _Filter)
+                                                         {
+                                                             f._IsEnabled = false;
+                                                         }
 
-                                              StatusChanged?.Invoke();
-                                          });
+                                                         StatusChanged?.Invoke();
+
+                                                         return false;
+                                                     });
         }
     }
 }
