@@ -43,7 +43,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    /// <summary>提供實作DependencyObject可作為資源供繫結的command</summary>
+    /// <summary>提供實作DependencyObject可作為資源供繫結的command，若單純為DependencyObject會無法存取VisualTree，無法繫結DataContext來源，所以使用Freezable(最輕量)</summary>
     public sealed class DependencyCommand : Freezable, ICommand
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(DependencyCommand), new PropertyMetadata(null));
