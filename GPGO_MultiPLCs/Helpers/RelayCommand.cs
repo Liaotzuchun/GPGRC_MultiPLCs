@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -39,6 +40,41 @@ namespace GPGO_MultiPLCs.Helpers
         {
             this.execute = execute;
             this.canExecute = canExecute;
+        }
+    }
+
+    /// <summary>提供實作DependencyObject可作為資源供繫結的command</summary>
+    public sealed class DependencyCommand : Freezable, ICommand
+    {
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(DependencyCommand), new PropertyMetadata(null));
+
+        [Bindable(true)]
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return Command?.CanExecute(parameter) ?? true;
+        }
+
+        public void Execute(object parameter)
+        {
+            Command?.Execute(parameter);
+        }
+
+        protected override Freezable CreateInstanceCore()
+        {
+            return new DependencyCommand();
+        }
+
+        internal void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 

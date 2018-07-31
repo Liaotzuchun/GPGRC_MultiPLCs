@@ -6,18 +6,8 @@ namespace GPGO_MultiPLCs.Helpers
 {
     public class EqualFilter : ViewModelBase
     {
-        private object _Value;
         private bool _IsEnabled;
-
-        public object Value
-        {
-            get => _Value;
-            set
-            {
-                _Value = value;
-                NotifyPropertyChanged();
-            }
-        }
+        private object _Value;
 
         public bool IsEnabled
         {
@@ -30,11 +20,21 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
+        public object Value
+        {
+            get => _Value;
+            set
+            {
+                _Value = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public event Action IsEnableChanged;
 
         public bool Check(object val)
         {
-            return IsEnabled && Value.Equals(val);
+            return val == null || IsEnabled && Value.Equals(val);
         }
 
         public EqualFilter(object tagValue)
@@ -45,9 +45,9 @@ namespace GPGO_MultiPLCs.Helpers
 
     public class FilterGroup : ViewModelBase
     {
-        public event Action StatusChanged;
-
         private List<EqualFilter> _Filter;
+
+        public RelayCommand AllCommand { get; }
 
         public List<EqualFilter> Filter
         {
@@ -65,13 +65,16 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        public RelayCommand AllCommand { get; }
+        public event Action StatusChanged;
 
-        public bool Check(object val) => _Filter.Any(x => x.Check(val)) || _Filter.TrueForAll(x => !x.IsEnabled);
+        public bool Check(object val)
+        {
+            return _Filter.Any(x => x.Check(val)) || _Filter.TrueForAll(x => !x.IsEnabled);
+        }
 
         public FilterGroup()
         {
-            AllCommand = new RelayCommand(e=>
+            AllCommand = new RelayCommand(e =>
                                           {
                                               foreach (var f in _Filter)
                                               {

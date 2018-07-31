@@ -44,11 +44,28 @@
         <DataTemplate
             x:Key="EqualFilterTemplate"
             DataType="helpers:EqualFilter">
-            <MenuItem
-                Header="{Binding Value, Mode=OneWay}"
-                IsCheckable="True"
+            <CheckBox
+                Content="{Binding Value, Mode=OneWay}"
                 IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
         </DataTemplate>
+        <helpers:DependencyCommand
+            x:Key="OvenFilterCommand"
+            Command="{Binding OvenFilter.AllCommand, Mode=OneTime}" />
+        <helpers:DependencyCommand
+            x:Key="RecipeFilterCommand"
+            Command="{Binding RecipeFilter.AllCommand, Mode=OneTime}" />
+        <helpers:DependencyCommand
+            x:Key="OrderFilterCommand"
+            Command="{Binding OrderFilter.AllCommand, Mode=OneTime}" />
+        <helpers:DependencyCommand
+            x:Key="OpFilterCommand"
+            Command="{Binding OpFilter.AllCommand, Mode=OneTime}" />
+        <helpers:DependencyCommand
+            x:Key="TrolleyFilterCommand"
+            Command="{Binding TrolleyFilter.AllCommand, Mode=OneTime}" />
+        <helpers:DependencyCommand
+            x:Key="SideFilterCommand"
+            Command="{Binding SideFilter.AllCommand, Mode=OneTime}" />
     </UserControl.Resources>
 
     <Grid Background="{StaticResource WindowBackgroundBrush2}">
@@ -723,21 +740,18 @@
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <Menu>
-                                    <MenuItem Header="{DynamicResource 烤箱序號}">
-                                        <MenuItem
-                                            Command="{Binding DataContext.OvenFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            FontSize="14"
-                                            Header="{DynamicResource 全部}" />
-                                        <MenuItem
-                                            FontSize="14"
-                                            Header="{DynamicResource 篩選}"
-                                            ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                            <MenuItem.ItemsSource>
-                                                <CompositeCollection>
-                                                    <CollectionContainer Collection="{Binding Source={StaticResource OvenFilter}, Mode=OneWay}" />
-                                                </CompositeCollection>
-                                            </MenuItem.ItemsSource>
-                                        </MenuItem>
+                                    <MenuItem
+                                        Header="{DynamicResource 烤箱序號}"
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{StaticResource OvenFilterCommand}"
+                                                    FontSize="14"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource OvenFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
                                     </MenuItem>
                                 </Menu>
                             </DataTemplate>
@@ -755,20 +769,15 @@
                                     <MenuItem
                                         Header="{DynamicResource 配方}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem
-                                            Command="{Binding DataContext.RecipeFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            FontSize="14"
-                                            Header="{DynamicResource 全部}" />
-                                        <MenuItem
-                                            FontSize="14"
-                                            Header="{DynamicResource 篩選}"
-                                            ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                            <MenuItem.ItemsSource>
-                                                <CompositeCollection>
-                                                    <CollectionContainer Collection="{Binding Source={StaticResource RecipeFilter}, Mode=OneWay}" />
-                                                </CompositeCollection>
-                                            </MenuItem.ItemsSource>
-                                        </MenuItem>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{StaticResource RecipeFilterCommand}"
+                                                    FontSize="14"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource RecipeFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
                                     </MenuItem>
                                 </Menu>
                             </DataTemplate>
@@ -786,20 +795,15 @@
                                     <MenuItem
                                         Header="{DynamicResource 工單}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem
-                                            Command="{Binding DataContext.OrderFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            FontSize="14"
-                                            Header="{DynamicResource 全部}" />
-                                        <MenuItem
-                                            FontSize="14"
-                                            Header="{DynamicResource 篩選}"
-                                            ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                            <MenuItem.ItemsSource>
-                                                <CompositeCollection>
-                                                    <CollectionContainer Collection="{Binding Source={StaticResource OrderFilter}, Mode=OneWay}" />
-                                                </CompositeCollection>
-                                            </MenuItem.ItemsSource>
-                                        </MenuItem>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{StaticResource OrderFilterCommand}"
+                                                    FontSize="14"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource OrderFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
                                     </MenuItem>
                                 </Menu>
                             </DataTemplate>
@@ -817,20 +821,15 @@
                                     <MenuItem
                                         Header="{DynamicResource 操作員}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem
-                                            Command="{Binding DataContext.OpFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            FontSize="14"
-                                            Header="{DynamicResource 全部}" />
-                                        <MenuItem
-                                            FontSize="14"
-                                            Header="{DynamicResource 篩選}"
-                                            ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                            <MenuItem.ItemsSource>
-                                                <CompositeCollection>
-                                                    <CollectionContainer Collection="{Binding Source={StaticResource OpFilter}, Mode=OneWay}" />
-                                                </CompositeCollection>
-                                            </MenuItem.ItemsSource>
-                                        </MenuItem>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{StaticResource OpFilterCommand}"
+                                                    FontSize="14"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource OpFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
                                     </MenuItem>
                                 </Menu>
                             </DataTemplate>
@@ -848,20 +847,15 @@
                                     <MenuItem
                                         Header="{DynamicResource 台車}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem
-                                            Command="{Binding DataContext.TrolleyFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            FontSize="14"
-                                            Header="{DynamicResource 全部}" />
-                                        <MenuItem
-                                            FontSize="14"
-                                            Header="{DynamicResource 篩選}"
-                                            ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                            <MenuItem.ItemsSource>
-                                                <CompositeCollection>
-                                                    <CollectionContainer Collection="{Binding Source={StaticResource TrolleyFilter}, Mode=OneWay}" />
-                                                </CompositeCollection>
-                                            </MenuItem.ItemsSource>
-                                        </MenuItem>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{StaticResource TrolleyFilterCommand}"
+                                                    FontSize="14"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource TrolleyFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
                                     </MenuItem>
                                 </Menu>
                             </DataTemplate>
@@ -891,20 +885,15 @@
                                     <MenuItem
                                         Header="{DynamicResource 正反面}"
                                         ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                        <MenuItem
-                                            Command="{Binding DataContext.SideFilter.AllCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                                            FontSize="14"
-                                            Header="{DynamicResource 全部}" />
-                                        <MenuItem
-                                            FontSize="14"
-                                            Header="{DynamicResource 篩選}"
-                                            ItemTemplate="{StaticResource EqualFilterTemplate}">
-                                            <MenuItem.ItemsSource>
-                                                <CompositeCollection>
-                                                    <CollectionContainer Collection="{Binding Source={StaticResource SideFilter}, Mode=OneWay}" />
-                                                </CompositeCollection>
-                                            </MenuItem.ItemsSource>
-                                        </MenuItem>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    Command="{StaticResource SideFilterCommand}"
+                                                    FontSize="14"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Source={StaticResource SideFilter}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
                                     </MenuItem>
                                 </Menu>
                             </DataTemplate>

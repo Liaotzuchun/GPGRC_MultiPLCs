@@ -28,7 +28,7 @@ namespace GPGO_MultiPLCs
             set => SetValue(DataOutputPathProperty, value);
         }
 
-        public static readonly DependencyProperty LanguageProperty = DependencyProperty.Register(nameof(Language), typeof(string), typeof(Connector), new PropertyMetadata("", LanguageChanged));
+        public static readonly DependencyProperty LanguageProperty = DependencyProperty.Register(nameof(Language), typeof(Language), typeof(Connector), new PropertyMetadata(Language.TW, LanguageChanged));
 
         private static void LanguageChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
