@@ -269,6 +269,21 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
+            <EventTrigger
+                RoutedEvent="MouseLeave"
+                SourceName="Popup">
+                <EventTrigger.Actions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsSubmenuOpen">
+                                <DiscreteBooleanKeyFrame
+                                    KeyTime="00:00:00"
+                                    Value="False" />
+                            </BooleanAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger.Actions>
+            </EventTrigger>
             <Trigger Property="IsSuspendingPopupAnimation" Value="True">
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
             </Trigger>
