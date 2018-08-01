@@ -155,7 +155,7 @@ namespace GPGO_MultiPLCs.Models
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
         public event Action<ProcessInfo> RecordingFinished;
-        public event Action<string, AutoResetEvent> StartRecording;
+        public event Action<(string RecipeName, AutoResetEvent Lock)> StartRecording;
         public event Action<string> SwitchRecipeEvent;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
@@ -196,7 +196,7 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            StartRecording?.Invoke(RecipeName, LockHandle); //! 引發開始紀錄事件並以LockHandle等待配方設定完成
+            StartRecording?.Invoke((RecipeName, LockHandle)); //! 引發開始紀錄事件並以LockHandle等待配方設定完成
 
             await Task.Factory.StartNew(() =>
                                         {

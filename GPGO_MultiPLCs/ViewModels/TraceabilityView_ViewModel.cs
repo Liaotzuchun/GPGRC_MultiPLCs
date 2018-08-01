@@ -337,7 +337,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>本日產量更新事件</summary>
-        public event Action<List<(int, int)>> TodayProductionUpdated;
+        public event Action<List<(int StationIndex, int Production)>> TodayProductionUpdated;
 
         /// <summary>新增至資料庫</summary>
         /// <param name="index">PLC序號，由0開始(寫入時會自動+1)</param>

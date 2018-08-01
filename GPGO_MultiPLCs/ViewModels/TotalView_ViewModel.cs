@@ -121,9 +121,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public event Action<int, ProcessInfo> AddRecordToDB;
+        public event Action<(int StationIndex, ProcessInfo Info)> AddRecordToDB;
 
-        public event Action<int, string, AutoResetEvent> WantRecipe;
+        public event Action<(int StationIndex, string RecipeName, AutoResetEvent Lock)> WantRecipe;
 
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
@@ -439,13 +439,13 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!PLC由OP指定變更配方時
                 PLC_All[i].SwitchRecipeEvent += recipe =>
                                                 {
-                                                    WantRecipe?.Invoke(index, recipe, null);
+                                                    WantRecipe?.Invoke((index, recipe, null));
                                                 };
 
                 //!烤箱自動啟動時，開始紀錄
-                PLC_All[i].StartRecording += (recipe, obj) =>
+                PLC_All[i].StartRecording += e =>
                                              {
-                                                 WantRecipe?.Invoke(index, recipe, obj);
+                                                 WantRecipe?.Invoke((index, e.RecipeName, e.Lock));
                                              };
 
                 //!烘烤流程結束時
@@ -454,7 +454,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     //if (info.ProcessCount > 0)
                                                     //{
                                                     //!寫入資料庫，上傳
-                                                    AddRecordToDB?.Invoke(index, info);
+                                                    AddRecordToDB?.Invoke((index, info));
 
                                                     //!完成上傳後，清空生產資訊
                                                     info.Clear();

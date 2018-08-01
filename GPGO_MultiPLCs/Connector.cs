@@ -189,27 +189,27 @@ namespace GPGO_MultiPLCs
                                          };
 
             //!當某站烤箱要求配方時，自資料庫讀取配方並發送
-            TotalVM.WantRecipe += async (i, recipe, obj) =>
+            TotalVM.WantRecipe += async e =>
                                   {
-                                      if (!string.IsNullOrEmpty(recipe))
+                                      if (!string.IsNullOrEmpty(e.RecipeName))
                                       {
-                                          await TotalVM.SetRecipe(i, await RecipeVM.GetRecipe(i, recipe));
+                                          await TotalVM.SetRecipe(e.StationIndex, await RecipeVM.GetRecipe(e.StationIndex, e.RecipeName));
                                       }
 
-                                      obj?.Set();
+                                      e.Lock?.Set();
                                   };
 
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾
-            TotalVM.AddRecordToDB += (i, info) =>
+            TotalVM.AddRecordToDB += e =>
                                      {
-                                         TraceVM.AddToDB(i, info);
+                                         TraceVM.AddToDB(e.StationIndex, e.Info);
 
                                          if (!Directory.Exists(DataOutputPath))
                                          {
                                              Directory.CreateDirectory(DataOutputPath);
                                          }
 
-                                         var path = DataOutputPath + "\\" + info.ProduceCode + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (i + 1).ToString() + "_";
+                                         var path = DataOutputPath + "\\" + e.Info.ProduceCode + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (e.StationIndex + 1).ToString() + "_";
 
                                          var n = 1;
                                          while (File.Exists(path + n.ToString()))
@@ -217,16 +217,16 @@ namespace GPGO_MultiPLCs
                                              n++;
                                          }
 
-                                         File.WriteAllText(path + n.ToString(), info.ToString(), Encoding.ASCII);
+                                         File.WriteAllText(path + n.ToString(), e.Info.ToString(), Encoding.ASCII);
                                          //!紀錄資料到指定輸出資料夾
                                      };
 
             //!更新每日產量
             TraceVM.TodayProductionUpdated += datas =>
                                               {
-                                                  foreach (var (station, production) in datas)
+                                                  foreach (var data in datas)
                                                   {
-                                                      TotalVM.TotalProduction[station] = production;
+                                                      TotalVM.TotalProduction[data.StationIndex] = data.Production;
                                                   }
                                               };
 
