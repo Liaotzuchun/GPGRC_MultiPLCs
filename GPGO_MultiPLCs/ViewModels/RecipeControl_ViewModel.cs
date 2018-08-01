@@ -162,8 +162,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
                     result.Used_Stations[index] = true;
                     await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, result.Used_Stations));
-
-                    //ViewRecipes = Recipes.Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower())).ToList();
                 }
                 catch (Exception ex)
                 {

@@ -34,7 +34,7 @@
                     </Grid.ColumnDefinitions>
                     <ListBox
                         Margin="3"
-                        AlternationCount="{Binding Items.Count, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                        AlternationCount="2147483647"
                         ItemsSource="{Binding PLC_All, Mode=OneTime}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -2251,7 +2251,7 @@
                             Grid.Column="1"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
-                            AlternationCount="{Binding Items.Count, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                            AlternationCount="2147483647"
                             ItemsSource="{Binding PLC_All, Mode=OneTime}"
                             SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                             <ListBox.Template>
