@@ -219,8 +219,6 @@
             Background="Transparent">
             <Grid>
                 <ContentPresenter
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
                     ContentSource="Header"
                     RecognizesAccessKey="True" />
                 <Popup
@@ -230,6 +228,27 @@
                     IsOpen="{TemplateBinding IsSubmenuOpen}"
                     Placement="Center"
                     PopupAnimation="Fade">
+                    <Border
+                        Name="SubmenuBorder"
+                        Margin="15"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="15"
+                                Direction="270"
+                                Opacity="0.25" />
+                        </Border.Effect>
+                        <ScrollViewer
+                            MaxHeight="470"
+                            CanContentScroll="True"
+                            Style="{StaticResource MenuScrollViewer}">
+                            <StackPanel
+                                IsItemsHost="True"
+                                KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </ScrollViewer>
+                    </Border>
                     <Popup.VerticalOffset>
                         <MultiBinding
                             Converter="{StaticResource SumValueConverter}"
@@ -246,26 +265,6 @@
                                 Path="ActualHeight" />
                         </MultiBinding>
                     </Popup.VerticalOffset>
-                    <Border
-                        Name="SubmenuBorder"
-                        Margin="15"
-                        Background="{StaticResource LightColorBrush}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1">
-                        <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="15"
-                                Direction="270"
-                                Opacity="0.25" />
-                        </Border.Effect>
-                        <ScrollViewer
-                            CanContentScroll="True"
-                            Style="{StaticResource MenuScrollViewer}">
-                            <StackPanel
-                                IsItemsHost="True"
-                                KeyboardNavigation.DirectionalNavigation="Cycle" />
-                        </ScrollViewer>
-                    </Border>
                 </Popup>
             </Grid>
         </Border>
@@ -274,10 +273,10 @@
                 <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource EnergyBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource LightColorBrush}" />
             </Trigger>
             <Trigger Property="IsSubmenuOpen" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource LightColorBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource LightBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
@@ -297,8 +296,8 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
@@ -366,8 +365,8 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
@@ -441,8 +440,8 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />

@@ -36,7 +36,7 @@
                             Background="{StaticResource WindowBackgroundBrush2}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="0,0,1,1">
-                            <ContentPresenter/>
+                            <ContentPresenter />
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -760,16 +760,15 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid
-                                                Margin="4,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center">
+                                            <Grid Margin="4,0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Margin="4,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
                                                     Text="{DynamicResource 烤箱序號}" />
                                                 <Path
                                                     Grid.Column="1"
@@ -783,8 +782,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource EnergyBrush}"
-                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    Fill="{StaticResource WorkingBrush}"
+                                                    Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Result, Source={StaticResource OvenFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -825,16 +824,15 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid
-                                                Margin="4,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center">
+                                            <Grid Margin="4,0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Margin="4,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
                                                     Text="{DynamicResource 配方}" />
                                                 <Path
                                                     Grid.Column="1"
@@ -848,8 +846,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource EnergyBrush}"
-                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    Fill="{StaticResource WorkingBrush}"
+                                                    Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Result, Source={StaticResource RecipeFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -891,16 +889,15 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid
-                                                Margin="4,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center">
+                                            <Grid Margin="4,0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Margin="4,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
                                                     Text="{DynamicResource 工單}" />
                                                 <Path
                                                     Grid.Column="1"
@@ -914,8 +911,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource EnergyBrush}"
-                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    Fill="{StaticResource WorkingBrush}"
+                                                    Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Result, Source={StaticResource OrderFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -957,16 +954,15 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid
-                                                Margin="4,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center">
+                                            <Grid Margin="4,0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Margin="4,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
                                                     Text="{DynamicResource 操作員}" />
                                                 <Path
                                                     Grid.Column="1"
@@ -980,8 +976,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource EnergyBrush}"
-                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    Fill="{StaticResource WorkingBrush}"
+                                                    Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Result, Source={StaticResource OpFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -1023,16 +1019,15 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid
-                                                Margin="4,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center">
+                                            <Grid Margin="4,0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Margin="4,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
                                                     Text="{DynamicResource 台車}" />
                                                 <Path
                                                     Grid.Column="1"
@@ -1046,8 +1041,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource EnergyBrush}"
-                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    Fill="{StaticResource WorkingBrush}"
+                                                    Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Result, Source={StaticResource TrolleyFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -1098,16 +1093,15 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid
-                                                Margin="4,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center">
+                                            <Grid Margin="4,0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Margin="4,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
                                                     Text="{DynamicResource 正反面}" />
                                                 <Path
                                                     Grid.Column="1"
@@ -1121,8 +1115,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource EnergyBrush}"
-                                                    Stroke="{StaticResource EnergyBorderBrush}"
+                                                    Fill="{StaticResource WorkingBrush}"
+                                                    Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Result, Source={StaticResource SideFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
