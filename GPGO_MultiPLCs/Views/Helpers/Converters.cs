@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using GPGO_MultiPLCs.Helpers;
 using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views

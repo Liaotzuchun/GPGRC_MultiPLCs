@@ -103,9 +103,7 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(UpperValueProperty, value);
         }
 
-        public delegate void PropertyChangedEventEventHandler();
-
-        public static event PropertyChangedEventEventHandler PropertyChangedEvent;
+        public static event Action PropertyChangedEvent;
 
         private void RangeSlider_LayoutUpdated(object sender, EventArgs e)
         {

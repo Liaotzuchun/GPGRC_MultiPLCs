@@ -66,7 +66,7 @@ namespace GPGO_MultiPLCs.Helpers
                 {
                     filter.IsEnableChanged += () =>
                                               {
-                                                  AllCommand.Result = _Filter.Any(x => x.IsEnabled);
+                                                  AllCommand.Result = _Filter.Exists(x => x.IsEnabled);
                                                   StatusChanged?.Invoke();
                                               };
                 }

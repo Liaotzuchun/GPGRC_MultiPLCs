@@ -242,6 +242,19 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
+        /// <summary>傳回Queue(FIFO)的指定數量元素</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="queue"></param>
+        /// <param name="chunkSize"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Dequeue<T>(this Queue<T> queue, int chunkSize)
+        {
+            for (var i = 0; i < chunkSize && queue.Count > 0; i++)
+            {
+                yield return queue.Dequeue();
+            }
+        }
+
         /// <summary>傳回所有符合條件的位置index</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="vals"></param>
@@ -558,19 +571,6 @@ namespace GPGO_MultiPLCs.Helpers
             vals.Add(BitConverter.ToInt16(temp, 0));
 
             return vals.ToArray();
-        }
-
-        /// <summary>傳回Queue(FIFO)的指定數量元素</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="queue"></param>
-        /// <param name="chunkSize"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> Dequeue<T>(this Queue<T> queue, int chunkSize)
-        {
-            for (int i = 0; i < chunkSize && queue.Count > 0; i++)
-            {
-                yield return queue.Dequeue();
-            }
         }
     }
 }

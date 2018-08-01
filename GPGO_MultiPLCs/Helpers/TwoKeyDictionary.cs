@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GPGO_MultiPLCs.Helpers
@@ -9,8 +10,6 @@ namespace GPGO_MultiPLCs.Helpers
     /// <typeparam name="TValue">值</typeparam>
     public sealed class TwoKeyDictionary<TKey1, TKey2, TValue>
     {
-        public delegate void Key1Updated(TKey1 name, TValue value);
-
         public Dictionary<TKey1, TValue> Key1Dictionary = new Dictionary<TKey1, TValue>();
 
         public Dictionary<TKey2, TKey1> Key2Dictionary = new Dictionary<TKey2, TKey1>();
@@ -36,7 +35,7 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        public event Key1Updated Key1UpdatedEvent;
+        public event Action<TKey1, TValue> Key1UpdatedEvent;
 
         public void Add(TKey1 Key1, TKey2 Key2, TValue value)
         {

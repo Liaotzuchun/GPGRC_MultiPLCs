@@ -1,14 +1,11 @@
-﻿using System.Windows.Threading;
+﻿using System;
+using System.Windows.Threading;
 using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class MainWindow_ViewModel : ViewModelBase
     {
-        public delegate void IndexChangedHandeler(int index);
-
-        public delegate void LoadedEventHandeler(Dispatcher dp);
-
         private int _ViewIndex;
 
         public RelayCommand LoadedCommand { get; }
@@ -24,9 +21,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public event IndexChangedHandeler IndexChangedEvent;
+        public event Action<int> IndexChangedEvent;
 
-        public event LoadedEventHandeler LoadedEvent;
+        public event Action<Dispatcher> LoadedEvent;
 
         public MainWindow_ViewModel()
         {

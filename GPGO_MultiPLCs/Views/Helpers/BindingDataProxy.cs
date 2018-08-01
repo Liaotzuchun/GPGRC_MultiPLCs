@@ -2,11 +2,11 @@
 using System.Windows;
 using GPGO_MultiPLCs.Helpers;
 
-namespace GPGO_MultiPLCs.Views.Helpers
+namespace GPGO_MultiPLCs.Views
 {
     public sealed class BindingDataProxy : Freezable
     {
-        public static readonly DependencyProperty DataProperty = DependencyProperty.Register(nameof(Data), typeof(object), typeof(DependencyCommand), new PropertyMetadata(null));
+        public static readonly DependencyProperty DataProperty = DependencyProperty.Register(nameof(Data), typeof(object), typeof(BindingDataProxy), new PropertyMetadata(null));
 
         [Bindable(true)]
         public object Data

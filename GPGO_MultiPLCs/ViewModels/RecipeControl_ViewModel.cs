@@ -11,8 +11,6 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>配方管理</summary>
     public class RecipeControl_ViewModel : ViewModelBase
     {
-        public delegate void ListUpdated(List<PLC_Recipe> list);
-
         private readonly IMongoCollection<PLC_Recipe> RecipeCollection;
 
         private string _SearchName;
@@ -139,7 +137,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>配方列表更新事件</summary>
-        public event ListUpdated ListUpdatedEvent;
+        public event Action<List<PLC_Recipe>> ListUpdatedEvent;
 
         /// <summary>單一配方讀取完成事件</summary>
         public event Action RecipeLoadedEvent;

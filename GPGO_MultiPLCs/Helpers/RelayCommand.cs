@@ -62,9 +62,9 @@ namespace GPGO_MultiPLCs.Helpers
         {
             if (Command is ICommandWithResult cmd)
             {
-                cmd.ResultChanged += () =>
+                cmd.ResultChanged += e =>
                                      {
-                                         Result = cmd.Result;
+                                         Result = e;
                                          NotifyPropertyChanged(nameof(Result));
                                      };
             }
@@ -168,14 +168,14 @@ namespace GPGO_MultiPLCs.Helpers
     public interface ICommandWithResult
     {
         object Result { get; set; }
-        event Action ResultChanged;
+        event Action<object> ResultChanged;
     }
 
     /// <summary>提供能代入Function並提供Result存取的Command</summary>
     /// <typeparam name="T"></typeparam>
     public sealed class CommandWithResult<T> : ViewModelBase, ICommand, ICommandWithResult
     {
-        public event Action ResultChanged;
+        public event Action<object> ResultChanged;
 
         public object Result
         {
@@ -183,7 +183,7 @@ namespace GPGO_MultiPLCs.Helpers
             set
             {
                 _Result = (T)value;
-                ResultChanged?.Invoke();
+                ResultChanged?.Invoke(_Result);
                 NotifyPropertyChanged();
             }
         }

@@ -758,6 +758,11 @@
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                            <i:InvokeCommandAction Command="{StaticResource OvenFilterCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
                                             <Grid Margin="4,0">
@@ -822,6 +827,11 @@
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                            <i:InvokeCommandAction Command="{StaticResource RecipeFilterCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
                                             <Grid Margin="4,0">
@@ -887,6 +897,11 @@
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                            <i:InvokeCommandAction Command="{StaticResource OrderFilterCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
                                             <Grid Margin="4,0">
@@ -952,6 +967,11 @@
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                            <i:InvokeCommandAction Command="{StaticResource OpFilterCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
                                             <Grid Margin="4,0">
@@ -1017,6 +1037,11 @@
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                            <i:InvokeCommandAction Command="{StaticResource TrolleyFilterCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
                                             <Grid Margin="4,0">
@@ -1091,6 +1116,11 @@
                         <DataGridTemplateColumn.Header>
                             <Menu>
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                            <i:InvokeCommandAction Command="{StaticResource SideFilterCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
                                             <Grid Margin="4,0">

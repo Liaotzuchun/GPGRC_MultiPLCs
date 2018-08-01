@@ -48,10 +48,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public delegate void AddRecordToDBHandler(int index, ProcessInfo info);
-
-        public delegate void WantRecipeHandler(int index, string recipe, AutoResetEvent LockObj = null);
-
         /// <summary>心跳信號位置</summary>
         private const int Check_Dev = 21;
 
@@ -125,9 +121,9 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public event AddRecordToDBHandler AddRecordToDB;
+        public event Action<int, ProcessInfo> AddRecordToDB;
 
-        public event WantRecipeHandler WantRecipe;
+        public event Action<int, string, AutoResetEvent> WantRecipe;
 
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
@@ -443,7 +439,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!PLC由OP指定變更配方時
                 PLC_All[i].SwitchRecipeEvent += recipe =>
                                                 {
-                                                    WantRecipe?.Invoke(index, recipe);
+                                                    WantRecipe?.Invoke(index, recipe, null);
                                                 };
 
                 //!烤箱自動啟動時，開始紀錄

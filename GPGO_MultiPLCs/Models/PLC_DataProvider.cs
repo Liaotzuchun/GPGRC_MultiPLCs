@@ -21,14 +21,6 @@ namespace GPGO_MultiPLCs.Models
             降溫
         }
 
-        public delegate void MachineCodeChangedHandler(string code);
-
-        public delegate void RecordingFinishedEventHandler(ProcessInfo info);
-
-        public delegate void StartRecordingHandler(string recipe, AutoResetEvent LockObj);
-
-        public delegate void SwitchRecipeEventHandler(string recipe);
-
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
 
@@ -160,11 +152,11 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public event MachineCodeChangedHandler MachineCodeChanged;
+        public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
-        public event RecordingFinishedEventHandler RecordingFinished;
-        public event StartRecordingHandler StartRecording;
-        public event SwitchRecipeEventHandler SwitchRecipeEvent;
+        public event Action<ProcessInfo> RecordingFinished;
+        public event Action<string, AutoResetEvent> StartRecording;
+        public event Action<string> SwitchRecipeEvent;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
