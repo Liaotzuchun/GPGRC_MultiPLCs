@@ -56,49 +56,27 @@
         x:Key="MenuScrollButton"
         BasedOn="{x:Null}"
         TargetType="{x:Type RepeatButton}">
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="ClickMode" Value="Hover" />
         <Setter Property="MinHeight" Value="0" />
         <Setter Property="MinWidth" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <DockPanel Background="Transparent">
-                        <!--  right  -->
-                        <Rectangle
-                            x:Name="R1"
-                            Width="1"
-                            DockPanel.Dock="Right"
-                            Fill="Transparent" />
-                        <!--  bottom  -->
-                        <Rectangle
-                            x:Name="B1"
-                            Height="1"
-                            DockPanel.Dock="Bottom"
-                            Fill="Transparent" />
-                        <!--  left  -->
-                        <Rectangle
-                            x:Name="L1"
-                            Width="1"
-                            DockPanel.Dock="Left"
-                            Fill="Transparent" />
-                        <!--  top  -->
-                        <Rectangle
-                            x:Name="T1"
-                            Height="1"
-                            DockPanel.Dock="Top"
-                            Fill="Transparent" />
+                    <Border
+                        x:Name="Border"
+                        Background="{StaticResource WindowBackgroundBrush2}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter
                             x:Name="ContentContainer"
                             Margin="4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
-                    </DockPanel>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="B1" Property="Fill" Value="{StaticResource PressedBrush}" />
-                            <Setter TargetName="L1" Property="Fill" Value="{StaticResource PressedBrush}" />
-                            <Setter TargetName="R1" Property="Fill" Value="{StaticResource PressedBrush}" />
-                            <Setter TargetName="T1" Property="Fill" Value="{StaticResource PressedBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource LightColorBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -126,6 +104,7 @@
                         <RepeatButton
                             Grid.Row="0"
                             Grid.Column="0"
+                            BorderThickness="0,0,0,1"
                             Command="{x:Static ScrollBar.LineUpCommand}"
                             CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                             Focusable="False"
@@ -161,6 +140,7 @@
                         <RepeatButton
                             Grid.Row="2"
                             Grid.Column="0"
+                            BorderThickness="0,1,0,0"
                             Command="{x:Static ScrollBar.LineDownCommand}"
                             CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}"
                             Focusable="False"
@@ -277,7 +257,7 @@
                         <Storyboard>
                             <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsSubmenuOpen">
                                 <DiscreteBooleanKeyFrame
-                                    KeyTime="00:00:00"
+                                    KeyTime="0:0:0"
                                     Value="False" />
                             </BooleanAnimationUsingKeyFrames>
                         </Storyboard>
