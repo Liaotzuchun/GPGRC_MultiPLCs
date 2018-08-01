@@ -3,10 +3,13 @@ using System.Windows.Controls;
 
 namespace GPGO_MultiPLCs.Views
 {
-    public static class TextBoxFocusBehavior
+    /// <summary>
+    /// 提供TextBox在無焦點且無文字時顯示水印文字的能力
+    /// </summary>
+    public static class TextBoxWatermarkBehavior
     {
         public static readonly DependencyProperty IsWatermarkEnabled =
-            DependencyProperty.RegisterAttached("IsWatermarkEnabled", typeof(bool), typeof(TextBoxFocusBehavior), new UIPropertyMetadata(false, OnIsWatermarkEnabled));
+            DependencyProperty.RegisterAttached("IsWatermarkEnabled", typeof(bool), typeof(TextBoxWatermarkBehavior), new UIPropertyMetadata(false, OnIsWatermarkEnabled));
 
         public static bool GetIsWatermarkEnabled(DependencyObject obj)
         {
@@ -19,7 +22,7 @@ namespace GPGO_MultiPLCs.Views
         }
 
         public static readonly DependencyProperty WatermarkText =
-            DependencyProperty.RegisterAttached("WatermarkText", typeof(string), typeof(TextBoxFocusBehavior), new UIPropertyMetadata(string.Empty, OnWatermarkTextChanged));
+            DependencyProperty.RegisterAttached("WatermarkText", typeof(string), typeof(TextBoxWatermarkBehavior), new UIPropertyMetadata(string.Empty, OnWatermarkTextChanged));
 
         public static string GetWatermarkText(DependencyObject obj)
         {
