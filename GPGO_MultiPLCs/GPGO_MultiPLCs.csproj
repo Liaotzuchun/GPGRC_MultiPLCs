@@ -142,6 +142,7 @@
     <Compile Include="Views\GlobalDialog.xaml.cs">
       <DependentUpon>GlobalDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Helpers\AutoGrid.cs" />
     <Compile Include="Views\Helpers\BindableBinding.cs" />
     <Compile Include="Views\Helpers\BindingDataProxy.cs" />
     <Compile Include="Views\Helpers\Converters.cs" />
