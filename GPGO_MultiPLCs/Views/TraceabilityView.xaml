@@ -769,8 +769,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource WorkingBrush}"
-                                                    Stroke="{StaticResource WorkingBorderBrush}"
+                                                    Fill="Cyan"
+                                                    Stroke="{StaticResource PressedBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OvenFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -838,8 +838,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource WorkingBrush}"
-                                                    Stroke="{StaticResource WorkingBorderBrush}"
+                                                    Fill="Cyan"
+                                                    Stroke="{StaticResource PressedBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Data.AllCommand.Result, Source={StaticResource RecipeFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -908,8 +908,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource WorkingBrush}"
-                                                    Stroke="{StaticResource WorkingBorderBrush}"
+                                                    Fill="Cyan"
+                                                    Stroke="{StaticResource PressedBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OrderFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -978,8 +978,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource WorkingBrush}"
-                                                    Stroke="{StaticResource WorkingBorderBrush}"
+                                                    Fill="Cyan"
+                                                    Stroke="{StaticResource PressedBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OpFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -1048,8 +1048,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource WorkingBrush}"
-                                                    Stroke="{StaticResource WorkingBorderBrush}"
+                                                    Fill="Cyan"
+                                                    Stroke="{StaticResource PressedBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Data.AllCommand.Result, Source={StaticResource TrolleyFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
@@ -1127,8 +1127,8 @@
                                                     Height="10"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
-                                                    Fill="{StaticResource WorkingBrush}"
-                                                    Stroke="{StaticResource WorkingBorderBrush}"
+                                                    Fill="Cyan"
+                                                    Stroke="{StaticResource PressedBrush}"
                                                     StrokeThickness="1"
                                                     Visibility="{Binding Data.AllCommand.Result, Source={StaticResource SideFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
