@@ -4,14 +4,14 @@ using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Views
 {
-    public sealed class BindingDataProxy : Freezable
+    public abstract class BindingDataProxy<T> : Freezable
     {
-        public static readonly DependencyProperty DataProperty = DependencyProperty.Register(nameof(Data), typeof(object), typeof(BindingDataProxy), new PropertyMetadata(null));
+        public static readonly DependencyProperty DataProperty = DependencyProperty.Register(nameof(Data), typeof(T), typeof(BindingDataProxy<T>), new PropertyMetadata(null));
 
         [Bindable(true)]
-        public object Data
+        public T Data
         {
-            get => GetValue(DataProperty);
+            get => (T)GetValue(DataProperty);
             set => SetValue(DataProperty, value);
         }
 
@@ -20,4 +20,6 @@ namespace GPGO_MultiPLCs.Views
             return new DependencyCommand();
         }
     }
+
+    public class FilterGroupProxy : BindingDataProxy<FilterGroup> { }
 }

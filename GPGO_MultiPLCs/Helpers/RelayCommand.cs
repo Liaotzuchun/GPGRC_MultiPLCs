@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -45,7 +44,7 @@ namespace GPGO_MultiPLCs.Helpers
     }
 
     /// <summary>提供實作DependencyObject可作為資源供繫結的command，若單純為DependencyObject會無法存取VisualTree，無法繫結DataContext來源，所以使用Freezable(最輕量)</summary>
-    public sealed class DependencyCommand : Freezable, ICommand, INotifyPropertyChanged
+    public sealed class DependencyCommand : Freezable, ICommand
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(DependencyCommand), new PropertyMetadata(null));
 
@@ -60,30 +59,12 @@ namespace GPGO_MultiPLCs.Helpers
 
         public bool CanExecute(object parameter)
         {
-            if (Command is ICommandWithResult cmd)
-            {
-                cmd.ResultChanged += e =>
-                                     {
-                                         Result = e;
-                                         NotifyPropertyChanged(nameof(Result));
-                                     };
-            }
-
             return Command?.CanExecute(parameter) ?? true;
         }
 
         public void Execute(object parameter)
         {
             Command?.Execute(parameter);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public object Result { get; set; }
-
-        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected override Freezable CreateInstanceCore()
@@ -165,7 +146,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    public interface ICommandWithResult
+    public interface ICommandWithResult: ICommand, INotifyPropertyChanged
     {
         object Result { get; set; }
         event Action<object> ResultChanged;

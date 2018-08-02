@@ -42,24 +42,24 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <CollectionViewSource
-            x:Key="OvenFilter"
-            Source="{Binding OvenFilter.Filter, Mode=OneWay}" />
-        <CollectionViewSource
-            x:Key="RecipeFilter"
-            Source="{Binding RecipeFilter.Filter, Mode=OneWay}" />
-        <CollectionViewSource
-            x:Key="OrderFilter"
-            Source="{Binding OrderFilter.Filter, Mode=OneWay}" />
-        <CollectionViewSource
-            x:Key="OpFilter"
-            Source="{Binding OpFilter.Filter, Mode=OneWay}" />
-        <CollectionViewSource
-            x:Key="TrolleyFilter"
-            Source="{Binding TrolleyFilter.Filter, Mode=OneWay}" />
-        <CollectionViewSource
-            x:Key="SideFilter"
-            Source="{Binding SideFilter.Filter, Mode=OneWay}" />
+        <local:FilterGroupProxy
+            x:Key="OvenFilterData"
+            Data="{Binding OvenFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy
+            x:Key="RecipeFilterData"
+            Data="{Binding RecipeFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy
+            x:Key="OrderFilterData"
+            Data="{Binding OrderFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy
+            x:Key="OpFilterData"
+            Data="{Binding OpFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy
+            x:Key="TrolleyFilterData"
+            Data="{Binding TrolleyFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy
+            x:Key="SideFilterData"
+            Data="{Binding SideFilter, Mode=OneWay}" />
         <DataTemplate
             x:Key="EqualFilterTemplate"
             DataType="helpers:EqualFilter">
@@ -68,24 +68,6 @@
                 IsChecked="{Binding IsEnabled, Mode=TwoWay}"
                 Style="{StaticResource CheckView}" />
         </DataTemplate>
-        <helpers:DependencyCommand
-            x:Key="OvenFilterCommand"
-            Command="{Binding OvenFilter.AllCommand, Mode=OneTime}" />
-        <helpers:DependencyCommand
-            x:Key="RecipeFilterCommand"
-            Command="{Binding RecipeFilter.AllCommand, Mode=OneTime}" />
-        <helpers:DependencyCommand
-            x:Key="OrderFilterCommand"
-            Command="{Binding OrderFilter.AllCommand, Mode=OneTime}" />
-        <helpers:DependencyCommand
-            x:Key="OpFilterCommand"
-            Command="{Binding OpFilter.AllCommand, Mode=OneTime}" />
-        <helpers:DependencyCommand
-            x:Key="TrolleyFilterCommand"
-            Command="{Binding TrolleyFilter.AllCommand, Mode=OneTime}" />
-        <helpers:DependencyCommand
-            x:Key="SideFilterCommand"
-            Command="{Binding SideFilter.AllCommand, Mode=OneTime}" />
     </UserControl.Resources>
 
     <Grid Background="{StaticResource WindowBackgroundBrush2}">
@@ -760,7 +742,7 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                            <i:InvokeCommandAction Command="{StaticResource OvenFilterCommand}" />
+                                            <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
@@ -790,13 +772,13 @@
                                                     Fill="{StaticResource WorkingBrush}"
                                                     Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
-                                                    Visibility="{Binding Result, Source={StaticResource OvenFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                    Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OvenFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
                                         </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{StaticResource OvenFilterCommand}">
+                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}">
                                                 <MenuItem.Header>
                                                     <Border Background="Transparent">
                                                         <TextBlock
@@ -809,7 +791,7 @@
                                                 </MenuItem.Header>
                                             </MenuItem>
                                             <Separator />
-                                            <CollectionContainer Collection="{Binding Source={StaticResource OvenFilter}, Mode=OneWay}" />
+                                            <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OvenFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
                                 </MenuItem>
@@ -829,7 +811,7 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                            <i:InvokeCommandAction Command="{StaticResource RecipeFilterCommand}" />
+                                            <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource RecipeFilterData}}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
@@ -859,13 +841,13 @@
                                                     Fill="{StaticResource WorkingBrush}"
                                                     Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
-                                                    Visibility="{Binding Result, Source={StaticResource RecipeFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                    Visibility="{Binding Data.AllCommand.Result, Source={StaticResource RecipeFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
                                         </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{StaticResource RecipeFilterCommand}">
+                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource RecipeFilterData}}">
                                                 <MenuItem.Header>
                                                     <Border Background="Transparent">
                                                         <TextBlock
@@ -878,7 +860,7 @@
                                                 </MenuItem.Header>
                                             </MenuItem>
                                             <Separator />
-                                            <CollectionContainer Collection="{Binding Source={StaticResource RecipeFilter}, Mode=OneWay}" />
+                                            <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource RecipeFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
                                 </MenuItem>
@@ -899,7 +881,7 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                            <i:InvokeCommandAction Command="{StaticResource OrderFilterCommand}" />
+                                            <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OrderFilterData}}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
@@ -929,13 +911,13 @@
                                                     Fill="{StaticResource WorkingBrush}"
                                                     Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
-                                                    Visibility="{Binding Result, Source={StaticResource OrderFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                    Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OrderFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
                                         </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{StaticResource OrderFilterCommand}">
+                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource OrderFilterData}}">
                                                 <MenuItem.Header>
                                                     <Border Background="Transparent">
                                                         <TextBlock
@@ -948,7 +930,7 @@
                                                 </MenuItem.Header>
                                             </MenuItem>
                                             <Separator />
-                                            <CollectionContainer Collection="{Binding Source={StaticResource OrderFilter}, Mode=OneWay}" />
+                                            <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OrderFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
                                 </MenuItem>
@@ -969,7 +951,7 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                            <i:InvokeCommandAction Command="{StaticResource OpFilterCommand}" />
+                                            <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OpFilterData}}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
@@ -999,13 +981,13 @@
                                                     Fill="{StaticResource WorkingBrush}"
                                                     Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
-                                                    Visibility="{Binding Result, Source={StaticResource OpFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                    Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OpFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
                                         </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{StaticResource OpFilterCommand}">
+                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource OpFilterData}}">
                                                 <MenuItem.Header>
                                                     <Border Background="Transparent">
                                                         <TextBlock
@@ -1018,7 +1000,7 @@
                                                 </MenuItem.Header>
                                             </MenuItem>
                                             <Separator />
-                                            <CollectionContainer Collection="{Binding Source={StaticResource OpFilter}, Mode=OneWay}" />
+                                            <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OpFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
                                 </MenuItem>
@@ -1039,7 +1021,7 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                            <i:InvokeCommandAction Command="{StaticResource TrolleyFilterCommand}" />
+                                            <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource TrolleyFilterData}}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
@@ -1069,13 +1051,13 @@
                                                     Fill="{StaticResource WorkingBrush}"
                                                     Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
-                                                    Visibility="{Binding Result, Source={StaticResource TrolleyFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                    Visibility="{Binding Data.AllCommand.Result, Source={StaticResource TrolleyFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
                                         </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{StaticResource TrolleyFilterCommand}">
+                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource TrolleyFilterData}}">
                                                 <MenuItem.Header>
                                                     <Border Background="Transparent">
                                                         <TextBlock
@@ -1088,7 +1070,7 @@
                                                 </MenuItem.Header>
                                             </MenuItem>
                                             <Separator />
-                                            <CollectionContainer Collection="{Binding Source={StaticResource TrolleyFilter}, Mode=OneWay}" />
+                                            <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource TrolleyFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
                                 </MenuItem>
@@ -1118,7 +1100,7 @@
                                 <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                            <i:InvokeCommandAction Command="{StaticResource SideFilterCommand}" />
+                                            <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource SideFilterData}}" />
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
@@ -1148,13 +1130,13 @@
                                                     Fill="{StaticResource WorkingBrush}"
                                                     Stroke="{StaticResource WorkingBorderBrush}"
                                                     StrokeThickness="1"
-                                                    Visibility="{Binding Result, Source={StaticResource SideFilterCommand}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                    Visibility="{Binding Data.AllCommand.Result, Source={StaticResource SideFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                             </Grid>
                                         </Border>
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{StaticResource SideFilterCommand}">
+                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource SideFilterData}}">
                                                 <MenuItem.Header>
                                                     <Border Background="Transparent">
                                                         <TextBlock
@@ -1167,7 +1149,7 @@
                                                 </MenuItem.Header>
                                             </MenuItem>
                                             <Separator />
-                                            <CollectionContainer Collection="{Binding Source={StaticResource SideFilter}, Mode=OneWay}" />
+                                            <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource SideFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
                                 </MenuItem>
