@@ -60,14 +60,18 @@
         <local:FilterGroupProxy
             x:Key="SideFilterData"
             Data="{Binding SideFilter, Mode=OneWay}" />
-        <DataTemplate
-            x:Key="EqualFilterTemplate"
+        <local:CheckTypeTemplateSelector
+            x:Key="CheckTypeTemplateSelector"
             DataType="helpers:EqualFilter">
-            <CheckBox
-                Content="{Binding Value, Mode=OneWay}"
-                IsChecked="{Binding IsEnabled, Mode=TwoWay}"
-                Style="{StaticResource CheckView}" />
-        </DataTemplate>
+            <local:CheckTypeTemplateSelector.Template>
+                <DataTemplate DataType="helpers:EqualFilter">
+                    <CheckBox
+                        Content="{Binding Value, Mode=OneWay}"
+                        IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                        Style="{StaticResource CheckView}" />
+                </DataTemplate>
+            </local:CheckTypeTemplateSelector.Template>
+        </local:CheckTypeTemplateSelector>
     </UserControl.Resources>
 
     <Grid Background="{StaticResource WindowBackgroundBrush2}">
@@ -739,7 +743,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />
@@ -808,7 +812,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource RecipeFilterData}}" />
@@ -878,7 +882,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OrderFilterData}}" />
@@ -948,7 +952,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OpFilterData}}" />
@@ -1018,7 +1022,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource TrolleyFilterData}}" />
@@ -1097,7 +1101,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource SideFilterData}}" />
