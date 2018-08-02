@@ -110,7 +110,6 @@
     </Style>
 
     <Style
-        x:Key="DataGridStyle"
         TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
@@ -131,7 +130,7 @@
         <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="IsSynchronizedWithCurrentItem" Value="False" />
-        <!--<Setter Property="OverridesDefaultStyle" Value="True" />-->
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="RowDetailsTemplate" Value="{x:Null}" />
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
         <Setter Property="RowHeaderStyle" Value="{StaticResource RowHeaderStyle}" />
@@ -145,18 +144,20 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <ScrollViewer Focusable="False">
+                        <ScrollViewer
+                            CanContentScroll="True"
+                            Focusable="False">
                             <ScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
-                                            <RowDefinition />
+                                            <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Border

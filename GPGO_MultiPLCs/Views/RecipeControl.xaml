@@ -1442,10 +1442,9 @@
                 AutoGenerateColumns="False"
                 BorderThickness="0"
                 EnableRowVirtualization="False"
-                ItemsSource="{Binding ViewRecipes, Mode=OneWay}"
+                ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                 RowHeaderTemplate="{StaticResource ShowRowNumbers}"
-                SelectedIndex="{Binding Selected_PLC_Recipe_Index, Mode=TwoWay}"
-                Style="{StaticResource DataGridStyle}">
+                SelectedIndex="{Binding Selected_PLC_Recipe_Index, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding InitialLoadCommand, Mode=OneTime}" />

@@ -341,9 +341,8 @@
                             Height="200"
                             AutoGenerateColumns="False"
                             FontSize="11"
-                            ItemsSource="{Binding ViewUsers, Mode=OneWay}"
+                            ItemsSource="{Binding ViewUsers, Mode=OneWay, IsAsync=True}"
                             SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                            Style="{StaticResource DataGridStyle}"
                             VerticalScrollBarVisibility="Visible">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Width="*">

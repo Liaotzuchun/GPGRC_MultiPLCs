@@ -426,8 +426,7 @@
                 Margin="0,4,0,0"
                 AutoGenerateColumns="False"
                 FontSize="11"
-                ItemsSource="{Binding ViewResults, Mode=OneWay}"
-                Style="{StaticResource DataGridStyle}">
+                ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}">
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate DataType="models:ProcessInfo">
                         <Grid Height="222">
@@ -440,8 +439,7 @@
                                 AutoGenerateColumns="False"
                                 BorderThickness="0,0,1,0"
                                 FontSize="11"
-                                ItemsSource="{Binding EventList, Mode=OneWay}"
-                                Style="{StaticResource DataGridStyle}">
+                                ItemsSource="{Binding EventList, Mode=OneWay, IsAsync=True}">
                                 <DataGrid.RowHeaderTemplate>
                                     <DataTemplate>
                                         <Border

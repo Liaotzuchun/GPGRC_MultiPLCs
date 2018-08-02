@@ -1942,8 +1942,7 @@
                                     AutoGenerateColumns="False"
                                     BorderThickness="0,0,1,0"
                                     FontSize="11"
-                                    ItemsSource="{Binding Process_Info.EventList, Mode=OneWay}"
-                                    Style="{StaticResource DataGridStyle}">
+                                    ItemsSource="{Binding Process_Info.EventList, Mode=OneWay, IsAsync=True}">
                                     <DataGrid.RowHeaderTemplate>
                                         <DataTemplate>
                                             <Border
