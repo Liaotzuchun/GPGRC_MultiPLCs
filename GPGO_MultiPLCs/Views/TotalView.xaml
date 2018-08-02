@@ -1941,57 +1941,36 @@
                                     x:Name="dg"
                                     AutoGenerateColumns="False"
                                     BorderThickness="0,0,1,0"
-                                    CanUserAddRows="False"
-                                    CanUserDeleteRows="False"
-                                    CanUserReorderColumns="False"
-                                    CanUserResizeColumns="False"
-                                    CanUserResizeRows="False"
-                                    CanUserSortColumns="False"
-                                    Focusable="False"
                                     FontSize="11"
-                                    HeadersVisibility="All"
-                                    IsReadOnly="True"
-                                    IsSynchronizedWithCurrentItem="False"
                                     ItemsSource="{Binding Process_Info.EventList, Mode=OneWay}"
-                                    SelectionMode="Single"
                                     Style="{StaticResource DataGridStyle}">
-                                    <DataGrid.RowHeaderStyle>
-                                        <Style TargetType="DataGridRowHeader">
-                                            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
-                                            <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                                            <Setter Property="BorderThickness" Value="0,0,1,1" />
-                                            <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
-                                            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                                                        <Border
-                                                            Width="5"
-                                                            Background="{TemplateBinding Background}"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}" />
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Style.Triggers>
+                                    <DataGrid.RowHeaderTemplate>
+                                        <DataTemplate>
+                                            <Border
+                                                x:Name="Border"
+                                                Width="5"
+                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="0,0,1,1" />
+                                            <DataTemplate.Triggers>
                                                 <DataTrigger
-                                                    Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                    Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                     Value="0">
-                                                    <Setter Property="Background" Value="{StaticResource OKBrush}" />
+                                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
                                                 </DataTrigger>
                                                 <DataTrigger
-                                                    Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                    Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                     Value="1">
-                                                    <Setter Property="Background" Value="Blue" />
+                                                    <Setter TargetName="Border" Property="Background" Value="Blue" />
                                                 </DataTrigger>
                                                 <DataTrigger
-                                                    Binding="{Binding (models:RecordEvent.Type), Mode=OneWay}"
+                                                    Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                     Value="2">
-                                                    <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
+                                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
                                                 </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </DataGrid.RowHeaderStyle>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </DataGrid.RowHeaderTemplate>
                                     <DataGrid.Columns>
                                         <DataGridTemplateColumn Width="60">
                                             <DataGridTemplateColumn.Header>

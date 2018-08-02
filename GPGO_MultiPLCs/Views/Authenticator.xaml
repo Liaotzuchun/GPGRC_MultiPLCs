@@ -340,20 +340,9 @@
                         <DataGrid
                             Height="200"
                             AutoGenerateColumns="False"
-                            BorderThickness="1"
-                            CanUserAddRows="False"
-                            CanUserDeleteRows="False"
-                            CanUserReorderColumns="False"
-                            CanUserResizeColumns="False"
-                            CanUserResizeRows="False"
-                            CanUserSortColumns="False"
-                            Focusable="False"
                             FontSize="11"
-                            IsReadOnly="True"
-                            IsSynchronizedWithCurrentItem="False"
                             ItemsSource="{Binding ViewUsers, Mode=OneWay}"
                             SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                            SelectionMode="Single"
                             Style="{StaticResource DataGridStyle}"
                             VerticalScrollBarVisibility="Visible">
                             <DataGrid.Columns>

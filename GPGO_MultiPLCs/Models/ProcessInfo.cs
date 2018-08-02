@@ -23,20 +23,20 @@ namespace GPGO_MultiPLCs.Models
         private ObservableConcurrentCollection<RecordEvent> _EventList = new ObservableConcurrentCollection<RecordEvent>();
         private bool _FirstPanel;
         private int _HeatingTime;
-        private string _MachineCode;
-        private string _OperatorID;
-        private string _OrderCode;
+        private string _MachineCode = "";
+        private string _OperatorID = "";
+        private string _OrderCode = "";
         private int _OrderCount;
         private int _ProcessCount;
         private int _ProcessNumber;
-        private string _ProduceCode;
-        private string _RecipeName;
+        private string _ProduceCode = "";
+        private string _RecipeName = "";
         private ObservableConcurrentCollection<RecordTemperatures> _RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
-        private string _Side;
+        private string _Side = "";
         private DateTime _StartTime;
         private double _TargetOvenTemperature;
         private int _TotalHeatingTime;
-        private string _TrolleyCode;
+        private string _TrolleyCode = "";
         private int _WarmingTime;
 
         /// <summary>條碼類型</summary>

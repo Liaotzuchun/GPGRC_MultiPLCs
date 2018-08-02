@@ -65,28 +65,31 @@
     <Style
         x:Key="RowHeaderStyle"
         TargetType="DataGridRowHeader">
-        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
-        <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-        <Setter Property="BorderThickness" Value="0,0,1,1" />
-        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
-                        <TextBlock
-                            Margin="4,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{Binding (FrameworkElement.TemplatedParent).(DataGridRow.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-                    </Border>
+                    <ContentPresenter
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+    <DataTemplate x:Key="ShowRowNumbers">
+        <Border
+            Background="{StaticResource WindowBackgroundBrush2}"
+            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+            BorderThickness="0,0,1,1">
+            <TextBlock
+                Margin="4,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Foreground="{StaticResource BaseForeground}"
+                Text="{Binding (FrameworkElement.TemplatedParent).(FrameworkElement.TemplatedParent).(DataGridRow.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+        </Border>
+    </DataTemplate>
 
     <Style
         x:Key="DataGridRowStyle"
@@ -111,12 +114,30 @@
         TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="CanUserDeleteRows" Value="False" />
+        <Setter Property="CanUserReorderColumns" Value="False" />
+        <Setter Property="CanUserResizeColumns" Value="False" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="CanUserSortColumns" Value="False" />
         <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}" />
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource ColumnHeaderStyle}" />
+        <Setter Property="EnableColumnVirtualization" Value="True" />
+        <Setter Property="EnableRowVirtualization" Value="True" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
-        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="HeadersVisibility" Value="All" />
         <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="IsSynchronizedWithCurrentItem" Value="False" />
+        <!--<Setter Property="OverridesDefaultStyle" Value="True" />-->
+        <Setter Property="RowDetailsTemplate" Value="{x:Null}" />
+        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
+        <Setter Property="RowHeaderStyle" Value="{StaticResource RowHeaderStyle}" />
         <Setter Property="RowStyle" Value="{StaticResource DataGridRowStyle}" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGrid}">
