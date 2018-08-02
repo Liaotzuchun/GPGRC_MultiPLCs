@@ -8,6 +8,7 @@ namespace GPGO_MultiPLCs.Views
     {
         public Type DataType { get; set; }
         public DataTemplate Template { get; set; }
+        public DataTemplate OtherTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -16,7 +17,7 @@ namespace GPGO_MultiPLCs.Views
                 return Template;
             }
 
-            return null;
+            return OtherTemplate;
         }
     }
 }

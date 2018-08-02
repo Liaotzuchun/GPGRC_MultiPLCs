@@ -60,18 +60,24 @@
         <local:FilterGroupProxy
             x:Key="SideFilterData"
             Data="{Binding SideFilter, Mode=OneWay}" />
-        <local:CheckTypeTemplateSelector
-            x:Key="CheckTypeTemplateSelector"
+        <DataTemplate
+            x:Key="EqualFilterTemplate"
             DataType="helpers:EqualFilter">
-            <local:CheckTypeTemplateSelector.Template>
-                <DataTemplate DataType="helpers:EqualFilter">
-                    <CheckBox
-                        Content="{Binding Value, Mode=OneWay}"
-                        IsChecked="{Binding IsEnabled, Mode=TwoWay}"
-                        Style="{StaticResource CheckView}" />
-                </DataTemplate>
-            </local:CheckTypeTemplateSelector.Template>
-        </local:CheckTypeTemplateSelector>
+            <CheckBox
+                Content="{Binding Value, Mode=OneWay}"
+                IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                Style="{StaticResource CheckView}" />
+        </DataTemplate>
+        <DataTemplate x:Key="HeaderTemplate">
+            <Border Background="Transparent">
+                <TextBlock
+                    Margin="8,4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Text="{DynamicResource 全部}" />
+            </Border>
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid Background="{StaticResource WindowBackgroundBrush2}">
@@ -743,7 +749,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />
@@ -782,19 +788,9 @@
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}">
-                                                <MenuItem.Header>
-                                                    <Border Background="Transparent">
-                                                        <TextBlock
-                                                            Margin="8,4"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            FontSize="14"
-                                                            Text="{DynamicResource 全部}" />
-                                                    </Border>
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <Separator />
+                                            <MenuItem
+                                                Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
+                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OvenFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -812,7 +808,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource RecipeFilterData}}" />
@@ -851,19 +847,9 @@
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource RecipeFilterData}}">
-                                                <MenuItem.Header>
-                                                    <Border Background="Transparent">
-                                                        <TextBlock
-                                                            Margin="8,4"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            FontSize="14"
-                                                            Text="{DynamicResource 全部}" />
-                                                    </Border>
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <Separator />
+                                            <MenuItem
+                                                Command="{Binding Data.AllCommand, Source={StaticResource RecipeFilterData}}"
+                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource RecipeFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -882,7 +868,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OrderFilterData}}" />
@@ -921,19 +907,9 @@
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource OrderFilterData}}">
-                                                <MenuItem.Header>
-                                                    <Border Background="Transparent">
-                                                        <TextBlock
-                                                            Margin="8,4"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            FontSize="14"
-                                                            Text="{DynamicResource 全部}" />
-                                                    </Border>
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <Separator />
+                                            <MenuItem
+                                                Command="{Binding Data.AllCommand, Source={StaticResource OrderFilterData}}"
+                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OrderFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -952,7 +928,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OpFilterData}}" />
@@ -991,19 +967,9 @@
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource OpFilterData}}">
-                                                <MenuItem.Header>
-                                                    <Border Background="Transparent">
-                                                        <TextBlock
-                                                            Margin="8,4"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            FontSize="14"
-                                                            Text="{DynamicResource 全部}" />
-                                                    </Border>
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <Separator />
+                                            <MenuItem
+                                                Command="{Binding Data.AllCommand, Source={StaticResource OpFilterData}}"
+                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OpFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -1022,7 +988,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource TrolleyFilterData}}" />
@@ -1061,19 +1027,9 @@
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource TrolleyFilterData}}">
-                                                <MenuItem.Header>
-                                                    <Border Background="Transparent">
-                                                        <TextBlock
-                                                            Margin="8,4"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            FontSize="14"
-                                                            Text="{DynamicResource 全部}" />
-                                                    </Border>
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <Separator />
+                                            <MenuItem
+                                                Command="{Binding Data.AllCommand, Source={StaticResource TrolleyFilterData}}"
+                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource TrolleyFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -1101,7 +1057,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplateSelector="{StaticResource CheckTypeTemplateSelector}">
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource SideFilterData}}" />
@@ -1140,19 +1096,9 @@
                                     </MenuItem.Header>
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
-                                            <MenuItem Command="{Binding Data.AllCommand, Source={StaticResource SideFilterData}}">
-                                                <MenuItem.Header>
-                                                    <Border Background="Transparent">
-                                                        <TextBlock
-                                                            Margin="8,4"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            FontSize="14"
-                                                            Text="{DynamicResource 全部}" />
-                                                    </Border>
-                                                </MenuItem.Header>
-                                            </MenuItem>
-                                            <Separator />
+                                            <MenuItem
+                                                Command="{Binding Data.AllCommand, Source={StaticResource SideFilterData}}"
+                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource SideFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
