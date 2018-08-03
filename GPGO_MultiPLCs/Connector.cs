@@ -224,9 +224,9 @@ namespace GPGO_MultiPLCs
             //!更新每日產量
             TraceVM.TodayProductionUpdated += datas =>
                                               {
-                                                  foreach (var data in datas)
+                                                  foreach (var (StationIndex, Production) in datas)
                                                   {
-                                                      TotalVM.TotalProduction[data.StationIndex] = data.Production;
+                                                      TotalVM.TotalProduction[StationIndex] = Production;
                                                   }
                                               };
 
