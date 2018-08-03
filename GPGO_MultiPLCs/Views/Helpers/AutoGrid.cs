@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,7 +13,6 @@ namespace GPGO_MultiPLCs.Views
                                                                                                                                                FrameworkPropertyMetadataOptions.AffectsMeasure,
                                                                                                                                                OnChildHorizontalAlignmentChanged));
 
-        /// <summary>Called when [child horizontal alignment changed].</summary>
         private static void OnChildHorizontalAlignmentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AutoGrid grid)
@@ -26,10 +24,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the child horizontal alignment.</summary>
-        /// <value>The child horizontal alignment.</value>
-        [Category("Layout")]
-        [Description("Presets the horizontal alignment of all child controls")]
         public HorizontalAlignment? ChildHorizontalAlignment
         {
             get => (HorizontalAlignment?)GetValue(ChildHorizontalAlignmentProperty);
@@ -43,7 +37,6 @@ namespace GPGO_MultiPLCs.Views
                                                                                                                                   FrameworkPropertyMetadataOptions.AffectsMeasure,
                                                                                                                                   OnChildMarginChanged));
 
-        /// <summary>Called when [child layout changed].</summary>
         private static void OnChildMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AutoGrid grid)
@@ -55,10 +48,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the child margin.</summary>
-        /// <value>The child margin.</value>
-        [Category("Layout")]
-        [Description("Presets the margin of all child controls")]
         public Thickness? ChildMargin
         {
             get => (Thickness?)GetValue(ChildMarginProperty);
@@ -72,7 +61,6 @@ namespace GPGO_MultiPLCs.Views
                                                                                                                                              FrameworkPropertyMetadataOptions.AffectsMeasure,
                                                                                                                                              OnChildVerticalAlignmentChanged));
 
-        /// <summary>Called when [child vertical alignment changed].</summary>
         private static void OnChildVerticalAlignmentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AutoGrid grid)
@@ -84,10 +72,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the child vertical alignment.</summary>
-        /// <value>The child vertical alignment.</value>
-        [Category("Layout")]
-        [Description("Presets the vertical alignment of all child controls")]
         public VerticalAlignment? ChildVerticalAlignment
         {
             get => (VerticalAlignment?)GetValue(ChildVerticalAlignmentProperty);
@@ -97,7 +81,6 @@ namespace GPGO_MultiPLCs.Views
         public static readonly DependencyProperty ColumnCountProperty =
             DependencyProperty.RegisterAttached("ColumnCount", typeof(int), typeof(AutoGrid), new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsMeasure, ColumnCountChanged));
 
-        /// <summary>Handles the column count changed event</summary>
         public static void ColumnCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if ((int)e.NewValue < 0)
@@ -107,14 +90,12 @@ namespace GPGO_MultiPLCs.Views
 
             if (d is AutoGrid grid)
             {
-                // look for an existing column definition for the height
-                var width = GridLength.Auto;
+                var width = grid.ColumnWidth;
                 if (grid.ColumnDefinitions.Count > 0)
                 {
                     width = grid.ColumnDefinitions[0].Width;
                 }
 
-                // clear and rebuild
                 grid.ColumnDefinitions.Clear();
                 for (var i = 0; i < (int)e.NewValue; i++)
                 {
@@ -123,9 +104,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the column count</summary>
-        [Category("Layout")]
-        [Description("Defines a set number of columns")]
         public int ColumnCount
         {
             get => (int)GetValue(ColumnCountProperty);
@@ -135,7 +113,6 @@ namespace GPGO_MultiPLCs.Views
         public static readonly DependencyProperty ColumnsProperty =
             DependencyProperty.RegisterAttached("Columns", typeof(string), typeof(AutoGrid), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.AffectsMeasure, ColumnsChanged));
 
-        /// <summary>Handle the columns changed event</summary>
         public static void ColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if ((string)e.NewValue == string.Empty)
@@ -155,9 +132,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the columns</summary>
-        [Category("Layout")]
-        [Description("Defines all columns using comma separated grid length notation")]
         public string Columns
         {
             get => (string)GetValue(ColumnsProperty);
@@ -167,22 +141,19 @@ namespace GPGO_MultiPLCs.Views
         public static readonly DependencyProperty ColumnWidthProperty = DependencyProperty.RegisterAttached("ColumnWidth",
                                                                                                             typeof(GridLength),
                                                                                                             typeof(AutoGrid),
-                                                                                                            new FrameworkPropertyMetadata(GridLength.Auto,
+                                                                                                            new FrameworkPropertyMetadata(new GridLength(1, GridUnitType.Star),
                                                                                                                                           FrameworkPropertyMetadataOptions.AffectsMeasure,
                                                                                                                                           FixedColumnWidthChanged));
 
-        /// <summary>Handle the fixed column width changed event</summary>
         public static void FixedColumnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AutoGrid grid)
             {
-                // add a default column if missing
                 if (grid.ColumnDefinitions.Count == 0)
                 {
                     grid.ColumnDefinitions.Add(new ColumnDefinition());
                 }
 
-                // set all existing columns to this width
                 foreach (var col in grid.ColumnDefinitions)
                 {
                     col.Width = (GridLength)e.NewValue;
@@ -190,9 +161,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the fixed column width</summary>
-        [Category("Layout")]
-        [Description("Presets the width of all columns set using the ColumnCount property")]
         public GridLength ColumnWidth
         {
             get => (GridLength)GetValue(ColumnWidthProperty);
@@ -202,15 +170,6 @@ namespace GPGO_MultiPLCs.Views
         public static readonly DependencyProperty IsAutoIndexingProperty =
             DependencyProperty.Register("IsAutoIndexing", typeof(bool), typeof(AutoGrid), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        /// <summary>
-        ///     Gets or sets a value indicating whether the children are automatically indexed.
-        ///     <remarks>
-        ///         The default is <c>true</c>. Note that if children are already indexed, setting this property to
-        ///         <c>false</c> will not remove their indices.
-        ///     </remarks>
-        /// </summary>
-        [Category("Layout")]
-        [Description("Set to false to disable the auto layout functionality")]
         public bool IsAutoIndexing
         {
             get => (bool)GetValue(IsAutoIndexingProperty);
@@ -223,12 +182,6 @@ namespace GPGO_MultiPLCs.Views
                                                                                                     new FrameworkPropertyMetadata(Orientation.Horizontal,
                                                                                                                                   FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        /// <summary>Gets or sets the orientation.
-        ///     <remarks>The default is Vertical.</remarks>
-        /// </summary>
-        /// <value>The orientation.</value>
-        [Category("Layout")]
-        [Description("Defines the directionality of the autolayout. Use vertical for a column first layout, horizontal for a row first layout.")]
         public Orientation Orientation
         {
             get => (Orientation)GetValue(OrientationProperty);
@@ -238,7 +191,6 @@ namespace GPGO_MultiPLCs.Views
         public static readonly DependencyProperty RowCountProperty =
             DependencyProperty.RegisterAttached("RowCount", typeof(int), typeof(AutoGrid), new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsMeasure, RowCountChanged));
 
-        /// <summary>Handles the row count changed event</summary>
         public static void RowCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if ((int)e.NewValue < 0)
@@ -248,14 +200,12 @@ namespace GPGO_MultiPLCs.Views
 
             if (d is AutoGrid grid)
             {
-                // look for an existing row to get the height
-                var height = GridLength.Auto;
+                var height = grid.RowHeight;
                 if (grid.RowDefinitions.Count > 0)
                 {
                     height = grid.RowDefinitions[0].Height;
                 }
 
-                // clear and rebuild
                 grid.RowDefinitions.Clear();
                 for (var i = 0; i < (int)e.NewValue; i++)
                 {
@@ -264,9 +214,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the number of rows</summary>
-        [Category("Layout")]
-        [Description("Defines a set number of rows")]
         public int RowCount
         {
             get => (int)GetValue(RowCountProperty);
@@ -276,22 +223,19 @@ namespace GPGO_MultiPLCs.Views
         public static readonly DependencyProperty RowHeightProperty = DependencyProperty.RegisterAttached("RowHeight",
                                                                                                           typeof(GridLength),
                                                                                                           typeof(AutoGrid),
-                                                                                                          new FrameworkPropertyMetadata(GridLength.Auto,
+                                                                                                          new FrameworkPropertyMetadata(new GridLength(1, GridUnitType.Star),
                                                                                                                                         FrameworkPropertyMetadataOptions.AffectsMeasure,
                                                                                                                                         FixedRowHeightChanged));
 
-        /// <summary>Handle the fixed row height changed event</summary>
         public static void FixedRowHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AutoGrid grid)
             {
-                // add a default row if missing
                 if (grid.RowDefinitions.Count == 0)
                 {
                     grid.RowDefinitions.Add(new RowDefinition());
                 }
 
-                // set all existing rows to this height
                 foreach (var row in grid.RowDefinitions)
                 {
                     row.Height = (GridLength)e.NewValue;
@@ -299,9 +243,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the fixed row height</summary>
-        [Category("Layout")]
-        [Description("Presets the height of all rows set using the RowCount property")]
         public GridLength RowHeight
         {
             get => (GridLength)GetValue(RowHeightProperty);
@@ -311,7 +252,6 @@ namespace GPGO_MultiPLCs.Views
         public static readonly DependencyProperty RowsProperty =
             DependencyProperty.RegisterAttached("Rows", typeof(string), typeof(AutoGrid), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.AffectsMeasure, RowsChanged));
 
-        /// <summary>Handle the rows changed event</summary>
         public static void RowsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if ((string)e.NewValue == string.Empty)
@@ -331,16 +271,12 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Gets or sets the rows</summary>
-        [Category("Layout")]
-        [Description("Defines all rows using comma separated grid length notation")]
         public string Rows
         {
             get => (string)GetValue(RowsProperty);
             set => SetValue(RowsProperty, value);
         }
 
-        /// <summary>Parse an array of grid lengths from comma delim text</summary>
         public static GridLength[] Parse(string text)
         {
             var tokens = text.Split(',');
@@ -350,7 +286,6 @@ namespace GPGO_MultiPLCs.Views
                 var str = tokens[i];
                 double value;
 
-                // ratio
                 if (str.Contains('*'))
                 {
                     if (!double.TryParse(str.Replace("*", ""), out value))
@@ -363,7 +298,6 @@ namespace GPGO_MultiPLCs.Views
                     continue;
                 }
 
-                // pixels
                 if (double.TryParse(str, out value))
                 {
                     definitions[i] = new GridLength(value);
@@ -371,26 +305,16 @@ namespace GPGO_MultiPLCs.Views
                     continue;
                 }
 
-                // auto
                 definitions[i] = GridLength.Auto;
             }
 
             return definitions;
         }
 
-        /// <summary>Handled the redraw properties changed event</summary>
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
         }
 
-        #region Overrides
-
-        /// <summary>
-        ///     Measures the children of a <see cref="T:System.Windows.Controls.Grid" /> in anticipation of arranging them
-        ///     during the <see cref="M:ArrangeOverride" /> pass.
-        /// </summary>
-        /// <param name="constraint">Indicates an upper limit size that should not be exceeded.</param>
-        /// <returns><see cref="Size" /> that represents the required size to arrange child content.</returns>
         protected override Size MeasureOverride(Size constraint)
         {
             PerformLayout();
@@ -398,10 +322,7 @@ namespace GPGO_MultiPLCs.Views
             return base.MeasureOverride(constraint);
         }
 
-        #endregion Overrides
-
-        /// <summary>Apply child margins and layout effects such as alignment</summary>
-        private void ApplyChildLayout(UIElement child)
+        private void ApplyChildLayout(DependencyObject child)
         {
             if (ChildMargin != null)
             {
@@ -419,13 +340,11 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        /// <summary>Clamp a value to its maximum.</summary>
         private int Clamp(int value, int max)
         {
             return value > max ? max : value;
         }
 
-        /// <summary>Perform the grid layout of row and column indexes</summary>
         private void PerformLayout()
         {
             var fillRowFirst = Orientation == Orientation.Horizontal;
@@ -495,7 +414,6 @@ namespace GPGO_MultiPLCs.Views
 
     public static class DependencyExtensions
     {
-        /// <summary>Sets the value of the <paramref name="property" /> only if it hasn't been explicitly set.</summary>
         public static bool SetIfDefault<T>(this DependencyObject o, DependencyProperty property, T value)
         {
             if (DependencyPropertyHelper.GetValueSource(o, property).BaseValueSource == BaseValueSource.Default)
