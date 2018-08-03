@@ -27,6 +27,29 @@
                 Path="IsShown_2" />
         </MultiBinding>
     </UserControl.Visibility>
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Style.Triggers>
+                <Trigger Property="Visibility" Value="Visible">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0"
+                                    To="1"
+                                    Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <ExponentialEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
 
     <Border Background="#7F333333">
         <Grid HorizontalAlignment="Center">
