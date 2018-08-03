@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views
 {
@@ -10,6 +10,11 @@ namespace GPGO_MultiPLCs.Views
         public TraceabilityView()
         {
             InitializeComponent();
+        }
+
+        private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
+        {
+            Keyboard.ClearFocus();
         }
     }
 }

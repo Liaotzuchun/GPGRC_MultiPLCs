@@ -722,7 +722,7 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
+                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}" SubmenuClosed="MenuItem_SubmenuClosed">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />
