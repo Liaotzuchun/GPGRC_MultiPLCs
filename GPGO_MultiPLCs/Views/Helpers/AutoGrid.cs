@@ -4,6 +4,9 @@ using System.Windows.Controls;
 
 namespace GPGO_MultiPLCs.Views
 {
+    /// <summary>
+    /// 提供更簡易方便使用的Grid，會依元素順序自動分配位置，如果元素有自訂的rowspan或columnspan參數也會自動計算
+    /// </summary>
     public class AutoGrid : Grid
     {
         public static readonly DependencyProperty ChildHorizontalAlignmentProperty = DependencyProperty.Register("ChildHorizontalAlignment",
@@ -347,7 +350,6 @@ namespace GPGO_MultiPLCs.Views
 
         private void PerformLayout()
         {
-            var fillRowFirst = Orientation == Orientation.Horizontal;
             var rowCount = RowDefinitions.Count;
             var colCount = ColumnDefinitions.Count;
 
@@ -360,49 +362,69 @@ namespace GPGO_MultiPLCs.Views
             var skip = new bool[rowCount, colCount];
             foreach (UIElement child in Children)
             {
-                var childIsCollapsed = child.Visibility == Visibility.Collapsed;
-                if (IsAutoIndexing && !childIsCollapsed)
+                if (IsAutoIndexing && !(child.Visibility == Visibility.Collapsed))
                 {
-                    if (fillRowFirst)
+                    if (Orientation == Orientation.Horizontal)
                     {
                         var row = Clamp(position / colCount, rowCount - 1);
                         var col = Clamp(position % colCount, colCount - 1);
-                        if (skip[row, col])
+                        while (row < rowCount && col < colCount && skip[row, col])
                         {
                             position++;
-                            row = position / colCount;
-                            col = position % colCount;
+                            row = position / rowCount;
+                            col = position % rowCount;
                         }
 
                         SetRow(child, row);
                         SetColumn(child, col);
                         position += GetColumnSpan(child);
 
-                        var offset = GetRowSpan(child) - 1;
-                        while (offset > 0)
+                        var offset_rs = GetRowSpan(child) - 1;
+                        var offset_cs = GetColumnSpan(child) - 1;
+
+                        for (var i = 0; i <= offset_cs; i++)
                         {
-                            skip[row + offset--, col] = true;
+                            for (var j = 0; j <= offset_rs; j++)
+                            {
+                                if (row < rowCount && col < colCount)
+                                {
+                                    skip[row + j, col + i] = true;
+                                }
+                            }
                         }
                     }
                     else
                     {
                         var row = Clamp(position % rowCount, rowCount - 1);
                         var col = Clamp(position / rowCount, colCount - 1);
-                        if (skip[row, col])
+                        while (row < rowCount && col < colCount && skip[row, col])
                         {
                             position++;
                             row = position % rowCount;
                             col = position / rowCount;
+
+                            if (row >= RowCount || col >= colCount)
+                            {
+                                break;
+                            }
                         }
 
                         SetRow(child, row);
                         SetColumn(child, col);
                         position += GetRowSpan(child);
 
-                        var offset = GetColumnSpan(child) - 1;
-                        while (offset > 0)
+                        var offset_rs = GetRowSpan(child) - 1;
+                        var offset_cs = GetColumnSpan(child) - 1;
+
+                        for (var i = 0; i <= offset_cs; i++)
                         {
-                            skip[row, col + offset--] = true;
+                            for (var j = 0; j <= offset_rs; j++)
+                            {
+                                if (row < rowCount && col < colCount)
+                                {
+                                    skip[row + j, col + i] = true;
+                                }
+                            }
                         }
                     }
                 }
