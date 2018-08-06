@@ -13,7 +13,7 @@
     <sys:String x:Key="操作員">操作員</sys:String>
     <sys:String x:Key="製造序">製造序</sys:String>
     <sys:String x:Key="台車">台車</sys:String>
-    <sys:String x:Key="張數">張數</sys:String>
+    <sys:String x:Key="數量">數量</sys:String>
     <sys:String x:Key="工單">工單</sys:String>
     <sys:String x:Key="狀態">狀態</sys:String>
     <sys:String x:Key="準備中">準備中</sys:String>

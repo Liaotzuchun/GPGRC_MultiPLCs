@@ -100,7 +100,7 @@
                                             FontSize="14">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="54" />
+                                                    <ColumnDefinition Width="60" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
@@ -253,7 +253,7 @@
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{DynamicResource 張數}" />
+                                                        Text="{DynamicResource 數量}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"

@@ -1017,7 +1017,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="Auto">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 張數}" />
+                            <TextBlock Text="{DynamicResource 數量}" />
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">

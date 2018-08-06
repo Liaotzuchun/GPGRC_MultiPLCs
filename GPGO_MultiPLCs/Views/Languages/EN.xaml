@@ -13,7 +13,7 @@
     <sys:String x:Key="操作員">Op.</sys:String>
     <sys:String x:Key="製造序">Serial</sys:String>
     <sys:String x:Key="台車">Trolley</sys:String>
-    <sys:String x:Key="張數">Count</sys:String>
+    <sys:String x:Key="數量">Quantity</sys:String>
     <sys:String x:Key="工單">Order</sys:String>
     <sys:String x:Key="狀態">Status</sys:String>
     <sys:String x:Key="準備中">Ready to Go</sys:String>
