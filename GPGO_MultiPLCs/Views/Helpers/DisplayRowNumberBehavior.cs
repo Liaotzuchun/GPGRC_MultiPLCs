@@ -44,7 +44,7 @@ namespace GPGO_MultiPLCs.Views.Helpers
                             return;
                         }
 
-                        GetVisualChildCollection<DataGridRow>(dataGrid).ForEach(d => d.Header = d.GetIndex() + 1);
+                        GetVisualChildCollection<DataGridRow>(dataGrid).ForEach(row => row.Header = row.GetIndex() + 1);
                     }
 
                     dataGrid.ItemContainerGenerator.ItemsChanged += itemsChangedHandler;
@@ -62,15 +62,15 @@ namespace GPGO_MultiPLCs.Views.Helpers
             target.SetValue(DisplayRowNumberProperty, value);
         }
 
-        private static void GetVisualChildCollection<T>(DependencyObject parent, List<T> visualCollection) where T : Visual
+        private static void GetVisualChildCollection<T>(DependencyObject parent, ICollection<T> visualCollection) where T : Visual
         {
             var count = VisualTreeHelper.GetChildrenCount(parent);
             for (var i = 0; i < count; i++)
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T)
+                if (child is T variable)
                 {
-                    visualCollection.Add(child as T);
+                    visualCollection.Add(variable);
                 }
 
                 GetVisualChildCollection(child, visualCollection);

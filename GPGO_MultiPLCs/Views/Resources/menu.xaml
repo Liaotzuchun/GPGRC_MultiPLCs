@@ -303,65 +303,69 @@
     <ControlTemplate
         x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}"
         TargetType="{x:Type MenuItem}">
-        <Border Name="Border">
-            <Grid MinWidth="60">
+        <Border>
+            <Grid>
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
+                        <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                    </LinearGradientBrush>
+                </Grid.Background>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="Auto"
-                        SharedSizeGroup="Icon" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition
-                        Width="Auto"
-                        SharedSizeGroup="Shortcut" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <ContentPresenter
-                    Name="Icon"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    ContentSource="Icon" />
                 <Border
-                    Name="Check"
-                    Width="13"
-                    Height="13"
-                    Background="{StaticResource NormalBrush}"
-                    BorderBrush="{StaticResource NormalBorderBrush}"
-                    BorderThickness="1"
+                    x:Name="Check"
+                    Width="8"
+                    Background="{StaticResource WindowBackgroundBrush4}"
                     Visibility="Collapsed">
-                    <Path
-                        Name="CheckMark"
-                        Width="7"
-                        Height="7"
-                        Data="M 0 0 L 7 7 M 0 7 L 7 0"
-                        Stroke="{StaticResource GlyphBrush}"
-                        StrokeThickness="2"
-                        Visibility="Hidden" />
+                    <Border
+                        x:Name="CheckMark"
+                        Background="Cyan"
+                        Opacity="0" />
                 </Border>
-                <ContentPresenter
-                    Name="HeaderHost"
+                <Border
+                    x:Name="Border2"
                     Grid.Column="1"
-                    ContentSource="Header"
-                    RecognizesAccessKey="True" />
-                <TextBlock
-                    x:Name="InputGestureText"
-                    Grid.Column="2"
-                    DockPanel.Dock="Right"
-                    Text="{TemplateBinding InputGestureText}" />
+                    Opacity="0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0.25" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
+                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WorkingBrush}}" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                <Border
+                    x:Name="Border3"
+                    Grid.Column="1"
+                    Opacity="0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
+                            <GradientStop Offset="1.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                <Border Grid.Column="1">
+                    <ContentPresenter
+                        Name="HeaderHost"
+                        Margin="8,4"
+                        ContentSource="Header"
+                        RecognizesAccessKey="True" />
+                </Border>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="Icon" Value="{x:Null}">
-                <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
-            </Trigger>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
-            </Trigger>
             <Trigger Property="IsCheckable" Value="True">
                 <Setter TargetName="Check" Property="Visibility" Value="Visible" />
-                <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                <Setter TargetName="Border2" Property="Opacity" Value="1" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Border3" Property="Opacity" Value="1" />
+                <Setter TargetName="CheckMark" Property="Opacity" Value="1" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
@@ -447,7 +451,13 @@
     <Style
         x:Key="{x:Type MenuItem}"
         TargetType="{x:Type MenuItem}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Style.Triggers>
             <Trigger Property="Role" Value="TopLevelHeader">
                 <Setter Property="Grid.IsSharedSizeScope" Value="True" />

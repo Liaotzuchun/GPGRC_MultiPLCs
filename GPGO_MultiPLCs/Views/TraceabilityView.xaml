@@ -63,14 +63,11 @@
         <DataTemplate
             x:Key="EqualFilterTemplate"
             DataType="helpers:EqualFilter">
-            <CheckBox
-                IsChecked="{Binding IsEnabled, Mode=TwoWay}"
-                Style="{StaticResource CheckView}">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="{Binding Value, Mode=OneWay}" />
-            </CheckBox>
+            <MenuItem
+                StaysOpenOnClick="True"
+                IsCheckable="True"
+                Header="{Binding Value, Mode=OneWay}"
+                IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
         </DataTemplate>
         <DataTemplate x:Key="HeaderTemplate">
             <Border
@@ -722,7 +719,9 @@
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>
-                                <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}" SubmenuClosed="MenuItem_SubmenuClosed">
+                                <MenuItem
+                                    ItemTemplate="{StaticResource EqualFilterTemplate}"
+                                    SubmenuClosed="MenuItem_SubmenuClosed">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                             <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />

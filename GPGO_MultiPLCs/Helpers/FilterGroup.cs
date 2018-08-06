@@ -53,6 +53,8 @@ namespace GPGO_MultiPLCs.Helpers
     {
         private List<EqualFilter> _Filter;
 
+        private readonly Action InvokeChangeEvent;
+
         public CommandWithResult<bool> AllCommand { get; }
 
         public List<EqualFilter> Filter
@@ -60,15 +62,19 @@ namespace GPGO_MultiPLCs.Helpers
             get => _Filter;
             set
             {
+                if(_Filter!=null && _Filter.Count > 0)
+                {
+                    foreach (var filter in _Filter)
+                    {
+                        filter.IsEnableChanged -= InvokeChangeEvent;
+                    }
+                }
+
                 _Filter = value;
 
                 foreach (var filter in _Filter)
                 {
-                    filter.IsEnableChanged += () =>
-                                              {
-                                                  AllCommand.Result = _Filter.Exists(x => x.IsEnabled);
-                                                  StatusChanged?.Invoke();
-                                              };
+                    filter.IsEnableChanged += InvokeChangeEvent;
                 }
 
                 NotifyPropertyChanged();
@@ -95,6 +101,12 @@ namespace GPGO_MultiPLCs.Helpers
 
                                                          return false;
                                                      });
+
+            InvokeChangeEvent = () =>
+                                {
+                                    AllCommand.Result = _Filter.Exists(x => x.IsEnabled);
+                                    StatusChanged?.Invoke();
+                                };
         }
     }
 }

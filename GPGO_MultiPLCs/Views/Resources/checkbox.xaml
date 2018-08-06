@@ -225,7 +225,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Border Background="Transparent">
+                    <Border>
                         <Grid>
                             <Grid.Background>
                                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
