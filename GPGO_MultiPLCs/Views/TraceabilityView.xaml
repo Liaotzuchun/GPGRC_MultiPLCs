@@ -64,23 +64,10 @@
             x:Key="EqualFilterTemplate"
             DataType="helpers:EqualFilter">
             <MenuItem
-                StaysOpenOnClick="True"
-                IsCheckable="True"
                 Header="{Binding Value, Mode=OneWay}"
-                IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
-        </DataTemplate>
-        <DataTemplate x:Key="HeaderTemplate">
-            <Border
-                Background="Transparent"
-                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                BorderThickness="0,0,0,1">
-                <TextBlock
-                    Margin="8,4"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="14"
-                    Text="{DynamicResource 全部}" />
-            </Border>
+                IsCheckable="True"
+                IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                StaysOpenOnClick="True" />
         </DataTemplate>
     </UserControl.Resources>
 
@@ -761,8 +748,9 @@
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
                                             <MenuItem
+                                                BorderThickness="0,0,0,1"
                                                 Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
-                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
+                                                Header="{DynamicResource 全部}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OvenFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -820,8 +808,9 @@
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
                                             <MenuItem
-                                                Command="{Binding Data.AllCommand, Source={StaticResource RecipeFilterData}}"
-                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
+                                                BorderThickness="0,0,0,1"
+                                                Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
+                                                Header="{DynamicResource 全部}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource RecipeFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -880,8 +869,9 @@
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
                                             <MenuItem
-                                                Command="{Binding Data.AllCommand, Source={StaticResource OrderFilterData}}"
-                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
+                                                BorderThickness="0,0,0,1"
+                                                Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
+                                                Header="{DynamicResource 全部}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OrderFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -940,8 +930,9 @@
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
                                             <MenuItem
-                                                Command="{Binding Data.AllCommand, Source={StaticResource OpFilterData}}"
-                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
+                                                BorderThickness="0,0,0,1"
+                                                Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
+                                                Header="{DynamicResource 全部}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OpFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -1000,8 +991,9 @@
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
                                             <MenuItem
-                                                Command="{Binding Data.AllCommand, Source={StaticResource TrolleyFilterData}}"
-                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
+                                                BorderThickness="0,0,0,1"
+                                                Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
+                                                Header="{DynamicResource 全部}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource TrolleyFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
@@ -1069,8 +1061,9 @@
                                     <MenuItem.ItemsSource>
                                         <CompositeCollection>
                                             <MenuItem
-                                                Command="{Binding Data.AllCommand, Source={StaticResource SideFilterData}}"
-                                                HeaderTemplate="{StaticResource HeaderTemplate}" />
+                                                BorderThickness="0,0,0,1"
+                                                Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
+                                                Header="{DynamicResource 全部}" />
                                             <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource SideFilterData}, Mode=OneWay}" />
                                         </CompositeCollection>
                                     </MenuItem.ItemsSource>
