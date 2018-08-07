@@ -51,6 +51,7 @@ namespace GPGO_MultiPLCs
         public RecipeControl_ViewModel RecipeVM { get; }
         public TotalView_ViewModel TotalVM { get; }
         public TraceabilityView_ViewModel TraceVM { get; }
+        public LogView_ViewModel LogVM { get; }
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
@@ -149,6 +150,7 @@ namespace GPGO_MultiPLCs
             MainVM = new MainWindow_ViewModel();
             RecipeVM = new RecipeControl_ViewModel(db.GetCollection<PLC_Recipe>("PLC_Recipes"), DialogVM);
             TraceVM = new TraceabilityView_ViewModel(db.GetCollection<ProcessInfo>("Product_Infos"));
+            LogVM = new LogView_ViewModel(db.GetCollection<LogEvent>("Event_Logs"));
             TotalVM = new TotalView_ViewModel(20, DialogVM);
 
             //!當回到主頁時，也將生產總覽回到總覽頁

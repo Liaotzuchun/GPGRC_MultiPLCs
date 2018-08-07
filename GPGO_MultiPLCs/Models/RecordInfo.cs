@@ -22,7 +22,12 @@ namespace GPGO_MultiPLCs.Models
                 return Colors.Green;
             }
 
-            return (EventType)value == EventType.Trigger ? Colors.Blue : Colors.Red;
+            if ((EventType)value == EventType.Trigger)
+            {
+                return Colors.Blue;
+            }
+
+            return (EventType)value == EventType.Action ? Colors.DarkOrange : Colors.Red;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -61,6 +66,7 @@ namespace GPGO_MultiPLCs.Models
     {
         Normal,
         Trigger,
+        Action,
         Alarm
     }
 
@@ -70,6 +76,16 @@ namespace GPGO_MultiPLCs.Models
     {
         public string Description { get; set; }
         public TimeSpan Time { get; set; }
+        public EventType Type { get; set; }
+    }
+
+    [BsonIgnoreExtraElements]
+    public class LogEvent
+    {
+        [BsonId]
+        public DateTime Time { get; set; }
+        public int StationNumber { get; set; }
+        public string Description { get; set; }
         public EventType Type { get; set; }
     }
 }

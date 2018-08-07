@@ -60,6 +60,10 @@
                     Content="{DynamicResource 生產履歷}"
                     FontSize="20"
                     IsChecked="{Binding ViewIndex, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                <ToggleButton
+                    Content="{DynamicResource 事件履歷}"
+                    FontSize="20"
+                    IsChecked="{Binding ViewIndex, ConverterParameter=3, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
             </UniformGrid>
         </Grid>
         <Border
@@ -92,6 +96,13 @@
                 <local:TraceabilityView
                     Margin="0,4,0,0"
                     DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" />
+            </TabItem>
+            <TabItem
+                Width="0"
+                Height="0">
+                <local:LogView
+                    Margin="0,4,0,0"
+                    DataContext="{Binding LogVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
         </TabControl>
     </Grid>

@@ -130,6 +130,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\Authenticator_ViewModel.cs" />
     <Compile Include="ViewModels\GlobalDialog_ViewModel.cs" />
+    <Compile Include="ViewModels\LogView_ViewModel.cs" />
     <Compile Include="ViewModels\MainWindow_ViewModel.cs" />
     <Compile Include="ViewModels\RecipeControl_ViewModel.cs" />
     <Compile Include="ViewModels\TraceabilityView_ViewModel.cs" />
@@ -150,6 +151,9 @@
     </Compile>
     <Compile Include="Views\Helpers\ResourceBinding.cs" />
     <Compile Include="Views\Helpers\TypeTemplateSelector.cs" />
+    <Compile Include="Views\LogView.xaml.cs">
+      <DependentUpon>LogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RecipeControl.xaml.cs">
       <DependentUpon>RecipeControl.xaml</DependentUpon>
     </Compile>
@@ -180,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Languages\TW.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

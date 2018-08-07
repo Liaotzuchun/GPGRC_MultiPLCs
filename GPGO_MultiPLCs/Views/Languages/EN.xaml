@@ -5,7 +5,8 @@
 
     <sys:String x:Key="生產頁面">Main Page</sys:String>
     <sys:String x:Key="配方管理">Recipe Manager</sys:String>
-    <sys:String x:Key="生產履歷">Production Traceability</sys:String>
+    <sys:String x:Key="生產履歷">Production</sys:String>
+    <sys:String x:Key="事件履歷">Events</sys:String>
     <sys:String x:Key="設備">Device</sys:String>
     <sys:String x:Key="配方">Recipe</sys:String>
     <sys:String x:Key="投產">Input</sys:String>
@@ -116,4 +117,5 @@
     <sys:String x:Key="第8段升溫">8th Heating</sys:String>
     <sys:String x:Key="報表匯出">Export</sys:String>
     <sys:String x:Key="篩選">Filter</sys:String>
+    <sys:String x:Key="類型">Type</sys:String>
 </ResourceDictionary>

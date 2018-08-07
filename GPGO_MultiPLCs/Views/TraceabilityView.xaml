@@ -71,10 +71,8 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Background="{StaticResource WindowBackgroundBrush2}">
-        <Grid
-            x:Name="HGrid"
-            Margin="4">
+    <Border Background="{StaticResource WindowBackgroundBrush2}">
+        <Grid Margin="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -435,17 +433,22 @@
                                         <DataTemplate.Triggers>
                                             <DataTrigger
                                                 Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                Value="0">
+                                                Value="Normal">
                                                 <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
                                             </DataTrigger>
                                             <DataTrigger
                                                 Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                Value="1">
+                                                Value="Trigger">
                                                 <Setter TargetName="Border" Property="Background" Value="Blue" />
                                             </DataTrigger>
                                             <DataTrigger
                                                 Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                Value="2">
+                                                Value="Action">
+                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                Value="Alarm">
                                                 <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
                                             </DataTrigger>
                                         </DataTemplate.Triggers>
@@ -1208,5 +1211,5 @@
                     Height="0" />
             </TabControl>
         </Grid>
-    </Grid>
+    </Border>
 </UserControl>

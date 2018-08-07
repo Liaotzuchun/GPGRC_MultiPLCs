@@ -6,6 +6,7 @@
     <sys:String x:Key="生產頁面">生產頁面</sys:String>
     <sys:String x:Key="配方管理">配方管理</sys:String>
     <sys:String x:Key="生產履歷">生產履歷</sys:String>
+    <sys:String x:Key="事件履歷">事件履歷</sys:String>
     <sys:String x:Key="設備">設備</sys:String>
     <sys:String x:Key="配方">配方</sys:String>
     <sys:String x:Key="投產">投產</sys:String>
@@ -116,4 +117,5 @@
     <sys:String x:Key="第8段升溫">第8段升溫</sys:String>
     <sys:String x:Key="報表匯出">匯出</sys:String>
     <sys:String x:Key="篩選">篩選</sys:String>
+    <sys:String x:Key="類型">類型</sys:String>
 </ResourceDictionary>
