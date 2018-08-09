@@ -121,7 +121,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public event Action<(int StationIndex, ProcessInfo Info)> AddRecordToDB;
+        public event Action<(int StationIndex, ICollection<ProcessInfo> Infos)> AddRecordToDB;
 
         public event Action<(int StationIndex, string RecipeName, AutoResetEvent Lock)> WantRecipe;
 
@@ -449,25 +449,30 @@ namespace GPGO_MultiPLCs.ViewModels
                                              };
 
                 //!烘烤流程結束時
-                PLC_All[i].RecordingFinished += info =>
+                PLC_All[i].RecordingFinished += e =>
                                                 {
-                                                    //if (info.ProcessCount > 0)
-                                                    //{
-                                                    //!寫入資料庫，上傳
-                                                    AddRecordToDB?.Invoke((index, info));
+                                                    if (e.productInfo.Count > 0)
+                                                    {
+                                                        //!寫入資料庫，上傳
+                                                        var infos = new List<ProcessInfo>();
 
-                                                    //!完成上傳後，清空生產資訊
-                                                    info.Clear();
+                                                        foreach (var info in e.productInfo)
+                                                        {
+                                                            infos.Add(new ProcessInfo(e.baseInfo, info));
+                                                            TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
+                                                        }
 
-                                                    TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
-                                                    dialog?.Show(new Dictionary<Language, string>
-                                                                 {
-                                                                     { Language.TW, "第" + (index + 1) + "站已完成烘烤!" },
-                                                                     { Language.CHS, "第" + (index + 1) + "站已完成烘烤!" },
-                                                                     { Language.EN, "Oven No" + (index + 1) + "has been finished!" }
-                                                                 },
-                                                                 TimeSpan.FromSeconds(2));
-                                                    //}
+                                                        AddRecordToDB?.Invoke((index, infos));
+
+                                                        //!完成上傳後，清空生產資訊
+                                                        dialog?.Show(new Dictionary<Language, string>
+                                                                     {
+                                                                         { Language.TW, "第" + (index + 1) + "站已完成烘烤!" },
+                                                                         { Language.CHS, "第" + (index + 1) + "站已完成烘烤!" },
+                                                                         { Language.EN, "Oven No" + (index + 1) + "has been finished!" }
+                                                                     },
+                                                                     TimeSpan.FromSeconds(2));
+                                                    }
                                                 };
 
                 //!由OP變更設備代碼時

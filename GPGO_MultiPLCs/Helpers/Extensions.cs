@@ -219,6 +219,35 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>物件深層拷貝，產生一新物件(僅限public屬性和field)</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
+        public static T Copy<T>(this T source) where T : new()
+        {
+            var type = typeof(T);
+            var target = new T();
+
+            foreach (var sourceProperty in type.GetProperties())
+            {
+                var targetProperty = type.GetProperty(sourceProperty.Name);
+                if (targetProperty != null && targetProperty.CanWrite)
+                {
+                    targetProperty.SetValue(target, sourceProperty.GetValue(source, null), null);
+                }
+            }
+
+            foreach (var sourceField in type.GetFields())
+            {
+                var targetField = type.GetField(sourceField.Name);
+                if (!targetField.IsInitOnly)
+                {
+                    targetField.SetValue(target, sourceField.GetValue(source));
+                }
+            }
+
+            return target;
+        }
+
+        /// <summary>物件深層拷貝(僅限public屬性和field)</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
         /// <param name="target"></param>
         public static void CopyAll<T>(this T source, T target)
         {
@@ -235,6 +264,34 @@ namespace GPGO_MultiPLCs.Helpers
             foreach (var sourceField in type.GetFields())
             {
                 var targetField = type.GetField(sourceField.Name);
+                if (!targetField.IsInitOnly)
+                {
+                    targetField.SetValue(target, sourceField.GetValue(source));
+                }
+            }
+        }
+
+        /// <summary>物件嘗試深層拷貝(僅限public屬性和field)</summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void CopyAll<T1, T2>(this T1 source, T2 target)
+        {
+            var type1 = typeof(T1);
+            var type2 = typeof(T2);
+            foreach (var sourceProperty in type1.GetProperties())
+            {
+                var targetProperty = type2.GetProperty(sourceProperty.Name);
+                if (targetProperty != null && targetProperty.CanWrite)
+                {
+                    targetProperty.SetValue(target, sourceProperty.GetValue(source, null), null);
+                }
+            }
+
+            foreach (var sourceField in type1.GetFields())
+            {
+                var targetField = type2.GetField(sourceField.Name);
                 if (!targetField.IsInitOnly)
                 {
                     targetField.SetValue(target, sourceField.GetValue(source));

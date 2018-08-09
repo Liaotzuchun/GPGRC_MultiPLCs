@@ -220,8 +220,7 @@
                                                     BorderThickness="0,0,0,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding Process_Info.ProcessNumber, Mode=OneWay}" />
+                                                        VerticalAlignment="Center"/>
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -265,9 +264,9 @@
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Process_Info.ProcessCount, Mode=OneWay}" />
+                                                        <TextBlock />
                                                         <TextBlock Text=" / " />
-                                                        <TextBlock Text="{Binding Process_Info.OrderCount, Mode=OneWay}" />
+                                                        <TextBlock />
                                                     </StackPanel>
                                                 </Border>
                                                 <Border
@@ -288,8 +287,7 @@
                                                     BorderThickness="0,1,1,0">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding Process_Info.OrderCode, Mode=OneWay}" />
+                                                        VerticalAlignment="Center"/>
                                                 </Border>
                                                 <Border
                                                     Grid.Row="2"

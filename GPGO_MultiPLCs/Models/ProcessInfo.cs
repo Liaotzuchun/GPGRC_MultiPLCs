@@ -16,42 +16,20 @@ namespace GPGO_MultiPLCs.Models
     }
 
     [BsonIgnoreExtraElements]
-    public class ProcessInfo : ViewModelBase
+    public class BaseInfo : ViewModelBase
     {
-        private CodeType _CodeType = CodeType.Panel;
         private DateTime _EndTime;
         private ObservableConcurrentCollection<RecordEvent> _EventList = new ObservableConcurrentCollection<RecordEvent>();
-        private bool _FirstPanel;
         private int _HeatingTime;
         private string _MachineCode = "";
         private string _OperatorID = "";
-        private string _OrderCode = "";
-        private int _OrderCount;
-        private int _ProcessCount;
-        private int _ProcessNumber;
-        private string _ProduceCode = "";
         private string _RecipeName = "";
         private ObservableConcurrentCollection<RecordTemperatures> _RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
-        private string _Side = "";
         private DateTime _StartTime;
         private double _TargetOvenTemperature;
         private int _TotalHeatingTime;
         private string _TrolleyCode = "";
         private int _WarmingTime;
-
-        /// <summary>條碼類型</summary>
-        [EN_Name("Code Type")]
-        [CHT_Name("條碼類型")]
-        [CHS_Name("条码类型")]
-        public CodeType CodeType
-        {
-            get => _CodeType;
-            set
-            {
-                _CodeType = value;
-                NotifyPropertyChanged();
-            }
-        }
 
         /// <summary>結束時間</summary>
         [EN_Name("Closing Time")]
@@ -77,20 +55,6 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _EventList = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>是否為首件</summary>
-        [EN_Name("First Article")]
-        [CHT_Name("首件")]
-        [CHS_Name("首件")]
-        public bool FirstPanel
-        {
-            get => _FirstPanel;
-            set
-            {
-                _FirstPanel = value;
                 NotifyPropertyChanged();
             }
         }
@@ -137,76 +101,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>工單號</summary>
-        [EN_Name("Order")]
-        [CHT_Name("工單")]
-        [CHS_Name("工单")]
-        public string OrderCode
-        {
-            get => _OrderCode;
-            set
-            {
-                _OrderCode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>工單材料總量</summary>
-        [EN_Name("Order Quantity")]
-        [CHT_Name("工單總量")]
-        [CHS_Name("工单总量")]
-        public int OrderCount
-        {
-            get => _OrderCount;
-            set
-            {
-                _OrderCount = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>單一製造序材料數量</summary>
-        [EN_Name("Quantity")]
-        [CHT_Name("數量")]
-        [CHS_Name("数量")]
-        public int ProcessCount
-        {
-            get => _ProcessCount;
-            set
-            {
-                _ProcessCount = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>製造序</summary>
-        [EN_Name("SN")]
-        [CHT_Name("序號")]
-        [CHS_Name("序号")]
-        public int ProcessNumber
-        {
-            get => _ProcessNumber;
-            set
-            {
-                _ProcessNumber = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>條碼 = OrderCode + ProcessNumber</summary>
-        [EN_Name("Product ID")]
-        [CHT_Name("產品編號")]
-        [CHS_Name("产品编号")]
-        public string ProduceCode
-        {
-            get => _ProduceCode;
-            set
-            {
-                _ProduceCode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         /// <summary>配方名</summary>
         [EN_Name("Recipe")]
         [CHT_Name("配方")]
@@ -231,20 +125,6 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _RecordTemperatures = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>正反面</summary>
-        [EN_Name("Side")]
-        [CHT_Name("正反面")]
-        [CHS_Name("正反面")]
-        public string Side
-        {
-            get => _Side;
-            set
-            {
-                _Side = value;
                 NotifyPropertyChanged();
             }
         }
@@ -319,7 +199,19 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        private static string GetName(PropertyInfo info, Language lng)
+        /// <summary>初始化清除資訊</summary>
+        public void Clear()
+        {
+            EventList.Clear();
+            RecordTemperatures.Clear();
+
+            StartTime = new DateTime();
+            EndTime = new DateTime();
+            OperatorID = "";
+            TrolleyCode = "";
+        }
+
+        protected string GetName(PropertyInfo info, Language lng)
         {
             switch (lng)
             {
@@ -337,20 +229,63 @@ namespace GPGO_MultiPLCs.Models
                     return info.Name;
             }
         }
+    }
 
-        /// <summary>初始化清除資訊</summary>
-        public void Clear()
-        {
-            StartTime = new DateTime();
-            EndTime = new DateTime();
-            OperatorID = "";
-            OrderCode = "";
-            OrderCount = 0;
-            ProcessCount = 0;
-            ProcessNumber = 0;
-            ProduceCode = "";
-            TrolleyCode = "";
-        }
+    public class ProductInfo
+    {
+        public CodeType CodeType { get; set; } = CodeType.Panel;
+        public bool FirstPanel { get; set; }
+        public string OrderCode { get; set; } = "";
+        public int OrderCount { get; set; }
+        public int ProcessCount { get; set; }
+        public int ProcessNumber { get; set; }
+        public string Side { get; set; } = "";
+    }
+
+    [BsonIgnoreExtraElements]
+    public class ProcessInfo : BaseInfo
+    {
+        /// <summary>條碼類型</summary>
+        [EN_Name("Code Type")]
+        [CHT_Name("條碼類型")]
+        [CHS_Name("条码类型")]
+        public CodeType CodeType { get; set; }
+
+        /// <summary>是否為首件</summary>
+        [EN_Name("First Article")]
+        [CHT_Name("首件")]
+        [CHS_Name("首件")]
+        public bool FirstPanel { get; set; }
+
+        /// <summary>工單號</summary>
+        [EN_Name("Order")]
+        [CHT_Name("工單")]
+        [CHS_Name("工单")]
+        public string OrderCode { get; set; }
+
+        /// <summary>工單材料總量</summary>
+        [EN_Name("Order Quantity")]
+        [CHT_Name("工單總量")]
+        [CHS_Name("工单总量")]
+        public int OrderCount { get; set; }
+
+        /// <summary>單一製造序材料數量</summary>
+        [EN_Name("Quantity")]
+        [CHT_Name("數量")]
+        [CHS_Name("数量")]
+        public int ProcessCount { get; set; }
+
+        /// <summary>製造序</summary>
+        [EN_Name("SN")]
+        [CHT_Name("序號")]
+        [CHS_Name("序号")]
+        public int ProcessNumber { get; set; }
+
+        /// <summary>正反面</summary>
+        [EN_Name("Side")]
+        [CHT_Name("正反面")]
+        [CHS_Name("正反面")]
+        public string Side { get; set; }
 
         /// <summary>匯出成Dictionary</summary>
         /// <param name="lng">語系</param>
@@ -376,53 +311,63 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>輸出客戶指定之文字字串</summary>
         /// <returns></returns>
-        public new string ToString()
+        public string ToString(string ProduceCode)
         {
             var stb = new StringBuilder();
             stb.Append("General1=");
-            stb.AppendLine(_OrderCode);
+            stb.AppendLine(OrderCode);
             stb.Append("General2=");
-            stb.AppendLine(_ProcessNumber.ToString("000"));
+            stb.AppendLine(ProcessNumber.ToString("000"));
             stb.Append("General3=");
-            stb.AppendLine(_StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            stb.AppendLine(StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
             stb.Append("General4=");
-            stb.AppendLine(_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            stb.AppendLine(EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
             stb.Append("General5=");
-            stb.AppendLine(_MachineCode);
+            stb.AppendLine(MachineCode);
             stb.Append("General6=");
-            stb.AppendLine(_CodeType.ToString());
+            stb.AppendLine(CodeType.ToString());
             stb.Append("General7=");
-            stb.AppendLine(_ProduceCode);
+            stb.AppendLine(ProduceCode);
             stb.Append("General8=");
-            stb.AppendLine(_RecipeName);
+            stb.AppendLine(RecipeName);
             stb.Append("General9=");
-            stb.AppendLine(_ProcessCount.ToString());
+            stb.AppendLine(ProcessCount.ToString());
             stb.Append("General10=");
-            stb.AppendLine(_OrderCount.ToString());
+            stb.AppendLine(OrderCount.ToString());
             stb.Append("General11=");
-            stb.AppendLine(_OperatorID);
+            stb.AppendLine(OperatorID);
             stb.Append("General12=");
             stb.AppendLine("");
             stb.Append("General13=");
-            stb.AppendLine(_Side);
+            stb.AppendLine(Side);
             stb.Append("General14=");
             stb.AppendLine("");
             stb.Append("General15=");
-            stb.AppendLine(_FirstPanel ? "Y" : "N");
+            stb.AppendLine(FirstPanel ? "Y" : "N");
             stb.Append("Machine1=");
-            stb.AppendLine(_TrolleyCode);
+            stb.AppendLine(TrolleyCode);
             stb.Append("Machine2=");
-            stb.AppendLine(_TargetOvenTemperature.ToString("0"));
+            stb.AppendLine(TargetOvenTemperature.ToString("0"));
             stb.Append("Machine3=");
-            stb.AppendLine(_WarmingTime.ToString());
+            stb.AppendLine(WarmingTime.ToString());
             stb.Append("Machine4=");
-            stb.AppendLine(_HeatingTime.ToString());
+            stb.AppendLine(HeatingTime.ToString());
             stb.Append("Machine5=");
-            stb.AppendLine(_TotalHeatingTime.ToString());
+            stb.AppendLine(TotalHeatingTime.ToString());
             stb.Append("Machine6=");
             stb.AppendLine("");
 
             return stb.ToString();
+        }
+
+        public ProcessInfo()
+        {
+        }
+
+        public ProcessInfo(BaseInfo baseInfo, ProductInfo productInfo)
+        {
+            baseInfo.CopyAll(this);
+            productInfo.CopyAll(this);
         }
 
         #region 此區由TraceabilityView_ViewModel新增至資料庫時填入

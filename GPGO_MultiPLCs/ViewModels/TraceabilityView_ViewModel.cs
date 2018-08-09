@@ -341,6 +341,37 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>新增至資料庫</summary>
+        /// <param name="index">PLC序號，由0開始(寫入時會自動+1)</param>
+        /// <param name="infos">紀錄資訊</param>
+        /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
+        /// <param name="UpdateResult">決定是否更新Ram Data</param>
+        public async void AddToDB(int index, ICollection<ProcessInfo> infos, DateTime dateTime = default(DateTime), bool UpdateResult = false)
+        {
+            var n = 0;
+
+            foreach (var info in infos)
+            {
+                info.StationNumber = index + 1;
+                info.AddedTime = dateTime == default(DateTime) ? DateTime.Now.AddMilliseconds(n) : dateTime.AddMilliseconds(n);
+                n++;
+
+                try
+                {
+                    await ProcessInfoCollection.InsertOneAsync(info);
+
+                    if (UpdateResult)
+                    {
+                        Results = await (await ProcessInfoCollection.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1))).ToListAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorRecoder.RecordError(ex, "生產紀錄寫入資料庫失敗");
+                }
+            }
+        }
+
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
         /// <param name="save_path"></param>
         public async void SaveToExcel(string save_path)

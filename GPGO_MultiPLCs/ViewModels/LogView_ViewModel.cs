@@ -16,11 +16,11 @@ namespace GPGO_MultiPLCs.ViewModels
         private DateTime _Date2;
         private int _Index1;
         private int _Index2;
+        private FilterGroup _OvenFilter;
         private List<LogEvent> _Results;
         private bool _Standby = true;
-        private List<LogEvent> _ViewResults;
         private FilterGroup _TypeFilter;
-        private FilterGroup _OvenFilter;
+        private List<LogEvent> _ViewResults;
 
         /// <summary>位移+1天</summary>
         public RelayCommand AddDayCommand { get; }
@@ -154,24 +154,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>基於配方的Filter</summary>
-        public FilterGroup TypeFilter
-        {
-            get => _TypeFilter;
-            set
-            {
-                if (_TypeFilter != null)
-                {
-                    _TypeFilter.StatusChanged -= UpdateViewResult;
-                }
-
-                _TypeFilter = value;
-                _TypeFilter.StatusChanged += UpdateViewResult;
-
-                NotifyPropertyChanged();
-            }
-        }
-
         /// <summary>資料庫查詢結果</summary>
         public List<LogEvent> Results
         {
@@ -196,6 +178,24 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 _Standby = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>基於配方的Filter</summary>
+        public FilterGroup TypeFilter
+        {
+            get => _TypeFilter;
+            set
+            {
+                if (_TypeFilter != null)
+                {
+                    _TypeFilter.StatusChanged -= UpdateViewResult;
+                }
+
+                _TypeFilter = value;
+                _TypeFilter.StatusChanged += UpdateViewResult;
+
                 NotifyPropertyChanged();
             }
         }

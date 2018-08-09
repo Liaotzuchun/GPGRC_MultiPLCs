@@ -46,7 +46,10 @@ namespace GPGO_MultiPLCs.Models
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
         /// <summary>紀錄的資訊</summary>
-        public ProcessInfo Process_Info { get; }
+        public BaseInfo Process_Info { get; }
+
+        /// <summary>前製程資訊</summary>
+        public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new ObservableConcurrentCollection<ProductInfo>();
 
         /// <summary>生產進度</summary>
         public double Progress
@@ -132,7 +135,7 @@ namespace GPGO_MultiPLCs.Models
                                                 Process_Info.EndTime = DateTime.Now;
                                                 CheckInCommand.Result = false;
 
-                                                RecordingFinished?.Invoke(Process_Info);
+                                                RecordingFinished?.Invoke((Process_Info.Copy(), Ext_Info.ToArray()));
                                             });
 
                 NotifyPropertyChanged(nameof(IsRecording));
@@ -154,7 +157,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
-        public event Action<ProcessInfo> RecordingFinished;
+        public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
         public event Action<(string RecipeName, AutoResetEvent Lock)> StartRecording;
         public event Action<string> SwitchRecipeEvent;
 
@@ -200,9 +203,6 @@ namespace GPGO_MultiPLCs.Models
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            Process_Info.EventList.Clear();
-                                            Process_Info.RecordTemperatures.Clear();
-
                                             LockHandle.WaitOne();
 
                                             var n = TimeSpan.Zero;
@@ -402,12 +402,12 @@ namespace GPGO_MultiPLCs.Models
                                                         Process_Info.Clear();
                                                     });
 
-            Process_Info = new ProcessInfo();
+            Process_Info = new BaseInfo();
             Process_Info.PropertyChanged += (s, e) =>
                                             {
-                                                if (e.PropertyName == nameof(ProcessInfo.MachineCode))
+                                                if (e.PropertyName == nameof(BaseInfo.MachineCode))
                                                 {
-                                                    MachineCodeChanged?.Invoke((s as ProcessInfo)?.MachineCode);
+                                                    MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
                                                 }
                                             };
 

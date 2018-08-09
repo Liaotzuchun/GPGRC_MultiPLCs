@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Driver;
@@ -47,11 +50,11 @@ namespace GPGO_MultiPLCs
         public readonly MongoClient Mongo;
 
         public GlobalDialog_ViewModel DialogVM { get; }
+        public LogView_ViewModel LogVM { get; }
         public MainWindow_ViewModel MainVM { get; }
         public RecipeControl_ViewModel RecipeVM { get; }
         public TotalView_ViewModel TotalVM { get; }
         public TraceabilityView_ViewModel TraceVM { get; }
-        public LogView_ViewModel LogVM { get; }
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
@@ -94,14 +97,7 @@ namespace GPGO_MultiPLCs
 
                     for (var k = 0; k < 8; k++)
                     {
-                        var info = new ProcessInfo
-                                   {
-                                       OrderCode = order_code[rn.Next(0, order_code.Length)],
-                                       ProcessCount = rn.Next(50, 100),
-                                       StartTime = st,
-                                       TrolleyCode = rn.Next(1, 100).ToString("000"),
-                                       OperatorID = rn.Next(1, 10).ToString("000")
-                                   };
+                        var info = new ProcessInfo { StartTime = st, TrolleyCode = rn.Next(1, 100).ToString("000"), OperatorID = rn.Next(1, 10).ToString("000") };
 
                         var t = new TimeSpan();
                         for (var m = 0; m < 100; m++)
@@ -135,7 +131,25 @@ namespace GPGO_MultiPLCs
 
                         st = info.EndTime + TimeSpan.FromMinutes(10);
 
-                        TraceVM.AddToDB(i, info, info.EndTime.AddMinutes(1));
+                        var infos = new List<ProcessInfo>();
+                        var temp = new List<int>();
+                        var n = rn.Next(0, 3);
+                        for (var p = 0; p <= n; p++)
+                        {
+                            var _info = info.Copy();
+                            var index = rn.Next(0, order_code.Length);
+                            while (temp.Contains(index))
+                            {
+                                index = rn.Next(0, order_code.Length);
+                            }
+                            temp.Add(index);
+                            _info.OrderCode = order_code[index];
+                            _info.ProcessCount = rn.Next(10, 20);
+
+                            infos.Add(_info);
+                        }
+
+                        TraceVM.AddToDB(i, infos, info.EndTime.AddMinutes(1));
                     }
                 }
             }
@@ -202,25 +216,44 @@ namespace GPGO_MultiPLCs
                                   };
 
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾
-            TotalVM.AddRecordToDB += e =>
+            TotalVM.AddRecordToDB += async e =>
                                      {
-                                         TraceVM.AddToDB(e.StationIndex, e.Info);
+                                         TraceVM.AddToDB(e.StationIndex, e.Infos);
 
                                          if (!Directory.Exists(DataOutputPath))
                                          {
                                              Directory.CreateDirectory(DataOutputPath);
                                          }
 
-                                         var path = DataOutputPath + "\\" + e.Info.ProduceCode + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (e.StationIndex + 1).ToString() + "_";
+                                         await Task.Factory.StartNew(() =>
+                                                                     {
+                                                                         foreach (var info in e.Infos)
+                                                                         {
+                                                                             for (var i = 1; i <= info.ProcessCount; i++)
+                                                                             {
+                                                                                 var ProduceCode = info.OrderCode + (i + info.ProcessNumber).ToString("000");
 
-                                         var n = 1;
-                                         while (File.Exists(path + n.ToString()))
-                                         {
-                                             n++;
-                                         }
+                                                                                 var path = DataOutputPath +
+                                                                                            "\\" +
+                                                                                            ProduceCode +
+                                                                                            "_" +
+                                                                                            DateTime.Now.ToString("yyyyMMddHHmmssfff") +
+                                                                                            "_" +
+                                                                                            (e.StationIndex + 1) +
+                                                                                            "_";
 
-                                         File.WriteAllText(path + n.ToString(), e.Info.ToString(), Encoding.ASCII);
-                                         //!紀錄資料到指定輸出資料夾
+                                                                                 var n = 1;
+                                                                                 while (File.Exists(path + n))
+                                                                                 {
+                                                                                     n++;
+                                                                                 }
+
+                                                                                 File.WriteAllText(path + n, info.ToString(ProduceCode), Encoding.ASCII);
+                                                                                 //!紀錄資料到指定輸出資料夾
+                                                                             }
+                                                                         }
+                                                                     },
+                                                                     TaskCreationOptions.LongRunning);
                                      };
 
             //!更新每日產量
