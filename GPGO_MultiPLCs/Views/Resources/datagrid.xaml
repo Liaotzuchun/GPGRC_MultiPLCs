@@ -174,7 +174,6 @@
                                             x:Name="PART_ScrollContentPresenter"
                                             Grid.Row="1"
                                             Grid.ColumnSpan="2"
-                                            Margin="0,0,0,-1"
                                             CanContentScroll="{TemplateBinding CanContentScroll}" />
                                         <ScrollBar
                                             x:Name="PART_VerticalScrollBar"
@@ -183,7 +182,7 @@
                                             Maximum="{TemplateBinding ScrollableHeight}"
                                             Orientation="Vertical"
                                             ViewportSize="{TemplateBinding ViewportHeight}"
-                                            Visibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                            Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                             Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                         <Grid
                                             Grid.Row="2"

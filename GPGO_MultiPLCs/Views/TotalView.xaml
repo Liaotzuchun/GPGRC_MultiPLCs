@@ -287,9 +287,11 @@
                                                                 Width="200"
                                                                 AlternationCount="2147483647"
                                                                 AutoGenerateColumns="False"
+                                                                BorderThickness="1,1,0,0"
                                                                 IsHitTestVisible="False"
                                                                 ItemsSource="{Binding Ext_Info, Mode=OneWay}"
-                                                                RowHeaderTemplate="{StaticResource ShowRowNumbers}">
+                                                                RowHeaderTemplate="{StaticResource ShowRowNumbers}"
+                                                                VerticalScrollBarVisibility="Disabled">
                                                                 <DataGrid.Columns>
                                                                     <DataGridTemplateColumn Width="*">
                                                                         <DataGridTemplateColumn.Header>
