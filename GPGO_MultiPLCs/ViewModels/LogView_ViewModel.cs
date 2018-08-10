@@ -142,11 +142,6 @@ namespace GPGO_MultiPLCs.ViewModels
             get => _OvenFilter;
             set
             {
-                if (_OvenFilter != null)
-                {
-                    _OvenFilter.StatusChanged -= UpdateViewResult;
-                }
-
                 _OvenFilter = value;
                 _OvenFilter.StatusChanged += UpdateViewResult;
 
@@ -188,11 +183,6 @@ namespace GPGO_MultiPLCs.ViewModels
             get => _TypeFilter;
             set
             {
-                if (_TypeFilter != null)
-                {
-                    _TypeFilter.StatusChanged -= UpdateViewResult;
-                }
-
                 _TypeFilter = value;
                 _TypeFilter.StatusChanged += UpdateViewResult;
 
