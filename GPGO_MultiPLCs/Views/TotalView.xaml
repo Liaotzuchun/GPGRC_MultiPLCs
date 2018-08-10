@@ -291,10 +291,20 @@
                                                                 ItemsSource="{Binding Ext_Info, Mode=OneWay}"
                                                                 RowHeaderTemplate="{StaticResource ShowRowNumbers}">
                                                                 <DataGrid.Columns>
-                                                                    <DataGridTextColumn
-                                                                        Width="*"
-                                                                        Binding="{Binding OrderCode, Mode=OneWay}"
-                                                                        Header="{DynamicResource 工單}" />
+                                                                    <DataGridTemplateColumn Width="*">
+                                                                        <DataGridTemplateColumn.Header>
+                                                                            <TextBlock Text="{DynamicResource 工單}" />
+                                                                        </DataGridTemplateColumn.Header>
+                                                                        <DataGridTemplateColumn.CellTemplate>
+                                                                            <DataTemplate DataType="models:ProductInfo">
+                                                                                <TextBlock
+                                                                                    HorizontalAlignment="Center"
+                                                                                    VerticalAlignment="Center"
+                                                                                    Text="{Binding OrderCode, Mode=OneWay}"
+                                                                                    TextTrimming="CharacterEllipsis" />
+                                                                            </DataTemplate>
+                                                                        </DataGridTemplateColumn.CellTemplate>
+                                                                    </DataGridTemplateColumn>
                                                                     <DataGridTextColumn
                                                                         Width="Auto"
                                                                         Binding="{Binding ProcessNumber, Mode=OneWay, StringFormat=\{0:D3\}}"
@@ -1702,7 +1712,6 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                         <CheckBox
-                                            HorizontalAlignment="Center"
                                             Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                             IsChecked="{Binding ProgramStop, Mode=OneWay}"
                                             Style="{StaticResource SignalView}" />
@@ -1712,7 +1721,6 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                         <CheckBox
-                                            HorizontalAlignment="Center"
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
                                             Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -1724,7 +1732,6 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                         <CheckBox
-                                            HorizontalAlignment="Center"
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
                                             Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -1749,7 +1756,6 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                         <CheckBox
-                                            HorizontalAlignment="Center"
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
                                             Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -1774,7 +1780,6 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                         <CheckBox
-                                            HorizontalAlignment="Center"
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
                                             Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -1786,7 +1791,6 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                         <CheckBox
-                                            HorizontalAlignment="Center"
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
                                             Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
