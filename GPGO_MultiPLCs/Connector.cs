@@ -102,7 +102,7 @@ namespace GPGO_MultiPLCs
                         var t = new TimeSpan();
                         for (var m = 0; m < 100; m++)
                         {
-                            if(rn.Next(0, 100) > 90)
+                            if(rn.Next(0, 100) > 96)
                             {
                                 LogVM.AddToDB(new LogEvent { StationNumber = i + 1, Time = time + t, Description = "", Type = (EventType)rn.Next(0, 3) });
                             }

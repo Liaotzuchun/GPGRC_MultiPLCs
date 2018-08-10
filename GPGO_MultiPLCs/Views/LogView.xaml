@@ -526,7 +526,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
-                                <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
+                                <TextBlock Text="{Binding Type, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
