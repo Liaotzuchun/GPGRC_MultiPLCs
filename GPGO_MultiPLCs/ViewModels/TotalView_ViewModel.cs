@@ -125,6 +125,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, string RecipeName, AutoResetEvent Lock)> WantRecipe;
 
+        public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
+
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
         {
@@ -493,6 +495,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                 TimeSpan.FromSeconds(1),
                                                                 DialogMsgType.Alarm);
                                                };
+
+                //!PLC事件紀錄
+                PLC_All[i].EventHappened += e =>
+                                            {
+                                                EventHappened?.Invoke((index, e.type, e.time, e.note));
+                                            };
             }
 
             LoadMachineCodes();

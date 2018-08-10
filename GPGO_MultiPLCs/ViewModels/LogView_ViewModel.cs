@@ -182,7 +182,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>基於配方的Filter</summary>
+        /// <summary>基於事件類型的Filter</summary>
         public FilterGroup TypeFilter
         {
             get => _TypeFilter;
@@ -212,10 +212,9 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>新增至資料庫</summary>
-        /// <param name="index">PLC序號，由0開始(寫入時會自動+1)</param>
         /// <param name="ev">紀錄資訊</param>
         /// <param name="UpdateResult">決定是否更新Ram Data</param>
-        public async void AddToDB(int index, LogEvent ev, bool UpdateResult = false)
+        public async void AddToDB(LogEvent ev, bool UpdateResult = false)
         {
             try
             {
@@ -228,7 +227,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorRecoder.RecordError(ex, "生產紀錄寫入資料庫失敗");
+                ErrorRecoder.RecordError(ex, "事件紀錄寫入資料庫失敗");
             }
         }
 
@@ -259,7 +258,6 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             EventCollection = mongo;
 
-            //!定義更新圖表的委派
             void Act()
             {
                 NotifyPropertyChanged(nameof(Date1));

@@ -163,6 +163,7 @@ namespace GPGO_MultiPLCs.Models
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
         public event Action<(string RecipeName, AutoResetEvent Lock)> StartRecording;
         public event Action<string> SwitchRecipeEvent;
+        public event Action<(EventType type, DateTime time, string note)> EventHappened;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
@@ -535,6 +536,8 @@ namespace GPGO_MultiPLCs.Models
                                              {
                                                  if (key == SignalNames.自動啟動)
                                                  {
+                                                     EventHappened?.Invoke((EventType.Normal, DateTime.Now, key.ToString()));
+
                                                      if (IsRecording)
                                                      {
                                                          CTS?.Cancel();
@@ -554,16 +557,19 @@ namespace GPGO_MultiPLCs.Models
                                                  {
                                                      if (key == SignalNames.自動停止 || key == SignalNames.程式結束)
                                                      {
+                                                         EventHappened?.Invoke((EventType.Normal, DateTime.Now, key.ToString()));
                                                          AddProcessEvent(EventType.Normal, sw.Elapsed, key.ToString());
                                                          CTS?.Cancel();
                                                      }
                                                      else if (key == SignalNames.緊急停止 || key == SignalNames.電源反相 || key == SignalNames.循環風車過載 || key == SignalNames.循環風車INV異常)
                                                      {
+                                                         EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key.ToString()));
                                                          AddProcessEvent(EventType.Alarm, sw.Elapsed, key.ToString());
                                                          CTS?.Cancel();
                                                      }
                                                      else if (key == SignalNames.降溫中)
                                                      {
+                                                         EventHappened?.Invoke((EventType.Normal, DateTime.Now, key.ToString()));
                                                          AddProcessEvent(EventType.Normal, sw.Elapsed, key.ToString());
                                                          NotifyPropertyChanged(nameof(ProgressStatus));
                                                      }

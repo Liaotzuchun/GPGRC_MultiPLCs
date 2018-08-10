@@ -256,6 +256,11 @@ namespace GPGO_MultiPLCs
                                                                      TaskCreationOptions.LongRunning);
                                      };
 
+            TotalVM.EventHappened += e =>
+                                     {
+                                         LogVM.AddToDB(new LogEvent { StationNumber = e.StationIndex, Time = e.time, Type = e.type, Description = e.note });
+                                     };
+
             //!更新每日產量
             TraceVM.TodayProductionUpdated += datas =>
                                               {
