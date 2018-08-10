@@ -87,7 +87,7 @@ namespace GPGO_MultiPLCs
             var order_code = new[] { "ooxx", "abc", "zzz", "qoo", "boom", "xxx", "wunmao" };
             var time = DateTime.Now;
 
-            for (var j = 1; j <= new DateTime(time.Year, time.Month, 1).AddMonths(2).AddDays(-1).Day; j++)
+            for (var j = 1; j <= new DateTime(time.Year, time.Month, 1).AddMonths(1).AddDays(-1).Day; j++)
             {
                 for (var i = 0; i < PLC_Count; i++)
                 {
@@ -102,6 +102,11 @@ namespace GPGO_MultiPLCs
                         var t = new TimeSpan();
                         for (var m = 0; m < 100; m++)
                         {
+                            if(rn.Next(0, 100) > 90)
+                            {
+                                LogVM.AddToDB(new LogEvent { StationNumber = i + 1, Time = time + t, Description = "", Type = (EventType)rn.Next(0, 3) });
+                            }
+                            
                             var mins = (int)t.TotalMinutes + 1;
                             var vals = new RecordTemperatures
                                        {
@@ -258,7 +263,7 @@ namespace GPGO_MultiPLCs
 
             TotalVM.EventHappened += e =>
                                      {
-                                         LogVM.AddToDB(new LogEvent { StationNumber = e.StationIndex, Time = e.time, Type = e.type, Description = e.note });
+                                         LogVM.AddToDB(new LogEvent { StationNumber = e.StationIndex + 1, Time = e.time, Type = e.type, Description = e.note });
                                      };
 
             //!更新每日產量

@@ -251,7 +251,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ? _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).ToList() : null;
+            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ?
+                              _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _OvenFilter.Check(x.StationNumber) && _TypeFilter.Check(x.Type)).ToList() : null;
         }
 
         public LogView_ViewModel(IMongoCollection<LogEvent> mongo)
