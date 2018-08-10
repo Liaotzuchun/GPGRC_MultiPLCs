@@ -109,8 +109,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style
-        TargetType="{x:Type DataGrid}">
+    <Style TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -135,7 +134,6 @@
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
         <Setter Property="RowHeaderStyle" Value="{StaticResource RowHeaderStyle}" />
         <Setter Property="RowStyle" Value="{StaticResource DataGridRowStyle}" />
-        <Setter Property="VerticalScrollBarVisibility" Value="Visible"></Setter>
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="SelectionUnit" Value="FullRow" />
         <Setter Property="Template">
@@ -153,12 +151,12 @@
                                     <Grid ClipToBounds="True">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <Border
@@ -175,7 +173,8 @@
                                         <ScrollContentPresenter
                                             x:Name="PART_ScrollContentPresenter"
                                             Grid.Row="1"
-                                            Grid.ColumnSpan="2" Margin="0,0,0,-1"
+                                            Grid.ColumnSpan="2"
+                                            Margin="0,0,0,-1"
                                             CanContentScroll="{TemplateBinding CanContentScroll}" />
                                         <ScrollBar
                                             x:Name="PART_VerticalScrollBar"
@@ -212,5 +211,6 @@
             </Setter.Value>
         </Setter>
         <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
     </Style>
 </ResourceDictionary>
