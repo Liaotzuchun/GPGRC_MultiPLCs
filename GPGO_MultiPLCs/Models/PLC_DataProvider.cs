@@ -46,10 +46,12 @@ namespace GPGO_MultiPLCs.Models
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
         /// <summary>紀錄的資訊</summary>
-        public BaseInfo Process_Info { get; }
+        public BaseInfo OvenInfo { get; }
 
         /// <summary>前製程資訊</summary>
         public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new ObservableConcurrentCollection<ProductInfo>();
+
+        public int ProcessCounts => Ext_Info.Sum(x => x.ProcessCount);
 
         /// <summary>生產進度</summary>
         public double Progress
@@ -125,17 +127,18 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 _RecordingTask = value;
-                Process_Info.StartTime = DateTime.Now;
+                OvenInfo.StartTime = DateTime.Now;
 
                 _RecordingTask.ContinueWith(x =>
                                             {
                                                 NotifyPropertyChanged(nameof(IsRecording));
 
                                                 x.Dispose();
-                                                Process_Info.EndTime = DateTime.Now;
+                                                OvenInfo.EndTime = DateTime.Now;
                                                 CheckInCommand.Result = false;
 
-                                                RecordingFinished?.Invoke((Process_Info.Copy(), Ext_Info.ToArray()));
+                                                RecordingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
+                                                Ext_Info.Clear();
                                             });
 
                 NotifyPropertyChanged(nameof(IsRecording));
@@ -163,12 +166,12 @@ namespace GPGO_MultiPLCs.Models
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
-            Process_Info.EventList.Add(new RecordEvent { Type = type, Time = time, Description = note });
+            OvenInfo.EventList.Add(new RecordEvent { Type = type, Time = time, Description = note });
         }
 
         public void AddTemperatures(TimeSpan time, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
-            Process_Info.RecordTemperatures.Add(new RecordTemperatures
+            OvenInfo.RecordTemperatures.Add(new RecordTemperatures
                                                 {
                                                     Time = time,
                                                     ThermostatTemperature = t0,
@@ -355,15 +358,19 @@ namespace GPGO_MultiPLCs.Models
 
                                                                  if (result2)
                                                                  {
-                                                                     Process_Info.OperatorID = intput1;
-                                                                     Process_Info.TrolleyCode = intput2;
+                                                                     OvenInfo.OperatorID = intput1;
+                                                                     OvenInfo.TrolleyCode = intput2;
 
                                                                      //? 取得上位資訊(料號、總量、投產量)
+                                                                     Ext_Info.Clear();
+                                                                     Ext_Info.Add(new ProductInfo { CodeType = CodeType.Panel, FirstPanel = false, OrderCode = "ooxxabc", Side = "A", ProcessNumber = 2, ProcessCount = 11, OrderCount = 20 });
+                                                                     Ext_Info.Add(new ProductInfo { CodeType = CodeType.Panel, FirstPanel = false, OrderCode = "qooqoo", Side = "A", ProcessNumber = 3, ProcessCount = 12, OrderCount = 30 });
+                                                                     //todo 待完成
 
                                                                      SwitchRecipeEvent?.Invoke(_Selected_Name); //! 投產成功，獲取配方參數並寫入PLC
 
-                                                                     Process_Info.RecipeName = RecipeName;
-                                                                     Process_Info.HeatingTime = new int[]
+                                                                     OvenInfo.RecipeName = RecipeName;
+                                                                     OvenInfo.HeatingTime = new int[]
                                                                                                 {
                                                                                                     HeatingTime_1,
                                                                                                     HeatingTime_2,
@@ -375,7 +382,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                     HeatingTime_8
                                                                                                 }.Sum();
 
-                                                                     Process_Info.WarmingTime = new int[]
+                                                                     OvenInfo.WarmingTime = new int[]
                                                                                                 {
                                                                                                     WarmingTime_1,
                                                                                                     WarmingTime_2,
@@ -387,8 +394,8 @@ namespace GPGO_MultiPLCs.Models
                                                                                                     WarmingTime_8
                                                                                                 }.Sum();
 
-                                                                     Process_Info.TotalHeatingTime = Process_Info.HeatingTime + Process_Info.HeatingTime;
-                                                                     Process_Info.TargetOvenTemperature = TargetTemperature_1;
+                                                                     OvenInfo.TotalHeatingTime = OvenInfo.HeatingTime + OvenInfo.HeatingTime;
+                                                                     OvenInfo.TargetOvenTemperature = TargetTemperature_1;
 
                                                                      return true;
                                                                  }
@@ -399,11 +406,11 @@ namespace GPGO_MultiPLCs.Models
 
             CancelCheckInCommand = new RelayCommand(e =>
                                                     {
-                                                        Process_Info.Clear();
+                                                        OvenInfo.Clear();
                                                     });
 
-            Process_Info = new BaseInfo();
-            Process_Info.PropertyChanged += (s, e) =>
+            OvenInfo = new BaseInfo();
+            OvenInfo.PropertyChanged += (s, e) =>
                                             {
                                                 if (e.PropertyName == nameof(BaseInfo.MachineCode))
                                                 {
@@ -538,7 +545,7 @@ namespace GPGO_MultiPLCs.Models
                                                      ResetStopTokenSource();
 
                                                      //! 當沒有刷取台車code時，不執行紀錄
-                                                     if (!string.IsNullOrEmpty(Process_Info.TrolleyCode))
+                                                     if (!string.IsNullOrEmpty(OvenInfo.TrolleyCode))
                                                      {
                                                          RecordingTask = StartRecoder(60000, CTS.Token);
                                                      }
@@ -597,6 +604,11 @@ namespace GPGO_MultiPLCs.Models
                                                       NotifyPropertyChanged(nameof(ProgressStatus));
                                                   }
                                               };
+
+            Ext_Info.CollectionChanged += (s, e) =>
+                                          {
+                                              NotifyPropertyChanged(nameof(ProcessCounts));
+                                          };
 
             #endregion
         }

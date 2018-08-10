@@ -6,7 +6,6 @@
     xmlns:helpers="clr-namespace:GPGO_MultiPLCs.Helpers"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
-    xmlns:m="clr-namespace:GPGO_MultiPLCs.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
     xmlns:oxy="http://oxyplot.org/wpf"
@@ -56,10 +55,10 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
-                            <DataTemplate DataType="m:PLC_DataProvider">
+                            <DataTemplate DataType="models:PLC_DataProvider">
                                 <Grid
                                     Margin="1"
-                                    d:DataContext="{d:DesignInstance m:PLC_DataProvider}"
+                                    d:DataContext="{d:DesignInstance models:PLC_DataProvider}"
                                     Background="{StaticResource LightColorBrush}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
@@ -108,7 +107,6 @@
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
                                                 <Border
-                                                    x:Name="Border1"
                                                     Background="{StaticResource WindowBackgroundBrush2}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,0,1,0">
@@ -123,7 +121,7 @@
                                                     <TextBox
                                                         BorderThickness="0"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
-                                                        Text="{Binding Process_Info.MachineCode, Mode=TwoWay}" />
+                                                        Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -172,13 +170,12 @@
                                             Height="0">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="{Binding ActualWidth, ElementName=Border1, Mode=OneWay}" />
+                                                    <ColumnDefinition Width="60" />
                                                     <ColumnDefinition />
-                                                    <ColumnDefinition Width="{Binding ActualWidth, ElementName=Border1, Mode=OneWay}" />
+                                                    <ColumnDefinition Width="60" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition />
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
@@ -199,28 +196,7 @@
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding Process_Info.OperatorID, Mode=OneWay}" />
-                                                </Border>
-                                                <Border
-                                                    Grid.Row="0"
-                                                    Grid.Column="2"
-                                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,0,1,0">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Text="{DynamicResource 製造序}" />
-                                                </Border>
-                                                <Border
-                                                    Grid.Row="0"
-                                                    Grid.Column="3"
-                                                    Background="{StaticResource LightColorBrush}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,0,0,0">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"/>
+                                                        Text="{Binding OvenInfo.OperatorID, Mode=OneWay}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -241,7 +217,40 @@
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{Binding Process_Info.TrolleyCode, Mode=OneWay}" />
+                                                        Text="{Binding OvenInfo.TrolleyCode, Mode=OneWay}" />
+                                                </Border>
+                                                <Border
+                                                    x:Name="Border1"
+                                                    Grid.Column="2"
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,0">
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Text="{DynamicResource 狀態}" />
+                                                </Border>
+                                                <ProgressBar
+                                                    x:Name="Progress"
+                                                    Grid.Column="3"
+                                                    BorderThickness="0,0,1,0"
+                                                    Maximum="1"
+                                                    Value="{Binding Progress, Mode=OneWay}" />
+                                                <TextBlock
+                                                    x:Name="ProgressString"
+                                                    Grid.Column="3"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding ProgressStatus, Mode=OneWay}" />
+                                                <Border
+                                                    Grid.Row="1"
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,1,1,0">
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Text="{DynamicResource 台車}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -259,59 +268,59 @@
                                                     Grid.Column="3"
                                                     Background="{StaticResource LightColorBrush}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,1,0,0">
-                                                    <StackPanel
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Orientation="Horizontal">
-                                                        <TextBlock />
-                                                        <TextBlock Text=" / " />
-                                                        <TextBlock />
-                                                    </StackPanel>
-                                                </Border>
-                                                <Border
-                                                    Grid.Row="2"
-                                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,1,1,0">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Text="{DynamicResource 工單}" />
+                                                    <Grid
+                                                        x:Name="Grid"
+                                                        Background="Transparent">
+                                                        <TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Text="{Binding ProcessCounts, Mode=OneWay}" />
+                                                        <Popup
+                                                            AllowsTransparency="True"
+                                                            Focusable="False"
+                                                            IsOpen="{Binding IsMouseOver, ElementName=Grid, Mode=OneWay}"
+                                                            Placement="Bottom"
+                                                            PopupAnimation="Fade"
+                                                            VerticalOffset="4">
+                                                            <DataGrid
+                                                                Width="200"
+                                                                AlternationCount="2147483647"
+                                                                AutoGenerateColumns="False"
+                                                                IsHitTestVisible="False"
+                                                                ItemsSource="{Binding Ext_Info, Mode=OneWay}"
+                                                                RowHeaderTemplate="{StaticResource ShowRowNumbers}">
+                                                                <DataGrid.Columns>
+                                                                    <DataGridTextColumn
+                                                                        Width="*"
+                                                                        Binding="{Binding OrderCode, Mode=OneWay}"
+                                                                        Header="{DynamicResource 工單}" />
+                                                                    <DataGridTextColumn
+                                                                        Width="Auto"
+                                                                        Binding="{Binding ProcessNumber, Mode=OneWay, StringFormat=\{0:D3\}}"
+                                                                        Header="{DynamicResource 製造序}" />
+                                                                    <DataGridTemplateColumn Width="Auto">
+                                                                        <DataGridTemplateColumn.Header>
+                                                                            <TextBlock Text="{DynamicResource 數量}" />
+                                                                        </DataGridTemplateColumn.Header>
+                                                                        <DataGridTemplateColumn.CellTemplate>
+                                                                            <DataTemplate DataType="models:ProductInfo">
+                                                                                <StackPanel
+                                                                                    HorizontalAlignment="Center"
+                                                                                    VerticalAlignment="Center"
+                                                                                    Orientation="Horizontal">
+                                                                                    <TextBlock Text="{Binding ProcessCount, Mode=OneWay}" />
+                                                                                    <TextBlock Text=" / " />
+                                                                                    <TextBlock Text="{Binding OrderCount, Mode=OneWay}" />
+                                                                                </StackPanel>
+                                                                            </DataTemplate>
+                                                                        </DataGridTemplateColumn.CellTemplate>
+                                                                    </DataGridTemplateColumn>
+                                                                </DataGrid.Columns>
+                                                            </DataGrid>
+                                                        </Popup>
+                                                    </Grid>
                                                 </Border>
-                                                <Border
-                                                    Grid.Row="2"
-                                                    Grid.Column="1"
-                                                    Background="{StaticResource LightColorBrush}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,1,1,0">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"/>
-                                                </Border>
-                                                <Border
-                                                    Grid.Row="2"
-                                                    Grid.Column="2"
-                                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,1,1,0">
-                                                    <TextBlock
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Text="{DynamicResource 狀態}" />
-                                                </Border>
-                                                <ProgressBar
-                                                    x:Name="Progress"
-                                                    Grid.Row="2"
-                                                    Grid.Column="3"
-                                                    Maximum="1"
-                                                    Value="{Binding Progress, Mode=OneWay}" />
-                                                <TextBlock
-                                                    x:Name="ProgressString"
-                                                    Grid.Row="2"
-                                                    Grid.Column="3"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center" />
                                             </Grid>
                                         </TabItem>
                                     </TabControl>
@@ -1846,19 +1855,19 @@
                                     <TextBlock
                                         Margin="8,0"
                                         Foreground="White"
-                                        Visibility="{Binding Process_Info.StartTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
+                                        Visibility="{Binding OvenInfo.StartTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
                                         <Run Text="{DynamicResource 開始時間}" />
                                         <Run Text=":" />
-                                        <Run Text="{Binding Process_Info.StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                                        <Run Text="{Binding OvenInfo.StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
                                     </TextBlock>
                                     <TextBlock
                                         Grid.Column="1"
                                         Margin="8,0"
                                         Foreground="White"
-                                        Visibility="{Binding Process_Info.EndTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
+                                        Visibility="{Binding OvenInfo.EndTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
                                         <Run Text="{DynamicResource 結束時間}" />
                                         <Run Text=":" />
-                                        <Run Text="{Binding Process_Info.EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                                        <Run Text="{Binding OvenInfo.EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
                                     </TextBlock>
                                 </Grid>
                             </GroupBox.Header>
@@ -1872,7 +1881,7 @@
                                     AutoGenerateColumns="False"
                                     BorderThickness="0,0,1,0"
                                     FontSize="11"
-                                    ItemsSource="{Binding Process_Info.EventList, Mode=OneWay, IsAsync=True}">
+                                    ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}">
                                     <DataGrid.RowHeaderTemplate>
                                         <DataTemplate>
                                             <Border
@@ -2006,7 +2015,7 @@
                                             Title="{DynamicResource 爐內溫度8}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_8"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="BurlyWood"
                                             MarkerSize="3"
@@ -2017,7 +2026,7 @@
                                             Title="{DynamicResource 爐內溫度7}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_7"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Brown"
                                             MarkerSize="3"
@@ -2028,7 +2037,7 @@
                                             Title="{DynamicResource 爐內溫度6}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_6"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Magenta"
                                             MarkerSize="3"
@@ -2039,7 +2048,7 @@
                                             Title="{DynamicResource 爐內溫度5}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_5"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="DarkOrchid"
                                             MarkerSize="3"
@@ -2050,7 +2059,7 @@
                                             Title="{DynamicResource 爐內溫度4}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_4"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="DodgerBlue"
                                             MarkerSize="3"
@@ -2061,7 +2070,7 @@
                                             Title="{DynamicResource 爐內溫度3}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_3"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Lime"
                                             MarkerSize="3"
@@ -2072,7 +2081,7 @@
                                             Title="{DynamicResource 爐內溫度2}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_2"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Gold"
                                             MarkerSize="3"
@@ -2083,7 +2092,7 @@
                                             Title="{DynamicResource 爐內溫度1}"
                                             DataFieldX="Time"
                                             DataFieldY="OvenTemperatures_1"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="DarkOrange"
                                             MarkerSize="3"
@@ -2094,7 +2103,7 @@
                                             Title="{DynamicResource 溫控器溫度}"
                                             DataFieldX="Time"
                                             DataFieldY="ThermostatTemperature"
-                                            ItemsSource="{Binding Process_Info.RecordTemperatures, Mode=OneWay}"
+                                            ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                             LineStyle="Solid"
                                             MarkerFill="Red"
                                             MarkerSize="3"

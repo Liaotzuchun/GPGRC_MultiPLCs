@@ -135,6 +135,7 @@
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
         <Setter Property="RowHeaderStyle" Value="{StaticResource RowHeaderStyle}" />
         <Setter Property="RowStyle" Value="{StaticResource DataGridRowStyle}" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Visible"></Setter>
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="SelectionUnit" Value="FullRow" />
         <Setter Property="Template">
@@ -149,7 +150,7 @@
                             Focusable="False">
                             <ScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                                    <Grid>
+                                    <Grid ClipToBounds="True">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*"/>
@@ -174,7 +175,7 @@
                                         <ScrollContentPresenter
                                             x:Name="PART_ScrollContentPresenter"
                                             Grid.Row="1"
-                                            Grid.ColumnSpan="2"
+                                            Grid.ColumnSpan="2" Margin="0,0,0,-1"
                                             CanContentScroll="{TemplateBinding CanContentScroll}" />
                                         <ScrollBar
                                             x:Name="PART_VerticalScrollBar"
@@ -183,7 +184,7 @@
                                             Maximum="{TemplateBinding ScrollableHeight}"
                                             Orientation="Vertical"
                                             ViewportSize="{TemplateBinding ViewportHeight}"
-                                            Visibility="Visible"
+                                            Visibility="{TemplateBinding VerticalScrollBarVisibility}"
                                             Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                         <Grid
                                             Grid.Row="2"

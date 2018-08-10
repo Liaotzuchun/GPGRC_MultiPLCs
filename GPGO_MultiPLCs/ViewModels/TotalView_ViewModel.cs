@@ -136,7 +136,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                     for (var i = 0; i < Math.Min(vals.Length, PLC_All.Length); i++)
                     {
-                        PLC_All[i].Process_Info.MachineCode = vals[i];
+                        PLC_All[i].OvenInfo.MachineCode = vals[i];
                     }
 
                     return;
@@ -148,7 +148,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             for (var i = 0; i < PLC_All.Length; i++)
             {
-                PLC_All[i].Process_Info.MachineCode = "Machine" + (i + 1).ToString("00");
+                PLC_All[i].OvenInfo.MachineCode = "Machine" + (i + 1).ToString("00");
             }
         }
 
@@ -157,7 +157,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                var MachineCodes = PLC_All.Select(x => x.Process_Info.MachineCode).ToArray();
+                var MachineCodes = PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray();
                 File.WriteAllText("MachineCodes.json", JsonConvert.SerializeObject(MachineCodes), Encoding.UTF8);
             }
             catch
