@@ -118,6 +118,7 @@
     <Compile Include="Helpers\BindableBase.cs" />
     <Compile Include="Helpers\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\FilterGroup.cs" />
+    <Compile Include="Helpers\IDataBase.cs" />
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
     <Compile Include="Models\GlobalTempSettings.cs" />
