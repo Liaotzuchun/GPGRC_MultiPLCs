@@ -7,19 +7,15 @@ using Newtonsoft.Json;
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>PC程式參數</summary>
-    public class GlobalTempSettings : ViewModelBase
+    public class GlobalTempSettings : BindableBase
     {
-        private string _DataOutputPath = "D:\\";
-        private Language _Lng = Language.TW;
-
         /// <summary>上傳資料輸出位置</summary>
         public string DataOutputPath
         {
-            get => _DataOutputPath;
+            get => Get<string>();
             set
             {
-                _DataOutputPath = value;
-                NotifyPropertyChanged();
+                Set(value);
 
                 Save();
             }
@@ -28,36 +24,40 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>介面語言</summary>
         public Language Lng
         {
-            get => _Lng;
+            get => Get<Language>();
             set
             {
-                _Lng = value;
-                NotifyPropertyChanged();
+                Set(value);
 
                 Save();
             }
         }
 
+        [JsonIgnore]
+        public string FilePath => "Settings.json";
+        [JsonIgnore]
+        public string FilePathBack => "Settings" + DateTime.Now.Ticks + ".back";
+
         public void Load()
         {
-            if (File.Exists("Settings.json"))
+            if (File.Exists(FilePath))
             {
                 try
                 {
-                    if (JsonConvert.DeserializeObject<GlobalTempSettings>(File.ReadAllText("Settings.json", Encoding.Unicode)) is GlobalTempSettings val)
+                    if (JsonConvert.DeserializeObject<GlobalTempSettings>(File.ReadAllText(FilePath, Encoding.Unicode)) is GlobalTempSettings val)
                     {
                         Lng = val.Lng;
                         DataOutputPath = val.DataOutputPath;
                     }
                     else
                     {
-                        File.Move("Settings.json", "Settings" + DateTime.Now.Ticks + ".back");
+                        File.Move(FilePath, FilePathBack);
                         Save();
                     }
                 }
                 catch
                 {
-                    File.Move("Settings.json", "Settings" + DateTime.Now.Ticks + ".back");
+                    File.Move(FilePath, FilePathBack);
                     Save();
                 }
             }
@@ -71,11 +71,18 @@ namespace GPGO_MultiPLCs.Models
         {
             try
             {
-                File.WriteAllText("Settings.json", JsonConvert.SerializeObject(this, Formatting.Indented), Encoding.Unicode);
+                File.WriteAllText(FilePath, JsonConvert.SerializeObject(this, Formatting.Indented), Encoding.Unicode);
             }
-            catch
+            catch(Exception ex)
             {
+                ErrorRecoder.RecordError(ex);
             }
+        }
+
+        public GlobalTempSettings()
+        {
+            Set("D:", nameof(DataOutputPath));
+            Set(Language.TW, nameof(Lng));
         }
     }
 }

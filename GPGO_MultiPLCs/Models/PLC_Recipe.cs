@@ -6,47 +6,8 @@ namespace GPGO_MultiPLCs.Models
 {
     /// <summary>PLC配方</summary>
     [BsonIgnoreExtraElements]
-    public class PLC_Recipe : ViewModelBase
+    public class PLC_Recipe : BindableBase
     {
-        private short _CoolingTemperature;
-        private short _HeatingTime_1;
-        private short _HeatingTime_2;
-        private short _HeatingTime_3;
-        private short _HeatingTime_4;
-        private short _HeatingTime_5;
-        private short _HeatingTime_6;
-        private short _HeatingTime_7;
-        private short _HeatingTime_8;
-        private short _InflatingTime;
-        private string _RecipeName;
-        private double _TargetTemperature_1;
-        private double _TargetTemperature_2;
-        private double _TargetTemperature_3;
-        private double _TargetTemperature_4;
-        private double _TargetTemperature_5;
-        private double _TargetTemperature_6;
-        private double _TargetTemperature_7;
-        private double _TargetTemperature_8;
-        private double _ThermostaticTemperature_1;
-        private double _ThermostaticTemperature_2;
-        private double _ThermostaticTemperature_3;
-        private double _ThermostaticTemperature_4;
-        private double _ThermostaticTemperature_5;
-        private double _ThermostaticTemperature_6;
-        private double _ThermostaticTemperature_7;
-        private double _ThermostaticTemperature_8;
-        private DateTime _Updated;
-        private bool[] _Used_Stations = new bool[20]; //!定義PLC站數，以供讀取時分配
-        private short _UsedSegmentCounts;
-        private short _WarmingTime_1;
-        private short _WarmingTime_2;
-        private short _WarmingTime_3;
-        private short _WarmingTime_4;
-        private short _WarmingTime_5;
-        private short _WarmingTime_6;
-        private short _WarmingTime_7;
-        private short _WarmingTime_8;
-
         public short SegmentCounts_Max => 8;
         public short SegmentCounts_Min => 1;
 
@@ -58,383 +19,231 @@ namespace GPGO_MultiPLCs.Models
 
         public short CoolingTemperature
         {
-            get => _CoolingTemperature;
-            set
-            {
-                _CoolingTemperature = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short HeatingTime_1
         {
-            get => _HeatingTime_1;
-            set
-            {
-                _HeatingTime_1 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short HeatingTime_2
         {
-            get => _HeatingTime_2;
-            set
-            {
-                _HeatingTime_2 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short HeatingTime_3
         {
-            get => _HeatingTime_3;
-            set
-            {
-                _HeatingTime_3 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short HeatingTime_4
         {
-            get => _HeatingTime_4;
-            set
-            {
-                _HeatingTime_4 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short HeatingTime_5
         {
-            get => _HeatingTime_5;
-            set
-            {
-                _HeatingTime_5 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short HeatingTime_6
         {
-            get => _HeatingTime_6;
-            set
-            {
-                _HeatingTime_6 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short HeatingTime_7
         {
-            get => _HeatingTime_7;
-            set
-            {
-                _HeatingTime_7 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short HeatingTime_8
         {
-            get => _HeatingTime_8;
-            set
-            {
-                _HeatingTime_8 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short InflatingTime
         {
-            get => _InflatingTime;
-            set
-            {
-                _InflatingTime = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         [BsonId]
         public string RecipeName
         {
-            get => _RecipeName;
-            set
-            {
-                _RecipeName = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         public double TargetTemperature_1
         {
-            get => _TargetTemperature_1;
-            set
-            {
-                _TargetTemperature_1 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double TargetTemperature_2
         {
-            get => _TargetTemperature_2;
-            set
-            {
-                _TargetTemperature_2 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double TargetTemperature_3
         {
-            get => _TargetTemperature_3;
-            set
-            {
-                _TargetTemperature_3 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double TargetTemperature_4
         {
-            get => _TargetTemperature_4;
-            set
-            {
-                _TargetTemperature_4 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double TargetTemperature_5
         {
-            get => _TargetTemperature_5;
-            set
-            {
-                _TargetTemperature_5 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double TargetTemperature_6
         {
-            get => _TargetTemperature_6;
-            set
-            {
-                _TargetTemperature_6 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double TargetTemperature_7
         {
-            get => _TargetTemperature_7;
-            set
-            {
-                _TargetTemperature_7 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double TargetTemperature_8
         {
-            get => _TargetTemperature_8;
-            set
-            {
-                _TargetTemperature_8 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double ThermostaticTemperature_1
         {
-            get => _ThermostaticTemperature_1;
-            set
-            {
-                _ThermostaticTemperature_1 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double ThermostaticTemperature_2
         {
-            get => _ThermostaticTemperature_2;
-            set
-            {
-                _ThermostaticTemperature_2 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double ThermostaticTemperature_3
         {
-            get => _ThermostaticTemperature_3;
-            set
-            {
-                _ThermostaticTemperature_3 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double ThermostaticTemperature_4
         {
-            get => _ThermostaticTemperature_4;
-            set
-            {
-                _ThermostaticTemperature_4 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double ThermostaticTemperature_5
         {
-            get => _ThermostaticTemperature_5;
-            set
-            {
-                _ThermostaticTemperature_5 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double ThermostaticTemperature_6
         {
-            get => _ThermostaticTemperature_6;
-            set
-            {
-                _ThermostaticTemperature_6 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double ThermostaticTemperature_7
         {
-            get => _ThermostaticTemperature_7;
-            set
-            {
-                _ThermostaticTemperature_7 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public double ThermostaticTemperature_8
         {
-            get => _ThermostaticTemperature_8;
-            set
-            {
-                _ThermostaticTemperature_8 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         public DateTime Updated
         {
-            get => _Updated;
-            set
-            {
-                _Updated = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<DateTime>();
+            set => Set(value);
         }
 
         public bool[] Used_Stations
         {
-            get => _Used_Stations;
-            set
-            {
-                _Used_Stations = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool[]>();
+            set => Set(value);
         }
 
         public short UsedSegmentCounts
         {
-            get => _UsedSegmentCounts;
-            set
-            {
-                _UsedSegmentCounts = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short WarmingTime_1
         {
-            get => _WarmingTime_1;
-            set
-            {
-                _WarmingTime_1 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short WarmingTime_2
         {
-            get => _WarmingTime_2;
-            set
-            {
-                _WarmingTime_2 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short WarmingTime_3
         {
-            get => _WarmingTime_3;
-            set
-            {
-                _WarmingTime_3 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short WarmingTime_4
         {
-            get => _WarmingTime_4;
-            set
-            {
-                _WarmingTime_4 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short WarmingTime_5
         {
-            get => _WarmingTime_5;
-            set
-            {
-                _WarmingTime_5 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short WarmingTime_6
         {
-            get => _WarmingTime_6;
-            set
-            {
-                _WarmingTime_6 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short WarmingTime_7
         {
-            get => _WarmingTime_7;
-            set
-            {
-                _WarmingTime_7 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public short WarmingTime_8
         {
-            get => _WarmingTime_8;
-            set
-            {
-                _WarmingTime_8 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<short>();
+            set => Set(value);
         }
 
         public PLC_Recipe Copy()
@@ -442,43 +251,43 @@ namespace GPGO_MultiPLCs.Models
             return new PLC_Recipe
                    {
                        Updated = DateTime.Now,
-                       RecipeName = _RecipeName,
-                       ThermostaticTemperature_1 = _ThermostaticTemperature_1,
-                       ThermostaticTemperature_2 = _ThermostaticTemperature_2,
-                       ThermostaticTemperature_3 = _ThermostaticTemperature_3,
-                       ThermostaticTemperature_4 = _ThermostaticTemperature_4,
-                       ThermostaticTemperature_5 = _ThermostaticTemperature_5,
-                       ThermostaticTemperature_6 = _ThermostaticTemperature_6,
-                       ThermostaticTemperature_7 = _ThermostaticTemperature_7,
-                       ThermostaticTemperature_8 = _ThermostaticTemperature_8,
-                       WarmingTime_1 = _WarmingTime_1,
-                       WarmingTime_2 = _WarmingTime_2,
-                       WarmingTime_3 = _WarmingTime_3,
-                       WarmingTime_4 = _WarmingTime_4,
-                       WarmingTime_5 = _WarmingTime_5,
-                       WarmingTime_6 = _WarmingTime_6,
-                       WarmingTime_7 = _WarmingTime_7,
-                       WarmingTime_8 = _WarmingTime_8,
-                       CoolingTemperature = _CoolingTemperature,
-                       HeatingTime_1 = _HeatingTime_1,
-                       HeatingTime_2 = _HeatingTime_2,
-                       HeatingTime_3 = _HeatingTime_3,
-                       HeatingTime_4 = _HeatingTime_4,
-                       HeatingTime_5 = _HeatingTime_5,
-                       HeatingTime_6 = _HeatingTime_6,
-                       HeatingTime_7 = _HeatingTime_7,
-                       HeatingTime_8 = _HeatingTime_8,
-                       InflatingTime = _InflatingTime,
-                       TargetTemperature_1 = _TargetTemperature_1,
-                       TargetTemperature_2 = _TargetTemperature_2,
-                       TargetTemperature_3 = _TargetTemperature_3,
-                       TargetTemperature_4 = _TargetTemperature_4,
-                       TargetTemperature_5 = _TargetTemperature_5,
-                       TargetTemperature_6 = _TargetTemperature_6,
-                       TargetTemperature_7 = _TargetTemperature_7,
-                       TargetTemperature_8 = _TargetTemperature_8,
-                       UsedSegmentCounts = _UsedSegmentCounts,
-                       Used_Stations = _Used_Stations
+                       RecipeName = RecipeName,
+                       ThermostaticTemperature_1 = ThermostaticTemperature_1,
+                       ThermostaticTemperature_2 = ThermostaticTemperature_2,
+                       ThermostaticTemperature_3 = ThermostaticTemperature_3,
+                       ThermostaticTemperature_4 = ThermostaticTemperature_4,
+                       ThermostaticTemperature_5 = ThermostaticTemperature_5,
+                       ThermostaticTemperature_6 = ThermostaticTemperature_6,
+                       ThermostaticTemperature_7 = ThermostaticTemperature_7,
+                       ThermostaticTemperature_8 = ThermostaticTemperature_8,
+                       WarmingTime_1 = WarmingTime_1,
+                       WarmingTime_2 = WarmingTime_2,
+                       WarmingTime_3 = WarmingTime_3,
+                       WarmingTime_4 = WarmingTime_4,
+                       WarmingTime_5 = WarmingTime_5,
+                       WarmingTime_6 = WarmingTime_6,
+                       WarmingTime_7 = WarmingTime_7,
+                       WarmingTime_8 = WarmingTime_8,
+                       CoolingTemperature = CoolingTemperature,
+                       HeatingTime_1 = HeatingTime_1,
+                       HeatingTime_2 = HeatingTime_2,
+                       HeatingTime_3 = HeatingTime_3,
+                       HeatingTime_4 = HeatingTime_4,
+                       HeatingTime_5 = HeatingTime_5,
+                       HeatingTime_6 = HeatingTime_6,
+                       HeatingTime_7 = HeatingTime_7,
+                       HeatingTime_8 = HeatingTime_8,
+                       InflatingTime = InflatingTime,
+                       TargetTemperature_1 = TargetTemperature_1,
+                       TargetTemperature_2 = TargetTemperature_2,
+                       TargetTemperature_3 = TargetTemperature_3,
+                       TargetTemperature_4 = TargetTemperature_4,
+                       TargetTemperature_5 = TargetTemperature_5,
+                       TargetTemperature_6 = TargetTemperature_6,
+                       TargetTemperature_7 = TargetTemperature_7,
+                       TargetTemperature_8 = TargetTemperature_8,
+                       UsedSegmentCounts = UsedSegmentCounts,
+                       Used_Stations = Used_Stations
                    };
         }
 
@@ -521,6 +330,11 @@ namespace GPGO_MultiPLCs.Models
             TargetTemperature_7 = 200;
             TargetTemperature_8 = 200;
             UsedSegmentCounts = 8;
+        }
+
+        public PLC_Recipe()
+        {
+            Used_Stations = new bool[20];
         }
     }
 }

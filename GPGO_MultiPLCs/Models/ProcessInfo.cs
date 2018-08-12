@@ -16,33 +16,16 @@ namespace GPGO_MultiPLCs.Models
     }
 
     [BsonIgnoreExtraElements]
-    public class BaseInfo : ViewModelBase
+    public class BaseInfo : BindableBase
     {
-        private DateTime _EndTime;
-        private ObservableConcurrentCollection<RecordEvent> _EventList = new ObservableConcurrentCollection<RecordEvent>();
-        private int _HeatingTime;
-        private string _MachineCode = "";
-        private string _OperatorID = "";
-        private string _RecipeName = "";
-        private ObservableConcurrentCollection<RecordTemperatures> _RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
-        private DateTime _StartTime;
-        private double _TargetOvenTemperature;
-        private int _TotalHeatingTime;
-        private string _TrolleyCode = "";
-        private int _WarmingTime;
-
         /// <summary>結束時間</summary>
         [EN_Name("Closing Time")]
         [CHT_Name("結束時間")]
         [CHS_Name("结束时间")]
         public DateTime EndTime
         {
-            get => _EndTime;
-            set
-            {
-                _EndTime = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<DateTime>();
+            set => Set(value);
         }
 
         /// <summary>事件紀錄</summary>
@@ -51,12 +34,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("事件纪录")]
         public ObservableConcurrentCollection<RecordEvent> EventList
         {
-            get => _EventList;
-            set
-            {
-                _EventList = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<ObservableConcurrentCollection<RecordEvent>>();
+            set => Set(value);
         }
 
         /// <summary>加熱時間(升溫至目標溫度)</summary>
@@ -65,12 +44,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("加热时间")]
         public int HeatingTime
         {
-            get => _HeatingTime;
-            set
-            {
-                _HeatingTime = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<int>();
+            set => Set(value);
         }
 
         /// <summary>機台編號</summary>
@@ -79,12 +54,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("设备编号")]
         public string MachineCode
         {
-            get => _MachineCode;
-            set
-            {
-                _MachineCode = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         /// <summary>操作人員ID</summary>
@@ -93,12 +64,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("操作员")]
         public string OperatorID
         {
-            get => _OperatorID;
-            set
-            {
-                _OperatorID = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         /// <summary>配方名</summary>
@@ -107,12 +74,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("配方")]
         public string RecipeName
         {
-            get => _RecipeName;
-            set
-            {
-                _RecipeName = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         /// <summary>紀錄溫度</summary>
@@ -121,12 +84,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("温度纪录")]
         public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
         {
-            get => _RecordTemperatures;
-            set
-            {
-                _RecordTemperatures = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<ObservableConcurrentCollection<RecordTemperatures>>();
+            set => Set(value);
         }
 
         /// <summary>開始時間</summary>
@@ -135,12 +94,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("开始时间")]
         public DateTime StartTime
         {
-            get => _StartTime;
-            set
-            {
-                _StartTime = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<DateTime>();
+            set => Set(value);
         }
 
         /// <summary>目標溫度</summary>
@@ -149,12 +104,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("目标温度")]
         public double TargetOvenTemperature
         {
-            get => _TargetOvenTemperature;
-            set
-            {
-                _TargetOvenTemperature = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>總烘烤時間</summary>
@@ -163,12 +114,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("总烘烤时间")]
         public int TotalHeatingTime
         {
-            get => _TotalHeatingTime;
-            set
-            {
-                _TotalHeatingTime = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<int>();
+            set => Set(value);
         }
 
         /// <summary>台車編號</summary>
@@ -177,12 +124,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("台车")]
         public string TrolleyCode
         {
-            get => _TrolleyCode;
-            set
-            {
-                _TrolleyCode = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         /// <summary>恆溫時間</summary>
@@ -191,12 +134,8 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("恒温时间")]
         public int WarmingTime
         {
-            get => _WarmingTime;
-            set
-            {
-                _WarmingTime = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<int>();
+            set => Set(value);
         }
 
         /// <summary>初始化清除資訊</summary>
@@ -228,6 +167,12 @@ namespace GPGO_MultiPLCs.Models
 
                     return info.Name;
             }
+        }
+
+        public BaseInfo()
+        {
+            EventList = new ObservableConcurrentCollection<RecordEvent>();
+            RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
         }
     }
 
