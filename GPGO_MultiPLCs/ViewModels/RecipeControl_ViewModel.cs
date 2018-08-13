@@ -12,23 +12,16 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         private readonly IDataBase<PLC_Recipe> RecipeCollection;
 
-        private string _SearchName;
-        private PLC_Recipe _Selected_PLC_Recipe;
-        private int _Selected_PLC_Recipe_Index;
-        private bool _Standby;
-        private string _TypedName;
-        private IQueryable<PLC_Recipe> _ViewRecipes;
-
         /// <summary>所有配方的列表</summary>
         private List<PLC_Recipe> Recipes;
 
         /// <summary>辨識是否可新增配方(列表中沒有和輸入名相同的配方)</summary>
-        public bool Add_Enable => !string.IsNullOrEmpty(_TypedName) && Recipes.All(x => x.RecipeName != _TypedName);
+        public bool Add_Enable => !string.IsNullOrEmpty(TypedName) && Recipes.All(x => x.RecipeName != TypedName);
 
         public RelayCommand AddCommand { get; }
 
         /// <summary>辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)</summary>
-        public bool Delete_Enable => _Selected_PLC_Recipe != null && !_Selected_PLC_Recipe.Used_Stations.Any(x => x);
+        public bool Delete_Enable => Selected_PLC_Recipe != null && !Selected_PLC_Recipe.Used_Stations.Any(x => x);
 
         public RelayCommand DeleteCommand { get; }
 
@@ -39,84 +32,69 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ResetCommand { get; }
 
         /// <summary>辨別是否可儲存配方(有正在選取的配方)</summary>
-        public bool Save_Enable => _Selected_PLC_Recipe != null;
+        public bool Save_Enable => Selected_PLC_Recipe != null;
 
         public RelayCommand SaveCommand { get; }
 
         /// <summary>配方搜尋的關鍵字</summary>
         public string SearchName
         {
-            get => _SearchName;
+            get => Get<string>();
             set
             {
                 value = value.Replace(" ", "_");
-                _SearchName = value;
-                NotifyPropertyChanged();
+                Set(value);
 
-                ViewRecipes = string.IsNullOrEmpty(_SearchName) ? Recipes.AsQueryable() : Recipes?.AsQueryable().Where(x => x.RecipeName.ToLower().Contains(_SearchName.ToLower()));
+                ViewRecipes = string.IsNullOrEmpty(SearchName) ? Recipes.AsQueryable() : Recipes?.AsQueryable().Where(x => x.RecipeName.ToLower().Contains(SearchName.ToLower()));
             }
         }
 
         /// <summary>目前選取的配方</summary>
         public PLC_Recipe Selected_PLC_Recipe
         {
-            get => _Selected_PLC_Recipe;
-            set
-            {
-                _Selected_PLC_Recipe = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<PLC_Recipe>();
+            set => Set(value);
         }
 
         /// <summary>目前選取配方在列表中的index</summary>
         public int Selected_PLC_Recipe_Index
         {
-            get => _Selected_PLC_Recipe_Index;
+            get => Get<int>();
             set
             {
-                _Selected_PLC_Recipe_Index = value;
-
-                if (_Selected_PLC_Recipe_Index > -1)
+                if (value > -1)
                 {
-                    _TypedName = _ViewRecipes.ElementAt(_Selected_PLC_Recipe_Index).RecipeName;
-                    NotifyPropertyChanged(nameof(TypedName));
+                    Set(ViewRecipes.ElementAt(value).RecipeName, nameof(TypedName));
 
-                    Selected_PLC_Recipe = string.IsNullOrEmpty(_TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
+                    Selected_PLC_Recipe = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy();
 
                     NotifyPropertyChanged(nameof(Save_Enable));
                     NotifyPropertyChanged(nameof(Add_Enable));
                     NotifyPropertyChanged(nameof(Delete_Enable));
                 }
 
-                NotifyPropertyChanged();
+                Set(value);
             }
         }
 
         /// <summary>辨識是否不在忙碌中</summary>
         public bool Standby
         {
-            get => _Standby;
-            set
-            {
-                _Standby = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>輸入/選定的配方名</summary>
         public string TypedName
         {
-            get => _TypedName;
+            get => Get<string>();
             set
             {
                 value = value.Replace(" ", "_");
-                _TypedName = value.Length > 26 ? value.Substring(0, 26) : value;
-                NotifyPropertyChanged();
+                Set(value.Length > 26 ? value.Substring(0, 26) : value);
+                Set(string.IsNullOrEmpty(TypedName) ? -1 : ViewRecipes?.ToList().FindIndex(x => x.RecipeName == TypedName) ?? -1, nameof(Selected_PLC_Recipe_Index));
 
-                _Selected_PLC_Recipe_Index = string.IsNullOrEmpty(_TypedName) ? -1 : _ViewRecipes?.ToList().FindIndex(x => x.RecipeName == _TypedName) ?? -1;
-                NotifyPropertyChanged(nameof(Selected_PLC_Recipe_Index));
-
-                Selected_PLC_Recipe = string.IsNullOrEmpty(_TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == _TypedName)?.Copy();
+                Selected_PLC_Recipe = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy();
 
                 NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
@@ -127,12 +105,8 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>顯示的配方列表(依據搜尋條件)</summary>
         public IQueryable<PLC_Recipe> ViewRecipes
         {
-            get => _ViewRecipes;
-            set
-            {
-                _ViewRecipes = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<IQueryable<PLC_Recipe>>();
+            set => Set(value);
         }
 
         /// <summary>配方列表更新事件</summary>
@@ -209,7 +183,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 TypedName = "";
 
                 Recipes = await RecipeCollection.FindAsync(x => true);
-                ViewRecipes = Recipes?.AsQueryable().Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower()));
+                ViewRecipes = Recipes?.AsQueryable().Where(x => string.IsNullOrEmpty(SearchName) || x.RecipeName.ToLower().Contains(SearchName.ToLower()));
             }
             catch (Exception ex)
             {
@@ -282,23 +256,23 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      true,
                                                                      DialogMsgType.Alert))
                                                {
-                                                   await Save(_TypedName);
+                                                   await Save(TypedName);
                                                }
                                            });
 
             ResetCommand = new RelayCommand(async e =>
                                             {
-                                                if (string.IsNullOrEmpty(_TypedName))
+                                                if (string.IsNullOrEmpty(TypedName))
                                                 {
                                                     return;
                                                 }
 
-                                                await Load(_TypedName);
+                                                await Load(TypedName);
                                             });
 
             AddCommand = new RelayCommand(async e =>
                                           {
-                                              await Save(_TypedName);
+                                              await Save(TypedName);
                                               SearchName = "";
                                           });
 
@@ -308,7 +282,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  try
                                                  {
-                                                     await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(_TypedName));
+                                                     await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(TypedName));
                                                  }
                                                  catch { }
 
