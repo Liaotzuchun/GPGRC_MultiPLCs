@@ -146,34 +146,31 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    public interface ICommandWithResult : ICommand, INotifyPropertyChanged
+    public interface ICommandWithResult<T> : ICommand, INotifyPropertyChanged
     {
-        object Result { get; set; }
-        event Action<object> ResultChanged;
+        T Result { get; set; }
+        event Action<T> ResultChanged;
     }
 
     /// <summary>提供能代入Function並提供Result存取的Command</summary>
     /// <typeparam name="T"></typeparam>
-    public sealed class CommandWithResult<T> : ViewModelBase, ICommand, ICommandWithResult
+    public sealed class CommandWithResult<T> : BindableBase, ICommand, ICommandWithResult<T>
     {
-        public event Action<object> ResultChanged;
+        public event Action<T> ResultChanged;
 
-        public object Result
+        public T Result
         {
-            get => _Result;
+            get => Get<T>();
             set
             {
-                _Result = (T)value;
-                ResultChanged?.Invoke(_Result);
-                NotifyPropertyChanged();
+                Set(value);
+                ResultChanged?.Invoke(value);
             }
         }
 
         private readonly Predicate<object> canExecute;
         private readonly Func<object, T> execute;
         private readonly Func<object, Task<T>> execute_Task;
-
-        private T _Result;
 
         internal void RaiseCanExecuteChanged()
         {
