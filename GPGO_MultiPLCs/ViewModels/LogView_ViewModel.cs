@@ -6,20 +6,10 @@ using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    public class LogView_ViewModel : ViewModelBase
+    public class LogView_ViewModel : BindableBase
     {
         public Language Language = Language.TW;
         private readonly IDataBase<LogEvent> EventCollection;
-
-        private DateTime _Date1;
-        private DateTime _Date2;
-        private int _Index1;
-        private int _Index2;
-        private FilterGroup _OvenFilter;
-        private List<LogEvent> _Results;
-        private bool _Standby = true;
-        private FilterGroup _TypeFilter;
-        private List<LogEvent> _ViewResults;
 
         /// <summary>位移+1天</summary>
         public RelayCommand AddDayCommand { get; }
@@ -31,7 +21,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand AddWeekCommand { get; }
 
         /// <summary>日期範圍的開始</summary>
-        public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.Time : null;
+        public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.Time : null;
 
         /// <summary>位移-1天</summary>
         public RelayCommand SubDayCommand { get; }
@@ -54,67 +44,60 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToExcelCommand { get; }
 
-        public int TotalCount => _Results?.Count > 0 ? _Results.Count - 1 : 0;
+        public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
 
         /// <summary>日期範圍的結束</summary>
-        public DateTime? UpperDate => _Results?.Count > 0 ? _Results[_Index2]?.Time : null;
+        public DateTime? UpperDate => Results?.Count > 0 ? Results[Index2]?.Time : null;
 
         /// <summary>選取的開始日期(資料庫)</summary>
         public DateTime Date1
         {
-            get => _Date1;
+            get => Get<DateTime>();
             set
             {
-                _Date1 = value;
-                NotifyPropertyChanged();
+                Set(value);
 
-                if (_Date2 < _Date1)
+                if (Date2 < value)
                 {
-                    _Date2 = _Date1;
-                    NotifyPropertyChanged(nameof(Date2));
+                    Set(value, nameof(Date2));
                 }
-                else if (_Date2 - Date1 > TimeSpan.FromDays(30))
+                else if (Date2 - value > TimeSpan.FromDays(30))
                 {
-                    _Date2 = _Date1 + TimeSpan.FromDays(30);
-                    NotifyPropertyChanged(nameof(Date2));
+                    Set(value + TimeSpan.FromDays(30), nameof(Date2));
                 }
 
-                UpdateResults(_Date1, _Date2);
+                UpdateResults(value, Date2);
             }
         }
 
         /// <summary>選取的結束日期(資料庫)</summary>
         public DateTime Date2
         {
-            get => _Date2;
+            get => Get<DateTime>();
             set
             {
-                _Date2 = value;
-                NotifyPropertyChanged();
+                Set(value);
 
-                if (_Date1 > _Date2)
+                if (Date1 > value)
                 {
-                    _Date1 = _Date2;
-                    NotifyPropertyChanged(nameof(Date1));
+                    Set(value, nameof(Date1));
                 }
-                else if (_Date2 - Date1 > TimeSpan.FromDays(30))
+                else if (value - Date1 > TimeSpan.FromDays(30))
                 {
-                    _Date1 = _Date2 - TimeSpan.FromDays(30);
-                    NotifyPropertyChanged(nameof(Date1));
+                    Set(value - TimeSpan.FromDays(30), nameof(Date1));
                 }
 
-                UpdateResults(_Date1, _Date2);
+                UpdateResults(Date1, value);
             }
         }
 
         /// <summary>篩選的開始時間點(RAM)</summary>
         public int Index1
         {
-            get => _Index1;
+            get => Get<int>();
             set
             {
-                _Index1 = value;
-                NotifyPropertyChanged();
+                Set(value);
                 NotifyPropertyChanged(nameof(LowerDate));
 
                 UpdateViewResult();
@@ -124,11 +107,10 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>篩選的結束時間點(RAM)</summary>
         public int Index2
         {
-            get => _Index2;
+            get => Get<int>();
             set
             {
-                _Index2 = value;
-                NotifyPropertyChanged();
+                Set(value);
                 NotifyPropertyChanged(nameof(UpperDate));
 
                 UpdateViewResult();
@@ -138,27 +120,29 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>基於PLC站號的Filter</summary>
         public FilterGroup OvenFilter
         {
-            get => _OvenFilter;
+            get => Get<FilterGroup>();
             set
             {
-                _OvenFilter = value;
-                _OvenFilter.StatusChanged += UpdateViewResult;
+                if (OvenFilter != null)
+                {
+                    OvenFilter.StatusChanged -= UpdateViewResult;
+                }
 
-                NotifyPropertyChanged();
+                Set(value);
+                OvenFilter.StatusChanged += UpdateViewResult;
             }
         }
 
         /// <summary>資料庫查詢結果</summary>
         public List<LogEvent> Results
         {
-            get => _Results;
+            get => Get<List<LogEvent>>();
             set
             {
-                _Results = value;
-                OvenFilter.Filter = _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                TypeFilter.Filter = _Results?.Select(x => x.Type).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                OvenFilter.Filter = value?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                TypeFilter.Filter = value?.Select(x => x.Type).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
 
-                NotifyPropertyChanged();
+                Set(value);
                 NotifyPropertyChanged(nameof(TotalCount));
 
                 UpdateViewResult();
@@ -168,36 +152,31 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>辨別是否處在讀取資料中</summary>
         public bool Standby
         {
-            get => _Standby;
-            set
-            {
-                _Standby = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>基於事件類型的Filter</summary>
         public FilterGroup TypeFilter
         {
-            get => _TypeFilter;
+            get => Get<FilterGroup>();
             set
             {
-                _TypeFilter = value;
-                _TypeFilter.StatusChanged += UpdateViewResult;
+                if (TypeFilter != null)
+                {
+                    TypeFilter.StatusChanged -= UpdateViewResult;
+                }
 
-                NotifyPropertyChanged();
+                Set(value);
+                TypeFilter.StatusChanged += UpdateViewResult;
             }
         }
 
         /// <summary>顯示的資料列表</summary>
         public List<LogEvent> ViewResults
         {
-            get => _ViewResults;
-            set
-            {
-                _ViewResults = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<List<LogEvent>>();
+            set => Set(value);
         }
 
         /// <summary>新增至資料庫</summary>
@@ -211,7 +190,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (UpdateResult)
                 {
-                    Results = await EventCollection.FindAsync(x => x.Time >= _Date1 && x.Time < _Date2.AddDays(1));
+                    Results = await EventCollection.FindAsync(x => x.Time >= Date1 && x.Time < Date2.AddDays(1));
                 }
             }
             catch (Exception ex)
@@ -240,8 +219,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ?
-                              _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _OvenFilter.Check(x.StationNumber) && _TypeFilter.Check(x.Type)).ToList() : null;
+            ViewResults = Index2 >= Index1 && Results?.Count > 0 ?
+                          Results?.GetRange(Index1, Index2 - Index1 + 1).Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type)).ToList() : null;
         }
 
         public LogView_ViewModel(IDataBase<LogEvent> db)
@@ -253,76 +232,76 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged(nameof(Date1));
                 NotifyPropertyChanged(nameof(Date2));
 
-                UpdateResults(_Date1, _Date2);
+                UpdateResults(Date1, Date2);
             }
 
             SubDayCommand = new RelayCommand(o =>
                                              {
-                                                 _Date1 = _Date1.AddDays(-1);
-                                                 _Date2 = _Date1;
+                                                 Date1 = Date1.AddDays(-1);
+                                                 Date2 = Date1;
 
                                                  Act();
                                              });
 
             TodayCommand = new RelayCommand(o =>
                                             {
-                                                _Date1 = DateTime.Today.Date;
-                                                _Date2 = _Date1;
+                                                Date1 = DateTime.Today.Date;
+                                                Date2 = Date1;
 
                                                 Act();
                                             });
 
             AddDayCommand = new RelayCommand(o =>
                                              {
-                                                 _Date1 = _Date1.AddDays(1);
-                                                 _Date2 = _Date1;
+                                                 Date1 = Date1.AddDays(1);
+                                                 Date2 = Date1;
 
                                                  Act();
                                              });
 
             SubWeekCommand = new RelayCommand(o =>
                                               {
-                                                  _Date1 = _Date1.StartOfWeek(DayOfWeek.Monday).AddDays(-7);
-                                                  _Date2 = _Date1.AddDays(6);
+                                                  Date1 = Date1.StartOfWeek(DayOfWeek.Monday).AddDays(-7);
+                                                  Date2 = Date1.AddDays(6);
 
                                                   Act();
                                               });
 
             ThisWeekCommand = new RelayCommand(o =>
                                                {
-                                                   _Date1 = DateTime.Today.Date.StartOfWeek(DayOfWeek.Monday);
-                                                   _Date2 = _Date1.AddDays(6);
+                                                   Date1 = DateTime.Today.Date.StartOfWeek(DayOfWeek.Monday);
+                                                   Date2 = Date1.AddDays(6);
 
                                                    Act();
                                                });
 
             AddWeekCommand = new RelayCommand(o =>
                                               {
-                                                  _Date1 = _Date1.StartOfWeek(DayOfWeek.Monday).AddDays(7);
-                                                  _Date2 = _Date1.AddDays(6);
+                                                  Date1 = Date1.StartOfWeek(DayOfWeek.Monday).AddDays(7);
+                                                  Date2 = Date1.AddDays(6);
 
                                                   Act();
                                               });
 
             SubMonthCommand = new RelayCommand(o =>
                                                {
-                                                   _Date1 = new DateTime(_Date1.Year, _Date1.Month - 1, 1);
-                                                   _Date2 = _Date1.AddMonths(1).AddDays(-1);
+                                                   Date1 = new DateTime(Date1.Year, Date1.Month - 1, 1);
+                                                   Date2 = Date1.AddMonths(1).AddDays(-1);
 
                                                    Act();
                                                });
             ThisMonthCommand = new RelayCommand(o =>
                                                 {
-                                                    _Date1 = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-                                                    _Date2 = _Date1.AddMonths(1).AddDays(-1);
+                                                    Date1 = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                                                    Date2 = Date1.AddMonths(1).AddDays(-1);
 
                                                     Act();
                                                 });
 
             AddMonthCommand = new RelayCommand(o =>
                                                {
-                                                   _Date1 = new DateTime(_Date1.Year, _Date1.Month + 1, 1);
-                                                   _Date2 = _Date1.AddMonths(1).AddDays(-1);
+                                                   Date1 = new DateTime(Date1.Year, Date1.Month + 1, 1);
+                                                   Date2 = Date1.AddMonths(1).AddDays(-1);
 
                                                    Act();
                                                });

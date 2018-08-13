@@ -103,7 +103,13 @@ namespace GPGO_MultiPLCs.Helpers
 
             InvokeChangeEvent = () =>
                                 {
+                                    if (_Filter.All(x => x.IsEnabled))
+                                    {
+                                        _Filter.ForEach(x => x.IsEnabled = false);
+                                    }
+
                                     AllCommand.Result = _Filter.Exists(x => x.IsEnabled);
+
                                     StatusChanged?.Invoke();
                                 };
         }
