@@ -8,7 +8,7 @@ namespace GPGO_MultiPLCs.Helpers
     public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> Properties = new Dictionary<string, object>();
 
         /// <summary>取得欄位值</summary>
         /// <typeparam name="T"></typeparam>
@@ -16,7 +16,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         protected T Get<T>([CallerMemberName] string name = "")
         {
-            if (_properties.TryGetValue(name, out var value))
+            if (Properties.TryGetValue(name, out var value))
             {
                 return value == null ? default(T) : (T)value;
             }
@@ -35,7 +35,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="name">欄位名稱</param>
         protected void Set<T>(T value, [CallerMemberName] string name = "")
         {
-            _properties[name] = value;
+            Properties[name] = value;
             NotifyPropertyChanged(name);
         }
 
@@ -45,7 +45,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="name">欄位名稱</param>
         protected void Set_WithOutNotify<T>(T value, [CallerMemberName] string name = "")
         {
-            _properties[name] = value;
+            Properties[name] = value;
         }
 
         /// <summary>設定欄位值，當值相同時不更改值也不通知</summary>
@@ -59,7 +59,7 @@ namespace GPGO_MultiPLCs.Helpers
                 return;
             }
 
-            _properties[name] = value;
+            Properties[name] = value;
             NotifyPropertyChanged(name);
         }
     }
