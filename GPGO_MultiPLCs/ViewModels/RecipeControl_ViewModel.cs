@@ -284,7 +284,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                      await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(TypedName));
                                                  }
-                                                 catch { }
+                                                 catch
+                                                 {
+                                                 }
 
                                                  await RefreshList();
 

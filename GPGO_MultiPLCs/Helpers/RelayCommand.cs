@@ -150,7 +150,9 @@ namespace GPGO_MultiPLCs.Helpers
     /// <typeparam name="T"></typeparam>
     public sealed class CommandWithResult<T> : ObservableObject, ICommand
     {
-        public event Action<T> ResultChanged;
+        private readonly Predicate<object> canExecute;
+        private readonly Func<object, T> execute;
+        private readonly Func<object, Task<T>> execute_Task;
 
         public T Result
         {
@@ -162,9 +164,7 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        private readonly Predicate<object> canExecute;
-        private readonly Func<object, T> execute;
-        private readonly Func<object, Task<T>> execute_Task;
+        public event Action<T> ResultChanged;
 
         internal void RaiseCanExecuteChanged()
         {

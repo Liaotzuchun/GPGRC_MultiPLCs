@@ -42,14 +42,14 @@ namespace GPGO_MultiPLCs.Models
 
         public RelayCommand CheckRecipeCommand_KeyLeave { get; }
 
+        /// <summary>前製程資訊</summary>
+        public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new ObservableConcurrentCollection<ProductInfo>();
+
         /// <summary>取得是否正在紀錄溫度</summary>
         public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
 
         /// <summary>紀錄的資訊</summary>
         public BaseInfo OvenInfo { get; }
-
-        /// <summary>前製程資訊</summary>
-        public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new ObservableConcurrentCollection<ProductInfo>();
 
         public int ProcessCounts => Ext_Info.Sum(x => x.ProcessCount);
 
@@ -158,12 +158,13 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public event Action<(EventType type, DateTime time, string note)> EventHappened;
+
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
         public event Action<(string RecipeName, AutoResetEvent Lock)> StartRecording;
         public event Action<string> SwitchRecipeEvent;
-        public event Action<(EventType type, DateTime time, string note)> EventHappened;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
@@ -173,18 +174,18 @@ namespace GPGO_MultiPLCs.Models
         public void AddTemperatures(TimeSpan time, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
             OvenInfo.RecordTemperatures.Add(new RecordTemperatures
-                                                {
-                                                    Time = time,
-                                                    ThermostatTemperature = t0,
-                                                    OvenTemperatures_1 = t1,
-                                                    OvenTemperatures_2 = t2,
-                                                    OvenTemperatures_3 = t3,
-                                                    OvenTemperatures_4 = t4,
-                                                    OvenTemperatures_5 = t5,
-                                                    OvenTemperatures_6 = t6,
-                                                    OvenTemperatures_7 = t7,
-                                                    OvenTemperatures_8 = t8
-                                                });
+                                            {
+                                                Time = time,
+                                                ThermostatTemperature = t0,
+                                                OvenTemperatures_1 = t1,
+                                                OvenTemperatures_2 = t2,
+                                                OvenTemperatures_3 = t3,
+                                                OvenTemperatures_4 = t4,
+                                                OvenTemperatures_5 = t5,
+                                                OvenTemperatures_6 = t6,
+                                                OvenTemperatures_7 = t7,
+                                                OvenTemperatures_8 = t8
+                                            });
         }
 
         /// <summary>重設CancellationTokenSource狀態</summary>
@@ -364,36 +365,54 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      //? 取得上位資訊(料號、總量、投產量)
                                                                      Ext_Info.Clear();
-                                                                     Ext_Info.Add(new ProductInfo { CodeType = CodeType.Panel, FirstPanel = false, OrderCode = "ooxxabc", Side = "A", ProcessNumber = 2, ProcessCount = 11, OrderCount = 20 });
-                                                                     Ext_Info.Add(new ProductInfo { CodeType = CodeType.Panel, FirstPanel = false, OrderCode = "qooqoo", Side = "A", ProcessNumber = 3, ProcessCount = 12, OrderCount = 30 });
+                                                                     Ext_Info.Add(new ProductInfo
+                                                                                  {
+                                                                                      CodeType = CodeType.Panel,
+                                                                                      FirstPanel = false,
+                                                                                      OrderCode = "ooxxabc",
+                                                                                      Side = "A",
+                                                                                      ProcessNumber = 2,
+                                                                                      ProcessCount = 11,
+                                                                                      OrderCount = 20
+                                                                                  });
+                                                                     Ext_Info.Add(new ProductInfo
+                                                                                  {
+                                                                                      CodeType = CodeType.Panel,
+                                                                                      FirstPanel = false,
+                                                                                      OrderCode = "qooqoo",
+                                                                                      Side = "A",
+                                                                                      ProcessNumber = 3,
+                                                                                      ProcessCount = 12,
+                                                                                      OrderCount = 30
+                                                                                  });
                                                                      //todo 待完成
 
                                                                      SwitchRecipeEvent?.Invoke(_Selected_Name); //! 投產成功，獲取配方參數並寫入PLC
 
                                                                      OvenInfo.RecipeName = RecipeName;
                                                                      OvenInfo.HeatingTime = new int[]
-                                                                                                {
-                                                                                                    HeatingTime_1,
-                                                                                                    HeatingTime_2,
-                                                                                                    HeatingTime_3,
-                                                                                                    HeatingTime_4,
-                                                                                                    HeatingTime_5,
-                                                                                                    HeatingTime_6,
-                                                                                                    HeatingTime_7,
-                                                                                                    HeatingTime_8
-                                                                                                }.Sum();
+                                                                                            {
+                                                                                                HeatingTime_1,
+                                                                                                HeatingTime_2,
+                                                                                                HeatingTime_3,
+                                                                                                HeatingTime_4,
+                                                                                                HeatingTime_5,
+                                                                                                HeatingTime_6,
+                                                                                                HeatingTime_7,
+                                                                                                HeatingTime_8
+                                                                                            }.Sum();
 
                                                                      OvenInfo.WarmingTime = new int[]
-                                                                                                {
-                                                                                                    WarmingTime_1,
-                                                                                                    WarmingTime_2,
-                                                                                                    WarmingTime_3,
-                                                                                                    WarmingTime_4,
-                                                                                                    WarmingTime_5,
-                                                                                                    WarmingTime_6,
-                                                                                                    WarmingTime_7,
-                                                                                                    WarmingTime_8
-                                                                                                }.Sum();
+                                                                                            {
+                                                                                                WarmingTime_1,
+                                                                                                WarmingTime_2,
+                                                                                                WarmingTime_3,
+                                                                                                WarmingTime_4,
+                                                                                                WarmingTime_5,
+                                                                                                WarmingTime_6,
+                                                                                                WarmingTime_7,
+                                                                                                WarmingTime_8
+                                                                                            }.Sum();
 
                                                                      OvenInfo.TotalHeatingTime = OvenInfo.HeatingTime + OvenInfo.HeatingTime;
                                                                      OvenInfo.TargetOvenTemperature = TargetTemperature_1;
@@ -412,12 +431,12 @@ namespace GPGO_MultiPLCs.Models
 
             OvenInfo = new BaseInfo();
             OvenInfo.PropertyChanged += (s, e) =>
+                                        {
+                                            if (e.PropertyName == nameof(BaseInfo.MachineCode))
                                             {
-                                                if (e.PropertyName == nameof(BaseInfo.MachineCode))
-                                                {
-                                                    MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
-                                                }
-                                            };
+                                                MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
+                                            }
+                                        };
 
             var M_Map = new Dictionary<SignalNames, string>
                         {

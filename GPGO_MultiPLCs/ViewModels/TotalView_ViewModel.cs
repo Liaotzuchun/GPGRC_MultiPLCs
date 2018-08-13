@@ -112,9 +112,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, ICollection<ProcessInfo> Infos)> AddRecordToDB;
 
-        public event Action<(int StationIndex, string RecipeName, AutoResetEvent Lock)> WantRecipe;
-
         public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
+
+        public event Action<(int StationIndex, string RecipeName, AutoResetEvent Lock)> WantRecipe;
 
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()

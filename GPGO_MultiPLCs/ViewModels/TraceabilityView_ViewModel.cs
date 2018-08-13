@@ -49,10 +49,25 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>日期範圍的開始</summary>
         public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.AddedTime : null;
 
+        /// <summary>基於操作員的Filter</summary>
+        public FilterGroup OpFilter { get; }
+
+        /// <summary>基於工單的Filter</summary>
+        public FilterGroup OrderFilter { get; }
+
+        /// <summary>基於PLC站號的Filter</summary>
+        public FilterGroup OvenFilter { get; }
+
         /// <summary>總量統計</summary>
         public int ProduceTotalCount => ViewResults?.Count > 0 ? ViewResults.Sum(x => x.ProcessCount) : 0;
 
+        /// <summary>基於配方的Filter</summary>
+        public FilterGroup RecipeFilter { get; }
+
         public PlotModel ResultView { get; }
+
+        /// <summary>基於正反面的Filter</summary>
+        public FilterGroup SideFilter { get; }
 
         /// <summary>位移-1天</summary>
         public RelayCommand SubDayCommand { get; }
@@ -76,6 +91,9 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ToExcelCommand { get; }
 
         public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
+
+        /// <summary>基於台車的Filter</summary>
+        public FilterGroup TrolleyFilter { get; }
 
         /// <summary>日期範圍的結束</summary>
         public DateTime? UpperDate => Results?.Count > 0 ? Results[Index2]?.AddedTime : null;
@@ -162,18 +180,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>基於操作員的Filter</summary>
-        public FilterGroup OpFilter { get; }
-
-        /// <summary>基於工單的Filter</summary>
-        public FilterGroup OrderFilter { get; }
-
-        /// <summary>基於PLC站號的Filter</summary>
-        public FilterGroup OvenFilter { get; }
-
-        /// <summary>基於配方的Filter</summary>
-        public FilterGroup RecipeFilter { get; }
-
         /// <summary>資料庫查詢結果</summary>
         public List<ProcessInfo> Results
         {
@@ -197,18 +203,12 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>基於正反面的Filter</summary>
-        public FilterGroup SideFilter { get; }
-
         /// <summary>辨別是否處在讀取資料中</summary>
         public bool Standby
         {
             get => Get<bool>();
             set => Set(value);
         }
-
-        /// <summary>基於台車的Filter</summary>
-        public FilterGroup TrolleyFilter { get; }
 
         /// <summary>顯示的資料列表</summary>
         public List<ProcessInfo> ViewResults
@@ -620,22 +620,22 @@ namespace GPGO_MultiPLCs.ViewModels
                 var categories = new List<string>();
 
                 var result1 = ViewResults.GroupBy(x =>
-                                                   {
-                                                       if ((ChartMode)Mode == ChartMode.ByPLC)
-                                                       {
-                                                           return x.StationNumber.ToString("00");
-                                                       }
+                                                  {
+                                                      if ((ChartMode)Mode == ChartMode.ByPLC)
+                                                      {
+                                                          return x.StationNumber.ToString("00");
+                                                      }
 
-                                                       if ((ChartMode)Mode == ChartMode.ByOrder)
-                                                       {
-                                                           return x.OrderCode;
-                                                       }
+                                                      if ((ChartMode)Mode == ChartMode.ByOrder)
+                                                      {
+                                                          return x.OrderCode;
+                                                      }
 
-                                                       return ByDate ? x.AddedTime.Date.ToString("MM/dd") : x.AddedTime.Hour.ToString("00") + ":00";
-                                                   })
-                                          .OrderBy(x => x.Key)
-                                          .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
-                                          .ToArray();
+                                                      return ByDate ? x.AddedTime.Date.ToString("MM/dd") : x.AddedTime.Hour.ToString("00") + ":00";
+                                                  })
+                                         .OrderBy(x => x.Key)
+                                         .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
+                                         .ToArray();
 
                 categoryAxis1.FontSize = result1.Length > 20 ? 9 : 12;
 
@@ -735,7 +735,9 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1));
             }
-            catch{}
+            catch
+            {
+            }
 
             Standby = true;
         }
@@ -743,13 +745,13 @@ namespace GPGO_MultiPLCs.ViewModels
         private void UpdateViewResult()
         {
             ViewResults = Index2 >= Index1 && Results?.Count > 0 ? Results?.GetRange(Index1, Index2 - Index1 + 1)
-                                                                              .Where(x => OvenFilter.Check(x.StationNumber) &&
-                                                                                          RecipeFilter.Check(x.RecipeName) &&
-                                                                                          OrderFilter.Check(x.OrderCode) &&
-                                                                                          OpFilter.Check(x.OperatorID) &&
-                                                                                          TrolleyFilter.Check(x.TrolleyCode) &&
-                                                                                          SideFilter.Check(x.Side))
-                                                                              .ToList() : null;
+                                                                          .Where(x => OvenFilter.Check(x.StationNumber) &&
+                                                                                      RecipeFilter.Check(x.RecipeName) &&
+                                                                                      OrderFilter.Check(x.OrderCode) &&
+                                                                                      OpFilter.Check(x.OperatorID) &&
+                                                                                      TrolleyFilter.Check(x.TrolleyCode) &&
+                                                                                      SideFilter.Check(x.Side))
+                                                                          .ToList() : null;
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
@@ -818,7 +820,7 @@ namespace GPGO_MultiPLCs.ViewModels
             SubMonthCommand = new RelayCommand(o =>
                                                {
                                                    Set(new DateTime(Date1.Year, Date1.Month - 1, 1), nameof(Date1));
-                                                   Set(Date1.AddMonths(1).AddDays(-1),nameof(Date2));
+                                                   Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
 
                                                    Act();
                                                });

@@ -155,9 +155,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
 
                 Update_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != EditPassword || x.Level != EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(EditPassword) &&
-                             EditLevel != User.UserLevel.D &&
-                             Users.TrueForAll(x => !string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
+                Add_Enable = !string.IsNullOrEmpty(EditPassword) && EditLevel != User.UserLevel.D && Users.TrueForAll(x => !string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
                 Remove_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == EditPassword && x.Level == EditLevel);
             }
         }

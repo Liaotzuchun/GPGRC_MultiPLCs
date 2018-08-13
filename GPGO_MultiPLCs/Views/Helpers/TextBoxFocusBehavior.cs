@@ -3,9 +3,7 @@ using System.Windows.Controls;
 
 namespace GPGO_MultiPLCs.Views
 {
-    /// <summary>
-    /// 提供TextBox在無焦點且無文字時顯示水印文字的能力
-    /// </summary>
+    /// <summary>提供TextBox在無焦點且無文字時顯示水印文字的能力</summary>
     public static class TextBoxWatermarkBehavior
     {
         public static readonly DependencyProperty IsWatermarkEnabled =

@@ -102,11 +102,11 @@ namespace GPGO_MultiPLCs
                         var t = new TimeSpan();
                         for (var m = 0; m < 100; m++)
                         {
-                            if(rn.Next(0, 100) > 96)
+                            if (rn.Next(0, 100) > 96)
                             {
                                 LogVM.AddToDB(new LogEvent { StationNumber = i + 1, Time = time + t, Description = "", Type = (EventType)rn.Next(0, 4) });
                             }
-                            
+
                             var mins = (int)t.TotalMinutes + 1;
                             var vals = new RecordTemperatures
                                        {
@@ -147,6 +147,7 @@ namespace GPGO_MultiPLCs
                             {
                                 index = rn.Next(0, order_code.Length);
                             }
+
                             temp.Add(index);
                             _info.OrderCode = order_code[index];
                             _info.ProcessCount = rn.Next(10, 20);

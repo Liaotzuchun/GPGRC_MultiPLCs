@@ -21,5 +21,7 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
-    public class FilterGroupProxy : BindingDataProxy<FilterGroup> { }
+    public class FilterGroupProxy : BindingDataProxy<FilterGroup>
+    {
+    }
 }

@@ -82,9 +82,9 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class LogEvent
     {
-        public DateTime Time { get; set; }
-        public int StationNumber { get; set; }
         public string Description { get; set; }
+        public int StationNumber { get; set; }
+        public DateTime Time { get; set; }
         public EventType Type { get; set; }
     }
 }

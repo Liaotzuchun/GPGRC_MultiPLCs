@@ -9,6 +9,12 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>PC程式參數</summary>
     public class GlobalTempSettings : ObservableObject
     {
+        [JsonIgnore]
+        public string FilePath => "Settings.json";
+
+        [JsonIgnore]
+        public string FilePathBack => "Settings" + DateTime.Now.Ticks + ".back";
+
         /// <summary>上傳資料輸出位置</summary>
         public string DataOutputPath
         {
@@ -32,11 +38,6 @@ namespace GPGO_MultiPLCs.Models
                 Save();
             }
         }
-
-        [JsonIgnore]
-        public string FilePath => "Settings.json";
-        [JsonIgnore]
-        public string FilePathBack => "Settings" + DateTime.Now.Ticks + ".back";
 
         public void Load()
         {
@@ -73,7 +74,7 @@ namespace GPGO_MultiPLCs.Models
             {
                 File.WriteAllText(FilePath, JsonConvert.SerializeObject(this, Formatting.Indented), Encoding.Unicode);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ErrorRecoder.RecordError(ex);
             }

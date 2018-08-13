@@ -23,6 +23,9 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>日期範圍的開始</summary>
         public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.Time : null;
 
+        /// <summary>基於PLC站號的Filter</summary>
+        public FilterGroup OvenFilter { get; }
+
         /// <summary>位移-1天</summary>
         public RelayCommand SubDayCommand { get; }
 
@@ -45,6 +48,9 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ToExcelCommand { get; }
 
         public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
+
+        /// <summary>基於事件類型的Filter</summary>
+        public FilterGroup TypeFilter { get; }
 
         /// <summary>日期範圍的結束</summary>
         public DateTime? UpperDate => Results?.Count > 0 ? Results[Index2]?.Time : null;
@@ -117,9 +123,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>基於PLC站號的Filter</summary>
-        public FilterGroup OvenFilter { get; }
-
         /// <summary>資料庫查詢結果</summary>
         public List<LogEvent> Results
         {
@@ -142,9 +145,6 @@ namespace GPGO_MultiPLCs.ViewModels
             get => Get<bool>();
             set => Set(value);
         }
-
-        /// <summary>基於事件類型的Filter</summary>
-        public FilterGroup TypeFilter { get; }
 
         /// <summary>顯示的資料列表</summary>
         public List<LogEvent> ViewResults

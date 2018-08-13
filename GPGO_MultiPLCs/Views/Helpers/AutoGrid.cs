@@ -4,9 +4,7 @@ using System.Windows.Controls;
 
 namespace GPGO_MultiPLCs.Views
 {
-    /// <summary>
-    /// 提供更簡易方便使用的Grid，會依元素順序自動分配位置，如果元素有自訂的rowspan或columnspan參數也會自動計算
-    /// </summary>
+    /// <summary>提供更簡易方便使用的Grid，會依元素順序自動分配位置，如果元素有自訂的rowspan或columnspan參數也會自動計算</summary>
     public class AutoGrid : Grid
     {
         public static readonly DependencyProperty ChildHorizontalAlignmentProperty = DependencyProperty.Register("ChildHorizontalAlignment",
