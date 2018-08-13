@@ -10,8 +10,14 @@ using GPGO_MultiPLCs.Helpers;
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>連接PLC並提供PLC資訊</summary>
-    public class PLC_DataProvider : PLC_Data
+    public class PLC_DataProvider : PLC_Data, IDisposable
     {
+        public void Dispose()
+        {
+            CTS.Dispose();
+            LockHandle.Dispose();
+        }
+
         public enum Status
         {
             待命中,

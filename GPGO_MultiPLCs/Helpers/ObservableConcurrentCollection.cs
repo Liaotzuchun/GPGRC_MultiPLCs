@@ -111,7 +111,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    public class ObservableConcurrentCollection<T> : ProducerConsumerCollectionBase<T>, INotifyCollectionChanged, INotifyPropertyChanged
+    public sealed class ObservableConcurrentCollection<T> : ProducerConsumerCollectionBase<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         /// <summary>Event raised when the collection changes.</summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;

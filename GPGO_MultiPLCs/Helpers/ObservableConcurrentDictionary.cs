@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    public class ObservableConcurrentDictionary<TKey, TValue> : ICollection<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
+    public sealed class ObservableConcurrentDictionary<TKey, TValue> : ICollection<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         int ICollection<KeyValuePair<TKey, TValue>>.Count => _dictionary.Count;
 

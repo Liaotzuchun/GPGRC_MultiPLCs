@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>生產總覽</summary>
-    public class TotalView_ViewModel : ObservableObject, IGPServiceCallback
+    public sealed class TotalView_ViewModel : ObservableObject, IGPServiceCallback
     {
         /// <summary>PLC Gate通知PLC資訊更新</summary>
         /// <param name="index">PLC序號</param>

@@ -11,7 +11,7 @@ using GPGO_MultiPLCs.Models;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>實作IDialogService的對話窗</summary>
-    public class GlobalDialog_ViewModel : ObservableObject, IDialogService<string>
+    public class GlobalDialog_ViewModel : ObservableObject, IDialogService<string>, IDisposable
     {
         public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
         {
@@ -144,6 +144,12 @@ namespace GPGO_MultiPLCs.ViewModels
             IsShown_2 = Visibility.Collapsed;
 
             return (ConditionResult != null && EnterResult_2 && ConditionResult.Value, Intput);
+        }
+
+        public void Dispose()
+        {
+            Lock_1.Dispose();
+            Lock_2.Dispose();
         }
 
         public Language Language;

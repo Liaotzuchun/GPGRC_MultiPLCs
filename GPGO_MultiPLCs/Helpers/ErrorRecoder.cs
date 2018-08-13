@@ -37,12 +37,10 @@ namespace GPGO_MultiPLCs.Helpers
                 var temp = new Error(DateTime.Now, note, ex);
 
                 var json = JsonConvert.SerializeObject(temp, Formatting.Indented);
-                using (var sw = File.AppendText(filename))
-                {
-                    sw.WriteLine(json);
-                    sw.Flush();
-                    sw.Close();
-                }
+                var sw = File.AppendText(filename);
+                sw.WriteLine(json);
+                sw.Flush();
+                sw.Close(); //!colse本身即呼叫了dispose，不需另外dispose
             }
             catch
             {
