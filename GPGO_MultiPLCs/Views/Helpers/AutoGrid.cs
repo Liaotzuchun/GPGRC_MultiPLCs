@@ -312,10 +312,6 @@ namespace GPGO_MultiPLCs.Views
             return definitions;
         }
 
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-        }
-
         protected override Size MeasureOverride(Size constraint)
         {
             PerformLayout();
@@ -360,7 +356,7 @@ namespace GPGO_MultiPLCs.Views
             var skip = new bool[rowCount, colCount];
             foreach (UIElement child in Children)
             {
-                if (IsAutoIndexing && !(child.Visibility == Visibility.Collapsed))
+                if (IsAutoIndexing && child.Visibility != Visibility.Collapsed)
                 {
                     if (Orientation == Orientation.Horizontal)
                     {
