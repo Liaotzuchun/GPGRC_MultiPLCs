@@ -14,8 +14,19 @@ using Newtonsoft.Json;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>生產總覽</summary>
-    public sealed class TotalView_ViewModel : ObservableObject, IGPServiceCallback
+    public sealed class TotalView_ViewModel : ObservableObject, IGPServiceCallback, IDisposable
     {
+        public void Dispose()
+        {
+            Checker.Dispose();
+            PLC_Client.Close();
+
+            foreach (var plc in PLC_All)
+            {
+                plc.Dispose();
+            }
+        }
+
         /// <summary>PLC Gate通知PLC資訊更新</summary>
         /// <param name="index">PLC序號</param>
         /// <param name="val">更新值集合</param>
@@ -56,6 +67,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private readonly InstanceContext site;
 
+        /// <summary>wcf連線client</summary>
         private GPServiceClient PLC_Client;
 
         /// <summary>回到總覽頁</summary>

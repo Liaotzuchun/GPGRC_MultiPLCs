@@ -14,7 +14,7 @@ using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs
 {
-    public class Connector : DependencyObject
+    public sealed class Connector : DependencyObject, IDisposable
     {
         public static readonly DependencyProperty DataOutputPathProperty =
             DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Connector), new PropertyMetadata("", DataOutputPathChanged));
@@ -45,6 +45,12 @@ namespace GPGO_MultiPLCs
         {
             get => (Language)GetValue(LanguageProperty);
             set => SetValue(LanguageProperty, value);
+        }
+
+        public void Dispose()
+        {
+            DialogVM.Dispose();
+            TotalVM.Dispose();
         }
 
         public readonly MongoClient Mongo;
