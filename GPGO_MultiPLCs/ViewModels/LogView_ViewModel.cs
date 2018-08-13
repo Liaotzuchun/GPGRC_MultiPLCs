@@ -118,20 +118,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>基於PLC站號的Filter</summary>
-        public FilterGroup OvenFilter
-        {
-            get => Get<FilterGroup>();
-            set
-            {
-                if (OvenFilter != null)
-                {
-                    OvenFilter.StatusChanged -= UpdateViewResult;
-                }
-
-                Set(value);
-                OvenFilter.StatusChanged += UpdateViewResult;
-            }
-        }
+        public FilterGroup OvenFilter { get; }
 
         /// <summary>資料庫查詢結果</summary>
         public List<LogEvent> Results
@@ -157,20 +144,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>基於事件類型的Filter</summary>
-        public FilterGroup TypeFilter
-        {
-            get => Get<FilterGroup>();
-            set
-            {
-                if (TypeFilter != null)
-                {
-                    TypeFilter.StatusChanged -= UpdateViewResult;
-                }
-
-                Set(value);
-                TypeFilter.StatusChanged += UpdateViewResult;
-            }
-        }
+        public FilterGroup TypeFilter { get; }
 
         /// <summary>顯示的資料列表</summary>
         public List<LogEvent> ViewResults
@@ -219,8 +193,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = Index2 >= Index1 && Results?.Count > 0 ?
-                          Results?.GetRange(Index1, Index2 - Index1 + 1).Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type)).ToList() : null;
+            ViewResults = Index2 >= Index1 && Results?.Count > 0 ? Results?.GetRange(Index1, Index2 - Index1 + 1).Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type)).ToList() :
+                              null;
         }
 
         public LogView_ViewModel(IDataBase<LogEvent> db)
@@ -237,71 +211,71 @@ namespace GPGO_MultiPLCs.ViewModels
 
             SubDayCommand = new RelayCommand(o =>
                                              {
-                                                 Date1 = Date1.AddDays(-1);
-                                                 Date2 = Date1;
+                                                 Set(Date1.AddDays(-1), nameof(Date1));
+                                                 Set(Date1, nameof(Date2));
 
                                                  Act();
                                              });
 
             TodayCommand = new RelayCommand(o =>
                                             {
-                                                Date1 = DateTime.Today.Date;
-                                                Date2 = Date1;
+                                                Set(DateTime.Today.Date, nameof(Date1));
+                                                Set(Date1, nameof(Date2));
 
                                                 Act();
                                             });
 
             AddDayCommand = new RelayCommand(o =>
                                              {
-                                                 Date1 = Date1.AddDays(1);
-                                                 Date2 = Date1;
+                                                 Set(Date1.AddDays(1), nameof(Date1));
+                                                 Set(Date1, nameof(Date2));
 
                                                  Act();
                                              });
 
             SubWeekCommand = new RelayCommand(o =>
                                               {
-                                                  Date1 = Date1.StartOfWeek(DayOfWeek.Monday).AddDays(-7);
-                                                  Date2 = Date1.AddDays(6);
+                                                  Set(Date1.StartOfWeek(DayOfWeek.Monday).AddDays(-7), nameof(Date1));
+                                                  Set(Date1.AddDays(6), nameof(Date2));
 
                                                   Act();
                                               });
 
             ThisWeekCommand = new RelayCommand(o =>
                                                {
-                                                   Date1 = DateTime.Today.Date.StartOfWeek(DayOfWeek.Monday);
-                                                   Date2 = Date1.AddDays(6);
+                                                   Set(DateTime.Today.Date.StartOfWeek(DayOfWeek.Monday), nameof(Date1));
+                                                   Set(Date1.AddDays(6), nameof(Date2));
 
                                                    Act();
                                                });
 
             AddWeekCommand = new RelayCommand(o =>
                                               {
-                                                  Date1 = Date1.StartOfWeek(DayOfWeek.Monday).AddDays(7);
-                                                  Date2 = Date1.AddDays(6);
+                                                  Set(Date1.StartOfWeek(DayOfWeek.Monday).AddDays(7), nameof(Date1));
+                                                  Set(Date1.AddDays(6), nameof(Date2));
 
                                                   Act();
                                               });
 
             SubMonthCommand = new RelayCommand(o =>
                                                {
-                                                   Date1 = new DateTime(Date1.Year, Date1.Month - 1, 1);
-                                                   Date2 = Date1.AddMonths(1).AddDays(-1);
+                                                   Set(new DateTime(Date1.Year, Date1.Month - 1, 1), nameof(Date1));
+                                                   Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
 
                                                    Act();
                                                });
             ThisMonthCommand = new RelayCommand(o =>
                                                 {
-                                                    Date1 = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-                                                    Date2 = Date1.AddMonths(1).AddDays(-1);
+                                                    Set(new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1), nameof(Date1));
+                                                    Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
 
                                                     Act();
                                                 });
 
             AddMonthCommand = new RelayCommand(o =>
                                                {
-                                                   Date1 = new DateTime(Date1.Year, Date1.Month + 1, 1);
-                                                   Date2 = Date1.AddMonths(1).AddDays(-1);
+                                                   Set(new DateTime(Date1.Year, Date1.Month + 1, 1), nameof(Date1));
+                                                   Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
 
                                                    Act();
                                                });
@@ -310,8 +284,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                               {
                                               });
 
-            OvenFilter = new FilterGroup();
-            TypeFilter = new FilterGroup();
+            OvenFilter = new FilterGroup(UpdateViewResult);
+            TypeFilter = new FilterGroup(UpdateViewResult);
         }
     }
 }

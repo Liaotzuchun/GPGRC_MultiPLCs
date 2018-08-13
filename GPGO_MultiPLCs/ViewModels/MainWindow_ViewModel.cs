@@ -4,20 +4,17 @@ using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    public class MainWindow_ViewModel : ViewModelBase
+    public class MainWindow_ViewModel : BindableBase
     {
-        private int _ViewIndex;
-
         public RelayCommand LoadedCommand { get; }
 
         public int ViewIndex
         {
-            get => _ViewIndex;
+            get => Get<int>();
             set
             {
-                _ViewIndex = value;
-                NotifyPropertyChanged();
-                IndexChangedEvent?.Invoke(_ViewIndex);
+                Set(value);
+                IndexChangedEvent?.Invoke(value);
             }
         }
 

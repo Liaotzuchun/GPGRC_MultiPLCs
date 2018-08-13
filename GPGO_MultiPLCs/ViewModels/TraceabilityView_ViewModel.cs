@@ -19,7 +19,7 @@ using OxyPlot.Series;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>生產紀錄追蹤</summary>
-    public class TraceabilityView_ViewModel : ViewModelBase
+    public class TraceabilityView_ViewModel : BindableBase
     {
         public enum ChartMode
         {
@@ -37,23 +37,6 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
         private readonly IDataBase<ProcessInfo> ProcessInfoCollection;
 
-        private readonly Action UpdateACT;
-
-        private DateTime _Date1;
-        private DateTime _Date2;
-        private int _Index1;
-        private int _Index2;
-        private int _Mode;
-        private FilterGroup _OpFilter;
-        private FilterGroup _OrderFilter;
-        private FilterGroup _OvenFilter;
-        private FilterGroup _RecipeFilter;
-        private List<ProcessInfo> _Results;
-        private FilterGroup _SideFilter;
-        private bool _Standby = true;
-        private FilterGroup _TrolleyFilter;
-        private List<ProcessInfo> _ViewResults;
-
         /// <summary>位移+1天</summary>
         public RelayCommand AddDayCommand { get; }
 
@@ -64,10 +47,10 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand AddWeekCommand { get; }
 
         /// <summary>日期範圍的開始</summary>
-        public DateTime? LowerDate => _Results?.Count > 0 ? _Results[_Index1]?.AddedTime : null;
+        public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.AddedTime : null;
 
         /// <summary>總量統計</summary>
-        public int ProduceTotalCount => _ViewResults?.Count > 0 ? _ViewResults.Sum(x => x.ProcessCount) : 0;
+        public int ProduceTotalCount => ViewResults?.Count > 0 ? ViewResults.Sum(x => x.ProcessCount) : 0;
 
         public PlotModel ResultView { get; }
 
@@ -92,224 +75,146 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToExcelCommand { get; }
 
-        public int TotalCount => _Results?.Count > 0 ? _Results.Count - 1 : 0;
+        public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
 
         /// <summary>日期範圍的結束</summary>
-        public DateTime? UpperDate => _Results?.Count > 0 ? _Results[_Index2]?.AddedTime : null;
+        public DateTime? UpperDate => Results?.Count > 0 ? Results[Index2]?.AddedTime : null;
 
         /// <summary>選取的開始日期(資料庫)</summary>
         public DateTime Date1
         {
-            get => _Date1;
+            get => Get<DateTime>();
             set
             {
-                _Date1 = value;
-                NotifyPropertyChanged();
+                Set(value);
 
-                if (_Date2 < _Date1)
+                if (Date2 < value)
                 {
-                    _Date2 = _Date1;
-                    NotifyPropertyChanged(nameof(Date2));
+                    Set(value, nameof(Date2));
                 }
-                else if (_Date2 - Date1 > TimeSpan.FromDays(30))
+                else if (Date2 - value > TimeSpan.FromDays(30))
                 {
-                    _Date2 = _Date1 + TimeSpan.FromDays(30);
-                    NotifyPropertyChanged(nameof(Date2));
+                    Set(value + TimeSpan.FromDays(30), nameof(Date2));
                 }
 
-                UpdateResults(_Date1, _Date2);
+                UpdateResults(value, Date2);
             }
         }
 
         /// <summary>選取的結束日期(資料庫)</summary>
         public DateTime Date2
         {
-            get => _Date2;
+            get => Get<DateTime>();
             set
             {
-                _Date2 = value;
-                NotifyPropertyChanged();
+                Set(value);
 
-                if (_Date1 > _Date2)
+                if (Date1 > value)
                 {
-                    _Date1 = _Date2;
-                    NotifyPropertyChanged(nameof(Date1));
+                    Set(value, nameof(Date1));
                 }
-                else if (_Date2 - Date1 > TimeSpan.FromDays(30))
+                else if (value - Date1 > TimeSpan.FromDays(30))
                 {
-                    _Date1 = _Date2 - TimeSpan.FromDays(30);
-                    NotifyPropertyChanged(nameof(Date1));
+                    Set(value - TimeSpan.FromDays(30), nameof(Date1));
                 }
 
-                UpdateResults(_Date1, _Date2);
+                UpdateResults(Date1, value);
             }
         }
 
         /// <summary>篩選的開始時間點(RAM)</summary>
         public int Index1
         {
-            get => _Index1;
+            get => Get<int>();
             set
             {
-                _Index1 = value;
-                NotifyPropertyChanged();
+                Set(value);
                 NotifyPropertyChanged(nameof(LowerDate));
 
                 UpdateViewResult();
-                UpdateChart(_Date1, _Date2);
+                UpdateChart(Date1, Date2);
             }
         }
 
         /// <summary>篩選的結束時間點(RAM)</summary>
         public int Index2
         {
-            get => _Index2;
+            get => Get<int>();
             set
             {
-                _Index2 = value;
-                NotifyPropertyChanged();
+                Set(value);
                 NotifyPropertyChanged(nameof(UpperDate));
 
                 UpdateViewResult();
-                UpdateChart(_Date1, _Date2);
+                UpdateChart(Date1, Date2);
             }
         }
 
         /// <summary>切換分類統計</summary>
         public int Mode
         {
-            get => _Mode;
+            get => Get<int>();
             set
             {
-                _Mode = value;
-                NotifyPropertyChanged();
+                Set(value);
 
-                UpdateChart(_Date1, _Date2);
+                UpdateChart(Date1, Date2);
             }
         }
 
         /// <summary>基於操作員的Filter</summary>
-        public FilterGroup OpFilter
-        {
-            get => _OpFilter;
-            set
-            {
-                _OpFilter = value;
-                _OpFilter.StatusChanged += UpdateACT;
-
-                NotifyPropertyChanged();
-            }
-        }
+        public FilterGroup OpFilter { get; }
 
         /// <summary>基於工單的Filter</summary>
-        public FilterGroup OrderFilter
-        {
-            get => _OrderFilter;
-            set
-            {
-                _OrderFilter = value;
-                _OrderFilter.StatusChanged += UpdateACT;
-
-                NotifyPropertyChanged();
-            }
-        }
+        public FilterGroup OrderFilter { get; }
 
         /// <summary>基於PLC站號的Filter</summary>
-        public FilterGroup OvenFilter
-        {
-            get => _OvenFilter;
-            set
-            {
-                _OvenFilter = value;
-                _OvenFilter.StatusChanged += UpdateACT;
-
-                NotifyPropertyChanged();
-            }
-        }
+        public FilterGroup OvenFilter { get; }
 
         /// <summary>基於配方的Filter</summary>
-        public FilterGroup RecipeFilter
-        {
-            get => _RecipeFilter;
-            set
-            {
-                _RecipeFilter = value;
-                _RecipeFilter.StatusChanged += UpdateACT;
-
-                NotifyPropertyChanged();
-            }
-        }
+        public FilterGroup RecipeFilter { get; }
 
         /// <summary>資料庫查詢結果</summary>
         public List<ProcessInfo> Results
         {
-            get => _Results;
+            get => Get<List<ProcessInfo>>();
             set
             {
-                _Results = value;
-                OvenFilter.Filter = _Results?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                RecipeFilter.Filter = _Results?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                OrderFilter.Filter = _Results?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                OpFilter.Filter = _Results?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                TrolleyFilter.Filter = _Results?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                SideFilter.Filter = _Results?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                OvenFilter.Filter = value?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                RecipeFilter.Filter = value?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                OrderFilter.Filter = value?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                OpFilter.Filter = value?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                TrolleyFilter.Filter = value?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                SideFilter.Filter = value?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
 
-                NotifyPropertyChanged();
+                Set(value);
                 NotifyPropertyChanged(nameof(TotalCount));
 
-                TodayProductionUpdated?.Invoke(_Results?.Where(x => x.AddedTime.Day == DateTime.Today.Day).GroupBy(x => x.StationNumber - 1).Select(x => (x.Key, x.Sum(y => y.ProcessCount))).ToList());
+                TodayProductionUpdated?.Invoke(value?.Where(x => x.AddedTime.Day == DateTime.Today.Day).GroupBy(x => x.StationNumber - 1).Select(x => (x.Key, x.Sum(y => y.ProcessCount))).ToList());
 
                 UpdateViewResult();
-                UpdateChart(_Date1, _Date2);
+                UpdateChart(Date1, Date2);
             }
         }
 
         /// <summary>基於正反面的Filter</summary>
-        public FilterGroup SideFilter
-        {
-            get => _SideFilter;
-            set
-            {
-                _SideFilter = value;
-                _SideFilter.StatusChanged += UpdateACT;
-
-                NotifyPropertyChanged();
-            }
-        }
+        public FilterGroup SideFilter { get; }
 
         /// <summary>辨別是否處在讀取資料中</summary>
         public bool Standby
         {
-            get => _Standby;
-            set
-            {
-                _Standby = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>基於台車的Filter</summary>
-        public FilterGroup TrolleyFilter
-        {
-            get => _TrolleyFilter;
-            set
-            {
-                _TrolleyFilter = value;
-                _TrolleyFilter.StatusChanged += UpdateACT;
-
-                NotifyPropertyChanged();
-            }
-        }
+        public FilterGroup TrolleyFilter { get; }
 
         /// <summary>顯示的資料列表</summary>
         public List<ProcessInfo> ViewResults
         {
-            get => _ViewResults;
-            set
-            {
-                _ViewResults = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<List<ProcessInfo>>();
+            set => Set(value);
         }
 
         /// <summary>本日產量更新事件</summary>
@@ -331,7 +236,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (UpdateResult)
                 {
-                    Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1));
+                    Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
                 }
             }
             catch (Exception ex)
@@ -361,7 +266,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                     if (UpdateResult)
                     {
-                        Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1));
+                        Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
                     }
                 }
                 catch (Exception ex)
@@ -383,13 +288,13 @@ namespace GPGO_MultiPLCs.ViewModels
                 Directory.CreateDirectory(dic);
             }
 
-            if (_ViewResults.Any())
+            if (ViewResults.Any())
             {
                 await Task.Factory.StartNew(() =>
                                             {
                                                 var created = DateTime.Now;
-                                                var x = _ViewResults.Count / 500;
-                                                var y = _ViewResults.Count - 500 * x;
+                                                var x = ViewResults.Count / 500;
+                                                var y = ViewResults.Count - 500 * x;
                                                 if (y > 100)
                                                 {
                                                     x += 1;
@@ -404,7 +309,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              index =>
                                                              {
                                                                  var fi = new FileInfo(dic + "\\" + created.ToString("yyyy-MM-dd-HH-mm-ss-fff(") + (index + 1) + ").xlsm");
-                                                                 var datas = _ViewResults.GetRange(500 * index, index == x - 1 ? y : 500);
+                                                                 var datas = ViewResults.GetRange(500 * index, index == x - 1 ? y : 500);
                                                                  var n = datas.Count;
                                                                  var xlwb = new ExcelPackage();
                                                                  xlwb.Workbook.CreateVBAProject();
@@ -706,22 +611,22 @@ namespace GPGO_MultiPLCs.ViewModels
             categoryAxis1.ActualLabels.Clear();
             categoryAxis2.ActualLabels.Clear();
 
-            if (_ViewResults?.Count > 0)
+            if (ViewResults?.Count > 0)
             {
                 var ByDate = date2 - date1 > TimeSpan.FromDays(1);
-                var result2 = _ViewResults.GroupBy(x => (ChartMode)_Mode == ChartMode.ByOrder ? x.StationNumber.ToString("00") : x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                var result2 = ViewResults.GroupBy(x => (ChartMode)Mode == ChartMode.ByOrder ? x.StationNumber.ToString("00") : x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
 
-                var NoLayer2 = result2.Length > 20 && (ChartMode)_Mode == ChartMode.ByOrder;
+                var NoLayer2 = result2.Length > 20 && (ChartMode)Mode == ChartMode.ByOrder;
                 var categories = new List<string>();
 
-                var result1 = _ViewResults.GroupBy(x =>
+                var result1 = ViewResults.GroupBy(x =>
                                                    {
-                                                       if ((ChartMode)_Mode == ChartMode.ByPLC)
+                                                       if ((ChartMode)Mode == ChartMode.ByPLC)
                                                        {
                                                            return x.StationNumber.ToString("00");
                                                        }
 
-                                                       if ((ChartMode)_Mode == ChartMode.ByOrder)
+                                                       if ((ChartMode)Mode == ChartMode.ByOrder)
                                                        {
                                                            return x.OrderCode;
                                                        }
@@ -762,7 +667,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
-                    ResultView.LegendTitle = (ChartMode)_Mode == ChartMode.ByOrder ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.OrderCode);
+                    ResultView.LegendTitle = (ChartMode)Mode == ChartMode.ByOrder ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.OrderCode);
 
                     var color_step_2 = 0.9 / result2.Length;
 
@@ -787,12 +692,12 @@ namespace GPGO_MultiPLCs.ViewModels
                         {
                             var val = info.Where(x =>
                                                  {
-                                                     if ((ChartMode)_Mode == ChartMode.ByPLC)
+                                                     if ((ChartMode)Mode == ChartMode.ByPLC)
                                                      {
                                                          return x.StationNumber.ToString("00") == categories[j];
                                                      }
 
-                                                     if ((ChartMode)_Mode == ChartMode.ByOrder)
+                                                     if ((ChartMode)Mode == ChartMode.ByOrder)
                                                      {
                                                          return x.OrderCode == categories[j];
                                                      }
@@ -837,13 +742,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = _Index2 >= _Index1 && _Results?.Count > 0 ? _Results?.GetRange(_Index1, _Index2 - _Index1 + 1)
-                                                                              .Where(x => _OvenFilter.Check(x.StationNumber) &&
-                                                                                          _RecipeFilter.Check(x.RecipeName) &&
-                                                                                          _OrderFilter.Check(x.OrderCode) &&
-                                                                                          _OpFilter.Check(x.OperatorID) &&
-                                                                                          _TrolleyFilter.Check(x.TrolleyCode) &&
-                                                                                          _SideFilter.Check(x.Side))
+            ViewResults = Index2 >= Index1 && Results?.Count > 0 ? Results?.GetRange(Index1, Index2 - Index1 + 1)
+                                                                              .Where(x => OvenFilter.Check(x.StationNumber) &&
+                                                                                          RecipeFilter.Check(x.RecipeName) &&
+                                                                                          OrderFilter.Check(x.OrderCode) &&
+                                                                                          OpFilter.Check(x.OperatorID) &&
+                                                                                          TrolleyFilter.Check(x.TrolleyCode) &&
+                                                                                          SideFilter.Check(x.Side))
                                                                               .ToList() : null;
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));
@@ -859,76 +764,76 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged(nameof(Date1));
                 NotifyPropertyChanged(nameof(Date2));
 
-                UpdateResults(_Date1, _Date2);
+                UpdateResults(Date1, Date2);
             }
 
             SubDayCommand = new RelayCommand(o =>
                                              {
-                                                 _Date1 = _Date1.AddDays(-1);
-                                                 _Date2 = _Date1;
+                                                 Set(Date1.AddDays(-1), nameof(Date1));
+                                                 Set(Date1, nameof(Date2));
 
                                                  Act();
                                              });
 
             TodayCommand = new RelayCommand(o =>
                                             {
-                                                _Date1 = DateTime.Today.Date;
-                                                _Date2 = _Date1;
+                                                Set(DateTime.Today.Date, nameof(Date1));
+                                                Set(Date1, nameof(Date2));
 
                                                 Act();
                                             });
 
             AddDayCommand = new RelayCommand(o =>
                                              {
-                                                 _Date1 = _Date1.AddDays(1);
-                                                 _Date2 = _Date1;
+                                                 Set(Date1.AddDays(1), nameof(Date1));
+                                                 Set(Date1, nameof(Date2));
 
                                                  Act();
                                              });
 
             SubWeekCommand = new RelayCommand(o =>
                                               {
-                                                  _Date1 = _Date1.StartOfWeek(DayOfWeek.Monday).AddDays(-7);
-                                                  _Date2 = _Date1.AddDays(6);
+                                                  Set(Date1.StartOfWeek(DayOfWeek.Monday).AddDays(-7), nameof(Date1));
+                                                  Set(Date1.AddDays(6), nameof(Date2));
 
                                                   Act();
                                               });
 
             ThisWeekCommand = new RelayCommand(o =>
                                                {
-                                                   _Date1 = DateTime.Today.Date.StartOfWeek(DayOfWeek.Monday);
-                                                   _Date2 = _Date1.AddDays(6);
+                                                   Set(DateTime.Today.Date.StartOfWeek(DayOfWeek.Monday), nameof(Date1));
+                                                   Set(Date1.AddDays(6), nameof(Date2));
 
                                                    Act();
                                                });
 
             AddWeekCommand = new RelayCommand(o =>
                                               {
-                                                  _Date1 = _Date1.StartOfWeek(DayOfWeek.Monday).AddDays(7);
-                                                  _Date2 = _Date1.AddDays(6);
+                                                  Set(Date1.StartOfWeek(DayOfWeek.Monday).AddDays(7), nameof(Date1));
+                                                  Set(Date1.AddDays(6), nameof(Date2));
 
                                                   Act();
                                               });
 
             SubMonthCommand = new RelayCommand(o =>
                                                {
-                                                   _Date1 = new DateTime(_Date1.Year, _Date1.Month - 1, 1);
-                                                   _Date2 = _Date1.AddMonths(1).AddDays(-1);
+                                                   Set(new DateTime(Date1.Year, Date1.Month - 1, 1), nameof(Date1));
+                                                   Set(Date1.AddMonths(1).AddDays(-1),nameof(Date2));
 
                                                    Act();
                                                });
             ThisMonthCommand = new RelayCommand(o =>
                                                 {
-                                                    _Date1 = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-                                                    _Date2 = _Date1.AddMonths(1).AddDays(-1);
+                                                    Set(new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1), nameof(Date1));
+                                                    Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
 
                                                     Act();
                                                 });
 
             AddMonthCommand = new RelayCommand(o =>
                                                {
-                                                   _Date1 = new DateTime(_Date1.Year, _Date1.Month + 1, 1);
-                                                   _Date2 = _Date1.AddMonths(1).AddDays(-1);
+                                                   Set(new DateTime(Date1.Year, Date1.Month + 1, 1), nameof(Date1));
+                                                   Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
 
                                                    Act();
                                                });
@@ -1018,18 +923,18 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView.Axes.Add(categoryAxis2);
             ResultView.Axes.Add(categoryAxis1);
 
-            UpdateACT = () =>
-                        {
-                            UpdateViewResult();
-                            UpdateChart(_Date1, _Date2);
-                        };
+            void UpdateAct()
+            {
+                UpdateViewResult();
+                UpdateChart(Date1, Date2);
+            }
 
-            OvenFilter = new FilterGroup();
-            RecipeFilter = new FilterGroup();
-            OrderFilter = new FilterGroup();
-            OpFilter = new FilterGroup();
-            TrolleyFilter = new FilterGroup();
-            SideFilter = new FilterGroup();
+            OvenFilter = new FilterGroup(UpdateAct);
+            RecipeFilter = new FilterGroup(UpdateAct);
+            OrderFilter = new FilterGroup(UpdateAct);
+            OpFilter = new FilterGroup(UpdateAct);
+            TrolleyFilter = new FilterGroup(UpdateAct);
+            SideFilter = new FilterGroup(UpdateAct);
         }
     }
 }

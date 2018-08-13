@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>生產總覽</summary>
-    public class TotalView_ViewModel : ViewModelBase, IGPServiceCallback
+    public class TotalView_ViewModel : BindableBase, IGPServiceCallback
     {
         /// <summary>PLC Gate通知PLC資訊更新</summary>
         /// <param name="index">PLC序號</param>
@@ -55,13 +55,6 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly Timer Checker;
 
         private readonly InstanceContext site;
-        private bool _Gate_Status;
-
-        /// <summary>生產Tab頁面的Index</summary>
-        private int _Index;
-
-        /// <summary>選取PLC的Index</summary>
-        private int _ViewIndex = -1;
 
         private GPServiceClient PLC_Client;
 
@@ -72,7 +65,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public PLC_DataProvider[] PLC_All { get; }
 
         /// <summary>檢視詳細資訊的PLC</summary>
-        public PLC_DataProvider PLC_In_Focused => _ViewIndex > -1 ? PLC_All[_ViewIndex] : null;
+        public PLC_DataProvider PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
 
         /// <summary>產量統計</summary>
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
@@ -82,22 +75,18 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>PLC Gate連線狀態</summary>
         public bool Gate_Status
         {
-            get => _Gate_Status;
-            set
-            {
-                _Gate_Status = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>烤箱總覽和詳細資訊檢視頁面切換index</summary>
         public int Index
         {
-            get => _Index;
+            get => Get<int>();
             set
             {
-                _Index = value;
-                NotifyPropertyChanged();
+                Set(value);
+
                 if (value == 0)
                 {
                     ViewIndex = -1;
@@ -108,11 +97,11 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>PLC詳細資訊檢視index</summary>
         public int ViewIndex
         {
-            get => _ViewIndex;
+            get => Get<int>();
             set
             {
-                _ViewIndex = value;
-                NotifyPropertyChanged();
+                Set(value);
+
                 if (value > -1)
                 {
                     NotifyPropertyChanged(nameof(PLC_In_Focused));

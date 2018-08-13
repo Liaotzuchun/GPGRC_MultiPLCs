@@ -11,7 +11,7 @@ using GPGO_MultiPLCs.Models;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>實作IDialogService的對話窗</summary>
-    public class GlobalDialog_ViewModel : ViewModelBase, IDialogService<string>
+    public class GlobalDialog_ViewModel : BindableBase, IDialogService<string>
     {
         public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
         {
@@ -109,14 +109,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 Lock_2.Reset();
                                                 if (Lock_2.WaitOne(30000))
                                                 {
-                                                    var (result, title_msg) = condition(_Intput);
+                                                    var (result, title_msg) = condition(Intput);
 
                                                     if (EnterResult_2)
                                                     {
                                                         ConditionResult = result;
                                                     }
 
-                                                    if (_ConditionResult != null && EnterResult_2 && !_ConditionResult.Value)
+                                                    if (ConditionResult != null && EnterResult_2 && !ConditionResult.Value)
                                                     {
                                                         Title = title_msg.TryGetValue(Language, out var val3) ? val3 : title_msg.Values.First();
                                                         Intput = "";
@@ -143,23 +143,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
             IsShown_2 = Visibility.Collapsed;
 
-            return (_ConditionResult != null && EnterResult_2 && _ConditionResult.Value, Intput);
+            return (ConditionResult != null && EnterResult_2 && ConditionResult.Value, Intput);
         }
 
         public Language Language;
 
         private readonly ManualResetEvent Lock_1;
         private readonly ManualResetEvent Lock_2;
-        private bool? _ConditionResult;
-        private bool _EnterEnable;
-        private string _Intput = "";
-        private Visibility _IsShown_1 = Visibility.Collapsed;
-        private Visibility _IsShown_2 = Visibility.Collapsed;
-        private string _Message_1;
-        private string _Message_2;
-        private bool _SupportCancel;
-        private string _Title = "";
-        private string _TitleHeader = "";
 
         private bool EnterResult_1;
         private bool EnterResult_2;
@@ -178,103 +168,66 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public bool? ConditionResult
         {
-            get => _ConditionResult;
-            set
-            {
-                _ConditionResult = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool?>();
+            set => Set(value);
         }
 
         public bool EnterEnable
         {
-            get => _EnterEnable;
-            set
-            {
-                _EnterEnable = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool>();
+            set => Set(value);
         }
 
         public string Intput
         {
-            get => _Intput;
+            get => Get<string>();
             set
             {
                 value = value.Trim().Replace(" ", "_");
-                _Intput = value;
-                NotifyPropertyChanged();
+                Set(value);
             }
         }
 
         public Visibility IsShown_1
         {
-            get => _IsShown_1;
-            set
-            {
-                _IsShown_1 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<Visibility>();
+            set => Set(value);
         }
 
         public Visibility IsShown_2
         {
-            get => _IsShown_2;
-            set
-            {
-                _IsShown_2 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<Visibility>();
+            set => Set(value);
         }
 
         public string Message_1
         {
-            get => _Message_1;
-            set
-            {
-                _Message_1 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         public string Message_2
         {
-            get => _Message_2;
-            set
-            {
-                _Message_2 = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         public bool SupportCancel
         {
-            get => _SupportCancel;
-            set
-            {
-                _SupportCancel = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool>();
+            set => Set(value);
         }
 
         public string Title
         {
-            get => _Title;
-            set
-            {
-                _Title = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         public string TitleHeader
         {
-            get => _TitleHeader;
-            set
-            {
-                _TitleHeader = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         public struct ShowingMessage
@@ -291,6 +244,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public GlobalDialog_ViewModel()
         {
+            IsShown_1 = Visibility.Collapsed;
+            IsShown_2 = Visibility.Collapsed;
             Lock_1 = new ManualResetEvent(true);
             Lock_2 = new ManualResetEvent(true);
 

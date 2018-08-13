@@ -4,30 +4,22 @@ using System.Linq;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    public class EqualFilter : ViewModelBase
+    public class EqualFilter : BindableBase
     {
-        private bool _IsEnabled;
-        private object _Value;
-
         public bool IsEnabled
         {
-            get => _IsEnabled;
+            get => Get<bool>();
             set
             {
-                _IsEnabled = value;
-                NotifyPropertyChanged();
+                Set(value);
                 IsEnableChanged?.Invoke();
             }
         }
 
         public object Value
         {
-            get => _Value;
-            set
-            {
-                _Value = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<object>();
+            set => Set(value);
         }
 
         public event Action IsEnableChanged;
@@ -39,8 +31,7 @@ namespace GPGO_MultiPLCs.Helpers
 
         public void SetEnabled(bool val)
         {
-            _IsEnabled = val;
-            NotifyPropertyChanged(nameof(IsEnabled));
+            Set(val, nameof(IsEnabled));
         }
 
         public EqualFilter(object tagValue)
@@ -49,68 +40,62 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    public class FilterGroup : ViewModelBase
+    public class FilterGroup : BindableBase
     {
         private readonly Action InvokeChangeEvent;
-        private List<EqualFilter> _Filter;
-
         public CommandWithResult<bool> AllCommand { get; }
 
         public List<EqualFilter> Filter
         {
-            get => _Filter;
+            get => Get<List<EqualFilter>>();
             set
             {
-                if (_Filter != null && _Filter.Count > 0)
+                if (Get<List<EqualFilter>>() is List<EqualFilter> filters && filters.Count > 0)
                 {
-                    foreach (var filter in _Filter)
+                    foreach (var filter in filters)
                     {
                         filter.IsEnableChanged -= InvokeChangeEvent;
                     }
                 }
 
-                _Filter = value;
-
-                foreach (var filter in _Filter)
+                foreach (var filter in value)
                 {
                     filter.IsEnableChanged += InvokeChangeEvent;
                 }
 
-                NotifyPropertyChanged();
+                Set(value);
             }
         }
 
-        public event Action StatusChanged;
-
         public bool Check(object val)
         {
-            return _Filter.Any(x => x.Check(val)) || _Filter.TrueForAll(x => !x.IsEnabled);
+            return Filter.Any(x => x.Check(val)) || Filter.TrueForAll(x => !x.IsEnabled);
         }
 
-        public FilterGroup()
+        public FilterGroup(Action StatusChangedAct)
         {
             AllCommand = new CommandWithResult<bool>(e =>
                                                      {
-                                                         foreach (var f in _Filter)
+                                                         foreach (var f in Filter)
                                                          {
                                                              f.SetEnabled(false);
                                                          }
 
-                                                         StatusChanged?.Invoke();
+                                                         StatusChangedAct?.Invoke();
 
                                                          return false;
                                                      });
 
             InvokeChangeEvent = () =>
                                 {
-                                    if (_Filter.All(x => x.IsEnabled))
+                                    if (Filter.All(x => x.IsEnabled))
                                     {
-                                        _Filter.ForEach(x => x.IsEnabled = false);
+                                        Filter.ForEach(x => x.IsEnabled = false);
                                     }
 
-                                    AllCommand.Result = _Filter.Exists(x => x.IsEnabled);
+                                    AllCommand.Result = Filter.Exists(x => x.IsEnabled);
 
-                                    StatusChanged?.Invoke();
+                                    StatusChangedAct?.Invoke();
                                 };
         }
     }
