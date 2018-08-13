@@ -167,9 +167,9 @@ namespace GPGO_MultiPLCs
 
             DialogVM = new GlobalDialog_ViewModel();
             MainVM = new MainWindow_ViewModel();
-            RecipeVM = new RecipeControl_ViewModel(db.GetCollection<PLC_Recipe>("PLC_Recipes"), DialogVM);
-            TraceVM = new TraceabilityView_ViewModel(db.GetCollection<ProcessInfo>("Product_Infos"));
-            LogVM = new LogView_ViewModel(db.GetCollection<LogEvent>("Event_Logs"));
+            RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")), DialogVM);
+            TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("Product_Infos")));
+            LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("Event_Logs")));
             TotalVM = new TotalView_ViewModel(20, DialogVM);
 
             //!當回到主頁時，也將生產總覽回到總覽頁

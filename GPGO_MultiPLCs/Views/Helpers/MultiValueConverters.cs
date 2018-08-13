@@ -78,7 +78,7 @@ namespace GPGO_MultiPLCs.Views
             {
                 return values.Any(x => x is Visibility y && y == Visibility.Visible) ? Visibility.Visible : Visibility.Collapsed;
             }
-            catch (Exception)
+            catch
             {
                 return Visibility.Collapsed;
             }
@@ -98,7 +98,7 @@ namespace GPGO_MultiPLCs.Views
             {
                 return values.Any(x => x is bool y && y);
             }
-            catch (Exception)
+            catch
             {
                 return true;
             }
@@ -118,7 +118,7 @@ namespace GPGO_MultiPLCs.Views
             {
                 return values.Any(x => x is bool y && y) ? 1 : 0;
             }
-            catch (Exception)
+            catch
             {
                 return 0;
             }

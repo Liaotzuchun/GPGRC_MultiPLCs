@@ -51,9 +51,8 @@ namespace GPGO_MultiPLCs.Helpers
 
     public class FilterGroup : ViewModelBase
     {
-        private List<EqualFilter> _Filter;
-
         private readonly Action InvokeChangeEvent;
+        private List<EqualFilter> _Filter;
 
         public CommandWithResult<bool> AllCommand { get; }
 
@@ -62,7 +61,7 @@ namespace GPGO_MultiPLCs.Helpers
             get => _Filter;
             set
             {
-                if(_Filter!=null && _Filter.Count > 0)
+                if (_Filter != null && _Filter.Count > 0)
                 {
                     foreach (var filter in _Filter)
                     {

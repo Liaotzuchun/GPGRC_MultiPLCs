@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
-using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public class LogView_ViewModel : ViewModelBase
     {
         public Language Language = Language.TW;
-        private readonly IMongoCollection<LogEvent> EventCollection;
+        private readonly IDataBase<LogEvent> EventCollection;
 
         private DateTime _Date1;
         private DateTime _Date2;
@@ -208,11 +207,11 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                await EventCollection.InsertOneAsync(ev);
+                await EventCollection.AddAsync(ev);
 
                 if (UpdateResult)
                 {
-                    Results = await (await EventCollection.FindAsync(x => x.Time >= _Date1 && x.Time < _Date2.AddDays(1))).ToListAsync();
+                    Results = await EventCollection.FindAsync(x => x.Time >= _Date1 && x.Time < _Date2.AddDays(1));
                 }
             }
             catch (Exception ex)
@@ -230,9 +229,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                Results = await (await EventCollection.FindAsync(x => x.Time >= date1 && x.Time < date2.AddDays(1))).ToListAsync();
+                Results = await EventCollection.FindAsync(x => x.Time >= date1 && x.Time < date2.AddDays(1));
             }
-            catch (Exception)
+            catch
             {
             }
 
@@ -245,9 +244,9 @@ namespace GPGO_MultiPLCs.ViewModels
                               _Results?.GetRange(_Index1, _Index2 - _Index1 + 1).Where(x => _OvenFilter.Check(x.StationNumber) && _TypeFilter.Check(x.Type)).ToList() : null;
         }
 
-        public LogView_ViewModel(IMongoCollection<LogEvent> mongo)
+        public LogView_ViewModel(IDataBase<LogEvent> db)
         {
-            EventCollection = mongo;
+            EventCollection = db;
 
             void Act()
             {

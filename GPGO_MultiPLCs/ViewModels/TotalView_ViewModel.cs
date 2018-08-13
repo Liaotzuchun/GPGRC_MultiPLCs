@@ -183,7 +183,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
@@ -268,7 +268,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
@@ -290,7 +290,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 return PLC_Client.State == CommunicationState.Opened;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
@@ -311,7 +311,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }

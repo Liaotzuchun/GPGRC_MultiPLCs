@@ -146,7 +146,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    public interface ICommandWithResult: ICommand, INotifyPropertyChanged
+    public interface ICommandWithResult : ICommand, INotifyPropertyChanged
     {
         object Result { get; set; }
         event Action<object> ResultChanged;

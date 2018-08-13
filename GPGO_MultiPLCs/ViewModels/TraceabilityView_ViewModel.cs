@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
-using MongoDB.Driver;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
@@ -36,7 +35,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
-        private readonly IMongoCollection<ProcessInfo> ProcessInfoCollection;
+        private readonly IDataBase<ProcessInfo> ProcessInfoCollection;
 
         private readonly Action UpdateACT;
 
@@ -328,11 +327,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                await ProcessInfoCollection.InsertOneAsync(info);
+                await ProcessInfoCollection.AddAsync(info);
 
                 if (UpdateResult)
                 {
-                    Results = await (await ProcessInfoCollection.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1))).ToListAsync();
+                    Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1));
                 }
             }
             catch (Exception ex)
@@ -358,11 +357,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 try
                 {
-                    await ProcessInfoCollection.InsertOneAsync(info);
+                    await ProcessInfoCollection.AddAsync(info);
 
                     if (UpdateResult)
                     {
-                        Results = await (await ProcessInfoCollection.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1))).ToListAsync();
+                        Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= _Date1 && x.AddedTime < _Date2.AddDays(1));
                     }
                 }
                 catch (Exception ex)
@@ -829,11 +828,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                Results = await (await ProcessInfoCollection.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1))).ToListAsync();
+                Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1));
             }
-            catch (Exception)
-            {
-            }
+            catch{}
 
             Standby = true;
         }
@@ -852,9 +849,9 @@ namespace GPGO_MultiPLCs.ViewModels
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
 
-        public TraceabilityView_ViewModel(IMongoCollection<ProcessInfo> mongo)
+        public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db)
         {
-            ProcessInfoCollection = mongo;
+            ProcessInfoCollection = db;
 
             //!定義更新圖表的委派
             void Act()

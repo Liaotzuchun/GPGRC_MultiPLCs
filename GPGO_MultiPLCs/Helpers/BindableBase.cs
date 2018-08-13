@@ -20,7 +20,7 @@ namespace GPGO_MultiPLCs.Helpers
             return default(T);
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -28,7 +28,7 @@ namespace GPGO_MultiPLCs.Helpers
         protected void Set<T>(T value, [CallerMemberName] string name = "")
         {
             _properties[name] = value;
-            OnPropertyChanged(name);
+            NotifyPropertyChanged(name);
         }
 
         protected void Set_WithOutNotify<T>(T value, [CallerMemberName] string name = "")
@@ -44,7 +44,7 @@ namespace GPGO_MultiPLCs.Helpers
             }
 
             _properties[name] = value;
-            OnPropertyChanged(name);
+            NotifyPropertyChanged(name);
         }
     }
 }

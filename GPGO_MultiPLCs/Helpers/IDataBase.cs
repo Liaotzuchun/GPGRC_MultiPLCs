@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 
@@ -7,91 +8,127 @@ namespace GPGO_MultiPLCs.Helpers
 {
     public interface IDataBase<T> where T : class, new()
     {
-        bool Delete(Func<T, bool> condition);
+        bool Add(T data);
 
-        Task<bool> DeleteAsync(Func<T, bool> condition);
+        Task<bool> AddAsync(T data);
 
-        bool DeleteOne(Func<T, bool> condition);
+        bool AddMany(ICollection<T> datas);
 
-        Task<bool> DeleteOneAsync(Func<T, bool> condition);
+        Task<bool> AddManyAsync(ICollection<T> data);
 
-        ICollection<T> Find(Func<T, bool> condition);
+        bool Delete(Expression<Func<T, bool>> condition);
 
-        Task<ICollection<T>> FindAsync(Func<T, bool> condition);
+        Task<bool> DeleteAsync(Expression<Func<T, bool>> condition);
 
-        T FindOne(Func<T, bool> condition);
+        bool DeleteOne(Expression<Func<T, bool>> condition);
 
-        Task<T> FindOneAsync(Func<T, bool> condition);
+        Task<bool> DeleteOneAsync(Expression<Func<T, bool>> condition);
 
-        bool UpdateOne(Func<T, bool> condition, string propertyName, object value);
+        List<T> Find(Expression<Func<T, bool>> condition);
 
-        Task<bool> UpdateOneAsync(Func<T, bool> condition, string propertyName, object value);
+        Task<List<T>> FindAsync(Expression<Func<T, bool>> condition);
 
-        bool Upsert(Func<T, bool> condition, T data);
+        T FindOne(Expression<Func<T, bool>> condition);
 
-        Task<bool> UpsertAsync(Func<T, bool> condition, T data);
+        Task<T> FindOneAsync(Expression<Func<T, bool>> condition);
+
+        bool UpdateOne(Expression<Func<T, bool>> condition, string propertyName, object value);
+
+        Task<bool> UpdateOneAsync(Expression<Func<T, bool>> condition, string propertyName, object value);
+
+        bool Upsert(Expression<Func<T, bool>> condition, T data);
+
+        Task<bool> UpsertAsync(Expression<Func<T, bool>> condition, T data);
     }
 
     public class MongoBase<T> : IDataBase<T> where T : class, new()
     {
-        public bool Delete(Func<T, bool> condition)
+        public bool Add(T data)
         {
-            return MongoCollection.DeleteMany(x => condition(x)).IsAcknowledged;
+            MongoCollection.InsertOne(data);
+
+            return true;
         }
 
-        public async Task<bool> DeleteAsync(Func<T, bool> condition)
+        public async Task<bool> AddAsync(T data)
         {
-            return (await MongoCollection.DeleteManyAsync(x => condition(x))).IsAcknowledged;
+            await MongoCollection.InsertOneAsync(data);
+
+            return true;
         }
 
-        public bool DeleteOne(Func<T, bool> condition)
+        public bool AddMany(ICollection<T> datas)
         {
-            return MongoCollection.DeleteOne(x => condition(x)).IsAcknowledged;
+            MongoCollection.InsertMany(datas);
+
+            return true;
         }
 
-        public async Task<bool> DeleteOneAsync(Func<T, bool> condition)
+        public async Task<bool> AddManyAsync(ICollection<T> datas)
         {
-            return (await MongoCollection.DeleteOneAsync(x => condition(x))).IsAcknowledged;
+            await MongoCollection.InsertManyAsync(datas);
+
+            return true;
         }
 
-        public ICollection<T> Find(Func<T, bool> condition)
+        public bool Delete(Expression<Func<T, bool>> condition)
         {
-            return MongoCollection.Find(x => condition(x)).ToList();
+            return MongoCollection.DeleteMany(condition).IsAcknowledged;
         }
 
-        public async Task<ICollection<T>> FindAsync(Func<T, bool> condition)
+        public async Task<bool> DeleteAsync(Expression<Func<T, bool>> condition)
         {
-            return (await MongoCollection.FindAsync(x => condition(x))).ToList();
+            return (await MongoCollection.DeleteManyAsync(condition)).IsAcknowledged;
         }
 
-        public T FindOne(Func<T, bool> condition)
+        public bool DeleteOne(Expression<Func<T, bool>> condition)
         {
-            return MongoCollection.Find(x => condition(x)).FirstOrDefault();
+            return MongoCollection.DeleteOne(condition).IsAcknowledged;
         }
 
-        public async Task<T> FindOneAsync(Func<T, bool> condition)
+        public async Task<bool> DeleteOneAsync(Expression<Func<T, bool>> condition)
         {
-            return (await MongoCollection.FindAsync(x => condition(x))).FirstOrDefault();
+            return (await MongoCollection.DeleteOneAsync(condition)).IsAcknowledged;
         }
 
-        public bool UpdateOne(Func<T, bool> condition, string propertyName, object value)
+        public List<T> Find(Expression<Func<T, bool>> condition)
         {
-            return MongoCollection.UpdateOne(x => condition(x), Builders<T>.Update.Set(propertyName, value)).IsAcknowledged;
+            return MongoCollection.Find(condition).ToList();
         }
 
-        public async Task<bool> UpdateOneAsync(Func<T, bool> condition, string propertyName, object value)
+        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> condition)
         {
-            return (await MongoCollection.UpdateOneAsync(x => condition(x), Builders<T>.Update.Set(propertyName, value))).IsAcknowledged;
+            return await (await MongoCollection.FindAsync(condition)).ToListAsync();
         }
 
-        public bool Upsert(Func<T, bool> condition, T data)
+        public T FindOne(Expression<Func<T, bool>> condition)
         {
-            return MongoCollection.ReplaceOne(x => condition(x), data, new UpdateOptions { IsUpsert = true }).IsAcknowledged;
+            return MongoCollection.Find(condition).FirstOrDefault();
         }
 
-        public async Task<bool> UpsertAsync(Func<T, bool> condition, T data)
+        public async Task<T> FindOneAsync(Expression<Func<T, bool>> condition)
         {
-            return (await MongoCollection.ReplaceOneAsync(x => condition(x), data, new UpdateOptions { IsUpsert = true })).IsAcknowledged;
+            return await (await MongoCollection.FindAsync(condition)).FirstOrDefaultAsync();
+        }
+
+        public bool UpdateOne(Expression<Func<T, bool>> condition, string propertyName, object value)
+        {
+            return MongoCollection.UpdateOne(condition, Builders<T>.Update.Set(propertyName, value)).IsAcknowledged;
+        }
+
+        public async Task<bool> UpdateOneAsync(Expression<Func<T, bool>> condition, string propertyName, object value)
+        {
+            return (await MongoCollection.UpdateOneAsync(condition, Builders<T>.Update.Set(propertyName, value))).IsAcknowledged;
+        }
+
+        public bool Upsert(Expression<Func<T, bool>> condition, T data)
+        {
+            return MongoCollection.ReplaceOne(condition, data, new UpdateOptions { IsUpsert = true }).IsAcknowledged;
+        }
+
+        public async Task<bool> UpsertAsync(Expression<Func<T, bool>> condition, T data)
+        {
+            return (await MongoCollection.ReplaceOneAsync(condition, data, new UpdateOptions { IsUpsert = true })).IsAcknowledged;
         }
 
         private readonly IMongoCollection<T> MongoCollection;

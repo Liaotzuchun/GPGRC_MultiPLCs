@@ -44,7 +44,7 @@ namespace GPGO_MultiPLCs.Helpers
                     sw.Close();
                 }
             }
-            catch (Exception)
+            catch
             {
             }
             finally

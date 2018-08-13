@@ -57,9 +57,7 @@ namespace GPGO_MultiPLCs.Views
                         item.Items.Add(subitem);
                     }
                 }
-                catch (Exception)
-                {
-                }
+                catch { }
             }
         }
 

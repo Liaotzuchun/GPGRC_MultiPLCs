@@ -4,14 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
-using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>配方管理</summary>
-    public class RecipeControl_ViewModel : ViewModelBase
+    public class RecipeControl_ViewModel : BindableBase
     {
-        private readonly IMongoCollection<PLC_Recipe> RecipeCollection;
+        private readonly IDataBase<PLC_Recipe> RecipeCollection;
 
         private string _SearchName;
         private PLC_Recipe _Selected_PLC_Recipe;
@@ -157,11 +156,11 @@ namespace GPGO_MultiPLCs.ViewModels
                     foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
                     {
                         recipe.Used_Stations[index] = false;
-                        await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, recipe.Used_Stations));
+                        await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), nameof(PLC_Recipe.Used_Stations), recipe.Used_Stations);
                     }
 
                     result.Used_Stations[index] = true;
-                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), Builders<PLC_Recipe>.Update.Set(x => x.Used_Stations, result.Used_Stations));
+                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), nameof(PLC_Recipe.Used_Stations), result.Used_Stations);
                 }
                 catch (Exception ex)
                 {
@@ -183,9 +182,9 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 try
                 {
-                    var temp = await (await RecipeCollection.FindAsync(x => x.RecipeName.Equals(name))).ToListAsync();
+                    var temp = await RecipeCollection.FindAsync(x => x.RecipeName.Equals(name));
 
-                    if (temp.Count > 0)
+                    if (temp.Any())
                     {
                         TypedName = temp[0].RecipeName;
 
@@ -209,7 +208,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 TypedName = "";
 
-                Recipes = await (await RecipeCollection.FindAsync(x => true)).ToListAsync();
+                Recipes = await RecipeCollection.FindAsync(x => true);
                 ViewRecipes = Recipes?.AsQueryable().Where(x => string.IsNullOrEmpty(_SearchName) || x.RecipeName.ToLower().Contains(_SearchName.ToLower()));
             }
             catch (Exception ex)
@@ -236,7 +235,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                await RecipeCollection.ReplaceOneAsync(x => x.RecipeName.Equals(TempSet.RecipeName), TempSet, new UpdateOptions { IsUpsert = true });
+                await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(TempSet.RecipeName), TempSet);
             }
             catch (Exception ex)
             {
@@ -248,9 +247,9 @@ namespace GPGO_MultiPLCs.ViewModels
             Standby = true;
         }
 
-        public RecipeControl_ViewModel(IMongoCollection<PLC_Recipe> mongo, IDialogService<string> dialog)
+        public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDialogService<string> dialog)
         {
-            RecipeCollection = mongo;
+            RecipeCollection = db;
 
             InitialLoadCommand = new RelayCommand(async e =>
                                                   {
@@ -311,9 +310,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                      await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(_TypedName));
                                                  }
-                                                 catch (Exception)
-                                                 {
-                                                 }
+                                                 catch { }
 
                                                  await RefreshList();
 
