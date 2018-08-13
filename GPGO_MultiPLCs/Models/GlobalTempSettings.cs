@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>PC程式參數</summary>
-    public class GlobalTempSettings : BindableBase
+    public class GlobalTempSettings : ObservableObject
     {
         /// <summary>上傳資料輸出位置</summary>
         public string DataOutputPath

@@ -6,7 +6,7 @@ using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    public class LogView_ViewModel : BindableBase
+    public class LogView_ViewModel : ObservableObject
     {
         public Language Language = Language.TW;
         private readonly IDataBase<LogEvent> EventCollection;

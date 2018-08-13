@@ -3,7 +3,7 @@
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>PLC基礎資料</summary>
-    public abstract class PLC_Data : ViewModelBase
+    public abstract class PLC_Data : ObservableObject
     {
         public TwoKeyDictionary<DataNames, int, short> D_Values;
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    public class EqualFilter : BindableBase
+    public class EqualFilter : ObservableObject
     {
         public bool IsEnabled
         {
@@ -40,7 +40,7 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    public class FilterGroup : BindableBase
+    public class FilterGroup : ObservableObject
     {
         private readonly Action InvokeChangeEvent;
         public CommandWithResult<bool> AllCommand { get; }

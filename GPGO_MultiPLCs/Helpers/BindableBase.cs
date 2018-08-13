@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace GPGO_MultiPLCs.Helpers
 {
     /// <summary>使實作INotifyPropertyChanged變成非常簡單的類別</summary>
-    public class BindableBase : INotifyPropertyChanged
+    public class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();

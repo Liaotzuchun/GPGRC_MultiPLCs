@@ -8,7 +8,7 @@ using GPGO_MultiPLCs.Models;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>配方管理</summary>
-    public class RecipeControl_ViewModel : BindableBase
+    public class RecipeControl_ViewModel : ObservableObject
     {
         private readonly IDataBase<PLC_Recipe> RecipeCollection;
 

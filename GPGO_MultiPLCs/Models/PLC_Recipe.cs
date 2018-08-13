@@ -6,7 +6,7 @@ namespace GPGO_MultiPLCs.Models
 {
     /// <summary>PLC配方</summary>
     [BsonIgnoreExtraElements]
-    public class PLC_Recipe : BindableBase
+    public class PLC_Recipe : ObservableObject
     {
         public short SegmentCounts_Max => 8;
         public short SegmentCounts_Min => 1;

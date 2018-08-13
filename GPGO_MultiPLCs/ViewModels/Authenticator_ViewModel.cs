@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>提供身分驗證登入和系統設定</summary>
-    public class Authenticator_ViewModel : BindableBase
+    public class Authenticator_ViewModel : ObservableObject
     {
         /// <summary>最高權限帳號</summary>
         private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };

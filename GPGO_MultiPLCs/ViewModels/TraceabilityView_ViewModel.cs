@@ -19,7 +19,7 @@ using OxyPlot.Series;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>生產紀錄追蹤</summary>
-    public class TraceabilityView_ViewModel : BindableBase
+    public class TraceabilityView_ViewModel : ObservableObject
     {
         public enum ChartMode
         {

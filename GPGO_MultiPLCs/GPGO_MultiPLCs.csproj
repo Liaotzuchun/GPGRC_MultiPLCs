@@ -212,7 +212,6 @@
     <Compile Include="Helpers\IDialogService.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\TwoKeyDictionary.cs" />
-    <Compile Include="Helpers\ViewModelBase.cs" />
     <Compile Include="ViewModels\TotalView_ViewModel.cs" />
     <Compile Include="Views\Helpers\TextBoxFocusBehavior.cs" />
     <Compile Include="Views\Helpers\UniformGrid_Custom.cs" />

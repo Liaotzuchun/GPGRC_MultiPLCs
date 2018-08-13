@@ -16,7 +16,7 @@ namespace GPGO_MultiPLCs.Models
     }
 
     [BsonIgnoreExtraElements]
-    public class BaseInfo : BindableBase
+    public class BaseInfo : ObservableObject
     {
         /// <summary>結束時間</summary>
         [EN_Name("Closing Time")]

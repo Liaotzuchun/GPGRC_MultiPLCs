@@ -4,7 +4,7 @@ using GPGO_MultiPLCs.Helpers;
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>使用者帳號</summary>
-    public sealed class User : BindableBase
+    public sealed class User : ObservableObject
     {
         /// <summary>使用者階層</summary>
         public enum UserLevel

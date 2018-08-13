@@ -146,15 +146,9 @@ namespace GPGO_MultiPLCs.Helpers
         }
     }
 
-    public interface ICommandWithResult<T> : ICommand, INotifyPropertyChanged
-    {
-        T Result { get; set; }
-        event Action<T> ResultChanged;
-    }
-
     /// <summary>提供能代入Function並提供Result存取的Command</summary>
     /// <typeparam name="T"></typeparam>
-    public sealed class CommandWithResult<T> : BindableBase, ICommand, ICommandWithResult<T>
+    public sealed class CommandWithResult<T> : ObservableObject, ICommand
     {
         public event Action<T> ResultChanged;
 

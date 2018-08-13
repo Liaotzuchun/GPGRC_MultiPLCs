@@ -4,7 +4,7 @@ using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    public class MainWindow_ViewModel : BindableBase
+    public class MainWindow_ViewModel : ObservableObject
     {
         public RelayCommand LoadedCommand { get; }
 
