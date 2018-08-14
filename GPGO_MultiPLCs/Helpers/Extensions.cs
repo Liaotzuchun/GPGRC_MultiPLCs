@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Media;
+using System.Xml.Linq;
 using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Helpers
@@ -508,27 +509,6 @@ namespace GPGO_MultiPLCs.Helpers
             return temp;
         }
 
-        /// <summary>將json檔案反序列化</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path">檔案路徑</param>
-        /// <returns></returns>
-        public static T ReadFromJsonFile<T>(this string path)
-        {
-            if (path != "" && File.Exists(path))
-            {
-                try
-                {
-                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(path, Encoding.Unicode));
-                }
-                catch
-                {
-                    return default(T);
-                }
-            }
-
-            return default(T);
-        }
-
         /// <summary>2個short值轉int整數</summary>
         /// <param name="val"></param>
         /// <returns></returns>
@@ -654,6 +634,27 @@ namespace GPGO_MultiPLCs.Helpers
             return vals.ToArray();
         }
 
+        /// <summary>將json檔案反序列化</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path">檔案路徑</param>
+        /// <returns></returns>
+        public static T ReadFromJsonFile<T>(this string path)
+        {
+            if (path != "" && File.Exists(path))
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(path, Encoding.Unicode));
+                }
+                catch
+                {
+                    return default(T);
+                }
+            }
+
+            return default(T);
+        }
+
         /// <summary>將物件序列化至json並輸出檔案</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="val"></param>
@@ -681,6 +682,38 @@ namespace GPGO_MultiPLCs.Helpers
             {
                 return false;
             }
+        }
+
+        /// <summary>Json轉XML</summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static string JsonToXmlString(this string json)
+        {
+            return JsonConvert.DeserializeXNode(json, "Root").ToString();
+        }
+
+        /// <summary>Json轉XML</summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static XDocument JsonToXml(this string json)
+        {
+            return JsonConvert.DeserializeXNode(json, "Root");
+        }
+
+        /// <summary>XML轉Json</summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public static string XmlToJson(this string xml)
+        {
+            return JsonConvert.SerializeXNode(XDocument.Parse(xml), Formatting.None, true);
+        }
+
+        /// <summary>XML轉Json</summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public static string XmlToJson(this XObject xml)
+        {
+            return JsonConvert.SerializeXNode(xml, Formatting.None, true);
         }
     }
 }
