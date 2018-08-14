@@ -76,10 +76,7 @@ namespace GPGO_MultiPLCs.Helpers
         {
             AllCommand = new CommandWithResult<bool>(e =>
                                                      {
-                                                         foreach (var f in Filter)
-                                                         {
-                                                             f.SetEnabled(false);
-                                                         }
+                                                         Filter.ForEach(x => x.SetEnabled(false));
 
                                                          StatusChangedAct?.Invoke();
 
@@ -90,7 +87,7 @@ namespace GPGO_MultiPLCs.Helpers
                                 {
                                     if (Filter.All(x => x.IsEnabled))
                                     {
-                                        Filter.ForEach(x => x.IsEnabled = false);
+                                        Filter.ForEach(x => x.SetEnabled(false));
                                     }
 
                                     AllCommand.Result = Filter.Exists(x => x.IsEnabled);
