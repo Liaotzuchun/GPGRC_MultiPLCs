@@ -764,6 +764,10 @@ namespace GPGO_MultiPLCs.Helpers
             return csv.ToString();
         }
 
+        /// <summary>依據Language設定值取得Property對應的Attribute值</summary>
+        /// <param name="info"></param>
+        /// <param name="lng">語系</param>
+        /// <returns></returns>
         public static string GetName(this PropertyInfo info, Language lng)
         {
             switch (lng)
