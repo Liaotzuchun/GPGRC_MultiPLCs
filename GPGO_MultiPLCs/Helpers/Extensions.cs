@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Media;
 using System.Xml.Linq;
+using GPGO_MultiPLCs.Models;
 using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Helpers
@@ -730,16 +731,21 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>將集合物件輸出至CSV(僅public property)</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
+        /// <param name="lng">欄位語系</param>
+        /// <param name="properties">自訂屬性順序</param>
         /// <returns></returns>
-        public static string ToCSV<T>(this IEnumerable<T> data)
+        public static string ToCSV<T>(this IEnumerable<T> data, Language lng, PropertyInfo[] properties = null)
         {
             var type = typeof(T);
             var csv = new StringBuilder();
-            var properties = type.GetProperties();
+            if (properties == null)
+            {
+                properties = type.GetProperties();
+            }
 
             for(var i = 0; i < properties.Length; i++)
             {
-                csv.Append(properties[i].Name);
+                csv.Append(properties[i].GetName(lng));
                 if (i == properties.Length - 1) break;
                 csv.Append(", ");
             }
@@ -756,6 +762,25 @@ namespace GPGO_MultiPLCs.Helpers
             }
 
             return csv.ToString();
+        }
+
+        public static string GetName(this PropertyInfo info, Language lng)
+        {
+            switch (lng)
+            {
+                case Language.EN:
+
+                    return info.IsDefined(typeof(EN_Name), false) ? info.GetCustomAttributes(typeof(EN_Name), false).First().ToString() : info.Name;
+                case Language.TW:
+
+                    return info.IsDefined(typeof(CHT_Name), false) ? info.GetCustomAttributes(typeof(CHT_Name), false).First().ToString() : info.Name;
+                case Language.CHS:
+
+                    return info.IsDefined(typeof(CHS_Name), false) ? info.GetCustomAttributes(typeof(CHS_Name), false).First().ToString() : info.Name;
+                default:
+
+                    return info.Name;
+            }
         }
     }
 }

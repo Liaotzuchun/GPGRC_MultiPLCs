@@ -47,10 +47,10 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>指定至本日</summary>
         public RelayCommand TodayCommand { get; }
 
-        public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
-
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToFileCommand { get; }
+
+        public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
 
         /// <summary>基於事件類型的Filter</summary>
         public FilterGroup TypeFilter { get; }
@@ -183,7 +183,14 @@ namespace GPGO_MultiPLCs.ViewModels
             await Task.Factory.StartNew(() =>
                                         {
                                             var dic = dic_path + "\\EventLogs";
-                                            var csv = ViewResults.ToCSV();
+                                            var csv = ViewResults.ToCSV(Language,
+                                                                        new[]
+                                                                        {
+                                                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Time)),
+                                                                            typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)),
+                                                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
+                                                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Description))
+                                                                        });
                                             File.WriteAllText(dic + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", csv, Encoding.UTF8);
                                         });
 
@@ -298,9 +305,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                });
 
             ToFileCommand = new RelayCommand(o =>
-                                            {
-                                                SaveToCSV(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
-                                            });
+                                             {
+                                                 SaveToCSV(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                             });
 
             OvenFilter = new FilterGroup(UpdateViewResult);
             TypeFilter = new FilterGroup(UpdateViewResult);

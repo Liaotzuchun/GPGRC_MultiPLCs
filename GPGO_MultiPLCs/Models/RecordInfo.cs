@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
+using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
@@ -82,9 +83,24 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class LogEvent
     {
+        [EN_Name("Event")]
+        [CHT_Name("事件")]
+        [CHS_Name("事件")]
         public string Description { get; set; }
+
+        [EN_Name("Oven No.")]
+        [CHT_Name("烤箱序號")]
+        [CHS_Name("烤箱序号")]
         public int StationNumber { get; set; }
+
+        [EN_Name("Recorded")]
+        [CHT_Name("紀錄時間")]
+        [CHS_Name("纪录时间")]
         public DateTime Time { get; set; }
+
+        [EN_Name("Type")]
+        [CHT_Name("類型")]
+        [CHS_Name("类型")]
         public EventType Type { get; set; }
     }
 }

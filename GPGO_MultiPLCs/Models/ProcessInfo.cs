@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
@@ -150,25 +148,6 @@ namespace GPGO_MultiPLCs.Models
             TrolleyCode = "";
         }
 
-        protected string GetName(PropertyInfo info, Language lng)
-        {
-            switch (lng)
-            {
-                case Language.EN:
-
-                    return info.IsDefined(typeof(EN_Name), false) ? info.GetCustomAttributes(typeof(EN_Name), false).First().ToString() : info.Name;
-                case Language.TW:
-
-                    return info.IsDefined(typeof(CHT_Name), false) ? info.GetCustomAttributes(typeof(CHT_Name), false).First().ToString() : info.Name;
-                case Language.CHS:
-
-                    return info.IsDefined(typeof(CHS_Name), false) ? info.GetCustomAttributes(typeof(CHS_Name), false).First().ToString() : info.Name;
-                default:
-
-                    return info.Name;
-            }
-        }
-
         public BaseInfo()
         {
             EventList = new ObservableConcurrentCollection<RecordEvent>();
@@ -239,18 +218,18 @@ namespace GPGO_MultiPLCs.Models
         {
             return new Dictionary<string, object>
                    {
-                       { GetName(GetType().GetProperty(nameof(AddedTime)), lng), AddedTime },
-                       { GetName(GetType().GetProperty(nameof(StationNumber)), lng), StationNumber },
-                       { GetName(GetType().GetProperty(nameof(RecipeName)), lng), RecipeName },
-                       { GetName(GetType().GetProperty(nameof(MachineCode)), lng), MachineCode },
-                       { GetName(GetType().GetProperty(nameof(OrderCode)), lng), OrderCode },
-                       { GetName(GetType().GetProperty(nameof(OperatorID)), lng), OperatorID },
-                       { GetName(GetType().GetProperty(nameof(TrolleyCode)), lng), TrolleyCode },
-                       { GetName(GetType().GetProperty(nameof(ProcessCount)), lng), ProcessCount },
-                       { GetName(GetType().GetProperty(nameof(Side)), lng), Side },
-                       { GetName(GetType().GetProperty(nameof(StartTime)), lng), StartTime },
-                       { GetName(GetType().GetProperty(nameof(EndTime)), lng), EndTime },
-                       { GetName(GetType().GetProperty(nameof(RecordTemperatures)), lng), "@" }
+                       { (GetType().GetProperty(nameof(AddedTime)).GetName(lng)), AddedTime },
+                       { (GetType().GetProperty(nameof(StationNumber)).GetName(lng)), StationNumber },
+                       { (GetType().GetProperty(nameof(RecipeName)).GetName(lng)), RecipeName },
+                       { (GetType().GetProperty(nameof(MachineCode)).GetName(lng)), MachineCode },
+                       { (GetType().GetProperty(nameof(OrderCode)).GetName(lng)), OrderCode },
+                       { (GetType().GetProperty(nameof(OperatorID)).GetName(lng)), OperatorID },
+                       { (GetType().GetProperty(nameof(TrolleyCode)).GetName(lng)), TrolleyCode },
+                       { (GetType().GetProperty(nameof(ProcessCount)).GetName(lng)), ProcessCount },
+                       { (GetType().GetProperty(nameof(Side)).GetName(lng)), Side },
+                       { (GetType().GetProperty(nameof(StartTime)).GetName(lng)), StartTime },
+                       { (GetType().GetProperty(nameof(EndTime)).GetName(lng)), EndTime },
+                       { (GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng)), "@" }
                    };
         }
 
