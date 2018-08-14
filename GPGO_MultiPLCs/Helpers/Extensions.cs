@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Media;
+using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Helpers
 {
@@ -505,6 +508,27 @@ namespace GPGO_MultiPLCs.Helpers
             return temp;
         }
 
+        /// <summary>將json檔案反序列化</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path">檔案路徑</param>
+        /// <returns></returns>
+        public static T ReadFromJsonFile<T>(this string path)
+        {
+            if (path != "" && File.Exists(path))
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(path, Encoding.Unicode));
+                }
+                catch
+                {
+                    return default(T);
+                }
+            }
+
+            return default(T);
+        }
+
         /// <summary>2個short值轉int整數</summary>
         /// <param name="val"></param>
         /// <returns></returns>
@@ -628,6 +652,35 @@ namespace GPGO_MultiPLCs.Helpers
             vals.Add(BitConverter.ToInt16(temp, 0));
 
             return vals.ToArray();
+        }
+
+        /// <summary>將物件序列化至json並輸出檔案</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="path">檔案輸出路徑</param>
+        /// <returns></returns>
+        public static bool WriteToJsonFile<T>(this T val, [CallerMemberName] string path = "")
+        {
+            if (val == null || path == "")
+            {
+                return false;
+            }
+
+            if (!(path.EndsWith(".json") || path.EndsWith(".Json") || path.EndsWith(".JSON")))
+            {
+                path += ".json";
+            }
+
+            try
+            {
+                File.WriteAllText(path, JsonConvert.SerializeObject(val, Formatting.Indented), Encoding.Unicode);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

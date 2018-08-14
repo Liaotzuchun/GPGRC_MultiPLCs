@@ -14,6 +14,8 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>提供身分驗證登入和系統設定</summary>
     public class Authenticator_ViewModel : ObservableObject
     {
+        private readonly string UsersPath = "Users.json";
+
         /// <summary>最高權限帳號</summary>
         private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };
 
@@ -181,25 +183,25 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>讀取所有使用者列表</summary>
         public void LoadUsers()
         {
-            if (File.Exists("Users.json"))
+            if (File.Exists(UsersPath))
             {
                 try
                 {
-                    if (JsonConvert.DeserializeObject<List<User>>(File.ReadAllText("Users.json", Encoding.Unicode)) is List<User> val)
+                    if (UsersPath.ReadFromJsonFile<List<User>>() is List<User> val)
                     {
                         Users = val;
                     }
                     else
                     {
                         Users = new List<User>();
-                        File.Move("Users.json", "Users" + DateTime.Now.Ticks + ".back");
+                        File.Move(UsersPath, "Users" + DateTime.Now.Ticks + ".back");
                         SaveUsers();
                     }
                 }
                 catch
                 {
                     Users = new List<User>();
-                    File.Move("Users.json", "Users" + DateTime.Now.Ticks + ".back");
+                    File.Move(UsersPath, "Users" + DateTime.Now.Ticks + ".back");
                     SaveUsers();
                 }
             }
@@ -215,13 +217,11 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (Users != null)
-                {
-                    File.WriteAllText("Users.json", JsonConvert.SerializeObject(Users, Formatting.Indented), Encoding.Unicode);
-                }
+                Users?.WriteToJsonFile(UsersPath);
             }
-            catch
+            catch (Exception ex)
             {
+                ErrorRecoder.RecordError(ex);
             }
         }
 

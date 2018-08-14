@@ -842,8 +842,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
             ToExcelCommand = new RelayCommand(o =>
                                               {
-                                                  //File.WriteAllText("ooxx.json", JsonConvert.SerializeObject(ViewResults, Formatting.Indented));
-
                                                   SaveToExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
                                               });
 

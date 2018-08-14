@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.GP_PLCs;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
-using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -61,6 +59,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>心跳信號位置</summary>
         private const int Check_Dev = 21;
+        private readonly string MachineCodesPath = "MachineCodes.json";
 
         /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
@@ -131,11 +130,11 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
         {
-            if (File.Exists("MachineCodes.json"))
+            if (File.Exists(MachineCodesPath))
             {
                 try
                 {
-                    var vals = JsonConvert.DeserializeObject<string[]>(File.ReadAllText("MachineCodes.json", Encoding.UTF8));
+                    var vals = MachineCodesPath.ReadFromJsonFile<string[]>();
 
                     for (var i = 0; i < Math.Min(vals.Length, PLC_All.Length); i++)
                     {
@@ -160,8 +159,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                var MachineCodes = PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray();
-                File.WriteAllText("MachineCodes.json", JsonConvert.SerializeObject(MachineCodes), Encoding.UTF8);
+                (PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray()).WriteToJsonFile(MachineCodesPath);
             }
             catch
             {

@@ -1,19 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using GPGO_MultiPLCs.Helpers;
-using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>PC程式參數</summary>
     public class GlobalTempSettings : ObservableObject
     {
-        [JsonIgnore]
-        public string FilePath => "Settings.json";
-
-        [JsonIgnore]
-        public string FilePathBack => "Settings" + DateTime.Now.Ticks + ".back";
+        private readonly string FilePath = "Settings.json";
 
         /// <summary>上傳資料輸出位置</summary>
         public string DataOutputPath
@@ -45,20 +39,20 @@ namespace GPGO_MultiPLCs.Models
             {
                 try
                 {
-                    if (JsonConvert.DeserializeObject<GlobalTempSettings>(File.ReadAllText(FilePath, Encoding.Unicode)) is GlobalTempSettings val)
+                    if (FilePath.ReadFromJsonFile<GlobalTempSettings>() is GlobalTempSettings val)
                     {
                         Lng = val.Lng;
                         DataOutputPath = val.DataOutputPath;
                     }
                     else
                     {
-                        File.Move(FilePath, FilePathBack);
+                        File.Move(FilePath, "Settings" + DateTime.Now.Ticks + ".back");
                         Save();
                     }
                 }
                 catch
                 {
-                    File.Move(FilePath, FilePathBack);
+                    File.Move(FilePath, "Settings" + DateTime.Now.Ticks + ".back");
                     Save();
                 }
             }
@@ -72,7 +66,7 @@ namespace GPGO_MultiPLCs.Models
         {
             try
             {
-                File.WriteAllText(FilePath, JsonConvert.SerializeObject(this, Formatting.Indented), Encoding.Unicode);
+                this.WriteToJsonFile(FilePath);
             }
             catch (Exception ex)
             {
