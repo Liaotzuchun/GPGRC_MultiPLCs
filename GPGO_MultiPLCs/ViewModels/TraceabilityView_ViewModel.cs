@@ -277,12 +277,12 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
-        /// <param name="save_path"></param>
-        public async void SaveToExcel(string save_path)
+        /// <param name="dic_path">資料夾路徑</param>
+        public async void SaveToExcel(string dic_path)
         {
             Standby = false;
 
-            var dic = save_path + "\\Reports";
+            var dic = dic_path + "\\Reports";
             if (!Directory.Exists(dic))
             {
                 Directory.CreateDirectory(dic);

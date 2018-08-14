@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 
@@ -44,10 +47,10 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>指定至本日</summary>
         public RelayCommand TodayCommand { get; }
 
-        /// <summary>輸出Excel報表</summary>
-        public RelayCommand ToExcelCommand { get; }
-
         public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
+
+        /// <summary>輸出Excel報表</summary>
+        public RelayCommand ToFileCommand { get; }
 
         /// <summary>基於事件類型的Filter</summary>
         public FilterGroup TypeFilter { get; }
@@ -173,6 +176,20 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public async void SaveToCSV(string dic_path)
+        {
+            Standby = false;
+
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            var dic = dic_path + "\\EventLogs";
+                                            var csv = ViewResults.ToCSV();
+                                            File.WriteAllText(dic + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", csv, Encoding.UTF8);
+                                        });
+
+            Standby = true;
+        }
+
         /// <summary>依據條件，更新查詢資料庫結果列表</summary>
         /// <param name="date1">起始時間</param>
         /// <param name="date2">結束時間</param>
@@ -280,9 +297,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                    Act();
                                                });
 
-            ToExcelCommand = new RelayCommand(o =>
-                                              {
-                                              });
+            ToFileCommand = new RelayCommand(o =>
+                                            {
+                                                SaveToCSV(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                            });
 
             OvenFilter = new FilterGroup(UpdateViewResult);
             TypeFilter = new FilterGroup(UpdateViewResult);

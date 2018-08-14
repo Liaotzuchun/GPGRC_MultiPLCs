@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -714,6 +715,47 @@ namespace GPGO_MultiPLCs.Helpers
         public static string XmlToJson(this XObject xml)
         {
             return JsonConvert.SerializeXNode(xml, Formatting.None, true);
+        }
+
+        /// <summary>將物件序列化為XML</summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static XDocument ToXml(this object data)
+        {
+            var IsCollection = data is IEnumerable;
+            var json = JsonConvert.SerializeObject(IsCollection ? new { Row = data } : data, Formatting.None);
+            return JsonConvert.DeserializeXNode(json, IsCollection ? "Table" : "Root");
+        }
+
+        /// <summary>將集合物件輸出至CSV(僅public property)</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string ToCSV<T>(this IEnumerable<T> data)
+        {
+            var type = typeof(T);
+            var csv = new StringBuilder();
+            var properties = type.GetProperties();
+
+            for(var i = 0; i < properties.Length; i++)
+            {
+                csv.Append(properties[i].Name);
+                if (i == properties.Length - 1) break;
+                csv.Append(", ");
+            }
+
+            foreach(var val in data)
+            {
+                csv.AppendLine();
+                for (var i = 0; i < properties.Length; i++)
+                {
+                    csv.Append(properties[i].GetValue(val));
+                    if (i == properties.Length - 1) break;
+                    csv.Append(", ");
+                }
+            }
+
+            return csv.ToString();
         }
     }
 }

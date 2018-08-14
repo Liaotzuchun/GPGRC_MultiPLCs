@@ -381,7 +381,7 @@
                     IsEnabled="{Binding Standby, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding ToExcelCommand, Mode=OneTime}" />
+                            <i:InvokeCommandAction Command="{Binding ToFileCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -401,7 +401,7 @@
                             <TextBlock Text="{DynamicResource 紀錄時間}" />
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:RecordEvent">
+                            <DataTemplate DataType="models:LogEvent">
                                 <TextBlock Text="{Binding Time, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -463,7 +463,7 @@
                             </Menu>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:ProcessInfo">
+                            <DataTemplate DataType="models:LogEvent">
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -525,7 +525,7 @@
                             </Menu>
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:ProcessInfo">
+                            <DataTemplate DataType="models:LogEvent">
                                 <TextBlock Text="{Binding Type, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -535,7 +535,7 @@
                             <TextBlock Text="{DynamicResource 事件}" />
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:RecordEvent">
+                            <DataTemplate DataType="models:LogEvent">
                                 <TextBlock
                                     Text="{local:ResourceBinding Description,
                                                                  Mode=OneWay}"
