@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Views
@@ -8,7 +7,6 @@ namespace GPGO_MultiPLCs.Views
     {
         public static readonly DependencyProperty DataProperty = DependencyProperty.Register(nameof(Data), typeof(T), typeof(BindingDataProxy<T>), new PropertyMetadata(null));
 
-        [Bindable(true)]
         public T Data
         {
             get => (T)GetValue(DataProperty);

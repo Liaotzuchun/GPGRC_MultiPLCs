@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +23,6 @@ namespace GPGO_MultiPLCs
             //! 
         }
 
-        [Bindable(true)]
         public string DataOutputPath
         {
             get => (string)GetValue(DataOutputPathProperty);
@@ -42,7 +40,6 @@ namespace GPGO_MultiPLCs
             ((Connector)sender).LogVM.Language = lng;
         }
 
-        [Bindable(true)]
         public Language Language
         {
             get => (Language)GetValue(LanguageProperty);

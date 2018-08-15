@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -48,7 +47,6 @@ namespace GPGO_MultiPLCs.Helpers
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(DependencyCommand), new PropertyMetadata(null));
 
-        [Bindable(true)]
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
