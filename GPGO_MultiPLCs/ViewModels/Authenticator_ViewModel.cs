@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
-using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>提供身分驗證登入和系統設定</summary>
     public class Authenticator_ViewModel : ObservableObject
     {
-        private readonly string UsersPath = "Users.json";
-
         /// <summary>最高權限帳號</summary>
         private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };
 
@@ -24,6 +20,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>所有權限階級</summary>
         private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.A, User.UserLevel.B, User.UserLevel.C };
+
+        private readonly string UsersPath = "Users.json";
 
         /// <summary>所有使用者列表</summary>
         private List<User> Users;
