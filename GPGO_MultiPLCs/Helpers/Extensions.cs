@@ -743,22 +743,12 @@ namespace GPGO_MultiPLCs.Helpers
                 properties = type.GetProperties();
             }
 
-            for(var i = 0; i < properties.Length; i++)
-            {
-                csv.Append(properties[i].GetName(lng));
-                if (i == properties.Length - 1) break;
-                csv.Append(", ");
-            }
+            csv.Append(string.Join(", ", properties.Select(x => x.Name)));
 
-            foreach(var val in data)
+            foreach (var val in data)
             {
                 csv.AppendLine();
-                for (var i = 0; i < properties.Length; i++)
-                {
-                    csv.Append(properties[i].GetValue(val));
-                    if (i == properties.Length - 1) break;
-                    csv.Append(", ");
-                }
+                csv.Append(string.Join(", ", properties.Select(x => x.GetValue(val))));
             }
 
             return csv.ToString();
