@@ -290,8 +290,8 @@ namespace GPGO_MultiPLCs.Models
 
         public ProcessInfo(BaseInfo baseInfo, ProductInfo productInfo)
         {
-            baseInfo.CopyAll(this);
-            productInfo.CopyAll(this);
+            baseInfo.CopyTo(this);
+            productInfo.CopyTo(this);
         }
 
         #region 此區由TraceabilityView_ViewModel新增至資料庫時填入

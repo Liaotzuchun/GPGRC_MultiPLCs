@@ -255,7 +255,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        public static void CopyAll<T>(this T source, T target)
+        public static void CopyTo<T>(this T source, T target)
         {
             var type = typeof(T);
             foreach (var sourceProperty in type.GetProperties())
@@ -282,7 +282,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <typeparam name="T2"></typeparam>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        public static void CopyAll<T1, T2>(this T1 source, T2 target)
+        public static void CopyTo<T1, T2>(this T1 source, T2 target)
         {
             var type1 = typeof(T1);
             var type2 = typeof(T2);
