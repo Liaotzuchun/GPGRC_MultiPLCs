@@ -11,7 +11,7 @@ using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    /// <summary>生產總覽</summary>
+    /// <summary>所有烤箱的生產總覽</summary>
     public sealed class TotalView_ViewModel : ObservableObject, IGPServiceCallback, IDisposable
     {
         public void Dispose()

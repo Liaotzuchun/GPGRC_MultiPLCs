@@ -10,7 +10,7 @@ using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    /// <summary>實作IDialogService的對話窗</summary>
+    /// <summary>實作IDialogService，負責所有對話視窗</summary>
     public sealed class GlobalDialog_ViewModel : ObservableObject, IDialogService<string>, IDisposable
     {
         public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)

@@ -9,6 +9,7 @@ using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
+    /// <summary>紀錄/檢視系統事件</summary>
     public class LogView_ViewModel : ObservableObject
     {
         public Language Language = Language.TW;
