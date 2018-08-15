@@ -43,6 +43,12 @@ namespace GPGO_MultiPLCs.Helpers
             Key2Dictionary.Add(Key2, Key1);
         }
 
+        public void Clear()
+        {
+            Key1Dictionary.Clear();
+            Key2Dictionary.Clear();
+        }
+
         public IEnumerable<KeyValuePair<TKey1, TValue>> GetKeyValuePairsOfKey1()
         {
             return Key1Dictionary.ToList();

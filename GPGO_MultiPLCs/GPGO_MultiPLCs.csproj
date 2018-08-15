@@ -125,6 +125,7 @@
     <Compile Include="Models\LanguageEnum.cs" />
     <Compile Include="Models\NamesEnum.cs" />
     <Compile Include="Models\PLC_Data.cs" />
+    <Compile Include="Models\PLC_DevicesMap.cs" />
     <Compile Include="Models\PLC_Recipe.cs" />
     <Compile Include="Models\ProcessInfo.cs" />
     <Compile Include="Models\PLC_DataProvider.cs" />

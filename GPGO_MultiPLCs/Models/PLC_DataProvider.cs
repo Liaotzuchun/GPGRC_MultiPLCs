@@ -165,7 +165,6 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public event Action<(EventType type, DateTime time, string note)> EventHappened;
-
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
@@ -192,6 +191,30 @@ namespace GPGO_MultiPLCs.Models
                                                 OvenTemperatures_7 = t7,
                                                 OvenTemperatures_8 = t8
                                             });
+        }
+
+        /// <summary>重設PLC資料對應列表</summary>
+        /// <param name="map"></param>
+        public void ResetMapList(PLC_DevicesMap map)
+        {
+            M_Values.Clear();
+            D_Values.Clear();
+            Recipe_Values.Clear();
+
+            foreach (var loc in map.SignalList)
+            {
+                M_Values.Add(loc.Key, loc.Value, false);
+            }
+
+            foreach (var loc in map.DataList)
+            {
+                D_Values.Add(loc.Key, loc.Value, 0);
+            }
+
+            foreach (var loc in map.RecipeList)
+            {
+                Recipe_Values.Add(loc.Key, loc.Value, 0);
+            }
         }
 
         /// <summary>重設CancellationTokenSource狀態</summary>
@@ -269,7 +292,7 @@ namespace GPGO_MultiPLCs.Models
                                         TaskCreationOptions.LongRunning);
         }
 
-        public PLC_DataProvider(Dictionary<SignalNames, int> M_MapList, Dictionary<DataNames, int> D_MapList, Dictionary<DataNames, int> Recipe_MapList, IDialogService<string> dialog)
+        public PLC_DataProvider(PLC_DevicesMap map, IDialogService<string> dialog)
         {
             CheckRecipeCommand_KeyIn = new RelayCommand(e =>
                                                         {
@@ -444,6 +467,27 @@ namespace GPGO_MultiPLCs.Models
                                             }
                                         };
 
+            M_Values = new TwoKeyDictionary<SignalNames, int, bool>();
+            D_Values = new TwoKeyDictionary<DataNames, int, short>();
+            Recipe_Values = new TwoKeyDictionary<DataNames, int, short>();
+
+            foreach (var loc in map.SignalList)
+            {
+                M_Values.Add(loc.Key, loc.Value, false);
+            }
+
+            foreach (var loc in map.DataList)
+            {
+                D_Values.Add(loc.Key, loc.Value, 0);
+            }
+
+            foreach (var loc in map.RecipeList)
+            {
+                Recipe_Values.Add(loc.Key, loc.Value, 0);
+            }
+
+            #region 將PLC掃描值和ViewModel上的Property做map連結
+
             var M_Map = new Dictionary<SignalNames, string>
                         {
                             { SignalNames.PC_ByPass, nameof(PC_ByPass) },
@@ -467,7 +511,6 @@ namespace GPGO_MultiPLCs.Models
                             { SignalNames.門未關定位異常, nameof(DoorNotClosed_AbnormalPositioning) },
                             { SignalNames.升恆溫逾時, nameof(HeatingTimeExceeded) }
                         };
-
             var D_Map = new Dictionary<DataNames, string>
                         {
                             { DataNames.溫控器溫度, nameof(ThermostatTemperature) },
@@ -532,24 +575,7 @@ namespace GPGO_MultiPLCs.Models
                             { DataNames.配方名稱_13, nameof(RecipeName) }
                         };
 
-            M_Values = new TwoKeyDictionary<SignalNames, int, bool>();
-            D_Values = new TwoKeyDictionary<DataNames, int, short>();
-            Recipe_Values = new TwoKeyDictionary<DataNames, int, short>();
-
-            foreach (var loc in M_MapList)
-            {
-                M_Values.Add(loc.Key, loc.Value, false);
-            }
-
-            foreach (var loc in D_MapList)
-            {
-                D_Values.Add(loc.Key, loc.Value, 0);
-            }
-
-            foreach (var loc in Recipe_MapList)
-            {
-                Recipe_Values.Add(loc.Key, loc.Value, 0);
-            }
+            #endregion
 
             #region 註冊PLC事件
 
