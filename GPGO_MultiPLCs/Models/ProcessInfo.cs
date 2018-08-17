@@ -218,18 +218,18 @@ namespace GPGO_MultiPLCs.Models
         {
             return new Dictionary<string, object>
                    {
-                       { (GetType().GetProperty(nameof(AddedTime)).GetName(lng)), AddedTime },
-                       { (GetType().GetProperty(nameof(StationNumber)).GetName(lng)), StationNumber },
-                       { (GetType().GetProperty(nameof(RecipeName)).GetName(lng)), RecipeName },
-                       { (GetType().GetProperty(nameof(MachineCode)).GetName(lng)), MachineCode },
-                       { (GetType().GetProperty(nameof(OrderCode)).GetName(lng)), OrderCode },
-                       { (GetType().GetProperty(nameof(OperatorID)).GetName(lng)), OperatorID },
-                       { (GetType().GetProperty(nameof(TrolleyCode)).GetName(lng)), TrolleyCode },
-                       { (GetType().GetProperty(nameof(ProcessCount)).GetName(lng)), ProcessCount },
-                       { (GetType().GetProperty(nameof(Side)).GetName(lng)), Side },
-                       { (GetType().GetProperty(nameof(StartTime)).GetName(lng)), StartTime },
-                       { (GetType().GetProperty(nameof(EndTime)).GetName(lng)), EndTime },
-                       { (GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng)), "@" }
+                       { GetType().GetProperty(nameof(AddedTime)).GetName(lng), AddedTime },
+                       { GetType().GetProperty(nameof(StationNumber)).GetName(lng), StationNumber },
+                       { GetType().GetProperty(nameof(RecipeName)).GetName(lng), RecipeName },
+                       { GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode },
+                       { GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode },
+                       { GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID },
+                       { GetType().GetProperty(nameof(TrolleyCode)).GetName(lng), TrolleyCode },
+                       { GetType().GetProperty(nameof(ProcessCount)).GetName(lng), ProcessCount },
+                       { GetType().GetProperty(nameof(Side)).GetName(lng), Side },
+                       { GetType().GetProperty(nameof(StartTime)).GetName(lng), StartTime },
+                       { GetType().GetProperty(nameof(EndTime)).GetName(lng), EndTime },
+                       { GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng), "@" }
                    };
         }
 
