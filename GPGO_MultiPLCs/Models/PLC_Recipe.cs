@@ -330,6 +330,7 @@ namespace GPGO_MultiPLCs.Models
             TargetTemperature_7 = 200;
             TargetTemperature_8 = 200;
             UsedSegmentCounts = 8;
+            Used_Stations = new bool[20];
         }
 
         public PLC_Recipe()
