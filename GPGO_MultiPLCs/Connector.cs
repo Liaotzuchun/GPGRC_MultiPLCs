@@ -376,7 +376,7 @@ namespace GPGO_MultiPLCs
                                                   }
                                               };
 
-            MakeTestData(20);
+            //MakeTestData(20);
         }
     }
 }
