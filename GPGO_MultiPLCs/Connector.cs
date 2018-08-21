@@ -153,7 +153,12 @@ namespace GPGO_MultiPLCs
 
                             temp.Add(index);
                             _info.OrderCode = order_code[index];
-                            _info.ProcessCount = rn.Next(10, 20);
+
+                            var count = rn.Next(10, 20);
+                            for (var m = 0; m < count; m++)
+                            {
+                                _info.PanelCodes.Add(new object().GetHashCode().ToString());
+                            }
 
                             infos.Add(_info);
                         }
@@ -332,13 +337,11 @@ namespace GPGO_MultiPLCs
                                                                      {
                                                                          foreach (var info in e.Infos)
                                                                          {
-                                                                             for (var i = 1; i <= info.ProcessCount; i++)
+                                                                             for (var i = 0; i < info.ProcessCount; i++)
                                                                              {
-                                                                                 var ProduceCode = info.OrderCode + (i + info.ProcessNumber).ToString("000");
-
                                                                                  var path = DataOutputPath +
                                                                                             "\\" +
-                                                                                            ProduceCode +
+                                                                                            info.AssetNumber +
                                                                                             "_" +
                                                                                             DateTime.Now.ToString("yyyyMMddHHmmssfff") +
                                                                                             "_" +
@@ -351,7 +354,7 @@ namespace GPGO_MultiPLCs
                                                                                      n++;
                                                                                  }
 
-                                                                                 File.WriteAllText(path + n, info.ToString(ProduceCode), Encoding.ASCII);
+                                                                                 File.WriteAllText(path + n, info.ToString(i), Encoding.ASCII);
                                                                                  //!紀錄資料到指定輸出資料夾
                                                                              }
                                                                          }
@@ -373,7 +376,7 @@ namespace GPGO_MultiPLCs
                                                   }
                                               };
 
-            //MakeTestData(20);
+            MakeTestData(20);
         }
     }
 }

@@ -317,14 +317,10 @@
                                                                         </DataGridTemplateColumn.Header>
                                                                         <DataGridTemplateColumn.CellTemplate>
                                                                             <DataTemplate DataType="models:ProductInfo">
-                                                                                <StackPanel
+                                                                                <TextBlock
                                                                                     HorizontalAlignment="Center"
                                                                                     VerticalAlignment="Center"
-                                                                                    Orientation="Horizontal">
-                                                                                    <TextBlock Text="{Binding ProcessCount, Mode=OneWay}" />
-                                                                                    <TextBlock Text=" / " />
-                                                                                    <TextBlock Text="{Binding OrderCount, Mode=OneWay}" />
-                                                                                </StackPanel>
+                                                                                    Text="{Binding PanelCodes.Count, Mode=OneWay}"/>
                                                                             </DataTemplate>
                                                                         </DataGridTemplateColumn.CellTemplate>
                                                                     </DataGridTemplateColumn>

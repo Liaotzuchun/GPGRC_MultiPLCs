@@ -61,13 +61,12 @@ namespace GPGO_MultiPLCs
                 try
                 {
                     mongo_service.Start();
+                    mongo_service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(9));
                 }
                 catch (Exception ex)
                 {
                     ErrorRecoder.RecordError(ex, "Mongo嘗試啟動失敗");
                 }
-
-                mongo_service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(9));
             }
         }
     }

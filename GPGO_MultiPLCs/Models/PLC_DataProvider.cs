@@ -57,7 +57,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>紀錄的資訊</summary>
         public BaseInfo OvenInfo { get; }
 
-        public int ProcessCounts => Ext_Info.Sum(x => x.ProcessCount);
+        public int ProcessCounts => Ext_Info.Sum(x => x.PanelCodes.Count);
 
         /// <summary>生產進度</summary>
         public double Progress
@@ -394,26 +394,8 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      //? 取得上位資訊(料號、總量、投產量)
                                                                      Ext_Info.Clear();
-                                                                     Ext_Info.Add(new ProductInfo
-                                                                                  {
-                                                                                      CodeType = CodeType.Panel,
-                                                                                      FirstPanel = false,
-                                                                                      OrderCode = "ooxxabc",
-                                                                                      Side = "A",
-                                                                                      ProcessNumber = 2,
-                                                                                      ProcessCount = 11,
-                                                                                      OrderCount = 20
-                                                                                  });
-                                                                     Ext_Info.Add(new ProductInfo
-                                                                                  {
-                                                                                      CodeType = CodeType.Panel,
-                                                                                      FirstPanel = false,
-                                                                                      OrderCode = "qooqoo",
-                                                                                      Side = "A",
-                                                                                      ProcessNumber = 3,
-                                                                                      ProcessCount = 12,
-                                                                                      OrderCount = 30
-                                                                                  });
+                                                                     Ext_Info.Add(new ProductInfo("ooxxabc,001") { PanelCodes = new[] { "ooxx", "abc", "qqq" }.ToList() });
+                                                                     Ext_Info.Add(new ProductInfo("qooqoo,002") { PanelCodes = new[] { "ooxx", "abc", "qqq", "465" }.ToList() });
                                                                      //todo 待完成
 
                                                                      SwitchRecipeEvent?.Invoke(_Selected_Name); //! 投產成功，獲取配方參數並寫入PLC

@@ -368,7 +368,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         foreach (var info in e.productInfo)
                                                         {
                                                             infos.Add(new ProcessInfo(e.baseInfo, info));
-                                                            TotalProduction[index] = TotalProduction[index] + info.ProcessCount;
+                                                            TotalProduction[index] = TotalProduction[index] + info.PanelCodes.Count;
                                                         }
 
                                                         AddRecordToDB?.Invoke((index, infos));

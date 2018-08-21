@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
@@ -16,6 +17,16 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class BaseInfo : ObservableObject
     {
+        /// <summary>財產編號</summary>
+        [EN_Name("Asset Number")]
+        [CHT_Name("財產編號")]
+        [CHS_Name("财产编号")]
+        public string AssetNumber
+        {
+            get => Get<string>();
+            set => Set(value);
+        }
+
         /// <summary>結束時間</summary>
         [EN_Name("Closing Time")]
         [CHT_Name("結束時間")]
@@ -155,20 +166,41 @@ namespace GPGO_MultiPLCs.Models
         }
     }
 
+    /// <summary>客戶製程資訊</summary>
     public class ProductInfo
     {
         public CodeType CodeType { get; set; } = CodeType.Panel;
-        public bool FirstPanel { get; set; }
-        public string OrderCode { get; set; } = "";
-        public int OrderCount { get; set; }
-        public int ProcessCount { get; set; }
+        public bool FirstPanel { get; set; } = false;
+        public string OrderCode { get; set; }
+        public List<string> PanelCodes { get; set; } = new List<string>();
         public int ProcessNumber { get; set; }
-        public string Side { get; set; } = "";
+        public string Side { get; set; } = "A";
+
+        /// <summary></summary>
+        /// <param name="code">工單條碼</param>
+        public ProductInfo(string code)
+        {
+            var strs = code.Split(',');
+            OrderCode = strs[0];
+            ProcessNumber = strs.Length > 1 ? int.TryParse(strs[1], out var num) ? num : 0 : 0;
+        }
+
+        public ProductInfo(string orderCode, int processNumber)
+        {
+            OrderCode = orderCode;
+            ProcessNumber = processNumber;
+        }
     }
 
     [BsonIgnoreExtraElements]
     public class ProcessInfo : BaseInfo
     {
+        /// <summary>單一製造序材料數量</summary>
+        [EN_Name("Quantity")]
+        [CHT_Name("數量")]
+        [CHS_Name("数量")]
+        public int ProcessCount => PanelCodes.Count;
+
         /// <summary>條碼類型</summary>
         [EN_Name("Code Type")]
         [CHT_Name("條碼類型")]
@@ -187,17 +219,7 @@ namespace GPGO_MultiPLCs.Models
         [CHS_Name("工单")]
         public string OrderCode { get; set; }
 
-        /// <summary>工單材料總量</summary>
-        [EN_Name("Order Quantity")]
-        [CHT_Name("工單總量")]
-        [CHS_Name("工单总量")]
-        public int OrderCount { get; set; }
-
-        /// <summary>單一製造序材料數量</summary>
-        [EN_Name("Quantity")]
-        [CHT_Name("數量")]
-        [CHS_Name("数量")]
-        public int ProcessCount { get; set; }
+        public List<string> PanelCodes { get; set; } = new List<string>();
 
         /// <summary>製造序</summary>
         [EN_Name("SN")]
@@ -210,6 +232,11 @@ namespace GPGO_MultiPLCs.Models
         [CHT_Name("正反面")]
         [CHS_Name("正反面")]
         public string Side { get; set; }
+
+        public string AlarmListString()
+        {
+            return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm));
+        }
 
         /// <summary>匯出成Dictionary</summary>
         /// <param name="lng">語系</param>
@@ -235,7 +262,7 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>輸出客戶指定之文字字串</summary>
         /// <returns></returns>
-        public string ToString(string ProduceCode)
+        public string ToString(int index)
         {
             var stb = new StringBuilder();
             stb.Append("General1=");
@@ -251,13 +278,13 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("General6=");
             stb.AppendLine(CodeType.ToString());
             stb.Append("General7=");
-            stb.AppendLine(ProduceCode);
+            stb.AppendLine(PanelCodes[index]);
             stb.Append("General8=");
             stb.AppendLine(RecipeName);
             stb.Append("General9=");
             stb.AppendLine(ProcessCount.ToString());
             stb.Append("General10=");
-            stb.AppendLine(OrderCount.ToString());
+            stb.AppendLine(index.ToString());
             stb.Append("General11=");
             stb.AppendLine(OperatorID);
             stb.Append("General12=");
@@ -279,7 +306,7 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("Machine5=");
             stb.AppendLine(TotalHeatingTime.ToString());
             stb.Append("Machine6=");
-            stb.AppendLine("");
+            stb.AppendLine(AlarmListString());
 
             return stb.ToString();
         }
