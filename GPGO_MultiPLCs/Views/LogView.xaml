@@ -402,7 +402,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding Time, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                                <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

@@ -107,7 +107,7 @@ namespace GPGO_MultiPLCs
                         {
                             if (rn.Next(0, 100) > 96)
                             {
-                                LogVM.AddToDB(new LogEvent { StationNumber = i + 1, Time = time + t, Description = "", Type = (EventType)rn.Next(0, 4) });
+                                LogVM.AddToDB(new LogEvent { StationNumber = i + 1, AddedTime = time + t, Description = "", Type = (EventType)rn.Next(0, 4) });
                             }
 
                             var mins = (int)t.TotalMinutes + 1;
@@ -364,7 +364,7 @@ namespace GPGO_MultiPLCs
 
             TotalVM.EventHappened += e =>
                                      {
-                                         LogVM.AddToDB(new LogEvent { StationNumber = e.StationIndex + 1, Time = e.time, Type = e.type, Description = e.note });
+                                         LogVM.AddToDB(new LogEvent { StationNumber = e.StationIndex + 1, AddedTime = e.time, Type = e.type, Description = e.note });
                                      };
 
             //!更新每日產量

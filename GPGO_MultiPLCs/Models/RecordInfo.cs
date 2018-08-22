@@ -81,7 +81,7 @@ namespace GPGO_MultiPLCs.Models
     }
 
     [BsonIgnoreExtraElements]
-    public class LogEvent
+    public class LogEvent : ILogData
     {
         [EN_Name("Event")]
         [CHT_Name("事件")]
@@ -96,7 +96,7 @@ namespace GPGO_MultiPLCs.Models
         [EN_Name("Recorded")]
         [CHT_Name("紀錄時間")]
         [CHS_Name("纪录时间")]
-        public DateTime Time { get; set; }
+        public DateTime AddedTime { get; set; }
 
         [EN_Name("Type")]
         [CHT_Name("類型")]
