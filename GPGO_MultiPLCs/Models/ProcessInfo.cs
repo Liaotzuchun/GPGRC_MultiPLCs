@@ -193,7 +193,7 @@ namespace GPGO_MultiPLCs.Models
     }
 
     [BsonIgnoreExtraElements]
-    public class ProcessInfo : BaseInfo
+    public class ProcessInfo : BaseInfo, ILogData
     {
         /// <summary>單一製造序材料數量</summary>
         [EN_Name("Quantity")]

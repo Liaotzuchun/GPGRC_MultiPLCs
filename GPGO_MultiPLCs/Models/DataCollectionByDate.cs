@@ -4,18 +4,14 @@ using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Models
 {
-    public abstract class LogData : ObservableObject
+    public interface ILogData
     {
-        public DateTime AddedTime
-        {
-            get => Get<DateTime>();
-            set => Set(value);
-        }
+        DateTime AddedTime{ get; set; }
     }
 
-    public class DataCollectionByDate<T> : ObservableObject where T : LogData, new()
+    public class DataCollectionByDate<T> : ObservableObject where T : ILogData, new()
     {
-        private readonly IDataBase<T> DataCollection;
+        public readonly IDataBase<T> DataCollection;
 
         /// <summary>位移+1天</summary>
         public RelayCommand AddDayCommand { get; }

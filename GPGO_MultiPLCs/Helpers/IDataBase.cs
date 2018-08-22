@@ -8,7 +8,7 @@ namespace GPGO_MultiPLCs.Helpers
 {
     /// <summary>資料庫基本介面</summary>
     /// <typeparam name="T"></typeparam>
-    public interface IDataBase<T> where T : class, new()
+    public interface IDataBase<T> where T : new()
     {
         /// <summary>新增資料</summary>
         /// <param name="data"></param>

@@ -19,7 +19,7 @@ using OxyPlot.Series;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>生產紀錄追蹤</summary>
-    public class TraceabilityView_ViewModel : ObservableObject
+    public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     {
         public enum ChartMode
         {
@@ -35,16 +35,6 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
-        private readonly IDataBase<ProcessInfo> ProcessInfoCollection;
-
-        /// <summary>位移+1天</summary>
-        public RelayCommand AddDayCommand { get; }
-
-        /// <summary>位移+1月</summary>
-        public RelayCommand AddMonthCommand { get; }
-
-        /// <summary>位移+1週</summary>
-        public RelayCommand AddWeekCommand { get; }
 
         /// <summary>日期範圍的開始</summary>
         public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.AddedTime : null;
@@ -69,24 +59,6 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>基於正反面的Filter</summary>
         public FilterGroup SideFilter { get; }
 
-        /// <summary>位移-1天</summary>
-        public RelayCommand SubDayCommand { get; }
-
-        /// <summary>位移-1月</summary>
-        public RelayCommand SubMonthCommand { get; }
-
-        /// <summary>位移-1週</summary>
-        public RelayCommand SubWeekCommand { get; }
-
-        /// <summary>指定至本月</summary>
-        public RelayCommand ThisMonthCommand { get; }
-
-        /// <summary>指定至本週</summary>
-        public RelayCommand ThisWeekCommand { get; }
-
-        /// <summary>指定至本日</summary>
-        public RelayCommand TodayCommand { get; }
-
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToExcelCommand { get; }
 
@@ -97,48 +69,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>日期範圍的結束</summary>
         public DateTime? UpperDate => Results?.Count > 0 ? Results[Index2]?.AddedTime : null;
-
-        /// <summary>選取的開始日期(資料庫)</summary>
-        public DateTime Date1
-        {
-            get => Get<DateTime>();
-            set
-            {
-                Set(value);
-
-                if (Date2 < value)
-                {
-                    Set(value, nameof(Date2));
-                }
-                else if (Date2 - value > TimeSpan.FromDays(30))
-                {
-                    Set(value + TimeSpan.FromDays(30), nameof(Date2));
-                }
-
-                UpdateResults(value, Date2);
-            }
-        }
-
-        /// <summary>選取的結束日期(資料庫)</summary>
-        public DateTime Date2
-        {
-            get => Get<DateTime>();
-            set
-            {
-                Set(value);
-
-                if (Date1 > value)
-                {
-                    Set(value, nameof(Date1));
-                }
-                else if (value - Date1 > TimeSpan.FromDays(30))
-                {
-                    Set(value - TimeSpan.FromDays(30), nameof(Date1));
-                }
-
-                UpdateResults(Date1, value);
-            }
-        }
 
         /// <summary>篩選的開始時間點(RAM)</summary>
         public int Index1
@@ -180,36 +110,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>資料庫查詢結果</summary>
-        public List<ProcessInfo> Results
-        {
-            get => Get<List<ProcessInfo>>();
-            set
-            {
-                OvenFilter.Filter = value?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                RecipeFilter.Filter = value?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                OrderFilter.Filter = value?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                OpFilter.Filter = value?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                TrolleyFilter.Filter = value?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                SideFilter.Filter = value?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-
-                Set(value);
-                NotifyPropertyChanged(nameof(TotalCount));
-
-                TodayProductionUpdated?.Invoke(value?.Where(x => x.AddedTime.Day == DateTime.Today.Day).GroupBy(x => x.StationNumber - 1).Select(x => (x.Key, x.Sum(y => y.ProcessCount))).ToList());
-
-                UpdateViewResult();
-                UpdateChart(Date1, Date2);
-            }
-        }
-
-        /// <summary>辨別是否處在讀取資料中</summary>
-        public bool Standby
-        {
-            get => Get<bool>();
-            set => Set(value);
-        }
-
         /// <summary>顯示的資料列表</summary>
         public List<ProcessInfo> ViewResults
         {
@@ -232,11 +132,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                await ProcessInfoCollection.AddAsync(info);
+                await DataCollection.AddAsync(info);
 
                 if (UpdateResult)
                 {
-                    Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
+                    Results = await DataCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
                 }
             }
             catch (Exception ex)
@@ -262,11 +162,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 try
                 {
-                    await ProcessInfoCollection.AddAsync(info);
+                    await DataCollection.AddAsync(info);
 
                     if (UpdateResult)
                     {
-                        Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
+                        Results = await DataCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
                     }
                 }
                 catch (Exception ex)
@@ -293,15 +193,16 @@ namespace GPGO_MultiPLCs.ViewModels
                 await Task.Factory.StartNew(() =>
                                             {
                                                 var created = DateTime.Now;
-                                                var x = ViewResults.Count / 500;
-                                                var y = ViewResults.Count - 500 * x;
-                                                if (y > 100)
+                                                var x = ViewResults.Count / 500; //!檔案數
+                                                var y = ViewResults.Count - 500 * x; //!剩餘數
+
+                                                if (x > 0 && y <= 100)
                                                 {
-                                                    x += 1;
+                                                    y += 500;
                                                 }
                                                 else
                                                 {
-                                                    y += 500;
+                                                    x += 1;
                                                 }
 
                                                 Parallel.For(0,
@@ -724,24 +625,6 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView.InvalidatePlot(true);
         }
 
-        /// <summary>依據條件，更新查詢資料庫結果列表</summary>
-        /// <param name="date1">起始時間</param>
-        /// <param name="date2">結束時間</param>
-        public async void UpdateResults(DateTime date1, DateTime date2)
-        {
-            Standby = false;
-
-            try
-            {
-                Results = await ProcessInfoCollection.FindAsync(x => x.AddedTime >= date1 && x.AddedTime < date2.AddDays(1));
-            }
-            catch
-            {
-            }
-
-            Standby = true;
-        }
-
         private void UpdateViewResult()
         {
             ViewResults = Index2 >= Index1 && Results?.Count > 0 ? Results?.GetRange(Index1, Index2 - Index1 + 1)
@@ -756,90 +639,8 @@ namespace GPGO_MultiPLCs.ViewModels
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
 
-        public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db)
+        public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db) : base(db)
         {
-            ProcessInfoCollection = db;
-
-            //!定義更新圖表的委派
-            void Act()
-            {
-                NotifyPropertyChanged(nameof(Date1));
-                NotifyPropertyChanged(nameof(Date2));
-
-                UpdateResults(Date1, Date2);
-            }
-
-            SubDayCommand = new RelayCommand(o =>
-                                             {
-                                                 Set(Date1.AddDays(-1), nameof(Date1));
-                                                 Set(Date1, nameof(Date2));
-
-                                                 Act();
-                                             });
-
-            TodayCommand = new RelayCommand(o =>
-                                            {
-                                                Set(DateTime.Today.Date, nameof(Date1));
-                                                Set(Date1, nameof(Date2));
-
-                                                Act();
-                                            });
-
-            AddDayCommand = new RelayCommand(o =>
-                                             {
-                                                 Set(Date1.AddDays(1), nameof(Date1));
-                                                 Set(Date1, nameof(Date2));
-
-                                                 Act();
-                                             });
-
-            SubWeekCommand = new RelayCommand(o =>
-                                              {
-                                                  Set(Date1.StartOfWeek(DayOfWeek.Monday).AddDays(-7), nameof(Date1));
-                                                  Set(Date1.AddDays(6), nameof(Date2));
-
-                                                  Act();
-                                              });
-
-            ThisWeekCommand = new RelayCommand(o =>
-                                               {
-                                                   Set(DateTime.Today.Date.StartOfWeek(DayOfWeek.Monday), nameof(Date1));
-                                                   Set(Date1.AddDays(6), nameof(Date2));
-
-                                                   Act();
-                                               });
-
-            AddWeekCommand = new RelayCommand(o =>
-                                              {
-                                                  Set(Date1.StartOfWeek(DayOfWeek.Monday).AddDays(7), nameof(Date1));
-                                                  Set(Date1.AddDays(6), nameof(Date2));
-
-                                                  Act();
-                                              });
-
-            SubMonthCommand = new RelayCommand(o =>
-                                               {
-                                                   Set(new DateTime(Date1.Year, Date1.Month - 1, 1), nameof(Date1));
-                                                   Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
-
-                                                   Act();
-                                               });
-            ThisMonthCommand = new RelayCommand(o =>
-                                                {
-                                                    Set(new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1), nameof(Date1));
-                                                    Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
-
-                                                    Act();
-                                                });
-
-            AddMonthCommand = new RelayCommand(o =>
-                                               {
-                                                   Set(new DateTime(Date1.Year, Date1.Month + 1, 1), nameof(Date1));
-                                                   Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
-
-                                                   Act();
-                                               });
-
             ToExcelCommand = new RelayCommand(o =>
                                               {
                                                   SaveToExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
@@ -935,6 +736,26 @@ namespace GPGO_MultiPLCs.ViewModels
             OpFilter = new FilterGroup(UpdateAct);
             TrolleyFilter = new FilterGroup(UpdateAct);
             SideFilter = new FilterGroup(UpdateAct);
+
+            ResultsChanged += e =>
+                              {
+                                  OvenFilter.Filter = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  RecipeFilter.Filter = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  OrderFilter.Filter = e?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  OpFilter.Filter = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  TrolleyFilter.Filter = e?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  SideFilter.Filter = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+
+                                  NotifyPropertyChanged(nameof(TotalCount));
+
+                                  TodayProductionUpdated?.Invoke(e?.Where(x => x.AddedTime.Day == DateTime.Today.Day)
+                                                                  .GroupBy(x => x.StationNumber - 1)
+                                                                  .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
+                                                                  .ToList());
+
+                                  UpdateViewResult();
+                                  UpdateChart(Date1, Date2);
+                              };
         }
     }
 }
