@@ -70,7 +70,7 @@ namespace GPGO_MultiPLCs.Models
             }
             catch (Exception ex)
             {
-                ErrorRecoder.RecordError(ex);
+                ex.RecordError();
             }
         }
 

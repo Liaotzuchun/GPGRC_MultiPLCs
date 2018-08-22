@@ -24,7 +24,7 @@ namespace GPGO_MultiPLCs
 
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
             {
-                ErrorRecoder.RecordError((Exception)e.ExceptionObject);
+                ((Exception)e.ExceptionObject).RecordError();
 
                 if (e.IsTerminating)
                 {
@@ -35,7 +35,7 @@ namespace GPGO_MultiPLCs
 
             TaskScheduler.UnobservedTaskException += (s, e) =>
             {
-                ErrorRecoder.RecordError(e.Exception);
+                e.Exception.RecordError();
                 e.SetObserved();
 
                 //Process.Start(ResourceAssembly.Location);
@@ -45,7 +45,7 @@ namespace GPGO_MultiPLCs
             DispatcherUnhandledException += (s, e) =>
             {
                 e.Handled = true;
-                ErrorRecoder.RecordError(e.Exception);
+                e.Exception.RecordError();
 
                 //Process.Start(ResourceAssembly.Location);
                 //Current.Shutdown();
@@ -65,7 +65,7 @@ namespace GPGO_MultiPLCs
                 }
                 catch (Exception ex)
                 {
-                    ErrorRecoder.RecordError(ex, "Mongo嘗試啟動失敗");
+                    ex.RecordError("Mongo嘗試啟動失敗");
                 }
             }
         }

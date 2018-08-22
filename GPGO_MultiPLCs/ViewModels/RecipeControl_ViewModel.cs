@@ -138,7 +138,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ErrorRecoder.RecordError(ex, "配方資料庫更新使用站點資訊失敗");
+                    ex.RecordError("配方資料庫更新使用站點資訊失敗");
                 }
             }
 
@@ -167,7 +167,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ErrorRecoder.RecordError(ex);
+                    ex.RecordError();
                 }
             }
 
@@ -187,7 +187,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorRecoder.RecordError(ex);
+                ex.RecordError();
             }
             finally
             {
@@ -213,7 +213,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorRecoder.RecordError(ex);
+                ex.RecordError();
             }
 
             await RefreshList();

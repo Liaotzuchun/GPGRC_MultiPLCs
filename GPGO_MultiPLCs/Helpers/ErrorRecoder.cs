@@ -14,7 +14,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>紀錄例外</summary>
         /// <param name="ex">例外</param>
         /// <param name="note">附註</param>
-        public static void RecordError(Exception ex, string note = "")
+        public static void RecordError(this Exception ex, string note = "")
         {
             //! 避免同一時間大量的例外紀錄(通常發生於多執行緒的平行動作，即同一種例外發生多次)
             if (!Monitor.TryEnter(Lock_Obj))

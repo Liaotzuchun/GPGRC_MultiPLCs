@@ -173,7 +173,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorRecoder.RecordError(ex, "事件紀錄寫入資料庫失敗");
+                ex.RecordError("事件紀錄寫入資料庫失敗");
             }
         }
 

@@ -241,7 +241,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorRecoder.RecordError(ex, "生產紀錄寫入資料庫失敗");
+                ex.RecordError("生產紀錄寫入資料庫失敗");
             }
         }
 
@@ -271,7 +271,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ErrorRecoder.RecordError(ex, "生產紀錄寫入資料庫失敗");
+                    ex.RecordError("生產紀錄寫入資料庫失敗");
                 }
             }
         }
