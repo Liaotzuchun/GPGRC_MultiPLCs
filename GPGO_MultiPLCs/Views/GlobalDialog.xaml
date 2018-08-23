@@ -122,7 +122,7 @@
                                 <Setter TargetName="HeaderText" Property="Text" Value="{DynamicResource 警告}" />
                             </DataTrigger>
                             <DataTrigger
-                                Binding="{Binding Value.Type, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}"
+                                Binding="{Binding Value.Type, Mode=OneWay}"
                                 Value="Alarm">
                                 <Setter TargetName="HeaderBorder" Property="Background" Value="{StaticResource ErrorBrush}" />
                                 <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
