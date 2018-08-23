@@ -107,7 +107,7 @@ namespace GPGO_MultiPLCs
                         {
                             if (rn.Next(0, 100) > 96)
                             {
-                                LogVM.AddToDB(new LogEvent { StationNumber = i + 1, AddedTime = time + t, Description = "", Type = (EventType)rn.Next(0, 4) });
+                                LogVM.AddToDB(new LogEvent { StationNumber = i + 1, AddedTime = st + t, Description = "", Type = (EventType)rn.Next(0, 4) });
                             }
 
                             var mins = (int)t.TotalMinutes + 1;
