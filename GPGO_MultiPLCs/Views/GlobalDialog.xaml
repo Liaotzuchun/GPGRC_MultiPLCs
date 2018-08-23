@@ -91,52 +91,19 @@
                                     Opacity="0.3"
                                     ShadowDepth="8" />
                             </Grid.Effect>
-                            <TabControl SelectedIndex="{Binding Value.Type, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}">
-                                <TabItem
-                                    Width="0"
-                                    Height="0">
-                                    <Border
-                                        Background="{StaticResource OKBrush}"
-                                        BorderBrush="{StaticResource OKBorderBrush}"
-                                        BorderThickness="1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontSize="20"
-                                            Foreground="White"
-                                            Text="提示!" />
-                                    </Border>
-                                </TabItem>
-                                <TabItem
-                                    Width="0"
-                                    Height="0">
-                                    <Border
-                                        Background="{StaticResource WorkingBrush}"
-                                        BorderBrush="{StaticResource WorkingBorderBrush}"
-                                        BorderThickness="1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontSize="20"
-                                            Text="警告!" />
-                                    </Border>
-                                </TabItem>
-                                <TabItem
-                                    Width="0"
-                                    Height="0">
-                                    <Border
-                                        Background="{StaticResource ErrorBrush}"
-                                        BorderBrush="{StaticResource ErrorBorderBrush}"
-                                        BorderThickness="1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontSize="20"
-                                            Foreground="White"
-                                            Text="錯誤!" />
-                                    </Border>
-                                </TabItem>
-                            </TabControl>
+                            <Border
+                                x:Name="HeaderBorder"
+                                Background="{StaticResource OKBrush}"
+                                BorderBrush="{StaticResource OKBorderBrush}"
+                                BorderThickness="1">
+                                <TextBlock
+                                    x:Name="HeaderText"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    Foreground="White"
+                                    Text="{DynamicResource 提示}" />
+                            </Border>
                             <Viewbox
                                 Grid.Row="1"
                                 Margin="20,8,20,4">
@@ -146,13 +113,29 @@
                                     TextWrapping="WrapWithOverflow" />
                             </Viewbox>
                         </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Value.Type, Mode=OneWay}"
+                                Value="Alert">
+                                <Setter TargetName="HeaderBorder" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
+                                <Setter TargetName="HeaderText" Property="Text" Value="{DynamicResource 警告}" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding Value.Type, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type hp:DialogMsgType}, Mode=OneWay}"
+                                Value="Alarm">
+                                <Setter TargetName="HeaderBorder" Property="Background" Value="{StaticResource ErrorBrush}" />
+                                <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                <Setter TargetName="HeaderText" Property="Text" Value="{DynamicResource 錯誤}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <Grid
                 Grid.Column="1"
                 Width="440"
-                Height="240"
+                MinHeight="240"
                 Margin="16"
                 VerticalAlignment="Center"
                 Background="{StaticResource LightColorBrush}"
@@ -184,12 +167,11 @@
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Viewbox Margin="20,8,20,4">
-                        <TextBlock
-                            Text="{Binding Message_1, Mode=OneWay}"
-                            TextAlignment="Center"
-                            TextWrapping="WrapWithOverflow" />
-                    </Viewbox>
+                    <ScrollViewer>
+                        <Viewbox Margin="20,8,20,4">
+                            <TextBlock Text="{Binding Message_1, Mode=OneWay}" />
+                        </Viewbox>
+                    </ScrollViewer>
                     <UniformGrid
                         Grid.Row="1"
                         HorizontalAlignment="Center"

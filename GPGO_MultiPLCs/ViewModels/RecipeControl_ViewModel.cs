@@ -253,8 +253,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                              "The recipe is going to save or replace the same one,\n" + "Can't be restored!" + " OK?"
                                                                          }
                                                                      },
-                                                                     true,
-                                                                     DialogMsgType.Alert))
+                                                                     true))
                                                {
                                                    await Save(TypedName);
                                                }

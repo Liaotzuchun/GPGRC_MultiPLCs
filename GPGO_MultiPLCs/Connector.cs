@@ -10,6 +10,7 @@ using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Driver;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 
 namespace GPGO_MultiPLCs
 {
@@ -306,7 +307,7 @@ namespace GPGO_MultiPLCs
                                                  {
                                                      if (recipe.Used_Stations[i])
                                                      {
-                                                         await TotalVM.SetRecipe(i, recipe);
+                                                         await TotalVM.SetRecipe(i, recipe, true);
                                                      }
                                                  }
                                              }
@@ -317,7 +318,7 @@ namespace GPGO_MultiPLCs
                                   {
                                       if (!string.IsNullOrEmpty(e.RecipeName))
                                       {
-                                          await TotalVM.SetRecipe(e.StationIndex, await RecipeVM.GetRecipe(e.StationIndex, e.RecipeName));
+                                          await TotalVM.SetRecipe(e.StationIndex, await RecipeVM.GetRecipe(e.StationIndex, e.RecipeName), e.UpdateToPLC);
                                       }
 
                                       e.Lock?.Set();

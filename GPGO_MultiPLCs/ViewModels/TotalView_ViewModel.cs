@@ -126,7 +126,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
 
-        public event Action<(int StationIndex, string RecipeName, AutoResetEvent Lock)> WantRecipe;
+        public event Action<(int StationIndex, string RecipeName, AutoResetEvent Lock, bool UpdateToPLC)> WantRecipe;
 
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
@@ -192,8 +192,9 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>將配方寫入PLC</summary>
         /// <param name="index">PLC序號</param>
         /// <param name="recipe">配方</param>
+        /// <param name="SetToPLC">是否寫入PLC</param>
         /// <returns></returns>
-        public async Task SetRecipe(int index, PLC_Recipe recipe)
+        public async Task SetRecipe(int index, PLC_Recipe recipe, bool SetToPLC)
         {
             if (recipe == null)
             {
@@ -202,7 +203,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             recipe.CopyTo(PLC_All[index]);
 
-            if (PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
+            if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
             {
                 await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
             }
@@ -284,6 +285,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public TotalView_ViewModel(IReadOnlyCollection<PLC_DevicesMap> plc_maps, IDialogService<string> dialog)
         {
+            ViewIndex = -1;
             var PLC_Count = plc_maps.Count;
             site = new InstanceContext(this);
 
@@ -309,15 +311,15 @@ namespace GPGO_MultiPLCs.ViewModels
                 var index = i;
 
                 //!PLC由OP指定變更配方時
-                PLC_All[i].SwitchRecipeEvent += recipe =>
+                PLC_All[i].SwitchRecipeEvent += e =>
                                                 {
-                                                    WantRecipe?.Invoke((index, recipe, null));
+                                                    WantRecipe?.Invoke((index, e.RecipeName, e.Lock, false));
                                                 };
 
                 //!烤箱自動啟動時，開始紀錄
                 PLC_All[i].StartRecording += e =>
                                              {
-                                                 WantRecipe?.Invoke((index, e.RecipeName, e.Lock));
+                                                 WantRecipe?.Invoke((index, e.RecipeName, e.Lock, true));
                                              };
 
                 //!烘烤流程結束時

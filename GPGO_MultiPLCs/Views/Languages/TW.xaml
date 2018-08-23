@@ -89,7 +89,9 @@
     <sys:String x:Key="分類">分類</sys:String>
     <sys:String x:Key="生產總量">生產總量</sys:String>
     <sys:String x:Key="日期時間">日期 / 時間</sys:String>
+    <sys:String x:Key="提示">提示</sys:String>
     <sys:String x:Key="警告">警告</sys:String>
+    <sys:String x:Key="錯誤">錯誤</sys:String>
     <sys:String x:Key="確定">確定</sys:String>
     <sys:String x:Key="上傳紀錄">上傳紀錄</sys:String>
     <sys:String x:Key="瀏覽">瀏覽</sys:String>

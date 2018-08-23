@@ -13,7 +13,7 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>實作IDialogService，負責所有對話視窗</summary>
     public sealed class GlobalDialog_ViewModel : ObservableObject, IDialogService<string>, IDisposable
     {
-        public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal)
+        public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay)
         {
             if (!Lock_1.WaitOne(0))
             {
@@ -31,7 +31,7 @@ namespace GPGO_MultiPLCs.ViewModels
             await Task.Factory.StartNew(() =>
                                         {
                                             Lock_1.Reset();
-                                            Lock_1.WaitOne(12000);
+                                            Lock_1.WaitOne(delay == TimeSpan.Zero ? TimeSpan.FromSeconds(15) : delay);
                                         },
                                         TaskCreationOptions.LongRunning);
 

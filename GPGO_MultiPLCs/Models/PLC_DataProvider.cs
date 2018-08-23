@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Helpers;
+using MongoDB.Bson;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -160,7 +162,7 @@ namespace GPGO_MultiPLCs.Models
                 _Selected_Name = value;
                 NotifyPropertyChanged();
 
-                SwitchRecipeEvent?.Invoke(_Selected_Name);
+                SwitchRecipeEvent?.Invoke((_Selected_Name, LockHandle, true));
             }
         }
 
@@ -169,7 +171,7 @@ namespace GPGO_MultiPLCs.Models
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
         public event Action<(string RecipeName, AutoResetEvent Lock)> StartRecording;
-        public event Action<string> SwitchRecipeEvent;
+        public event Action<(string RecipeName, AutoResetEvent Lock, bool UpdateToPLC)> SwitchRecipeEvent;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
@@ -294,43 +296,79 @@ namespace GPGO_MultiPLCs.Models
 
         public PLC_DataProvider(PLC_DevicesMap map, IDialogService<string> dialog)
         {
-            CheckRecipeCommand_KeyIn = new RelayCommand(e =>
+            CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
                                                         {
-                                                            if (_Selected_Name != null && _Selected_Name != _Intput_Name)
+                                                            if (_Selected_Name == null || _Selected_Name == _Intput_Name)
                                                             {
-                                                                var args = (KeyEventArgs)e;
-                                                                if (args.Key == Key.Enter)
+                                                                return;
+                                                            }
+
+                                                            var args = (KeyEventArgs)e;
+                                                            if (args.Key == Key.Enter)
+                                                            {
+                                                                if (_Recipe_Names.Contains(_Intput_Name))
                                                                 {
-                                                                    if (_Recipe_Names.Contains(_Intput_Name))
-                                                                    {
-                                                                        Selected_Name = _Intput_Name;
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        Intput_Name = "";
-                                                                        RecipeKeyInError?.Invoke();
-                                                                    }
+                                                                    var name = _Selected_Name;
+                                                                    SwitchRecipeEvent?.Invoke((_Intput_Name, LockHandle, false));
+
+                                                                    await Task.Factory.StartNew(()=>
+                                                                                                {
+                                                                                                    LockHandle.WaitOne();
+                                                                                                }, TaskCreationOptions.LongRunning);
+
+                                                                    var recipe_str = this.Copy<PLC_Recipe>().ToJsonString();
+                                                                    var recult = await dialog.Show(new Dictionary<Language, string>
+                                                                                                   {
+                                                                                                       { Language.TW, recipe_str },
+                                                                                                       { Language.CHS, recipe_str },
+                                                                                                       { Language.EN, recipe_str }
+                                                                                                   }, true);
+
+                                                                    Selected_Name = recult ? _Intput_Name : name;
+                                                                }
+                                                                else
+                                                                {
+                                                                    Intput_Name = "";
+                                                                    RecipeKeyInError?.Invoke();
                                                                 }
                                                             }
                                                         });
 
-            CheckRecipeCommand_KeyLeave = new RelayCommand(e =>
+            CheckRecipeCommand_KeyLeave = new RelayCommand(async e =>
                                                            {
-                                                               if (_Selected_Name != null && _Selected_Name != _Intput_Name)
+                                                               if (_Selected_Name == null || _Selected_Name == _Intput_Name)
                                                                {
-                                                                   if (_Recipe_Names.Contains(_Intput_Name))
-                                                                   {
-                                                                       Selected_Name = _Intput_Name;
-                                                                   }
-                                                                   else
-                                                                   {
-                                                                       if (_Intput_Name != "")
-                                                                       {
-                                                                           RecipeKeyInError?.Invoke();
-                                                                       }
+                                                                   return;
+                                                               }
 
-                                                                       Intput_Name = _Selected_Name;
+                                                               if (_Recipe_Names.Contains(_Intput_Name))
+                                                               {
+                                                                   var name = _Selected_Name;
+                                                                   SwitchRecipeEvent?.Invoke((_Intput_Name, LockHandle, false));
+
+                                                                   await Task.Factory.StartNew(() =>
+                                                                                               {
+                                                                                                   LockHandle.WaitOne();
+                                                                                               }, TaskCreationOptions.LongRunning);
+
+                                                                   var recipe_str = this.Copy<PLC_Recipe>().ToJsonString();
+                                                                   var recult = await dialog.Show(new Dictionary<Language, string>
+                                                                                                  {
+                                                                                                      { Language.TW, recipe_str },
+                                                                                                      { Language.CHS, recipe_str },
+                                                                                                      { Language.EN, recipe_str }
+                                                                                                  }, true);
+
+                                                                   Selected_Name = recult ? _Intput_Name : name;
+                                                               }
+                                                               else
+                                                               {
+                                                                   if (_Intput_Name != "")
+                                                                   {
+                                                                       RecipeKeyInError?.Invoke();
                                                                    }
+
+                                                                   Intput_Name = _Selected_Name;
                                                                }
                                                            });
 
@@ -398,7 +436,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      Ext_Info.Add(new ProductInfo("qooqoo,002") { PanelCodes = new[] { "ooxx", "abc", "qqq", "465" }.ToList() });
                                                                      //todo 待完成
 
-                                                                     SwitchRecipeEvent?.Invoke(_Selected_Name); //! 投產成功，獲取配方參數並寫入PLC
+                                                                     SwitchRecipeEvent?.Invoke((_Selected_Name, LockHandle, true)); //! 投產成功，獲取配方參數並寫入PLC
 
                                                                      OvenInfo.RecipeName = RecipeName;
                                                                      OvenInfo.HeatingTime = new int[]

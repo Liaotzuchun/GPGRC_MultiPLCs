@@ -251,6 +251,32 @@ namespace GPGO_MultiPLCs.Helpers
             return target;
         }
 
+        public static T Copy<T>(this object source) where T : new()
+        {
+            var type1 = source.GetType();
+            var type2 = typeof(T);
+            var target = new T();
+            foreach (var targetProperty in type2.GetProperties())
+            {
+                var sourceProperty = type1.GetProperty(targetProperty.Name);
+                if (sourceProperty != null && sourceProperty.CanRead)
+                {
+                    targetProperty.SetValue(target, sourceProperty.GetValue(source, null), null);
+                }
+            }
+
+            foreach (var targetField in type2.GetFields())
+            {
+                var sourceField = type1.GetField(targetField.Name);
+                if (!sourceField.IsInitOnly)
+                {
+                    targetField.SetValue(target, sourceField.GetValue(source));
+                }
+            }
+
+            return target;
+        }
+
         /// <summary>物件深層拷貝(僅限public屬性和field)</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
@@ -427,6 +453,29 @@ namespace GPGO_MultiPLCs.Helpers
             return columnName;
         }
 
+        /// <summary>依據Language設定值取得Property對應的Attribute值</summary>
+        /// <param name="info"></param>
+        /// <param name="lng">語系</param>
+        /// <returns></returns>
+        public static string GetName(this PropertyInfo info, Language lng)
+        {
+            switch (lng)
+            {
+                case Language.EN:
+
+                    return info.IsDefined(typeof(EN_Name), false) ? info.GetCustomAttributes(typeof(EN_Name), false).First().ToString() : info.Name;
+                case Language.TW:
+
+                    return info.IsDefined(typeof(CHT_Name), false) ? info.GetCustomAttributes(typeof(CHT_Name), false).First().ToString() : info.Name;
+                case Language.CHS:
+
+                    return info.IsDefined(typeof(CHS_Name), false) ? info.GetCustomAttributes(typeof(CHS_Name), false).First().ToString() : info.Name;
+                default:
+
+                    return info.Name;
+            }
+        }
+
         public static byte HexToByte(this string val)
         {
             return Convert.ToByte(val, 16);
@@ -511,6 +560,43 @@ namespace GPGO_MultiPLCs.Helpers
             return temp;
         }
 
+        /// <summary>Json轉XML</summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static XDocument JsonToXml(this string json)
+        {
+            return JsonConvert.DeserializeXNode(json, "Root");
+        }
+
+        /// <summary>Json轉XML</summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static string JsonToXmlString(this string json)
+        {
+            return JsonConvert.DeserializeXNode(json, "Root").ToString();
+        }
+
+        /// <summary>將json檔案反序列化</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path">檔案路徑</param>
+        /// <returns></returns>
+        public static T ReadFromJsonFile<T>(this string path)
+        {
+            if (path != "" && File.Exists(path))
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(path, Encoding.Unicode));
+                }
+                catch
+                {
+                    return default(T);
+                }
+            }
+
+            return default(T);
+        }
+
         /// <summary>2個short值轉int整數</summary>
         /// <param name="val"></param>
         /// <returns></returns>
@@ -585,6 +671,32 @@ namespace GPGO_MultiPLCs.Helpers
             return dt.AddDays(-1 * diff).Date;
         }
 
+        /// <summary>將集合物件輸出至CSV(僅public property)</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <param name="lng">欄位語系</param>
+        /// <param name="properties">自訂屬性順序</param>
+        /// <returns></returns>
+        public static string ToCSV<T>(this IEnumerable<T> data, Language lng, PropertyInfo[] properties = null)
+        {
+            var type = typeof(T);
+            var csv = new StringBuilder();
+            if (properties == null)
+            {
+                properties = type.GetProperties();
+            }
+
+            csv.Append(string.Join(",", properties.Select(x => x.Name)));
+
+            foreach (var val in data)
+            {
+                csv.AppendLine();
+                csv.Append(string.Join(",", properties.Select(x => x.GetValue(val))));
+            }
+
+            return csv.ToString();
+        }
+
         /// <summary>將物件的公開屬性轉換為Dictionary</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
@@ -592,6 +704,22 @@ namespace GPGO_MultiPLCs.Helpers
         public static Dictionary<string, object> ToDictionary<T>(this T source)
         {
             return typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => prop.Name, prop => prop.GetValue(source, null));
+        }
+
+        public static string ToJsonString(this object data)
+        {
+            return JsonConvert.SerializeObject(data, Formatting.Indented);
+        }
+
+        /// <summary>將物件序列化為XML</summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static XDocument ToXml(this object data)
+        {
+            var IsCollection = data is IEnumerable;
+            var json = JsonConvert.SerializeObject(IsCollection ? new { Row = data } : data, Formatting.None);
+
+            return JsonConvert.DeserializeXNode(json, IsCollection ? "Table" : "Root");
         }
 
         /// <summary>short陣列轉換至UTF8字串</summary>
@@ -636,27 +764,6 @@ namespace GPGO_MultiPLCs.Helpers
             return vals.ToArray();
         }
 
-        /// <summary>將json檔案反序列化</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path">檔案路徑</param>
-        /// <returns></returns>
-        public static T ReadFromJsonFile<T>(this string path)
-        {
-            if (path != "" && File.Exists(path))
-            {
-                try
-                {
-                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(path, Encoding.Unicode));
-                }
-                catch
-                {
-                    return default(T);
-                }
-            }
-
-            return default(T);
-        }
-
         /// <summary>將物件序列化至json並輸出檔案</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="val"></param>
@@ -686,22 +793,6 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        /// <summary>Json轉XML</summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public static string JsonToXmlString(this string json)
-        {
-            return JsonConvert.DeserializeXNode(json, "Root").ToString();
-        }
-
-        /// <summary>Json轉XML</summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public static XDocument JsonToXml(this string json)
-        {
-            return JsonConvert.DeserializeXNode(json, "Root");
-        }
-
         /// <summary>XML轉Json</summary>
         /// <param name="xml"></param>
         /// <returns></returns>
@@ -716,65 +807,6 @@ namespace GPGO_MultiPLCs.Helpers
         public static string XmlToJson(this XObject xml)
         {
             return JsonConvert.SerializeXNode(xml, Formatting.None, true);
-        }
-
-        /// <summary>將物件序列化為XML</summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public static XDocument ToXml(this object data)
-        {
-            var IsCollection = data is IEnumerable;
-            var json = JsonConvert.SerializeObject(IsCollection ? new { Row = data } : data, Formatting.None);
-            return JsonConvert.DeserializeXNode(json, IsCollection ? "Table" : "Root");
-        }
-
-        /// <summary>將集合物件輸出至CSV(僅public property)</summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
-        /// <param name="lng">欄位語系</param>
-        /// <param name="properties">自訂屬性順序</param>
-        /// <returns></returns>
-        public static string ToCSV<T>(this IEnumerable<T> data, Language lng, PropertyInfo[] properties = null)
-        {
-            var type = typeof(T);
-            var csv = new StringBuilder();
-            if (properties == null)
-            {
-                properties = type.GetProperties();
-            }
-
-            csv.Append(string.Join(",", properties.Select(x => x.Name)));
-
-            foreach (var val in data)
-            {
-                csv.AppendLine();
-                csv.Append(string.Join(",", properties.Select(x => x.GetValue(val))));
-            }
-
-            return csv.ToString();
-        }
-
-        /// <summary>依據Language設定值取得Property對應的Attribute值</summary>
-        /// <param name="info"></param>
-        /// <param name="lng">語系</param>
-        /// <returns></returns>
-        public static string GetName(this PropertyInfo info, Language lng)
-        {
-            switch (lng)
-            {
-                case Language.EN:
-
-                    return info.IsDefined(typeof(EN_Name), false) ? info.GetCustomAttributes(typeof(EN_Name), false).First().ToString() : info.Name;
-                case Language.TW:
-
-                    return info.IsDefined(typeof(CHT_Name), false) ? info.GetCustomAttributes(typeof(CHT_Name), false).First().ToString() : info.Name;
-                case Language.CHS:
-
-                    return info.IsDefined(typeof(CHS_Name), false) ? info.GetCustomAttributes(typeof(CHS_Name), false).First().ToString() : info.Name;
-                default:
-
-                    return info.Name;
-            }
         }
     }
 }

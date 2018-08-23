@@ -25,9 +25,9 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>顯示確認訊息視窗</summary>
         /// <param name="msg">顯示訊息</param>
         /// <param name="support_cancel">是否顯示取消鍵</param>
-        /// <param name="type">訊息類型</param>
+        /// <param name="delay">等待時間</param>
         /// <returns></returns>
-        Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, DialogMsgType type = DialogMsgType.Normal);
+        Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay = default(TimeSpan));
 
         /// <summary>顯示提示訊息(指定時間內消失)</summary>
         /// <param name="msg">顯示訊息</param>
