@@ -21,7 +21,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>所有權限階級</summary>
         private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.A, User.UserLevel.B, User.UserLevel.C };
 
-        private readonly string UsersPath = "Users.json";
+        private const string UsersPath = "Users.json";
 
         /// <summary>所有使用者列表</summary>
         private List<User> Users;

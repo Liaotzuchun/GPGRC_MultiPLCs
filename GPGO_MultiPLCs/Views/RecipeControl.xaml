@@ -1340,12 +1340,6 @@
                         VerticalAlignment="Center"
                         Text="{DynamicResource 配方}" />
                 </Border>
-                <TextBox
-                    Grid.Column="2"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    BorderThickness="0,0,1,1"
-                    Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="1"
                     Grid.Column="1"
@@ -1357,13 +1351,22 @@
                         VerticalAlignment="Center"
                         Text="{DynamicResource 搜尋}" />
                 </Border>
-                <TextBox
-                    Grid.Row="1"
+                <UniformGrid
+                    Grid.RowSpan="2"
                     Grid.Column="2"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    BorderThickness="0,0,1,1"
-                    Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
+                    Columns="1"
+                    KeyboardNavigation.TabNavigation="Cycle">
+                    <TextBox
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        BorderThickness="0,0,1,1"
+                        Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        BorderThickness="0,0,1,1"
+                        Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
+                </UniformGrid>
                 <Button
                     Grid.Column="3"
                     Content="{DynamicResource 新增}"

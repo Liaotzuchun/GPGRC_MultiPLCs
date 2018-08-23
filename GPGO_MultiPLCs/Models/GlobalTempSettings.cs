@@ -7,7 +7,7 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>PC程式參數</summary>
     public class GlobalTempSettings : ObservableObject
     {
-        private readonly string FilePath = "Settings.json";
+        private const string FilePath = "Settings.json";
 
         /// <summary>上傳資料輸出位置</summary>
         public string DataOutputPath

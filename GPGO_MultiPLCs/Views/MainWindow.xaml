@@ -12,6 +12,7 @@
     DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
     FontFamily="Microsoft JhengHei"
     Icon="/GPGO_MultiPLCs;component/GP.ico"
+    KeyboardNavigation.TabNavigation="None"
     Loaded="Window_Loaded"
     SnapsToDevicePixels="True"
     WindowStartupLocation="CenterScreen"

@@ -9,6 +9,7 @@
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
     IsVisibleChanged="UserControl_IsVisibleChanged"
+    KeyboardNavigation.TabNavigation="Cycle"
     Loaded="UserControl_Loaded"
     UseLayoutRounding="True"
     Visibility="{Binding IsShown, Mode=OneWay}"
@@ -172,14 +173,6 @@
                             VerticalAlignment="Center"
                             Text="{DynamicResource 帳號}" />
                     </Border>
-                    <TextBox
-                        x:Name="NameBox"
-                        Grid.Column="2"
-                        BorderThickness="1,1,1,0"
-                        FontSize="14"
-                        GotKeyboardFocus="NameBox_GotKeyboardFocus"
-                        PreviewKeyDown="NameBox_PreviewKeyDown"
-                        Text="{Binding TypedName, Mode=TwoWay}" />
                     <Border
                         Grid.Row="1"
                         Grid.Column="1"
@@ -191,18 +184,28 @@
                             VerticalAlignment="Center"
                             Text="{DynamicResource 密碼}" />
                     </Border>
-                    <PasswordBox
-                        x:Name="Password"
-                        Grid.Row="1"
+                    <UniformGrid
+                        Grid.RowSpan="2"
                         Grid.Column="2"
-                        FontSize="14"
-                        PreviewKeyDown="Password_PreviewKeyDown" />
+                        Columns="1"
+                        KeyboardNavigation.TabNavigation="Cycle">
+                        <TextBox
+                            x:Name="NameBox"
+                            BorderThickness="1,1,1,0"
+                            FontSize="14"
+                            GotKeyboardFocus="NameBox_GotKeyboardFocus"
+                            PreviewKeyDown="NameBox_PreviewKeyDown"
+                            Text="{Binding TypedName, Mode=TwoWay}" />
+                        <PasswordBox
+                            x:Name="Password"
+                            FontSize="14"
+                            PreviewKeyDown="Password_PreviewKeyDown" />
+                    </UniformGrid>
                     <Button
                         x:Name="LoginButton"
                         Grid.RowSpan="2"
                         Grid.Column="3"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                        Click="LoginButton_Click"
                         Content="{DynamicResource 登入}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">

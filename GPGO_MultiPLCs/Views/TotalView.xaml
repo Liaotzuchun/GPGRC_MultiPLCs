@@ -116,14 +116,6 @@
                                                         Text="{DynamicResource 設備}" />
                                                 </Border>
                                                 <Border
-                                                    Grid.Column="1"
-                                                    Background="{StaticResource LightColorBrush}">
-                                                    <TextBox
-                                                        BorderThickness="0"
-                                                        IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
-                                                        Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}" />
-                                                </Border>
-                                                <Border
                                                     Grid.Row="1"
                                                     Background="{StaticResource WindowBackgroundBrush2}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -133,36 +125,44 @@
                                                         VerticalAlignment="Center"
                                                         Text="{DynamicResource 配方}" />
                                                 </Border>
-                                                <ComboBox
-                                                    x:Name="CB"
-                                                    Grid.Row="1"
+                                                <UniformGrid
+                                                    Grid.RowSpan="2"
                                                     Grid.Column="1"
-                                                    BorderThickness="0,1,0,0"
-                                                    IsEditable="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
-                                                    IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
-                                                    IsHitTestVisible="{Binding IsEditable, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                                                    IsTextSearchEnabled="False"
-                                                    ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
-                                                    PreviewGotKeyboardFocus="CB_PreviewGotKeyboardFocus"
-                                                    SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
-                                                    Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                    <i:Interaction.Triggers>
-                                                        <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
-                                                        <i:EventTrigger EventName="PreviewKeyUp">
-                                                            <helpers:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
-                                                        </i:EventTrigger>
-                                                        <i:EventTrigger EventName="PreviewLostKeyboardFocus">
-                                                            <i:InvokeCommandAction Command="{Binding CheckRecipeCommand_KeyLeave, Mode=OneTime}" />
-                                                        </i:EventTrigger>
-                                                    </i:Interaction.Triggers>
-                                                    <ComboBox.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock
-                                                                Text="{Binding}"
-                                                                TextTrimming="CharacterEllipsis" />
-                                                        </DataTemplate>
-                                                    </ComboBox.ItemTemplate>
-                                                </ComboBox>
+                                                    Columns="1"
+                                                    KeyboardNavigation.TabNavigation="Cycle">
+                                                    <TextBox
+                                                        BorderThickness="0"
+                                                        IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                                        Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}" />
+                                                    <ComboBox
+                                                        x:Name="CB"
+                                                        BorderThickness="0,1,0,0"
+                                                        IsEditable="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                                        IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                                        IsHitTestVisible="{Binding IsEditable, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                                        IsTextSearchEnabled="False"
+                                                        ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
+                                                        PreviewGotKeyboardFocus="CB_PreviewGotKeyboardFocus"
+                                                        SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
+                                                        Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                        <i:Interaction.Triggers>
+                                                            <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
+                                                            <i:EventTrigger EventName="PreviewKeyUp">
+                                                                <helpers:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
+                                                            </i:EventTrigger>
+                                                            <i:EventTrigger EventName="PreviewLostKeyboardFocus">
+                                                                <i:InvokeCommandAction Command="{Binding CheckRecipeCommand_KeyLeave, Mode=OneTime}" />
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock
+                                                                    Text="{Binding}"
+                                                                    TextTrimming="CharacterEllipsis" />
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                </UniformGrid>
                                             </Grid>
                                         </TabItem>
                                         <TabItem

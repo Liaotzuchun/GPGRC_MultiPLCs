@@ -61,11 +61,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            Keyboard.ClearFocus();
-        }
-
         private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             NameBox.Clear();
