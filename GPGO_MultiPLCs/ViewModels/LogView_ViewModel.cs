@@ -84,13 +84,19 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public async void SaveToCSV(string dic_path)
+        public async void SaveToCSV(string path)
         {
             Standby = false;
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            var dic = dic_path + "\\EventLogs";
+                                            path += "\\EventLogs";
+
+                                            if (!Directory.Exists(path))
+                                            {
+                                                Directory.CreateDirectory(path);
+                                            }
+
                                             var csv = ViewResults.ToCSV(Language,
                                                                         new[]
                                                                         {
@@ -99,7 +105,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                             typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
                                                                             typeof(LogEvent).GetProperty(nameof(LogEvent.Description))
                                                                         });
-                                            File.WriteAllText(dic + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", csv, Encoding.UTF8);
+                                            File.WriteAllText(path + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", csv, Encoding.UTF8);
                                         });
 
             Standby = true;

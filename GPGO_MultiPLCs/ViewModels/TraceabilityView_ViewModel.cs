@@ -178,14 +178,14 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
         /// <param name="dic_path">資料夾路徑</param>
-        public async void SaveToExcel(string dic_path)
+        public async void SaveToExcel(string path)
         {
             Standby = false;
 
-            var dic = dic_path + "\\Reports";
-            if (!Directory.Exists(dic))
+            path += "\\Reports";
+            if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(dic);
+                Directory.CreateDirectory(path);
             }
 
             if (ViewResults.Any())
@@ -209,7 +209,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              x,
                                                              index =>
                                                              {
-                                                                 var fi = new FileInfo(dic + "\\" + created.ToString("yyyy-MM-dd-HH-mm-ss-fff(") + (index + 1) + ").xlsm");
+                                                                 var fi = new FileInfo(path + "\\" + created.ToString("yyyy-MM-dd-HH-mm-ss-fff(") + (index + 1) + ").xlsm");
                                                                  var datas = ViewResults.GetRange(500 * index, index == x - 1 ? y : 500);
                                                                  var n = datas.Count;
                                                                  var xlwb = new ExcelPackage();
