@@ -136,6 +136,7 @@
                 Grid.Column="1"
                 Width="440"
                 MinHeight="240"
+                MaxHeight="600"
                 Margin="16"
                 VerticalAlignment="Center"
                 Background="{StaticResource LightColorBrush}"
@@ -167,11 +168,45 @@
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <ScrollViewer>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <Viewbox Margin="20,8,20,4">
                             <TextBlock Text="{Binding Message_1, Mode=OneWay}" />
                         </Viewbox>
                     </ScrollViewer>
+                    <ItemsControl
+                        Margin="8"
+                        ItemsSource="{Binding ObjectPropertiesView, Mode=OneWay}">
+                        <ItemsControl.Template>
+                            <ControlTemplate>
+                                <ItemsPresenter />
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Background="{StaticResource LightColorBrush}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Background="{StaticResource WindowBackgroundBrush2}">
+                                        <TextBlock
+                                            Margin="8,0"
+                                            Text="{Binding Key, Mode=OneWay}" />
+                                    </Border>
+                                    <Border Grid.Column="1">
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            Text="{Binding Value, Mode=OneWay}" />
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                     <UniformGrid
                         Grid.Row="1"
                         HorizontalAlignment="Center"

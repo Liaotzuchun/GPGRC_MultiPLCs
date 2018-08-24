@@ -316,13 +316,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                     LockHandle.WaitOne();
                                                                                                 }, TaskCreationOptions.LongRunning);
 
-                                                                    var recipe_str = this.Copy<PLC_Recipe>().ToJsonString();
-                                                                    var recult = await dialog.Show(new Dictionary<Language, string>
-                                                                                                   {
-                                                                                                       { Language.TW, recipe_str },
-                                                                                                       { Language.CHS, recipe_str },
-                                                                                                       { Language.EN, recipe_str }
-                                                                                                   }, true);
+                                                                    var recult = await dialog.Show(this.Copy<PLC_Recipe>(), true);
 
                                                                     Selected_Name = recult ? _Intput_Name : name;
                                                                 }
@@ -351,13 +345,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                    LockHandle.WaitOne();
                                                                                                }, TaskCreationOptions.LongRunning);
 
-                                                                   var recipe_str = this.Copy<PLC_Recipe>().ToJsonString();
-                                                                   var recult = await dialog.Show(new Dictionary<Language, string>
-                                                                                                  {
-                                                                                                      { Language.TW, recipe_str },
-                                                                                                      { Language.CHS, recipe_str },
-                                                                                                      { Language.EN, recipe_str }
-                                                                                                  }, true);
+                                                                   var recult = await dialog.Show(this.Copy<PLC_Recipe>(), true);
 
                                                                    Selected_Name = recult ? _Intput_Name : name;
                                                                }

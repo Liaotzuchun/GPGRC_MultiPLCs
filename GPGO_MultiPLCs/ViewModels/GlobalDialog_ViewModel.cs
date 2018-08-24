@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,46 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>實作IDialogService，負責所有對話視窗</summary>
     public sealed class GlobalDialog_ViewModel : ObservableObject, IDialogService<string>, IDisposable
     {
+        public async Task<bool> Show(object obj, bool support_cancel, TimeSpan delay)
+        {
+            if (!Lock_1.WaitOne(0))
+            {
+                EnterResult_1 = false;
+                Lock_1.Set();
+
+                await Task.Delay(30);
+            }
+
+            EnterResult_1 = false;
+            SupportCancel = support_cancel;
+
+            ObjectPropertiesView = obj.GetType()
+                                      .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                                      .Where(x => x.CanWrite && !typeof(IEnumerable).IsAssignableFrom(x.PropertyType))
+                                      .ToDictionary(x => x.Name, y => y.GetValue(obj).ToString());
+
+            IsShown_1 = Visibility.Visible;
+
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            Lock_1.Reset();
+                                            if (delay == TimeSpan.Zero)
+                                            {
+                                                Lock_1.WaitOne();
+                                            }
+                                            else
+                                            {
+                                                Lock_1.WaitOne(delay);
+                                            }
+                                        },
+                                        TaskCreationOptions.LongRunning);
+
+            IsShown_1 = Visibility.Collapsed;
+            ObjectPropertiesView = null;
+
+            return EnterResult_1;
+        }
+
         public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay)
         {
             if (!Lock_1.WaitOne(0))
@@ -36,6 +78,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         TaskCreationOptions.LongRunning);
 
             IsShown_1 = Visibility.Collapsed;
+            Message_1 = "";
 
             return EnterResult_1;
         }
@@ -78,6 +121,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                         TaskCreationOptions.LongRunning);
 
             IsShown_2 = Visibility.Collapsed;
+            Message_2 = "";
+            TitleHeader = "";
 
             return (EnterResult_2, Intput);
         }
@@ -142,6 +187,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                         TaskCreationOptions.LongRunning);
 
             IsShown_2 = Visibility.Collapsed;
+            Message_2 = "";
+            TitleHeader = "";
 
             return (ConditionResult != null && EnterResult_2 && ConditionResult.Value, Intput);
         }
@@ -215,6 +262,12 @@ namespace GPGO_MultiPLCs.ViewModels
         public string Message_2
         {
             get => Get<string>();
+            set => Set(value);
+        }
+
+        public Dictionary<string, string> ObjectPropertiesView
+        {
+            get => Get<Dictionary<string, string>>();
             set => Set(value);
         }
 

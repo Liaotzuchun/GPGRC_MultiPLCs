@@ -120,4 +120,6 @@
     <sys:String x:Key="報表匯出">Export</sys:String>
     <sys:String x:Key="篩選">Filter</sys:String>
     <sys:String x:Key="類型">Type</sys:String>
+    <sys:String x:Key="欄位">Field</sys:String>
+    <sys:String x:Key="值">Value</sys:String>
 </ResourceDictionary>

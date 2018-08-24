@@ -115,6 +115,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\Attributes.cs" />
+    <Compile Include="Helpers\ObjectViewModel.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
     <Compile Include="Helpers\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\FilterGroup.cs" />

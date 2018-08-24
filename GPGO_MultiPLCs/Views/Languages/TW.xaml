@@ -120,4 +120,6 @@
     <sys:String x:Key="報表匯出">匯出</sys:String>
     <sys:String x:Key="篩選">篩選</sys:String>
     <sys:String x:Key="類型">類型</sys:String>
+    <sys:String x:Key="欄位">欄位</sys:String>
+    <sys:String x:Key="值">值</sys:String>
 </ResourceDictionary>
