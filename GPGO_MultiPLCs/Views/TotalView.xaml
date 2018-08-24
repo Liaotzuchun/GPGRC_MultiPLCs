@@ -133,6 +133,7 @@
                                                     KeyboardNavigation.TabNavigation="Cycle">
                                                     <TextBox
                                                         BorderThickness="0"
+                                                        Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                         Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}" />
                                                     <ComboBox

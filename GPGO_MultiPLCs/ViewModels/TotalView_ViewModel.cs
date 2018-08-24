@@ -126,7 +126,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
 
-        public event Action<(int StationIndex, string RecipeName, AutoResetEvent Lock, bool UpdateToPLC)> WantRecipe;
+        public event Func<(int StationIndex, string RecipeName), Task<PLC_Recipe>> WantRecipe;
 
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
@@ -156,11 +156,11 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>儲存設備碼</summary>
-        public void SaveMachineCodes()
+        public void SaveMachineCodes(string path)
         {
             try
             {
-                PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray().WriteToJsonFile(MachineCodesPath);
+                PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray().WriteToJsonFile(path);
             }
             catch
             {
@@ -311,15 +311,29 @@ namespace GPGO_MultiPLCs.ViewModels
                 var index = i;
 
                 //!PLC由OP指定變更配方時
-                PLC_All[i].SwitchRecipeEvent += e =>
+                PLC_All[i].SwitchRecipeEvent += async e =>
                                                 {
-                                                    WantRecipe?.Invoke((index, e.RecipeName, e.Lock, false));
+                                                    var recipe = WantRecipe == null ? null : await WantRecipe.Invoke((index, e.RecipeName));
+
+                                                    if (e.UpdateToPLC && PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
+                                                    {
+                                                        await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                                                    }
+
+                                                    return recipe;
                                                 };
 
                 //!烤箱自動啟動時，開始紀錄
-                PLC_All[i].StartRecording += e =>
+                PLC_All[i].StartRecording += async recipeName =>
                                              {
-                                                 WantRecipe?.Invoke((index, e.RecipeName, e.Lock, true));
+                                                 var recipe = WantRecipe == null ? null : await WantRecipe.Invoke((index, recipeName));
+
+                                                 if (PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
+                                                 {
+                                                     await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                                                 }
+
+                                                 return recipe;
                                              };
 
                 //!烘烤流程結束時
@@ -352,7 +366,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!由OP變更設備代碼時
                 PLC_All[i].MachineCodeChanged += code =>
                                                  {
-                                                     SaveMachineCodes();
+                                                     SaveMachineCodes(MachineCodesPath);
                                                  };
 
                 //!PLC配方輸入錯誤時

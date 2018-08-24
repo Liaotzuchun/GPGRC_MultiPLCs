@@ -15,7 +15,6 @@ namespace GPGO_MultiPLCs.Models
         public void Dispose()
         {
             CTS.Dispose();
-            LockHandle.Dispose();
         }
 
         public enum Status
@@ -30,7 +29,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
 
-        private readonly AutoResetEvent LockHandle = new AutoResetEvent(false);
         private readonly Stopwatch sw = new Stopwatch();
         private string _Intput_Name;
         private bool _OnlineStatus;
@@ -160,7 +158,7 @@ namespace GPGO_MultiPLCs.Models
                 _Selected_Name = value;
                 NotifyPropertyChanged();
 
-                SwitchRecipeEvent?.Invoke((_Selected_Name, LockHandle, true));
+                SetRecipe(value);
             }
         }
 
@@ -168,8 +166,8 @@ namespace GPGO_MultiPLCs.Models
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
-        public event Action<(string RecipeName, AutoResetEvent Lock)> StartRecording;
-        public event Action<(string RecipeName, AutoResetEvent Lock, bool UpdateToPLC)> SwitchRecipeEvent;
+        public event Func<string, Task<PLC_Recipe>> StartRecording;
+        public event Func<(string RecipeName, bool UpdateToPLC), Task<PLC_Recipe>> SwitchRecipeEvent;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
@@ -231,14 +229,33 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
+        public void SetRecipe(PLC_Recipe recipe)
+        {
+            recipe.CopyTo(this);
+            _Selected_Name = recipe.RecipeName;
+            NotifyPropertyChanged(nameof(Selected_Name));
+        }
+
+        public async void SetRecipe(string recipeName)
+        {
+            if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Selected_Name, true)) is PLC_Recipe recipe)
+            {
+                recipe.CopyTo(this);
+            }
+
+            _Selected_Name = recipeName;
+            NotifyPropertyChanged(nameof(Selected_Name));
+        }
+
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            StartRecording?.Invoke((RecipeName, LockHandle)); //! 引發開始紀錄事件並以LockHandle等待配方設定完成
+            if (StartRecording != null && await StartRecording.Invoke(RecipeName) is PLC_Recipe recipe)
+            {
+                recipe.CopyTo(this);
+            }
 
             await Task.Factory.StartNew(() =>
                                         {
-                                            LockHandle.WaitOne();
-
                                             var n = TimeSpan.Zero;
                                             sw.Restart();
 
@@ -296,38 +313,30 @@ namespace GPGO_MultiPLCs.Models
         {
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
                                                         {
-                                                            if (_Selected_Name == null || _Selected_Name == _Intput_Name)
+                                                            if (((KeyEventArgs)e).Key != Key.Enter || _Selected_Name == null || _Selected_Name == _Intput_Name)
                                                             {
                                                                 return;
                                                             }
 
-                                                            var args = (KeyEventArgs)e;
-                                                            if (args.Key == Key.Enter)
+                                                            if (_Recipe_Names.Contains(_Intput_Name))
                                                             {
-                                                                if (_Recipe_Names.Contains(_Intput_Name))
+                                                                if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Intput_Name, false)) is PLC_Recipe recipe)
                                                                 {
-                                                                    var name = _Selected_Name;
-                                                                    SwitchRecipeEvent?.Invoke((_Intput_Name, LockHandle, false));
-
-                                                                    await Task.Factory.StartNew(()=>
-                                                                                                {
-                                                                                                    LockHandle.WaitOne();
-                                                                                                }, TaskCreationOptions.LongRunning);
-
-                                                                    var recult = await dialog.Show(new Dictionary<Language, string>
-                                                                                                   {
-                                                                                                       { Language.TW, "請確認配方內容：" },
-                                                                                                       { Language.CHS, "请确认配方内容：" },
-                                                                                                       { Language.EN, "Please confirm this recipe:" }
-                                                                                                   },this.Copy<PLC_Recipe>(), true);
-
-                                                                    Selected_Name = recult ? _Intput_Name : name;
+                                                                    if (await dialog.Show(new Dictionary<Language, string>
+                                                                                          {
+                                                                                              { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" }
+                                                                                          },
+                                                                                          recipe,
+                                                                                          true))
+                                                                    {
+                                                                        SetRecipe(recipe);
+                                                                    }
                                                                 }
-                                                                else
-                                                                {
-                                                                    Intput_Name = "";
-                                                                    RecipeKeyInError?.Invoke();
-                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                Intput_Name = "";
+                                                                RecipeKeyInError?.Invoke();
                                                             }
                                                         });
 
@@ -343,9 +352,7 @@ namespace GPGO_MultiPLCs.Models
                                                              var (result1, intput1) =
                                                                  await dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                              {
-                                                                                                 { Language.TW, "輸入操作人員ID" },
-                                                                                                 { Language.CHS, "输入操作人员ID" },
-                                                                                                 { Language.EN, "Enter the Operator ID" }
+                                                                                                 { Language.TW, "輸入操作人員ID" }, { Language.CHS, "输入操作人员ID" }, { Language.EN, "Enter the Operator ID" }
                                                                                              },
                                                                                              new Dictionary<Language, string> { { Language.TW, para }, { Language.CHS, para }, { Language.EN, para } },
                                                                                              x =>
@@ -372,9 +379,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  },
                                                                                                  new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     { Language.TW, para },
-                                                                                                     { Language.CHS, para },
-                                                                                                     { Language.EN, para }
+                                                                                                     { Language.TW, para }, { Language.CHS, para }, { Language.EN, para }
                                                                                                  },
                                                                                                  x =>
                                                                                                  {
@@ -400,7 +405,10 @@ namespace GPGO_MultiPLCs.Models
                                                                      Ext_Info.Add(new ProductInfo("qooqoo,002") { PanelCodes = new[] { "ooxx", "abc", "qqq", "465" }.ToList() });
                                                                      //todo 待完成
 
-                                                                     SwitchRecipeEvent?.Invoke((_Selected_Name, LockHandle, true)); //! 投產成功，獲取配方參數並寫入PLC
+                                                                     if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Selected_Name, true)) is PLC_Recipe recipe)
+                                                                     {
+                                                                         recipe.CopyTo(this);
+                                                                     }
 
                                                                      OvenInfo.RecipeName = RecipeName;
                                                                      OvenInfo.HeatingTime = new int[]

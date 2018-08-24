@@ -314,15 +314,7 @@ namespace GPGO_MultiPLCs
                                          };
 
             //!當某站烤箱要求配方時，自資料庫讀取配方並發送
-            TotalVM.WantRecipe += async e =>
-                                  {
-                                      if (!string.IsNullOrEmpty(e.RecipeName))
-                                      {
-                                          await TotalVM.SetRecipe(e.StationIndex, await RecipeVM.GetRecipe(e.StationIndex, e.RecipeName), e.UpdateToPLC);
-                                      }
-
-                                      e.Lock?.Set();
-                                  };
+            TotalVM.WantRecipe += async e => string.IsNullOrEmpty(e.RecipeName) ? null : await RecipeVM.GetRecipe(e.StationIndex, e.RecipeName);
 
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾
             TotalVM.AddRecordToDB += async e =>
@@ -377,7 +369,7 @@ namespace GPGO_MultiPLCs
                                                   }
                                               };
 
-            //MakeTestData(20);
+            MakeTestData(/*2*/0);
         }
     }
 }
