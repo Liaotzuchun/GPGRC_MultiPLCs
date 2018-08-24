@@ -16,7 +16,6 @@
                                 VerticalAlignment="Center"
                                 FontSize="9.5"
                                 FontWeight="Bold"
-                                Foreground="{StaticResource BaseForeground}"
                                 Text="{Binding}" />
                         </DataTemplate>
                     </ControlTemplate.Resources>

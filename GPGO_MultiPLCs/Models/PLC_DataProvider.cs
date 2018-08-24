@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Helpers;
-using MongoDB.Bson;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -316,7 +314,12 @@ namespace GPGO_MultiPLCs.Models
                                                                                                     LockHandle.WaitOne();
                                                                                                 }, TaskCreationOptions.LongRunning);
 
-                                                                    var recult = await dialog.Show(this.Copy<PLC_Recipe>(), true);
+                                                                    var recult = await dialog.Show(new Dictionary<Language, string>
+                                                                                                   {
+                                                                                                       { Language.TW, "請確認配方內容：" },
+                                                                                                       { Language.CHS, "请确认配方内容：" },
+                                                                                                       { Language.EN, "Please confirm this recipe:" }
+                                                                                                   },this.Copy<PLC_Recipe>(), true);
 
                                                                     Selected_Name = recult ? _Intput_Name : name;
                                                                 }
@@ -328,36 +331,9 @@ namespace GPGO_MultiPLCs.Models
                                                             }
                                                         });
 
-            CheckRecipeCommand_KeyLeave = new RelayCommand(async e =>
+            CheckRecipeCommand_KeyLeave = new RelayCommand(e =>
                                                            {
-                                                               if (_Selected_Name == null || _Selected_Name == _Intput_Name)
-                                                               {
-                                                                   return;
-                                                               }
-
-                                                               if (_Recipe_Names.Contains(_Intput_Name))
-                                                               {
-                                                                   var name = _Selected_Name;
-                                                                   SwitchRecipeEvent?.Invoke((_Intput_Name, LockHandle, false));
-
-                                                                   await Task.Factory.StartNew(() =>
-                                                                                               {
-                                                                                                   LockHandle.WaitOne();
-                                                                                               }, TaskCreationOptions.LongRunning);
-
-                                                                   var recult = await dialog.Show(this.Copy<PLC_Recipe>(), true);
-
-                                                                   Selected_Name = recult ? _Intput_Name : name;
-                                                               }
-                                                               else
-                                                               {
-                                                                   if (_Intput_Name != "")
-                                                                   {
-                                                                       RecipeKeyInError?.Invoke();
-                                                                   }
-
-                                                                   Intput_Name = _Selected_Name;
-                                                               }
+                                                               Intput_Name = _Selected_Name;
                                                            });
 
             CheckInCommand = new CommandWithResult<bool>(async o =>

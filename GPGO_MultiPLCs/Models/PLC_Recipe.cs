@@ -17,66 +17,99 @@ namespace GPGO_MultiPLCs.Models
         public short Time_Max => 600;
         public short Time_Min => 1;
 
+        [EN_Name("Cooling Temperature")]
+        [CHT_Name("降溫溫度")]
+        [CHS_Name("降温温度")]
         public short CoolingTemperature
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Heating Time 1")]
+        [CHT_Name("升溫時間 1")]
+        [CHS_Name("升温时间 1")]
         public short HeatingTime_1
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Heating Time 2")]
+        [CHT_Name("升溫時間 2")]
+        [CHS_Name("升温时间 2")]
         public short HeatingTime_2
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Heating Time 3")]
+        [CHT_Name("升溫時間 3")]
+        [CHS_Name("升温时间 3")]
         public short HeatingTime_3
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Heating Time 4")]
+        [CHT_Name("升溫時間 4")]
+        [CHS_Name("升温时间 4")]
         public short HeatingTime_4
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Heating Time 5")]
+        [CHT_Name("升溫時間 5")]
+        [CHS_Name("升温时间 5")]
         public short HeatingTime_5
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Heating Time 6")]
+        [CHT_Name("升溫時間 6")]
+        [CHS_Name("升温时间 6")]
         public short HeatingTime_6
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Heating Time 7")]
+        [CHT_Name("升溫時間 7")]
+        [CHS_Name("升温时间 7")]
         public short HeatingTime_7
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Heating Time 8")]
+        [CHT_Name("升溫時間 8")]
+        [CHS_Name("升温时间 8")]
         public short HeatingTime_8
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Inflating Time")]
+        [CHT_Name("充氣時間")]
+        [CHS_Name("充气时间")]
         public short InflatingTime
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Recipe Name")]
+        [CHT_Name("配方名稱")]
+        [CHS_Name("配方名称")]
         [BsonId]
         public string RecipeName
         {
@@ -84,162 +117,243 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [EN_Name("Target Temperature 1")]
+        [CHT_Name("目標溫度 1")]
+        [CHS_Name("目标温度 1")]
         public double TargetTemperature_1
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Target Temperature 2")]
+        [CHT_Name("目標溫度 2")]
+        [CHS_Name("目标温度 2")]
         public double TargetTemperature_2
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Target Temperature 3")]
+        [CHT_Name("目標溫度 3")]
+        [CHS_Name("目标温度 3")]
         public double TargetTemperature_3
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Target Temperature 4")]
+        [CHT_Name("目標溫度 4")]
+        [CHS_Name("目标温度 4")]
         public double TargetTemperature_4
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Target Temperature 5")]
+        [CHT_Name("目標溫度 5")]
+        [CHS_Name("目标温度 5")]
         public double TargetTemperature_5
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Target Temperature 6")]
+        [CHT_Name("目標溫度 6")]
+        [CHS_Name("目标温度 6")]
         public double TargetTemperature_6
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Target Temperature 7")]
+        [CHT_Name("目標溫度 7")]
+        [CHS_Name("目标温度 7")]
         public double TargetTemperature_7
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Target Temperature 8")]
+        [CHT_Name("目標溫度 8")]
+        [CHS_Name("目标温度 8")]
         public double TargetTemperature_8
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Thermostatic Temperature 1")]
+        [CHT_Name("恆溫溫度 1")]
+        [CHS_Name("恒温温度 1")]
         public double ThermostaticTemperature_1
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Thermostatic Temperature 2")]
+        [CHT_Name("恆溫溫度 2")]
+        [CHS_Name("恒温温度 2")]
         public double ThermostaticTemperature_2
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Thermostatic Temperature 3")]
+        [CHT_Name("恆溫溫度 3")]
+        [CHS_Name("恒温温度 3")]
         public double ThermostaticTemperature_3
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Thermostatic Temperature 4")]
+        [CHT_Name("恆溫溫度 4")]
+        [CHS_Name("恒温温度 4")]
         public double ThermostaticTemperature_4
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Thermostatic Temperature 5")]
+        [CHT_Name("恆溫溫度 5")]
+        [CHS_Name("恒温温度 5")]
         public double ThermostaticTemperature_5
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Thermostatic Temperature 6")]
+        [CHT_Name("恆溫溫度 6")]
+        [CHS_Name("恒温温度 6")]
         public double ThermostaticTemperature_6
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Thermostatic Temperature 7")]
+        [CHT_Name("恆溫溫度 7")]
+        [CHS_Name("恒温温度 7")]
         public double ThermostaticTemperature_7
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Thermostatic Temperature 8")]
+        [CHT_Name("恆溫溫度 8")]
+        [CHS_Name("恒温温度 8")]
         public double ThermostaticTemperature_8
         {
             get => Get<double>();
             set => Set(value);
         }
 
+        [EN_Name("Updated Time")]
+        [CHT_Name("更新時間")]
+        [CHS_Name("更新时间")]
         public DateTime Updated
         {
             get => Get<DateTime>();
             set => Set(value);
         }
 
+        [EN_Name("Used Stations")]
+        [CHT_Name("使用站點")]
+        [CHS_Name("使用站点")]
         public bool[] Used_Stations
         {
             get => Get<bool[]>();
             set => Set(value);
         }
 
+        [EN_Name("Used Segment Counts")]
+        [CHT_Name("使用段數")]
+        [CHS_Name("使用段数")]
         public short UsedSegmentCounts
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Warning Time 1")]
+        [CHT_Name("恆溫時間 1")]
+        [CHS_Name("恒温时间 1")]
         public short WarmingTime_1
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Warning Time 2")]
+        [CHT_Name("恆溫時間 2")]
+        [CHS_Name("恒温时间 2")]
         public short WarmingTime_2
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Warning Time 3")]
+        [CHT_Name("恆溫時間 3")]
+        [CHS_Name("恒温时间 3")]
         public short WarmingTime_3
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Warning Time 4")]
+        [CHT_Name("恆溫時間 4")]
+        [CHS_Name("恒温时间 4")]
         public short WarmingTime_4
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Warning Time 5")]
+        [CHT_Name("恆溫時間 5")]
+        [CHS_Name("恒温时间 5")]
         public short WarmingTime_5
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Warning Time 6")]
+        [CHT_Name("恆溫時間 6")]
+        [CHS_Name("恒温时间 6")]
         public short WarmingTime_6
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Warning Time 7")]
+        [CHT_Name("恆溫時間 7")]
+        [CHS_Name("恒温时间 7")]
         public short WarmingTime_7
         {
             get => Get<short>();
             set => Set(value);
         }
 
+        [EN_Name("Warning Time 8")]
+        [CHT_Name("恆溫時間 8")]
+        [CHS_Name("恒温时间 8")]
         public short WarmingTime_8
         {
             get => Get<short>();

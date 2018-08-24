@@ -136,7 +136,6 @@
                             <Border x:Name="Bd">
                                 <ContentPresenter
                                     x:Name="PART_Header"
-                                    Grid.Column="1"
                                     Margin="10,4,4,4"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     ContentSource="Header"

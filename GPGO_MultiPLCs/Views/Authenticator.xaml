@@ -8,6 +8,7 @@
     xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
+    Foreground="{StaticResource BaseForeground}"
     IsVisibleChanged="UserControl_IsVisibleChanged"
     KeyboardNavigation.TabNavigation="Cycle"
     Loaded="UserControl_Loaded"

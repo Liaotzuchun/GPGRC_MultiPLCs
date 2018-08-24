@@ -12,6 +12,7 @@
     d:DataContext="{d:DesignInstance vm:LogView_ViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    Foreground="{StaticResource BaseForeground}"
     mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

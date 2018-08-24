@@ -11,6 +11,7 @@
     Background="{StaticResource WindowBackgroundBrush}"
     DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
     FontFamily="Microsoft JhengHei"
+    Foreground="{StaticResource BaseForeground}"
     Icon="/GPGO_MultiPLCs;component/GP.ico"
     KeyboardNavigation.TabNavigation="None"
     Loaded="Window_Loaded"

@@ -52,6 +52,29 @@ namespace GPGO_MultiPLCs.Helpers
             1073741824
         };
 
+        public static string AlignCenter(this string source, int length, Language Lng)
+        {
+            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
+            var spaces = length - source_length;
+            var d = spaces / 2 + source_length;
+
+            return source.AlignRight(d, Lng).AlignLeft(length, Lng);
+        }
+
+        public static string AlignLeft(this string source, int length, Language Lng)
+        {
+            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
+
+            return source.PadRight(length - (source_length - source.Length));
+        }
+
+        public static string AlignRight(this string source, int length, Language Lng)
+        {
+            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
+
+            return source.PadLeft(length - (source_length - source.Length));
+        }
+
         /// <summary>short陣列轉成ASCII字串</summary>
         /// <param name="vals"></param>
         /// <returns></returns>
@@ -280,6 +303,33 @@ namespace GPGO_MultiPLCs.Helpers
             return target;
         }
 
+        /// <summary>從目標物件嘗試拷貝同屬性名的值(僅限public屬性和field)</summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void CopyFrom<T1>(this T1 source, object target) where T1 : class
+        {
+            var type1 = typeof(T1);
+            var type2 = target.GetType();
+            foreach (var sourceProperty in type1.GetProperties())
+            {
+                var targetProperty = type2.GetProperty(sourceProperty.Name);
+                if (targetProperty != null && targetProperty.CanRead)
+                {
+                    sourceProperty.SetValue(source, targetProperty.GetValue(source, null), null);
+                }
+            }
+
+            foreach (var sourceField in type1.GetFields())
+            {
+                var targetField = type2.GetField(sourceField.Name);
+                if (!targetField.IsInitOnly)
+                {
+                    sourceField.SetValue(source, targetField.GetValue(source));
+                }
+            }
+        }
+
         /// <summary>物件深層拷貝(僅限public屬性和field)</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
@@ -329,33 +379,6 @@ namespace GPGO_MultiPLCs.Helpers
                 if (!targetField.IsInitOnly)
                 {
                     targetField.SetValue(target, sourceField.GetValue(source));
-                }
-            }
-        }
-
-        /// <summary>從目標物件嘗試拷貝同屬性名的值(僅限public屬性和field)</summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public static void CopyFrom<T1>(this T1 source, object target) where T1 : class 
-        {
-            var type1 = typeof(T1);
-            var type2 = target.GetType();
-            foreach (var sourceProperty in type1.GetProperties())
-            {
-                var targetProperty = type2.GetProperty(sourceProperty.Name);
-                if (targetProperty != null && targetProperty.CanRead)
-                {
-                    sourceProperty.SetValue(source, targetProperty.GetValue(source, null), null);
-                }
-            }
-
-            foreach (var sourceField in type1.GetFields())
-            {
-                var targetField = type2.GetField(sourceField.Name);
-                if (!targetField.IsInitOnly)
-                {
-                    sourceField.SetValue(source, targetField.GetValue(source));
                 }
             }
         }
@@ -720,14 +743,13 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string ToCSV<T>(this IEnumerable<T> data, Language lng, PropertyInfo[] properties = null)
         {
-            var type = typeof(T);
             var csv = new StringBuilder();
             if (properties == null)
             {
-                properties = type.GetProperties();
+                properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanWrite && !typeof(ICollection).IsAssignableFrom(x.PropertyType)).ToArray();
             }
 
-            csv.Append(string.Join(",", properties.Select(x => x.Name)));
+            csv.Append(string.Join(",", properties.Select(x => x.GetName(lng))));
 
             foreach (var val in data)
             {
@@ -741,12 +763,22 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>將物件的公開屬性轉換為Dictionary</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
+        /// <param name="Lng">欄位語系</param>
+        /// <param name="properties">自訂屬性順序</param>
         /// <returns></returns>
-        public static Dictionary<string, object> ToDictionary<T>(this T source)
+        public static Dictionary<string, object> ToDictionary<T>(this T source, Language Lng = Language.TW, PropertyInfo[] properties = null)
         {
-            return typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => prop.Name, prop => prop.GetValue(source, null));
+            if (properties == null)
+            {
+                properties = source.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanWrite && !typeof(ICollection).IsAssignableFrom(x.PropertyType)).ToArray();
+            }
+
+            return properties.ToDictionary(prop => prop.GetName(Lng), prop => prop.GetValue(source));
         }
 
+        /// <summary>轉換至Json(Json.Net)</summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static string ToJsonString(this object data)
         {
             return JsonConvert.SerializeObject(data, Formatting.Indented);
@@ -848,26 +880,6 @@ namespace GPGO_MultiPLCs.Helpers
         public static string XmlToJson(this XObject xml)
         {
             return JsonConvert.SerializeXNode(xml, Formatting.None, true);
-        }
-
-        public static string AlignCenter(this string source, int length, Language Lng)
-        {
-            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
-            var spaces = length - source_length;
-            var d = spaces / 2 + source_length;
-            return source.AlignRight(d, Lng).AlignLeft(length, Lng);
-        }
-
-        public static string AlignLeft(this string source, int length, Language Lng)
-        {
-            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
-            return source.PadRight(length - (source_length - source.Length));
-        }
-
-        public static string AlignRight(this string source, int length, Language Lng)
-        {
-            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
-            return source.PadLeft(length - (source_length - source.Length));
         }
     }
 }
