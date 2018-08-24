@@ -251,6 +251,9 @@ namespace GPGO_MultiPLCs.Helpers
             return target;
         }
 
+        /// <summary>物件同名屬性值複製，產生一新物件(僅限public屬性和field)</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
         public static T Copy<T>(this object source) where T : new()
         {
             var type1 = source.GetType();
@@ -281,7 +284,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        public static void CopyTo<T>(this T source, T target)
+        public static void CopyTo<T>(this T source, T target) where T : class
         {
             var type = typeof(T);
             foreach (var sourceProperty in type.GetProperties())
@@ -303,15 +306,14 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        /// <summary>物件嘗試深層拷貝(僅限public屬性和field)</summary>
+        /// <summary>嘗試拷貝同屬性名的值至目標物件(僅限public屬性和field)</summary>
         /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
         /// <param name="source"></param>
         /// <param name="target"></param>
-        public static void CopyTo<T1, T2>(this T1 source, T2 target)
+        public static void CopyTo<T1>(this T1 source, object target) where T1 : class
         {
             var type1 = typeof(T1);
-            var type2 = typeof(T2);
+            var type2 = target.GetType();
             foreach (var sourceProperty in type1.GetProperties())
             {
                 var targetProperty = type2.GetProperty(sourceProperty.Name);
@@ -327,6 +329,33 @@ namespace GPGO_MultiPLCs.Helpers
                 if (!targetField.IsInitOnly)
                 {
                     targetField.SetValue(target, sourceField.GetValue(source));
+                }
+            }
+        }
+
+        /// <summary>從目標物件嘗試拷貝同屬性名的值(僅限public屬性和field)</summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void CopyFrom<T1>(this T1 source, object target) where T1 : class 
+        {
+            var type1 = typeof(T1);
+            var type2 = target.GetType();
+            foreach (var sourceProperty in type1.GetProperties())
+            {
+                var targetProperty = type2.GetProperty(sourceProperty.Name);
+                if (targetProperty != null && targetProperty.CanRead)
+                {
+                    sourceProperty.SetValue(source, targetProperty.GetValue(source, null), null);
+                }
+            }
+
+            foreach (var sourceField in type1.GetFields())
+            {
+                var targetField = type2.GetField(sourceField.Name);
+                if (!targetField.IsInitOnly)
+                {
+                    sourceField.SetValue(source, targetField.GetValue(source));
                 }
             }
         }
@@ -807,6 +836,26 @@ namespace GPGO_MultiPLCs.Helpers
         public static string XmlToJson(this XObject xml)
         {
             return JsonConvert.SerializeXNode(xml, Formatting.None, true);
+        }
+
+        public static string AlignCenter(this string source, int length, Language Lng)
+        {
+            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
+            var spaces = length - source_length;
+            var d = spaces / 2 + source_length;
+            return source.AlignRight(d, Lng).AlignLeft(length, Lng);
+        }
+
+        public static string AlignLeft(this string source, int length, Language Lng)
+        {
+            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
+            return source.PadRight(length - (source_length - source.Length));
+        }
+
+        public static string AlignRight(this string source, int length, Language Lng)
+        {
+            var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
+            return source.PadLeft(length - (source_length - source.Length));
         }
     }
 }
