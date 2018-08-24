@@ -605,6 +605,18 @@ namespace GPGO_MultiPLCs.Helpers
             return JsonConvert.DeserializeXNode(json, "Root").ToString();
         }
 
+        /// <summary>字串置中</summary>
+        /// <param name="source"></param>
+        /// <param name="length">總長度</param>
+        /// <returns></returns>
+        public static string PadCenter(this string source, int length)
+        {
+            var spaces = length - source.Length;
+            var padLeft = spaces / 2 + source.Length;
+
+            return source.PadLeft(padLeft).PadRight(length);
+        }
+
         /// <summary>將json檔案反序列化</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="path">檔案路徑</param>
