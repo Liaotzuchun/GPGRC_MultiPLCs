@@ -6,6 +6,9 @@ using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs.Helpers
 {
+    //!因MongoDB Driver的支援問題，所以條件式皆用Func<T, bool>而非Predicate<T>
+    //!Expression<Func<T, bool>>是運算式資料結構，等於是將委派包裝成物件(因此理論上可序列化)，
+    //!此處是為將委派傳遞給MongoDB Driver讓它去實作動態查詢(因為它無法預知你要執行什麼查詢)
     /// <summary>資料庫基本介面</summary>
     /// <typeparam name="T"></typeparam>
     public interface IDataBase<T> where T : new()

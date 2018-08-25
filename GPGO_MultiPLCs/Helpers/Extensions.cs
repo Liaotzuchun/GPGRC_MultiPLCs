@@ -402,7 +402,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="val"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static int[] FindIndexes<T>(this IEnumerable<T> vals, T val, Func<T, bool> func = null)
+        public static int[] FindIndexes<T>(this IEnumerable<T> vals, T val, Predicate<T> func = null)
         {
             return vals.Select((x, i) => func?.Invoke(val) ?? x.Equals(val) ? i : -1).Where(x => x != -1).ToArray();
         }
