@@ -70,11 +70,8 @@
         </Grid>
         <Border
             Grid.Column="1"
-            Background="{StaticResource LightColorBrush}">
-            <Image
-                Margin="8"
-                Source="/GPGO_MultiPLCs;component/GPS.png" />
-        </Border>
+            Background="{StaticResource LightColorBrush}"
+            Child="{StaticResource GP_Logo}" />
         <TabControl
             Grid.Row="1"
             Grid.ColumnSpan="2"
