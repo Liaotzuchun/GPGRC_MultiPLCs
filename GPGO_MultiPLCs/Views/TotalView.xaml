@@ -473,11 +473,11 @@
                             <Rectangle
                                 Fill="{StaticResource DisabledBackgroundBrush}"
                                 Stroke="{StaticResource DisabledBorderBrush}"
-                                StrokeThickness="1" />
+                                StrokeThickness="0" />
                             <Rectangle
                                 Fill="{StaticResource OKBrush}"
                                 Stroke="{StaticResource OKBorderBrush}"
-                                StrokeThickness="1"
+                                StrokeThickness="0"
                                 Visibility="{Binding Gate_Status, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                         </Grid>
                         <Grid Grid.Row="1">
