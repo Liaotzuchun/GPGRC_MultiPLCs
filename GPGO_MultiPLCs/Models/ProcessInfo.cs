@@ -278,7 +278,7 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("General6=");
             stb.AppendLine(CodeType.ToString());
             stb.Append("General7=");
-            stb.AppendLine(PanelCodes[index]);
+            stb.AppendLine(PanelCodes.Count > index ? PanelCodes[index] : "");
             stb.Append("General8=");
             stb.AppendLine(RecipeName);
             stb.Append("General9=");
