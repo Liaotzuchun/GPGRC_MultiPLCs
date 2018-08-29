@@ -11,9 +11,9 @@ using GPGO_MultiPLCs.Models;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>實作IDialogService，負責所有對話視窗</summary>
-    public sealed class GlobalDialog_ViewModel : ObservableObject, IDialogService<string>, IDisposable
+    public sealed class GlobalDialog_ViewModel : ObservableObject, IDialogService, IDisposable
     {
-        public async Task<bool> Show(Dictionary<Language, string> msg, object obj, bool support_cancel, TimeSpan delay)
+        public async Task<bool> Show(Dictionary<Language, string> msg, object obj, bool support_cancel, TimeSpan delay = default(TimeSpan))
         {
             if (!Lock_1.WaitOne(0))
             {
@@ -52,7 +52,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult_1;
         }
 
-        public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay)
+        public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay = default(TimeSpan))
         {
             if (!Lock_1.WaitOne(0))
             {
@@ -80,14 +80,14 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult_1;
         }
 
-        public async Task Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
+        public async Task Show(Dictionary<Language, string> msg, TimeSpan delay = default(TimeSpan), DialogMsgType type = DialogMsgType.Normal)
         {
             await Task.Factory.StartNew(() =>
                                         {
                                             var m = new ShowingMessage(msg.TryGetValue(Language, out var val) ? val : msg.Values.First(), type);
                                             var tag = DateTime.Now.Ticks;
                                             Msgs.Add(tag, m);
-                                            Thread.Sleep(delay);
+                                            Thread.Sleep(delay == TimeSpan.Zero ? TimeSpan.FromSeconds(1) : delay);
                                             Msgs.Remove(tag);
                                         },
                                         TaskCreationOptions.LongRunning);

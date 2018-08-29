@@ -283,7 +283,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public TotalView_ViewModel(IReadOnlyCollection<PLC_DevicesMap> plc_maps, IDialogService<string> dialog)
+        public TotalView_ViewModel(IReadOnlyCollection<PLC_DevicesMap> plc_maps, IDialogService dialog)
         {
             ViewIndex = -1;
             var PLC_Count = plc_maps.Count;

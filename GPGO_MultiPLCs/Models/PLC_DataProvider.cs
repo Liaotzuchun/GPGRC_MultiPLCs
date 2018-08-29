@@ -35,6 +35,7 @@ namespace GPGO_MultiPLCs.Models
         private ICollection<string> _Recipe_Names;
         private Task _RecordingTask;
         private string _Selected_Name;
+        private readonly IDialogService Dialog;
 
         /// <summary>取消投產</summary>
         public RelayCommand CancelCheckInCommand { get; }
@@ -153,13 +154,7 @@ namespace GPGO_MultiPLCs.Models
         public string Selected_Name
         {
             get => _Selected_Name;
-            set
-            {
-                _Selected_Name = value;
-                NotifyPropertyChanged();
-
-                SetRecipe(value);
-            }
+            set => SetRecipe(value);
         }
 
         public event Action<(EventType type, DateTime time, string note)> EventHappened;
@@ -238,13 +233,16 @@ namespace GPGO_MultiPLCs.Models
 
         public async void SetRecipe(string recipeName)
         {
-            if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Selected_Name, true)) is PLC_Recipe recipe)
+            if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((recipeName, true)) is PLC_Recipe recipe)
             {
-                recipe.CopyTo(this);
-            }
+                if (await Dialog.Show(new Dictionary<Language, string> { { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" } }, recipe, true))
+                {
+                    recipe.CopyTo(this);
 
-            _Selected_Name = recipeName;
-            NotifyPropertyChanged(nameof(Selected_Name));
+                    _Selected_Name = recipeName;
+                    NotifyPropertyChanged(nameof(Selected_Name));
+                }
+            }
         }
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
@@ -309,16 +307,21 @@ namespace GPGO_MultiPLCs.Models
                                         TaskCreationOptions.LongRunning);
         }
 
-        public PLC_DataProvider(PLC_DevicesMap map, IDialogService<string> dialog)
+        public PLC_DataProvider(PLC_DevicesMap map, IDialogService dialog)
         {
+            Dialog = dialog;
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
                                                         {
-                                                            if (((KeyEventArgs)e).Key != Key.Enter || _Selected_Name == null || _Selected_Name == _Intput_Name)
+                                                            if (((KeyEventArgs)e).Key != Key.Enter || _Selected_Name == null)
                                                             {
                                                                 return;
                                                             }
 
-                                                            if (_Recipe_Names.Contains(_Intput_Name))
+                                                            if (_Selected_Name == _Intput_Name)
+                                                            {
+                                                                dialog?.Show(new Dictionary<Language, string> { { Language.TW, "配方無變更" }, { Language.CHS, "配方无变更" }, { Language.EN, "No change." } });
+                                                            }
+                                                            else if (_Recipe_Names.Contains(_Intput_Name))
                                                             {
                                                                 if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Intput_Name, false)) is PLC_Recipe recipe)
                                                                 {
@@ -401,8 +404,8 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      //? 取得上位資訊(料號、總量、投產量)
                                                                      Ext_Info.Clear();
-                                                                     Ext_Info.Add(new ProductInfo("ooxxabc,001") { PanelCodes = new[] { "ooxx", "abc", "qqq" }.ToList() });
-                                                                     Ext_Info.Add(new ProductInfo("qooqoo,002") { PanelCodes = new[] { "ooxx", "abc", "qqq", "465" }.ToList() });
+                                                                     //Ext_Info.Add(new ProductInfo("ooxxabc,001") { PanelCodes = new[] { "ooxx", "abc", "qqq" }.ToList() });
+                                                                     //Ext_Info.Add(new ProductInfo("qooqoo,002") { PanelCodes = new[] { "ooxx", "abc", "qqq", "465" }.ToList() });
                                                                      //todo 待完成
 
                                                                      if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Selected_Name, true)) is PLC_Recipe recipe)

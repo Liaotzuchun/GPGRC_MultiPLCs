@@ -221,7 +221,7 @@ namespace GPGO_MultiPLCs.ViewModels
             Standby = true;
         }
 
-        public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDialogService<string> dialog)
+        public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDialogService dialog)
         {
             RecipeCollection = db;
 
@@ -248,10 +248,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      {
                                                                          { Language.TW, "即將儲存並覆蓋同名配方，無法復原!\n" + "確定儲存?" },
                                                                          { Language.CHS, "即将储存并覆盖同名配方，无法复原!\n" + "确定储存?" },
-                                                                         {
-                                                                             Language.EN,
-                                                                             "The recipe is going to save or replace the same one,\n" + "Can't be restored!" + " OK?"
-                                                                         }
+                                                                         { Language.EN, "The recipe is going to save or replace the same one,\n" + "Can't be restored!" + " OK?" }
                                                                      },
                                                                      true))
                                                {

@@ -128,11 +128,11 @@
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-                <Image
+                <Border
                     Grid.Row="1"
+                    Height="70"
                     Margin="10"
-                    Source="/GPGO_MultiPLCs;component/GPS.png"
-                    Stretch="None" />
+                    Background="{StaticResource GP_Logo}" />
                 <Grid
                     Grid.Row="2"
                     Margin="8,0"

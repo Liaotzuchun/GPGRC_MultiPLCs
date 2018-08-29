@@ -107,8 +107,10 @@
                             </Border>
                             <Viewbox
                                 Grid.Row="1"
-                                Margin="20,8,20,4">
+                                Margin="20,8,20,4"
+                                StretchDirection="DownOnly">
                                 <TextBlock
+                                    FontSize="36"
                                     Text="{Binding Value.Msg, Mode=OneWay}"
                                     TextAlignment="Center"
                                     TextWrapping="WrapWithOverflow" />
@@ -362,8 +364,11 @@
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Viewbox Margin="20,8,20,4">
+                    <Viewbox
+                        Margin="20,8,20,4"
+                        StretchDirection="DownOnly">
                         <TextBlock
+                            FontSize="36"
                             Text="{Binding Message_2, Mode=OneWay}"
                             TextAlignment="Center"
                             TextWrapping="WrapWithOverflow" />

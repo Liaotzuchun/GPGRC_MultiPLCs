@@ -70,8 +70,11 @@
         </Grid>
         <Border
             Grid.Column="1"
-            Background="{StaticResource LightColorBrush}"
-            Child="{StaticResource GP_Logo}" />
+            Background="{StaticResource LightColorBrush}">
+            <Border
+                Margin="8"
+                Background="{StaticResource GP_Logo}" />
+        </Border>
         <TabControl
             Grid.Row="1"
             Grid.ColumnSpan="2"
