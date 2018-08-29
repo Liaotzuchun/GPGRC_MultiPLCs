@@ -224,11 +224,17 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
-        public void SetRecipe(PLC_Recipe recipe)
+        public async Task SetRecipe(PLC_Recipe recipe)
         {
-            recipe.CopyTo(this);
-            _Selected_Name = recipe.RecipeName;
-            NotifyPropertyChanged(nameof(Selected_Name));
+            if (await Dialog.Show(new Dictionary<Language, string> { { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" } }, recipe, true))
+            {
+                recipe.CopyTo(this);
+
+                _Selected_Name = recipe.RecipeName;
+                NotifyPropertyChanged(nameof(Selected_Name));
+            }
+
+            Intput_Name = _Selected_Name;
         }
 
         public async void SetRecipe(string recipeName)
@@ -243,6 +249,8 @@ namespace GPGO_MultiPLCs.Models
                     NotifyPropertyChanged(nameof(Selected_Name));
                 }
             }
+
+            Intput_Name = _Selected_Name;
         }
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
@@ -325,15 +333,7 @@ namespace GPGO_MultiPLCs.Models
                                                             {
                                                                 if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Intput_Name, false)) is PLC_Recipe recipe)
                                                                 {
-                                                                    if (await dialog.Show(new Dictionary<Language, string>
-                                                                                          {
-                                                                                              { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" }
-                                                                                          },
-                                                                                          recipe,
-                                                                                          true))
-                                                                    {
-                                                                        SetRecipe(recipe);
-                                                                    }
+                                                                    await SetRecipe(recipe);
                                                                 }
                                                             }
                                                             else

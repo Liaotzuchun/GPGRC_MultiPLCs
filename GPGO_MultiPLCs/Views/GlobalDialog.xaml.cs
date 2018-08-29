@@ -17,10 +17,7 @@ namespace GPGO_MultiPLCs.Views
 
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (Intput.IsVisible)
-            {
-                Keyboard.ClearFocus();
-            }
+            Keyboard.ClearFocus();
         }
 
         public GlobalDialog()
