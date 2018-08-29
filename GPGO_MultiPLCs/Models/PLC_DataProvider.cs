@@ -338,7 +338,7 @@ namespace GPGO_MultiPLCs.Models
                                                             }
                                                             else
                                                             {
-                                                                Intput_Name = "";
+                                                                Intput_Name = _Selected_Name;
                                                                 RecipeKeyInError?.Invoke();
                                                             }
                                                         });
