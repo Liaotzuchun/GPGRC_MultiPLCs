@@ -10,7 +10,6 @@ using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Driver;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 
 namespace GPGO_MultiPLCs
 {
@@ -369,7 +368,7 @@ namespace GPGO_MultiPLCs
                                                   }
                                               };
 
-            MakeTestData(/*2*/0);
+            //MakeTestData(20);
         }
     }
 }
