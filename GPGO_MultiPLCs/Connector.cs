@@ -411,8 +411,6 @@ namespace GPGO_MultiPLCs
                                               };
 
             //MakeTestData(20);
-
-            var t = Directory.EnumerateFiles(@"D:\test\123");
         }
     }
 }
