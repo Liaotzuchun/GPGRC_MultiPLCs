@@ -80,7 +80,20 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult_1;
         }
 
-        public async Task Show(Dictionary<Language, string> msg, TimeSpan delay = default(TimeSpan), DialogMsgType type = DialogMsgType.Normal)
+        public async Task Show(Dictionary<Language, string> msg, DialogMsgType type = DialogMsgType.Normal)
+        {
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            var m = new ShowingMessage(msg.TryGetValue(Language, out var val) ? val : msg.Values.First(), type);
+                                            var tag = DateTime.Now.Ticks;
+                                            Msgs.Add(tag, m);
+                                            Thread.Sleep(TimeSpan.FromSeconds(1));
+                                            Msgs.Remove(tag);
+                                        },
+                                        TaskCreationOptions.LongRunning);
+        }
+
+        public async Task Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
         {
             await Task.Factory.StartNew(() =>
                                         {

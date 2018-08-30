@@ -163,6 +163,7 @@ namespace GPGO_MultiPLCs.Models
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
         public event Func<string, ValueTask<PLC_Recipe>> StartRecording;
         public event Func<(string RecipeName, bool UpdateToPLC), ValueTask<PLC_Recipe>> SwitchRecipeEvent;
+        public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
@@ -397,16 +398,29 @@ namespace GPGO_MultiPLCs.Models
                                                                                                              });
                                                                                                  });
 
-                                                                 if (result2)
+                                                                 if (result2 && WantFrontData != null)
                                                                  {
                                                                      OvenInfo.OperatorID = intput1;
                                                                      OvenInfo.TrolleyCode = intput2;
 
                                                                      //? 取得上位資訊(料號、總量、投產量)
+                                                                     var infos = await WantFrontData.Invoke(OvenInfo.TrolleyCode = intput2);
+                                                                     if (infos == null || infos.Count == 0)
+                                                                     {
+                                                                         await dialog.Show(new Dictionary<Language, string>
+                                                                                           {
+                                                                                               { Language.TW, "查無資料!" },
+                                                                                               { Language.CHS, "查无资料!" },
+                                                                                               { Language.EN, "No data found!" }
+                                                                                           }, DialogMsgType.Alarm);
+                                                                         return false;
+                                                                     }
+
                                                                      Ext_Info.Clear();
-                                                                     //Ext_Info.Add(new ProductInfo("ooxxabc,001") { PanelCodes = new[] { "ooxx", "abc", "qqq" }.ToList() });
-                                                                     //Ext_Info.Add(new ProductInfo("qooqoo,002") { PanelCodes = new[] { "ooxx", "abc", "qqq", "465" }.ToList() });
-                                                                     //todo 待完成
+                                                                     foreach (var info in infos)
+                                                                     {
+                                                                         Ext_Info.Add(info);
+                                                                     }
 
                                                                      if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Selected_Name, true)) is PLC_Recipe recipe)
                                                                      {

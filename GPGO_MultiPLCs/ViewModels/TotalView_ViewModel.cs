@@ -123,10 +123,9 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public event Action<(int StationIndex, ICollection<ProcessInfo> Infos)> AddRecordToDB;
-
         public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
-
         public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
+        public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
@@ -362,6 +361,17 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      TimeSpan.FromSeconds(2));
                                                     }
                                                 };
+
+                //!由台車code取得前端生產資訊
+                PLC_All[i].WantFrontData += async TrolleyCode =>
+                                           {
+                                               if (WantFrontData != null)
+                                               {
+                                                   return await WantFrontData.Invoke(TrolleyCode);
+                                               }
+
+                                               return null;
+                                           };
 
                 //!由OP變更設備代碼時
                 PLC_All[i].MachineCodeChanged += code =>

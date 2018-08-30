@@ -315,6 +315,13 @@ namespace GPGO_MultiPLCs
             //!當某站烤箱要求配方時，自資料庫讀取配方並發送
             TotalVM.WantRecipe += async e => string.IsNullOrEmpty(e.RecipeName) ? null : await RecipeVM.GetRecipe(e.StationIndex, e.RecipeName);
 
+            //!由台車code取得前端生產資訊
+            TotalVM.WantFrontData += async TrolleyCode =>
+                                     {
+                                         //todo 實作取得上位資料
+                                         return null;
+                                     };
+
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾
             TotalVM.AddRecordToDB += async e =>
                                      {
