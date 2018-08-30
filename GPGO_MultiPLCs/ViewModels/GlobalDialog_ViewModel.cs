@@ -13,7 +13,7 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>實作IDialogService，負責所有對話視窗</summary>
     public sealed class GlobalDialog_ViewModel : ObservableObject, IDialogService, IDisposable
     {
-        public async Task<bool> Show(Dictionary<Language, string> msg, object obj, bool support_cancel, TimeSpan delay = default(TimeSpan))
+        public async ValueTask<bool> Show(Dictionary<Language, string> msg, object obj, bool support_cancel, TimeSpan delay = default(TimeSpan))
         {
             if (!Lock_1.WaitOne(0))
             {
@@ -52,7 +52,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult_1;
         }
 
-        public async Task<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay = default(TimeSpan))
+        public async ValueTask<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay = default(TimeSpan))
         {
             if (!Lock_1.WaitOne(0))
             {
@@ -93,7 +93,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         TaskCreationOptions.LongRunning);
         }
 
-        public async Task<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
+        public async ValueTask<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
         {
             if (!Lock_2.WaitOne(0))
             {
@@ -124,7 +124,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return (EnterResult_2, Intput);
         }
 
-        public async Task<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg,
+        public async ValueTask<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg,
                                                                        Dictionary<Language, string> header,
                                                                        Func<string, (bool result, Dictionary<Language, string> title_msg)> condition)
         {

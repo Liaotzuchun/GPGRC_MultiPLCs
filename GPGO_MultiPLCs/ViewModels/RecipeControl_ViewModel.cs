@@ -119,7 +119,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="index">烤箱站號</param>
         /// <param name="name">配方名</param>
         /// <returns></returns>
-        public async Task<PLC_Recipe> GetRecipe(int index, string name)
+        public async ValueTask<PLC_Recipe> GetRecipe(int index, string name)
         {
             var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
 

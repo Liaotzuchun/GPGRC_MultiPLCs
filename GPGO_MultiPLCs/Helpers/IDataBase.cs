@@ -21,7 +21,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>(非同步)新增資料</summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        Task<bool> AddAsync(T data);
+        ValueTask<bool> AddAsync(T data);
 
         /// <summary>新增數筆資料</summary>
         /// <param name="datas"></param>
@@ -31,7 +31,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>(非同步)新增數筆資料</summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        Task<bool> AddManyAsync(ICollection<T> data);
+        ValueTask<bool> AddManyAsync(ICollection<T> data);
 
         /// <summary>刪除符合條件之資料</summary>
         /// <param name="condition"></param>
@@ -41,7 +41,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>(非同步)刪除符合條件之資料</summary>
         /// <param name="condition"></param>
         /// <returns></returns>
-        Task<bool> DeleteAsync(Expression<Func<T, bool>> condition);
+        ValueTask<bool> DeleteAsync(Expression<Func<T, bool>> condition);
 
         /// <summary>刪除符合條件之單一資料</summary>
         /// <param name="condition"></param>
@@ -51,7 +51,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>(非同步)刪除符合條件之單一資料</summary>
         /// <param name="condition"></param>
         /// <returns></returns>
-        Task<bool> DeleteOneAsync(Expression<Func<T, bool>> condition);
+        ValueTask<bool> DeleteOneAsync(Expression<Func<T, bool>> condition);
 
         /// <summary>尋找符合條件之所有資料</summary>
         /// <param name="condition"></param>
@@ -61,7 +61,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>(非同步)尋找符合條件之所有資料</summary>
         /// <param name="condition"></param>
         /// <returns></returns>
-        Task<List<T>> FindAsync(Expression<Func<T, bool>> condition);
+        ValueTask<List<T>> FindAsync(Expression<Func<T, bool>> condition);
 
         /// <summary>尋找符合條件之單一資料</summary>
         /// <param name="condition"></param>
@@ -71,7 +71,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>(非同步)尋找符合條件之單一資料</summary>
         /// <param name="condition"></param>
         /// <returns></returns>
-        Task<T> FindOneAsync(Expression<Func<T, bool>> condition);
+        ValueTask<T> FindOneAsync(Expression<Func<T, bool>> condition);
 
         /// <summary>更新符合條件之單一資料的特定屬性</summary>
         /// <param name="condition"></param>
@@ -85,7 +85,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="propertyName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        Task<bool> UpdateOneAsync(Expression<Func<T, bool>> condition, string propertyName, object value);
+        ValueTask<bool> UpdateOneAsync(Expression<Func<T, bool>> condition, string propertyName, object value);
 
         /// <summary>更新單一資料，若資料庫中本來沒有則會自動新增</summary>
         /// <param name="condition"></param>
@@ -97,7 +97,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="condition"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        Task<bool> UpsertAsync(Expression<Func<T, bool>> condition, T data);
+        ValueTask<bool> UpsertAsync(Expression<Func<T, bool>> condition, T data);
     }
 
     public class MongoBase<T> : IDataBase<T> where T : class, new()
@@ -109,7 +109,7 @@ namespace GPGO_MultiPLCs.Helpers
             return true;
         }
 
-        public async Task<bool> AddAsync(T data)
+        public async ValueTask<bool> AddAsync(T data)
         {
             await MongoCollection.InsertOneAsync(data);
 
@@ -123,7 +123,7 @@ namespace GPGO_MultiPLCs.Helpers
             return true;
         }
 
-        public async Task<bool> AddManyAsync(ICollection<T> datas)
+        public async ValueTask<bool> AddManyAsync(ICollection<T> datas)
         {
             await MongoCollection.InsertManyAsync(datas);
 
@@ -135,7 +135,7 @@ namespace GPGO_MultiPLCs.Helpers
             return MongoCollection.DeleteMany(condition).IsAcknowledged;
         }
 
-        public async Task<bool> DeleteAsync(Expression<Func<T, bool>> condition)
+        public async ValueTask<bool> DeleteAsync(Expression<Func<T, bool>> condition)
         {
             return (await MongoCollection.DeleteManyAsync(condition)).IsAcknowledged;
         }
@@ -145,7 +145,7 @@ namespace GPGO_MultiPLCs.Helpers
             return MongoCollection.DeleteOne(condition).IsAcknowledged;
         }
 
-        public async Task<bool> DeleteOneAsync(Expression<Func<T, bool>> condition)
+        public async ValueTask<bool> DeleteOneAsync(Expression<Func<T, bool>> condition)
         {
             return (await MongoCollection.DeleteOneAsync(condition)).IsAcknowledged;
         }
@@ -155,7 +155,7 @@ namespace GPGO_MultiPLCs.Helpers
             return MongoCollection.Find(condition).ToList();
         }
 
-        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> condition)
+        public async ValueTask<List<T>> FindAsync(Expression<Func<T, bool>> condition)
         {
             return await (await MongoCollection.FindAsync(condition)).ToListAsync();
         }
@@ -165,7 +165,7 @@ namespace GPGO_MultiPLCs.Helpers
             return MongoCollection.Find(condition).FirstOrDefault();
         }
 
-        public async Task<T> FindOneAsync(Expression<Func<T, bool>> condition)
+        public async ValueTask<T> FindOneAsync(Expression<Func<T, bool>> condition)
         {
             return await (await MongoCollection.FindAsync(condition)).FirstOrDefaultAsync();
         }
@@ -175,7 +175,7 @@ namespace GPGO_MultiPLCs.Helpers
             return MongoCollection.UpdateOne(condition, Builders<T>.Update.Set(propertyName, value)).IsAcknowledged;
         }
 
-        public async Task<bool> UpdateOneAsync(Expression<Func<T, bool>> condition, string propertyName, object value)
+        public async ValueTask<bool> UpdateOneAsync(Expression<Func<T, bool>> condition, string propertyName, object value)
         {
             return (await MongoCollection.UpdateOneAsync(condition, Builders<T>.Update.Set(propertyName, value))).IsAcknowledged;
         }
@@ -185,7 +185,7 @@ namespace GPGO_MultiPLCs.Helpers
             return MongoCollection.ReplaceOne(condition, data, new UpdateOptions { IsUpsert = true }).IsAcknowledged;
         }
 
-        public async Task<bool> UpsertAsync(Expression<Func<T, bool>> condition, T data)
+        public async ValueTask<bool> UpsertAsync(Expression<Func<T, bool>> condition, T data)
         {
             return (await MongoCollection.ReplaceOneAsync(condition, data, new UpdateOptions { IsUpsert = true })).IsAcknowledged;
         }

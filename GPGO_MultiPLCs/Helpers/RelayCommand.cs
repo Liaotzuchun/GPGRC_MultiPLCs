@@ -150,7 +150,7 @@ namespace GPGO_MultiPLCs.Helpers
     {
         private readonly Predicate<object> canExecute;
         private readonly Func<object, T> execute;
-        private readonly Func<object, Task<T>> execute_Task;
+        private readonly Func<object, ValueTask<T>> execute_Task;
 
         public T Result
         {
@@ -179,11 +179,11 @@ namespace GPGO_MultiPLCs.Helpers
             this.canExecute = canExecute;
         }
 
-        public CommandWithResult(Func<object, Task<T>> execute_Task) : this(execute_Task, null)
+        public CommandWithResult(Func<object, ValueTask<T>> execute_Task) : this(execute_Task, null)
         {
         }
 
-        public CommandWithResult(Func<object, Task<T>> execute_Task, Predicate<object> canExecute)
+        public CommandWithResult(Func<object, ValueTask<T>> execute_Task, Predicate<object> canExecute)
         {
             this.execute_Task = execute_Task;
             this.canExecute = canExecute;

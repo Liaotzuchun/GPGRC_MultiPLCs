@@ -126,7 +126,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
 
-        public event Func<(int StationIndex, string RecipeName), Task<PLC_Recipe>> WantRecipe;
+        public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
 
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()

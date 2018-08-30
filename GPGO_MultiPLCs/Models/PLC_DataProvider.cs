@@ -161,8 +161,8 @@ namespace GPGO_MultiPLCs.Models
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
-        public event Func<string, Task<PLC_Recipe>> StartRecording;
-        public event Func<(string RecipeName, bool UpdateToPLC), Task<PLC_Recipe>> SwitchRecipeEvent;
+        public event Func<string, ValueTask<PLC_Recipe>> StartRecording;
+        public event Func<(string RecipeName, bool UpdateToPLC), ValueTask<PLC_Recipe>> SwitchRecipeEvent;
 
         public void AddProcessEvent(EventType type, TimeSpan time, string note)
         {
