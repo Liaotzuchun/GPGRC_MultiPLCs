@@ -15,13 +15,15 @@ namespace GPGO_MultiPLCs
 {
     public sealed class Connector : DependencyObject, IDisposable
     {
-        public static readonly DependencyProperty DataOutputPathProperty =
-            DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Connector), new PropertyMetadata("", DataOutputPathChanged));
+        public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("D:\\test", null));
 
-        private static void DataOutputPathChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        public string DataInputPath
         {
-            //! 
+            get => (string)GetValue(DataInputPathProperty);
+            set => SetValue(DataInputPathProperty, value);
         }
+
+        public static readonly DependencyProperty DataOutputPathProperty = DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
 
         public string DataOutputPath
         {
@@ -319,6 +321,39 @@ namespace GPGO_MultiPLCs
             TotalVM.WantFrontData += async TrolleyCode =>
                                      {
                                          //todo 實作取得上位資料
+                                         var path = DataInputPath + "\\" + TrolleyCode;
+
+                                         if (Directory.Exists(path))
+                                         {
+                                             var products = new List<(string ordercode, int number, string panelcode)>();
+
+                                             await Task.Factory.StartNew(() =>
+                                                                         {
+                                                                             var names = Directory.EnumerateFiles(path);
+                                                                             foreach (var name in names)
+                                                                             {
+                                                                                 try
+                                                                                 {
+                                                                                     var str = File.ReadAllText(name, Encoding.ASCII);
+                                                                                     var result = str.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+                                                                                                     .Where(x => x.StartsWith("General") && x.Contains("="))
+                                                                                                     .Select(x => x.Split('='))
+                                                                                                     .ToDictionary(x => x[0], x => x[1]);
+
+                                                                                     products.Add((result["General1"], int.Parse(result["General2"]), result["General7"]));
+                                                                                 }
+                                                                                 catch
+                                                                                 {
+                                                                                 }
+                                                                             }
+                                                                         },
+                                                                         TaskCreationOptions.LongRunning);
+
+                                             return products.GroupBy(x => x.ordercode).Select(x => new ProductInfo(x.Key, x.First().number) { PanelCodes = x.Select(y => y.panelcode).ToList() }).ToList();
+                                         }
+
+                                         Directory.CreateDirectory(path);
+
                                          return null;
                                      };
 
@@ -353,7 +388,7 @@ namespace GPGO_MultiPLCs
                                                                                      n++;
                                                                                  }
 
-                                                                                 File.WriteAllText(path + n, info.ToString(i), Encoding.ASCII);
+                                                                                 File.WriteAllText(path + n + ".txt", info.ToString(i), Encoding.ASCII);
                                                                                  //!紀錄資料到指定輸出資料夾
                                                                              }
                                                                          }
@@ -376,6 +411,8 @@ namespace GPGO_MultiPLCs
                                               };
 
             //MakeTestData(20);
+
+            var t = Directory.EnumerateFiles(@"D:\test\123");
         }
     }
 }
