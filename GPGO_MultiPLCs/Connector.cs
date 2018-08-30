@@ -329,12 +329,12 @@ namespace GPGO_MultiPLCs
 
                                              await Task.Factory.StartNew(() =>
                                                                          {
-                                                                             var names = Directory.EnumerateFiles(path);
-                                                                             foreach (var name in names)
+                                                                             var files = new DirectoryInfo(path).GetFiles();
+                                                                             foreach (var file in files)
                                                                              {
                                                                                  try
                                                                                  {
-                                                                                     var str = File.ReadAllText(name, Encoding.ASCII);
+                                                                                     var str = File.ReadAllText(file.FullName, Encoding.ASCII);
                                                                                      var result = str.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
                                                                                                      .Where(x => x.StartsWith("General") && x.Contains("="))
                                                                                                      .Select(x => x.Split('='))
@@ -342,10 +342,17 @@ namespace GPGO_MultiPLCs
 
                                                                                      products.Add((result["General1"], int.Parse(result["General2"]), result["General7"]));
                                                                                  }
-                                                                                 catch
+                                                                                 catch { }
+                                                                             }
+
+                                                                             try
+                                                                             {
+                                                                                 foreach (var file in files)
                                                                                  {
+                                                                                     file.Delete();
                                                                                  }
                                                                              }
+                                                                             catch { }
                                                                          },
                                                                          TaskCreationOptions.LongRunning);
 

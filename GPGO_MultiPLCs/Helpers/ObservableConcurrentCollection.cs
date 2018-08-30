@@ -130,12 +130,10 @@ namespace GPGO_MultiPLCs.Helpers
         {
             for (var i = 0; i < ContainedCollection.Count; i++)
             {
-                var result = base.TryTake(out _);
-                if (result)
-                {
-                    NotifyObserversOfChange();
-                }
+                base.TryTake(out _);
             }
+
+            NotifyObserversOfChange();
         }
 
         protected override bool TryAdd(T item)
