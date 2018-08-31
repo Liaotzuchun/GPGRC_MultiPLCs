@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:GPGO_MultiPLCs.Helpers"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,6 +26,9 @@
                 Command="{Binding LoadedCommand, Mode=OneTime}"
                 CommandParameter="{Binding Dispatcher, ElementName=Main}" />
         </i:EventTrigger>
+        <i:EventTrigger EventName="GotKeyboardFocus">
+            <helpers:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
 
     <Grid>
@@ -37,16 +41,34 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid
-            x:Name="AuthGrid"
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="2">
-            <local:Authenticator DataContext="{StaticResource AuthenticatorViewModel}" />
-        </Grid>
-        <Grid
             x:Name="PopGrid"
             Grid.RowSpan="2"
             Grid.ColumnSpan="2">
-            <local:GlobalDialog DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}" />
+            <Border Background="#7F333333">
+                <Border.Visibility>
+                    <MultiBinding Converter="{StaticResource MultiAnyVisibleConverter}">
+                        <Binding
+                            ElementName="Authenticator"
+                            Mode="OneWay"
+                            Path="Visibility" />
+                        <Binding
+                            ElementName="GlobalDialog"
+                            Mode="OneWay"
+                            Path="Visibility" />
+                    </MultiBinding>
+                </Border.Visibility>
+            </Border>
+            <Grid>
+                <local:ScreenKeyboard
+                    x:Name="ScreenKeyboard"
+                    DataContext="{StaticResource ScreenKeyboardViewModel}" />
+                <local:Authenticator
+                    x:Name="Authenticator"
+                    DataContext="{StaticResource AuthenticatorViewModel}" />
+                <local:GlobalDialog
+                    x:Name="GlobalDialog"
+                    DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}" />
+            </Grid>
         </Grid>
         <Grid Background="{StaticResource LightColorBrush}">
             <UniformGrid Rows="1">

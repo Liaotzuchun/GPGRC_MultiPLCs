@@ -9,7 +9,6 @@ namespace GPGO_MultiPLCs
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Panel.SetZIndex(PopGrid, 100);
-            Panel.SetZIndex(AuthGrid, 101);
         }
 
         public MainWindow()

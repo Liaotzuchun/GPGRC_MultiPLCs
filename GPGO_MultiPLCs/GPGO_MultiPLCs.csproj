@@ -144,6 +144,7 @@
     <Compile Include="ViewModels\LogView_ViewModel.cs" />
     <Compile Include="ViewModels\MainWindow_ViewModel.cs" />
     <Compile Include="ViewModels\RecipeControl_ViewModel.cs" />
+    <Compile Include="ViewModels\ScreenKeyboard_ViewModel.cs" />
     <Compile Include="ViewModels\TraceabilityView_ViewModel.cs" />
     <Compile Include="Views\Authenticator.xaml.cs">
       <DependentUpon>Authenticator.xaml</DependentUpon>
@@ -168,6 +169,9 @@
     </Compile>
     <Compile Include="Views\RecipeControl.xaml.cs">
       <DependentUpon>RecipeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScreenKeyboard.xaml.cs">
+      <DependentUpon>ScreenKeyboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TotalView.xaml.cs">
       <DependentUpon>TotalView.xaml</DependentUpon>
@@ -353,6 +357,10 @@
     <Page Include="Views\Resources\window.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ScreenKeyboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TotalView.xaml">
       <SubType>Designer</SubType>

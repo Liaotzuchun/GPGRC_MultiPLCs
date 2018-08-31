@@ -40,6 +40,7 @@
                 <ResourceDictionary Source="Views/Languages/TW.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
+            <vm:ScreenKeyboard_ViewModel x:Key="ScreenKeyboardViewModel" />
             <local:Connector
                 x:Key="Connector"
                 DataInputPath="{Binding GT.DataInputPath, Source={StaticResource AuthenticatorViewModel}}"
