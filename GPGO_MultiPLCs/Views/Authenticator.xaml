@@ -481,6 +481,9 @@
                                                 PropertyValue="{DynamicResource 套用}" />
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
+                                            <view:SetPropertyAction
+                                                PropertyName="Content"
+                                                PropertyValue="{DynamicResource 修改}" />
                                             <i:InvokeCommandAction
                                                 Command="{Binding SetPath, Mode=OneTime}"
                                                 CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
@@ -536,6 +539,9 @@
                                                 PropertyValue="{DynamicResource 套用}" />
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
+                                            <view:SetPropertyAction
+                                                PropertyName="Content"
+                                                PropertyValue="{DynamicResource 修改}" />
                                             <i:InvokeCommandAction
                                                 Command="{Binding SetInputPath, Mode=OneTime}"
                                                 CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
