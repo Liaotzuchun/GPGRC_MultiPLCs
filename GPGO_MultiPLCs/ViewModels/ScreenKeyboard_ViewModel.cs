@@ -171,7 +171,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 Keyboard.ClearFocus();
                                             });
 
-            FocusCommand = new RelayCommand(e=>
+            FocusCommand = new RelayCommand(e =>
                                             {
                                                 if(e is KeyboardFocusChangedEventArgs args && args.NewFocus is UIElement ele && ( ele is TextBox || ele is PasswordBox || (ele is ComboBox cb && cb.IsEditable) ))
                                                 {

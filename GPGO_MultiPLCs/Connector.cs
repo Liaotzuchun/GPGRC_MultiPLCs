@@ -353,6 +353,8 @@ namespace GPGO_MultiPLCs
                                                                                  }
                                                                              }
                                                                              catch { }
+
+                                                                             //todo 取消投產需回填資料 or 生產完才刪除
                                                                          },
                                                                          TaskCreationOptions.LongRunning);
 
