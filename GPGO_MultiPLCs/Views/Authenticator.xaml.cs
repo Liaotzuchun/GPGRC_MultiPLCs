@@ -34,6 +34,28 @@ namespace GPGO_MultiPLCs.Views
             TB.IsChecked = false;
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            InputPathText.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
+
+            if (TV.SelectedItem is TreeViewItem tvi)
+            {
+                tvi.IsSelected = false;
+            }
+
+            TV.Items.Clear();
+            foreach (var s in Directory.GetLogicalDrives())
+            {
+                var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
+
+                item.Items.Add(null);
+                item.Expanded += Folder_Expanded;
+                TV.Items.Add(item);
+            }
+
+            InputTB.IsChecked = false;
+        }
+
         private void Folder_Expanded(object sender, RoutedEventArgs e)
         {
             var item = (TreeViewItem)sender;
@@ -57,7 +79,9 @@ namespace GPGO_MultiPLCs.Views
                         item.Items.Add(subitem);
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }
         }
 

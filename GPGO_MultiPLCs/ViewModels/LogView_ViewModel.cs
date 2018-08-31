@@ -94,7 +94,15 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                             if (!Directory.Exists(path))
                                             {
-                                                Directory.CreateDirectory(path);
+                                                try
+                                                {
+                                                    Directory.CreateDirectory(path);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    ex.RecordError("CSV輸出資料夾無法創建");
+                                                }
+
                                             }
 
                                             var csv = ViewResults.ToCSV(Language,
@@ -105,7 +113,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                             typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
                                                                             typeof(LogEvent).GetProperty(nameof(LogEvent.Description))
                                                                         });
-                                            File.WriteAllText(path + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", csv, Encoding.UTF8);
+
+                                            try
+                                            {
+                                                File.WriteAllText(path + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", csv, Encoding.UTF8);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                ex.RecordError("輸出CSV失敗");
+                                            }
                                         });
 
             Standby = true;

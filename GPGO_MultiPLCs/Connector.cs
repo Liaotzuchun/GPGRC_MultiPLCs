@@ -15,7 +15,7 @@ namespace GPGO_MultiPLCs
 {
     public sealed class Connector : DependencyObject, IDisposable
     {
-        public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("D:\\test", null));
+        public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
 
         public string DataInputPath
         {
@@ -359,7 +359,14 @@ namespace GPGO_MultiPLCs
                                              return products.GroupBy(x => x.ordercode).Select(x => new ProductInfo(x.Key, x.First().number) { PanelCodes = x.Select(y => y.panelcode).ToList() }).ToList();
                                          }
 
-                                         Directory.CreateDirectory(path);
+                                         try
+                                         {
+                                             Directory.CreateDirectory(path);
+                                         }
+                                         catch(Exception ex)
+                                         {
+                                             ex.RecordError("台車資料夾不存在且無法創建");
+                                         }
 
                                          return null;
                                      };
@@ -371,7 +378,15 @@ namespace GPGO_MultiPLCs
 
                                          if (!Directory.Exists(DataOutputPath))
                                          {
-                                             Directory.CreateDirectory(DataOutputPath);
+                                             try
+                                             {
+                                                 Directory.CreateDirectory(DataOutputPath);
+                                             }
+                                             catch(Exception ex)
+                                             {
+                                                 ex.RecordError("上傳資料夾不存在且無法創建");
+                                                 return;
+                                             }
                                          }
 
                                          await Task.Factory.StartNew(() =>
@@ -395,8 +410,15 @@ namespace GPGO_MultiPLCs
                                                                                      n++;
                                                                                  }
 
-                                                                                 File.WriteAllText(path + n + ".txt", info.ToString(i), Encoding.ASCII);
-                                                                                 //!紀錄資料到指定輸出資料夾
+                                                                                 try
+                                                                                 {
+                                                                                     File.WriteAllText(path + n + ".txt", info.ToString(i), Encoding.ASCII);
+                                                                                     //!紀錄資料到指定輸出資料夾
+                                                                                 }
+                                                                                 catch (Exception ex)
+                                                                                 {
+                                                                                     ex.RecordError("資料輸出上傳失敗");
+                                                                                 }
                                                                              }
                                                                          }
                                                                      },

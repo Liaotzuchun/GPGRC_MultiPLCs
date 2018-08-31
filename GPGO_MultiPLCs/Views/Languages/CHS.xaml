@@ -93,7 +93,8 @@
     <sys:String x:Key="警告">警告</sys:String>
     <sys:String x:Key="錯誤">错误</sys:String>
     <sys:String x:Key="確定">确定</sys:String>
-    <sys:String x:Key="上傳紀錄">上传纪录</sys:String>
+    <sys:String x:Key="上傳">上传</sys:String>
+    <sys:String x:Key="下載">下载</sys:String>
     <sys:String x:Key="瀏覽">浏览</sys:String>
     <sys:String x:Key="套用">套用</sys:String>
     <sys:String x:Key="自動停止">自动停止</sys:String>

@@ -9,6 +9,7 @@ namespace GPGO_MultiPLCs.Helpers
     /// <summary>提供任何地方紀錄的靜態類別</summary>
     public static class ErrorRecoder
     {
+        private const string Path = "C:\\GP\\Errors\\";
         private static readonly object Lock_Obj = new object();
 
         /// <summary>紀錄例外</summary>
@@ -24,15 +25,15 @@ namespace GPGO_MultiPLCs.Helpers
 
             try
             {
-                if (!Directory.Exists("C:\\GP\\Errors\\"))
+                if (!Directory.Exists(Path))
                 {
-                    Directory.CreateDirectory("C:\\GP\\Errors");
+                    Directory.CreateDirectory(Path);
                 }
 
                 var str = new StringBuilder();
                 str.Append(DateTime.Now.ToShortDateString().Replace("/", "-"));
                 str.Append(".log");
-                var filename = "C:\\GP\\Errors\\" + str;
+                var filename = Path + str;
 
                 var temp = new Error(DateTime.Now, note, ex);
 

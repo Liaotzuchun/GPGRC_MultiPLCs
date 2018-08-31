@@ -47,6 +47,9 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>移除使用者</summary>
         public RelayCommand RemoveUser { get; }
 
+        /// <summary>設定資料輸入路徑</summary>
+        public RelayCommand SetInputPath { get; }
+
         /// <summary>設定資料輸出路徑</summary>
         public RelayCommand SetPath { get; }
 
@@ -332,6 +335,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                password.Clear();
                                            }
                                        });
+
+            SetInputPath = new RelayCommand(e=>
+                                             {
+                                                 if (e is string str && Directory.Exists(str))
+                                                 {
+                                                     GT.DataInputPath = str;
+                                                 }
+                                             });
 
             SetPath = new RelayCommand(e =>
                                        {

@@ -28,22 +28,22 @@
                             x:Name="Border"
                             Background="{StaticResource NormalBrush}"
                             BorderBrush="{StaticResource NormalBorderBrush}"
-                            BorderThickness="1" />
+                            BorderThickness="{TemplateBinding BorderThickness}" />
                         <Border
                             Grid.RowSpan="2"
                             Background="{StaticResource DisabledBackgroundBrush}"
                             BorderBrush="{StaticResource DisabledBorderBrush}"
-                            BorderThickness="1"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             IsEnabled="{TemplateBinding IsEnabled}"
                             Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource Self}}" />
-                        <Border
+                        <ContentControl
                             Grid.RowSpan="2"
                             Padding="{TemplateBinding Padding}">
                             <ContentPresenter
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 RecognizesAccessKey="True" />
-                        </Border>
+                        </ContentControl>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.Transitions>

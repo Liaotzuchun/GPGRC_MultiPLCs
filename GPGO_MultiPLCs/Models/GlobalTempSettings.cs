@@ -9,6 +9,18 @@ namespace GPGO_MultiPLCs.Models
     {
         private const string FilePath = "Settings.json";
 
+        /// <summary>前端資料輸入位置</summary>
+        public string DataInputPath
+        {
+            get => Get<string>();
+            set
+            {
+                Set(value);
+
+                Save();
+            }
+        }
+
         /// <summary>上傳資料輸出位置</summary>
         public string DataOutputPath
         {
@@ -37,22 +49,22 @@ namespace GPGO_MultiPLCs.Models
         {
             if (File.Exists(FilePath))
             {
-                try
+                if (FilePath.ReadFromJsonFile<GlobalTempSettings>() is GlobalTempSettings val)
                 {
-                    if (FilePath.ReadFromJsonFile<GlobalTempSettings>() is GlobalTempSettings val)
-                    {
-                        Lng = val.Lng;
-                        DataOutputPath = val.DataOutputPath;
-                    }
-                    else
+                    Set(val.DataInputPath, nameof(DataInputPath));
+                    Set(val.DataOutputPath, nameof(DataOutputPath));
+                    Set(val.Lng, nameof(Lng));
+                }
+                else
+                {
+                    try
                     {
                         File.Move(FilePath, "Settings" + DateTime.Now.Ticks + ".back");
-                        Save();
                     }
-                }
-                catch
-                {
-                    File.Move(FilePath, "Settings" + DateTime.Now.Ticks + ".back");
+                    catch (Exception ex)
+                    {
+                        ex.RecordError();
+                    }
                     Save();
                 }
             }
@@ -64,18 +76,12 @@ namespace GPGO_MultiPLCs.Models
 
         public void Save()
         {
-            try
-            {
-                this.WriteToJsonFile(FilePath);
-            }
-            catch (Exception ex)
-            {
-                ex.RecordError();
-            }
+            this.WriteToJsonFile(FilePath);
         }
 
         public GlobalTempSettings()
         {
+            Set("D:\\Intput", nameof(DataInputPath));
             Set("D:", nameof(DataOutputPath));
             Set(Language.TW, nameof(Lng));
         }

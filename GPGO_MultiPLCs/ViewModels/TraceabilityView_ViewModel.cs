@@ -177,7 +177,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
-        /// <param name="dic_path">資料夾路徑</param>
+        /// <param name="path">資料夾路徑</param>
         public async void SaveToExcel(string path)
         {
             Standby = false;
@@ -185,7 +185,14 @@ namespace GPGO_MultiPLCs.ViewModels
             path += "\\Reports";
             if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(path);
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception ex)
+                {
+                    ex.RecordError("EXCEL輸出資料夾無法創建");
+                }
             }
 
             if (ViewResults.Any())
@@ -492,7 +499,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  // xlwb.Workbook.Protection.LockRevision = true;
                                                                  // xlwb.Workbook.Protection.LockStructure = true;
                                                                  // xlwb.Workbook.Protection.SetPassword("23555277");
-                                                                 xlwb.SaveAs(fi);
+
+                                                                 try
+                                                                 {
+                                                                     xlwb.SaveAs(fi);
+                                                                 }
+                                                                 catch(Exception ex)
+                                                                 {
+                                                                     ex.RecordError("EXCEL儲存失敗");
+                                                                 }
+
                                                                  xlwb.Dispose();
                                                              });
                                             },
