@@ -478,7 +478,7 @@
                                         <i:EventTrigger EventName="Checked">
                                             <view:SetPropertyAction
                                                 PropertyName="Content"
-                                                PropertyValue="{DynamicResource 套用}"/>
+                                                PropertyValue="{DynamicResource 套用}" />
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
                                             <i:InvokeCommandAction
@@ -533,7 +533,7 @@
                                         <i:EventTrigger EventName="Checked">
                                             <view:SetPropertyAction
                                                 PropertyName="Content"
-                                                PropertyValue="{DynamicResource 套用}"/>
+                                                PropertyValue="{DynamicResource 套用}" />
                                         </i:EventTrigger>
                                         <i:EventTrigger EventName="Unchecked">
                                             <i:InvokeCommandAction
