@@ -744,7 +744,7 @@
                 <Button
                     x:Name="Button53"
                     Margin="1"
-                    Content="退格"
+                    Content="{DynamicResource 退格}"
                     Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -757,7 +757,7 @@
                 <Button
                     x:Name="Button54"
                     Margin="1"
-                    Content="刪除"
+                    Content="{DynamicResource 刪除}"
                     Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -770,7 +770,7 @@
                 <Button
                     x:Name="Button55"
                     Margin="1"
-                    Content="起端"
+                    Content="{DynamicResource 起端}"
                     Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -783,7 +783,7 @@
                 <Button
                     x:Name="Button56"
                     Margin="1"
-                    Content="末端"
+                    Content="{DynamicResource 末端}"
                     Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -796,7 +796,7 @@
                 <Button
                     x:Name="Button58"
                     Margin="1"
-                    Content="複製"
+                    Content="{DynamicResource 複製}"
                     Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -807,7 +807,7 @@
                 <Button
                     x:Name="Button59"
                     Margin="1"
-                    Content="貼上"
+                    Content="{DynamicResource 貼上}"
                     Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -818,7 +818,7 @@
                 <Button
                     x:Name="Button57"
                     Margin="1"
-                    Content="清除"
+                    Content="{DynamicResource 清除}"
                     Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -829,7 +829,7 @@
                 <ToggleButton
                     x:Name="TB1"
                     Margin="1"
-                    Content="大小寫"
+                    Content="{DynamicResource 大小寫}"
                     Focusable="False"
                     IsChecked="{Binding StrVals.IsUpper}" />
             </local:UniformGridWithOrientation>
@@ -838,7 +838,7 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Margin="1"
-                Content="關閉"
+                Content="{DynamicResource 關閉}"
                 Focusable="False">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">

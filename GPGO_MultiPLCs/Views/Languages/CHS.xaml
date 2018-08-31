@@ -123,4 +123,12 @@
     <sys:String x:Key="類型">类型</sys:String>
     <sys:String x:Key="欄位">栏位</sys:String>
     <sys:String x:Key="值">值</sys:String>
+    <sys:String x:Key="退格">退格</sys:String>
+    <sys:String x:Key="起端">起端</sys:String>
+    <sys:String x:Key="末端">末端</sys:String>
+    <sys:String x:Key="複製">复制</sys:String>
+    <sys:String x:Key="貼上">贴上</sys:String>
+    <sys:String x:Key="清除">清除</sys:String>
+    <sys:String x:Key="大小寫">大小写</sys:String>
+    <sys:String x:Key="關閉">关闭</sys:String>
 </ResourceDictionary>
