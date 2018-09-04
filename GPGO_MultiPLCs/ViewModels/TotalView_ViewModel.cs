@@ -126,6 +126,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
         public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
+        public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
 
         /// <summary>讀取設備碼</summary>
         public void LoadMachineCodes()
@@ -396,6 +397,12 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i].EventHappened += e =>
                                             {
                                                 EventHappened?.Invoke((index, e.type, e.time, e.note));
+                                            };
+
+                //!取消投產
+                PLC_All[i].CancelCheckIn += TrolleyCode =>
+                                            {
+                                                CancelCheckIn?.Invoke((index, TrolleyCode));
                                             };
             }
 

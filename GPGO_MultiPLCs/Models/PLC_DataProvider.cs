@@ -29,13 +29,9 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
 
-        private readonly Stopwatch sw = new Stopwatch();
-        private string _Intput_Name;
-        private bool _OnlineStatus;
-        private ICollection<string> _Recipe_Names;
-        private Task _RecordingTask;
-        private string _Selected_Name;
         private readonly IDialogService Dialog;
+
+        private readonly Stopwatch sw = new Stopwatch();
 
         /// <summary>取消投產</summary>
         public RelayCommand CancelCheckInCommand { get; }
@@ -51,7 +47,7 @@ namespace GPGO_MultiPLCs.Models
         public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new ObservableConcurrentCollection<ProductInfo>();
 
         /// <summary>取得是否正在紀錄溫度</summary>
-        public bool IsRecording => _RecordingTask?.Status == TaskStatus.Running || _RecordingTask?.Status == TaskStatus.WaitingForActivation || _RecordingTask?.Status == TaskStatus.WaitingToRun;
+        public bool IsRecording => RecordingTask?.Status == TaskStatus.Running || RecordingTask?.Status == TaskStatus.WaitingForActivation || RecordingTask?.Status == TaskStatus.WaitingToRun;
 
         /// <summary>紀錄的資訊</summary>
         public BaseInfo OvenInfo { get; }
@@ -96,55 +92,43 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>OP輸入的配方名稱</summary>
         public string Intput_Name
         {
-            get => _Intput_Name;
-            set
-            {
-                _Intput_Name = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<string>();
+            set => Set(value);
         }
 
         /// <summary>PLC連線狀態</summary>
         public bool OnlineStatus
         {
-            get => _OnlineStatus;
-            set
-            {
-                _OnlineStatus = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<bool>();
+            set => Set(value);
         }
 
         public ICollection<string> Recipe_Names
         {
-            get => _Recipe_Names;
-            set
-            {
-                _Recipe_Names = value;
-                NotifyPropertyChanged();
-            }
+            get => Get<ICollection<string>>();
+            set => Set(value);
         }
 
         /// <summary>用來紀錄的任務，可追蹤狀態</summary>
         public Task RecordingTask
         {
-            get => _RecordingTask;
+            get => Get<Task>();
             set
             {
-                _RecordingTask = value;
+                Set(value);
                 OvenInfo.StartTime = DateTime.Now;
 
-                _RecordingTask.ContinueWith(x =>
-                                            {
-                                                NotifyPropertyChanged(nameof(IsRecording));
+                value.ContinueWith(x =>
+                                   {
+                                       NotifyPropertyChanged(nameof(IsRecording));
 
-                                                x.Dispose();
-                                                OvenInfo.EndTime = DateTime.Now;
-                                                CheckInCommand.Result = false;
+                                       x.Dispose();
+                                       OvenInfo.EndTime = DateTime.Now;
+                                       CheckInCommand.Result = false;
 
-                                                RecordingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
-                                                Ext_Info.Clear();
-                                            });
+                                       RecordingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
+                                       Ext_Info.Clear();
+                                   });
 
                 NotifyPropertyChanged(nameof(IsRecording));
             }
@@ -153,9 +137,11 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>OP選擇的配方名稱</summary>
         public string Selected_Name
         {
-            get => _Selected_Name;
+            get => Get<string>();
             set => SetRecipe(value);
         }
+
+        public event Action<string> CancelCheckIn;
 
         public event Action<(EventType type, DateTime time, string note)> EventHappened;
         public event Action<string> MachineCodeChanged;
@@ -231,11 +217,10 @@ namespace GPGO_MultiPLCs.Models
             {
                 recipe.CopyTo(this);
 
-                _Selected_Name = recipe.RecipeName;
-                NotifyPropertyChanged(nameof(Selected_Name));
+                Set(recipe.RecipeName, nameof(Selected_Name));
             }
 
-            Intput_Name = _Selected_Name;
+            Intput_Name = Selected_Name;
         }
 
         public async void SetRecipe(string recipeName)
@@ -246,12 +231,11 @@ namespace GPGO_MultiPLCs.Models
                 {
                     recipe.CopyTo(this);
 
-                    _Selected_Name = recipeName;
-                    NotifyPropertyChanged(nameof(Selected_Name));
+                    Set(recipe.RecipeName, nameof(Selected_Name));
                 }
             }
 
-            Intput_Name = _Selected_Name;
+            Intput_Name = Selected_Name;
         }
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
@@ -321,32 +305,32 @@ namespace GPGO_MultiPLCs.Models
             Dialog = dialog;
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
                                                         {
-                                                            if (((KeyEventArgs)e).Key != Key.Enter || _Selected_Name == null)
+                                                            if (((KeyEventArgs)e).Key != Key.Enter || Selected_Name == null)
                                                             {
                                                                 return;
                                                             }
 
-                                                            if (_Selected_Name == _Intput_Name)
+                                                            if (Selected_Name == Intput_Name)
                                                             {
                                                                 dialog?.Show(new Dictionary<Language, string> { { Language.TW, "配方無變更" }, { Language.CHS, "配方无变更" }, { Language.EN, "No change." } });
                                                             }
-                                                            else if (_Recipe_Names.Contains(_Intput_Name))
+                                                            else if (Recipe_Names.Contains(Intput_Name))
                                                             {
-                                                                if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Intput_Name, false)) is PLC_Recipe recipe)
+                                                                if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((Intput_Name, false)) is PLC_Recipe recipe)
                                                                 {
                                                                     await SetRecipe(recipe);
                                                                 }
                                                             }
                                                             else
                                                             {
-                                                                Intput_Name = _Selected_Name;
+                                                                Intput_Name = Selected_Name;
                                                                 RecipeKeyInError?.Invoke();
                                                             }
                                                         });
 
             CheckRecipeCommand_KeyLeave = new RelayCommand(e =>
                                                            {
-                                                               Intput_Name = _Selected_Name;
+                                                               Intput_Name = Selected_Name;
                                                            });
 
             CheckInCommand = new CommandWithResult<bool>(async o =>
@@ -409,10 +393,10 @@ namespace GPGO_MultiPLCs.Models
                                                                      {
                                                                          await dialog.Show(new Dictionary<Language, string>
                                                                                            {
-                                                                                               { Language.TW, "查無資料!" },
-                                                                                               { Language.CHS, "查无资料!" },
-                                                                                               { Language.EN, "No data found!" }
-                                                                                           }, DialogMsgType.Alarm);
+                                                                                               { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
+                                                                                           },
+                                                                                           DialogMsgType.Alarm);
+
                                                                          return false;
                                                                      }
 
@@ -422,7 +406,7 @@ namespace GPGO_MultiPLCs.Models
                                                                          Ext_Info.Add(info);
                                                                      }
 
-                                                                     if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((_Selected_Name, true)) is PLC_Recipe recipe)
+                                                                     if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((Selected_Name, true)) is PLC_Recipe recipe)
                                                                      {
                                                                          recipe.CopyTo(this);
                                                                      }
@@ -464,7 +448,9 @@ namespace GPGO_MultiPLCs.Models
 
             CancelCheckInCommand = new RelayCommand(e =>
                                                     {
+                                                        CancelCheckIn?.Invoke(OvenInfo.TrolleyCode);
                                                         OvenInfo.Clear();
+                                                        Ext_Info.Clear();
                                                     });
 
             OvenInfo = new BaseInfo();
@@ -602,7 +588,7 @@ namespace GPGO_MultiPLCs.Models
                                                      {
                                                          CTS?.Cancel();
 
-                                                         await _RecordingTask;
+                                                         await RecordingTask;
                                                      }
 
                                                      ResetStopTokenSource();
@@ -661,8 +647,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                   if (key.ToString().Contains("配方名稱"))
                                                   {
-                                                      _Selected_Name = RecipeName;
-                                                      NotifyPropertyChanged(nameof(Selected_Name));
+                                                      Set(RecipeName, nameof(Selected_Name));
                                                   }
                                                   else if (key == DataNames.使用段數)
                                                   {

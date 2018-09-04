@@ -320,7 +320,6 @@ namespace GPGO_MultiPLCs
             //!由台車code取得前端生產資訊
             TotalVM.WantFrontData += async TrolleyCode =>
                                      {
-                                         //todo 實作取得上位資料
                                          var path = DataInputPath + "\\" + TrolleyCode;
 
                                          if (Directory.Exists(path))
@@ -329,7 +328,7 @@ namespace GPGO_MultiPLCs
 
                                              await Task.Factory.StartNew(() =>
                                                                          {
-                                                                             var files = new DirectoryInfo(path).GetFiles();
+                                                                             var files = new DirectoryInfo(path).GetFiles("*.txt");
                                                                              foreach (var file in files)
                                                                              {
                                                                                  try
@@ -342,35 +341,65 @@ namespace GPGO_MultiPLCs
 
                                                                                      products.Add((result["General1"], int.Parse(result["General2"]), result["General7"]));
                                                                                  }
-                                                                                 catch { }
+                                                                                 catch
+                                                                                 {
+                                                                                 }
                                                                              }
 
                                                                              try
                                                                              {
                                                                                  foreach (var file in files)
                                                                                  {
-                                                                                     file.Delete();
+                                                                                     var backname = file.FullName + ".bak";
+                                                                                     if (File.Exists(backname))
+                                                                                     {
+                                                                                         File.Delete(backname);
+                                                                                     }
+
+                                                                                     file.MoveTo(backname);
                                                                                  }
                                                                              }
-                                                                             catch { }
-
-                                                                             //todo 取消投產需回填資料 or 生產完才刪除
+                                                                             catch
+                                                                             {
+                                                                             }
                                                                          },
                                                                          TaskCreationOptions.LongRunning);
 
-                                             return products.GroupBy(x => x.ordercode).Select(x => new ProductInfo(x.Key, x.First().number) { PanelCodes = x.Select(y => y.panelcode).ToList() }).ToList();
+                                             return products.GroupBy(x => x.ordercode)
+                                                            .Select(x => new ProductInfo(x.Key, x.First().number) { PanelCodes = x.Select(y => y.panelcode).ToList() })
+                                                            .ToList();
                                          }
 
                                          try
                                          {
                                              Directory.CreateDirectory(path);
                                          }
-                                         catch(Exception ex)
+                                         catch (Exception ex)
                                          {
                                              ex.RecordError("台車資料夾不存在且無法創建");
                                          }
 
                                          return null;
+                                     };
+
+            TotalVM.CancelCheckIn += e =>
+                                     {
+                                         var path = DataInputPath + "\\" + e.TrolleyCode;
+
+                                         if (Directory.Exists(path))
+                                         {
+                                             var files = new DirectoryInfo(path).GetFiles("*.bak");
+                                             foreach (var file in files)
+                                             {
+                                                 var sourcename = file.FullName.TrimEnd(".bak".ToCharArray());
+                                                 if (File.Exists(sourcename))
+                                                 {
+                                                     File.Delete(sourcename);
+                                                 }
+
+                                                 file.MoveTo(sourcename);
+                                             }
+                                         }
                                      };
 
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾
@@ -384,9 +413,10 @@ namespace GPGO_MultiPLCs
                                              {
                                                  Directory.CreateDirectory(DataOutputPath);
                                              }
-                                             catch(Exception ex)
+                                             catch (Exception ex)
                                              {
                                                  ex.RecordError("上傳資料夾不存在且無法創建");
+
                                                  return;
                                              }
                                          }

@@ -12,9 +12,9 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ClearCommand { get; }
         public RelayCommand CloseCommand { get; }
         public RelayCommand CopyCommand { get; }
+        public RelayCommand FocusCommand { get; }
         public RelayCommand KeyInputCommand { get; }
         public RelayCommand PasteCommand { get; }
-        public RelayCommand FocusCommand { get; }
 
         public Visibility Shown => Target == null ? Visibility.Collapsed : Visibility.Visible;
         public ScreenKeyboardLangKey StrVals { get; }
@@ -44,7 +44,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public void SetTargetElement(UIElement target, UIElement container)
         {
             Target = target;
-            if (Target != null && container!= null)
+            if (Target != null && container != null)
             {
                 var h = container.RenderSize.Height;
                 var y = Target.TranslatePoint(new Point(0.0, 0.0), container).Y;
@@ -131,23 +131,46 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                                Target,
                                                                                                                e is Button but ? (string)but.GetValue(ContentControl.ContentProperty) : ""))
                                                               {
-                                                                  RoutedEvent = UIElement.TextInputEvent
+                                                                  RoutedEvent = TextCompositionManager.TextInputEvent
                                                               };
-                                                   Target.RaiseEvent(teve);
+
+                                                   if (Target is ComboBox comboBox)
+                                                   {
+                                                       (comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox)?.RaiseEvent(teve);
+                                                   }
+                                                   else
+                                                   {
+                                                       Target.RaiseEvent(teve);
+                                                   }
                                                });
 
             CopyCommand = new RelayCommand(e =>
                                            {
-                                               Clipboard.SetText((string)Target.GetValue(TextBox.TextProperty));
+                                               if (Target is PasswordBox passwordBox)
+                                               {
+                                                   Clipboard.SetText(passwordBox.Password);
+                                               }
+                                               else
+                                               {
+                                                   Clipboard.SetText((string)Target.GetValue(Target is TextBox ? TextBox.TextProperty : ComboBox.TextProperty));
+                                               }
                                            });
 
             PasteCommand = new RelayCommand(e =>
                                             {
                                                 var teve = new TextCompositionEventArgs(Keyboard.PrimaryDevice, new TextComposition(InputManager.Current, Target, Clipboard.GetText()))
                                                            {
-                                                               RoutedEvent = UIElement.TextInputEvent
+                                                               RoutedEvent = TextCompositionManager.TextInputEvent
                                                            };
-                                                Target.RaiseEvent(teve);
+
+                                                if (Target is ComboBox comboBox)
+                                                {
+                                                    (comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox)?.RaiseEvent(teve);
+                                                }
+                                                else
+                                                {
+                                                    Target.RaiseEvent(teve);
+                                                }
                                             });
 
             ActionCommand = new RelayCommand(e =>
@@ -155,14 +178,28 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  var keve = new KeyEventArgs(Keyboard.PrimaryDevice,
                                                                              PresentationSource.FromDependencyObject(Target) ?? throw new InvalidOperationException(),
                                                                              0,
-                                                                             (Key)e) { RoutedEvent = UIElement.KeyDownEvent };
+                                                                             (Key)e) { RoutedEvent = Keyboard.KeyDownEvent };
 
-                                                 Target.RaiseEvent(keve);
+                                                 if (Target is ComboBox comboBox)
+                                                 {
+                                                     (comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox)?.RaiseEvent(keve);
+                                                 }
+                                                 else
+                                                 {
+                                                     Target.RaiseEvent(keve);
+                                                 }
                                              });
 
             ClearCommand = new RelayCommand(e =>
                                             {
-                                                Target.SetValue(TextBox.TextProperty, "");
+                                                if (Target is PasswordBox passwordBox)
+                                                {
+                                                    passwordBox.Clear();
+                                                }
+                                                else
+                                                {
+                                                    Target.SetValue(Target is TextBox ? TextBox.TextProperty : ComboBox.TextProperty, "");
+                                                }
                                             });
 
             CloseCommand = new RelayCommand(e =>
@@ -173,7 +210,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
             FocusCommand = new RelayCommand(e =>
                                             {
-                                                if(e is KeyboardFocusChangedEventArgs args && args.NewFocus is UIElement ele && ( ele is TextBox || ele is PasswordBox || (ele is ComboBox cb && cb.IsEditable) ))
+                                                if (e is KeyboardFocusChangedEventArgs args &&
+                                                    args.NewFocus is UIElement ele &&
+                                                    (ele is TextBox || ele is PasswordBox || ele is ComboBox cb && cb.IsEditable))
                                                 {
                                                     SetTargetElement(ele, Window.GetWindow(ele)?.Content as UIElement);
                                                 }
