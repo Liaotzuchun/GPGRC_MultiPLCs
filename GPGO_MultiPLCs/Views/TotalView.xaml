@@ -269,18 +269,16 @@
                                                     Background="{StaticResource LightColorBrush}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,1,1,0">
-                                                    <Grid
-                                                        x:Name="Grid"
-                                                        Background="Transparent">
-                                                        <TextBlock
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Text="{Binding ProcessCounts, Mode=OneWay}" />
+                                                    <Grid Background="Transparent">
+                                                        <ToggleButton
+                                                            x:Name="ToggleButton"
+                                                            Content="{Binding ProcessCounts, Mode=OneWay}"
+                                                            Style="{StaticResource ArrowToggle}" />
                                                         <Popup
                                                             AllowsTransparency="True"
                                                             Focusable="False"
                                                             IsHitTestVisible="False"
-                                                            IsOpen="{Binding IsMouseOver, ElementName=Grid, Mode=OneWay}"
+                                                            IsOpen="{Binding IsChecked, ElementName=ToggleButton, Mode=OneWay}"
                                                             Placement="Bottom"
                                                             PopupAnimation="Fade"
                                                             VerticalOffset="8">
