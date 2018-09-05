@@ -14,10 +14,10 @@
     KeyboardNavigation.TabNavigation="Cycle"
     Loaded="UserControl_Loaded"
     UseLayoutRounding="True"
-    Visibility="{Binding IsShown, Mode=OneWay}"
     mc:Ignorable="d">
     <UserControl.Style>
         <Style TargetType="UserControl">
+            <Setter Property="Visibility" Value="{Binding IsShown, Mode=OneWay}" />
             <Style.Triggers>
                 <Trigger Property="Visibility" Value="Visible">
                     <Trigger.EnterActions>
@@ -41,18 +41,18 @@
     </UserControl.Style>
 
     <Border
-            Width="540"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="{StaticResource WindowBackgroundBrush2}"
-            BorderBrush="{Binding BorderBrush, ElementName=Border, Mode=OneWay}"
-            BorderThickness="1">
+        Width="540"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Background="{StaticResource WindowBackgroundBrush2}"
+        BorderBrush="{Binding BorderBrush, ElementName=Border, Mode=OneWay}"
+        BorderThickness="1">
         <Border.Effect>
             <DropShadowEffect
-                    BlurRadius="16"
-                    Direction="270"
-                    Opacity="0.3"
-                    ShadowDepth="8" />
+                BlurRadius="16"
+                Direction="270"
+                Opacity="0.3"
+                ShadowDepth="8" />
         </Border.Effect>
         <Grid>
             <Grid.RowDefinitions>
@@ -69,8 +69,8 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewMouseDown">
                         <i:InvokeCommandAction
-                                Command="{Binding ExitLog, Mode=OneTime}"
-                                CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
+                            Command="{Binding ExitLog, Mode=OneTime}"
+                            CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Border.Style>
@@ -80,8 +80,8 @@
                         <Setter Property="BorderThickness" Value="0,0,0,1" />
                         <Style.Triggers>
                             <DataTrigger
-                                    Binding="{Binding Login.Result, Mode=OneWay}"
-                                    Value="False">
+                                Binding="{Binding Login.Result, Mode=OneWay}"
+                                Value="False">
                                 <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
                                 <Setter Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
                             </DataTrigger>
@@ -89,28 +89,28 @@
                     </Style>
                 </Border.Style>
                 <Path
-                        Margin="4,2,4,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Stroke="{StaticResource GlyphBrush}"
-                        StrokeLineJoin="Round"
-                        StrokeThickness="3"
-                        Visibility="{Binding IsMouseOver, Converter={StaticResource BoolVis}, ElementName=Border, Mode=OneWay}">
+                    Margin="4,2,4,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Stroke="{StaticResource GlyphBrush}"
+                    StrokeLineJoin="Round"
+                    StrokeThickness="3"
+                    Visibility="{Binding IsMouseOver, Converter={StaticResource BoolVis}, ElementName=Border, Mode=OneWay}">
                     <Path.Data>
                         <GeometryGroup>
                             <LineGeometry
-                                    StartPoint="0,0"
-                                    EndPoint="10,10" />
+                                StartPoint="0,0"
+                                EndPoint="10,10" />
                             <LineGeometry
-                                    StartPoint="10,0"
-                                    EndPoint="0,10" />
+                                StartPoint="10,0"
+                                EndPoint="0,10" />
                         </GeometryGroup>
                     </Path.Data>
                 </Path>
             </Border>
             <Rectangle
-                    Grid.Row="1"
-                    Grid.RowSpan="3">
+                Grid.Row="1"
+                Grid.RowSpan="3">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                         <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
@@ -120,15 +120,15 @@
                 </Rectangle.Fill>
             </Rectangle>
             <Border
-                    Grid.Row="1"
-                    Height="70"
-                    Margin="10"
-                    Background="{StaticResource GP_Logo}" />
+                Grid.Row="1"
+                Height="70"
+                Margin="10"
+                Background="{StaticResource GP_Logo}" />
             <Grid
-                    Grid.Row="2"
-                    Margin="8,0"
-                    KeyboardNavigation.TabNavigation="Cycle"
-                    TextElement.FontSize="16">
+                Grid.Row="2"
+                Margin="8,0"
+                KeyboardNavigation.TabNavigation="Cycle"
+                TextElement.FontSize="16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="60" />
@@ -141,69 +141,69 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Button
-                        Grid.RowSpan="2"
-                        Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                        Margin="0,0,8,0"
-                        Content="{DynamicResource 登出}"
-                        IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}"
-                        Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                    Grid.RowSpan="2"
+                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                    Margin="0,0,8,0"
+                    Content="{DynamicResource 登出}"
+                    IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}"
+                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction
-                                    Command="{Binding Logout, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
+                                Command="{Binding Logout, Mode=OneTime}"
+                                CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
                 <Border
-                        Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
+                    Grid.Column="1"
+                    Background="{StaticResource WindowBackgroundBrush6}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
                     <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource 帳號}" />
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource 帳號}" />
                 </Border>
                 <Border
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,1">
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Background="{StaticResource WindowBackgroundBrush6}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,1">
                     <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource 密碼}" />
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource 密碼}" />
                 </Border>
                 <UniformGrid
-                        Grid.RowSpan="2"
-                        Grid.Column="2"
-                        Columns="1"
-                        KeyboardNavigation.TabNavigation="Cycle">
+                    Grid.RowSpan="2"
+                    Grid.Column="2"
+                    Columns="1"
+                    KeyboardNavigation.TabNavigation="Cycle">
                     <TextBox
-                            x:Name="NameBox"
-                            BorderThickness="1,1,1,0"
-                            FontSize="14"
-                            GotKeyboardFocus="NameBox_GotKeyboardFocus"
-                            PreviewKeyDown="NameBox_PreviewKeyDown"
-                            Text="{Binding TypedName, Mode=TwoWay}" />
+                        x:Name="NameBox"
+                        BorderThickness="1,1,1,0"
+                        FontSize="14"
+                        GotKeyboardFocus="NameBox_GotKeyboardFocus"
+                        PreviewKeyDown="NameBox_PreviewKeyDown"
+                        Text="{Binding TypedName, Mode=TwoWay}" />
                     <PasswordBox
-                            x:Name="Password"
-                            FontSize="14"
-                            PreviewKeyDown="Password_PreviewKeyDown" />
+                        x:Name="Password"
+                        FontSize="14"
+                        PreviewKeyDown="Password_PreviewKeyDown" />
                 </UniformGrid>
                 <Button
-                        x:Name="LoginButton"
-                        Grid.RowSpan="2"
-                        Grid.Column="3"
-                        Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                        Content="{DynamicResource 登入}">
+                    x:Name="LoginButton"
+                    Grid.RowSpan="2"
+                    Grid.Column="3"
+                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                    Content="{DynamicResource 登入}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction
-                                    Command="{Binding Login, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
+                                Command="{Binding Login, Mode=OneTime}"
+                                CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -216,45 +216,45 @@
                             <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                             <Style.Triggers>
                                 <DataTrigger
-                                        Binding="{Binding NowUser.Level, Mode=OneWay}"
-                                        Value="1">
+                                    Binding="{Binding NowUser.Level, Mode=OneWay}"
+                                    Value="1">
                                     <Setter Property="Background" Value="Green" />
                                 </DataTrigger>
                                 <DataTrigger
-                                        Binding="{Binding NowUser.Level, Mode=OneWay}"
-                                        Value="2">
+                                    Binding="{Binding NowUser.Level, Mode=OneWay}"
+                                    Value="2">
                                     <Setter Property="Background" Value="Blue" />
                                 </DataTrigger>
                                 <DataTrigger
-                                        Binding="{Binding NowUser.Level, Mode=OneWay}"
-                                        Value="3">
+                                    Binding="{Binding NowUser.Level, Mode=OneWay}"
+                                    Value="3">
                                     <Setter Property="Background" Value="Purple" />
                                 </DataTrigger>
                                 <DataTrigger
-                                        Binding="{Binding NowUser.Level, Mode=OneWay}"
-                                        Value="4">
+                                    Binding="{Binding NowUser.Level, Mode=OneWay}"
+                                    Value="4">
                                     <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
                     <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="40"
-                            Foreground="White"
-                            Text="{Binding NowUser.Level}" />
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="40"
+                        Foreground="White"
+                        Text="{Binding NowUser.Level}" />
                 </Border>
             </Grid>
             <Grid
-                    x:Name="Grid"
-                    Grid.Row="4"
-                    Height="80"
-                    Margin="8,0"
-                    IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
-                    KeyboardNavigation.TabNavigation="Cycle"
-                    TextElement.FontSize="16"
-                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                x:Name="Grid"
+                Grid.Row="4"
+                Height="80"
+                Margin="8,0"
+                IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
+                KeyboardNavigation.TabNavigation="Cycle"
+                TextElement.FontSize="16"
+                Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition />
@@ -268,56 +268,56 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
+                    Background="{StaticResource WindowBackgroundBrush6}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
                     <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource 帳號}" />
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource 帳號}" />
                 </Border>
                 <TextBox
-                        Grid.Column="1"
-                        BorderThickness="1,1,1,0"
-                        FontSize="14"
-                        Text="{Binding EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Grid.Column="1"
+                    BorderThickness="1,1,1,0"
+                    FontSize="14"
+                    Text="{Binding EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
-                        Grid.Row="1"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
+                    Grid.Row="1"
+                    Background="{StaticResource WindowBackgroundBrush6}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
                     <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource 密碼}" />
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource 密碼}" />
                 </Border>
                 <TextBox
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        BorderThickness="1,1,1,0"
-                        FontSize="14"
-                        Text="{Binding EditPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BorderThickness="1,1,1,0"
+                    FontSize="14"
+                    Text="{Binding EditPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
-                        Grid.Row="2"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,1">
+                    Grid.Row="2"
+                    Background="{StaticResource WindowBackgroundBrush6}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,1">
                     <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Text="{DynamicResource 層級}" />
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource 層級}" />
                 </Border>
                 <ComboBox
-                        x:Name="ComboBox"
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        ItemsSource="{Binding EditLevels, Mode=OneWay}"
-                        SelectedItem="{Binding EditLevel, Mode=TwoWay}" />
+                    x:Name="ComboBox"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    ItemsSource="{Binding EditLevels, Mode=OneWay}"
+                    SelectedItem="{Binding EditLevel, Mode=TwoWay}" />
                 <Button
-                        Grid.RowSpan="3"
-                        Grid.Column="2"
-                        Content="{DynamicResource 修改}"
-                        IsEnabled="{Binding Update_Enable, Mode=OneWay}">
+                    Grid.RowSpan="3"
+                    Grid.Column="2"
+                    Content="{DynamicResource 修改}"
+                    IsEnabled="{Binding Update_Enable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding UpdateUser, Mode=OneTime}" />
@@ -325,10 +325,10 @@
                     </i:Interaction.Triggers>
                 </Button>
                 <Button
-                        Grid.RowSpan="3"
-                        Grid.Column="3"
-                        Content="{DynamicResource 新增}"
-                        IsEnabled="{Binding Add_Enable, Mode=OneWay}">
+                    Grid.RowSpan="3"
+                    Grid.Column="3"
+                    Content="{DynamicResource 新增}"
+                    IsEnabled="{Binding Add_Enable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding AddUser, Mode=OneTime}" />
@@ -336,10 +336,10 @@
                     </i:Interaction.Triggers>
                 </Button>
                 <Button
-                        Grid.RowSpan="3"
-                        Grid.Column="4"
-                        Content="{DynamicResource 刪除}"
-                        IsEnabled="{Binding Remove_Enable, Mode=OneWay}">
+                    Grid.RowSpan="3"
+                    Grid.Column="4"
+                    Content="{DynamicResource 刪除}"
+                    IsEnabled="{Binding Remove_Enable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding RemoveUser, Mode=OneTime}" />
@@ -348,20 +348,20 @@
                 </Button>
             </Grid>
             <TabControl
-                    Grid.Row="6"
-                    Margin="8"
-                    Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
+                Grid.Row="6"
+                Margin="8"
+                Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
                 <TabItem
-                        Height="40"
-                        FontSize="16"
-                        Header="{DynamicResource 人員管理}">
+                    Height="40"
+                    FontSize="16"
+                    Header="{DynamicResource 人員管理}">
                     <DataGrid
-                            Height="200"
-                            AutoGenerateColumns="False"
-                            FontSize="11"
-                            ItemsSource="{Binding ViewUsers, Mode=OneWay, IsAsync=True}"
-                            SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                            VerticalScrollBarVisibility="Visible">
+                        Height="200"
+                        AutoGenerateColumns="False"
+                        FontSize="11"
+                        ItemsSource="{Binding ViewUsers, Mode=OneWay, IsAsync=True}"
+                        SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                        VerticalScrollBarVisibility="Visible">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Width="*">
                                 <DataGridTemplateColumn.Header>
@@ -417,14 +417,14 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem
-                        Height="40"
-                        FontSize="16"
-                        Header="{DynamicResource 系統設定}"
-                        IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
-                        Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                    Height="40"
+                    FontSize="16"
+                    Header="{DynamicResource 系統設定}"
+                    IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
+                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <Grid
-                            Height="200"
-                            Margin="0,8,0,0">
+                        Height="200"
+                        Margin="0,8,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition Height="40" />
@@ -438,54 +438,54 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Border
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,1">
                                 <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Text="{DynamicResource 上傳}" />
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource 上傳}" />
                             </Border>
                             <Border
-                                    Grid.Column="1"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
+                                Grid.Column="1"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,1">
                                 <TextBlock
-                                        x:Name="PathText"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontFamily="Consolas"
-                                        FontSize="14"
-                                        Text="{Binding GT.DataOutputPath, Mode=OneWay}" />
+                                    x:Name="PathText"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Consolas"
+                                    FontSize="14"
+                                    Text="{Binding GT.DataOutputPath, Mode=OneWay}" />
                             </Border>
                             <ToggleButton
-                                    x:Name="TB"
-                                    Grid.Column="2"
-                                    Width="60"
-                                    Content="{DynamicResource 修改}"
-                                    IsEnabled="{Binding IsChecked, ElementName=InputTB, Converter={StaticResource BoolNot}, Mode=OneWay}">
+                                x:Name="TB"
+                                Grid.Column="2"
+                                Width="60"
+                                Content="{DynamicResource 修改}"
+                                IsEnabled="{Binding IsChecked, ElementName=InputTB, Converter={StaticResource BoolNot}, Mode=OneWay}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
                                         <view:SetPropertyAction
-                                                PropertyName="Content"
-                                                PropertyValue="{DynamicResource 套用}" />
+                                            PropertyName="Content"
+                                            PropertyValue="{DynamicResource 套用}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="Unchecked">
                                         <view:SetPropertyAction
-                                                PropertyName="Content"
-                                                PropertyValue="{DynamicResource 修改}" />
+                                            PropertyName="Content"
+                                            PropertyValue="{DynamicResource 修改}" />
                                         <i:InvokeCommandAction
-                                                Command="{Binding SetPath, Mode=OneTime}"
-                                                CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
+                                            Command="{Binding SetPath, Mode=OneTime}"
+                                            CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ToggleButton>
                             <Button
-                                    Grid.Column="3"
-                                    Width="60"
-                                    Click="Button_Click"
-                                    Content="{DynamicResource 取消}"
-                                    Visibility="{Binding IsChecked, ElementName=TB, Converter={StaticResource BoolVis}}" />
+                                Grid.Column="3"
+                                Width="60"
+                                Click="Button_Click"
+                                Content="{DynamicResource 取消}"
+                                Visibility="{Binding IsChecked, ElementName=TB, Converter={StaticResource BoolVis}}" />
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -495,99 +495,99 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Border
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,0,1">
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,0,0,1">
                                 <TextBlock
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Text="{DynamicResource 下載}" />
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource 下載}" />
                             </Border>
                             <Border
-                                    Grid.Column="1"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,0,1">
+                                Grid.Column="1"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,0,0,1">
                                 <TextBlock
-                                        x:Name="InputPathText"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontFamily="Consolas"
-                                        FontSize="14"
-                                        Text="{Binding GT.DataInputPath, Mode=OneWay}" />
+                                    x:Name="InputPathText"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Consolas"
+                                    FontSize="14"
+                                    Text="{Binding GT.DataInputPath, Mode=OneWay}" />
                             </Border>
                             <ToggleButton
-                                    x:Name="InputTB"
-                                    Grid.Column="2"
-                                    Width="60"
-                                    BorderThickness="1,0,1,1"
-                                    Content="{DynamicResource 修改}"
-                                    IsEnabled="{Binding IsChecked, ElementName=TB, Converter={StaticResource BoolNot}, Mode=OneWay}">
+                                x:Name="InputTB"
+                                Grid.Column="2"
+                                Width="60"
+                                BorderThickness="1,0,1,1"
+                                Content="{DynamicResource 修改}"
+                                IsEnabled="{Binding IsChecked, ElementName=TB, Converter={StaticResource BoolNot}, Mode=OneWay}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
                                         <view:SetPropertyAction
-                                                PropertyName="Content"
-                                                PropertyValue="{DynamicResource 套用}" />
+                                            PropertyName="Content"
+                                            PropertyValue="{DynamicResource 套用}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="Unchecked">
                                         <view:SetPropertyAction
-                                                PropertyName="Content"
-                                                PropertyValue="{DynamicResource 修改}" />
+                                            PropertyName="Content"
+                                            PropertyValue="{DynamicResource 修改}" />
                                         <i:InvokeCommandAction
-                                                Command="{Binding SetInputPath, Mode=OneTime}"
-                                                CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
+                                            Command="{Binding SetInputPath, Mode=OneTime}"
+                                            CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ToggleButton>
                             <Button
-                                    Grid.Column="3"
-                                    Width="60"
-                                    BorderThickness="1,0,1,1"
-                                    Click="Button_Click_1"
-                                    Content="{DynamicResource 取消}"
-                                    Visibility="{Binding IsChecked, ElementName=InputTB, Converter={StaticResource BoolVis}}" />
+                                Grid.Column="3"
+                                Width="60"
+                                BorderThickness="1,0,1,1"
+                                Click="Button_Click_1"
+                                Content="{DynamicResource 取消}"
+                                Visibility="{Binding IsChecked, ElementName=InputTB, Converter={StaticResource BoolVis}}" />
                         </Grid>
                         <Grid Grid.Row="2">
                             <Grid.IsEnabled>
                                 <MultiBinding
-                                        Converter="{StaticResource MultiAnyTrueConverter}"
-                                        Mode="OneWay">
+                                    Converter="{StaticResource MultiAnyTrueConverter}"
+                                    Mode="OneWay">
                                     <Binding
-                                            ElementName="TB"
-                                            Mode="OneWay"
-                                            Path="IsChecked" />
+                                        ElementName="TB"
+                                        Mode="OneWay"
+                                        Path="IsChecked" />
                                     <Binding
-                                            ElementName="InputTB"
-                                            Mode="OneWay"
-                                            Path="IsChecked" />
+                                        ElementName="InputTB"
+                                        Mode="OneWay"
+                                        Path="IsChecked" />
                                 </MultiBinding>
                             </Grid.IsEnabled>
                             <TreeView
-                                    x:Name="TV"
-                                    BorderThickness="1,0,0,1"
-                                    FontFamily="Consolas"
-                                    FontSize="12" />
+                                x:Name="TV"
+                                BorderThickness="1,0,0,1"
+                                FontFamily="Consolas"
+                                FontSize="12" />
                         </Grid>
                     </Grid>
                 </TabItem>
             </TabControl>
             <UniformGrid
-                    Grid.Row="7"
-                    Height="40"
-                    Margin="8,0,8,8"
-                    Rows="1"
-                    TextElement.FontSize="16">
+                Grid.Row="7"
+                Height="40"
+                Margin="8,0,8,8"
+                Rows="1"
+                TextElement.FontSize="16">
                 <ToggleButton
-                        Checked="RadioButton_Checked"
-                        Content="{DynamicResource 繁體中文}"
-                        IsChecked="{Binding GT.Lng, ConverterParameter=TW, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                    Checked="RadioButton_Checked"
+                    Content="{DynamicResource 繁體中文}"
+                    IsChecked="{Binding GT.Lng, ConverterParameter=TW, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                 <ToggleButton
-                        Checked="RadioButton_Checked_1"
-                        Content="{DynamicResource 簡體中文}"
-                        IsChecked="{Binding GT.Lng, ConverterParameter=CHS, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                    Checked="RadioButton_Checked_1"
+                    Content="{DynamicResource 簡體中文}"
+                    IsChecked="{Binding GT.Lng, ConverterParameter=CHS, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
                 <ToggleButton
-                        Checked="RadioButton_Checked_2"
-                        Content="{DynamicResource 英文}"
-                        IsChecked="{Binding GT.Lng, ConverterParameter=EN, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                    Checked="RadioButton_Checked_2"
+                    Content="{DynamicResource 英文}"
+                    IsChecked="{Binding GT.Lng, ConverterParameter=EN, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
             </UniformGrid>
         </Grid>
     </Border>

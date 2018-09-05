@@ -17,8 +17,31 @@
     Loaded="UserControl_Loaded"
     MouseEnter="UserControl_MouseEnter"
     MouseLeave="UserControl_MouseLeave"
-    Visibility="{Binding Shown, Mode=OneWay}"
     mc:Ignorable="d">
+    <UserControl.Style>
+        <Style TargetType="FrameworkElement">
+            <Setter Property="Visibility" Value="{Binding Shown, Mode=OneWay}" />
+            <Style.Triggers>
+                <Trigger Property="Visibility" Value="Visible">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="0"
+                                    To="1"
+                                    Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <ExponentialEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
 
     <Border>
         <Border
