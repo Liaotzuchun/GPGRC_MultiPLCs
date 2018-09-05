@@ -123,7 +123,7 @@
     <sys:String x:Key="類型">Type</sys:String>
     <sys:String x:Key="欄位">Field</sys:String>
     <sys:String x:Key="值">Value</sys:String>
-    <sys:String x:Key="退格">Backspace</sys:String>
+    <sys:String x:Key="退格">Back</sys:String>
     <sys:String x:Key="起端">Home</sys:String>
     <sys:String x:Key="末端">End</sys:String>
     <sys:String x:Key="複製">Copy</sys:String>
