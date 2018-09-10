@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-    Height="200"
+    Height="220"
     MaxWidth="800"
     VerticalAlignment="{Binding VA, Mode=OneWay}"
     d:DataContext="{d:DesignInstance vm:ScreenKeyboard_ViewModel}"
@@ -59,6 +59,7 @@
                 Margin="4"
                 Focusable="False">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
                     <RowDefinition Height="4*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
@@ -67,8 +68,37 @@
                     <ColumnDefinition Width="4" />
                     <ColumnDefinition Width="3*" />
                 </Grid.ColumnDefinitions>
+                <Border
+                    x:Name="Border"
+                    Grid.ColumnSpan="3" Background="Transparent">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <i:InvokeCommandAction
+                                Command="{Binding CloseCommand, Mode=OneTime}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Path
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Stroke="{StaticResource WindowBackgroundBrush}"
+                        StrokeLineJoin="Round"
+                        StrokeThickness="3"
+                        Visibility="{Binding IsMouseOver, Converter={StaticResource BoolVis}, ElementName=Border, Mode=OneWay}">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <LineGeometry
+                                    StartPoint="0,0"
+                                    EndPoint="10,10" />
+                                <LineGeometry
+                                    StartPoint="10,0"
+                                    EndPoint="0,10" />
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                </Border>
                 <local:UniformGridWithOrientation
                     x:Name="WP"
+                    Grid.Row="1"
                     Columns="10"
                     Focusable="False"
                     Rows="4">
@@ -569,6 +599,7 @@
                 </local:UniformGridWithOrientation>
                 <local:UniformGridWithOrientation
                     x:Name="numkey"
+                    Grid.Row="1"
                     Grid.Column="2"
                     Columns="3"
                     Focusable="False"
@@ -732,7 +763,7 @@
                 </local:UniformGridWithOrientation>
                 <local:UniformGridWithOrientation
                     x:Name="WP2"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Columns="10"
                     Focusable="False"
                     Rows="1">
@@ -856,14 +887,14 @@
                 </local:UniformGridWithOrientation>
                 <Button
                     x:Name="CloseB"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="2"
                     Margin="1"
-                    Content="{DynamicResource 關閉}"
+                    Content="{DynamicResource 輸入}"
                     Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding CloseCommand, Mode=OneTime}" />
+                            <i:InvokeCommandAction Command="{Binding EnterCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>

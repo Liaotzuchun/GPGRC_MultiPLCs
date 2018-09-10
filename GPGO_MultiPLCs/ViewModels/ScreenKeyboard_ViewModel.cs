@@ -11,6 +11,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ActionCommand { get; }
         public RelayCommand ClearCommand { get; }
         public RelayCommand CloseCommand { get; }
+        public RelayCommand EnterCommand { get; }
         public RelayCommand CopyCommand { get; }
         public RelayCommand FocusCommand { get; }
         public RelayCommand KeyInputCommand { get; }
@@ -206,6 +207,24 @@ namespace GPGO_MultiPLCs.ViewModels
                                             {
                                                 Target = null;
                                                 Keyboard.ClearFocus();
+                                            });
+
+            EnterCommand = new RelayCommand(e =>
+                                            {
+                                                var keve = new KeyEventArgs(Keyboard.PrimaryDevice,
+                                                                            PresentationSource.FromDependencyObject(Target) ?? throw new InvalidOperationException(),
+                                                                            0,
+                                                                            Key.Enter)
+                                                           { RoutedEvent = Keyboard.KeyDownEvent };
+
+                                                if (Target is ComboBox comboBox)
+                                                {
+                                                    (comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox)?.RaiseEvent(keve);
+                                                }
+                                                else
+                                                {
+                                                    Target.RaiseEvent(keve);
+                                                }
                                             });
 
             FocusCommand = new RelayCommand(e =>
