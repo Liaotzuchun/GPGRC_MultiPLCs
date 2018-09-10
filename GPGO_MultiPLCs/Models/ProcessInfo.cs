@@ -235,7 +235,7 @@ namespace GPGO_MultiPLCs.Models
 
         public string AlarmListString()
         {
-            return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm));
+            return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm).Select(x => x.Description));
         }
 
         /// <summary>匯出成Dictionary</summary>
