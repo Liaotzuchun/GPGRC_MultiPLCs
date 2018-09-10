@@ -29,6 +29,9 @@
         <i:EventTrigger EventName="GotKeyboardFocus">
             <helpers:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
         </i:EventTrigger>
+        <i:EventTrigger EventName="LostKeyboardFocus">
+            <helpers:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
 
     <Grid>
