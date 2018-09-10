@@ -382,7 +382,7 @@
                     IsVisibleChanged="Intput_IsVisibleChanged"
                     Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewKeyDown">
+                        <i:EventTrigger EventName="KeyDown">
                             <hp:InteractiveCommand Command="{Binding EnterCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>

@@ -135,14 +135,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                   RoutedEvent = TextCompositionManager.TextInputEvent
                                                               };
 
-                                                   if (Target is ComboBox comboBox)
-                                                   {
-                                                       (comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox)?.RaiseEvent(teve);
-                                                   }
-                                                   else
-                                                   {
-                                                       Target.RaiseEvent(teve);
-                                                   }
+                                                   InputManager.Current.ProcessInput(teve);
                                                });
 
             CopyCommand = new RelayCommand(e =>
@@ -164,14 +157,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                RoutedEvent = TextCompositionManager.TextInputEvent
                                                            };
 
-                                                if (Target is ComboBox comboBox)
-                                                {
-                                                    (comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox)?.RaiseEvent(teve);
-                                                }
-                                                else
-                                                {
-                                                    Target.RaiseEvent(teve);
-                                                }
+                                                InputManager.Current.ProcessInput(teve);
                                             });
 
             ActionCommand = new RelayCommand(e =>
@@ -181,14 +167,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                              0,
                                                                              (Key)e) { RoutedEvent = Keyboard.KeyDownEvent };
 
-                                                 if (Target is ComboBox comboBox)
-                                                 {
-                                                     (comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox)?.RaiseEvent(keve);
-                                                 }
-                                                 else
-                                                 {
-                                                     Target.RaiseEvent(keve);
-                                                 }
+                                                 InputManager.Current.ProcessInput(keve);
                                              });
 
             ClearCommand = new RelayCommand(e =>
@@ -211,20 +190,20 @@ namespace GPGO_MultiPLCs.ViewModels
 
             EnterCommand = new RelayCommand(e =>
                                             {
-                                                var keve = new KeyEventArgs(Keyboard.PrimaryDevice,
+                                                var keve1 = new KeyEventArgs(Keyboard.PrimaryDevice,
                                                                             PresentationSource.FromDependencyObject(Target) ?? throw new InvalidOperationException(),
                                                                             0,
                                                                             Key.Enter)
                                                            { RoutedEvent = Keyboard.KeyDownEvent };
 
-                                                if (Target is ComboBox comboBox)
-                                                {
-                                                    (comboBox.Template.FindName("PART_EditableTextBox", comboBox) as TextBox)?.RaiseEvent(keve);
-                                                }
-                                                else
-                                                {
-                                                    Target.RaiseEvent(keve);
-                                                }
+                                                var keve2 = new KeyEventArgs(Keyboard.PrimaryDevice,
+                                                                            PresentationSource.FromDependencyObject(Target) ?? throw new InvalidOperationException(),
+                                                                            0,
+                                                                            Key.Enter)
+                                                           { RoutedEvent = Keyboard.KeyUpEvent };
+
+                                                InputManager.Current.ProcessInput(keve1);
+                                                InputManager.Current.ProcessInput(keve2);
                                             });
 
             FocusCommand = new RelayCommand(e =>
