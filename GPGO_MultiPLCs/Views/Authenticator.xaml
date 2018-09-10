@@ -186,12 +186,12 @@
                         BorderThickness="1,1,1,0"
                         FontSize="14"
                         GotKeyboardFocus="NameBox_GotKeyboardFocus"
-                        PreviewKeyDown="NameBox_PreviewKeyDown"
+                        KeyDown="NameBox_KeyDown"
                         Text="{Binding TypedName, Mode=TwoWay}" />
                     <PasswordBox
                         x:Name="Password"
                         FontSize="14"
-                        PreviewKeyDown="Password_PreviewKeyDown" />
+                        KeyDown="Password_KeyDown" />
                 </UniformGrid>
                 <Button
                     x:Name="LoginButton"
@@ -422,9 +422,7 @@
                     Header="{DynamicResource 系統設定}"
                     IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
                     Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                    <Grid
-                        Height="200"
-                        Margin="0,8,0,0">
+                    <Grid Height="200">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition Height="40" />

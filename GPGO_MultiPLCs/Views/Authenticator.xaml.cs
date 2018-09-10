@@ -90,7 +90,7 @@ namespace GPGO_MultiPLCs.Views
             NameBox.Clear();
         }
 
-        private void NameBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void NameBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -98,7 +98,7 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private void Password_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void Password_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

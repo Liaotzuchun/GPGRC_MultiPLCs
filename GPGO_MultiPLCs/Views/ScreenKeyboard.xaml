@@ -70,20 +70,20 @@
                 </Grid.ColumnDefinitions>
                 <Border
                     x:Name="Border"
-                    Grid.ColumnSpan="3" Background="Transparent">
+                    Grid.ColumnSpan="3"
+                    Background="Transparent">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction
-                                Command="{Binding CloseCommand, Mode=OneTime}"/>
+                            <i:InvokeCommandAction Command="{Binding CloseCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Path
+                        Margin="0,0,1,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Stroke="{StaticResource WindowBackgroundBrush}"
                         StrokeLineJoin="Round"
-                        StrokeThickness="3"
-                        Visibility="{Binding IsMouseOver, Converter={StaticResource BoolVis}, ElementName=Border, Mode=OneWay}">
+                        StrokeThickness="3">
                         <Path.Data>
                             <GeometryGroup>
                                 <LineGeometry
