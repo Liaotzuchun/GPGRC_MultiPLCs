@@ -7,7 +7,7 @@ using System.Windows.Media;
 namespace GPGO_MultiPLCs.Views.Helpers
 {
     /// <summary>提供在DataGrid顯示RowNumber的能力，不像AlternationIndex有虛擬化bug的問題</summary>
-    public class DisplayRowNumberBehavior
+    public sealed class DisplayRowNumberBehavior
     {
         public static DependencyProperty DisplayRowNumberProperty =
             DependencyProperty.RegisterAttached("DisplayRowNumber", typeof(bool), typeof(DisplayRowNumberBehavior), new FrameworkPropertyMetadata(false, OnDisplayRowNumberChanged));
