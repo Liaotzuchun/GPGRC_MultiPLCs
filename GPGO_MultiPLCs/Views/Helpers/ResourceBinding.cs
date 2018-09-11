@@ -8,7 +8,7 @@ using System.Windows.Markup;
 namespace GPGO_MultiPLCs.Views
 {
     /// <summary>讓Resourcekey可提供binding</summary>
-    public class ResourceBinding : MarkupExtension
+    public sealed class ResourceBinding : MarkupExtension
     {
         public static readonly DependencyProperty ResourceBindingKeyHelperProperty =
             DependencyProperty.RegisterAttached("ResourceBindingKeyHelper", typeof(object), typeof(ResourceBinding), new PropertyMetadata(null, ResourceKeyChanged));

@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace GPGO_MultiPLCs.Views
 {
     /// <summary>提供更簡易方便使用的Grid，會依元素順序自動分配位置，如果元素有自訂的rowspan或columnspan參數也會自動計算</summary>
-    public class AutoGrid : Grid
+    public sealed class AutoGrid : Grid
     {
         public static readonly DependencyProperty ChildHorizontalAlignmentProperty = DependencyProperty.Register("ChildHorizontalAlignment",
                                                                                                                  typeof(HorizontalAlignment?),
@@ -80,7 +80,7 @@ namespace GPGO_MultiPLCs.Views
         }
 
         public static readonly DependencyProperty ColumnCountProperty =
-            DependencyProperty.RegisterAttached("ColumnCount", typeof(int), typeof(AutoGrid), new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsMeasure, ColumnCountChanged));
+            DependencyProperty.Register("ColumnCount", typeof(int), typeof(AutoGrid), new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsMeasure, ColumnCountChanged));
 
         public static void ColumnCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -112,7 +112,7 @@ namespace GPGO_MultiPLCs.Views
         }
 
         public static readonly DependencyProperty ColumnsProperty =
-            DependencyProperty.RegisterAttached("Columns", typeof(string), typeof(AutoGrid), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.AffectsMeasure, ColumnsChanged));
+            DependencyProperty.Register("Columns", typeof(string), typeof(AutoGrid), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.AffectsMeasure, ColumnsChanged));
 
         public static void ColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -139,12 +139,12 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(ColumnsProperty, value);
         }
 
-        public static readonly DependencyProperty ColumnWidthProperty = DependencyProperty.RegisterAttached("ColumnWidth",
-                                                                                                            typeof(GridLength),
-                                                                                                            typeof(AutoGrid),
-                                                                                                            new FrameworkPropertyMetadata(new GridLength(1, GridUnitType.Star),
-                                                                                                                                          FrameworkPropertyMetadataOptions.AffectsMeasure,
-                                                                                                                                          FixedColumnWidthChanged));
+        public static readonly DependencyProperty ColumnWidthProperty = DependencyProperty.Register("ColumnWidth",
+                                                                                                    typeof(GridLength),
+                                                                                                    typeof(AutoGrid),
+                                                                                                    new FrameworkPropertyMetadata(new GridLength(1, GridUnitType.Star),
+                                                                                                                                  FrameworkPropertyMetadataOptions.AffectsMeasure,
+                                                                                                                                  FixedColumnWidthChanged));
 
         public static void FixedColumnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -190,7 +190,7 @@ namespace GPGO_MultiPLCs.Views
         }
 
         public static readonly DependencyProperty RowCountProperty =
-            DependencyProperty.RegisterAttached("RowCount", typeof(int), typeof(AutoGrid), new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsMeasure, RowCountChanged));
+            DependencyProperty.Register("RowCount", typeof(int), typeof(AutoGrid), new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsMeasure, RowCountChanged));
 
         public static void RowCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -221,12 +221,12 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(RowCountProperty, value);
         }
 
-        public static readonly DependencyProperty RowHeightProperty = DependencyProperty.RegisterAttached("RowHeight",
-                                                                                                          typeof(GridLength),
-                                                                                                          typeof(AutoGrid),
-                                                                                                          new FrameworkPropertyMetadata(new GridLength(1, GridUnitType.Star),
-                                                                                                                                        FrameworkPropertyMetadataOptions.AffectsMeasure,
-                                                                                                                                        FixedRowHeightChanged));
+        public static readonly DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight",
+                                                                                                  typeof(GridLength),
+                                                                                                  typeof(AutoGrid),
+                                                                                                  new FrameworkPropertyMetadata(new GridLength(1, GridUnitType.Star),
+                                                                                                                                FrameworkPropertyMetadataOptions.AffectsMeasure,
+                                                                                                                                FixedRowHeightChanged));
 
         public static void FixedRowHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -251,7 +251,7 @@ namespace GPGO_MultiPLCs.Views
         }
 
         public static readonly DependencyProperty RowsProperty =
-            DependencyProperty.RegisterAttached("Rows", typeof(string), typeof(AutoGrid), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.AffectsMeasure, RowsChanged));
+            DependencyProperty.Register("Rows", typeof(string), typeof(AutoGrid), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.AffectsMeasure, RowsChanged));
 
         public static void RowsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
