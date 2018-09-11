@@ -8,6 +8,8 @@
     <sys:String x:Key="生產履歷">生产履历</sys:String>
     <sys:String x:Key="事件履歷">事件履历</sys:String>
     <sys:String x:Key="設備">设备</sys:String>
+    <sys:String x:Key="設備碼">设备码</sys:String>
+    <sys:String x:Key="財產編號">财产编号</sys:String>
     <sys:String x:Key="配方">配方</sys:String>
     <sys:String x:Key="投產">投产</sys:String>
     <sys:String x:Key="取消">取消</sys:String>

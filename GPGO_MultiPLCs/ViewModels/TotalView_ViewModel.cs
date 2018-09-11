@@ -59,29 +59,27 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>心跳信號位置</summary>
         private const int Check_Dev = 21;
-
         /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
-
+        /// <summary>
+        /// 設備碼儲存位置
+        /// </summary>
         private const string MachineCodesPath = "MachineCodes.json";
-
+        /// <summary>
+        /// 財產編號儲存位置
+        /// </summary>
+        private const string AssetNumbersPath = "AssetNumbers.json";
         private readonly InstanceContext site;
-
         /// <summary>wcf連線client</summary>
         private GPServiceClient PLC_Client;
-
         /// <summary>回到總覽頁</summary>
         public RelayCommand BackCommand { get; }
-
         /// <summary>所有PLC</summary>
         public PLC_DataProvider[] PLC_All { get; }
-
         /// <summary>檢視詳細資訊的PLC</summary>
         public PLC_DataProvider PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
-
         /// <summary>產量統計</summary>
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
-
         public int TotalProductionCount => TotalProduction.Sum(x => x.Value);
 
         /// <summary>PLC Gate連線狀態</summary>
@@ -155,12 +153,49 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>讀取財產編號</summary>
+        public void LoadAssetNumbers()
+        {
+            if (File.Exists(AssetNumbersPath))
+            {
+                try
+                {
+                    var vals = AssetNumbersPath.ReadFromJsonFile<string[]>();
+
+                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Length); i++)
+                    {
+                        PLC_All[i].OvenInfo.AssetNumber = vals[i];
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            for (var i = 0; i < PLC_All.Length; i++)
+            {
+                PLC_All[i].OvenInfo.AssetNumber = "";
+            }
+        }
+
         /// <summary>儲存設備碼</summary>
         public void SaveMachineCodes(string path)
         {
             try
             {
                 PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray().WriteToJsonFile(path);
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>儲存財產編號</summary>
+        public void SaveAssetNumbers(string path)
+        {
+            try
+            {
+                PLC_All.Select(x => x.OvenInfo.AssetNumber).ToArray().WriteToJsonFile(path);
             }
             catch
             {
@@ -380,6 +415,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      SaveMachineCodes(MachineCodesPath);
                                                  };
 
+                //!由OP變更財產編號時
+                PLC_All[i].AssetNumberChanged += code =>
+                                                 {
+                                                     SaveAssetNumbers(AssetNumbersPath);
+                                                 };
+
                 //!PLC配方輸入錯誤時
                 PLC_All[i].RecipeKeyInError += () =>
                                                {
@@ -407,6 +448,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             LoadMachineCodes();
+            LoadAssetNumbers();
 
             //!產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
             var namearray = plc_maps.Select(x =>

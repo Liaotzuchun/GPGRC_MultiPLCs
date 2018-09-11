@@ -62,9 +62,13 @@
                                     d:DataContext="{d:DesignInstance models:PLC_DataProvider}"
                                     Background="{StaticResource LightColorBrush}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <ColumnDefinition
+                                            Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                            MaxWidth="100" />
                                         <ColumnDefinition />
-                                        <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <ColumnDefinition
+                                            Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                            MaxWidth="100" />
                                     </Grid.ColumnDefinitions>
                                     <Border Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border
@@ -127,42 +131,48 @@
                                                         Text="{DynamicResource 配方}" />
                                                 </Border>
                                                 <UniformGrid
-                                                    Grid.RowSpan="2"
                                                     Grid.Column="1"
-                                                    Columns="1"
-                                                    KeyboardNavigation.TabNavigation="Cycle">
+                                                    Rows="1">
                                                     <TextBox
                                                         BorderThickness="0"
                                                         Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                         Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}" />
-                                                    <ComboBox
-                                                        x:Name="CB"
-                                                        BorderThickness="0,1,0,0"
-                                                        GotKeyboardFocus="CB_GotKeyboardFocus"
-                                                        IsEditable="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
-                                                        IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
-                                                        IsHitTestVisible="{Binding IsEditable, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                                                        IsTextSearchEnabled="False"
-                                                        ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
-                                                        LostKeyboardFocus="CB_LostKeyboardFocus"
-                                                        SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
-                                                        Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                        <i:Interaction.Triggers>
-                                                            <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
-                                                            <i:EventTrigger EventName="KeyUp">
-                                                                <helpers:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
-                                                        <ComboBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock
-                                                                    Text="{Binding}"
-                                                                    TextTrimming="CharacterEllipsis" />
-                                                            </DataTemplate>
-                                                        </ComboBox.ItemTemplate>
-                                                    </ComboBox>
+                                                    <TextBox
+                                                        BorderThickness="0"
+                                                        Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
+                                                        IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                                        Text="{Binding OvenInfo.AssetNumber, Mode=TwoWay}"
+                                                        Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                                 </UniformGrid>
+                                                <ComboBox
+                                                    x:Name="CB"
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    BorderThickness="0,1,0,0"
+                                                    GotKeyboardFocus="CB_GotKeyboardFocus"
+                                                    IsEditable="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                                    IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                                    IsHitTestVisible="{Binding IsEditable, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                                    IsTextSearchEnabled="False"
+                                                    ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
+                                                    LostKeyboardFocus="CB_LostKeyboardFocus"
+                                                    SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
+                                                    Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <i:Interaction.Triggers>
+                                                        <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
+                                                        <i:EventTrigger EventName="KeyUp">
+                                                            <helpers:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock
+                                                                Text="{Binding}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
                                             </Grid>
                                         </TabItem>
                                         <TabItem

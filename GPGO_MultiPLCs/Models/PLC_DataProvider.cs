@@ -145,6 +145,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Action<(EventType type, DateTime time, string note)> EventHappened;
         public event Action<string> MachineCodeChanged;
+        public event Action<string> AssetNumberChanged;
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
         public event Func<string, ValueTask<PLC_Recipe>> StartRecording;
@@ -459,6 +460,10 @@ namespace GPGO_MultiPLCs.Models
                                             if (e.PropertyName == nameof(BaseInfo.MachineCode))
                                             {
                                                 MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
+                                            }
+                                            else if(e.PropertyName == nameof(BaseInfo.AssetNumber))
+                                            {
+                                                AssetNumberChanged?.Invoke((s as BaseInfo)?.AssetNumber);
                                             }
                                         };
 
