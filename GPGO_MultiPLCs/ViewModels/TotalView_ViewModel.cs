@@ -166,15 +166,17 @@ namespace GPGO_MultiPLCs.ViewModels
                     {
                         PLC_All[i].OvenInfo.AssetNumber = vals[i];
                     }
+
+                    return;
                 }
                 catch
                 {
                 }
             }
 
-            for (var i = 0; i < PLC_All.Length; i++)
+            foreach (var plc in PLC_All)
             {
-                PLC_All[i].OvenInfo.AssetNumber = "";
+                plc.OvenInfo.AssetNumber = "";
             }
         }
 
