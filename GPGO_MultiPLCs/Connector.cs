@@ -143,7 +143,7 @@ namespace GPGO_MultiPLCs
 
                         var infos = new List<ProcessInfo>();
                         var temp = new List<int>();
-                        var n = rn.Next(0, 3);
+                        var n = rn.Next(0, 1);
                         for (var p = 0; p <= n; p++)
                         {
                             var _info = info.Copy();
