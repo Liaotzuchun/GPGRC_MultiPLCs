@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
@@ -35,6 +36,10 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
+        private ProcessInfo SearchResult;
+
+        /// <summary>依據工單或料號搜尋</summary>
+        public RelayCommand FindCommand { get; }
 
         /// <summary>日期範圍的開始</summary>
         public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.AddedTime : null;
@@ -114,6 +119,12 @@ namespace GPGO_MultiPLCs.ViewModels
         public List<ProcessInfo> ViewResults
         {
             get => Get<List<ProcessInfo>>();
+            set => Set(value);
+        }
+
+        public int SelectedIndex
+        {
+            get => Get<int>();
             set => Set(value);
         }
 
@@ -504,7 +515,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  {
                                                                      xlwb.SaveAs(fi);
                                                                  }
-                                                                 catch(Exception ex)
+                                                                 catch (Exception ex)
                                                                  {
                                                                      ex.RecordError("EXCEL儲存失敗");
                                                                  }
@@ -655,8 +666,38 @@ namespace GPGO_MultiPLCs.ViewModels
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
 
-        public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db) : base(db)
+        public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db, IDialogService dialog) : base(db)
         {
+            FindCommand = new RelayCommand(async o =>
+                                           {
+                                               var search = (await dialog.ShowWithIntput(new Dictionary<Language, string>
+                                                                                        {
+                                                                                            { Language.TW, "請輸入欲搜尋之料號：" },
+                                                                                            { Language.CHS, "请输入欲搜寻之料号：" },
+                                                                                            { Language.EN, "Please enter the PanelCode you want to find：" }
+                                                                                        },
+                                                                                        new Dictionary<Language, string> { { Language.TW, "搜尋" }, { Language.CHS, "搜寻" }, { Language.EN, "Find" } })).intput;
+
+                                               Standby = false;
+
+                                               SearchResult = await DataCollection.FindOneAsync(x => x.PanelCodes.Contains(search));
+
+                                               Standby = true;
+
+                                               if (SearchResult == null)
+                                               {
+                                                   dialog.Show(new Dictionary<Language, string>
+                                                               {
+                                                                   { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
+                                                               },
+                                                               DialogMsgType.Alarm);
+                                               }
+                                               else
+                                               {
+                                                   Date1 = SearchResult.AddedTime.Date;
+                                               }
+                                           });
+
             ToExcelCommand = new RelayCommand(o =>
                                               {
                                                   SaveToExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
@@ -771,6 +812,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   UpdateViewResult();
                                   UpdateChart(Date1, Date2);
+
+                                  if (SearchResult != null)
+                                  {
+                                      SelectedIndex = ViewResults.FindIndex(x => x.AddedTime == SearchResult.AddedTime);
+                                      SearchResult = null;
+                                  }
                               };
         }
     }

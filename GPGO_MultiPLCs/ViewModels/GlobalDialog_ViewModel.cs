@@ -80,7 +80,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult_1;
         }
 
-        public async Task Show(Dictionary<Language, string> msg, DialogMsgType type = DialogMsgType.Normal)
+        public async void Show(Dictionary<Language, string> msg, DialogMsgType type = DialogMsgType.Normal)
         {
             await Task.Factory.StartNew(() =>
                                         {
@@ -93,7 +93,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         TaskCreationOptions.LongRunning);
         }
 
-        public async Task Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
+        public async void Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
         {
             await Task.Factory.StartNew(() =>
                                         {

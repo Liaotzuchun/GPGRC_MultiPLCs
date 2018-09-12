@@ -178,7 +178,7 @@ namespace GPGO_MultiPLCs
             DialogVM = new GlobalDialog_ViewModel();
             MainVM = new MainWindow_ViewModel();
             RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")), DialogVM);
-            TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("Product_Infos")));
+            TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("Product_Infos")), DialogVM);
             LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("Event_Logs")));
 
             var map = new PLC_DevicesMap(

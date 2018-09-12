@@ -313,7 +313,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                             if (Selected_Name == Intput_Name)
                                                             {
-                                                                dialog?.Show(new Dictionary<Language, string> { { Language.TW, "配方無變更" }, { Language.CHS, "配方无变更" }, { Language.EN, "No change." } });
+                                                                Dialog.Show(new Dictionary<Language, string> { { Language.TW, "配方無變更" }, { Language.CHS, "配方无变更" }, { Language.EN, "No change." } });
                                                             }
                                                             else if (Recipe_Names.Contains(Intput_Name))
                                                             {
@@ -339,7 +339,7 @@ namespace GPGO_MultiPLCs.Models
                                                              var para = (string)o;
 
                                                              var (result1, intput1) =
-                                                                 await dialog.ShowWithIntput(new Dictionary<Language, string>
+                                                                 await Dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                              {
                                                                                                  { Language.TW, "輸入操作人員ID" }, { Language.CHS, "输入操作人员ID" }, { Language.EN, "Enter the Operator ID" }
                                                                                              },
@@ -360,7 +360,7 @@ namespace GPGO_MultiPLCs.Models
                                                              if (result1)
                                                              {
                                                                  var (result2, intput2) =
-                                                                     await dialog.ShowWithIntput(new Dictionary<Language, string>
+                                                                     await Dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                                  {
                                                                                                      { Language.TW, "輸入台車Code" },
                                                                                                      { Language.CHS, "输入台车Code" },
@@ -392,7 +392,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      var infos = await WantFrontData.Invoke(OvenInfo.TrolleyCode = intput2);
                                                                      if (infos == null || infos.Count == 0)
                                                                      {
-                                                                         await dialog.Show(new Dictionary<Language, string>
+                                                                         Dialog.Show(new Dictionary<Language, string>
                                                                                            {
                                                                                                { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
                                                                                            },

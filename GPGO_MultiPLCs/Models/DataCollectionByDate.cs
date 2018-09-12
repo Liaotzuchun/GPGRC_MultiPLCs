@@ -66,15 +66,7 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 Set(value);
-
-                if (Date2 < value)
-                {
-                    Set(value, nameof(Date2));
-                }
-                else if (Date2 - value > TimeSpan.FromDays(30))
-                {
-                    Set(value + TimeSpan.FromDays(30), nameof(Date2));
-                }
+                Set(value, nameof(Date2));
 
                 UpdateResults(value, Date2);
             }

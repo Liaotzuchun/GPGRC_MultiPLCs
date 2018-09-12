@@ -40,14 +40,14 @@ namespace GPGO_MultiPLCs.Helpers
         /// <param name="msg">顯示訊息</param>
         /// <param name="type">訊息類型</param>
         /// <returns></returns>
-        Task Show(Dictionary<Language, string> msg, DialogMsgType type = DialogMsgType.Normal);
+        void Show(Dictionary<Language, string> msg, DialogMsgType type = DialogMsgType.Normal);
 
         /// <summary>顯示提示訊息(指定時間內消失)</summary>
         /// <param name="msg">顯示訊息</param>
         /// <param name="delay">存留時間</param>
         /// <param name="type">訊息類型</param>
         /// <returns></returns>
-        Task Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal);
+        void Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal);
 
         /// <summary>顯示OP可輸入的訊息對話視窗</summary>
         /// <param name="msg">顯示訊息</param>
