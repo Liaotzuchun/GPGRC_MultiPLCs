@@ -179,7 +179,7 @@
                         <Path
                             x:Name="Path"
                             Grid.Column="1"
-                            Margin="4"
+                            Margin="4,0,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Data="{StaticResource DownArrow}"
