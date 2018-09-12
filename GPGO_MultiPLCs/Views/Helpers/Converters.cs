@@ -8,6 +8,19 @@ using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views
 {
+    public class ConstValue : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return parameter;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
     public class DateTimeZeroToEmpty : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

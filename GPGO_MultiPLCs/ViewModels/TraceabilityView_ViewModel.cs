@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
@@ -670,31 +669,34 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             FindCommand = new RelayCommand(async o =>
                                            {
-                                               var search = (await dialog.ShowWithIntput(new Dictionary<Language, string>
+                                               var (result, intput) = (await dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                         {
                                                                                             { Language.TW, "請輸入欲搜尋之料號：" },
                                                                                             { Language.CHS, "请输入欲搜寻之料号：" },
                                                                                             { Language.EN, "Please enter the PanelCode you want to find：" }
                                                                                         },
-                                                                                        new Dictionary<Language, string> { { Language.TW, "搜尋" }, { Language.CHS, "搜寻" }, { Language.EN, "Find" } })).intput;
+                                                                                        new Dictionary<Language, string> { { Language.TW, "搜尋" }, { Language.CHS, "搜寻" }, { Language.EN, "Find" } }));
 
-                                               Standby = false;
-
-                                               SearchResult = await DataCollection.FindOneAsync(x => x.PanelCodes.Contains(search));
-
-                                               Standby = true;
-
-                                               if (SearchResult == null)
+                                               if (result)
                                                {
-                                                   dialog.Show(new Dictionary<Language, string>
-                                                               {
-                                                                   { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
-                                                               },
-                                                               DialogMsgType.Alarm);
-                                               }
-                                               else
-                                               {
-                                                   Date1 = SearchResult.AddedTime.Date;
+                                                   Standby = false;
+
+                                                   SearchResult = await DataCollection.FindOneAsync(x => x.PanelCodes.Contains(intput));
+
+                                                   Standby = true;
+
+                                                   if (SearchResult == null)
+                                                   {
+                                                       dialog.Show(new Dictionary<Language, string>
+                                                                   {
+                                                                       { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
+                                                                   },
+                                                                   DialogMsgType.Alarm);
+                                                   }
+                                                   else
+                                                   {
+                                                       Date1 = SearchResult.AddedTime.Date;
+                                                   }
                                                }
                                            });
 
@@ -817,6 +819,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                   {
                                       SelectedIndex = ViewResults.FindIndex(x => x.AddedTime == SearchResult.AddedTime);
                                       SearchResult = null;
+                                  }
+                                  else
+                                  {
+                                      SelectedIndex = -1;
                                   }
                               };
         }

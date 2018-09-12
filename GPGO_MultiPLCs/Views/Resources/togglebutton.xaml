@@ -158,6 +158,7 @@
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Template">
@@ -172,7 +173,8 @@
                             <ContentPresenter
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                RecognizesAccessKey="True" />
+                                RecognizesAccessKey="True"
+                                TextElement.Foreground="{TemplateBinding Foreground}" />
                         </ContentControl>
                         <Path
                             x:Name="Path"
@@ -181,14 +183,11 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Data="{StaticResource DownArrow}"
-                            Fill="{StaticResource BaseForeground}"/>
+                            Fill="{TemplateBinding Foreground}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="Path" Property="Data" Value="{StaticResource UpArrow}" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter Property="IsChecked" Value="False" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />

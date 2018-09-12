@@ -86,6 +86,7 @@
                 Margin="4,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                Foreground="{StaticResource BaseForeground}"
                 Text="{Binding (FrameworkElement.TemplatedParent).(FrameworkElement.TemplatedParent).(DataGridRow.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
         </Border>
     </DataTemplate>

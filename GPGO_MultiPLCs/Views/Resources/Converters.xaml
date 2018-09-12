@@ -27,4 +27,5 @@
     <local:CountVis x:Key="CountVis" />
     <local:DateTimeZeroToEmpty x:Key="DateTimeZeroToEmpty" />
     <local:SumValueConverter x:Key="SumValueConverter" />
+    <local:ConstValue x:Key="ConstValue" />
 </ResourceDictionary>

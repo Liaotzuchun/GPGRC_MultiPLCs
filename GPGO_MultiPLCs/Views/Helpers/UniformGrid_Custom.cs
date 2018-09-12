@@ -379,8 +379,8 @@ namespace GPGO_MultiPLCs.Views
 
         private void UpdateComputedValues()
         {
-            _columns = Columns;
-            _rows = Rows;
+            _columns = InternalChildren.Count < Columns ? InternalChildren.Count : Columns;
+            _rows = InternalChildren.Count < Rows ? InternalChildren.Count : Rows;
             if (FirstColumn >= _columns)
             {
                 FirstColumn = 0;

@@ -349,7 +349,8 @@
                     Text="{Binding Title, Mode=OneWay}" />
             </Border>
             <Border
-                Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                MinWidth="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Padding="4,0"
                 HorizontalAlignment="Left"
                 Background="#7FFFFFFF"
                 Visibility="{Binding TitleHeader, Converter={StaticResource NullVis}, Mode=OneWay}">
@@ -362,7 +363,7 @@
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Viewbox
@@ -378,6 +379,7 @@
                     x:Name="Intput"
                     Grid.Row="1"
                     Margin="20,4"
+                    Padding="0,8"
                     FontSize="20"
                     IsVisibleChanged="Intput_IsVisibleChanged"
                     Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
