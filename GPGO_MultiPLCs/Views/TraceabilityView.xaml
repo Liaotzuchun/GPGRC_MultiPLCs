@@ -1030,7 +1030,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="40">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 數量}" />
                         </DataGridTemplateColumn.Header>

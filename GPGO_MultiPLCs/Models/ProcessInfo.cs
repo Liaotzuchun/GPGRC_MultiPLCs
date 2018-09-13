@@ -211,7 +211,7 @@ namespace GPGO_MultiPLCs.Models
         [EN_Name("First Article")]
         [CHT_Name("首件")]
         [CHS_Name("首件")]
-        public bool FirstPanel { get; set; }
+        public bool FirstPanel { get; set; } = false;
 
         /// <summary>工單號</summary>
         [EN_Name("Order")]
@@ -231,7 +231,7 @@ namespace GPGO_MultiPLCs.Models
         [EN_Name("Side")]
         [CHT_Name("正反面")]
         [CHS_Name("正反面")]
-        public string Side { get; set; }
+        public string Side { get; set; } = "A";
 
         public string AlarmListString()
         {

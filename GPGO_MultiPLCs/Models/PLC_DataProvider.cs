@@ -123,7 +123,15 @@ namespace GPGO_MultiPLCs.Models
                                        NotifyPropertyChanged(nameof(IsRecording));
 
                                        x.Dispose();
+
+                                       //!結束生產，填入資料
                                        OvenInfo.EndTime = DateTime.Now;
+                                       OvenInfo.RecipeName = RecipeName;
+                                       OvenInfo.HeatingTime = HeatingTime_1;
+                                       OvenInfo.WarmingTime = WarmingTime_1;
+                                       OvenInfo.TotalHeatingTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
+                                       OvenInfo.TargetOvenTemperature = TargetTemperature_1;
+
                                        CheckInCommand.Result = false;
 
                                        RecordingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
@@ -411,34 +419,6 @@ namespace GPGO_MultiPLCs.Models
                                                                      {
                                                                          recipe.CopyTo(this);
                                                                      }
-
-                                                                     OvenInfo.RecipeName = RecipeName;
-                                                                     OvenInfo.HeatingTime = new int[]
-                                                                                            {
-                                                                                                HeatingTime_1,
-                                                                                                HeatingTime_2,
-                                                                                                HeatingTime_3,
-                                                                                                HeatingTime_4,
-                                                                                                HeatingTime_5,
-                                                                                                HeatingTime_6,
-                                                                                                HeatingTime_7,
-                                                                                                HeatingTime_8
-                                                                                            }.Sum();
-
-                                                                     OvenInfo.WarmingTime = new int[]
-                                                                                            {
-                                                                                                WarmingTime_1,
-                                                                                                WarmingTime_2,
-                                                                                                WarmingTime_3,
-                                                                                                WarmingTime_4,
-                                                                                                WarmingTime_5,
-                                                                                                WarmingTime_6,
-                                                                                                WarmingTime_7,
-                                                                                                WarmingTime_8
-                                                                                            }.Sum();
-
-                                                                     OvenInfo.TotalHeatingTime = OvenInfo.HeatingTime + OvenInfo.HeatingTime;
-                                                                     OvenInfo.TargetOvenTemperature = TargetTemperature_1;
 
                                                                      return true;
                                                                  }
