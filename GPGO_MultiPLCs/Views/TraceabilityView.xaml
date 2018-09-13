@@ -74,7 +74,9 @@
     </UserControl.Resources>
 
     <Border Background="{StaticResource WindowBackgroundBrush2}">
-        <Grid Margin="4">
+        <Grid
+            Margin="4"
+            IsEnabled="{Binding Standby, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -96,7 +98,6 @@
                 <Grid
                     Grid.RowSpan="2"
                     Margin="0,0,4,0"
-                    IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -235,7 +236,6 @@
                 <DatePicker
                     x:Name="dp1"
                     Grid.Column="2"
-                    IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                     SelectedDate="{Binding Date1, Mode=TwoWay}"
                     SelectedDateFormat="Long" />
@@ -255,7 +255,6 @@
                     Grid.Row="1"
                     Grid.Column="2"
                     BorderThickness="1,0,1,1"
-                    IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                     SelectedDate="{Binding Date2, Mode=TwoWay}"
                     SelectedDateFormat="Long" />
@@ -392,8 +391,7 @@
                 </Grid>
                 <Button
                     Grid.Column="5"
-                    Margin="4,0,0,0"
-                    IsEnabled="{Binding Standby, Mode=OneWay}">
+                    Margin="4,0,0,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding FindCommand, Mode=OneTime}" />
@@ -415,8 +413,7 @@
                     Grid.Column="5"
                     Margin="4,0,0,0"
                     Content="{DynamicResource 報表匯出}"
-                    FontSize="14"
-                    IsEnabled="{Binding Standby, Mode=OneWay}">
+                    FontSize="14">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding ToExcelCommand, Mode=OneTime}" />
@@ -1044,7 +1041,7 @@
                                         x:Name="ToggleButton"
                                         Padding="8,0"
                                         Content="{Binding ProcessCount, Mode=OneWay}"
-                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}}"
+                                        Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridCell}}}"
                                         Style="{StaticResource ArrowToggle}">
                                         <ToggleButton.IsChecked>
                                             <Binding
@@ -1142,8 +1139,7 @@
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
                                         <Popup.VerticalOffset>
-                                            <MultiBinding
-                                                Converter="{StaticResource SumValueConverter}">
+                                            <MultiBinding Converter="{StaticResource SumValueConverter}">
                                                 <Binding
                                                     Converter="{StaticResource RatioValue}"
                                                     ConverterParameter="0.5"
