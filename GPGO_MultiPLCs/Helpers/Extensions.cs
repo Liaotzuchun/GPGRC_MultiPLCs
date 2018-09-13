@@ -511,21 +511,10 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string GetName(this PropertyInfo info, Language lng)
         {
-            switch (lng)
-            {
-                case Language.EN:
-
-                    return info.IsDefined(typeof(EN_Name), false) ? info.GetCustomAttributes(typeof(EN_Name), false).First().ToString() : info.Name;
-                case Language.TW:
-
-                    return info.IsDefined(typeof(CHT_Name), false) ? info.GetCustomAttributes(typeof(CHT_Name), false).First().ToString() : info.Name;
-                case Language.CHS:
-
-                    return info.IsDefined(typeof(CHS_Name), false) ? info.GetCustomAttributes(typeof(CHS_Name), false).First().ToString() : info.Name;
-                default:
-
-                    return info.Name;
-            }
+            return info.IsDefined(typeof(LanguageTranslator), false) ?
+                       ((LanguageTranslator)info.GetCustomAttributes(typeof(LanguageTranslator), false).First()).GetName(lng) is string Name && !string.IsNullOrEmpty(Name) ? Name :
+                       info.Name :
+                       info.Name;
         }
 
         public static byte HexToByte(this string val)

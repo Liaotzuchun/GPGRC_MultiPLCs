@@ -348,17 +348,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 var index = i;
 
                 //!PLC由OP指定變更配方時
-                PLC_All[i].SwitchRecipeEvent += async e =>
-                                                {
-                                                    var recipe = WantRecipe == null ? null : await WantRecipe.Invoke((index, e.RecipeName));
-
-                                                    if (e.UpdateToPLC && PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
-                                                    {
-                                                        await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
-                                                    }
-
-                                                    return recipe;
-                                                };
+                PLC_All[i].SwitchRecipeEvent += async e => WantRecipe == null ? null : await WantRecipe.Invoke((index, e.RecipeName));
 
                 //!烤箱自動啟動時，開始紀錄
                 PLC_All[i].StartRecording += async recipeName =>

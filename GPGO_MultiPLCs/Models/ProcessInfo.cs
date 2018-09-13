@@ -18,9 +18,7 @@ namespace GPGO_MultiPLCs.Models
     public class BaseInfo : ObservableObject
     {
         /// <summary>財產編號</summary>
-        [EN_Name("Asset Number")]
-        [CHT_Name("財產編號")]
-        [CHS_Name("财产编号")]
+        [LanguageTranslator("Asset Number", "財產編號", "财产编号")]
         public string AssetNumber
         {
             get => Get<string>();
@@ -28,9 +26,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>結束時間</summary>
-        [EN_Name("Closing Time")]
-        [CHT_Name("結束時間")]
-        [CHS_Name("结束时间")]
+        [LanguageTranslator("Closing Time", "結束時間", "结束时间")]
         public DateTime EndTime
         {
             get => Get<DateTime>();
@@ -38,9 +34,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>事件紀錄</summary>
-        [EN_Name("Events")]
-        [CHT_Name("事件紀錄")]
-        [CHS_Name("事件纪录")]
+        [LanguageTranslator("Events", "事件紀錄", "事件纪录")]
         public ObservableConcurrentCollection<RecordEvent> EventList
         {
             get => Get<ObservableConcurrentCollection<RecordEvent>>();
@@ -48,9 +42,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>加熱時間(升溫至目標溫度)</summary>
-        [EN_Name("Heating Time")]
-        [CHT_Name("加熱時間")]
-        [CHS_Name("加热时间")]
+        [LanguageTranslator("Heating Time", "加熱時間", "加热时间")]
         public int HeatingTime
         {
             get => Get<int>();
@@ -58,9 +50,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>機台編號</summary>
-        [EN_Name("Device")]
-        [CHT_Name("設備編號")]
-        [CHS_Name("设备编号")]
+        [LanguageTranslator("Device", "設備編號", "设备编号")]
         public string MachineCode
         {
             get => Get<string>();
@@ -68,9 +58,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>操作人員ID</summary>
-        [EN_Name("Operator")]
-        [CHT_Name("操作員")]
-        [CHS_Name("操作员")]
+        [LanguageTranslator("Operator", "操作員", "操作员")]
         public string OperatorID
         {
             get => Get<string>();
@@ -78,9 +66,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>配方名</summary>
-        [EN_Name("Recipe")]
-        [CHT_Name("配方")]
-        [CHS_Name("配方")]
+        [LanguageTranslator("Recipe", "配方", "配方")]
         public string RecipeName
         {
             get => Get<string>();
@@ -88,9 +74,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>紀錄溫度</summary>
-        [EN_Name("Temperatures")]
-        [CHT_Name("溫度紀錄")]
-        [CHS_Name("温度纪录")]
+        [LanguageTranslator("Temperatures", "溫度紀錄", "温度纪录")]
         public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
         {
             get => Get<ObservableConcurrentCollection<RecordTemperatures>>();
@@ -98,9 +82,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>開始時間</summary>
-        [EN_Name("Starting Time")]
-        [CHT_Name("開始時間")]
-        [CHS_Name("开始时间")]
+        [LanguageTranslator("Starting Time", "開始時間", "开始时间")]
         public DateTime StartTime
         {
             get => Get<DateTime>();
@@ -108,9 +90,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>目標溫度</summary>
-        [EN_Name("Target Temperature")]
-        [CHT_Name("目標溫度")]
-        [CHS_Name("目标温度")]
+        [LanguageTranslator("Target Temperature", "目標溫度", "目标温度")]
         public double TargetOvenTemperature
         {
             get => Get<double>();
@@ -118,9 +98,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>總烘烤時間</summary>
-        [EN_Name("Total Heating Time")]
-        [CHT_Name("總烘烤時間")]
-        [CHS_Name("总烘烤时间")]
+        [LanguageTranslator("Total Heating Time", "總烘烤時間", "总烘烤时间")]
         public int TotalHeatingTime
         {
             get => Get<int>();
@@ -128,9 +106,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>台車編號</summary>
-        [EN_Name("Trolley")]
-        [CHT_Name("台車")]
-        [CHS_Name("台车")]
+        [LanguageTranslator("Trolley", "台車", "台车")]
         public string TrolleyCode
         {
             get => Get<string>();
@@ -138,9 +114,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>恆溫時間</summary>
-        [EN_Name("Warming Time")]
-        [CHT_Name("恆溫時間")]
-        [CHS_Name("恒温时间")]
+        [LanguageTranslator("Warming Time", "恆溫時間", "恒温时间")]
         public int WarmingTime
         {
             get => Get<int>();
@@ -196,41 +170,29 @@ namespace GPGO_MultiPLCs.Models
     public class ProcessInfo : BaseInfo, ILogData
     {
         /// <summary>單一製造序材料數量</summary>
-        [EN_Name("Quantity")]
-        [CHT_Name("數量")]
-        [CHS_Name("数量")]
+        [LanguageTranslator("Quantity", "數量", "数量")]
         public int ProcessCount => PanelCodes.Count;
 
         /// <summary>條碼類型</summary>
-        [EN_Name("Code Type")]
-        [CHT_Name("條碼類型")]
-        [CHS_Name("条码类型")]
+        [LanguageTranslator("Code Type", "條碼類型", "条码类型")]
         public CodeType CodeType { get; set; }
 
         /// <summary>是否為首件</summary>
-        [EN_Name("First Article")]
-        [CHT_Name("首件")]
-        [CHS_Name("首件")]
+        [LanguageTranslator("First Article", "首件", "首件")]
         public bool FirstPanel { get; set; } = false;
 
         /// <summary>工單號</summary>
-        [EN_Name("Order")]
-        [CHT_Name("工單")]
-        [CHS_Name("工单")]
+        [LanguageTranslator("Order", "工單", "工单")]
         public string OrderCode { get; set; }
 
         public List<string> PanelCodes { get; set; } = new List<string>();
 
         /// <summary>製造序</summary>
-        [EN_Name("SN")]
-        [CHT_Name("序號")]
-        [CHS_Name("序号")]
+        [LanguageTranslator("SN", "序號", "序号")]
         public int ProcessNumber { get; set; }
 
         /// <summary>正反面</summary>
-        [EN_Name("Side")]
-        [CHT_Name("正反面")]
-        [CHS_Name("正反面")]
+        [LanguageTranslator("Side", "正反面", "正反面")]
         public string Side { get; set; } = "A";
 
         public string AlarmListString()
@@ -325,15 +287,11 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>新增至資料庫的時間</summary>
         [BsonId]
-        [EN_Name("Recorded")]
-        [CHT_Name("紀錄時間")]
-        [CHS_Name("纪录时间")]
+        [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
         public DateTime AddedTime { get; set; }
 
         /// <summary>PLC站號</summary>
-        [EN_Name("Oven No.")]
-        [CHT_Name("烤箱序號")]
-        [CHS_Name("烤箱序号")]
+        [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
         public int StationNumber { get; set; }
 
         #endregion

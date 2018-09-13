@@ -83,24 +83,16 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class LogEvent : ILogData
     {
-        [EN_Name("Event")]
-        [CHT_Name("事件")]
-        [CHS_Name("事件")]
-        public string Description { get; set; }
-
-        [EN_Name("Oven No.")]
-        [CHT_Name("烤箱序號")]
-        [CHS_Name("烤箱序号")]
-        public int StationNumber { get; set; }
-
-        [EN_Name("Recorded")]
-        [CHT_Name("紀錄時間")]
-        [CHS_Name("纪录时间")]
+        [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
         public DateTime AddedTime { get; set; }
 
-        [EN_Name("Type")]
-        [CHT_Name("類型")]
-        [CHS_Name("类型")]
+        [LanguageTranslator("Event", "事件", "事件")]
+        public string Description { get; set; }
+
+        [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
+        public int StationNumber { get; set; }
+
+        [LanguageTranslator("Type", "類型", "类型")]
         public EventType Type { get; set; }
     }
 }

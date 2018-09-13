@@ -437,6 +437,7 @@ namespace GPGO_MultiPLCs.Models
             OvenInfo = new BaseInfo();
             OvenInfo.PropertyChanged += (s, e) =>
                                         {
+                                            //!在機台編號或財產編號變更時需通知儲存
                                             if (e.PropertyName == nameof(BaseInfo.MachineCode))
                                             {
                                                 MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
