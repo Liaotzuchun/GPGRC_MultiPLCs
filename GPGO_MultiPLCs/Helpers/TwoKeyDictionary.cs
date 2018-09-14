@@ -10,32 +10,33 @@ namespace GPGO_MultiPLCs.Helpers
     /// <typeparam name="TValue">值</typeparam>
     public sealed class TwoKeyDictionary<TKey1, TKey2, TValue>
     {
-        public Dictionary<TKey1, TValue> Key1Dictionary = new Dictionary<TKey1, TValue>();
-        public Dictionary<TKey1, TKey2> Key1ToKey2Dictionary = new Dictionary<TKey1, TKey2>();
-        public Dictionary<TKey2, TKey1> Key2ToKey1Dictionary = new Dictionary<TKey2, TKey1>();
+        private readonly Dictionary<TKey1, TValue> Key1Dictionary = new Dictionary<TKey1, TValue>();
+        private readonly Dictionary<TKey1, TKey2> Key1ToKey2Dictionary = new Dictionary<TKey1, TKey2>();
+        private readonly Dictionary<TKey2, TKey1> Key2ToKey1Dictionary = new Dictionary<TKey2, TKey1>();
 
-        public TValue this[TKey1 idx]
+        public TValue this[TKey1 key1]
         {
-            get => Key1Dictionary[idx];
+            get => Key1Dictionary[key1];
             set
             {
-                Key1Dictionary[idx] = value;
-                Key1UpdatedEvent?.Invoke(idx, value);
+                var key2 = Key1ToKey2Dictionary[key1];
+                Key1Dictionary[key1] = value;
+                UpdatedEvent?.Invoke(key1, key2, value);
             }
         }
 
-        public TValue this[TKey2 idx]
+        public TValue this[TKey2 key2]
         {
-            get => Key1Dictionary[Key2ToKey1Dictionary[idx]];
+            get => Key1Dictionary[Key2ToKey1Dictionary[key2]];
             set
             {
-                var key = Key2ToKey1Dictionary[idx];
-                Key1Dictionary[key] = value;
-                Key1UpdatedEvent?.Invoke(key, value);
+                var key1 = Key2ToKey1Dictionary[key2];
+                Key1Dictionary[key1] = value;
+                UpdatedEvent?.Invoke(key1, key2, value);
             }
         }
 
-        public event Action<TKey1, TValue> Key1UpdatedEvent;
+        public event Action<TKey1, TKey2, TValue> UpdatedEvent;
 
         public void Add(TKey1 Key1, TKey2 Key2, TValue value)
         {

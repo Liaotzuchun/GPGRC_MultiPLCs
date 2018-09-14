@@ -561,88 +561,87 @@ namespace GPGO_MultiPLCs.Models
 
             #region 註冊PLC事件
 
-            M_Values.Key1UpdatedEvent += async (key, value) =>
+            M_Values.UpdatedEvent += async (key1, key2, value) =>
+                                     {
+                                         NotifyPropertyChanged(M_Map[key1]);
+
+                                         if (value)
                                          {
-                                             NotifyPropertyChanged(M_Map[key]);
-
-                                             if (value)
+                                             if (key1 == SignalNames.自動啟動)
                                              {
-                                                 if (key == SignalNames.自動啟動)
-                                                 {
-                                                     EventHappened?.Invoke((EventType.Normal, DateTime.Now, key.ToString()));
+                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
 
-                                                     if (IsRecording)
-                                                     {
-                                                         CTS?.Cancel();
-
-                                                         await RecordingTask;
-                                                     }
-
-                                                     ResetStopTokenSource();
-
-                                                     //! 當沒有刷取台車code時，不執行紀錄
-                                                     if (!string.IsNullOrEmpty(OvenInfo.TrolleyCode))
-                                                     {
-                                                         RecordingTask = StartRecoder(60000, CTS.Token);
-                                                     }
-                                                 }
-                                                 else if (IsRecording)
-                                                 {
-                                                     if (key == SignalNames.自動停止 || key == SignalNames.程式結束)
-                                                     {
-                                                         EventHappened?.Invoke((EventType.Normal, DateTime.Now, key.ToString()));
-                                                         AddProcessEvent(EventType.Normal, sw.Elapsed, M_Values.GetKey2(key).ToString("M# ") + key.ToString());
-                                                         CTS?.Cancel();
-                                                     }
-                                                     else if (key == SignalNames.緊急停止 || key == SignalNames.電源反相 || key == SignalNames.循環風車過載 || key == SignalNames.循環風車INV異常)
-                                                     {
-                                                         EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key.ToString()));
-                                                         AddProcessEvent(EventType.Alarm, sw.Elapsed, M_Values.GetKey2(key).ToString("M# ") + key.ToString());
-                                                         CTS?.Cancel();
-                                                     }
-                                                     else if (key == SignalNames.降溫中)
-                                                     {
-                                                         EventHappened?.Invoke((EventType.Normal, DateTime.Now, key.ToString()));
-                                                         AddProcessEvent(EventType.Normal, sw.Elapsed, M_Values.GetKey2(key).ToString("M# ") + key.ToString());
-                                                         NotifyPropertyChanged(nameof(ProgressStatus));
-                                                     }
-                                                 }
-                                             }
-                                         };
-
-            D_Values.Key1UpdatedEvent += (key, value) =>
-                                         {
-                                             NotifyPropertyChanged(D_Map[key]);
-
-                                             if (key == DataNames.目前段數)
-                                             {
                                                  if (IsRecording)
                                                  {
-                                                     AddProcessEvent(EventType.Normal,
-                                                                     sw.Elapsed,
-                                                                     D_Values.GetKey2(key).ToString("D# ") +
-                                                                     (CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫")));
+                                                     CTS?.Cancel();
+
+                                                     await RecordingTask;
                                                  }
 
-                                                 NotifyPropertyChanged(nameof(Progress));
-                                                 NotifyPropertyChanged(nameof(ProgressStatus));
+                                                 ResetStopTokenSource();
+
+                                                 //! 當沒有刷取台車code時，不執行紀錄
+                                                 if (!string.IsNullOrEmpty(OvenInfo.TrolleyCode))
+                                                 {
+                                                     RecordingTask = StartRecoder(60000, CTS.Token);
+                                                 }
                                              }
-                                         };
+                                             else if (IsRecording)
+                                             {
+                                                 if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
+                                                 {
+                                                     EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
+                                                     AddProcessEvent(EventType.Normal, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
+                                                     CTS?.Cancel();
+                                                 }
+                                                 else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
+                                                 {
+                                                     EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key1.ToString()));
+                                                     AddProcessEvent(EventType.Alarm, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
+                                                     CTS?.Cancel();
+                                                 }
+                                                 else if (key1 == SignalNames.降溫中)
+                                                 {
+                                                     EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
+                                                     AddProcessEvent(EventType.Normal, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
+                                                     NotifyPropertyChanged(nameof(ProgressStatus));
+                                                 }
+                                             }
+                                         }
+                                     };
 
-            Recipe_Values.Key1UpdatedEvent += (key, value) =>
+            D_Values.UpdatedEvent += (key1, key2, value) =>
+                                     {
+                                         NotifyPropertyChanged(D_Map[key1]);
+
+                                         if (key1 == DataNames.目前段數)
+                                         {
+                                             if (IsRecording)
+                                             {
+                                                 AddProcessEvent(EventType.Normal,
+                                                                 sw.Elapsed,
+                                                                 CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"));
+                                             }
+
+                                             NotifyPropertyChanged(nameof(Progress));
+                                             NotifyPropertyChanged(nameof(ProgressStatus));
+                                         }
+                                     };
+
+            Recipe_Values.UpdatedEvent += (key1, key2, value) =>
+                                          {
+                                              NotifyPropertyChanged(D_Map[key1]);
+
+                                              if (key1.ToString().Contains("配方名稱"))
                                               {
-                                                  NotifyPropertyChanged(D_Map[key]);
-
-                                                  if (key.ToString().Contains("配方名稱"))
-                                                  {
-                                                      Set(RecipeName, nameof(Selected_Name));
-                                                  }
-                                                  else if (key == DataNames.使用段數)
-                                                  {
-                                                      NotifyPropertyChanged(nameof(Progress));
-                                                      NotifyPropertyChanged(nameof(ProgressStatus));
-                                                  }
-                                              };
+                                                  Set(RecipeName, nameof(Selected_Name));
+                                              }
+                                              else if (key1 == DataNames.使用段數)
+                                              {
+                                                  NotifyPropertyChanged(nameof(Progress));
+                                                  NotifyPropertyChanged(nameof(ProgressStatus));
+                                              }
+                                          };
 
             Ext_Info.CollectionChanged += (s, e) =>
                                           {
