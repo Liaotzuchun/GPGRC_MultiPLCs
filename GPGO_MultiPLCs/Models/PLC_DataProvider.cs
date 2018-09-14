@@ -61,12 +61,12 @@ namespace GPGO_MultiPLCs.Models
             {
                 var val = (double)CurrentSegment / UsedSegmentCounts / 2;
 
-                if (double.IsNaN(val) || double.IsInfinity(val) || val < 0.0)
+                if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
                 {
                     return 0.0;
                 }
 
-                return val > 1.0 ? 1.0 : val;
+                return val >= 1.0 ? 1.0 : val;
             }
         }
 
