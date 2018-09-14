@@ -94,7 +94,7 @@
                     VerticalAlignment="Center"
                     Stroke="{StaticResource GlyphBrush}"
                     StrokeLineJoin="Round"
-                    StrokeThickness="3"
+                    StrokeThickness="2"
                     Visibility="{Binding IsMouseOver, Converter={StaticResource BoolVis}, ElementName=Border, Mode=OneWay}">
                     <Path.Data>
                         <GeometryGroup>
