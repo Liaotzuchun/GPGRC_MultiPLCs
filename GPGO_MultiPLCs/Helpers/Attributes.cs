@@ -3,14 +3,33 @@ using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.Helpers
 {
+    [AttributeUsage(AttributeTargets.Class)]
+    public class OrderedObject : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class OrderIndex : Attribute
+    {
+        public int Index { get; }
+
+        public OrderIndex(int value)
+        {
+            Index = value;
+        }
+    }
+
     [AttributeUsage(AttributeTargets.Property)]
     public class LanguageTranslator : Attribute
     {
-        public string EN_Name { get; }
-        public string CHT_Name { get; }
         public string CHS_Name { get; }
+        public string CHT_Name { get; }
+        public string EN_Name { get; }
 
-        public string GetName(Language lng) => lng == Language.EN ? EN_Name : lng == Language.CHS ? CHS_Name : CHT_Name;
+        public string GetName(Language lng)
+        {
+            return lng == Language.EN ? EN_Name : lng == Language.CHS ? CHS_Name : CHT_Name;
+        }
 
         public LanguageTranslator(string en, string cht, string chs)
         {

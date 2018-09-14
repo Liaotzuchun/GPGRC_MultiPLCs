@@ -513,8 +513,7 @@ namespace GPGO_MultiPLCs.Helpers
         {
             return info.IsDefined(typeof(LanguageTranslator), false) ?
                        ((LanguageTranslator)info.GetCustomAttributes(typeof(LanguageTranslator), false).First()).GetName(lng) is string Name && !string.IsNullOrEmpty(Name) ? Name :
-                       info.Name :
-                       info.Name;
+                       info.Name : info.Name;
         }
 
         public static byte HexToByte(this string val)
@@ -753,13 +752,14 @@ namespace GPGO_MultiPLCs.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="source"></param>
         /// <param name="Lng">欄位語系</param>
-        /// <param name="properties">自訂屬性順序</param>
         /// <returns></returns>
-        public static Dictionary<string, object> ToDictionary<T>(this T source, Language Lng = Language.TW, PropertyInfo[] properties = null)
+        public static Dictionary<string, object> ToDictionary<T>(this T source, Language Lng = Language.TW)
         {
-            if (properties == null)
+            var type = source.GetType();
+            var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanWrite && !typeof(ICollection).IsAssignableFrom(x.PropertyType)).ToArray();
+            if (Attribute.IsDefined(type, typeof(OrderedObject)))
             {
-                properties = source.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanWrite && !typeof(ICollection).IsAssignableFrom(x.PropertyType)).ToArray();
+                properties = properties.OrderBy(x => x.IsDefined(typeof(OrderIndex), false) ? ((OrderIndex)x.GetCustomAttributes(typeof(OrderIndex), false).First()).Index : int.MaxValue).ToArray();
             }
 
             return properties.ToDictionary(prop => prop.GetName(Lng), prop => prop.GetValue(source));

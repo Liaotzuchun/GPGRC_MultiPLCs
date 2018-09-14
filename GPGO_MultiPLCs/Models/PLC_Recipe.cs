@@ -5,6 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>PLC配方</summary>
+    [OrderedObject]
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : ObservableObject
     {
@@ -24,6 +25,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(12)]
         [LanguageTranslator("Heating Time 1", "升溫時間 1", "升温时间 1")]
         public short HeatingTime_1
         {
@@ -31,6 +33,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(13)]
         [LanguageTranslator("Heating Time 2", "升溫時間 2", "升温时间 2")]
         public short HeatingTime_2
         {
@@ -38,6 +41,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(14)]
         [LanguageTranslator("Heating Time 3", "升溫時間 3", "升温时间 3")]
         public short HeatingTime_3
         {
@@ -45,6 +49,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(15)]
         [LanguageTranslator("Heating Time 4", "升溫時間 4", "升温时间 4")]
         public short HeatingTime_4
         {
@@ -52,6 +57,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(16)]
         [LanguageTranslator("Heating Time 5", "升溫時間 5", "升温时间 5")]
         public short HeatingTime_5
         {
@@ -59,6 +65,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(17)]
         [LanguageTranslator("Heating Time 6", "升溫時間 6", "升温时间 6")]
         public short HeatingTime_6
         {
@@ -66,6 +73,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(18)]
         [LanguageTranslator("Heating Time 7", "升溫時間 7", "升温时间 7")]
         public short HeatingTime_7
         {
@@ -73,6 +81,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(19)]
         [LanguageTranslator("Heating Time 8", "升溫時間 8", "升温时间 8")]
         public short HeatingTime_8
         {
@@ -80,6 +89,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(3)]
         [LanguageTranslator("Inflating Time", "充氣時間", "充气时间")]
         public short InflatingTime
         {
@@ -87,6 +97,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(0)]
         [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
         [BsonId]
         public string RecipeName
@@ -95,6 +106,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(4)]
         [LanguageTranslator("Target Temperature 1", "目標溫度 1", "目标温度 1")]
         public double TargetTemperature_1
         {
@@ -102,6 +114,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(5)]
         [LanguageTranslator("Target Temperature 2", "目標溫度 2", "目标温度 2")]
         public double TargetTemperature_2
         {
@@ -109,6 +122,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(6)]
         [LanguageTranslator("Target Temperature 3", "目標溫度 3", "目标温度 3")]
         public double TargetTemperature_3
         {
@@ -116,6 +130,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(7)]
         [LanguageTranslator("Target Temperature 4", "目標溫度 4", "目标温度 4")]
         public double TargetTemperature_4
         {
@@ -123,6 +138,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(8)]
         [LanguageTranslator("Target Temperature 5", "目標溫度 5", "目标温度 5")]
         public double TargetTemperature_5
         {
@@ -130,6 +146,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(9)]
         [LanguageTranslator("Target Temperature 6", "目標溫度 6", "目标温度 6")]
         public double TargetTemperature_6
         {
@@ -137,6 +154,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(10)]
         [LanguageTranslator("Target Temperature 7", "目標溫度 7", "目标温度 7")]
         public double TargetTemperature_7
         {
@@ -144,6 +162,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(11)]
         [LanguageTranslator("Target Temperature 8", "目標溫度 8", "目标温度 8")]
         public double TargetTemperature_8
         {
@@ -151,6 +170,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(20)]
         [LanguageTranslator("Thermostatic Temperature 1", "恆溫溫度 1", "恒温温度 1")]
         public double ThermostaticTemperature_1
         {
@@ -158,6 +178,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(21)]
         [LanguageTranslator("Thermostatic Temperature 2", "恆溫溫度 2", "恒温温度 2")]
         public double ThermostaticTemperature_2
         {
@@ -165,6 +186,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(22)]
         [LanguageTranslator("Thermostatic Temperature 3", "恆溫溫度 3", "恒温温度 3")]
         public double ThermostaticTemperature_3
         {
@@ -172,6 +194,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(23)]
         [LanguageTranslator("Thermostatic Temperature 4", "恆溫溫度 4", "恒温温度 4")]
         public double ThermostaticTemperature_4
         {
@@ -179,6 +202,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(24)]
         [LanguageTranslator("Thermostatic Temperature 5", "恆溫溫度 5", "恒温温度 5")]
         public double ThermostaticTemperature_5
         {
@@ -186,6 +210,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(25)]
         [LanguageTranslator("Thermostatic Temperature 6", "恆溫溫度 6", "恒温温度 6")]
         public double ThermostaticTemperature_6
         {
@@ -193,6 +218,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(26)]
         [LanguageTranslator("Thermostatic Temperature 7", "恆溫溫度 7", "恒温温度 7")]
         public double ThermostaticTemperature_7
         {
@@ -200,6 +226,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(27)]
         [LanguageTranslator("Thermostatic Temperature 8", "恆溫溫度 8", "恒温温度 8")]
         public double ThermostaticTemperature_8
         {
@@ -207,6 +234,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(1)]
         [LanguageTranslator("Updated Time", "更新時間", "更新时间")]
         public DateTime Updated
         {
@@ -221,6 +249,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(2)]
         [LanguageTranslator("Used Segment Counts", "使用段數", "使用段数")]
         public short UsedSegmentCounts
         {
@@ -228,6 +257,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(28)]
         [LanguageTranslator("Warning Time 1", "恆溫時間 1", "恒温时间 1")]
         public short WarmingTime_1
         {
@@ -235,6 +265,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(29)]
         [LanguageTranslator("Warning Time 2", "恆溫時間 2", "恒温时间 2")]
         public short WarmingTime_2
         {
@@ -242,6 +273,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(30)]
         [LanguageTranslator("Warning Time 3", "恆溫時間 3", "恒温时间 3")]
         public short WarmingTime_3
         {
@@ -249,6 +281,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(31)]
         [LanguageTranslator("Warning Time 4", "恆溫時間 4", "恒温时间 4")]
         public short WarmingTime_4
         {
@@ -256,6 +289,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(32)]
         [LanguageTranslator("Warning Time 5", "恆溫時間 5", "恒温时间 5")]
         public short WarmingTime_5
         {
@@ -263,6 +297,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(33)]
         [LanguageTranslator("Warning Time 6", "恆溫時間 6", "恒温时间 6")]
         public short WarmingTime_6
         {
@@ -270,6 +305,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(34)]
         [LanguageTranslator("Warning Time 7", "恆溫時間 7", "恒温时间 7")]
         public short WarmingTime_7
         {
@@ -277,6 +313,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [OrderIndex(35)]
         [LanguageTranslator("Warning Time 8", "恆溫時間 8", "恒温时间 8")]
         public short WarmingTime_8
         {
