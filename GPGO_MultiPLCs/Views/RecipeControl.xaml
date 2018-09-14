@@ -1414,6 +1414,7 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    FontSize="14"
                                     Text="{Binding RecipeName, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
