@@ -149,11 +149,12 @@ namespace GPGO_MultiPLCs.Models
             set => SetRecipe(value);
         }
 
+        public event Action<string> AssetNumberChanged;
+
         public event Action<string> CancelCheckIn;
 
         public event Action<(EventType type, DateTime time, string note)> EventHappened;
         public event Action<string> MachineCodeChanged;
-        public event Action<string> AssetNumberChanged;
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
         public event Func<string, ValueTask<PLC_Recipe>> StartRecording;
@@ -401,10 +402,10 @@ namespace GPGO_MultiPLCs.Models
                                                                      if (infos == null || infos.Count == 0)
                                                                      {
                                                                          Dialog.Show(new Dictionary<Language, string>
-                                                                                           {
-                                                                                               { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
-                                                                                           },
-                                                                                           DialogMsgType.Alarm);
+                                                                                     {
+                                                                                         { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
+                                                                                     },
+                                                                                     DialogMsgType.Alarm);
 
                                                                          return false;
                                                                      }
@@ -442,7 +443,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
                                             }
-                                            else if(e.PropertyName == nameof(BaseInfo.AssetNumber))
+                                            else if (e.PropertyName == nameof(BaseInfo.AssetNumber))
                                             {
                                                 AssetNumberChanged?.Invoke((s as BaseInfo)?.AssetNumber);
                                             }
@@ -590,19 +591,19 @@ namespace GPGO_MultiPLCs.Models
                                                      if (key == SignalNames.自動停止 || key == SignalNames.程式結束)
                                                      {
                                                          EventHappened?.Invoke((EventType.Normal, DateTime.Now, key.ToString()));
-                                                         AddProcessEvent(EventType.Normal, sw.Elapsed, key.ToString());
+                                                         AddProcessEvent(EventType.Normal, sw.Elapsed, M_Values.GetKey2(key).ToString("M# ") + key.ToString());
                                                          CTS?.Cancel();
                                                      }
                                                      else if (key == SignalNames.緊急停止 || key == SignalNames.電源反相 || key == SignalNames.循環風車過載 || key == SignalNames.循環風車INV異常)
                                                      {
                                                          EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key.ToString()));
-                                                         AddProcessEvent(EventType.Alarm, sw.Elapsed, key.ToString());
+                                                         AddProcessEvent(EventType.Alarm, sw.Elapsed, M_Values.GetKey2(key).ToString("M# ") + key.ToString());
                                                          CTS?.Cancel();
                                                      }
                                                      else if (key == SignalNames.降溫中)
                                                      {
                                                          EventHappened?.Invoke((EventType.Normal, DateTime.Now, key.ToString()));
-                                                         AddProcessEvent(EventType.Normal, sw.Elapsed, key.ToString());
+                                                         AddProcessEvent(EventType.Normal, sw.Elapsed, M_Values.GetKey2(key).ToString("M# ") + key.ToString());
                                                          NotifyPropertyChanged(nameof(ProgressStatus));
                                                      }
                                                  }
@@ -619,7 +620,8 @@ namespace GPGO_MultiPLCs.Models
                                                  {
                                                      AddProcessEvent(EventType.Normal,
                                                                      sw.Elapsed,
-                                                                     CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"));
+                                                                     D_Values.GetKey2(key).ToString("D# ") +
+                                                                     (CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫")));
                                                  }
 
                                                  NotifyPropertyChanged(nameof(Progress));

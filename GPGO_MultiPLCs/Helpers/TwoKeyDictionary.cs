@@ -11,8 +11,8 @@ namespace GPGO_MultiPLCs.Helpers
     public sealed class TwoKeyDictionary<TKey1, TKey2, TValue>
     {
         public Dictionary<TKey1, TValue> Key1Dictionary = new Dictionary<TKey1, TValue>();
-
-        public Dictionary<TKey2, TKey1> Key2Dictionary = new Dictionary<TKey2, TKey1>();
+        public Dictionary<TKey1, TKey2> Key1ToKey2Dictionary = new Dictionary<TKey1, TKey2>();
+        public Dictionary<TKey2, TKey1> Key2ToKey1Dictionary = new Dictionary<TKey2, TKey1>();
 
         public TValue this[TKey1 idx]
         {
@@ -26,10 +26,10 @@ namespace GPGO_MultiPLCs.Helpers
 
         public TValue this[TKey2 idx]
         {
-            get => Key1Dictionary[Key2Dictionary[idx]];
+            get => Key1Dictionary[Key2ToKey1Dictionary[idx]];
             set
             {
-                var key = Key2Dictionary[idx];
+                var key = Key2ToKey1Dictionary[idx];
                 Key1Dictionary[key] = value;
                 Key1UpdatedEvent?.Invoke(key, value);
             }
@@ -40,13 +40,25 @@ namespace GPGO_MultiPLCs.Helpers
         public void Add(TKey1 Key1, TKey2 Key2, TValue value)
         {
             Key1Dictionary.Add(Key1, value);
-            Key2Dictionary.Add(Key2, Key1);
+            Key2ToKey1Dictionary.Add(Key2, Key1);
+            Key1ToKey2Dictionary.Add(Key1, Key2);
         }
 
         public void Clear()
         {
             Key1Dictionary.Clear();
-            Key2Dictionary.Clear();
+            Key1ToKey2Dictionary.Clear();
+            Key2ToKey1Dictionary.Clear();
+        }
+
+        public TKey1 GetKey1(TKey2 key2)
+        {
+            return Key2ToKey1Dictionary[key2];
+        }
+
+        public TKey2 GetKey2(TKey1 key1)
+        {
+            return Key1ToKey2Dictionary[key1];
         }
 
         public IEnumerable<KeyValuePair<TKey1, TValue>> GetKeyValuePairsOfKey1()
@@ -56,7 +68,7 @@ namespace GPGO_MultiPLCs.Helpers
 
         public IEnumerable<KeyValuePair<TKey2, TValue>> GetKeyValuePairsOfKey2()
         {
-            return Key2Dictionary.Select(x => new KeyValuePair<TKey2, TValue>(x.Key, Key1Dictionary[x.Value]));
+            return Key2ToKey1Dictionary.Select(x => new KeyValuePair<TKey2, TValue>(x.Key, Key1Dictionary[x.Value]));
         }
 
         public IEnumerable<TValue> GetValues(IEnumerable<TKey1> keys)
@@ -66,19 +78,19 @@ namespace GPGO_MultiPLCs.Helpers
 
         public IEnumerable<TValue> GetValues(IEnumerable<TKey2> keys)
         {
-            return keys.Select(key => Key1Dictionary[Key2Dictionary[key]]);
+            return keys.Select(key => Key1Dictionary[Key2ToKey1Dictionary[key]]);
         }
 
         public bool Remove(TKey1 Key1)
         {
-            if (!Key2Dictionary.Any(f => f.Value.Equals(Key1)))
+            if (!Key2ToKey1Dictionary.Any(f => f.Value.Equals(Key1)))
             {
                 return false;
             }
 
-            var Key2ToDelete = Key2Dictionary.First(f => f.Value.Equals(Key1));
-
-            Key2Dictionary.Remove(Key2ToDelete.Key);
+            var Key2ToDelete = Key2ToKey1Dictionary.First(f => f.Value.Equals(Key1));
+            Key1ToKey2Dictionary.Remove(Key1);
+            Key2ToKey1Dictionary.Remove(Key2ToDelete.Key);
             Key1Dictionary.Remove(Key1);
 
             return true;
@@ -86,13 +98,14 @@ namespace GPGO_MultiPLCs.Helpers
 
         public bool Remove(TKey2 Key2)
         {
-            if (!Key2Dictionary.ContainsKey(Key2))
+            if (!Key2ToKey1Dictionary.ContainsKey(Key2))
             {
                 return false;
             }
 
-            var Key1 = Key2Dictionary[Key2];
-            Key2Dictionary.Remove(Key2);
+            var Key1 = Key2ToKey1Dictionary[Key2];
+            Key1ToKey2Dictionary.Remove(Key1);
+            Key2ToKey1Dictionary.Remove(Key2);
             Key1Dictionary.Remove(Key1);
 
             return true;
