@@ -129,7 +129,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = Index2 >= Index1 && Results?.Count > 0 ? Results?.GetRange(Index1, Index2 - Index1 + 1).Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type)).ToList() :
+            ViewResults = Index2 >= Index1 && Results?.Count > 0 ? Results?.GetRange(Index1, Index2 - Index1 + 1).Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type)).OrderByDescending(x=>x.AddedTime).ToList() :
                               null;
         }
 

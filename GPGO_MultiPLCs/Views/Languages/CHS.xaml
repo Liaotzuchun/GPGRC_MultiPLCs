@@ -134,4 +134,5 @@
     <sys:String x:Key="大小寫">大小写</sys:String>
     <sys:String x:Key="關閉">关闭</sys:String>
     <sys:String x:Key="輸入">输入</sys:String>
+    <sys:String x:Key="以前">以前</sys:String>
 </ResourceDictionary>

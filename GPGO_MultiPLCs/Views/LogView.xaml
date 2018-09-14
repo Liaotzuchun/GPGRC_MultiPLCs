@@ -409,6 +409,18 @@
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn
                         Width="Auto"
+                        MinWidth="60">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 以前}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:LogEvent">
+                                <TextBlock Text="{Binding AddedTime, Converter={StaticResource TimespanAgo}, Mode=OneWay, StringFormat={}{0:%d}days {0:%h}h{0:%m}m{0:%s}s}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn
+                        Width="Auto"
                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <Menu>

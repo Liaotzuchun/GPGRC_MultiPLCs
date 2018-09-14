@@ -134,4 +134,5 @@
     <sys:String x:Key="大小寫">Caps</sys:String>
     <sys:String x:Key="關閉">Close</sys:String>
     <sys:String x:Key="輸入">Enter</sys:String>
+    <sys:String x:Key="以前">Time Ago</sys:String>
 </ResourceDictionary>

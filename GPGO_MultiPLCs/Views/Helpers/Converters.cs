@@ -8,6 +8,19 @@ using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views
 {
+    public class TimespanAgo : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is DateTime time ? (DateTime.Now - time) : default(TimeSpan);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
     public class ConstValue : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
