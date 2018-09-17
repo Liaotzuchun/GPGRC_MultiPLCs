@@ -307,7 +307,16 @@ namespace GPGO_MultiPLCs
 
             MainVM.CheckClosing += async () =>
                                    {
-                                       if (User.Level > User.UserLevel.C)
+                                       if (TotalVM.PLC_All.Any(plc => plc.IsRecording))
+                                       {
+                                           DialogVM.Show(new Dictionary<Language, string>
+                                                         {
+                                                             { Language.TW, "仍在生產中，無法終止程式!" },
+                                                             { Language.CHS, "仍在生产中，无法终止程序!" },
+                                                             { Language.EN, "Still in production,\n" + "cannot terminate the program." }
+                                                         });
+                                       }
+                                       else if (User.Level > User.UserLevel.C)
                                        {
                                            var user = User.Copy();
                                            var result = await DialogVM.ShowWithIntput(new Dictionary<Language, string>
@@ -331,7 +340,7 @@ namespace GPGO_MultiPLCs
                                                sb.Append(user.Level.ToString());
                                                sb.Append(", App_ShutDown.");
                                                LogVM.AddToDB(new LogEvent { AddedTime = DateTime.Now, StationNumber = 0, Type = EventType.Action, Description = sb.ToString() });
-                                               Application.Current.Shutdown();
+                                               Application.Current.Shutdown(23555277);
                                            }
                                        }
                                        else
