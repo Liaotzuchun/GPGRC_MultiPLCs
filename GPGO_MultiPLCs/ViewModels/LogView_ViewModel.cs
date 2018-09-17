@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
-using MongoDB.Bson;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -14,8 +13,6 @@ namespace GPGO_MultiPLCs.ViewModels
     public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     {
         public Language Language = Language.TW;
-
-        public RelayCommand LogAnything { get; }
 
         /// <summary>日期範圍的開始</summary>
         public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.AddedTime : null;
@@ -139,11 +136,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public LogView_ViewModel(IDataBase<LogEvent> db) : base(db)
         {
-            LogAnything = new RelayCommand(e =>
-                                           {
-                                               AddToDB(new LogEvent { AddedTime = DateTime.Now, StationNumber = 0, Type = EventType.Action, Description = e.To_Json() });
-                                           });
-
             ToFileCommand = new RelayCommand(o =>
                                              {
                                                  SaveToCSV(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));

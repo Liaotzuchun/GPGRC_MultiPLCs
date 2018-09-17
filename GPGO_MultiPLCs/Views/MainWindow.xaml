@@ -73,7 +73,8 @@
                     DataContext="{StaticResource AuthenticatorViewModel}" />
                 <local:GlobalDialog
                     x:Name="GlobalDialog"
-                    DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}" />
+                    DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}"
+                    IsVisibleChanged="GlobalDialog_IsVisibleChanged" />
             </Grid>
         </Grid>
         <Grid Background="{StaticResource LightColorBrush}">

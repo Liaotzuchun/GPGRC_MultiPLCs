@@ -15,14 +15,6 @@ namespace GPGO_MultiPLCs
 {
     public sealed class Connector : DependencyObject, IDisposable
     {
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(User), typeof(User), typeof(Connector), new PropertyMetadata(default(User), null));
-
-        public User User
-        {
-            get => (User)GetValue(UserProperty);
-            set => SetValue(UserProperty, value);
-        }
-
         public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
 
         public string DataInputPath
@@ -39,6 +31,8 @@ namespace GPGO_MultiPLCs
             set => SetValue(DataOutputPathProperty, value);
         }
 
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(User), typeof(User), typeof(Connector), new PropertyMetadata(default(User), null));
+
         public static readonly DependencyProperty LanguageProperty =
             DependencyProperty.Register(nameof(Language), typeof(Language), typeof(Connector), new PropertyMetadata(Language.TW, LanguageChanged));
 
@@ -54,6 +48,12 @@ namespace GPGO_MultiPLCs
         {
             get => (Language)GetValue(LanguageProperty);
             set => SetValue(LanguageProperty, value);
+        }
+
+        public User User
+        {
+            get => (User)GetValue(UserProperty);
+            set => SetValue(UserProperty, value);
         }
 
         public void Dispose()
@@ -184,7 +184,7 @@ namespace GPGO_MultiPLCs
             var db = new MongoClient("mongodb://localhost:27017").GetDatabase("GP");
 
             DialogVM = new GlobalDialog_ViewModel();
-            MainVM = new MainWindow_ViewModel(DialogVM);
+            MainVM = new MainWindow_ViewModel();
             RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")), DialogVM);
             TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("Product_Infos")), DialogVM);
             LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("Event_Logs")));
@@ -305,7 +305,45 @@ namespace GPGO_MultiPLCs
                                                            DispatcherPriority.SystemIdle);
                                   };
 
-            MainVM.CheckClosing += () => User;
+            MainVM.CheckClosing += async () =>
+                                   {
+                                       if (User.Level > User.UserLevel.C)
+                                       {
+                                           var user = User.Copy();
+                                           var result = await DialogVM.ShowWithIntput(new Dictionary<Language, string>
+                                                                                      {
+                                                                                          { Language.TW, "請輸入權限密碼：" },
+                                                                                          { Language.CHS, "请输入权限密码：" },
+                                                                                          { Language.EN, "Please enter the permission password:" }
+                                                                                      },
+                                                                                      new Dictionary<Language, string> { { Language.TW, "驗證" }, { Language.CHS, "验证" }, { Language.EN, "Identify" } },
+                                                                                      x => (x == user.Password,
+                                                                                            new Dictionary<Language, string>
+                                                                                            {
+                                                                                                { Language.TW, "密碼錯誤！" }, { Language.CHS, "密码错误！" }, { Language.EN, "Wrong password!" }
+                                                                                            }));
+
+                                           if (result.result)
+                                           {
+                                               var sb = new StringBuilder();
+                                               sb.Append(user.Name);
+                                               sb.Append(", Level:");
+                                               sb.Append(user.Level.ToString());
+                                               sb.Append(", App_ShutDown.");
+                                               LogVM.AddToDB(new LogEvent { AddedTime = DateTime.Now, StationNumber = 0, Type = EventType.Action, Description = sb.ToString() });
+                                               Application.Current.Shutdown();
+                                           }
+                                       }
+                                       else
+                                       {
+                                           DialogVM.Show(new Dictionary<Language, string>
+                                                         {
+                                                             { Language.TW, "權限不足，不可關閉程式!" },
+                                                             { Language.CHS, "权限不足，不可关闭程序!" },
+                                                             { Language.EN, "Insufficient permissions,\n" + "can't close the program." }
+                                                         });
+                                       }
+                                   };
 
             //!當配方列表更新時，依據使用站別發佈配方
             RecipeVM.ListUpdatedEvent += async list =>

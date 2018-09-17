@@ -15,5 +15,13 @@ namespace GPGO_MultiPLCs
         {
             InitializeComponent();
         }
+
+        private void GlobalDialog_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Authenticator.SetCurrentValue(VisibilityProperty, Visibility.Collapsed);
+            }
+        }
     }
 }
