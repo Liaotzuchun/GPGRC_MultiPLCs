@@ -776,6 +776,14 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>將物件序列化為XML</summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        public static string To_Json(this object data)
+        {
+            return JsonConvert.SerializeObject(data is IEnumerable ? new { Row = data } : data, Formatting.Indented);
+        }
+
+        /// <summary>將物件序列化為XML</summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static XDocument ToXml(this object data)
         {
             var IsCollection = data is IEnumerable;

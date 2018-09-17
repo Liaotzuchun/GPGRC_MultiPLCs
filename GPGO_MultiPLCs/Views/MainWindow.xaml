@@ -21,6 +21,9 @@
     WindowState="Maximized"
     mc:Ignorable="d">
     <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <helpers:InteractiveCommand Command="{Binding ClosingCommand, Mode=OneTime}" />
+        </i:EventTrigger>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction
                 Command="{Binding LoadedCommand, Mode=OneTime}"

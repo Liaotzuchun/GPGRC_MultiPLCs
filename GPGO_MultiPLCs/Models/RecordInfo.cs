@@ -89,6 +89,7 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Event", "事件", "事件")]
         public string Description { get; set; }
 
+        //!站號由1開始
         [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
         public int StationNumber { get; set; }
 

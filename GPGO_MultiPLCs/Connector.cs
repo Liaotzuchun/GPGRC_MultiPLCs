@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -296,6 +297,12 @@ namespace GPGO_MultiPLCs
                                                            },
                                                            DispatcherPriority.SystemIdle);
                                   };
+
+            MainVM.CheckClosing += () =>
+                                   {
+                                       Thread.Sleep(3000);
+                                       return false;
+                                   };
 
             //!當配方列表更新時，依據使用站別發佈配方
             RecipeVM.ListUpdatedEvent += async list =>

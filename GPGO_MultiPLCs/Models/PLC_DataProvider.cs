@@ -135,6 +135,7 @@ namespace GPGO_MultiPLCs.Models
                                        CheckInCommand.Result = false;
 
                                        RecordingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
+                                       OvenInfo.Clear();
                                        Ext_Info.Clear();
                                    });
 
