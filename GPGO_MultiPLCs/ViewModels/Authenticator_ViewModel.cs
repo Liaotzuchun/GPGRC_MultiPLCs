@@ -69,7 +69,7 @@ namespace GPGO_MultiPLCs.ViewModels
             set => Set(value);
         }
 
-        /// <summary>設定權限</summary>
+        /// <summary>設定使用者權限(管理使用者時)</summary>
         public User.UserLevel EditLevel
         {
             get => Get<User.UserLevel>();

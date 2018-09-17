@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -16,6 +15,14 @@ namespace GPGO_MultiPLCs
 {
     public sealed class Connector : DependencyObject, IDisposable
     {
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(User), typeof(User), typeof(Connector), new PropertyMetadata(default(User), null));
+
+        public User User
+        {
+            get => (User)GetValue(UserProperty);
+            set => SetValue(UserProperty, value);
+        }
+
         public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
 
         public string DataInputPath
@@ -177,7 +184,7 @@ namespace GPGO_MultiPLCs
             var db = new MongoClient("mongodb://localhost:27017").GetDatabase("GP");
 
             DialogVM = new GlobalDialog_ViewModel();
-            MainVM = new MainWindow_ViewModel();
+            MainVM = new MainWindow_ViewModel(DialogVM);
             RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")), DialogVM);
             TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("Product_Infos")), DialogVM);
             LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("Event_Logs")));
@@ -298,11 +305,7 @@ namespace GPGO_MultiPLCs
                                                            DispatcherPriority.SystemIdle);
                                   };
 
-            MainVM.CheckClosing += () =>
-                                   {
-                                       Thread.Sleep(3000);
-                                       return false;
-                                   };
+            MainVM.CheckClosing += () => User;
 
             //!當配方列表更新時，依據使用站別發佈配方
             RecipeVM.ListUpdatedEvent += async list =>
