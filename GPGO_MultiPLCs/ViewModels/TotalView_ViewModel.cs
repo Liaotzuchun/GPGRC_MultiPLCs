@@ -461,8 +461,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                             Gate_Status = true;
                                         }
                                     }
-                                    else if (!Check())
+                                    else if (!Check() && Gate_Status)
                                     {
+                                        EventHappened?.Invoke((0, EventType.Alarm, DateTime.Now, "PLC Gate Offline!"));
+
                                         Gate_Status = false;
 
                                         foreach (var plc in PLC_All)
