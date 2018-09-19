@@ -148,9 +148,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                      dialog?.Show(new Dictionary<Language, string>
                                                                   {
-                                                                      { Language.TW, "檔案已輸出至" + path },
-                                                                      { Language.CHS, "档案已输出至" + path },
-                                                                      { Language.EN, "The file has been output to" + path }
+                                                                      { Language.TW, "檔案已輸出至\n" + path },
+                                                                      { Language.CHS, "档案已输出至\n" + path },
+                                                                      { Language.EN, "The file has been output to\n" + path }
                                                                   }, TimeSpan.FromSeconds(6));
                                                  }
                                              });
