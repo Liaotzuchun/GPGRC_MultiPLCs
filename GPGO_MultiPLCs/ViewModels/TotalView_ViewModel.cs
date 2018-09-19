@@ -53,6 +53,11 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             if (index < PLC_All.Length && index > -1)
             {
+                if(PLC_All[index].OnlineStatus && !val)
+                {
+                    EventHappened?.Invoke((index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!"));
+                }
+
                 PLC_All[index].OnlineStatus = val;
             }
         }
