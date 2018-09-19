@@ -467,19 +467,19 @@
                     <Grid>
                         <Rectangle
                             x:Name="TodayBackground"
-                            Fill="{StaticResource EnergyBrush}"
+                            Fill="{StaticResource LightBrush}"
                             Opacity="0"
                             RadiusX="0"
                             RadiusY="0"
-                            Stroke="{StaticResource EnergyBorderBrush}"
+                            Stroke="{StaticResource DarkBorderBrush}"
                             StrokeThickness="1" />
                         <Rectangle
                             x:Name="SelectedBackground"
-                            Fill="{StaticResource PressedBrush}"
+                            Fill="{StaticResource LightBrush}"
                             Opacity="0"
                             RadiusX="0"
                             RadiusY="0"
-                            Stroke="{StaticResource PressedBorderBrush}"
+                            Stroke="{StaticResource WorkingBorderBrush}"
                             StrokeThickness="1" />
                         <Border
                             Background="{TemplateBinding Background}"
@@ -487,12 +487,18 @@
                             BorderThickness="{TemplateBinding BorderThickness}" />
                         <Rectangle
                             x:Name="HighlightBackground"
-                            Fill="{StaticResource LightBrush}"
                             Opacity="0"
                             RadiusX="0"
                             RadiusY="0"
-                            Stroke="{StaticResource WindowBackgroundBrush4}"
-                            StrokeThickness="1" />
+                            Stroke="{StaticResource WorkingBorderBrush}"
+                            StrokeThickness="1">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Offset="0.25" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
+                                    <GradientStop Offset="1.25" Color="{Binding Color, Source={StaticResource WorkingBrush}}" />
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
                         <ContentPresenter
                             x:Name="NormalText"
                             Margin="5,1,5,1"
@@ -531,7 +537,7 @@
                                         <!--<ColorAnimation
                                             Storyboard.TargetName="NormalText"
                                             Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
-                                            To="#FFFFFFFF"
+                                            To="{Binding Color, Source={StaticResource BaseForeground}, Mode=OneWay}"
                                             Duration="0" />-->
                                     </Storyboard>
                                 </VisualState>
