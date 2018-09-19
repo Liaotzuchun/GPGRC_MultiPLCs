@@ -188,27 +188,30 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
         /// <param name="path">資料夾路徑</param>
-        public async void SaveToExcel(string path)
+        public async Task<bool> SaveToExcel(string path)
         {
             Standby = false;
 
-            path += "\\Reports";
-            if (!Directory.Exists(path))
-            {
-                try
-                {
-                    Directory.CreateDirectory(path);
-                }
-                catch (Exception ex)
-                {
-                    ex.RecordError("EXCEL輸出資料夾無法創建");
-                }
-            }
+            var result = true;
 
             if (ViewResults.Any())
             {
                 await Task.Factory.StartNew(() =>
                                             {
+                                                if (!Directory.Exists(path))
+                                                {
+                                                    try
+                                                    {
+                                                        Directory.CreateDirectory(path);
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        ex.RecordError("EXCEL輸出資料夾無法創建");
+                                                        result = false;
+                                                        return;
+                                                    }
+                                                }
+
                                                 var created = DateTime.Now;
                                                 var x = ViewResults.Count / 500; //!檔案數
                                                 var y = ViewResults.Count - 500 * x; //!剩餘數
@@ -517,6 +520,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  catch (Exception ex)
                                                                  {
                                                                      ex.RecordError("EXCEL儲存失敗");
+                                                                     result = false;
+                                                                     return;
                                                                  }
 
                                                                  xlwb.Dispose();
@@ -524,8 +529,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                             },
                                             TaskCreationOptions.LongRunning);
             }
+            else
+            {
+                result = false;
+            }
 
             Standby = true;
+
+            return result;
         }
 
         /// <summary>更新統計圖</summary>
@@ -700,9 +711,18 @@ namespace GPGO_MultiPLCs.ViewModels
                                                }
                                            });
 
-            ToExcelCommand = new RelayCommand(o =>
+            ToExcelCommand = new RelayCommand(async o =>
                                               {
-                                                  SaveToExcel(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                                  var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Reports";
+                                                  if(await SaveToExcel(path))
+                                                  {
+                                                      dialog?.Show(new Dictionary<Language, string>
+                                                                   {
+                                                                       { Language.TW, "檔案已輸出至" + path },
+                                                                       { Language.CHS, "档案已输出至" + path },
+                                                                       { Language.EN, "The file has been output to" + path }
+                                                                   }, TimeSpan.FromSeconds(6));
+                                                  }
                                               });
 
             var linearAxis = new LinearAxis

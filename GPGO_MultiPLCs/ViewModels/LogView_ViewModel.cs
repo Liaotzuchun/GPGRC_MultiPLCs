@@ -84,14 +84,14 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public async void SaveToCSV(string path)
+        public async Task<bool> SaveToCSV(string path)
         {
             Standby = false;
 
+            var result = true;
+
             await Task.Factory.StartNew(() =>
                                         {
-                                            path += "\\EventLogs";
-
                                             if (!Directory.Exists(path))
                                             {
                                                 try
@@ -101,6 +101,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 catch (Exception ex)
                                                 {
                                                     ex.RecordError("CSV輸出資料夾無法創建");
+                                                    result = false;
+                                                    return;
                                                 }
                                             }
 
@@ -120,10 +122,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                             catch (Exception ex)
                                             {
                                                 ex.RecordError("輸出CSV失敗");
+                                                result = false;
                                             }
-                                        });
+                                        });        
 
             Standby = true;
+
+            return result;
         }
 
         private void UpdateViewResult()
@@ -134,11 +139,20 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                           .ToList() : null;
         }
 
-        public LogView_ViewModel(IDataBase<LogEvent> db) : base(db)
+        public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService dialog) : base(db)
         {
-            ToFileCommand = new RelayCommand(o =>
+            ToFileCommand = new RelayCommand(async o =>
                                              {
-                                                 SaveToCSV(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+                                                 var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\EventLogs";
+                                                 if(await SaveToCSV(path))
+                                                 {
+                                                     dialog?.Show(new Dictionary<Language, string>
+                                                                  {
+                                                                      { Language.TW, "檔案已輸出至" + path },
+                                                                      { Language.CHS, "档案已输出至" + path },
+                                                                      { Language.EN, "The file has been output to" + path }
+                                                                  }, TimeSpan.FromSeconds(6));
+                                                 }
                                              });
 
             OvenFilter = new FilterGroup(UpdateViewResult);
