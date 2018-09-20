@@ -271,7 +271,7 @@
                 <Setter TargetName="Border" Property="Background" Value="{StaticResource LightBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource DisabledBorderBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -292,7 +292,7 @@
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource DisabledBorderBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -363,7 +363,7 @@
                 <Setter TargetName="CheckMark" Property="Opacity" Value="1" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource DisabledBorderBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -438,7 +438,7 @@
                 <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource DisabledBorderBrush}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

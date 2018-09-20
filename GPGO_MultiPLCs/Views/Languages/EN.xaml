@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <sys:String x:Key="生產頁面">Main Page</sys:String>
-    <sys:String x:Key="配方管理">Recipe Manager</sys:String>
-    <sys:String x:Key="生產履歷">Production</sys:String>
+    <sys:String x:Key="生產頁面">Main</sys:String>
+    <sys:String x:Key="配方管理">Recipes</sys:String>
+    <sys:String x:Key="生產履歷">Records</sys:String>
     <sys:String x:Key="事件履歷">Events</sys:String>
     <sys:String x:Key="設備">Device</sys:String>
     <sys:String x:Key="設備碼">DeviceCode</sys:String>
@@ -19,7 +19,8 @@
     <sys:String x:Key="數量">Quantity</sys:String>
     <sys:String x:Key="工單">Order</sys:String>
     <sys:String x:Key="狀態">Status</sys:String>
-    <sys:String x:Key="準備中">Ready to Go</sys:String>
+    <sys:String x:Key="待命">Stand by</sys:String>
+    <sys:String x:Key="準備中">Ready to go</sys:String>
     <sys:String x:Key="升溫中">Heating</sys:String>
     <sys:String x:Key="恆溫中">Warming</sys:String>
     <sys:String x:Key="降溫中">Cooling</sys:String>

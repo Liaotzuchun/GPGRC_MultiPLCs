@@ -19,6 +19,7 @@
     <sys:String x:Key="數量">數量</sys:String>
     <sys:String x:Key="工單">工單</sys:String>
     <sys:String x:Key="狀態">狀態</sys:String>
+    <sys:String x:Key="待命">待命</sys:String>
     <sys:String x:Key="準備中">準備中</sys:String>
     <sys:String x:Key="升溫中">升溫中</sys:String>
     <sys:String x:Key="恆溫中">恆溫中</sys:String>

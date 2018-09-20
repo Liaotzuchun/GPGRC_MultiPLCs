@@ -1258,22 +1258,13 @@
                         </Grid.RowDefinitions>
                         <Grid TextElement.FontSize="14">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="0" />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="110" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Border
-                                Background="{StaticResource WindowBackgroundBrush6}"
-                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Text="{DynamicResource 分類}" />
-                            </Border>
                             <ToggleButton
                                 x:Name="tb1"
                                 Grid.Column="1"

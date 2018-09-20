@@ -8,7 +8,7 @@
         <Grid>
             <Border
                 Name="PART_Track"
-                Background="{StaticResource WindowBackgroundBrush6}"
+                Background="Transparent"
                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                 BorderThickness="{TemplateBinding BorderThickness}"
                 CornerRadius="0" />

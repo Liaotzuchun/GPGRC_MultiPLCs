@@ -21,6 +21,62 @@
 
     <UserControl.Resources>
         <models:EventTypeToColor x:Key="EventTypeToColor" />
+        <DataTemplate
+            x:Key="ProgressDataTemplate"
+            DataType="models:PLC_DataProvider">
+            <Grid>
+                <ProgressBar
+                    x:Name="Progress"
+                    Maximum="1"
+                    Value="{Binding Progress, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="ProgressString"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger
+                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    Value="0">
+                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                    <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 待命}" />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    Value="1">
+                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
+                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                    <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 準備中}" />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    Value="2">
+                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
+                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                    <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    Value="3">
+                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
+                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                    <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 恆溫中}" />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    Value="4">
+                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
+                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
+                    <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 降溫中}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid>
@@ -241,18 +297,15 @@
                                                         VerticalAlignment="Center"
                                                         Text="{DynamicResource 狀態}" />
                                                 </Border>
-                                                <ProgressBar
-                                                    x:Name="Progress"
+                                                <Border
                                                     Grid.Column="3"
-                                                    BorderThickness="0,0,1,0"
-                                                    Maximum="1"
-                                                    Value="{Binding Progress, Mode=OneWay}" />
-                                                <TextBlock
-                                                    x:Name="ProgressString"
-                                                    Grid.Column="3"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Text="{Binding ProgressStatus, Mode=OneWay}" />
+                                                    Background="{StaticResource LightColorBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,0">
+                                                    <ContentControl
+                                                        Content="{Binding Mode=OneWay}"
+                                                        ContentTemplate="{StaticResource ProgressDataTemplate}" />
+                                                </Border>
                                                 <Border
                                                     Grid.Row="1"
                                                     Background="{StaticResource WindowBackgroundBrush2}"
@@ -501,36 +554,6 @@
                                         <Setter TargetName="ActiveToggle" Property="Content" Value="{Binding Progress, StringFormat=\{0:P\}, Mode=OneWay}" />
                                         <Setter TargetName="ActiveToggle" Property="IsEnabled" Value="False" />
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                        Value="1">
-                                        <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
-                                        <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 準備中}" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                        Value="2">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
-                                        <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                                        <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
-                                        <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                        Value="3">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
-                                        <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
-                                        <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
-                                        <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 恆溫中}" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                        Value="4">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
-                                        <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
-                                        <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
-                                        <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 降溫中}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -1920,44 +1943,9 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <Grid>
-                                            <ProgressBar
-                                                Background="{StaticResource EnergyBrush}"
-                                                BorderBrush="{StaticResource EnergyBorderBrush}"
-                                                Maximum="1"
-                                                Value="{Binding Progress, Mode=OneWay}" />
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontSize="16">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger
-                                                                Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                                                Value="1">
-                                                                <Setter Property="Text" Value="{DynamicResource 準備中}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                                                Value="2">
-                                                                <Setter Property="Text" Value="{DynamicResource 升溫中}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                                                Value="3">
-                                                                <Setter Property="Text" Value="{DynamicResource 恆溫中}" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                                                Value="4">
-                                                                <Setter Property="Text" Value="{DynamicResource 降溫中}" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </Grid>
+                                        <ContentControl
+                                            Content="{Binding Mode=OneWay}"
+                                            ContentTemplate="{StaticResource ProgressDataTemplate}" />
                                     </Border>
                                     <Border
                                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -2403,41 +2391,52 @@
                                             x:Name="Progress"
                                             BorderThickness="0"
                                             Maximum="1"
-                                            Value="{Binding Progress, Mode=OneWay}">
-                                            <ProgressBar.Style>
-                                                <Style TargetType="{x:Type ProgressBar}">
-                                                    <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="{x:Type ProgressBar}">
-                                                                <Grid>
-                                                                    <Border
-                                                                        Name="PART_Track"
-                                                                        Background="Transparent"
-                                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                        CornerRadius="0" />
-                                                                    <Border
-                                                                        Name="PART_Indicator"
-                                                                        HorizontalAlignment="Left"
-                                                                        Background="{TemplateBinding Background}"
-                                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                        CornerRadius="0" />
-                                                                </Grid>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </ProgressBar.Style>
-                                        </ProgressBar>
+                                            Value="{Binding Progress, Mode=OneWay}" />
                                         <TextBlock
+                                            x:Name="TextBlock"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             FontSize="12"
                                             Foreground="{StaticResource BaseForeground}"
                                             Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=No. \{0:00\}}" />
                                     </Grid>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                            Value="0">
+                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+                                            <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                            Value="1">
+                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
+                                            <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                            Value="2">
+                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
+                                            <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                            Value="3">
+                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                            <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                            Value="4">
+                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
+                                            <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="Blue" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
