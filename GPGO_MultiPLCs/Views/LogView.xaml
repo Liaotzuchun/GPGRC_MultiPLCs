@@ -58,7 +58,9 @@
     </UserControl.Resources>
 
     <Border Background="{StaticResource WindowBackgroundBrush2}">
-        <Grid Margin="4">
+        <Grid
+            Margin="4"
+            IsEnabled="{Binding Standby, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -79,7 +81,6 @@
                 <Grid
                     Grid.RowSpan="2"
                     Margin="0,0,4,0"
-                    IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -218,7 +219,6 @@
                 <DatePicker
                     x:Name="dp1"
                     Grid.Column="2"
-                    IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                     SelectedDate="{Binding Date1, Mode=TwoWay}"
                     SelectedDateFormat="Long" />
@@ -238,7 +238,6 @@
                     Grid.Row="1"
                     Grid.Column="2"
                     BorderThickness="1,0,1,1"
-                    IsEnabled="{Binding Standby, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                     SelectedDate="{Binding Date2, Mode=TwoWay}"
                     SelectedDateFormat="Long" />
@@ -263,22 +262,11 @@
                         x:Name="RS"
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding Results, Converter={StaticResource IsNotNull}, Mode=OneWay}"
                         IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                         LowerValue="{Binding Index1, Mode=OneWayToSource}"
                         Maximum="{Binding TotalCount, Mode=OneWay}"
-                        UpperValue="{Binding Index2, Mode=OneWayToSource}">
-                        <local:RangeSlider.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
-                                <Binding
-                                    Mode="OneWay"
-                                    Path="Standby" />
-                                <Binding
-                                    Converter="{StaticResource IsNotNull}"
-                                    Mode="OneWay"
-                                    Path="Results" />
-                            </MultiBinding>
-                        </local:RangeSlider.IsEnabled>
-                    </local:RangeSlider>
+                        UpperValue="{Binding Index2, Mode=OneWayToSource}" />
                 </Border>
                 <Grid
                     Grid.Row="1"
@@ -378,8 +366,7 @@
                     Grid.Column="5"
                     Margin="4,0,0,0"
                     Content="{DynamicResource 報表匯出}"
-                    FontSize="14"
-                    IsEnabled="{Binding Standby, Mode=OneWay}">
+                    FontSize="14">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding ToFileCommand, Mode=OneTime}" />
@@ -449,7 +436,7 @@
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Data="{StaticResource DownArrow}"
-                                                    Fill="{StaticResource BaseForeground}" />
+                                                    Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" />
                                                 <Rectangle
                                                     Grid.Column="1"
                                                     Width="10"
@@ -511,7 +498,7 @@
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Data="{StaticResource DownArrow}"
-                                                    Fill="{StaticResource BaseForeground}" />
+                                                    Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" />
                                                 <Rectangle
                                                     Grid.Column="1"
                                                     Width="10"

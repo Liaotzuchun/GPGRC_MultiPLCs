@@ -8,7 +8,6 @@
         <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="0,0,1,1" />
-        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="Margin" Value="0" />
@@ -59,6 +58,9 @@
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="White" />
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource DisabledBorderBrush}" />
+            </Trigger>
         </Style.Triggers>
     </Style>
 
@@ -86,7 +88,7 @@
                 Margin="4,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Foreground="{StaticResource BaseForeground}"
+                Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                 Text="{Binding (FrameworkElement.TemplatedParent).(FrameworkElement.TemplatedParent).(DataGridRow.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
         </Border>
     </DataTemplate>
@@ -96,7 +98,6 @@
         TargetType="{x:Type DataGridRow}">
         <Setter Property="Background" Value="{StaticResource LightColorBrush}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource DarkBrush}" />
@@ -211,5 +212,10 @@
         </Setter>
         <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource DisabledBorderBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>
