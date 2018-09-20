@@ -1359,12 +1359,12 @@
                     <TextBox
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        BorderThickness="0,0,1,1"
+                        BorderThickness="0,0,0,1"
                         Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        BorderThickness="0,0,1,1"
+                        BorderThickness="0,0,0,1"
                         Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
                 </UniformGrid>
                 <Button
