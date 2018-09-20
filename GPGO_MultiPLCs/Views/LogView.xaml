@@ -415,7 +415,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding AddedTime, Converter={StaticResource TimespanAgo}, Mode=OneWay, StringFormat={}{0:%d}days {0:%h}h{0:%m}m{0:%s}s}" />
+                                <TextBlock Text="{Binding AddedTime, Converter={StaticResource TimespanAgo}, Mode=OneWay, StringFormat={}{0:%d} days {0:%h}h {0:%m}m {0:%s}s}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
