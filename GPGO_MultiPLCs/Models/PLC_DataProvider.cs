@@ -566,47 +566,50 @@ namespace GPGO_MultiPLCs.Models
                                      {
                                          NotifyPropertyChanged(M_Map[key1]);
 
-                                         if (value)
+                                         if (key1 == SignalNames.自動啟動)
                                          {
-                                             if (key1 == SignalNames.自動啟動)
+                                             EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
+
+                                             if(!value) return;
+
+                                             if (IsRecording)
+                                             {
+                                                 CTS?.Cancel();
+
+                                                 await RecordingTask;
+                                             }
+
+                                             ResetStopTokenSource();
+
+                                             //! 當沒有刷取台車code時，不執行紀錄
+                                             if (!string.IsNullOrEmpty(OvenInfo.TrolleyCode))
+                                             {
+                                                 RecordingTask = StartRecoder(60000, CTS.Token);
+                                             }
+                                         }
+                                         else if (IsRecording)
+                                         {
+                                             if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
                                              {
                                                  EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
+                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
 
-                                                 if (IsRecording)
-                                                 {
-                                                     CTS?.Cancel();
-
-                                                     await RecordingTask;
-                                                 }
-
-                                                 ResetStopTokenSource();
-
-                                                 //! 當沒有刷取台車code時，不執行紀錄
-                                                 if (!string.IsNullOrEmpty(OvenInfo.TrolleyCode))
-                                                 {
-                                                     RecordingTask = StartRecoder(60000, CTS.Token);
-                                                 }
+                                                 if (!value) return;
+                                                 CTS?.Cancel();
                                              }
-                                             else if (IsRecording)
+                                             else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
                                              {
-                                                 if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
-                                                 {
-                                                     EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
-                                                     AddProcessEvent(EventType.Normal, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
-                                                     CTS?.Cancel();
-                                                 }
-                                                 else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
-                                                 {
-                                                     EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key1.ToString()));
-                                                     AddProcessEvent(EventType.Alarm, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
-                                                     CTS?.Cancel();
-                                                 }
-                                                 else if (key1 == SignalNames.降溫中)
-                                                 {
-                                                     EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
-                                                     AddProcessEvent(EventType.Normal, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
-                                                     NotifyPropertyChanged(nameof(ProgressStatus));
-                                                 }
+                                                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key1.ToString()));
+                                                 AddProcessEvent(EventType.Alarm, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
+
+                                                 if (!value) return;
+                                                 CTS?.Cancel();
+                                             }
+                                             else if (key1 == SignalNames.降溫中)
+                                             {
+                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
+                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
+                                                 NotifyPropertyChanged(nameof(ProgressStatus));
                                              }
                                          }
                                      };

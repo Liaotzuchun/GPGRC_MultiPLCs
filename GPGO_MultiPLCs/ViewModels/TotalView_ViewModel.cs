@@ -51,40 +51,43 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">是否連線</param>
         void IGPServiceCallback.Status_Changed(int index, bool val)
         {
-            if (index < PLC_All.Length && index > -1)
+            if (index < PLC_All.Length && index > -1 && PLC_All[index].OnlineStatus != val)
             {
-                if(PLC_All[index].OnlineStatus && !val)
-                {
-                    EventHappened?.Invoke((index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!"));
-                }
-
                 PLC_All[index].OnlineStatus = val;
+                EventHappened?.Invoke(val ? (index, EventType.Normal, DateTime.Now, "PLC NO. " + (Index + 1) + " Online!") :
+                                            (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!"));
             }
         }
 
+        /// <summary>財產編號儲存位置</summary>
+        private const string AssetNumbersPath = "AssetNumbers.json";
+
         /// <summary>心跳信號位置</summary>
         private const int Check_Dev = 21;
+
+        /// <summary>設備碼儲存位置</summary>
+        private const string MachineCodesPath = "MachineCodes.json";
+
         /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
-        /// <summary>
-        /// 設備碼儲存位置
-        /// </summary>
-        private const string MachineCodesPath = "MachineCodes.json";
-        /// <summary>
-        /// 財產編號儲存位置
-        /// </summary>
-        private const string AssetNumbersPath = "AssetNumbers.json";
+
         private readonly InstanceContext site;
+
         /// <summary>wcf連線client</summary>
         private GPServiceClient PLC_Client;
+
         /// <summary>回到總覽頁</summary>
         public RelayCommand BackCommand { get; }
+
         /// <summary>所有PLC</summary>
         public PLC_DataProvider[] PLC_All { get; }
+
         /// <summary>檢視詳細資訊的PLC</summary>
         public PLC_DataProvider PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
+
         /// <summary>產量統計</summary>
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
+
         public int TotalProductionCount => TotalProduction.Sum(x => x.Value);
 
         /// <summary>PLC Gate連線狀態</summary>
@@ -126,37 +129,10 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public event Action<(int StationIndex, ICollection<ProcessInfo> Infos)> AddRecordToDB;
-        public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
-        public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
-        public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
         public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
-
-        /// <summary>讀取設備碼</summary>
-        public void LoadMachineCodes()
-        {
-            if (File.Exists(MachineCodesPath))
-            {
-                try
-                {
-                    var vals = MachineCodesPath.ReadFromJsonFile<string[]>();
-
-                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Length); i++)
-                    {
-                        PLC_All[i].OvenInfo.MachineCode = vals[i];
-                    }
-
-                    return;
-                }
-                catch
-                {
-                }
-            }
-
-            for (var i = 0; i < PLC_All.Length; i++)
-            {
-                PLC_All[i].OvenInfo.MachineCode = "Machine" + (i + 1).ToString("00");
-            }
-        }
+        public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
+        public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
+        public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
 
         /// <summary>讀取財產編號</summary>
         public void LoadAssetNumbers()
@@ -185,15 +161,30 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        /// <summary>儲存設備碼</summary>
-        public void SaveMachineCodes(string path)
+        /// <summary>讀取設備碼</summary>
+        public void LoadMachineCodes()
         {
-            try
+            if (File.Exists(MachineCodesPath))
             {
-                PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray().WriteToJsonFile(path);
+                try
+                {
+                    var vals = MachineCodesPath.ReadFromJsonFile<string[]>();
+
+                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Length); i++)
+                    {
+                        PLC_All[i].OvenInfo.MachineCode = vals[i];
+                    }
+
+                    return;
+                }
+                catch
+                {
+                }
             }
-            catch
+
+            for (var i = 0; i < PLC_All.Length; i++)
             {
+                PLC_All[i].OvenInfo.MachineCode = "Machine" + (i + 1).ToString("00");
             }
         }
 
@@ -203,6 +194,18 @@ namespace GPGO_MultiPLCs.ViewModels
             try
             {
                 PLC_All.Select(x => x.OvenInfo.AssetNumber).ToArray().WriteToJsonFile(path);
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>儲存設備碼</summary>
+        public void SaveMachineCodes(string path)
+        {
+            try
+            {
+                PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray().WriteToJsonFile(path);
             }
             catch
             {
@@ -397,14 +400,14 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 //!由台車code取得前端生產資訊
                 PLC_All[i].WantFrontData += async TrolleyCode =>
-                                           {
-                                               if (WantFrontData != null)
-                                               {
-                                                   return await WantFrontData.Invoke(TrolleyCode);
-                                               }
+                                            {
+                                                if (WantFrontData != null)
+                                                {
+                                                    return await WantFrontData.Invoke(TrolleyCode);
+                                                }
 
-                                               return null;
-                                           };
+                                                return null;
+                                            };
 
                 //!由OP變更設備代碼時
                 PLC_All[i].MachineCodeChanged += code =>
@@ -463,6 +466,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     {
                                         if (Connect() && Initial() && SetReadLists(namearray)) //!連線並發送訂閱列表
                                         {
+                                            EventHappened?.Invoke((-1, EventType.Normal, DateTime.Now, "PLC Gate Online!"));
                                             Gate_Status = true;
                                         }
                                     }
