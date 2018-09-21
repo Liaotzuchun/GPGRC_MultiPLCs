@@ -31,13 +31,13 @@ namespace GPGO_MultiPLCs.Views
                 return;
             }
 
-            if (target.TryFindResource(newVal.Item1) == null)
+            if (target.TryFindResource(newVal.Item1.ToString()) == null)
             {
-                target.SetValue(dp, newVal.Item1);
+                target.SetValue(dp, dp.PropertyType == typeof(string) || dp.Name == "Header" ? newVal.Item1.ToString() : newVal.Item1);
             }
             else
             {
-                target.SetResourceReference(dp, newVal.Item1);
+                target.SetResourceReference(dp, dp.PropertyType == typeof(string) || dp.Name == "Header" ? newVal.Item1.ToString() : newVal.Item1);
             }
         }
 

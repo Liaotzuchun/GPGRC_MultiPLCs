@@ -63,6 +63,7 @@ namespace GPGO_MultiPLCs.Helpers
                     filter.IsEnableChanged += InvokeChangeEvent;
                 }
 
+                AllCommand.Result = false;
                 Set(value);
             }
         }

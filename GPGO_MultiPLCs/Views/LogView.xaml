@@ -50,7 +50,7 @@
             x:Key="EqualFilterTemplate"
             DataType="helpers:EqualFilter">
             <MenuItem
-                Header="{Binding Value, Mode=OneWay}"
+                Header="{local:ResourceBinding Value, Mode=OneWay}"
                 IsCheckable="True"
                 IsChecked="{Binding IsEnabled, Mode=TwoWay}"
                 StaysOpenOnClick="True" />
@@ -526,7 +526,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding Type, Mode=OneWay}" />
+                                <TextBlock Text="{local:ResourceBinding Type, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

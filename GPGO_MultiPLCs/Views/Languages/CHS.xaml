@@ -136,8 +136,8 @@
     <sys:String x:Key="關閉">关闭</sys:String>
     <sys:String x:Key="輸入">输入</sys:String>
     <sys:String x:Key="以前">距现在</sys:String>
-    <sys:String x:Key="一般">一般</sys:String>
-    <sys:String x:Key="觸發">触发</sys:String>
-    <sys:String x:Key="操作">操作</sys:String>
-    <sys:String x:Key="警報">警报</sys:String>
+    <sys:String x:Key="Normal">一般</sys:String>
+    <sys:String x:Key="Trigger">触发</sys:String>
+    <sys:String x:Key="Operator">操作</sys:String>
+    <sys:String x:Key="Alarm">警报</sys:String>
 </ResourceDictionary>
