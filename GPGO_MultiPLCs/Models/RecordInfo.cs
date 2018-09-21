@@ -28,7 +28,7 @@ namespace GPGO_MultiPLCs.Models
                 return Colors.Blue;
             }
 
-            return (EventType)value == EventType.Action ? Colors.DarkOrange : Colors.Red;
+            return (EventType)value == EventType.Operator ? Colors.DarkOrange : Colors.Red;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -67,7 +67,7 @@ namespace GPGO_MultiPLCs.Models
     {
         Normal,     //一般事件
         Trigger,    //觸發事件
-        Action,     //操作事件
+        Operator,   //OP操作事件
         Alarm       //警報事件
     }
 
@@ -95,5 +95,8 @@ namespace GPGO_MultiPLCs.Models
 
         [LanguageTranslator("Type", "類型", "类型")]
         public EventType Type { get; set; }
+
+        [LanguageTranslator("Value", "值", "值")]
+        public bool Value { get; set; }
     }
 }

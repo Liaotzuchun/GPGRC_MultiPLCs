@@ -54,8 +54,8 @@ namespace GPGO_MultiPLCs.ViewModels
             if (index < PLC_All.Length && index > -1 && PLC_All[index].OnlineStatus != val)
             {
                 PLC_All[index].OnlineStatus = val;
-                EventHappened?.Invoke(val ? (index, EventType.Normal, DateTime.Now, "PLC NO. " + (Index + 1) + " Online!") :
-                                            (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!"));
+                EventHappened?.Invoke(val ? (index, EventType.Normal, DateTime.Now, "PLC NO. " + (Index + 1) + " Online!", true) :
+                                            (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!", false));
             }
         }
 
@@ -130,7 +130,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, ICollection<ProcessInfo> Infos)> AddRecordToDB;
         public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
-        public event Action<(int StationIndex, EventType type, DateTime time, string note)> EventHappened;
+        public event Action<(int StationIndex, EventType type, DateTime time, string note, object value)> EventHappened;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
         public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
 
@@ -437,7 +437,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!PLC事件紀錄
                 PLC_All[i].EventHappened += e =>
                                             {
-                                                EventHappened?.Invoke((index, e.type, e.time, e.note));
+                                                EventHappened?.Invoke((index, e.type, e.time, e.note, e.value));
                                             };
 
                 //!取消投產
@@ -466,13 +466,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                     {
                                         if (Connect() && Initial() && SetReadLists(namearray)) //!連線並發送訂閱列表
                                         {
-                                            EventHappened?.Invoke((-1, EventType.Normal, DateTime.Now, "PLC Gate Online!"));
+                                            EventHappened?.Invoke((-1, EventType.Normal, DateTime.Now, "PLC Gate Online!", true));
                                             Gate_Status = true;
                                         }
                                     }
                                     else if (!Check() && Gate_Status)
                                     {
-                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!"));
+                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", false));
 
                                         Gate_Status = false;
 

@@ -154,7 +154,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Action<string> CancelCheckIn;
 
-        public event Action<(EventType type, DateTime time, string note)> EventHappened;
+        public event Action<(EventType type, DateTime time, string note, object value)> EventHappened;
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
@@ -568,7 +568,7 @@ namespace GPGO_MultiPLCs.Models
 
                                          if (key1 == SignalNames.自動啟動)
                                          {
-                                             EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
+                                             EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString(), value));
 
                                              if(!value) return;
 
@@ -589,26 +589,28 @@ namespace GPGO_MultiPLCs.Models
                                          }
                                          else if (IsRecording)
                                          {
+                                             var str = key2.ToString("M# ") + key1.ToString();
+
                                              if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
                                              {
-                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
-                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
+                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, str, value));
+                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, str);
 
                                                  if (!value) return;
                                                  CTS?.Cancel();
                                              }
                                              else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
                                              {
-                                                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key1.ToString()));
-                                                 AddProcessEvent(EventType.Alarm, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
+                                                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, str, value));
+                                                 AddProcessEvent(EventType.Alarm, sw.Elapsed, str);
 
                                                  if (!value) return;
                                                  CTS?.Cancel();
                                              }
                                              else if (key1 == SignalNames.降溫中)
                                              {
-                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString()));
-                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, key2.ToString("M# ") + key1.ToString());
+                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, str, value));
+                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, str);
                                                  NotifyPropertyChanged(nameof(ProgressStatus));
                                              }
                                          }
