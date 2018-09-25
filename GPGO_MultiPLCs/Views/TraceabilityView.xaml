@@ -423,7 +423,7 @@
                     <DataTemplate DataType="models:ProcessInfo">
                         <Grid Height="222">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="240" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <DataGrid
@@ -472,6 +472,46 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="models:RecordEvent">
                                                 <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="Auto">
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock Text="{DynamicResource 值}" />
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="models:LogEvent">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="24" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Ellipse
+                                                        x:Name="Ellipse"
+                                                        Width="10"
+                                                        Height="10"
+                                                        Margin="0,0,4,0"
+                                                        Fill="{StaticResource DisabledBackgroundBrush}"
+                                                        Stroke="{StaticResource DisabledBorderBrush}"
+                                                        StrokeThickness="1" />
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                                                </Grid>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding Value, Mode=OneWay}"
+                                                        Value="True">
+                                                        <Setter TargetName="Ellipse" Property="Fill" Value="Cyan" />
+                                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBrush}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Value, Mode=OneWay}"
+                                                        Value="False">
+                                                        <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
+                                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

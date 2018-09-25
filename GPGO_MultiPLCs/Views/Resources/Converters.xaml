@@ -29,4 +29,6 @@
     <local:SumValueConverter x:Key="SumValueConverter" />
     <local:ConstValue x:Key="ConstValue" />
     <local:TimespanAgo x:Key="TimespanAgo" />
+    <local:BoolOnOff x:Key="BoolOnOff" />
+    <local:StringCombiner x:Key="StringCombiner" />
 </ResourceDictionary>

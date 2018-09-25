@@ -553,9 +553,8 @@
                                         Stroke="{StaticResource DisabledBorderBrush}"
                                         StrokeThickness="1" />
                                     <TextBlock
-                                        x:Name="TextBlock"
                                         Grid.Column="1"
-                                        Text="Off" />
+                                        Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <DataTrigger
@@ -563,14 +562,12 @@
                                         Value="True">
                                         <Setter TargetName="Ellipse" Property="Fill" Value="Cyan" />
                                         <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBrush}" />
-                                        <Setter TargetName="TextBlock" Property="Text" Value="ON" />
                                     </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding Value, Mode=OneWay}"
                                         Value="False">
                                         <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
                                         <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
-                                        <Setter TargetName="TextBlock" Property="Text" Value="OFF" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

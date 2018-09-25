@@ -8,6 +8,19 @@ using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views
 {
+    public class BoolOnOff : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is bool booValue ? booValue ? "ON" : "OFF" : "OFF";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is string strValue && strValue == "ON";
+        }
+    }
+
     public class TimespanAgo : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

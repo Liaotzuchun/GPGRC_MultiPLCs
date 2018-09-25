@@ -73,7 +73,9 @@ namespace GPGO_MultiPLCs.Helpers
             return Filter.Any(x => x.Check(val)) || Filter.TrueForAll(x => !x.IsEnabled);
         }
 
-        public FilterGroup(Action StatusChangedAct)
+        /// <summary></summary>
+        /// <param name="StatusChangedAct">當過濾條件變更時指定執行之委派</param>
+        public FilterGroup(Action StatusChangedAct = null)
         {
             AllCommand = new CommandWithResult<bool>(e =>
                                                      {

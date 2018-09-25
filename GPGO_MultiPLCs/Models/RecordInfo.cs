@@ -65,10 +65,10 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>事件類型</summary>
     public enum EventType
     {
-        Normal,     //一般事件
-        Trigger,    //觸發事件
-        Operator,   //OP操作事件
-        Alarm       //警報事件
+        Normal, //一般事件
+        Trigger, //觸發事件
+        Operator, //OP操作事件
+        Alarm //警報事件
     }
 
     /// <summary>事件紀錄</summary>
@@ -78,6 +78,9 @@ namespace GPGO_MultiPLCs.Models
         public string Description { get; set; }
         public TimeSpan Time { get; set; }
         public EventType Type { get; set; }
+        public bool Value { get; set; }
+
+        public override string ToString() => Description + (Value ? " (ON)" : " (OFF)");
     }
 
     [BsonIgnoreExtraElements]
@@ -92,6 +95,9 @@ namespace GPGO_MultiPLCs.Models
         //!站號由1開始
         [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
         public int StationNumber { get; set; }
+
+        [LanguageTranslator("Tag", "標籤", "标签")]
+        public string Tag { get; set; }
 
         [LanguageTranslator("Type", "類型", "类型")]
         public EventType Type { get; set; }

@@ -162,9 +162,9 @@ namespace GPGO_MultiPLCs.Models
         public event Func<(string RecipeName, bool UpdateToPLC), ValueTask<PLC_Recipe>> SwitchRecipeEvent;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
-        public void AddProcessEvent(EventType type, TimeSpan time, string note)
+        public void AddProcessEvent(EventType type, TimeSpan time, string note, bool value)
         {
-            OvenInfo.EventList.Add(new RecordEvent { Type = type, Time = time, Description = note });
+            OvenInfo.EventList.Add(new RecordEvent { Type = type, Time = time, Description = note, Value = value});
         }
 
         public void AddTemperatures(TimeSpan time, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
@@ -594,7 +594,7 @@ namespace GPGO_MultiPLCs.Models
                                              if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
                                              {
                                                  EventHappened?.Invoke((EventType.Normal, DateTime.Now, str, value));
-                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, str);
+                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, str, value);
 
                                                  if (!value) return;
                                                  CTS?.Cancel();
@@ -602,7 +602,7 @@ namespace GPGO_MultiPLCs.Models
                                              else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
                                              {
                                                  EventHappened?.Invoke((EventType.Alarm, DateTime.Now, str, value));
-                                                 AddProcessEvent(EventType.Alarm, sw.Elapsed, str);
+                                                 AddProcessEvent(EventType.Alarm, sw.Elapsed, str, value);
 
                                                  if (!value) return;
                                                  CTS?.Cancel();
@@ -610,7 +610,7 @@ namespace GPGO_MultiPLCs.Models
                                              else if (key1 == SignalNames.降溫中)
                                              {
                                                  EventHappened?.Invoke((EventType.Normal, DateTime.Now, str, value));
-                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, str);
+                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, str, value);
                                                  NotifyPropertyChanged(nameof(ProgressStatus));
                                              }
                                          }
@@ -626,7 +626,7 @@ namespace GPGO_MultiPLCs.Models
                                              {
                                                  AddProcessEvent(EventType.Normal,
                                                                  sw.Elapsed,
-                                                                 CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"));
+                                                                 CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"), true);
                                              }
 
                                              NotifyPropertyChanged(nameof(Progress));
