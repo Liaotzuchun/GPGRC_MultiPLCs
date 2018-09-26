@@ -539,12 +539,10 @@
                                                                  Mode=OneWay}" />
                                 <TextBlock
                                     x:Name="text2"
-                                    Text="{Binding (models:RecordEvent.Value), Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                                    Text="{Binding (models:RecordEvent.Value), Mode=OneWay, Converter={StaticResource BoolOnOff}, StringFormat={} ({0})}" />
                                 <TextBlock x:Name="text3">
                                     <TextBlock.Text>
-                                        <MultiBinding
-                                            Converter="{StaticResource StringCombiner}"
-                                            ConverterParameter=" ">
+                                        <MultiBinding Converter="{StaticResource StringCombiner}">
                                             <Binding
                                                 ElementName="text1"
                                                 Mode="OneWay"
