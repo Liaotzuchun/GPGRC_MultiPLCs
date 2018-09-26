@@ -530,6 +530,33 @@
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
+                            <StackPanel
+                                DataContext="{Binding SelectedItem, ElementName=dg2, Mode=OneWay}"
+                                Visibility="Collapsed">
+                                <TextBlock
+                                    x:Name="text1"
+                                    Text="{local:ResourceBinding (models:RecordEvent.Description),
+                                                                 Mode=OneWay}" />
+                                <TextBlock
+                                    x:Name="text2"
+                                    Text="{Binding (models:RecordEvent.Value), Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                                <TextBlock x:Name="text3">
+                                    <TextBlock.Text>
+                                        <MultiBinding
+                                            Converter="{StaticResource StringCombiner}"
+                                            ConverterParameter=" ">
+                                            <Binding
+                                                ElementName="text1"
+                                                Mode="OneWay"
+                                                Path="Text" />
+                                            <Binding
+                                                ElementName="text2"
+                                                Mode="OneWay"
+                                                Path="Text" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
                             <oxy:Plot
                                 Grid.Column="1"
                                 Background="{StaticResource WindowBackgroundBrush2}"
@@ -707,8 +734,7 @@
                                         DataContext="{Binding SelectedItem, ElementName=dg2, Mode=OneWay}"
                                         FontSize="12"
                                         StrokeThickness="{Binding SelectedIndex, ElementName=dg2, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                        Text="{local:ResourceBinding (models:RecordEvent.Description),
-                                                                     Mode=OneWay}"
+                                        Text="{Binding Text, ElementName=text3, Mode=OneWay}"
                                         TextColor="{Binding (models:RecordEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
                                         TextHorizontalAlignment="Center"
                                         TextOrientation="Horizontal"
