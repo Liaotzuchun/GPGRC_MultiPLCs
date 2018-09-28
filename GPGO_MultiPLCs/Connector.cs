@@ -73,6 +73,8 @@ namespace GPGO_MultiPLCs
         /// <param name="PLC_Count"></param>
         public void MakeTestData(int PLC_Count)
         {
+            var tags = new[] { "", "M100", "M101", "M102", "M103", "M104", "M105", "M106", "M107", "M108", "M109", "M110", "M111", "M112", "M113", "M114", "", "", "", "", "" };
+
             var events = new[]
                          {
                              "自動停止",
@@ -117,7 +119,15 @@ namespace GPGO_MultiPLCs
                         {
                             if (rn.Next(0, 100) > 96)
                             {
-                                LogVM.AddToDB(new LogEvent { StationNumber = i + 1, AddedTime = st + t, Description = "", Type = (EventType)rn.Next(0, 4), Value = Convert.ToBoolean(rn.Next(0, 2)) });
+                                LogVM.AddToDB(new LogEvent
+                                              {
+                                                  StationNumber = i + 1,
+                                                  AddedTime = st + t,
+                                                  Description = events[rn.Next(0, events.Length)],
+                                                  Tag = tags[rn.Next(0, tags.Length)],
+                                                  Type = (EventType)rn.Next(0, 4),
+                                                  Value = Convert.ToBoolean(rn.Next(0, 2))
+                                              });
                             }
 
                             var mins = (int)t.TotalMinutes + 1;
@@ -517,7 +527,14 @@ namespace GPGO_MultiPLCs
 
             TotalVM.EventHappened += e =>
                                      {
-                                         LogVM.AddToDB(new LogEvent { StationNumber = e.StationIndex + 1, AddedTime = e.time, Type = e.type, Description = e.note, Tag = e.tag});
+                                         LogVM.AddToDB(new LogEvent
+                                                       {
+                                                           StationNumber = e.StationIndex + 1,
+                                                           AddedTime = e.time,
+                                                           Type = e.type,
+                                                           Description = e.note,
+                                                           Tag = e.tag
+                                                       });
                                      };
 
             //!更新每日產量

@@ -5,6 +5,7 @@
     <Style
         x:Key="{x:Type Menu}"
         TargetType="{x:Type Menu}">
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -466,6 +467,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="UsesItemContainerTemplate" Value="False" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
