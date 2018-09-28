@@ -10,7 +10,9 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Join(parameter is string str ? str : "", values.Cast<string>());
+            var strs = values.Select(x => x is string str ? str : "");
+
+            return string.Join(parameter is string _str ? _str : "", strs);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

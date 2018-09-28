@@ -522,39 +522,13 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="models:RecordEvent">
                                                 <TextBlock
-                                                    Text="{local:ResourceBinding Description,
-                                                                                 Mode=OneWay}"
+                                                    Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
                                                     TextTrimming="CharacterEllipsis" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            <StackPanel
-                                DataContext="{Binding SelectedItem, ElementName=dg2, Mode=OneWay}"
-                                Visibility="Collapsed">
-                                <TextBlock
-                                    x:Name="text1"
-                                    Text="{local:ResourceBinding (models:RecordEvent.Description),
-                                                                 Mode=OneWay}" />
-                                <TextBlock
-                                    x:Name="text2"
-                                    Text="{Binding (models:RecordEvent.Value), Mode=OneWay, Converter={StaticResource BoolOnOff}, StringFormat={} ({0})}" />
-                                <TextBlock x:Name="text3">
-                                    <TextBlock.Text>
-                                        <MultiBinding Converter="{StaticResource StringCombiner}">
-                                            <Binding
-                                                ElementName="text1"
-                                                Mode="OneWay"
-                                                Path="Text" />
-                                            <Binding
-                                                ElementName="text2"
-                                                Mode="OneWay"
-                                                Path="Text" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </StackPanel>
                             <oxy:Plot
                                 Grid.Column="1"
                                 Background="{StaticResource WindowBackgroundBrush2}"
@@ -732,14 +706,26 @@
                                         DataContext="{Binding SelectedItem, ElementName=dg2, Mode=OneWay}"
                                         FontSize="12"
                                         StrokeThickness="{Binding SelectedIndex, ElementName=dg2, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                        Text="{Binding Text, ElementName=text3, Mode=OneWay}"
                                         TextColor="{Binding (models:RecordEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
                                         TextHorizontalAlignment="Center"
                                         TextOrientation="Horizontal"
                                         TextVerticalAlignment="Bottom"
                                         Type="Vertical"
                                         X="{Binding (models:RecordEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
-                                        Color="{Binding TextColor, RelativeSource={RelativeSource Self}}" />
+                                        Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">
+                                        <oxy:LineAnnotation.Text>
+                                            <MultiBinding StringFormat="{}{0} ({1})">
+                                                <Binding
+                                                    Converter="{local:StringToResource}"
+                                                    Mode="OneWay"
+                                                    Path="(models:RecordEvent.Description)" />
+                                                <Binding
+                                                    Converter="{StaticResource BoolOnOff}"
+                                                    Mode="OneWay"
+                                                    Path="(models:RecordEvent.Value)" />
+                                            </MultiBinding>
+                                        </oxy:LineAnnotation.Text>
+                                    </oxy:LineAnnotation>
                                 </oxy:Plot.Annotations>
                                 <oxy:Plot.DefaultTrackerTemplate>
                                     <ControlTemplate>

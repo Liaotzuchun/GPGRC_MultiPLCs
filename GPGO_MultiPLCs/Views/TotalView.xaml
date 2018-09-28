@@ -2044,7 +2044,7 @@
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate DataType="models:RecordEvent">
-                                                    <TextBlock Text="{local:ResourceBinding Description, Mode=OneWay}" />
+                                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
@@ -2228,8 +2228,7 @@
                                             DataContext="{Binding SelectedItem, ElementName=dg, Mode=OneWay}"
                                             FontSize="12"
                                             StrokeThickness="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                            Text="{local:ResourceBinding (models:RecordEvent.Description),
-                                                                         Mode=OneWay}"
+                                            Text="{Binding (models:RecordEvent.Description), Mode=OneWay, Converter={local:StringToResource}}"
                                             TextColor="{Binding (models:RecordEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
                                             TextHorizontalAlignment="Center"
                                             TextOrientation="Horizontal"
