@@ -14,8 +14,9 @@ namespace GPGO_MultiPLCs.Views
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string str)
+            if (value != null)
             {
+                var str = value.ToString();
                 var obj = _target?.TryFindResource(str) ?? Application.Current.TryFindResource(str);
                 return obj ?? str;
             }

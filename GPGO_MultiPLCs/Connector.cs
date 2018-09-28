@@ -517,7 +517,7 @@ namespace GPGO_MultiPLCs
 
             TotalVM.EventHappened += e =>
                                      {
-                                         LogVM.AddToDB(new LogEvent { StationNumber = e.StationIndex + 1, AddedTime = e.time, Type = e.type, Description = e.note });
+                                         LogVM.AddToDB(new LogEvent { StationNumber = e.StationIndex + 1, AddedTime = e.time, Type = e.type, Description = e.note, Tag = e.tag});
                                      };
 
             //!更新每日產量

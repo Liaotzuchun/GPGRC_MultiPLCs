@@ -578,9 +578,21 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:LogEvent">
-                                <TextBlock
-                                    Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
-                                    TextTrimming="CharacterEllipsis" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Border
+                                        Margin="0,0,4,0"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="0,0,1,0"
+                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource StrCheckVis}}">
+                                        <TextBlock
+                                            Margin="0,0,4,0"
+                                            Text="{Binding Tag, Mode=OneWay, Converter={local:StringToResource}}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </Border>
+                                    <TextBlock
+                                        Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
