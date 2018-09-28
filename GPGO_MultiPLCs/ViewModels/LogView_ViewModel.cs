@@ -23,6 +23,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToFileCommand { get; }
 
+        /// <summary>Slider的Maximum值，以0起始，總數-1</summary>
         public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
 
         /// <summary>基於事件類型的Filter</summary>
@@ -102,6 +103,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 {
                                                     ex.RecordError("CSV輸出資料夾無法創建");
                                                     result = false;
+
                                                     return;
                                                 }
                                             }
@@ -124,7 +126,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 ex.RecordError("輸出CSV失敗");
                                                 result = false;
                                             }
-                                        });        
+                                        });
 
             Standby = true;
 
@@ -144,14 +146,13 @@ namespace GPGO_MultiPLCs.ViewModels
             ToFileCommand = new RelayCommand(async o =>
                                              {
                                                  var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\EventLogs";
-                                                 if(await SaveToCSV(path))
+                                                 if (await SaveToCSV(path))
                                                  {
                                                      dialog?.Show(new Dictionary<Language, string>
                                                                   {
-                                                                      { Language.TW, "檔案已輸出至\n" + path },
-                                                                      { Language.CHS, "档案已输出至\n" + path },
-                                                                      { Language.EN, "The file has been output to\n" + path }
-                                                                  }, TimeSpan.FromSeconds(6));
+                                                                      { Language.TW, "檔案已輸出至\n" + path }, { Language.CHS, "档案已输出至\n" + path }, { Language.EN, "The file has been output to\n" + path }
+                                                                  },
+                                                                  TimeSpan.FromSeconds(6));
                                                  }
                                              });
 

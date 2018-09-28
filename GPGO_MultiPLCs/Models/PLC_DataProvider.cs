@@ -589,28 +589,26 @@ namespace GPGO_MultiPLCs.Models
                                          }
                                          else if (IsRecording)
                                          {
-                                             var str = key2.ToString("M# ") + key1.ToString();
-
                                              if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
                                              {
-                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, str, value));
-                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, str, value);
+                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString(), value));
+                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, key1.ToString(), value);
 
                                                  if (!value) return;
                                                  CTS?.Cancel();
                                              }
                                              else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
                                              {
-                                                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, str, value));
-                                                 AddProcessEvent(EventType.Alarm, sw.Elapsed, str, value);
+                                                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key1.ToString(), value));
+                                                 AddProcessEvent(EventType.Alarm, sw.Elapsed, key1.ToString(), value);
 
                                                  if (!value) return;
                                                  CTS?.Cancel();
                                              }
                                              else if (key1 == SignalNames.降溫中)
                                              {
-                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, str, value));
-                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, str, value);
+                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString(), value));
+                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, key1.ToString(), value);
                                                  NotifyPropertyChanged(nameof(ProgressStatus));
                                              }
                                          }

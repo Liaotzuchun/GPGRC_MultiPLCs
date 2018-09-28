@@ -54,8 +54,8 @@ namespace GPGO_MultiPLCs.ViewModels
             if (index < PLC_All.Length && index > -1 && PLC_All[index].OnlineStatus != val)
             {
                 PLC_All[index].OnlineStatus = val;
-                EventHappened?.Invoke(val ? (index, EventType.Normal, DateTime.Now, "PLC NO. " + (Index + 1) + " Online!", true) :
-                                            (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!", false));
+                EventHappened?.Invoke(val ? (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!", false) :
+                                            (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!", true));
             }
         }
 
@@ -466,13 +466,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                     {
                                         if (Connect() && Initial() && SetReadLists(namearray)) //!連線並發送訂閱列表
                                         {
-                                            EventHappened?.Invoke((-1, EventType.Normal, DateTime.Now, "PLC Gate Online!", true));
+                                            EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", false));
                                             Gate_Status = true;
                                         }
                                     }
                                     else if (!Check() && Gate_Status)
                                     {
-                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", false));
+                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", true));
 
                                         Gate_Status = false;
 
