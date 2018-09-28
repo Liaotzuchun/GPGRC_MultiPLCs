@@ -581,7 +581,8 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock
                                         Margin="0,0,4,0"
-                                        Text="{Binding Tag, Mode=OneWay, Converter={local:StringToResource}, StringFormat={}({0})}" />
+                                        Text="{Binding Tag, Mode=OneWay, Converter={local:StringToResource}, StringFormat={}({0})}"
+                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource StrCheckVis}}" />
                                     <TextBlock
                                         Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
                                         TextTrimming="CharacterEllipsis" />
