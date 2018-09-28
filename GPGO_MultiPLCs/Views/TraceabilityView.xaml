@@ -1299,30 +1299,29 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0" />
                                 <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
                                 <ColumnDefinition Width="110" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <ToggleButton
-                                x:Name="tb1"
+                            <ListBox
                                 Grid.Column="1"
-                                Padding="8"
-                                Content="{DynamicResource 日期時間}"
-                                IsChecked="{Binding Mode, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                            <ToggleButton
-                                Grid.Column="2"
-                                Width="{Binding ActualWidth, ElementName=tb1, Mode=OneWay}"
-                                Padding="8"
-                                Content="{DynamicResource 設備}"
-                                IsChecked="{Binding Mode, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                            <ToggleButton
-                                Grid.Column="3"
-                                Padding="8"
-                                Content="{DynamicResource 工單}"
-                                IsChecked="{Binding Mode, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
+                                ItemContainerStyle="{StaticResource ListBoxItem2}"
+                                SelectedIndex="{Binding Mode, Mode=TwoWay}">
+                                <ListBox.Template>
+                                    <ControlTemplate>
+                                        <ItemsPresenter />
+                                    </ControlTemplate>
+                                </ListBox.Template>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <TextBlock Text="{DynamicResource 日期時間}" />
+                                <TextBlock Text="{DynamicResource 設備}" />
+                                <TextBlock Text="{DynamicResource 工單}" />
+                            </ListBox>
                             <Border
-                                Grid.Column="4"
+                                Grid.Column="2"
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1">
@@ -1332,7 +1331,7 @@
                                     Text="{DynamicResource 生產總量}" />
                             </Border>
                             <Border
-                                Grid.Column="5"
+                                Grid.Column="3"
                                 Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,1,1">

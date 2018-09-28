@@ -78,24 +78,25 @@
             </Grid>
         </Grid>
         <Grid Background="{StaticResource LightColorBrush}">
-            <UniformGrid Rows="1">
-                <ToggleButton
-                    Content="{DynamicResource 生產頁面}"
-                    FontSize="20"
-                    IsChecked="{Binding ViewIndex, ConverterParameter=0, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                <ToggleButton
-                    Content="{DynamicResource 配方管理}"
-                    FontSize="20"
-                    IsChecked="{Binding ViewIndex, ConverterParameter=1, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                <ToggleButton
-                    Content="{DynamicResource 生產履歷}"
-                    FontSize="20"
-                    IsChecked="{Binding ViewIndex, ConverterParameter=2, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                <ToggleButton
-                    Content="{DynamicResource 事件履歷}"
-                    FontSize="20"
-                    IsChecked="{Binding ViewIndex, ConverterParameter=3, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-            </UniformGrid>
+            <ListBox
+                FontSize="20"
+                ItemContainerStyle="{StaticResource ListBoxItem2}"
+                SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="1" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <TextBlock Text="{DynamicResource 生產頁面}" />
+                <TextBlock Text="{DynamicResource 配方管理}" />
+                <TextBlock Text="{DynamicResource 生產履歷}" />
+                <TextBlock Text="{DynamicResource 事件履歷}" />
+            </ListBox>
         </Grid>
         <Border
             Grid.Column="1"
