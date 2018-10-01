@@ -6,6 +6,21 @@ using System.Windows.Data;
 
 namespace GPGO_MultiPLCs.Views
 {
+    public class SubTimespanConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            var times = values.Where(x => x is DateTime).Cast<DateTime>().ToArray();
+
+            return times.Length > 1 ? (times[0] < times[1] ? "- " : "") + (times[0] - times[1]).ToString("d' days 'h'h 'm'm 's's'") : "";
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class StringCombiner : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

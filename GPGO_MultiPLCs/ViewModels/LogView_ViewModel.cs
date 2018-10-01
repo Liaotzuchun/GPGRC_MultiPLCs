@@ -62,6 +62,23 @@ namespace GPGO_MultiPLCs.ViewModels
         public List<LogEvent> ViewResults
         {
             get => Get<List<LogEvent>>();
+            set
+            {
+                Set(value);
+                ViewResults_On = value?.Where(x => x.Value).ToList();
+                ViewResults_Off = value?.Where(x => !x.Value).ToList();
+            }
+        }
+
+        public List<LogEvent> ViewResults_On
+        {
+            get => Get<List<LogEvent>>();
+            set => Set(value);
+        }
+
+        public List<LogEvent> ViewResults_Off
+        {
+            get => Get<List<LogEvent>>();
             set => Set(value);
         }
 

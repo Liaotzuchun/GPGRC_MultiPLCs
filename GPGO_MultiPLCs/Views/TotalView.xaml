@@ -1991,7 +1991,7 @@
                                     x:Name="dg"
                                     AutoGenerateColumns="False"
                                     BorderThickness="0,0,1,0"
-                                    FontSize="11"
+                                    FontSize="12"
                                     ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}">
                                     <DataGrid.RowHeaderTemplate>
                                         <DataTemplate>

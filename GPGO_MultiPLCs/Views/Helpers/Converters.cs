@@ -25,7 +25,7 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is DateTime time ? (DateTime.Now - time) : default(TimeSpan);
+            return value is DateTime time ? (DateTime.Now < time ? "- " : "") + (DateTime.Now - time).ToString("d' days 'h'h 'm'm 's's'") : "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

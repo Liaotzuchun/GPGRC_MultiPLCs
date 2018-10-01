@@ -31,4 +31,5 @@
     <local:TimespanAgo x:Key="TimespanAgo" />
     <local:BoolOnOff x:Key="BoolOnOff" />
     <local:StringCombiner x:Key="StringCombiner" />
+    <local:SubTimespanConverter x:Key="SubTimespanConverter" />
 </ResourceDictionary>

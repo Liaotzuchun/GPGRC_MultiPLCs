@@ -374,224 +374,465 @@
                     </i:Interaction.Triggers>
                 </Button>
             </Grid>
-            <DataGrid
-                x:Name="dg"
+            <Grid
                 Grid.Row="1"
-                Margin="0,4,0,0"
-                AutoGenerateColumns="False"
-                FontSize="11"
-                ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn
-                        Width="Auto"
-                        MinWidth="60">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 紀錄時間}" />
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn
-                        Width="Auto"
-                        MinWidth="60">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 以前}" />
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding AddedTime, Converter={StaticResource TimespanAgo}, Mode=OneWay, StringFormat={}{0:%d} days {0:%h}h {0:%m}m {0:%s}s}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn
-                        Width="Auto"
-                        HeaderStyle="{StaticResource ColumnFilterStyle}">
-                        <DataGridTemplateColumn.Header>
-                            <Menu>
-                                <MenuItem
-                                    ItemTemplate="{StaticResource EqualFilterTemplate}"
-                                    SubmenuClosed="MenuItem_SubmenuClosed">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                            <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <MenuItem.Header>
-                                        <Border>
-                                            <Grid Margin="4,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition Width="10" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock
-                                                    Margin="4,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Text="{DynamicResource 烤箱序號}" />
-                                                <Path
-                                                    Grid.Column="1"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Data="{StaticResource DownArrow}"
-                                                    Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" />
-                                                <Rectangle
-                                                    Grid.Column="1"
-                                                    Width="10"
-                                                    Height="10"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Fill="Cyan"
-                                                    Stroke="{StaticResource PressedBrush}"
-                                                    StrokeThickness="1"
-                                                    Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OvenFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
-                                            </Grid>
-                                        </Border>
-                                    </MenuItem.Header>
-                                    <MenuItem.ItemsSource>
-                                        <CompositeCollection>
-                                            <MenuItem
-                                                BorderThickness="0,0,0,1"
-                                                Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
-                                                Header="{DynamicResource 全部}" />
-                                            <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OvenFilterData}, Mode=OneWay}" />
-                                        </CompositeCollection>
-                                    </MenuItem.ItemsSource>
-                                </MenuItem>
-                            </Menu>
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn
-                        Width="Auto"
-                        HeaderStyle="{StaticResource ColumnFilterStyle}">
-                        <DataGridTemplateColumn.Header>
-                            <Menu>
-                                <MenuItem
-                                    ItemTemplate="{StaticResource EqualFilterTemplate}"
-                                    SubmenuClosed="MenuItem_SubmenuClosed">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                            <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource TypeFilterData}}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <MenuItem.Header>
-                                        <Border>
-                                            <Grid Margin="4,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition Width="10" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock
-                                                    Margin="4,0"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Text="{DynamicResource 類型}" />
-                                                <Path
-                                                    Grid.Column="1"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Data="{StaticResource DownArrow}"
-                                                    Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" />
-                                                <Rectangle
-                                                    Grid.Column="1"
-                                                    Width="10"
-                                                    Height="10"
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"
-                                                    Fill="Cyan"
-                                                    Stroke="{StaticResource PressedBrush}"
-                                                    StrokeThickness="1"
-                                                    Visibility="{Binding Data.AllCommand.Result, Source={StaticResource TypeFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
-                                            </Grid>
-                                        </Border>
-                                    </MenuItem.Header>
-                                    <MenuItem.ItemsSource>
-                                        <CompositeCollection>
-                                            <MenuItem
-                                                BorderThickness="0,0,0,1"
-                                                Command="{Binding Data.AllCommand, Source={StaticResource TypeFilterData}}"
-                                                Header="{DynamicResource 全部}" />
-                                            <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource TypeFilterData}, Mode=OneWay}" />
-                                        </CompositeCollection>
-                                    </MenuItem.ItemsSource>
-                                </MenuItem>
-                            </Menu>
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding Type, Mode=OneWay, Converter={local:StringToResource}}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn
-                        Width="Auto"
-                        MinWidth="60">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 值}" />
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:LogEvent">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="24" />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse
-                                        x:Name="Ellipse"
-                                        Width="10"
-                                        Height="10"
-                                        Margin="0,0,4,0"
-                                        Fill="{StaticResource DisabledBackgroundBrush}"
-                                        Stroke="{StaticResource DisabledBorderBrush}"
-                                        StrokeThickness="1" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
-                                </Grid>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger
-                                        Binding="{Binding Value, Mode=OneWay}"
-                                        Value="True">
-                                        <Setter TargetName="Ellipse" Property="Fill" Value="Cyan" />
-                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBrush}" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding Value, Mode=OneWay}"
-                                        Value="False">
-                                        <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
-                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 事件}" />
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:LogEvent">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock
-                                        Margin="0,0,4,0"
-                                        Text="{Binding Tag, Mode=OneWay, Converter={local:StringToResource}, StringFormat={}({0})}"
-                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource StrCheckVis}}" />
-                                    <TextBlock
-                                        Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
-                                        TextTrimming="CharacterEllipsis" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                Margin="0,4,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <DataGrid
+                    x:Name="dg1"
+                    AutoGenerateColumns="False"
+                    FontSize="12"
+                    ItemsSource="{Binding ViewResults_On, Mode=OneWay, IsAsync=True}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 紀錄時間}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 以前}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding AddedTime, Converter={StaticResource TimespanAgo}, Mode=OneWay}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            HeaderStyle="{StaticResource ColumnFilterStyle}">
+                            <DataGridTemplateColumn.Header>
+                                <Menu>
+                                    <MenuItem
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}"
+                                        SubmenuClosed="MenuItem_SubmenuClosed">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <MenuItem.Header>
+                                            <Border>
+                                                <Grid Margin="4,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="10" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Margin="4,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Text="{DynamicResource 烤箱序號}" />
+                                                    <Path
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Data="{StaticResource DownArrow}"
+                                                        Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" />
+                                                    <Rectangle
+                                                        Grid.Column="1"
+                                                        Width="10"
+                                                        Height="10"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Fill="Cyan"
+                                                        Stroke="{StaticResource PressedBrush}"
+                                                        StrokeThickness="1"
+                                                        Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OvenFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                </Grid>
+                                            </Border>
+                                        </MenuItem.Header>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    BorderThickness="0,0,0,1"
+                                                    Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OvenFilterData}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            HeaderStyle="{StaticResource ColumnFilterStyle}">
+                            <DataGridTemplateColumn.Header>
+                                <Menu>
+                                    <MenuItem
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}"
+                                        SubmenuClosed="MenuItem_SubmenuClosed">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource TypeFilterData}}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <MenuItem.Header>
+                                            <Border>
+                                                <Grid Margin="4,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="10" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Margin="4,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Text="{DynamicResource 類型}" />
+                                                    <Path
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Data="{StaticResource DownArrow}"
+                                                        Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" />
+                                                    <Rectangle
+                                                        Grid.Column="1"
+                                                        Width="10"
+                                                        Height="10"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Fill="Cyan"
+                                                        Stroke="{StaticResource PressedBrush}"
+                                                        StrokeThickness="1"
+                                                        Visibility="{Binding Data.AllCommand.Result, Source={StaticResource TypeFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                </Grid>
+                                            </Border>
+                                        </MenuItem.Header>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    BorderThickness="0,0,0,1"
+                                                    Command="{Binding Data.AllCommand, Source={StaticResource TypeFilterData}}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource TypeFilterData}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding Type, Mode=OneWay, Converter={local:StringToResource}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 值}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="24" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse
+                                            x:Name="Ellipse"
+                                            Width="10"
+                                            Height="10"
+                                            Margin="0,0,4,0"
+                                            Fill="{StaticResource DisabledBackgroundBrush}"
+                                            Stroke="{StaticResource DisabledBorderBrush}"
+                                            StrokeThickness="1" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                                    </Grid>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Value, Mode=OneWay}"
+                                            Value="True">
+                                            <Setter TargetName="Ellipse" Property="Fill" Value="Cyan" />
+                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBrush}" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding Value, Mode=OneWay}"
+                                            Value="False">
+                                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
+                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 事件}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,0,4,0"
+                                            Text="{Binding Tag, Mode=OneWay, Converter={local:StringToResource}, StringFormat={}({0})}"
+                                            Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource StrCheckVis}}" />
+                                        <TextBlock
+                                            Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBlock
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource SubTimespanConverter}">
+                            <Binding
+                                ElementName="dg2"
+                                Mode="OneWay"
+                                Path="SelectedItem.(models:LogEvent.AddedTime)" />
+                            <Binding
+                                ElementName="dg1"
+                                Mode="OneWay"
+                                Path="SelectedItem.(models:LogEvent.AddedTime)" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <DataGrid
+                    x:Name="dg2"
+                    Grid.Row="2"
+                    AutoGenerateColumns="False"
+                    FontSize="12"
+                    ItemsSource="{Binding ViewResults_Off, Mode=OneWay, IsAsync=True}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 紀錄時間}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 以前}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding AddedTime, Converter={StaticResource TimespanAgo}, Mode=OneWay}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            HeaderStyle="{StaticResource ColumnFilterStyle}">
+                            <DataGridTemplateColumn.Header>
+                                <Menu>
+                                    <MenuItem
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}"
+                                        SubmenuClosed="MenuItem_SubmenuClosed">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <MenuItem.Header>
+                                            <Border>
+                                                <Grid Margin="4,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="10" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Margin="4,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Text="{DynamicResource 烤箱序號}" />
+                                                    <Path
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Data="{StaticResource DownArrow}"
+                                                        Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" />
+                                                    <Rectangle
+                                                        Grid.Column="1"
+                                                        Width="10"
+                                                        Height="10"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Fill="Cyan"
+                                                        Stroke="{StaticResource PressedBrush}"
+                                                        StrokeThickness="1"
+                                                        Visibility="{Binding Data.AllCommand.Result, Source={StaticResource OvenFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                </Grid>
+                                            </Border>
+                                        </MenuItem.Header>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    BorderThickness="0,0,0,1"
+                                                    Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource OvenFilterData}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            HeaderStyle="{StaticResource ColumnFilterStyle}">
+                            <DataGridTemplateColumn.Header>
+                                <Menu>
+                                    <MenuItem
+                                        ItemTemplate="{StaticResource EqualFilterTemplate}"
+                                        SubmenuClosed="MenuItem_SubmenuClosed">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                                                <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource TypeFilterData}}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <MenuItem.Header>
+                                            <Border>
+                                                <Grid Margin="4,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="10" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Margin="4,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Text="{DynamicResource 類型}" />
+                                                    <Path
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Data="{StaticResource DownArrow}"
+                                                        Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" />
+                                                    <Rectangle
+                                                        Grid.Column="1"
+                                                        Width="10"
+                                                        Height="10"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Fill="Cyan"
+                                                        Stroke="{StaticResource PressedBrush}"
+                                                        StrokeThickness="1"
+                                                        Visibility="{Binding Data.AllCommand.Result, Source={StaticResource TypeFilterData}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                </Grid>
+                                            </Border>
+                                        </MenuItem.Header>
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <MenuItem
+                                                    BorderThickness="0,0,0,1"
+                                                    Command="{Binding Data.AllCommand, Source={StaticResource TypeFilterData}}"
+                                                    Header="{DynamicResource 全部}" />
+                                                <CollectionContainer Collection="{Binding Data.Filter, Source={StaticResource TypeFilterData}, Mode=OneWay}" />
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                </Menu>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding Type, Mode=OneWay, Converter={local:StringToResource}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            MinWidth="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 值}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="24" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse
+                                            x:Name="Ellipse"
+                                            Width="10"
+                                            Height="10"
+                                            Margin="0,0,4,0"
+                                            Fill="{StaticResource DisabledBackgroundBrush}"
+                                            Stroke="{StaticResource DisabledBorderBrush}"
+                                            StrokeThickness="1" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                                    </Grid>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Value, Mode=OneWay}"
+                                            Value="True">
+                                            <Setter TargetName="Ellipse" Property="Fill" Value="Cyan" />
+                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBrush}" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding Value, Mode=OneWay}"
+                                            Value="False">
+                                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
+                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 事件}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,0,4,0"
+                                            Text="{Binding Tag, Mode=OneWay, Converter={local:StringToResource}, StringFormat={}({0})}"
+                                            Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource StrCheckVis}}" />
+                                        <TextBlock
+                                            Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

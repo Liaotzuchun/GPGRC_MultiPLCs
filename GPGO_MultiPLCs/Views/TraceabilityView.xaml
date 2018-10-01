@@ -415,7 +415,7 @@
                 Grid.Row="1"
                 Margin="0,4,0,0"
                 AutoGenerateColumns="False"
-                FontSize="11"
+                FontSize="12"
                 ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}"
                 SelectedCellsChanged="SelectedCellsChanged"
                 SelectedIndex="{Binding SelectedIndex, Mode=OneWay}">
@@ -430,7 +430,7 @@
                                 x:Name="dg2"
                                 AutoGenerateColumns="False"
                                 BorderThickness="0,0,1,0"
-                                FontSize="11"
+                                FontSize="12"
                                 ItemsSource="{Binding EventList, Mode=OneWay, IsAsync=True}">
                                 <DataGrid.RowHeaderTemplate>
                                     <DataTemplate>

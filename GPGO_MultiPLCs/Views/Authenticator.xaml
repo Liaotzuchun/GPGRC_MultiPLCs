@@ -358,7 +358,7 @@
                     <DataGrid
                         Height="200"
                         AutoGenerateColumns="False"
-                        FontSize="11"
+                        FontSize="12"
                         ItemsSource="{Binding ViewUsers, Mode=OneWay, IsAsync=True}"
                         SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                         VerticalScrollBarVisibility="Visible">
