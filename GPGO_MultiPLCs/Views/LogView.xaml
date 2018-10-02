@@ -386,7 +386,8 @@
                     x:Name="dg1"
                     AutoGenerateColumns="False"
                     FontSize="12"
-                    ItemsSource="{Binding ViewResults_On, Mode=OneWay, IsAsync=True}">
+                    ItemsSource="{Binding ViewResults_On, Mode=OneWay, IsAsync=True}"
+                    SelectedIndex="{Binding SelectedIndex1, Mode=TwoWay}" SelectedCellsChanged="dg1_SelectedCellsChanged">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
                             Width="Auto"
@@ -620,7 +621,8 @@
                     Grid.Row="2"
                     AutoGenerateColumns="False"
                     FontSize="12"
-                    ItemsSource="{Binding ViewResults_Off, Mode=OneWay, IsAsync=True}">
+                    ItemsSource="{Binding ViewResults_Off, Mode=OneWay, IsAsync=True}"
+                    SelectedIndex="{Binding SelectedIndex2, Mode=TwoWay}" SelectedCellsChanged="dg2_SelectedCellsChanged">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
                             Width="Auto"

@@ -58,6 +58,64 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public int SelectedIndex1
+        {
+            get => Get<int>();
+            set
+            {
+                Set(value);
+
+                if (value <= -1)
+                {
+                    return;
+                }
+
+                var on = ViewResults_On[value];
+
+                for (var i = 0; i < ViewResults_Off.Count; i++)
+                {
+                    var off = ViewResults_Off[i];
+                    if (off.AddedTime > on.AddedTime && off.StationNumber == on.StationNumber && off.Type == on.Type && off.Description == on.Description)
+                    {
+                        Set(off.Value == on.Value ? -1 : i, nameof(SelectedIndex2));
+
+                        return;
+                    }
+                }
+
+                Set(-1, nameof(SelectedIndex2));
+            }
+        }
+
+        public int SelectedIndex2
+        {
+            get => Get<int>();
+            set
+            {
+                Set(value);
+
+                if (value <= -1)
+                {
+                    return;
+                }
+
+                var off = ViewResults_Off[value];
+
+                for (var i = 0; i < ViewResults_On.Count; i++)
+                {
+                    var on = ViewResults_On[i];
+                    if (on.AddedTime < off.AddedTime && on.StationNumber == off.StationNumber && on.Type == off.Type && on.Description == off.Description)
+                    {
+                        Set(on.Value == off.Value ? -1 : i, nameof(SelectedIndex1));
+
+                        return;
+                    }
+                }
+
+                Set(-1, nameof(SelectedIndex1));
+            }
+        }
+
         /// <summary>顯示的資料列表</summary>
         public List<LogEvent> ViewResults
         {
@@ -70,13 +128,13 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public List<LogEvent> ViewResults_On
+        public List<LogEvent> ViewResults_Off
         {
             get => Get<List<LogEvent>>();
             set => Set(value);
         }
 
-        public List<LogEvent> ViewResults_Off
+        public List<LogEvent> ViewResults_On
         {
             get => Get<List<LogEvent>>();
             set => Set(value);
