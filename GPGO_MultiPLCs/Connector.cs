@@ -555,7 +555,7 @@ namespace GPGO_MultiPLCs
 
                                       await Task.Factory.StartNew(() =>
                                                                   {
-                                                                      Thread.Sleep(300);
+                                                                      //Thread.Sleep(300);
 
                                                                       do
                                                                       {

@@ -467,7 +467,7 @@
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Width="60">
                                         <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="{DynamicResource 時間}" />
+                                            <TextBlock Text="{DynamicResource 歷時}" />
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="models:RecordEvent">
