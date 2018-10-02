@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -545,6 +546,26 @@ namespace GPGO_MultiPLCs
                                                       TotalVM.TotalProduction[StationIndex] = Production;
                                                   }
                                               };
+
+            LogVM.WantInfo += async e => await TraceVM.FindInfo(e.station, e.time);
+
+            LogVM.GoDetailView += async info =>
+                                  {
+                                      MainVM.ViewIndex = 2;
+
+                                      await Task.Factory.StartNew(() =>
+                                                                  {
+                                                                      Thread.Sleep(300);
+
+                                                                      do
+                                                                      {
+                                                                          Thread.Sleep(30);
+                                                                      } while (!TraceVM.Standby);
+                                                                  });
+
+                                      TraceVM.SearchResult = info;
+                                      TraceVM.Date1 = info.AddedTime.Date;
+                                  };
 
             //MakeTestData(20);
         }

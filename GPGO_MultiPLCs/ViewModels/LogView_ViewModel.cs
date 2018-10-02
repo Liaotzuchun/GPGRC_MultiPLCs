@@ -14,6 +14,9 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public Language Language = Language.TW;
 
+        /// <summary>執行詳情顯示</summary>
+        public RelayCommand GoCommand { get; }
+
         /// <summary>日期範圍的開始</summary>
         public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.AddedTime : null;
 
@@ -58,6 +61,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        /// <summary>事件值為On，所選擇的index</summary>
         public int SelectedIndex1
         {
             get => Get<int>();
@@ -67,26 +71,16 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (value <= -1)
                 {
+                    SelectedProcessInfo = null;
+
                     return;
                 }
 
-                var on = ViewResults_On[value];
-
-                for (var i = 0; i < ViewResults_Off.Count; i++)
-                {
-                    var off = ViewResults_Off[i];
-                    if (off.AddedTime > on.AddedTime && off.StationNumber == on.StationNumber && off.Type == on.Type && off.Description == on.Description)
-                    {
-                        Set(off.Value == on.Value ? -1 : i, nameof(SelectedIndex2));
-
-                        return;
-                    }
-                }
-
-                Set(-1, nameof(SelectedIndex2));
+                FindNextOFF(value);
             }
         }
 
+        /// <summary>事件值為Off，所選擇的index</summary>
         public int SelectedIndex2
         {
             get => Get<int>();
@@ -96,24 +90,19 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (value <= -1)
                 {
+                    SelectedProcessInfo = null;
+
                     return;
                 }
 
-                var off = ViewResults_Off[value];
-
-                for (var i = 0; i < ViewResults_On.Count; i++)
-                {
-                    var on = ViewResults_On[i];
-                    if (on.AddedTime < off.AddedTime && on.StationNumber == off.StationNumber && on.Type == off.Type && on.Description == off.Description)
-                    {
-                        Set(on.Value == off.Value ? -1 : i, nameof(SelectedIndex1));
-
-                        return;
-                    }
-                }
-
-                Set(-1, nameof(SelectedIndex1));
+                FindNextON(value);
             }
+        }
+
+        public ProcessInfo SelectedProcessInfo
+        {
+            get => Get<ProcessInfo>();
+            set => Set(value);
         }
 
         /// <summary>顯示的資料列表</summary>
@@ -140,6 +129,9 @@ namespace GPGO_MultiPLCs.ViewModels
             set => Set(value);
         }
 
+        public event Action<ProcessInfo> GoDetailView;
+        public event Func<(int station, DateTime time), ValueTask<ProcessInfo>> WantInfo;
+
         /// <summary>新增至資料庫</summary>
         /// <param name="ev">紀錄資訊</param>
         /// <param name="UpdateResult">決定是否更新Ram Data</param>
@@ -158,6 +150,68 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 ex.RecordError("事件紀錄寫入資料庫失敗");
             }
+        }
+
+        public async void FindNextOFF(int index)
+        {
+            Standby = false;
+
+            var _on = ViewResults_On[index];
+
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            for (var i = 0; i < ViewResults_Off.Count; i++)
+                                            {
+                                                var off = ViewResults_Off[i];
+                                                if (off.AddedTime > _on.AddedTime && off.StationNumber == _on.StationNumber && off.Type == _on.Type && off.Description == _on.Description)
+                                                {
+                                                    Set(off.Value == _on.Value ? -1 : i, nameof(SelectedIndex2));
+
+                                                    return;
+                                                }
+                                            }
+
+                                            Set(-1, nameof(SelectedIndex2));
+                                        },
+                                        TaskCreationOptions.LongRunning);
+
+            if (WantInfo != null)
+            {
+                SelectedProcessInfo = await WantInfo((_on.StationNumber, _on.AddedTime));
+            }
+
+            Standby = true;
+        }
+
+        public async void FindNextON(int index)
+        {
+            Standby = false;
+
+            var _off = ViewResults_Off[index];
+
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            for (var i = 0; i < ViewResults_On.Count; i++)
+                                            {
+                                                var on = ViewResults_On[i];
+                                                if (on.AddedTime < _off.AddedTime && on.StationNumber == _off.StationNumber && on.Type == _off.Type && on.Description == _off.Description)
+                                                {
+                                                    Set(on.Value == _off.Value ? -1 : i, nameof(SelectedIndex1));
+
+                                                    return;
+                                                }
+                                            }
+
+                                            Set(-1, nameof(SelectedIndex1));
+                                        },
+                                        TaskCreationOptions.LongRunning);
+
+            if (WantInfo != null)
+            {
+                SelectedProcessInfo = await WantInfo((_off.StationNumber, _off.AddedTime));
+            }
+
+            Standby = true;
         }
 
         public async Task<bool> SaveToCSV(string path)
@@ -230,6 +284,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                   TimeSpan.FromSeconds(6));
                                                  }
                                              });
+
+            GoCommand = new RelayCommand(e =>
+                                         {
+                                             if (SelectedProcessInfo == null)
+                                             {
+                                                 return;
+                                             }
+
+                                             GoDetailView?.Invoke(SelectedProcessInfo);
+                                         });
 
             OvenFilter = new FilterGroup(UpdateViewResult);
             TypeFilter = new FilterGroup(UpdateViewResult);

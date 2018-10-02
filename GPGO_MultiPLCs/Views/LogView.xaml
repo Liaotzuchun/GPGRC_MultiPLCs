@@ -366,7 +366,7 @@
                     Grid.Column="5"
                     Margin="4,0,0,0"
                     Content="{DynamicResource 報表匯出}"
-                    FontSize="14">
+                    FontSize="16">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding ToFileCommand, Mode=OneTime}" />
@@ -379,11 +379,12 @@
                 Margin="0,4,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="54" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <DataGrid
                     x:Name="dg1"
+                    Margin="0,0,0,4"
                     AutoGenerateColumns="False"
                     FontSize="12"
                     ItemsSource="{Binding ViewResults_On, Mode=OneWay, IsAsync=True}"
@@ -391,6 +392,7 @@
                     SelectedIndex="{Binding SelectedIndex1, Mode=TwoWay}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
+                            x:Name="dc1"
                             Width="Auto"
                             MinWidth="60">
                             <DataGridTemplateColumn.Header>
@@ -600,26 +602,195 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBlock
-                    Grid.Row="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource SubTimespanConverter}">
-                            <Binding
-                                ElementName="dg2"
-                                Mode="OneWay"
-                                Path="SelectedItem.(models:LogEvent.AddedTime)" />
-                            <Binding
-                                ElementName="dg1"
-                                Mode="OneWay"
-                                Path="SelectedItem.(models:LogEvent.AddedTime)" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="{Binding ActualWidth, ConverterParameter=1, Converter={StaticResource AddValue}, ElementName=dc1, Mode=OneWay}"
+                            MinWidth="60" />
+                        <ColumnDefinition />
+                        <ColumnDefinition
+                            Width="Auto"
+                            MinWidth="60" />
+                        <ColumnDefinition
+                            Width="Auto"
+                            MinWidth="60" />
+                        <ColumnDefinition
+                            Width="Auto"
+                            MinWidth="60" />
+                        <ColumnDefinition
+                            Width="Auto"
+                            MinWidth="60" />
+                        <ColumnDefinition
+                            Width="Auto"
+                            MinWidth="60" />
+                        <ColumnDefinition Width="76" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="24" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource 歷時}" />
+                    </Border>
+                    <Border
+                        Grid.Column="1"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,1,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource 配方}" />
+                    </Border>
+                    <Border
+                        Grid.Column="2"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,1,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource 工單}" />
+                    </Border>
+                    <Border
+                        Grid.Column="3"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,1,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource 操作員}" />
+                    </Border>
+                    <Border
+                        Grid.Column="4"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,1,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource 台車}" />
+                    </Border>
+                    <Border
+                        Grid.Column="5"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,1,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource 數量}" />
+                    </Border>
+                    <Border
+                        Grid.Column="6"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,1,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource 正反面}" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="1,0,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource SubTimespanConverter}">
+                                    <Binding
+                                        ElementName="dg2"
+                                        Mode="OneWay"
+                                        Path="SelectedItem.(models:LogEvent.AddedTime)" />
+                                    <Binding
+                                        ElementName="dg1"
+                                        Mode="OneWay"
+                                        Path="SelectedItem.(models:LogEvent.AddedTime)" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding SelectedProcessInfo.RecipeName, Mode=OneWay}" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding SelectedProcessInfo.OrderCode, Mode=OneWay}" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding SelectedProcessInfo.OperatorID, Mode=OneWay}" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding SelectedProcessInfo.TrolleyCode, Mode=OneWay}" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding SelectedProcessInfo.ProcessCount, Mode=OneWay}" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="6"
+                        Background="{StaticResource LightColorBrush}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding SelectedProcessInfo.Side, Mode=OneWay}" />
+                    </Border>
+                    <Button
+                        Grid.RowSpan="2"
+                        Grid.Column="7"
+                        Command="{Binding GoCommand, Mode=OneWay}"
+                        Content="{DynamicResource 詳情}"
+                        FontSize="16"
+                        IsEnabled="{Binding SelectedProcessInfo, Converter={StaticResource IsNotNull}, Mode=OneWay}" />
+                </Grid>
                 <DataGrid
                     x:Name="dg2"
                     Grid.Row="2"
+                    Margin="0,4,0,0"
                     AutoGenerateColumns="False"
                     FontSize="12"
                     ItemsSource="{Binding ViewResults_Off, Mode=OneWay, IsAsync=True}"
@@ -627,7 +798,7 @@
                     SelectedIndex="{Binding SelectedIndex2, Mode=TwoWay}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
-                            Width="Auto"
+                            Width="{Binding ActualWidth, ElementName=dc1, Mode=OneWay}"
                             MinWidth="60">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource 紀錄時間}" />

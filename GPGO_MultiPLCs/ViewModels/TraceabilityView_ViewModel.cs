@@ -35,7 +35,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
-        private ProcessInfo SearchResult;
+        public ProcessInfo SearchResult;
 
         /// <summary>依據工單或料號搜尋</summary>
         public RelayCommand FindCommand { get; }
@@ -114,16 +114,16 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public int SelectedIndex
+        {
+            get => Get<int>();
+            set => Set(value);
+        }
+
         /// <summary>顯示的資料列表</summary>
         public List<ProcessInfo> ViewResults
         {
             get => Get<List<ProcessInfo>>();
-            set => Set(value);
-        }
-
-        public int SelectedIndex
-        {
-            get => Get<int>();
             set => Set(value);
         }
 
@@ -186,6 +186,11 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public async Task<ProcessInfo> FindInfo(int station, DateTime time)
+        {
+            return await DataCollection.FindOneAsync(x => x.StationNumber == station && x.StartTime < time && x.EndTime > time);
+        }
+
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
         /// <param name="path">資料夾路徑</param>
         public async Task<bool> SaveToExcel(string path)
@@ -208,6 +213,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     {
                                                         ex.RecordError("EXCEL輸出資料夾無法創建");
                                                         result = false;
+
                                                         return;
                                                     }
                                                 }
@@ -521,6 +527,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  {
                                                                      ex.RecordError("EXCEL儲存失敗");
                                                                      result = false;
+
                                                                      return;
                                                                  }
 
@@ -680,13 +687,16 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             FindCommand = new RelayCommand(async o =>
                                            {
-                                               var (result, intput) = (await dialog.ShowWithIntput(new Dictionary<Language, string>
-                                                                                        {
-                                                                                            { Language.TW, "請輸入欲搜尋之料號：" },
-                                                                                            { Language.CHS, "请输入欲搜寻之料号：" },
-                                                                                            { Language.EN, "Please enter the PanelCode you want to find：" }
-                                                                                        },
-                                                                                        new Dictionary<Language, string> { { Language.TW, "搜尋" }, { Language.CHS, "搜寻" }, { Language.EN, "Find" } }));
+                                               var (result, intput) = await dialog.ShowWithIntput(new Dictionary<Language, string>
+                                                                                                  {
+                                                                                                      { Language.TW, "請輸入欲搜尋之料號：" },
+                                                                                                      { Language.CHS, "请输入欲搜寻之料号：" },
+                                                                                                      { Language.EN, "Please enter the PanelCode you want to find：" }
+                                                                                                  },
+                                                                                                  new Dictionary<Language, string>
+                                                                                                  {
+                                                                                                      { Language.TW, "搜尋" }, { Language.CHS, "搜寻" }, { Language.EN, "Find" }
+                                                                                                  });
 
                                                if (result)
                                                {
@@ -698,10 +708,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                    if (SearchResult == null)
                                                    {
-                                                       dialog.Show(new Dictionary<Language, string>
-                                                                   {
-                                                                       { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
-                                                                   },
+                                                       dialog.Show(new Dictionary<Language, string> { { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" } },
                                                                    DialogMsgType.Alarm);
                                                    }
                                                    else
@@ -714,14 +721,13 @@ namespace GPGO_MultiPLCs.ViewModels
             ToExcelCommand = new RelayCommand(async o =>
                                               {
                                                   var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Reports";
-                                                  if(await SaveToExcel(path))
+                                                  if (await SaveToExcel(path))
                                                   {
                                                       dialog?.Show(new Dictionary<Language, string>
                                                                    {
-                                                                       { Language.TW, "檔案已輸出至\n" + path },
-                                                                       { Language.CHS, "档案已输出至\n" + path },
-                                                                       { Language.EN, "The file has been output to\n" + path }
-                                                                   }, TimeSpan.FromSeconds(6));
+                                                                       { Language.TW, "檔案已輸出至\n" + path }, { Language.CHS, "档案已输出至\n" + path }, { Language.EN, "The file has been output to\n" + path }
+                                                                   },
+                                                                   TimeSpan.FromSeconds(6));
                                                   }
                                               });
 
