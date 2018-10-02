@@ -502,8 +502,8 @@
                                                     <DataTrigger
                                                         Binding="{Binding Value, Mode=OneWay}"
                                                         Value="True">
-                                                        <Setter TargetName="Ellipse" Property="Fill" Value="Cyan" />
-                                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBrush}" />
+                                                        <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
+                                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
                                                     </DataTrigger>
                                                     <DataTrigger
                                                         Binding="{Binding Value, Mode=OneWay}"

@@ -387,7 +387,8 @@
                     AutoGenerateColumns="False"
                     FontSize="12"
                     ItemsSource="{Binding ViewResults_On, Mode=OneWay, IsAsync=True}"
-                    SelectedIndex="{Binding SelectedIndex1, Mode=TwoWay}" SelectedCellsChanged="dg1_SelectedCellsChanged">
+                    SelectedCellsChanged="dg1_SelectedCellsChanged"
+                    SelectedIndex="{Binding SelectedIndex1, Mode=TwoWay}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
                             Width="Auto"
@@ -566,8 +567,8 @@
                                         <DataTrigger
                                             Binding="{Binding Value, Mode=OneWay}"
                                             Value="True">
-                                            <Setter TargetName="Ellipse" Property="Fill" Value="Cyan" />
-                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBrush}" />
+                                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
+                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding Value, Mode=OneWay}"
@@ -622,7 +623,8 @@
                     AutoGenerateColumns="False"
                     FontSize="12"
                     ItemsSource="{Binding ViewResults_Off, Mode=OneWay, IsAsync=True}"
-                    SelectedIndex="{Binding SelectedIndex2, Mode=TwoWay}" SelectedCellsChanged="dg2_SelectedCellsChanged">
+                    SelectedCellsChanged="dg2_SelectedCellsChanged"
+                    SelectedIndex="{Binding SelectedIndex2, Mode=TwoWay}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn
                             Width="Auto"
@@ -801,8 +803,8 @@
                                         <DataTrigger
                                             Binding="{Binding Value, Mode=OneWay}"
                                             Value="True">
-                                            <Setter TargetName="Ellipse" Property="Fill" Value="Cyan" />
-                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource PressedBrush}" />
+                                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
+                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding Value, Mode=OneWay}"
