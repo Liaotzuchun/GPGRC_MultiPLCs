@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,8 +29,6 @@ namespace GPGO_MultiPLCs.Models
         public CancellationTokenSource CTS;
 
         private readonly IDialogService Dialog;
-
-        private readonly Stopwatch sw = new Stopwatch();
 
         /// <summary>取消投產</summary>
         public RelayCommand CancelCheckInCommand { get; }
@@ -162,16 +159,24 @@ namespace GPGO_MultiPLCs.Models
         public event Func<(string RecipeName, bool UpdateToPLC), ValueTask<PLC_Recipe>> SwitchRecipeEvent;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
-        public void AddProcessEvent(EventType type, TimeSpan time, string note, bool value)
+        public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, bool value)
         {
-            OvenInfo.EventList.Add(new RecordEvent { Type = type, Time = time, Description = note, Value = value});
+            OvenInfo.EventList.Add(new LogEvent
+                                   {
+                                       Type = type,
+                                       StartTime = start,
+                                       AddedTime = addtime,
+                                       Description = note,
+                                       Value = value
+                                   });
         }
 
-        public void AddTemperatures(TimeSpan time, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
+        public void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
             OvenInfo.RecordTemperatures.Add(new RecordTemperatures
                                             {
-                                                Time = time,
+                                                StartTime = start,
+                                                AddedTime = addtime,
                                                 ThermostatTemperature = t0,
                                                 OvenTemperatures_1 = t1,
                                                 OvenTemperatures_2 = t2,
@@ -259,13 +264,15 @@ namespace GPGO_MultiPLCs.Models
             await Task.Factory.StartNew(() =>
                                         {
                                             var n = TimeSpan.Zero;
-                                            sw.Restart();
+                                            var nt = DateTime.Now;
 
                                             while (!ct.IsCancellationRequested)
                                             {
-                                                if (sw.Elapsed >= n)
+                                                var et = nt - OvenInfo.StartTime;
+                                                if (et >= n)
                                                 {
-                                                    AddTemperatures(sw.Elapsed,
+                                                    AddTemperatures(OvenInfo.StartTime,
+                                                                    nt,
                                                                     ThermostatTemperature,
                                                                     OvenTemperature_1,
                                                                     OvenTemperature_2,
@@ -295,7 +302,8 @@ namespace GPGO_MultiPLCs.Models
                                                 }
                                             }
 
-                                            AddTemperatures(sw.Elapsed,
+                                            AddTemperatures(OvenInfo.StartTime,
+                                                            nt,
                                                             ThermostatTemperature,
                                                             OvenTemperature_1,
                                                             OvenTemperature_2,
@@ -305,8 +313,6 @@ namespace GPGO_MultiPLCs.Models
                                                             OvenTemperature_6,
                                                             OvenTemperature_7,
                                                             OvenTemperature_8);
-
-                                            sw.Stop();
                                         },
                                         TaskCreationOptions.LongRunning);
         }
@@ -565,12 +571,16 @@ namespace GPGO_MultiPLCs.Models
             M_Values.UpdatedEvent += async (key1, key2, value) =>
                                      {
                                          NotifyPropertyChanged(M_Map[key1]);
+                                         var nt = DateTime.Now;
 
                                          if (key1 == SignalNames.自動啟動)
                                          {
-                                             EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString(), key2.ToString("M# "), value));
+                                             EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
 
-                                             if(!value) return;
+                                             if (!value)
+                                             {
+                                                 return;
+                                             }
 
                                              if (IsRecording)
                                              {
@@ -591,24 +601,32 @@ namespace GPGO_MultiPLCs.Models
                                          {
                                              if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
                                              {
-                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString(), key2.ToString("M# "), value));
-                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, key1.ToString(), value);
+                                                 EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
+                                                 AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
 
-                                                 if (!value) return;
+                                                 if (!value)
+                                                 {
+                                                     return;
+                                                 }
+
                                                  CTS?.Cancel();
                                              }
                                              else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
                                              {
-                                                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, key1.ToString(), key2.ToString("M# "), value));
-                                                 AddProcessEvent(EventType.Alarm, sw.Elapsed, key1.ToString(), value);
+                                                 EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2.ToString("M# "), value));
+                                                 AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), value);
 
-                                                 if (!value) return;
+                                                 if (!value)
+                                                 {
+                                                     return;
+                                                 }
+
                                                  CTS?.Cancel();
                                              }
                                              else if (key1 == SignalNames.降溫中)
                                              {
-                                                 EventHappened?.Invoke((EventType.Normal, DateTime.Now, key1.ToString(), key2.ToString("M# "), value));
-                                                 AddProcessEvent(EventType.Normal, sw.Elapsed, key1.ToString(), value);
+                                                 EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
+                                                 AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
                                                  NotifyPropertyChanged(nameof(ProgressStatus));
                                              }
                                          }
@@ -617,14 +635,17 @@ namespace GPGO_MultiPLCs.Models
             D_Values.UpdatedEvent += (key1, key2, value) =>
                                      {
                                          NotifyPropertyChanged(D_Map[key1]);
+                                         var nt = DateTime.Now;
 
                                          if (key1 == DataNames.目前段數)
                                          {
                                              if (IsRecording)
                                              {
                                                  AddProcessEvent(EventType.Normal,
-                                                                 sw.Elapsed,
-                                                                 CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"), true);
+                                                                 OvenInfo.StartTime,
+                                                                 nt,
+                                                                 CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"),
+                                                                 true);
                                              }
 
                                              NotifyPropertyChanged(nameof(Progress));

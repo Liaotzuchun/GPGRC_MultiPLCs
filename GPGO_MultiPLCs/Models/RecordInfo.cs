@@ -50,6 +50,12 @@ namespace GPGO_MultiPLCs.Models
         public double Min => new[] { OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8 }
             .Min();
 
+        [LanguageTranslator("Duration", "歷時", "历时")]
+        public TimeSpan Time => AddedTime - StartTime;
+
+        [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
+        public DateTime AddedTime { get; set; }
+
         public double OvenTemperatures_1 { get; set; }
         public double OvenTemperatures_2 { get; set; }
         public double OvenTemperatures_3 { get; set; }
@@ -58,8 +64,11 @@ namespace GPGO_MultiPLCs.Models
         public double OvenTemperatures_6 { get; set; }
         public double OvenTemperatures_7 { get; set; }
         public double OvenTemperatures_8 { get; set; }
+
+        [LanguageTranslator("Started", "開始時間", "开始时间")]
+        public DateTime StartTime { get; set; }
+
         public double ThermostatTemperature { get; set; }
-        public TimeSpan Time { get; set; }
     }
 
     /// <summary>事件類型</summary>
@@ -71,26 +80,20 @@ namespace GPGO_MultiPLCs.Models
         Alarm //警報事件
     }
 
-    /// <summary>事件紀錄</summary>
-    [BsonIgnoreExtraElements]
-    public class RecordEvent
-    {
-        public string Description { get; set; }
-        public TimeSpan Time { get; set; }
-        public EventType Type { get; set; }
-        public bool Value { get; set; }
-
-        public override string ToString() => Description + (Value ? " (ON)" : " (OFF)");
-    }
-
     [BsonIgnoreExtraElements]
     public class LogEvent : ILogData
     {
         [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
         public DateTime AddedTime { get; set; }
 
+        [LanguageTranslator("Duration", "歷時", "历时")]
+        public TimeSpan Time => AddedTime - StartTime;
+
         [LanguageTranslator("Event", "事件", "事件")]
         public string Description { get; set; }
+
+        [LanguageTranslator("Started", "開始時間", "开始时间")]
+        public DateTime StartTime { get; set; }
 
         //!站號由1開始
         [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]

@@ -115,26 +115,31 @@ namespace GPGO_MultiPLCs
                     {
                         var info = new ProcessInfo { StartTime = st, TrolleyCode = rn.Next(1, 100).ToString("000"), OperatorID = rn.Next(1, 10).ToString("000") };
 
-                        var t = new TimeSpan();
+                        var t = new TimeSpan(0, 0, 1);
                         for (var m = 0; m < 100; m++)
                         {
-                            if (rn.Next(0, 100) > 96)
+                            if (rn.Next(0, 100) > 95)
                             {
-                                LogVM.AddToDB(new LogEvent
-                                              {
-                                                  StationNumber = i + 1,
-                                                  AddedTime = st + t,
-                                                  Description = events[rn.Next(0, events.Length)],
-                                                  Tag = tags[rn.Next(0, tags.Length)],
-                                                  Type = (EventType)rn.Next(0, 4),
-                                                  Value = Convert.ToBoolean(rn.Next(0, 2))
-                                              });
+                                var ev = new LogEvent
+                                         {
+                                             StationNumber = i + 1,
+                                             StartTime = st,
+                                             AddedTime = st + t,
+                                             Description = events[rn.Next(0, events.Length)],
+                                             Tag = tags[rn.Next(0, tags.Length)],
+                                             Type = (EventType)rn.Next(0, 4),
+                                             Value = Convert.ToBoolean(rn.Next(0, 2))
+                                         };
+
+                                LogVM.AddToDB(ev);
+                                info.EventList.Add(ev);
                             }
 
                             var mins = (int)t.TotalMinutes + 1;
                             var vals = new RecordTemperatures
                                        {
-                                           Time = t,
+                                           StartTime = st,
+                                           AddedTime = st + t,
                                            ThermostatTemperature = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_1 = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_2 = rn.Next(40 + mins * 2, 40 + mins * 5),
@@ -145,11 +150,6 @@ namespace GPGO_MultiPLCs
                                            OvenTemperatures_7 = rn.Next(40 + mins * 2, 40 + mins * 5),
                                            OvenTemperatures_8 = rn.Next(40 + mins * 2, 40 + mins * 5)
                                        };
-
-                            if (rn.Next(0, 100) > 50)
-                            {
-                                info.EventList.Add(new RecordEvent { Type = (EventType)rn.Next(0, 3), Time = t, Description = events[rn.Next(0, events.Length)] });
-                            }
 
                             info.RecordTemperatures.Add(vals);
 

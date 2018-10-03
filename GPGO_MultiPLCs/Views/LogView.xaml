@@ -797,9 +797,7 @@
                     SelectedCellsChanged="dg2_SelectedCellsChanged"
                     SelectedIndex="{Binding SelectedIndex2, Mode=TwoWay}">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn
-                            Width="{Binding ActualWidth, ElementName=dc1, Mode=OneWay}"
-                            MinWidth="60">
+                        <DataGridTemplateColumn MinWidth="60">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource 紀錄時間}" />
                             </DataGridTemplateColumn.Header>

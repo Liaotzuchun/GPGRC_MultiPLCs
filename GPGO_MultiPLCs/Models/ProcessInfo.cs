@@ -35,9 +35,9 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>事件紀錄</summary>
         [LanguageTranslator("Events", "事件紀錄", "事件纪录")]
-        public ObservableConcurrentCollection<RecordEvent> EventList
+        public ObservableConcurrentCollection<LogEvent> EventList
         {
-            get => Get<ObservableConcurrentCollection<RecordEvent>>();
+            get => Get<ObservableConcurrentCollection<LogEvent>>();
             set => Set(value);
         }
 
@@ -135,7 +135,7 @@ namespace GPGO_MultiPLCs.Models
 
         public BaseInfo()
         {
-            EventList = new ObservableConcurrentCollection<RecordEvent>();
+            EventList = new ObservableConcurrentCollection<LogEvent>();
             RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
         }
     }
