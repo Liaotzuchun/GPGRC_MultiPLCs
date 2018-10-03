@@ -475,7 +475,7 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Width="Auto">
+                                    <DataGridTemplateColumn Width="48">
                                         <DataGridTemplateColumn.Header>
                                             <TextBlock Text="{DynamicResource 值}" />
                                         </DataGridTemplateColumn.Header>
