@@ -8,6 +8,31 @@ using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views
 {
+    public class EnumToIntConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var returnValue = 0;
+            if (parameter is Type type && value != null)
+            {
+                returnValue = (int)Enum.Parse(type, value.ToString());
+            }
+
+            return returnValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var enumValue = default(Enum);
+            if (parameter is Type type && value is int num)
+            {
+                enumValue = (Enum)Enum.ToObject(type, num);
+            }
+
+            return enumValue;
+        }
+    }
+
     public class BoolOnOff : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -57,37 +82,6 @@ namespace GPGO_MultiPLCs.Views
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value is string str && string.IsNullOrEmpty(str) ? new DateTime() : value;
-        }
-    }
-
-    public class EnumToIntConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var returnValue = 0;
-            if (parameter is Type type)
-            {
-                if (value != null)
-                {
-                    returnValue = (int)Enum.Parse(type, value.ToString());
-                }
-            }
-
-            return returnValue;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var enumValue = default(Enum);
-            if (parameter is Type type)
-            {
-                if (value != null)
-                {
-                    enumValue = (Enum)Enum.Parse(type, value.ToString());
-                }
-            }
-
-            return enumValue;
         }
     }
 

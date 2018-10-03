@@ -103,6 +103,7 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
@@ -1992,6 +1993,7 @@
                                     AutoGenerateColumns="False"
                                     BorderThickness="0,0,1,0"
                                     FontSize="12"
+                                    HorizontalScrollBarVisibility="Hidden"
                                     ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}">
                                     <DataGrid.RowHeaderTemplate>
                                         <DataTemplate>
@@ -2003,22 +2005,22 @@
                                                 BorderThickness="0,0,1,1" />
                                             <DataTemplate.Triggers>
                                                 <DataTrigger
-                                                    Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                    Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                     Value="Normal">
                                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
                                                 </DataTrigger>
                                                 <DataTrigger
-                                                    Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                    Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                     Value="Trigger">
                                                     <Setter TargetName="Border" Property="Background" Value="Blue" />
                                                 </DataTrigger>
                                                 <DataTrigger
-                                                    Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                    Value="Action">
+                                                    Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                    Value="Operator">
                                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
                                                 </DataTrigger>
                                                 <DataTrigger
-                                                    Binding="{Binding DataContext.(models:RecordEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                    Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                     Value="Alarm">
                                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
                                                 </DataTrigger>
@@ -2031,7 +2033,7 @@
                                                 <TextBlock Text="{DynamicResource 歷時}" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate DataType="models:RecordEvent">
+                                                <DataTemplate DataType="models:LogEvent">
                                                     <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -2043,7 +2045,7 @@
                                                     TextTrimming="CharacterEllipsis" />
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate DataType="models:RecordEvent">
+                                                <DataTemplate DataType="models:LogEvent">
                                                     <TextBlock Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -2228,13 +2230,13 @@
                                             DataContext="{Binding SelectedItem, ElementName=dg, Mode=OneWay}"
                                             FontSize="12"
                                             StrokeThickness="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                            Text="{Binding (models:RecordEvent.Description), Mode=OneWay, Converter={local:StringToResource}}"
-                                            TextColor="{Binding (models:RecordEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
+                                            Text="{Binding (models:LogEvent.Description), Mode=OneWay, Converter={local:StringToResource}}"
+                                            TextColor="{Binding (models:LogEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
                                             TextHorizontalAlignment="Center"
                                             TextOrientation="Horizontal"
                                             TextVerticalAlignment="Bottom"
                                             Type="Vertical"
-                                            X="{Binding (models:RecordEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
+                                            X="{Binding (models:LogEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
                                             Color="{Binding TextColor, RelativeSource={RelativeSource Self}}" />
                                     </oxy:Plot.Annotations>
                                     <oxy:Plot.DefaultTrackerTemplate>
@@ -2300,6 +2302,7 @@
                             </ListBox.ItemsPanel>
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">

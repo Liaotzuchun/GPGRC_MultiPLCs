@@ -568,25 +568,27 @@
                     </Grid>
                 </TabItem>
             </TabControl>
-            <UniformGrid
+            <ListBox
                 Grid.Row="7"
                 Height="40"
                 Margin="8,0,8,8"
-                Rows="1"
-                TextElement.FontSize="16">
-                <ToggleButton
-                    Checked="RadioButton_Checked"
-                    Content="{DynamicResource 繁體中文}"
-                    IsChecked="{Binding GT.Lng, ConverterParameter=TW, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                <ToggleButton
-                    Checked="RadioButton_Checked_1"
-                    Content="{DynamicResource 簡體中文}"
-                    IsChecked="{Binding GT.Lng, ConverterParameter=CHS, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-                <ToggleButton
-                    Checked="RadioButton_Checked_2"
-                    Content="{DynamicResource 英文}"
-                    IsChecked="{Binding GT.Lng, ConverterParameter=EN, Converter={StaticResource IsEqualValue}, Mode=TwoWay}" />
-            </UniformGrid>
+                FontSize="16"
+                ItemContainerStyle="{StaticResource ListBoxItem2}"
+                SelectedIndex="{Binding GT.Lng, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type models:Language}, Mode=TwoWay}" SelectionChanged="ListBox_SelectionChanged">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="1" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <TextBlock Text="{DynamicResource 繁體中文}" />
+                <TextBlock Text="{DynamicResource 簡體中文}" />
+                <TextBlock Text="{DynamicResource 英文}" />
+            </ListBox>
         </Grid>
     </Border>
 </UserControl>
