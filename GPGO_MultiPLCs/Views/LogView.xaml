@@ -256,6 +256,7 @@
                     Visibility="{Binding Standby, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                 <Border
                     Grid.Column="4"
+                    Background="{StaticResource LightColorBrush}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,1,1,1">
                     <local:RangeSlider
@@ -630,6 +631,7 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Border
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1">
                         <TextBlock
@@ -639,6 +641,7 @@
                     </Border>
                     <Border
                         Grid.Column="1"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
                         <TextBlock
@@ -648,6 +651,7 @@
                     </Border>
                     <Border
                         Grid.Column="2"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
                         <TextBlock
@@ -657,6 +661,7 @@
                     </Border>
                     <Border
                         Grid.Column="3"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
                         <TextBlock
@@ -666,6 +671,7 @@
                     </Border>
                     <Border
                         Grid.Column="4"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
                         <TextBlock
@@ -675,6 +681,7 @@
                     </Border>
                     <Border
                         Grid.Column="5"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
                         <TextBlock
@@ -684,6 +691,7 @@
                     </Border>
                     <Border
                         Grid.Column="6"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
                         <TextBlock

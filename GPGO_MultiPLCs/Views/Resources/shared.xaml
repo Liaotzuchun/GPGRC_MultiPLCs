@@ -103,7 +103,7 @@
 
     <SolidColorBrush
         x:Key="WindowBackgroundBrush2"
-        Color="#D7E6CF" />
+        Color="#CBDAC4" />
 
     <SolidColorBrush
         x:Key="WindowBackgroundBrush3"
@@ -115,7 +115,7 @@
 
     <SolidColorBrush
         x:Key="WindowBackgroundBrush6"
-        Color="#CBDAC4" />
+        Color="#D7E6CF" />
 
     <QuadraticEase
         x:Key="EaseF"

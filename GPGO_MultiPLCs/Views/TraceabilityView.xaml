@@ -273,6 +273,7 @@
                     Visibility="{Binding Standby, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                 <Border
                     Grid.Column="4"
+                    Background="{StaticResource LightColorBrush}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,1,1,1">
                     <local:RangeSlider
@@ -531,7 +532,7 @@
                             </DataGrid>
                             <oxy:Plot
                                 Grid.Column="1"
-                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 DefaultFont="Microsoft JhengHei"
                                 IsMouseWheelEnabled="False"
                                 LegendBackground="{Binding Color, Source={StaticResource LightColorBrush}}"
@@ -1344,11 +1345,11 @@
                         </Grid>
                         <Border
                             Grid.Row="1"
-                            Background="{StaticResource WindowBackgroundBrush2}"
+                            Background="{StaticResource WindowBackgroundBrush6}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="1,0,1,1">
                             <oxy:PlotView
-                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 IsMouseWheelEnabled="False"
                                 Model="{Binding ResultView, Mode=OneWay}">
                                 <oxy:PlotView.DefaultTrackerTemplate>

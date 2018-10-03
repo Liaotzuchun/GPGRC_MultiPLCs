@@ -22,7 +22,8 @@
         <GroupBox
             Margin="0,0,4,0"
             Background="{StaticResource WindowBackgroundBrush3}"
-            DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}">
+            DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}"
+            Header="{Binding RecipeName, Mode=OneWay}">
             <GroupBox.IsEnabled>
                 <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
                     <Binding
@@ -44,7 +45,7 @@
                 <Border
                     x:Name="border"
                     Grid.RowSpan="2"
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -53,7 +54,7 @@
                         Text="{DynamicResource 使用段數}" />
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -64,7 +65,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -75,7 +76,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -86,7 +87,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -97,7 +98,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -108,7 +109,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -119,7 +120,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -130,7 +131,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -141,7 +142,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -152,7 +153,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -163,7 +164,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -174,7 +175,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -185,7 +186,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -196,7 +197,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -207,7 +208,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -218,7 +219,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -623,7 +624,7 @@
                         Text="{Binding ThermostaticTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -632,7 +633,7 @@
                         Text="{DynamicResource 降溫溫度}" />
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -641,7 +642,7 @@
                         Text="{DynamicResource 充氣時間}" />
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -652,7 +653,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -663,7 +664,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -674,7 +675,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -685,7 +686,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -696,7 +697,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -707,7 +708,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -718,7 +719,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -729,7 +730,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -740,7 +741,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -751,7 +752,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -762,7 +763,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -773,7 +774,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -784,7 +785,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -795,7 +796,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -806,7 +807,7 @@
                     </TextBlock>
                 </Border>
                 <Border
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -1332,7 +1333,7 @@
                 </Button>
                 <Border
                     Grid.Column="1"
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,1">
                     <TextBlock
@@ -1343,7 +1344,7 @@
                 <Border
                     Grid.Row="1"
                     Grid.Column="1"
-                    Background="{StaticResource WindowBackgroundBrush2}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,1,0">
                     <TextBlock

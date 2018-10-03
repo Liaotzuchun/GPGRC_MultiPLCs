@@ -5,7 +5,7 @@
     <Style
         x:Key="ColumnHeaderStyle"
         TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
+        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush6}" />
         <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
         <Setter Property="BorderThickness" Value="0,0,1,1" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -81,7 +81,7 @@
 
     <DataTemplate x:Key="ShowRowNumbers">
         <Border
-            Background="{StaticResource WindowBackgroundBrush2}"
+            Background="{StaticResource WindowBackgroundBrush6}"
             BorderBrush="{StaticResource WindowBackgroundBrush4}"
             BorderThickness="0,0,1,1">
             <TextBlock
@@ -100,8 +100,8 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource DarkBrush}" />
-                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Background" Value="{StaticResource LightBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource PressedBrush}" />
@@ -162,7 +162,7 @@
                                         </Grid.RowDefinitions>
                                         <Border
                                             Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1"
                                             Focusable="False"

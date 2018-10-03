@@ -63,7 +63,7 @@
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Border
                         x:Name="Border"
-                        Background="{StaticResource WindowBackgroundBrush2}"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter
@@ -194,7 +194,7 @@
         TargetType="{x:Type MenuItem}">
         <Border
             Name="Border"
-            Background="Transparent">
+            Background="{StaticResource WindowBackgroundBrush6}">
             <Grid>
                 <ContentPresenter
                     ContentSource="Header"
@@ -306,7 +306,7 @@
                 <Grid.Background>
                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
-                        <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                        <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
                     </LinearGradientBrush>
                 </Grid.Background>
                 <Grid.ColumnDefinitions>
@@ -341,7 +341,7 @@
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                             <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
-                            <GradientStop Offset="1.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                            <GradientStop Offset="1.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
                         </LinearGradientBrush>
                     </Border.Background>
                 </Border>
