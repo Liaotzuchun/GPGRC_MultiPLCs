@@ -431,6 +431,7 @@
                                 AutoGenerateColumns="False"
                                 BorderThickness="0,0,1,0"
                                 FontSize="12"
+                                HorizontalScrollBarVisibility="Hidden"
                                 ItemsSource="{Binding EventList, Mode=OneWay, IsAsync=True}">
                                 <DataGrid.RowHeaderTemplate>
                                     <DataTemplate>
