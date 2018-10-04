@@ -1804,10 +1804,7 @@
                                             <TabItem
                                                 Width="0"
                                                 Height="0">
-                                                <Border
-                                                    Background="{StaticResource OKBrush}"
-                                                    BorderBrush="{StaticResource OKBorderBrush}"
-                                                    BorderThickness="1">
+                                                <Border Background="{StaticResource OKBrush}">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
@@ -1824,10 +1821,7 @@
                                                         <ColumnDefinition />
                                                         <ColumnDefinition Width="8" />
                                                     </Grid.ColumnDefinitions>
-                                                    <Border
-                                                        Background="{StaticResource PressedBrush}"
-                                                        BorderBrush="{StaticResource PressedBorderBrush}"
-                                                        BorderThickness="1">
+                                                    <Border Background="{StaticResource PressedBrush}">
                                                         <TextBlock
                                                             HorizontalAlignment="Center"
                                                             VerticalAlignment="Center"
