@@ -414,7 +414,7 @@
             FontSize="12"
             ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}"
             SelectedCellsChanged="SelectedCellsChanged"
-            SelectedIndex="{Binding SelectedIndex, Mode=OneWay}">
+            SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate DataType="models:ProcessInfo">
                     <Grid Height="222">

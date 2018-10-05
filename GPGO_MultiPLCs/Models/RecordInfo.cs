@@ -92,6 +92,7 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Event", "事件", "事件")]
         public string Description { get; set; }
 
+        //!當處在生產中時，即烤箱開始生產的時間，若未在生產，則沒有值
         [LanguageTranslator("Started", "開始時間", "开始时间")]
         public DateTime StartTime { get; set; }
 

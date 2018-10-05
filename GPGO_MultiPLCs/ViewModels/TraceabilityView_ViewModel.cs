@@ -124,7 +124,11 @@ namespace GPGO_MultiPLCs.ViewModels
         public int SelectedIndex
         {
             get => Get<int>();
-            set => Set(value);
+            set
+            {
+                Set(value);
+                EventIndex = -1;
+            }
         }
 
         /// <summary>顯示的資料列表</summary>
@@ -862,7 +866,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   if (SearchEvent != null)
                                   {
-                                      EventIndex = ViewResults[SelectedIndex].EventList.ToList().FindIndex(x => x.Value == SearchEvent.Value && x.Description == SearchEvent.Description);
+                                      EventIndex = ViewResults[SelectedIndex]
+                                                   .EventList.Select((x, i) => (index: i, value: x))
+                                                   .Where(x => x.value.Value == SearchEvent.Value && x.value.Description == SearchEvent.Description)
+                                                   .OrderBy(x => Math.Abs((x.value.AddedTime - SearchEvent.AddedTime).TotalSeconds))
+                                                   .First()
+                                                   .index;
                                       SearchEvent = null;
                                   }
                                   else
