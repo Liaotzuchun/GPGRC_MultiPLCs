@@ -30,12 +30,13 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public Language Language = Language.TW;
+        public LogEvent SearchEvent;
+        public ProcessInfo SearchResult;
         private readonly OxyColor bgcolor = OxyColor.FromRgb(240, 255, 235);
         private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
-        public ProcessInfo SearchResult;
 
         /// <summary>依據工單或料號搜尋</summary>
         public RelayCommand FindCommand { get; }
@@ -73,6 +74,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>日期範圍的結束</summary>
         public DateTime? UpperDate => Results?.Count > 0 ? Results[Index2]?.AddedTime : null;
+
+        public int EventIndex
+        {
+            get => Get<int>();
+            set => Set(value);
+        }
 
         /// <summary>篩選的開始時間點(RAM)</summary>
         public int Index1
@@ -815,6 +822,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 UpdateChart(Date1, Date2);
             }
 
+            SelectedIndex = -1;
+            EventIndex = -1;
             OvenFilter = new FilterGroup(UpdateAct);
             RecipeFilter = new FilterGroup(UpdateAct);
             OrderFilter = new FilterGroup(UpdateAct);
@@ -843,12 +852,22 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   if (SearchResult != null)
                                   {
-                                      SelectedIndex = ViewResults.FindIndex(x => x.AddedTime == SearchResult.AddedTime);
+                                      SelectedIndex = ViewResults.FindIndex(x => x.StationNumber == SearchResult.StationNumber && x.AddedTime == SearchResult.AddedTime);
                                       SearchResult = null;
                                   }
                                   else
                                   {
                                       SelectedIndex = -1;
+                                  }
+
+                                  if (SearchEvent != null)
+                                  {
+                                      EventIndex = ViewResults[SelectedIndex].EventList.ToList().FindIndex(x => x.Value == SearchEvent.Value && x.Description == SearchEvent.Description);
+                                      SearchEvent = null;
+                                  }
+                                  else
+                                  {
+                                      EventIndex = -1;
                                   }
                               };
         }

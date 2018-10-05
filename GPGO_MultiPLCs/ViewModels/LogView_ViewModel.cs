@@ -129,7 +129,7 @@ namespace GPGO_MultiPLCs.ViewModels
             set => Set(value);
         }
 
-        public event Action<ProcessInfo> GoDetailView;
+        public event Action<(ProcessInfo info, LogEvent _event)> GoDetailView;
         public event Func<(int station, DateTime time), ValueTask<ProcessInfo>> WantInfo;
 
         /// <summary>新增至資料庫</summary>
@@ -292,7 +292,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  return;
                                              }
 
-                                             GoDetailView?.Invoke(SelectedProcessInfo);
+                                             GoDetailView?.Invoke((SelectedProcessInfo, SelectedIndex1 > -1 ? ViewResults_On[SelectedIndex1] : ViewResults_Off[SelectedIndex2]));
                                          });
 
             OvenFilter = new FilterGroup(UpdateViewResult);

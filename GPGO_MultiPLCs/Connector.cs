@@ -549,7 +549,7 @@ namespace GPGO_MultiPLCs
 
             LogVM.WantInfo += async e => await TraceVM.FindInfo(e.station, e.time);
 
-            LogVM.GoDetailView += async info =>
+            LogVM.GoDetailView += async e =>
                                   {
                                       MainVM.ViewIndex = 2;
 
@@ -563,8 +563,9 @@ namespace GPGO_MultiPLCs
                                                                       } while (!TraceVM.Standby);
                                                                   });
 
-                                      TraceVM.SearchResult = info;
-                                      TraceVM.Date1 = info.AddedTime.Date;
+                                      TraceVM.SearchResult = e.info;
+                                      TraceVM.SearchEvent = e._event;
+                                      TraceVM.Date1 = e.info.AddedTime.Date;
                                   };
 
             //MakeTestData(20);
