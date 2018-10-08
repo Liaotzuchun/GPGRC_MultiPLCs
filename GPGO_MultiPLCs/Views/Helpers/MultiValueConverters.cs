@@ -12,7 +12,7 @@ namespace GPGO_MultiPLCs.Views
         {
             var times = values.Where(x => x is DateTime).Cast<DateTime>().ToArray();
 
-            return times.Length > 1 ? (times[0] < times[1] ? "- " : "") + (times[0] - times[1]).ToString("d' days 'h'h 'm'm 's's'") : "";
+            return times.Length > 1 ? (times[0] < times[1] ? "- " : "") + (times[0] - times[1]).ToString("d'd 'hh':'mm':'ss") : "";
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
