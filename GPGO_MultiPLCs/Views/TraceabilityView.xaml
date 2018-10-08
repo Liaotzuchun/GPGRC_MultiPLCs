@@ -733,7 +733,7 @@
                                         BorderThickness="1"
                                         CornerRadius="0"
                                         LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                        LineStroke="{StaticResource BaseForeground}"
+                                        LineStroke="{StaticResource WindowBackgroundBrush}"
                                         Position="{Binding Position}">
                                         <oxy:TrackerControl.Content>
                                             <TextBlock
@@ -1351,7 +1351,7 @@
                                 BorderThickness="1"
                                 CornerRadius="0"
                                 LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                LineStroke="{StaticResource BaseForeground}"
+                                LineStroke="{StaticResource WindowBackgroundBrush}"
                                 Position="{Binding Position}"
                                 VerticalLineVisibility="Collapsed">
                                 <oxy:TrackerControl.Content>
