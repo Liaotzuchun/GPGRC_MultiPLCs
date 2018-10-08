@@ -113,9 +113,9 @@
                 Grid.RowSpan="3">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                        <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                        <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
                         <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource LightBrush}}" />
-                        <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                        <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>

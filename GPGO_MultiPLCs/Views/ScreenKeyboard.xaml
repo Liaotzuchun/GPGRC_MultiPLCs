@@ -46,7 +46,7 @@
     <Border>
         <Border
             Margin="15"
-            Background="{StaticResource WindowBackgroundBrush2}"
+            Background="{StaticResource WindowBackgroundBrush6}"
             BorderBrush="{StaticResource WindowBackgroundBrush4}"
             BorderThickness="1">
             <Border.Effect>
