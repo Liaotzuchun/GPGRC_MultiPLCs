@@ -164,6 +164,7 @@
     <Compile Include="Views\Helpers\StringToResource.cs" />
     <Compile Include="Views\Helpers\SetPropertyAction.cs" />
     <Compile Include="Views\Helpers\TypeTemplateSelector.cs" />
+    <Compile Include="Views\Helpers\UniformStackPanel.cs" />
     <Compile Include="Views\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
