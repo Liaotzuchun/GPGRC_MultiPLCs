@@ -278,6 +278,10 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(RowsProperty, value);
         }
 
+        private double[] hh;
+
+        private double[] ww;
+
         public static GridLength[] Parse(string text)
         {
             var tokens = text.Split(',');
@@ -312,73 +316,9 @@ namespace GPGO_MultiPLCs.Views
             return definitions;
         }
 
-        //protected override Size ArrangeOverride(Size finalSize)
-        //{
-        //    var hh = new double[RowDefinitions.Count];
-        //    var ww = new double[ColumnDefinitions.Count];
-
-        //    var _h = finalSize.Height;
-        //    var _w = finalSize.Width;
-
-        //    for (var i = 0; i < ww.Length; i++)
-        //    {
-        //        if (ColumnDefinitions[i].Width.IsAbsolute)
-        //        {
-        //            ww[i] = ColumnDefinitions[i].Width.Value;
-        //            _w -= ww[i];
-        //        }
-        //        else if(ColumnDefinitions[i].Width.IsAuto)
-        //        {
-        //            var temp = 0.0;
-
-        //            foreach (UIElement child in Children)
-        //            {
-        //                if(GetColumn(child)==i && child.DesiredSize.Width > temp)
-        //                {
-        //                    temp = child.DesiredSize.Width;
-        //                }
-        //            }
-
-        //            ww[i] = temp;
-        //            _w -= ww[i];
-        //        }
-        //    }
-
-
-
-        //    foreach (UIElement child in Children)
-        //    {
-        //        var col = GetColumn(child);
-        //        var row = GetRow(child);
-        //        var x = ww.Take(col).Sum();
-        //        var y = hh.Take(row).Sum();
-        //        var w = 0.0;
-        //        var h = 0.0;
-
-        //        for (var i = col; i <= GetColumnSpan(child); i++)
-        //        {
-        //            w += ww[i];
-        //        }
-
-        //        for (var i = row; i <= GetRowSpan(child); i++)
-        //        {
-        //            h += hh[i];
-        //        }
-
-        //        child.Arrange(new Rect(x, y, w, h));
-        //    }
-
-        //    return finalSize;
-        //}
-
         protected override Size MeasureOverride(Size constraint)
         {
             PerformLayout();
-
-            foreach (UIElement child in Children)
-            {
-                child.Measure(constraint);
-            }
 
             return base.MeasureOverride(constraint);
         }
@@ -410,6 +350,9 @@ namespace GPGO_MultiPLCs.Views
         {
             var rowCount = RowDefinitions.Count;
             var colCount = ColumnDefinitions.Count;
+
+            ww = new double[colCount];
+            hh = new double[rowCount];
 
             if (rowCount == 0 || colCount == 0)
             {
