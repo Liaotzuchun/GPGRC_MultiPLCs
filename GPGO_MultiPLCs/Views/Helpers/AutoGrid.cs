@@ -278,10 +278,6 @@ namespace GPGO_MultiPLCs.Views
             set => SetValue(RowsProperty, value);
         }
 
-        private double[] hh;
-
-        private double[] ww;
-
         public static GridLength[] Parse(string text)
         {
             var tokens = text.Split(',');
@@ -350,9 +346,6 @@ namespace GPGO_MultiPLCs.Views
         {
             var rowCount = RowDefinitions.Count;
             var colCount = ColumnDefinitions.Count;
-
-            ww = new double[colCount];
-            hh = new double[rowCount];
 
             if (rowCount == 0 || colCount == 0)
             {
