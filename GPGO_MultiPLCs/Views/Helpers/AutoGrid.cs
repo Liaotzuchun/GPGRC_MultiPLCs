@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -116,7 +117,7 @@ namespace GPGO_MultiPLCs.Views
 
         public static void ColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if ((string)e.NewValue == string.Empty)
+            if (string.IsNullOrEmpty((string)e.NewValue))
             {
                 return;
             }
@@ -255,7 +256,7 @@ namespace GPGO_MultiPLCs.Views
 
         public static void RowsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if ((string)e.NewValue == string.Empty)
+            if (string.IsNullOrEmpty((string)e.NewValue))
             {
                 return;
             }
@@ -337,13 +338,9 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private int Clamp(int value, int max)
-        {
-            return value > max ? max : value;
-        }
-
         private void PerformLayout()
         {
+            var Clamp = new Func<int, int, int>((value, max) => value > max ? max : value);
             var rowCount = RowDefinitions.Count;
             var colCount = ColumnDefinitions.Count;
 
