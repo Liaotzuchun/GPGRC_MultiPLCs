@@ -30,7 +30,9 @@ namespace GPGO_MultiPLCs.Views.Helpers
                     }
                 }
 
-                var ah = Math.Round(fh / (InternalChildren.Count - cc));
+                var ah_0 = Math.Floor(fh / (InternalChildren.Count - cc));
+                var ah_1 = Math.Ceiling(fh / (InternalChildren.Count - cc));
+                var ah_tag = false;
                 foreach (UIElement child in InternalChildren)
                 {
                     var th = Convert.ToDouble(child.GetValue(HeightProperty));
@@ -41,8 +43,10 @@ namespace GPGO_MultiPLCs.Views.Helpers
                     }
                     else if (child.Visibility != Visibility.Collapsed)
                     {
-                        child.Arrange(new Rect(x, y, finalSize.Width, ah));
-                        y += ah;
+                        ah_tag = !ah_tag;
+                        var h = ah_tag ? ah_0 : ah_1;
+                        child.Arrange(new Rect(x, y, finalSize.Width, h));
+                        y += h;
                     }
                 }
             }
@@ -62,7 +66,9 @@ namespace GPGO_MultiPLCs.Views.Helpers
                     }
                 }
 
-                var aw = Math.Round(fw / (InternalChildren.Count - cc));
+                var aw_0 = Math.Floor(fw / (InternalChildren.Count - cc));
+                var aw_1 = Math.Ceiling(fw / (InternalChildren.Count - cc));
+                var aw_tag = false;
                 foreach (UIElement child in InternalChildren)
                 {
                     var tw = Convert.ToDouble(child.GetValue(WidthProperty));
@@ -73,8 +79,10 @@ namespace GPGO_MultiPLCs.Views.Helpers
                     }
                     else if (child.Visibility != Visibility.Collapsed)
                     {
-                        child.Arrange(new Rect(x, y, aw, finalSize.Height));
-                        x += aw;
+                        aw_tag = !aw_tag;
+                        var w = aw_tag ? aw_0 : aw_1;
+                        child.Arrange(new Rect(x, y, w, finalSize.Height));
+                        x += w;
                     }
                 }
             }
@@ -87,7 +95,7 @@ namespace GPGO_MultiPLCs.Views.Helpers
             var fw = 0.0;
             var fh = 0.0;
 
-            foreach (UIElement child in Children)
+            foreach (UIElement child in InternalChildren)
             {
                 child.Measure(constraint);
                 var childDesiredSize = child.DesiredSize;
