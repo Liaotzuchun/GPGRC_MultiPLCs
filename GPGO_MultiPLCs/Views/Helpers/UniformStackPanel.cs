@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace GPGO_MultiPLCs.Views.Helpers
 {
-    public sealed class UniformStackPanel : StackPanel
+    public class UniformStackPanel : StackPanel
     {
         protected override Size ArrangeOverride(Size finalSize)
         {
@@ -18,8 +18,7 @@ namespace GPGO_MultiPLCs.Views.Helpers
             {
                 foreach (UIElement child in InternalChildren)
                 {
-                    var th = Convert.ToDouble(child.GetValue(HeightProperty));
-                    if (th > 0)
+                    if (child.GetValue(HeightProperty) is double th && th > 0)
                     {
                         fh -= th;
                         cc += 1;
@@ -30,23 +29,21 @@ namespace GPGO_MultiPLCs.Views.Helpers
                     }
                 }
 
-                var ah_0 = Math.Floor(fh / (InternalChildren.Count - cc));
-                var ah_1 = Math.Ceiling(fh / (InternalChildren.Count - cc));
-                var ah_tag = false;
+                var ah = Math.Floor(fh / (InternalChildren.Count - cc));
+                var _y = fh - ah * (InternalChildren.Count - cc);
                 foreach (UIElement child in InternalChildren)
                 {
-                    var th = Convert.ToDouble(child.GetValue(HeightProperty));
-                    if (th > 0)
+                    if (child.GetValue(HeightProperty) is double th && th > 0)
                     {
                         child.Arrange(new Rect(x, y, finalSize.Width, th));
                         y += th;
                     }
                     else if (child.Visibility != Visibility.Collapsed)
                     {
-                        ah_tag = !ah_tag;
-                        var h = ah_tag ? ah_0 : ah_1;
+                        var h = _y > 0 ? ah + 1 : ah;
                         child.Arrange(new Rect(x, y, finalSize.Width, h));
                         y += h;
+                        _y -= 1;
                     }
                 }
             }
@@ -54,8 +51,7 @@ namespace GPGO_MultiPLCs.Views.Helpers
             {
                 foreach (UIElement child in InternalChildren)
                 {
-                    var tw = Convert.ToDouble(child.GetValue(WidthProperty));
-                    if (tw > 0)
+                    if (child.GetValue(WidthProperty) is double tw && tw > 0)
                     {
                         fw -= tw;
                         cc += 1;
@@ -66,23 +62,21 @@ namespace GPGO_MultiPLCs.Views.Helpers
                     }
                 }
 
-                var aw_0 = Math.Floor(fw / (InternalChildren.Count - cc));
-                var aw_1 = Math.Ceiling(fw / (InternalChildren.Count - cc));
-                var aw_tag = false;
+                var aw = Math.Floor(fw / (InternalChildren.Count - cc));
+                var _x = fw - aw * ((InternalChildren.Count - cc));
                 foreach (UIElement child in InternalChildren)
                 {
-                    var tw = Convert.ToDouble(child.GetValue(WidthProperty));
-                    if (tw > 0)
+                    if (child.GetValue(WidthProperty) is double tw && tw > 0)
                     {
                         child.Arrange(new Rect(x, y, tw, finalSize.Height));
                         x += tw;
                     }
                     else if (child.Visibility != Visibility.Collapsed)
                     {
-                        aw_tag = !aw_tag;
-                        var w = aw_tag ? aw_0 : aw_1;
+                        var w = _x > 0 ? aw + 1 : aw;
                         child.Arrange(new Rect(x, y, w, finalSize.Height));
                         x += w;
+                        _x -= 1;
                     }
                 }
             }
@@ -100,15 +94,18 @@ namespace GPGO_MultiPLCs.Views.Helpers
                 child.Measure(constraint);
                 var childDesiredSize = child.DesiredSize;
 
-                if (Orientation == Orientation.Horizontal)
+                if(child.Visibility!= Visibility.Collapsed)
                 {
-                    fw += childDesiredSize.Width;
-                    fh = Math.Max(fh, childDesiredSize.Height);
-                }
-                else if (Orientation == Orientation.Vertical)
-                {
-                    fh += childDesiredSize.Height;
-                    fw = Math.Max(fw, childDesiredSize.Width);
+                    if (Orientation == Orientation.Horizontal)
+                    {
+                        fw += childDesiredSize.Width;
+                        fh = Math.Max(fh, childDesiredSize.Height);
+                    }
+                    else if (Orientation == Orientation.Vertical)
+                    {
+                        fh += childDesiredSize.Height;
+                        fw = Math.Max(fw, childDesiredSize.Width);
+                    }
                 }
             }
 

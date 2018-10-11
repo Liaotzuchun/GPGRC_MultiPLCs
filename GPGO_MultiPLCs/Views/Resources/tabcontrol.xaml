@@ -59,11 +59,12 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <local:UniformGrid_H
+                <local:UniformGridWithOrientation
                     x:Name="HeaderPanel"
                     Panel.ZIndex="1"
                     IsItemsHost="True"
                     KeyboardNavigation.TabIndex="1"
+                    Orientation="Horizontal"
                     Rows="1" />
                 <ContentPresenter
                     x:Name="PART_SelectedContentHost"
@@ -166,15 +167,12 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Panel.ZIndex" Value="100" />
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-                            <Setter TargetName="Border" Property="Background"
-                                    Value="{StaticResource DisabledBackgroundBrush}" />
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource DisabledBorderBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

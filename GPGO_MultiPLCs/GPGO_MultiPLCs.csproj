@@ -229,7 +229,7 @@
     <Compile Include="Helpers\TwoKeyDictionary.cs" />
     <Compile Include="ViewModels\TotalView_ViewModel.cs" />
     <Compile Include="Views\Helpers\TextBoxWatermarkBehavior.cs" />
-    <Compile Include="Views\Helpers\UniformGrid_Custom.cs" />
+    <Compile Include="Views\Helpers\UniformGridWithOrientation.cs" />
     <Compile Include="Views\Helpers\ValidationRules.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
