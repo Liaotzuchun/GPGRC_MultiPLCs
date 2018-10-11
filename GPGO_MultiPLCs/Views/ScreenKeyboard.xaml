@@ -97,7 +97,7 @@
                 <local:UniformGridWithOrientation
                     x:Name="WP"
                     Grid.Row="1"
-                    Margin="4,0,0,0"
+                    Margin="3,0,0,0"
                     Columns="10"
                     Focusable="False"
                     Rows="4">
@@ -600,7 +600,7 @@
                     x:Name="numkey"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Margin="0,0,4,0"
+                    Margin="0,0,3,0"
                     Columns="3"
                     Focusable="False"
                     Rows="4">
@@ -764,7 +764,7 @@
                 <local:UniformGridWithOrientation
                     x:Name="WP2"
                     Grid.Row="2"
-                    Margin="4,0,0,4"
+                    Margin="3,1,0,3"
                     Columns="10"
                     Focusable="False"
                     Rows="1">
@@ -890,7 +890,7 @@
                     x:Name="CloseB"
                     Grid.Row="2"
                     Grid.Column="2"
-                    Margin="1,1,5,5"
+                    Margin="1,2,3,4"
                     Content="{DynamicResource 輸入}"
                     Focusable="False">
                     <i:Interaction.Triggers>
