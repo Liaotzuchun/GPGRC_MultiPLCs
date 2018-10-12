@@ -18,17 +18,20 @@ namespace GPGO_MultiPLCs.Views.Helpers
             {
                 foreach (UIElement child in InternalChildren)
                 {
-                    if (child.GetValue(HeightProperty) is double th && th > 0)
+                    if (child.Visibility != Visibility.Collapsed)
                     {
-                        if (child.GetValue(MarginProperty) is Thickness tk)
+                        if (child.GetValue(HeightProperty) is double th && th > 0)
                         {
-                            th += (tk.Top + tk.Bottom);
-                        }
+                            if (child.GetValue(MarginProperty) is Thickness tk)
+                            {
+                                th += tk.Top + tk.Bottom;
+                            }
 
-                        fh -= th;
-                        cc += 1;
+                            fh -= th;
+                            cc += 1;
+                        }
                     }
-                    else if (child.Visibility == Visibility.Collapsed)
+                    else
                     {
                         cc += 1;
                     }
@@ -38,22 +41,25 @@ namespace GPGO_MultiPLCs.Views.Helpers
                 var _y = fh - ah * (InternalChildren.Count - cc);
                 foreach (UIElement child in InternalChildren)
                 {
-                    if (child.GetValue(HeightProperty) is double th && th > 0)
+                    if (child.Visibility != Visibility.Collapsed)
                     {
-                        if (child.GetValue(MarginProperty) is Thickness tk)
+                        if (child.GetValue(HeightProperty) is double th && th > 0)
                         {
-                            th += (tk.Top + tk.Bottom);
-                        }
+                            if (child.GetValue(MarginProperty) is Thickness tk)
+                            {
+                                th += tk.Top + tk.Bottom;
+                            }
 
-                        child.Arrange(new Rect(x, y, finalSize.Width, th));
-                        y += th;
-                    }
-                    else if (child.Visibility != Visibility.Collapsed)
-                    {
-                        var h = _y > 0 ? ah + 1 : ah;
-                        child.Arrange(new Rect(x, y, finalSize.Width, h));
-                        y += h;
-                        _y -= 1;
+                            child.Arrange(new Rect(x, y, finalSize.Width, th));
+                            y += th;
+                        }
+                        else
+                        {
+                            var h = _y > 0 ? ah + 1 : ah;
+                            child.Arrange(new Rect(x, y, finalSize.Width, h));
+                            y += h;
+                            _y -= 1;
+                        }
                     }
                 }
             }
@@ -61,42 +67,48 @@ namespace GPGO_MultiPLCs.Views.Helpers
             {
                 foreach (UIElement child in InternalChildren)
                 {
-                    if (child.GetValue(WidthProperty) is double tw && tw > 0)
+                    if (child.Visibility != Visibility.Collapsed)
                     {
-                        if (child.GetValue(MarginProperty) is Thickness tk)
+                        if (child.GetValue(WidthProperty) is double tw && tw > 0)
                         {
-                            tw += (tk.Left + tk.Right);
-                        }
+                            if (child.GetValue(MarginProperty) is Thickness tk)
+                            {
+                                tw += tk.Left + tk.Right;
+                            }
 
-                        fw -= tw;
-                        cc += 1;
+                            fw -= tw;
+                            cc += 1;
+                        }
                     }
-                    else if (child.Visibility == Visibility.Collapsed)
+                    else
                     {
                         cc += 1;
                     }
                 }
 
                 var aw = Math.Floor(fw / (InternalChildren.Count - cc));
-                var _x = fw - aw * ((InternalChildren.Count - cc));
+                var _x = fw - aw * (InternalChildren.Count - cc);
                 foreach (UIElement child in InternalChildren)
                 {
-                    if (child.GetValue(WidthProperty) is double tw && tw > 0)
+                    if (child.Visibility != Visibility.Collapsed)
                     {
-                        if (child.GetValue(MarginProperty) is Thickness tk)
+                        if (child.GetValue(WidthProperty) is double tw && tw > 0)
                         {
-                            tw += (tk.Left + tk.Right);
-                        }
+                            if (child.GetValue(MarginProperty) is Thickness tk)
+                            {
+                                tw += tk.Left + tk.Right;
+                            }
 
-                        child.Arrange(new Rect(x, y, tw, finalSize.Height));
-                        x += tw;
-                    }
-                    else if (child.Visibility != Visibility.Collapsed)
-                    {
-                        var w = _x > 0 ? aw + 1 : aw;
-                        child.Arrange(new Rect(x, y, w, finalSize.Height));
-                        x += w;
-                        _x -= 1;
+                            child.Arrange(new Rect(x, y, tw, finalSize.Height));
+                            x += tw;
+                        }
+                        else
+                        {
+                            var w = _x > 0 ? aw + 1 : aw;
+                            child.Arrange(new Rect(x, y, w, finalSize.Height));
+                            x += w;
+                            _x -= 1;
+                        }
                     }
                 }
             }
