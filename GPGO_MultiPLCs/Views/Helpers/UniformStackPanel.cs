@@ -20,6 +20,11 @@ namespace GPGO_MultiPLCs.Views.Helpers
                 {
                     if (child.GetValue(HeightProperty) is double th && th > 0)
                     {
+                        if (child.GetValue(MarginProperty) is Thickness tk)
+                        {
+                            th += (tk.Top + tk.Bottom);
+                        }
+
                         fh -= th;
                         cc += 1;
                     }
@@ -35,6 +40,11 @@ namespace GPGO_MultiPLCs.Views.Helpers
                 {
                     if (child.GetValue(HeightProperty) is double th && th > 0)
                     {
+                        if (child.GetValue(MarginProperty) is Thickness tk)
+                        {
+                            th += (tk.Top + tk.Bottom);
+                        }
+
                         child.Arrange(new Rect(x, y, finalSize.Width, th));
                         y += th;
                     }
@@ -53,6 +63,11 @@ namespace GPGO_MultiPLCs.Views.Helpers
                 {
                     if (child.GetValue(WidthProperty) is double tw && tw > 0)
                     {
+                        if (child.GetValue(MarginProperty) is Thickness tk)
+                        {
+                            tw += (tk.Left + tk.Right);
+                        }
+
                         fw -= tw;
                         cc += 1;
                     }
@@ -68,6 +83,11 @@ namespace GPGO_MultiPLCs.Views.Helpers
                 {
                     if (child.GetValue(WidthProperty) is double tw && tw > 0)
                     {
+                        if (child.GetValue(MarginProperty) is Thickness tk)
+                        {
+                            tw += (tk.Left + tk.Right);
+                        }
+
                         child.Arrange(new Rect(x, y, tw, finalSize.Height));
                         x += tw;
                     }
@@ -94,18 +114,15 @@ namespace GPGO_MultiPLCs.Views.Helpers
                 child.Measure(constraint);
                 var childDesiredSize = child.DesiredSize;
 
-                if(child.Visibility!= Visibility.Collapsed)
+                if (Orientation == Orientation.Horizontal)
                 {
-                    if (Orientation == Orientation.Horizontal)
-                    {
-                        fw += childDesiredSize.Width;
-                        fh = Math.Max(fh, childDesiredSize.Height);
-                    }
-                    else if (Orientation == Orientation.Vertical)
-                    {
-                        fh += childDesiredSize.Height;
-                        fw = Math.Max(fw, childDesiredSize.Width);
-                    }
+                    fw += childDesiredSize.Width;
+                    fh = Math.Max(fh, childDesiredSize.Height);
+                }
+                else if (Orientation == Orientation.Vertical)
+                {
+                    fh += childDesiredSize.Height;
+                    fw = Math.Max(fw, childDesiredSize.Width);
                 }
             }
 
