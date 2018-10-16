@@ -32,7 +32,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (index < PLC_All.Length && index > -1)
+                if (index < PLC_All.Count && index > -1)
                 {
                     //! short data先，bit bool後
 
@@ -59,7 +59,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (index < PLC_All.Length && index > -1 && PLC_All[index].OnlineStatus != val)
+                if (index < PLC_All.Count && index > -1 && PLC_All[index].OnlineStatus != val)
                 {
                     PLC_All[index].OnlineStatus = val;
                     EventHappened?.Invoke(val ? (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (index + 1) + " Offline!", string.Empty, false) :
@@ -92,7 +92,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand BackCommand { get; }
 
         /// <summary>所有PLC</summary>
-        public PLC_DataProvider[] PLC_All { get; }
+        public IList<PLC_DataProvider> PLC_All { get; }
 
         /// <summary>檢視詳細資訊的PLC</summary>
         public PLC_DataProvider PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
@@ -155,7 +155,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     var vals = AssetNumbersPath.ReadFromJsonFile<string[]>();
 
-                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Length); i++)
+                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
                     {
                         PLC_All[i].OvenInfo.AssetNumber = vals[i];
                     }
@@ -182,7 +182,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     var vals = MachineCodesPath.ReadFromJsonFile<string[]>();
 
-                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Length); i++)
+                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
                     {
                         PLC_All[i].OvenInfo.MachineCode = vals[i];
                     }
@@ -194,7 +194,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
             }
 
-            for (var i = 0; i < PLC_All.Length; i++)
+            for (var i = 0; i < PLC_All.Count; i++)
             {
                 PLC_All[i].OvenInfo.MachineCode = "Machine" + (i + 1).ToString("00");
             }

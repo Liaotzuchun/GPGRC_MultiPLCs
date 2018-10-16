@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -243,9 +244,9 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [LanguageTranslator("Used Stations", "使用站點", "使用站点")]
-        public bool[] Used_Stations
+        public IList<bool> Used_Stations
         {
-            get => Get<bool[]>();
+            get => Get <IList<bool>>();
             set => Set(value);
         }
 

@@ -380,7 +380,7 @@ namespace GPGO_MultiPLCs
 
                                              foreach (var recipe in list)
                                              {
-                                                 for (var i = 0; i < recipe.Used_Stations.Length; i++)
+                                                 for (var i = 0; i < recipe.Used_Stations.Count; i++)
                                                  {
                                                      if (recipe.Used_Stations[i])
                                                      {
