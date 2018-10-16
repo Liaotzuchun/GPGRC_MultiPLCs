@@ -32,7 +32,8 @@
                 <TextBlock
                     x:Name="ProgressString"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource BaseForeground}" />
             </Grid>
             <DataTemplate.Triggers>
                 <DataTrigger
@@ -40,7 +41,7 @@
                     Value="0">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                    <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />-->
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 待命}" />
                 </DataTrigger>
                 <DataTrigger
@@ -48,7 +49,7 @@
                     Value="1">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                    <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />-->
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 準備中}" />
                 </DataTrigger>
                 <DataTrigger
@@ -56,7 +57,7 @@
                     Value="2">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                    <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="Gold" />-->
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
                 </DataTrigger>
                 <DataTrigger
@@ -64,7 +65,7 @@
                     Value="3">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
-                    <Setter TargetName="ProgressString" Property="Foreground" Value="White" />
+                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="Red" />-->
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 恆溫中}" />
                 </DataTrigger>
                 <DataTrigger
@@ -72,7 +73,7 @@
                     Value="4">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
-                    <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
+                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />-->
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 降溫中}" />
                 </DataTrigger>
             </DataTemplate.Triggers>
@@ -2342,8 +2343,8 @@
                                                 <Grid>
                                                     <Grid.Background>
                                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                            <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
-                                                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                                                            <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
+                                                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
                                                         </LinearGradientBrush>
                                                     </Grid.Background>
                                                     <Grid.ColumnDefinitions>
@@ -2358,13 +2359,25 @@
                                                     <Border
                                                         x:Name="Border2"
                                                         Grid.Column="1"
-                                                        Background="{StaticResource LightColorBrush}"
-                                                        Opacity="0" />
+                                                        Opacity="0">
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                                <GradientStop Offset="0.25" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
+                                                                <GradientStop Offset="1.25" Color="{Binding Color, Source={StaticResource WorkingBrush}}" />
+                                                            </LinearGradientBrush>
+                                                        </Border.Background>
+                                                    </Border>
                                                     <Border
                                                         x:Name="Border3"
                                                         Grid.Column="1"
-                                                        Background="{StaticResource LightColorBrush}"
-                                                        Opacity="0" />
+                                                        Opacity="0">
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                                <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
+                                                                <GradientStop Offset="1.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                            </LinearGradientBrush>
+                                                        </Border.Background>
+                                                    </Border>
                                                     <ContentPresenter Grid.Column="1" />
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup x:Name="CommonStates">
@@ -2441,35 +2454,35 @@
                                             Value="0">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                                            <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />-->
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="1">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                                            <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />-->
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="2">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                                            <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
+                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="Gold" />-->
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="3">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
-                                            <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
+                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="Red" />-->
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="4">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
-                                            <Setter TargetName="TextBlock" Property="Foreground" Value="Blue" />
+                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="Blue" />-->
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>

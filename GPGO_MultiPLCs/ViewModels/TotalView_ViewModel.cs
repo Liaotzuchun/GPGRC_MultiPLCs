@@ -30,19 +30,25 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">更新值集合</param>
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
-            if (index < PLC_All.Length && index > -1)
+            try
             {
-                //! short data先，bit bool後
-
-                foreach (var D in val.D)
+                if (index < PLC_All.Length && index > -1)
                 {
-                    PLC_All[index].D_Values[D.Key] = D.Value;
-                }
+                    //! short data先，bit bool後
 
-                foreach (var M in val.M)
-                {
-                    PLC_All[index].M_Values[M.Key] = M.Value;
+                    foreach (var D in val.D)
+                    {
+                        PLC_All[index].D_Values[D.Key] = D.Value;
+                    }
+
+                    foreach (var M in val.M)
+                    {
+                        PLC_All[index].M_Values[M.Key] = M.Value;
+                    }
                 }
+            }
+            catch (Exception)
+            {
             }
         }
 
@@ -51,11 +57,17 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">是否連線</param>
         void IGPServiceCallback.Status_Changed(int index, bool val)
         {
-            if (index < PLC_All.Length && index > -1 && PLC_All[index].OnlineStatus != val)
+            try
             {
-                PLC_All[index].OnlineStatus = val;
-                EventHappened?.Invoke(val ? (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!", string.Empty, false) :
-                                            (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (Index + 1) + " Offline!", string.Empty, true));
+                if (index < PLC_All.Length && index > -1 && PLC_All[index].OnlineStatus != val)
+                {
+                    PLC_All[index].OnlineStatus = val;
+                    EventHappened?.Invoke(val ? (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (index + 1) + " Offline!", string.Empty, false) :
+                                                (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (index + 1) + " Offline!", string.Empty, true));
+                }
+            }
+            catch (Exception)
+            {
             }
         }
 
@@ -466,7 +478,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     {
                                         if (Connect() && Initial() && SetReadLists(namearray)) //!連線並發送訂閱列表
                                         {
-                                            EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, false));
+                                            //EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, false));
                                             Gate_Status = true;
                                         }
                                     }

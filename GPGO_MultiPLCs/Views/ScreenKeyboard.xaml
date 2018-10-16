@@ -100,6 +100,7 @@
                     Margin="3,0,0,0"
                     Columns="10"
                     Focusable="False"
+                    Orientation="Horizontal"
                     Rows="4">
                     <Button
                         x:Name="Button11"
@@ -603,6 +604,7 @@
                     Margin="0,0,3,0"
                     Columns="3"
                     Focusable="False"
+                    Orientation="Horizontal"
                     Rows="4">
                     <Button
                         x:Name="Button1"
@@ -767,6 +769,7 @@
                     Margin="3,1,0,3"
                     Columns="10"
                     Focusable="False"
+                    Orientation="Horizontal"
                     Rows="1">
                     <Button
                         x:Name="Button51"
