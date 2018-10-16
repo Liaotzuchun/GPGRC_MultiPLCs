@@ -351,7 +351,14 @@ namespace GPGO_MultiPLCs
                                                sb.Append(", Level:");
                                                sb.Append(user.Level.ToString());
                                                sb.Append(", App ShutDown.");
-                                               LogVM.AddToDB(new LogEvent { AddedTime = DateTime.Now, StationNumber = 0, Type = EventType.Operator, Description = sb.ToString(), Value = true });
+                                               LogVM.AddToDB(new LogEvent
+                                                             {
+                                                                 AddedTime = DateTime.Now,
+                                                                 StationNumber = 0,
+                                                                 Type = EventType.Operator,
+                                                                 Description = sb.ToString(),
+                                                                 Value = true
+                                                             });
                                                Application.Current.Shutdown(23555277);
                                            }
                                        }
