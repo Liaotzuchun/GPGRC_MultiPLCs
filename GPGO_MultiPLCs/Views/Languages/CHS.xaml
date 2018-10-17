@@ -9,7 +9,7 @@
     <sys:String x:Key="事件履歷">事件履历</sys:String>
     <sys:String x:Key="設備">设备</sys:String>
     <sys:String x:Key="設備碼">设备码</sys:String>
-    <sys:String x:Key="財產編號">财产编号</sys:String>
+    <sys:String x:Key="財產編號">产编</sys:String>
     <sys:String x:Key="配方">配方</sys:String>
     <sys:String x:Key="投產">投产</sys:String>
     <sys:String x:Key="取消">取消</sys:String>
@@ -19,6 +19,7 @@
     <sys:String x:Key="數量">数量</sys:String>
     <sys:String x:Key="工單">工单</sys:String>
     <sys:String x:Key="狀態">状态</sys:String>
+    <sys:String x:Key="離線">脱机</sys:String>
     <sys:String x:Key="待命">待命</sys:String>
     <sys:String x:Key="準備中">准备中</sys:String>
     <sys:String x:Key="升溫中">升温中</sys:String>

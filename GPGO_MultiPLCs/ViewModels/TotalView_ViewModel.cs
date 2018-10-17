@@ -370,7 +370,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!PLC由OP指定變更配方時
                 PLC_All[i].SwitchRecipeEvent += async e => WantRecipe == null ? null : await WantRecipe.Invoke((index, e.RecipeName));
 
-                //!烤箱自動啟動時，開始紀錄
+                //!烤箱自動啟動前，獲取配方
                 PLC_All[i].StartRecording += async recipeName =>
                                              {
                                                  var recipe = WantRecipe == null ? null : await WantRecipe.Invoke((index, recipeName));

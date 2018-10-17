@@ -18,6 +18,7 @@ namespace GPGO_MultiPLCs.Models
 
         public enum Status
         {
+            離線 = -1,
             待命中,
             準備中,
             升溫,
@@ -56,6 +57,11 @@ namespace GPGO_MultiPLCs.Models
         {
             get
             {
+                if (!OnlineStatus)
+                {
+                    return 0.0;
+                }
+
                 var val = (double)CurrentSegment / UsedSegmentCounts / 2;
 
                 if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
@@ -72,6 +78,11 @@ namespace GPGO_MultiPLCs.Models
         {
             get
             {
+                if (!OnlineStatus)
+                {
+                    return Status.離線;
+                }
+
                 if (IsRecording && CurrentSegment == 0)
                 {
                     return Status.準備中;
@@ -256,11 +267,6 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            if (StartRecording != null && await StartRecording.Invoke(RecipeName) is PLC_Recipe recipe)
-            {
-                recipe.CopyTo(this);
-            }
-
             await Task.Factory.StartNew(() =>
                                         {
                                             var n = TimeSpan.Zero;
@@ -423,7 +429,12 @@ namespace GPGO_MultiPLCs.Models
                                                                          Ext_Info.Add(info);
                                                                      }
 
-                                                                     if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((Selected_Name, true)) is PLC_Recipe recipe)
+                                                                     //if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((Selected_Name, true)) is PLC_Recipe recipe)
+                                                                     //{
+                                                                     //    recipe.CopyTo(this);
+                                                                     //}
+
+                                                                     if (StartRecording != null && await StartRecording.Invoke(RecipeName) is PLC_Recipe recipe)
                                                                      {
                                                                          recipe.CopyTo(this);
                                                                      }
@@ -599,7 +610,7 @@ namespace GPGO_MultiPLCs.Models
                                          }
                                          else if (IsRecording)
                                          {
-                                             if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
+                                             if (key1 == SignalNames.自動停止)
                                              {
                                                  EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
@@ -611,7 +622,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                  CTS?.Cancel();
                                              }
-                                             else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
+                                             else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.程式結束 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
                                              {
                                                  EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), value);

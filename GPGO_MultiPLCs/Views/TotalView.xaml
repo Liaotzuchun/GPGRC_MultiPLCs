@@ -29,6 +29,9 @@
                     x:Name="Progress"
                     Maximum="1"
                     Value="{Binding Progress, Mode=OneWay}" />
+                <Border
+                    Background="{StaticResource DisabledBackgroundBrush}"
+                    Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                 <TextBlock
                     x:Name="ProgressString"
                     HorizontalAlignment="Center"
@@ -36,6 +39,11 @@
                     Foreground="{StaticResource BaseForeground}" />
             </Grid>
             <DataTemplate.Triggers>
+                <DataTrigger
+                    Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    Value="-1">
+                    <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 離線}" />
+                </DataTrigger>
                 <DataTrigger
                     Binding="{Binding ProgressStatus, Mode=OneWay}"
                     Value="0">
@@ -177,7 +185,7 @@
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
-                                                        Text="{DynamicResource 設備}" />
+                                                        Text="{DynamicResource 財產編號}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -196,12 +204,12 @@
                                                         BorderThickness="0"
                                                         Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
-                                                        Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}" />
+                                                        Text="{Binding OvenInfo.AssetNumber, Mode=TwoWay}" />
                                                     <TextBox
                                                         BorderThickness="0"
                                                         Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
-                                                        Text="{Binding OvenInfo.AssetNumber, Mode=TwoWay}"
+                                                        Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}"
                                                         Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                                 </UniformGrid>
                                                 <ComboBox
@@ -2440,6 +2448,14 @@
                                             BorderThickness="0"
                                             Maximum="1"
                                             Value="{Binding Progress, Mode=OneWay}" />
+                                        <Border Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                    <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
+                                                    <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource DisabledBorderBrush}}" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                        </Border>
                                         <TextBlock
                                             x:Name="TextBlock"
                                             HorizontalAlignment="Center"

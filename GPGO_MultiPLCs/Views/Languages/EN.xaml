@@ -9,7 +9,7 @@
     <sys:String x:Key="事件履歷">Events</sys:String>
     <sys:String x:Key="設備">Device</sys:String>
     <sys:String x:Key="設備碼">DeviceCode</sys:String>
-    <sys:String x:Key="財產編號">AssetNumber</sys:String>
+    <sys:String x:Key="財產編號">Asset No.</sys:String>
     <sys:String x:Key="配方">Recipe</sys:String>
     <sys:String x:Key="投產">Input</sys:String>
     <sys:String x:Key="取消">Cancel</sys:String>
@@ -19,6 +19,7 @@
     <sys:String x:Key="數量">Quantity</sys:String>
     <sys:String x:Key="工單">Order</sys:String>
     <sys:String x:Key="狀態">Status</sys:String>
+    <sys:String x:Key="離線">Off line</sys:String>
     <sys:String x:Key="待命">Stand by</sys:String>
     <sys:String x:Key="準備中">Ready to go</sys:String>
     <sys:String x:Key="升溫中">Heating</sys:String>
