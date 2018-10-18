@@ -368,7 +368,12 @@ namespace GPGO_MultiPLCs.ViewModels
                 var index = i;
 
                 //!PLC由OP指定變更配方時
-                PLC_All[i].SwitchRecipeEvent += async e => WantRecipe == null ? null : await WantRecipe.Invoke((index, e.RecipeName));
+                PLC_All[i].SwitchRecipeEvent += async recipeName =>
+                                                {
+                                                    var recipe = WantRecipe == null ? null : await WantRecipe.Invoke((index, recipeName));
+
+                                                    return recipe;
+                                                };
 
                 //!烤箱自動啟動前，獲取配方
                 PLC_All[i].StartRecording += async recipeName =>
@@ -457,6 +462,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                             {
                                                 CancelCheckIn?.Invoke((index, TrolleyCode));
                                             };
+
+                //!讀取PLC目前配方參數
+                PLC_All[i].GetPLCRecipeParameter += async () =>
+                                                    {
+                                                        return PLC_Client?.State == CommunicationState.Opened ?
+                                                                   await PLC_Client.Get_DataAsync(DataType.D,
+                                                                                                  index,
+                                                                                                  PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().Select(x => x.Key).ToArray()) : null;
+                                                    };
             }
 
             LoadMachineCodes();

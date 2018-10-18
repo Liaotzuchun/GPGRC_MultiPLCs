@@ -171,8 +171,9 @@ namespace GPGO_MultiPLCs.Models
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
         public event Func<string, ValueTask<PLC_Recipe>> StartRecording;
-        public event Func<(string RecipeName, bool UpdateToPLC), ValueTask<PLC_Recipe>> SwitchRecipeEvent;
+        public event Func<string, ValueTask<PLC_Recipe>> SwitchRecipeEvent;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
+        public event Func<ValueTask<Dictionary<int, short>>> GetPLCRecipeParameter;
 
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, bool value)
         {
@@ -248,7 +249,7 @@ namespace GPGO_MultiPLCs.Models
             {
                 recipe.CopyTo(this);
 
-                Set(recipe.RecipeName, nameof(Selected_Name));
+                Set(RecipeName, nameof(Selected_Name));
             }
 
             Intput_Name = Selected_Name;
@@ -256,19 +257,23 @@ namespace GPGO_MultiPLCs.Models
 
         public async void SetRecipe(string recipeName)
         {
-            if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((recipeName, true)) is PLC_Recipe recipe)
+            if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke(recipeName) is PLC_Recipe recipe)
             {
                 if (await Dialog.Show(new Dictionary<Language, string> { { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" } }, recipe, true))
                 {
                     recipe.CopyTo(this);
 
-                    Set(recipe.RecipeName, nameof(Selected_Name));
+                    Set(RecipeName, nameof(Selected_Name));
                 }
             }
 
             Intput_Name = Selected_Name;
         }
 
+        /// <summary>開始記錄</summary>
+        /// <param name="cycle_ms">紀錄週期，單位為毫秒</param>
+        /// <param name="ct">取消任務的token</param>
+        /// <returns></returns>
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
             await Task.Factory.StartNew(() =>
@@ -343,7 +348,7 @@ namespace GPGO_MultiPLCs.Models
                                                             }
                                                             else if (Recipe_Names.Contains(Intput_Name))
                                                             {
-                                                                if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((Intput_Name, false)) is PLC_Recipe recipe)
+                                                                if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke(Intput_Name) is PLC_Recipe recipe)
                                                                 {
                                                                     await SetRecipe(recipe);
                                                                 }
@@ -606,15 +611,22 @@ namespace GPGO_MultiPLCs.Models
 
                                              ResetStopTokenSource();
 
-                                             //! 當沒有刷取台車code時，不執行紀錄
-                                             if (!string.IsNullOrEmpty(OvenInfo.TrolleyCode))
+                                             //! 當沒有刷取台車code時，抓取PLC目前配方參數以記錄
+                                             if (string.IsNullOrEmpty(OvenInfo.TrolleyCode) && GetPLCRecipeParameter!=null && await GetPLCRecipeParameter.Invoke() is Dictionary<int, short> recipe)
                                              {
-                                                 RecordingTask = StartRecoder(60000, CTS.Token);
+                                                 foreach (var val in recipe)
+                                                 {
+                                                     Recipe_Values[val.Key] = val.Value;
+                                                 }
+
+                                                 Intput_Name = RecipeName;
                                              }
+
+                                             RecordingTask = StartRecoder(60000, CTS.Token);
                                          }
                                          else if (IsRecording)
                                          {
-                                             if (key1 == SignalNames.自動停止)
+                                             if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
                                              {
                                                  EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
@@ -626,7 +638,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                  CTS?.Cancel();
                                              }
-                                             else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.程式結束 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
+                                             else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.電源反相 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
                                              {
                                                  EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), value);
