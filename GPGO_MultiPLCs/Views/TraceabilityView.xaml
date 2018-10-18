@@ -1297,6 +1297,7 @@
                 </Grid.ColumnDefinitions>
                 <ListBox
                     Grid.Column="1"
+                    FontSize="16"
                     ItemContainerStyle="{StaticResource ListBoxItem2}"
                     SelectedIndex="{Binding Mode, Mode=TwoWay}">
                     <ListBox.Template>

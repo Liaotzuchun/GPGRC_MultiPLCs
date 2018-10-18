@@ -64,9 +64,9 @@
                 <DataTrigger
                     Binding="{Binding ProgressStatus, Mode=OneWay}"
                     Value="2">
-                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
-                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                    <Setter TargetName="ProgressString" Property="Foreground" Value="Gold" />
+                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource EnergyBrush}" />
+                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource EnergyBorderBrush}" />
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
                 </DataTrigger>
                 <DataTrigger
@@ -312,7 +312,7 @@
                                                     Grid.Column="3"
                                                     Background="{StaticResource LightColorBrush}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,0,1,0">
+                                                    BorderThickness="0,0,0,0">
                                                     <ContentControl
                                                         Content="{Binding Mode=OneWay}"
                                                         ContentTemplate="{StaticResource ProgressDataTemplate}" />
@@ -343,10 +343,11 @@
                                                     Grid.Column="3"
                                                     Background="{StaticResource LightColorBrush}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,1,1,0">
+                                                    BorderThickness="0,1,0,0">
                                                     <Grid Background="Transparent">
                                                         <ToggleButton
                                                             x:Name="ToggleButton"
+                                                            Margin="0,0,4,0"
                                                             Content="{Binding ProcessCounts, Mode=OneWay}"
                                                             Style="{StaticResource ArrowToggle}">
                                                             <i:Interaction.Triggers>
@@ -2490,9 +2491,9 @@
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="2">
-                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
-                                            <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                                            <Setter TargetName="TextBlock" Property="Foreground" Value="Gold" />
+                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource EnergyBrush}" />
+                                            <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource EnergyBorderBrush}" />
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="Red" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"

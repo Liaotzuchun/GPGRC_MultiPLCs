@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
@@ -30,26 +31,30 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">更新值集合</param>
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
-            try
-            {
-                if (index < PLC_All.Count && index > -1)
-                {
-                    //! short data先，bit bool後
+            ao?.Post(e =>
+                     {
+                         var args = (ValueTuple<int, PLC_Messages>)e;
+                         try
+                         {
+                             if (args.Item1 < PLC_All.Count && args.Item1 > -1)
+                             {
+                                 //! short data先，bit bool後
 
-                    foreach (var D in val.D)
-                    {
-                        PLC_All[index].D_Values[D.Key] = D.Value;
-                    }
+                                 foreach (var D in args.Item2.D)
+                                 {
+                                     PLC_All[args.Item1].D_Values[D.Key] = D.Value;
+                                 }
 
-                    foreach (var M in val.M)
-                    {
-                        PLC_All[index].M_Values[M.Key] = M.Value;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
+                                 foreach (var M in args.Item2.M)
+                                 {
+                                     PLC_All[args.Item1].M_Values[M.Key] = M.Value;
+                                 }
+                             }
+                         }
+                         catch (Exception)
+                         {
+                         }
+                     }, (index, val));
         }
 
         /// <summary>PLC連線狀態</summary>
@@ -57,19 +62,25 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">是否連線</param>
         void IGPServiceCallback.Status_Changed(int index, bool val)
         {
-            try
-            {
-                if (index < PLC_All.Count && index > -1 && PLC_All[index].OnlineStatus != val)
-                {
-                    PLC_All[index].OnlineStatus = val;
-                    EventHappened?.Invoke(val ? (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (index + 1) + " Offline!", string.Empty, false) :
-                                              (index, EventType.Alarm, DateTime.Now, "PLC NO. " + (index + 1) + " Offline!", string.Empty, true));
-                }
-            }
-            catch (Exception)
-            {
-            }
+            ao?.Post(e =>
+                     {
+                         var args = (ValueTuple<int, bool>)e;
+                         try
+                         {
+                             if (args.Item1 < PLC_All.Count && args.Item1 > -1 && PLC_All[args.Item1].OnlineStatus != args.Item2)
+                             {
+                                 PLC_All[args.Item1].OnlineStatus = args.Item2;
+                                 EventHappened?.Invoke(args.Item2 ? (args.Item1, EventType.Alarm, DateTime.Now, "PLC NO. " + (args.Item1 + 1) + " Offline!", string.Empty, false) :
+                                                           (args.Item1, EventType.Alarm, DateTime.Now, "PLC NO. " + (args.Item1 + 1) + " Offline!", string.Empty, true));
+                             }
+                         }
+                         catch (Exception)
+                         {
+                         }
+                     }, (index, val));
         }
+
+        private readonly AsyncOperation ao;
 
         /// <summary>財產編號儲存位置</summary>
         private const string AssetNumbersPath = "AssetNumbers.json";
@@ -345,6 +356,7 @@ namespace GPGO_MultiPLCs.ViewModels
             ViewIndex = -1;
             var PLC_Count = plc_maps.Count;
             site = new InstanceContext(this);
+            ao = AsyncOperationManager.CreateOperation(null);
 
             BackCommand = new RelayCommand(o =>
                                            {
@@ -368,22 +380,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 var index = i;
 
                 //!PLC由OP指定變更配方時
-                PLC_All[i].SwitchRecipeEvent += async recipeName =>
-                                                {
-                                                    var recipe = WantRecipe == null ? null : await WantRecipe.Invoke((index, recipeName));
-
-                                                    return recipe;
-                                                };
-
-                //!烤箱自動啟動前，獲取配方
-                PLC_All[i].StartRecording += async recipeName =>
+                PLC_All[i].GetRecipeEvent += async recipeName =>
                                              {
                                                  var recipe = WantRecipe == null ? null : await WantRecipe.Invoke((index, recipeName));
-
-                                                 if (PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
-                                                 {
-                                                     await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
-                                                 }
 
                                                  return recipe;
                                              };
@@ -470,6 +469,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                    await PLC_Client.Get_DataAsync(DataType.D,
                                                                                                   index,
                                                                                                   PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().Select(x => x.Key).ToArray()) : null;
+                                                    };
+
+                PLC_All[i].SetPLCRecipeParameter += async values =>
+                                                    {
+                                                        if (PLC_Client?.State == CommunicationState.Opened)
+                                                        {
+                                                            await PLC_Client.Set_DataAsync(DataType.D, index, values);
+                                                        }
                                                     };
             }
 

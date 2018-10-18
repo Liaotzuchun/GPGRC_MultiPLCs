@@ -128,7 +128,7 @@ namespace GPGO_MultiPLCs.Helpers
 
         public void Clear()
         {
-            for (var i = 0; i < ContainedCollection.Count; i++)
+            while (ContainedCollection.Count > 0)
             {
                 base.TryTake(out _);
             }

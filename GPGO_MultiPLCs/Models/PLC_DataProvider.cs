@@ -128,7 +128,6 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 Set(value);
-                OvenInfo.StartTime = DateTime.Now;
 
                 value.ContinueWith(x =>
                                    {
@@ -163,17 +162,15 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public event Action<string> AssetNumberChanged;
-
         public event Action<string> CancelCheckIn;
-
         public event Action<(EventType type, DateTime time, string note, string tag, object value)> EventHappened;
+        public event Func<ValueTask<Dictionary<int, short>>> GetPLCRecipeParameter;
+        public event Func<string, ValueTask<PLC_Recipe>> GetRecipeEvent;
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
         public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
-        public event Func<string, ValueTask<PLC_Recipe>> StartRecording;
-        public event Func<string, ValueTask<PLC_Recipe>> SwitchRecipeEvent;
+        public event Func<Dictionary<int, short>, ValueTask> SetPLCRecipeParameter;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
-        public event Func<ValueTask<Dictionary<int, short>>> GetPLCRecipeParameter;
 
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, bool value)
         {
@@ -243,21 +240,9 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
-        public async Task SetRecipe(PLC_Recipe recipe)
-        {
-            if (await Dialog.Show(new Dictionary<Language, string> { { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" } }, recipe, true))
-            {
-                recipe.CopyTo(this);
-
-                Set(RecipeName, nameof(Selected_Name));
-            }
-
-            Intput_Name = Selected_Name;
-        }
-
         public async void SetRecipe(string recipeName)
         {
-            if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke(recipeName) is PLC_Recipe recipe)
+            if (GetRecipeEvent != null && await GetRecipeEvent.Invoke(recipeName) is PLC_Recipe recipe)
             {
                 if (await Dialog.Show(new Dictionary<Language, string> { { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" } }, recipe, true))
                 {
@@ -268,6 +253,11 @@ namespace GPGO_MultiPLCs.Models
             }
 
             Intput_Name = Selected_Name;
+
+            if (SetPLCRecipeParameter != null)
+            {
+                await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+            }
         }
 
         /// <summary>開始記錄</summary>
@@ -276,13 +266,15 @@ namespace GPGO_MultiPLCs.Models
         /// <returns></returns>
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
+            OvenInfo.StartTime = DateTime.Now;
+
             await Task.Factory.StartNew(() =>
                                         {
                                             var n = TimeSpan.Zero;
-                                            var nt = DateTime.Now;
 
                                             while (!ct.IsCancellationRequested)
                                             {
+                                                var nt = DateTime.Now;
                                                 var et = nt - OvenInfo.StartTime;
                                                 if (et >= n)
                                                 {
@@ -318,7 +310,7 @@ namespace GPGO_MultiPLCs.Models
                                             }
 
                                             AddTemperatures(OvenInfo.StartTime,
-                                                            nt,
+                                                            DateTime.Now, 
                                                             ThermostatTemperature,
                                                             OvenTemperature_1,
                                                             OvenTemperature_2,
@@ -335,7 +327,8 @@ namespace GPGO_MultiPLCs.Models
         public PLC_DataProvider(PLC_DevicesMap map, IDialogService dialog)
         {
             Dialog = dialog;
-            CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
+
+            CheckRecipeCommand_KeyIn = new RelayCommand(e =>
                                                         {
                                                             if (((KeyEventArgs)e).Key != Key.Enter || Selected_Name == null)
                                                             {
@@ -348,10 +341,7 @@ namespace GPGO_MultiPLCs.Models
                                                             }
                                                             else if (Recipe_Names.Contains(Intput_Name))
                                                             {
-                                                                if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke(Intput_Name) is PLC_Recipe recipe)
-                                                                {
-                                                                    await SetRecipe(recipe);
-                                                                }
+                                                                SetRecipe(Intput_Name);
                                                             }
                                                             else
                                                             {
@@ -438,14 +428,14 @@ namespace GPGO_MultiPLCs.Models
                                                                          Ext_Info.Add(info);
                                                                      }
 
-                                                                     //if (SwitchRecipeEvent != null && await SwitchRecipeEvent.Invoke((Selected_Name, true)) is PLC_Recipe recipe)
-                                                                     //{
-                                                                     //    recipe.CopyTo(this);
-                                                                     //}
-
-                                                                     if (StartRecording != null && await StartRecording.Invoke(RecipeName) is PLC_Recipe recipe)
+                                                                     if (GetRecipeEvent != null && await GetRecipeEvent.Invoke(RecipeName) is PLC_Recipe recipe)
                                                                      {
                                                                          recipe.CopyTo(this);
+                                                                     }
+
+                                                                     if (SetPLCRecipeParameter != null)
+                                                                     {
+                                                                         await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
                                                                      }
 
                                                                      return true;
@@ -612,14 +602,12 @@ namespace GPGO_MultiPLCs.Models
                                              ResetStopTokenSource();
 
                                              //! 當沒有刷取台車code時，抓取PLC目前配方參數以記錄
-                                             if (string.IsNullOrEmpty(OvenInfo.TrolleyCode) && GetPLCRecipeParameter!=null && await GetPLCRecipeParameter.Invoke() is Dictionary<int, short> recipe)
+                                             if (string.IsNullOrEmpty(OvenInfo.TrolleyCode) && GetPLCRecipeParameter != null && await GetPLCRecipeParameter.Invoke() is Dictionary<int, short> recipe)
                                              {
                                                  foreach (var val in recipe)
                                                  {
                                                      Recipe_Values[val.Key] = val.Value;
                                                  }
-
-                                                 Intput_Name = RecipeName;
                                              }
 
                                              RecordingTask = StartRecoder(60000, CTS.Token);
