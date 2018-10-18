@@ -658,6 +658,12 @@ namespace GPGO_MultiPLCs.ViewModels
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
 
+        public async Task<int> CheckProductions(int index)
+        {
+            var result = await DataCollection.FindAsync(x => (x.StationNumber - 1) == index && x.AddedTime.Date == DateTime.Now.Date);
+            return result.Sum(x => x.ProcessCount);
+        }
+
         public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db, IDialogService dialog) : base(db)
         {
             FindCommand = new RelayCommand(async o =>

@@ -478,59 +478,63 @@ namespace GPGO_MultiPLCs
                                          }
                                      };
 
-            //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾
+            //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
             TotalVM.AddRecordToDB += async e =>
                                      {
                                          TraceVM.AddToDB(e.StationIndex, e.Infos);
 
-                                         if (!Directory.Exists(DataOutputPath))
+                                         //!輸出嘉聯益資料
+                                         if (e.Infos.Any())
                                          {
-                                             try
+                                             if (!Directory.Exists(DataOutputPath))
                                              {
-                                                 Directory.CreateDirectory(DataOutputPath);
+                                                 try
+                                                 {
+                                                     Directory.CreateDirectory(DataOutputPath);
+                                                 }
+                                                 catch (Exception ex)
+                                                 {
+                                                     ex.RecordError("上傳資料夾不存在且無法創建");
+                                                 }
                                              }
-                                             catch (Exception ex)
-                                             {
-                                                 ex.RecordError("上傳資料夾不存在且無法創建");
 
-                                                 return;
-                                             }
-                                         }
-
-                                         await Task.Factory.StartNew(() =>
-                                                                     {
-                                                                         foreach (var info in e.Infos)
+                                             await Task.Factory.StartNew(() =>
                                                                          {
-                                                                             for (var i = 0; i < info.ProcessCount; i++)
+                                                                             foreach (var info in e.Infos)
                                                                              {
-                                                                                 var path = DataOutputPath +
-                                                                                            "\\" +
-                                                                                            info.AssetNumber +
-                                                                                            "_" +
-                                                                                            DateTime.Now.ToString("yyyyMMddHHmmssfff") +
-                                                                                            "_" +
-                                                                                            (e.StationIndex + 1) +
-                                                                                            "_";
+                                                                                 for (var i = 0; i < info.ProcessCount; i++)
+                                                                                 {
+                                                                                     var path = DataOutputPath +
+                                                                                                "\\" +
+                                                                                                info.AssetNumber +
+                                                                                                "_" +
+                                                                                                DateTime.Now.ToString("yyyyMMddHHmmssfff") +
+                                                                                                "_" +
+                                                                                                (e.StationIndex + 1) +
+                                                                                                "_";
 
-                                                                                 var n = 1;
-                                                                                 while (File.Exists(path + n))
-                                                                                 {
-                                                                                     n++;
-                                                                                 }
+                                                                                     var n = 1;
+                                                                                     while (File.Exists(path + n))
+                                                                                     {
+                                                                                         n++;
+                                                                                     }
 
-                                                                                 try
-                                                                                 {
-                                                                                     File.WriteAllText(path + n + ".txt", info.ToString(i), Encoding.ASCII);
-                                                                                     //!紀錄資料到指定輸出資料夾
-                                                                                 }
-                                                                                 catch (Exception ex)
-                                                                                 {
-                                                                                     ex.RecordError("資料輸出上傳失敗");
+                                                                                     try
+                                                                                     {
+                                                                                         File.WriteAllText(path + n + ".txt", info.ToString(i), Encoding.ASCII);
+                                                                                         //!紀錄資料到指定輸出資料夾
+                                                                                     }
+                                                                                     catch (Exception ex)
+                                                                                     {
+                                                                                         ex.RecordError("資料輸出上傳失敗");
+                                                                                     }
                                                                                  }
                                                                              }
-                                                                         }
-                                                                     },
-                                                                     TaskCreationOptions.LongRunning);
+                                                                         },
+                                                                         TaskCreationOptions.LongRunning);
+                                         }
+
+                                         return await TraceVM.CheckProductions(e.StationIndex);
                                      };
 
             TotalVM.EventHappened += e =>

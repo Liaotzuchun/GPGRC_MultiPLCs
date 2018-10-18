@@ -151,7 +151,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public event Action<(int StationIndex, ICollection<ProcessInfo> Infos)> AddRecordToDB;
+        public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
         public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
         public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
@@ -388,7 +388,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                              };
 
                 //!烘烤流程結束時
-                PLC_All[i].RecordingFinished += e =>
+                PLC_All[i].RecordingFinished += async e =>
                                                 {
                                                     if (e.productInfo.Count > 0)
                                                     {
@@ -398,10 +398,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         foreach (var info in e.productInfo)
                                                         {
                                                             infos.Add(new ProcessInfo(e.baseInfo, info));
-                                                            TotalProduction[index] = TotalProduction[index] + info.PanelCodes.Count;
                                                         }
 
-                                                        AddRecordToDB?.Invoke((index, infos));
+                                                        if (AddRecordToDB != null)
+                                                        {
+                                                            TotalProduction[index] = await AddRecordToDB.Invoke((index, infos));
+                                                        }
 
                                                         //!完成上傳後，清空生產資訊
                                                         dialog?.Show(new Dictionary<Language, string>
