@@ -42,6 +42,7 @@
                 <DataTrigger
                     Binding="{Binding ProgressStatus, Mode=OneWay}"
                     Value="-1">
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 離線}" />
                 </DataTrigger>
                 <DataTrigger
@@ -49,7 +50,7 @@
                     Value="0">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />-->
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 待命}" />
                 </DataTrigger>
                 <DataTrigger
@@ -57,7 +58,7 @@
                     Value="1">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />-->
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 準備中}" />
                 </DataTrigger>
                 <DataTrigger
@@ -65,7 +66,7 @@
                     Value="2">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="Gold" />-->
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="Gold" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
                 </DataTrigger>
                 <DataTrigger
@@ -73,7 +74,7 @@
                     Value="3">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
-                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="Red" />-->
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 恆溫中}" />
                 </DataTrigger>
                 <DataTrigger
@@ -81,7 +82,7 @@
                     Value="4">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
-                    <!--<Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />-->
+                    <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 降溫中}" />
                 </DataTrigger>
             </DataTemplate.Triggers>
@@ -1858,7 +1859,9 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                         <CheckBox
-                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                            Background="Cyan"
+                                            BorderBrush="{StaticResource PressedBrush}"
+                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                             IsChecked="{Binding ProgramStop, Mode=OneWay}"
                                             Style="{StaticResource SignalView}" />
                                     </Border>
@@ -1869,7 +1872,7 @@
                                         <CheckBox
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
-                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                             IsChecked="{Binding EmergencyStop, Mode=OneWay}"
                                             Style="{StaticResource SignalView}" />
                                     </Border>
@@ -1880,7 +1883,7 @@
                                         <CheckBox
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
-                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                             Style="{StaticResource SignalView}">
                                             <CheckBox.IsChecked>
                                                 <MultiBinding Converter="{StaticResource MultiAnyTrueConverter}">
@@ -1904,7 +1907,7 @@
                                         <CheckBox
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
-                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                             Style="{StaticResource SignalView}">
                                             <CheckBox.IsChecked>
                                                 <MultiBinding Converter="{StaticResource MultiAnyTrueConverter}">
@@ -1928,7 +1931,7 @@
                                         <CheckBox
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
-                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                             IsChecked="{Binding InflatingTimeExceeded, Mode=OneWay}"
                                             Style="{StaticResource SignalView}" />
                                     </Border>
@@ -1939,7 +1942,7 @@
                                         <CheckBox
                                             Background="{StaticResource ErrorBrush}"
                                             BorderBrush="{StaticResource ErrorBorderBrush}"
-                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                            Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                             IsChecked="{Binding HeatingTimeExceeded, Mode=OneWay}"
                                             Style="{StaticResource SignalView}" />
                                     </Border>
@@ -2467,38 +2470,43 @@
                                     <DataTemplate.Triggers>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
+                                            Value="-1">
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="0">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />-->
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="1">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />-->
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="2">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource ErrorBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="Gold" />-->
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="Gold" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="3">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
-                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="Red" />-->
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="Red" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="4">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
-                                            <!--<Setter TargetName="TextBlock" Property="Foreground" Value="Blue" />-->
+                                            <Setter TargetName="TextBlock" Property="Foreground" Value="Blue" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>

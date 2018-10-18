@@ -70,7 +70,7 @@ namespace GPGO_MultiPLCs.Helpers
 
         public bool Check(object val)
         {
-            return Filter.Any(x => x.Check(val)) || Filter.TrueForAll(x => !x.IsEnabled);
+            return Filter != null && (Filter.Any(x => x.Check(val)) || Filter.TrueForAll(x => !x.IsEnabled));
         }
 
         /// <summary></summary>

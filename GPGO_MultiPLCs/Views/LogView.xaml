@@ -262,9 +262,9 @@
                     VerticalAlignment="Center"
                     IsEnabled="{Binding Results, Converter={StaticResource IsNotNull}, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
-                    LowerValue="{Binding Index1, Mode=OneWayToSource}"
+                    LowerValue="{Binding BeginIndex, Mode=OneWayToSource}"
                     Maximum="{Binding TotalCount, Mode=OneWay}"
-                    UpperValue="{Binding Index2, Mode=OneWayToSource}" />
+                    UpperValue="{Binding EndIndex, Mode=OneWayToSource}" />
             </Border>
             <Grid
                 Grid.Row="1"
@@ -294,7 +294,7 @@
                     <StackPanel
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        DataContext="{Binding LowerDate, Mode=OneWay}">
+                        DataContext="{Binding BeginTime, Mode=OneWay}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -325,7 +325,7 @@
                     <StackPanel
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        DataContext="{Binding UpperDate, Mode=OneWay}">
+                        DataContext="{Binding EndTime, Mode=OneWay}">
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"

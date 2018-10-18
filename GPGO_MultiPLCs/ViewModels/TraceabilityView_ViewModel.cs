@@ -41,9 +41,6 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>依據工單或料號搜尋</summary>
         public RelayCommand FindCommand { get; }
 
-        /// <summary>日期範圍的開始</summary>
-        public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.AddedTime : null;
-
         /// <summary>基於操作員的Filter</summary>
         public FilterGroup OpFilter { get; }
 
@@ -67,46 +64,13 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToExcelCommand { get; }
 
-        public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
-
         /// <summary>基於台車的Filter</summary>
         public FilterGroup TrolleyFilter { get; }
-
-        /// <summary>日期範圍的結束</summary>
-        public DateTime? UpperDate => Results?.Count > 0 ? Results[Index2]?.AddedTime : null;
 
         public int EventIndex
         {
             get => Get<int>();
             set => Set(value);
-        }
-
-        /// <summary>篩選的開始時間點(RAM)</summary>
-        public int Index1
-        {
-            get => Get<int>();
-            set
-            {
-                Set(value);
-                NotifyPropertyChanged(nameof(LowerDate));
-
-                UpdateViewResult();
-                UpdateChart(Date1, Date2);
-            }
-        }
-
-        /// <summary>篩選的結束時間點(RAM)</summary>
-        public int Index2
-        {
-            get => Get<int>();
-            set
-            {
-                Set(value);
-                NotifyPropertyChanged(nameof(UpperDate));
-
-                UpdateViewResult();
-                UpdateChart(Date1, Date2);
-            }
         }
 
         /// <summary>切換分類統計</summary>
@@ -682,14 +646,14 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = Index2 >= Index1 && Results?.Count > 0 ? Results?.GetRange(Index1, Index2 - Index1 + 1)
-                                                                          .Where(x => OvenFilter.Check(x.StationNumber) &&
-                                                                                      RecipeFilter.Check(x.RecipeName) &&
-                                                                                      OrderFilter.Check(x.OrderCode) &&
-                                                                                      OpFilter.Check(x.OperatorID) &&
-                                                                                      TrolleyFilter.Check(x.TrolleyCode) &&
-                                                                                      SideFilter.Check(x.Side))
-                                                                          .ToList() : null;
+            ViewResults = EndIndex >= BeginIndex && Results?.Count > 0 ? Results?.GetRange(BeginIndex, EndIndex - BeginIndex + 1)
+                                                                                .Where(x => OvenFilter.Check(x.StationNumber) &&
+                                                                                            RecipeFilter.Check(x.RecipeName) &&
+                                                                                            OrderFilter.Check(x.OrderCode) &&
+                                                                                            OpFilter.Check(x.OperatorID) &&
+                                                                                            TrolleyFilter.Check(x.TrolleyCode) &&
+                                                                                            SideFilter.Check(x.Side))
+                                                                                .ToList() : null;
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
@@ -844,8 +808,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                   TrolleyFilter.Filter = e?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   SideFilter.Filter = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
 
-                                  NotifyPropertyChanged(nameof(TotalCount));
-
                                   TodayProductionUpdated?.Invoke(e?.Where(x => x.AddedTime.Day == DateTime.Today.Day)
                                                                   .GroupBy(x => x.StationNumber - 1)
                                                                   .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
@@ -879,6 +841,18 @@ namespace GPGO_MultiPLCs.ViewModels
                                       EventIndex = -1;
                                   }
                               };
+
+            BeginIndexChanged += i =>
+                                 {
+                                     UpdateViewResult();
+                                     UpdateChart(Date1, Date2);
+                                 };
+
+            EndIndexChanged += i =>
+                               {
+                                   UpdateViewResult();
+                                   UpdateChart(Date1, Date2);
+                               };
         }
     }
 }

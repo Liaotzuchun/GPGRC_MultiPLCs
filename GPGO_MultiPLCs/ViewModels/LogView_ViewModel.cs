@@ -17,49 +17,14 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>執行詳情顯示</summary>
         public RelayCommand GoCommand { get; }
 
-        /// <summary>日期範圍的開始</summary>
-        public DateTime? LowerDate => Results?.Count > 0 ? Results[Index1]?.AddedTime : null;
-
         /// <summary>基於PLC站號的Filter</summary>
         public FilterGroup OvenFilter { get; }
 
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToFileCommand { get; }
 
-        /// <summary>Slider的Maximum值，以0起始，總數-1</summary>
-        public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
-
         /// <summary>基於事件類型的Filter</summary>
         public FilterGroup TypeFilter { get; }
-
-        /// <summary>日期範圍的結束</summary>
-        public DateTime? UpperDate => Results?.Count > 0 ? Results[Index2]?.AddedTime : null;
-
-        /// <summary>篩選的開始時間點(RAM)</summary>
-        public int Index1
-        {
-            get => Get<int>();
-            set
-            {
-                Set(value);
-                NotifyPropertyChanged(nameof(LowerDate));
-
-                UpdateViewResult();
-            }
-        }
-
-        /// <summary>篩選的結束時間點(RAM)</summary>
-        public int Index2
-        {
-            get => Get<int>();
-            set
-            {
-                Set(value);
-                NotifyPropertyChanged(nameof(UpperDate));
-
-                UpdateViewResult();
-            }
-        }
 
         /// <summary>事件值為On，所選擇的index</summary>
         public int SelectedIndex1
@@ -264,10 +229,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = Index2 >= Index1 && Results?.Count > 0 ? Results?.GetRange(Index1, Index2 - Index1 + 1)
-                                                                          .Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type))
-                                                                          .OrderByDescending(x => x.AddedTime)
-                                                                          .ToList() : null;
+            ViewResults = EndIndex >= BeginIndex && Results?.Count > 0 ? Results?.GetRange(BeginIndex, EndIndex - BeginIndex + 1)
+                                                                                .Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type))
+                                                                                .OrderByDescending(x => x.AddedTime)
+                                                                                .ToList() : null;
         }
 
         public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService dialog) : base(db)
@@ -303,10 +268,18 @@ namespace GPGO_MultiPLCs.ViewModels
                                   OvenFilter.Filter = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   TypeFilter.Filter = e?.Select(x => x.Type).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
 
-                                  NotifyPropertyChanged(nameof(TotalCount));
-
                                   UpdateViewResult();
                               };
+
+            BeginIndexChanged += i =>
+                                 {
+                                     UpdateViewResult();
+                                 };
+
+            EndIndexChanged += i =>
+                               {
+                                   UpdateViewResult();
+                               };
         }
     }
 }

@@ -22,11 +22,13 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>位移+1週</summary>
         public RelayCommand AddWeekCommand { get; }
 
-        /// <summary>日期範圍的開始</summary>
+        /// <summary>日期時間範圍的開始</summary>
         public DateTime? BeginTime => Results?.Count > 0 ? Results[BeginIndex]?.AddedTime : null;
 
-        /// <summary>日期範圍的結束</summary>
+        /// <summary>日期時間範圍的結束</summary>
         public DateTime? EndTime => Results?.Count > 0 ? Results[EndIndex]?.AddedTime : null;
+
+        public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
 
         /// <summary>位移-1天</summary>
         public RelayCommand SubDayCommand { get; }
@@ -113,6 +115,7 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 Set(value);
+                NotifyPropertyChanged(nameof(TotalCount));
 
                 ResultsChanged?.Invoke(value);
             }

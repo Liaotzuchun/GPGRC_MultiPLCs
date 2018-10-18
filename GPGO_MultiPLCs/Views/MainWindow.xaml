@@ -9,6 +9,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Main"
     Title="GPGO"
+    MinWidth="1024"
+    MinHeight="768"
     Background="{StaticResource WindowBackgroundBrush}"
     DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
     FontFamily="Microsoft JhengHei"

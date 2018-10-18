@@ -57,7 +57,7 @@ namespace GPGO_MultiPLCs.Models
         {
             get
             {
-                if (!OnlineStatus)
+                if (!OnlineStatus || !IsRecording)
                 {
                     return 0.0;
                 }
@@ -83,9 +83,9 @@ namespace GPGO_MultiPLCs.Models
                     return Status.離線;
                 }
 
-                if (IsRecording && CurrentSegment == 0)
+                if (!IsRecording)
                 {
-                    return Status.準備中;
+                    return Status.待命中;
                 }
 
                 if (IsCooling && CurrentSegment >= UsedSegmentCounts * 2)
@@ -93,7 +93,7 @@ namespace GPGO_MultiPLCs.Models
                     return Status.降溫;
                 }
 
-                return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? Status.待命中 : Status.恆溫 : Status.升溫;
+                return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? Status.準備中 : Status.恆溫 : Status.升溫;
             }
         }
 
@@ -108,7 +108,11 @@ namespace GPGO_MultiPLCs.Models
         public bool OnlineStatus
         {
             get => Get<bool>();
-            set => Set(value);
+            set
+            {
+                Set(value);
+                NotifyPropertyChanged(nameof(ProgressStatus));
+            }
         }
 
         public ICollection<string> Recipe_Names
