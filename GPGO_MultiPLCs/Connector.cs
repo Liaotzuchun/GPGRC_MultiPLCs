@@ -483,14 +483,23 @@ namespace GPGO_MultiPLCs
                                      {
                                          TraceVM.AddToDB(e.StationIndex, e.Infos);
 
-                                         //!輸出嘉聯益資料
-                                         if (e.Infos.Any())
+                                         var inpath = "";
+                                         var outpath = "";
+
+                                         Dispatcher.Invoke(() =>
                                          {
-                                             if (!Directory.Exists(DataOutputPath))
+                                             inpath = DataInputPath;
+                                             outpath = DataOutputPath;
+                                         });
+
+                                         //!輸出嘉聯益資料
+                                         if (!string.IsNullOrEmpty(inpath) && !string.IsNullOrEmpty(outpath) && e.Infos.Any())
+                                         {
+                                             if (!Directory.Exists(outpath))
                                              {
                                                  try
                                                  {
-                                                     Directory.CreateDirectory(DataOutputPath);
+                                                     Directory.CreateDirectory(outpath);
                                                  }
                                                  catch (Exception ex)
                                                  {
@@ -504,7 +513,7 @@ namespace GPGO_MultiPLCs
                                                                              {
                                                                                  for (var i = 0; i < info.ProcessCount; i++)
                                                                                  {
-                                                                                     var path = DataOutputPath +
+                                                                                     var path = outpath +
                                                                                                 "\\" +
                                                                                                 info.AssetNumber +
                                                                                                 "_" +
@@ -532,6 +541,17 @@ namespace GPGO_MultiPLCs
                                                                              }
                                                                          },
                                                                          TaskCreationOptions.LongRunning);
+
+                                             var _path = inpath + "\\" + e.Infos.First().TrolleyCode;
+
+                                             if (Directory.Exists(_path))
+                                             {
+                                                 var files = new DirectoryInfo(_path).GetFiles();
+                                                 foreach (var file in files)
+                                                 {
+                                                     file.Delete();
+                                                 }
+                                             }
                                          }
 
                                          return await TraceVM.CheckProductions(e.StationIndex);

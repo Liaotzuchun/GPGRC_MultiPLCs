@@ -64,7 +64,7 @@
                 <DataTrigger
                     Binding="{Binding ProgressStatus, Mode=OneWay}"
                     Value="2">
-                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource EnergyBrush}" />
+                    <Setter TargetName="Progress" Property="Background" Value="Yellow" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource EnergyBorderBrush}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
@@ -454,22 +454,24 @@
                                                                                             <ItemsControl.ItemsPanel>
                                                                                                 <ItemsPanelTemplate>
                                                                                                     <local:UniformGridWithOrientation
+                                                                                                        Margin="0,-1,0,0"
                                                                                                         Orientation="Vertical"
                                                                                                         Rows="10" />
                                                                                                 </ItemsPanelTemplate>
                                                                                             </ItemsControl.ItemsPanel>
                                                                                             <ItemsControl.ItemTemplate>
                                                                                                 <DataTemplate>
-                                                                                                    <Grid TextElement.Foreground="{StaticResource BaseForeground}">
+                                                                                                    <Grid
+                                                                                                        MinHeight="20"
+                                                                                                        TextElement.Foreground="{StaticResource BaseForeground}">
                                                                                                         <Grid.ColumnDefinitions>
                                                                                                             <ColumnDefinition Width="30" />
                                                                                                             <ColumnDefinition />
                                                                                                         </Grid.ColumnDefinitions>
                                                                                                         <Border
                                                                                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                            BorderThickness="0,0,1,1">
+                                                                                                            BorderThickness="0,1,1,0">
                                                                                                             <TextBlock
-                                                                                                                Margin="4"
                                                                                                                 HorizontalAlignment="Center"
                                                                                                                 VerticalAlignment="Center"
                                                                                                                 FontSize="12"
@@ -479,9 +481,9 @@
                                                                                                             Grid.Column="1"
                                                                                                             Background="Transparent"
                                                                                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                            BorderThickness="0,0,1,1">
+                                                                                                            BorderThickness="0,1,1,0">
                                                                                                             <TextBlock
-                                                                                                                Margin="4"
+                                                                                                                Margin="4,0"
                                                                                                                 HorizontalAlignment="Center"
                                                                                                                 VerticalAlignment="Center"
                                                                                                                 FontSize="12"
@@ -2155,7 +2157,6 @@
                                             IsZoomEnabled="False"
                                             MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                             MajorGridlineStyle="Dot"
-                                            MajorStep="100"
                                             MajorTickSize="0"
                                             MaximumPadding="0.2"
                                             Minimum="0"
@@ -2491,7 +2492,7 @@
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"
                                             Value="2">
-                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource EnergyBrush}" />
+                                            <Setter TargetName="Progress" Property="Background" Value="Yellow" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource EnergyBorderBrush}" />
                                             <Setter TargetName="TextBlock" Property="Foreground" Value="Red" />
                                         </DataTrigger>

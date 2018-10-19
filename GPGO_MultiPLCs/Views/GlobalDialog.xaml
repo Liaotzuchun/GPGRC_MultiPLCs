@@ -381,6 +381,7 @@
                     Margin="20,4"
                     Padding="0,8"
                     FontSize="20"
+                    IsEnabled="{Binding AllowIntput, Mode=OneWay}"
                     IsVisibleChanged="Intput_IsVisibleChanged"
                     Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>

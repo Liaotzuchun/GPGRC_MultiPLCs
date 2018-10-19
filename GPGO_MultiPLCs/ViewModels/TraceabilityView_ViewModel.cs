@@ -660,8 +660,18 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async Task<int> CheckProductions(int index)
         {
-            var result = await DataCollection.FindAsync(x => (x.StationNumber - 1) == index && x.AddedTime.Date == DateTime.Now.Date);
-            return result.Sum(x => x.ProcessCount);
+            try
+            {
+                var date1 = DateTime.Today.Date;
+                var date2 = date1.AddDays(1);
+                var result = await DataCollection.FindAsync(x => x.StationNumber == (index + 1) && x.AddedTime >= date1 && x.AddedTime < date2);
+                return result.Sum(x => x.ProcessCount);
+            }
+            catch (Exception ex)
+            {
+                ErrorRecoder.RecordError(ex);
+                return 0;
+            }
         }
 
         public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db, IDialogService dialog) : base(db)

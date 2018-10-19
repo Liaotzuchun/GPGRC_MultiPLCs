@@ -111,6 +111,7 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 Set(value);
+                NotifyPropertyChanged(nameof(Progress));
                 NotifyPropertyChanged(nameof(ProgressStatus));
             }
         }
@@ -132,6 +133,8 @@ namespace GPGO_MultiPLCs.Models
                 value.ContinueWith(x =>
                                    {
                                        NotifyPropertyChanged(nameof(IsRecording));
+                                       NotifyPropertyChanged(nameof(Progress));
+                                       NotifyPropertyChanged(nameof(ProgressStatus));
 
                                        x.Dispose();
 
@@ -151,6 +154,8 @@ namespace GPGO_MultiPLCs.Models
                                    });
 
                 NotifyPropertyChanged(nameof(IsRecording));
+                NotifyPropertyChanged(nameof(Progress));
+                NotifyPropertyChanged(nameof(ProgressStatus));
             }
         }
 
@@ -369,7 +374,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                              {
                                                                                                  var str = x.Trim();
 
-                                                                                                 return (str.Length > 0 && str.Length < 8,
+                                                                                                 return (str.Length > 4 && str.Length < 10,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
                                                                                                              { Language.TW, "字數錯誤，請重試!" },
@@ -395,7 +400,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  {
                                                                                                      var str = x.Trim();
 
-                                                                                                     return (str.Length > 0 && str.Length < 4,
+                                                                                                     return (str.Length > 4 && str.Length < 15,
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
                                                                                                                  { Language.TW, "字數錯誤，請重試!" },
@@ -642,6 +647,7 @@ namespace GPGO_MultiPLCs.Models
                                              {
                                                  EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
+                                                 NotifyPropertyChanged(nameof(Progress));
                                                  NotifyPropertyChanged(nameof(ProgressStatus));
                                              }
                                          }
@@ -659,7 +665,7 @@ namespace GPGO_MultiPLCs.Models
                                                  AddProcessEvent(EventType.Normal,
                                                                  OvenInfo.StartTime,
                                                                  nt,
-                                                                 CurrentSegment == 0 ? "準備中" : "第" + (CurrentSegment + 1) / 2 + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"),
+                                                                 CurrentSegment == 0 ? "準備中" : "第" + Math.Ceiling(CurrentSegment / 2.0).ToString("0") + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"),
                                                                  true);
                                              }
 

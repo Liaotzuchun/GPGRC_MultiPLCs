@@ -182,7 +182,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                         if (EnterResult_2)
                                                         {
+                                                            AllowIntput = false;
                                                             Thread.Sleep(450);
+                                                            AllowIntput = true;
                                                         }
 
                                                         break;
@@ -263,6 +265,12 @@ namespace GPGO_MultiPLCs.ViewModels
             set => Set(value);
         }
 
+        public bool AllowIntput
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
         public string Message_1
         {
             get => Get<string>();
@@ -313,6 +321,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public GlobalDialog_ViewModel()
         {
+            AllowIntput = true;
             IsShown_1 = Visibility.Collapsed;
             IsShown_2 = Visibility.Collapsed;
             Lock_1 = new ManualResetEvent(true);
