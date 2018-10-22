@@ -384,7 +384,7 @@ namespace GPGO_MultiPLCs
                                                  {
                                                      if (recipe.Used_Stations[i])
                                                      {
-                                                         await TotalVM.SetRecipe(i, recipe, false);
+                                                         await TotalVM.SetRecipe(i, recipe, true);
                                                      }
                                                  }
                                              }
