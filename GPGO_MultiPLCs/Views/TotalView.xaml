@@ -1963,7 +1963,7 @@
                                             ContentTemplate="{StaticResource ProgressDataTemplate}" />
                                     </Border>
                                     <Border
-                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0">
                                         <TextBlock
@@ -2380,7 +2380,7 @@
                                                     <Border>
                                                         <Border.Background>
                                                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                                <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                                                                <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
                                                                 <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}" />
                                                             </LinearGradientBrush>
                                                         </Border.Background>
