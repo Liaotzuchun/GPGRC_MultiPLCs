@@ -2447,13 +2447,32 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <Grid
+                                        TextElement.FontSize="12"
+                                        TextElement.Foreground="{StaticResource BaseForeground}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Border
+                                            Background="#19000000"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,0">
+                                            <TextBlock
+                                                Margin="4,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=\{0:00\}}" />
+                                        </Border>
                                         <ProgressBar
                                             x:Name="Progress"
+                                            Grid.Column="1"
                                             BorderThickness="0"
                                             Maximum="1"
                                             Value="{Binding Progress, Mode=OneWay}" />
-                                        <Border Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                                        <Border
+                                            Grid.Column="1"
+                                            Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                     <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
@@ -2463,11 +2482,11 @@
                                         </Border>
                                         <TextBlock
                                             x:Name="TextBlock"
-                                            HorizontalAlignment="Center"
+                                            Grid.Column="1"
+                                            Margin="0,0,4,0"
+                                            HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
-                                            FontSize="12"
-                                            Foreground="{StaticResource BaseForeground}"
-                                            Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=No. \{0:00\}}" />
+                                            Text="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=-\{0:D\} m}" />
                                     </Grid>
                                     <DataTemplate.Triggers>
                                         <DataTrigger
