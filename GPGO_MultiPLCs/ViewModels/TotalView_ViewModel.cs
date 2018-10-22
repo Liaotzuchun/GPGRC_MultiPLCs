@@ -275,7 +275,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
             {
-                await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                //!PLC配方位置在監視位置+100的位置
+                await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
             }
         }
 
