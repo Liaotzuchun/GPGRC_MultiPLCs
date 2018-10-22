@@ -261,7 +261,8 @@ namespace GPGO_MultiPLCs.Models
 
             if (SetPLCRecipeParameter != null)
             {
-                await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                //!PLC配方位置在監視位置+100的位置
+                await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
             }
         }
 
@@ -315,7 +316,7 @@ namespace GPGO_MultiPLCs.Models
                                             }
 
                                             AddTemperatures(OvenInfo.StartTime,
-                                                            DateTime.Now, 
+                                                            DateTime.Now,
                                                             ThermostatTemperature,
                                                             OvenTemperature_1,
                                                             OvenTemperature_2,
@@ -440,7 +441,8 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      if (SetPLCRecipeParameter != null)
                                                                      {
-                                                                         await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                                                                         //!PLC配方位置在監視位置+100的位置
+                                                                         await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
                                                                      }
 
                                                                      return true;

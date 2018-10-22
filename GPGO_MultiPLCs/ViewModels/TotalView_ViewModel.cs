@@ -54,7 +54,8 @@ namespace GPGO_MultiPLCs.ViewModels
                          catch (Exception)
                          {
                          }
-                     }, (index, val));
+                     },
+                     (index, val));
         }
 
         /// <summary>PLC連線狀態</summary>
@@ -77,10 +78,9 @@ namespace GPGO_MultiPLCs.ViewModels
                          catch (Exception)
                          {
                          }
-                     }, (index, val));
+                     },
+                     (index, val));
         }
-
-        private readonly AsyncOperation ao;
 
         /// <summary>財產編號儲存位置</summary>
         private const string AssetNumbersPath = "AssetNumbers.json";
@@ -90,6 +90,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>設備碼儲存位置</summary>
         private const string MachineCodesPath = "MachineCodes.json";
+
+        private readonly AsyncOperation ao;
 
         /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
