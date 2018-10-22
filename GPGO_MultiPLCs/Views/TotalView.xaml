@@ -1808,7 +1808,12 @@
                                     <Border
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="0,0,1,1" />
+                                        BorderThickness="0,0,1,1">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{DynamicResource 剩餘}" />
+                                    </Border>
                                     <Border
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1960,7 +1965,15 @@
                                     <Border
                                         Background="{StaticResource WindowBackgroundBrush2}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="0" />
+                                        BorderThickness="0">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                            <Run Text="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=\{0:D\}}" />
+                                            <Run Text=" " />
+                                            <Run Text="{DynamicResource 分}" />
+                                        </TextBlock>
+                                    </Border>
                                 </local:AutoGrid>
                             </GroupBox>
                         </Grid>
@@ -2361,14 +2374,29 @@
                                                         </LinearGradientBrush>
                                                     </Grid.Background>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="8" />
+                                                        <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>
-                                                    <Border Background="{StaticResource WindowBackgroundBrush4}" />
-                                                    <Border
-                                                        x:Name="Border"
-                                                        Background="Cyan"
-                                                        Opacity="0" />
+                                                    <Border>
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                                <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                                                                <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}" />
+                                                            </LinearGradientBrush>
+                                                        </Border.Background>
+                                                        <Grid>
+                                                            <Border
+                                                                x:Name="Border"
+                                                                Background="Cyan"
+                                                                Opacity="0" />
+                                                            <TextBlock
+                                                                Margin="4,0"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="{StaticResource BaseForeground}"
+                                                                Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=\{0:00\}}" />
+                                                        </Grid>
+                                                    </Border>
                                                     <Border
                                                         x:Name="Border2"
                                                         Grid.Column="1"
@@ -2404,7 +2432,7 @@
                                                                         Storyboard.TargetName="Border2"
                                                                         Storyboard.TargetProperty="Opacity">
                                                                         <EasingDoubleKeyFrame
-                                                                            KeyTime="0"
+                                                                            KeyTime="0:0:0.12"
                                                                             Value="1" />
                                                                     </DoubleAnimationUsingKeyFrames>
                                                                 </Storyboard>
@@ -2425,14 +2453,14 @@
                                                                         Storyboard.TargetName="Border"
                                                                         Storyboard.TargetProperty="Opacity">
                                                                         <EasingDoubleKeyFrame
-                                                                            KeyTime="0"
+                                                                            KeyTime="0:0:0.12"
                                                                             Value="1" />
                                                                     </DoubleAnimationUsingKeyFrames>
                                                                     <DoubleAnimationUsingKeyFrames
                                                                         Storyboard.TargetName="Border3"
                                                                         Storyboard.TargetProperty="Opacity">
                                                                         <EasingDoubleKeyFrame
-                                                                            KeyTime="0"
+                                                                            KeyTime="0:0:0.12"
                                                                             Value="1" />
                                                                     </DoubleAnimationUsingKeyFrames>
                                                                 </Storyboard>
@@ -2450,29 +2478,12 @@
                                     <Grid
                                         TextElement.FontSize="12"
                                         TextElement.Foreground="{StaticResource BaseForeground}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Border
-                                            Background="#19000000"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,0">
-                                            <TextBlock
-                                                Margin="4,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat=\{0:00\}}" />
-                                        </Border>
                                         <ProgressBar
                                             x:Name="Progress"
-                                            Grid.Column="1"
                                             BorderThickness="0"
                                             Maximum="1"
                                             Value="{Binding Progress, Mode=OneWay}" />
-                                        <Border
-                                            Grid.Column="1"
-                                            Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                                        <Border Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                     <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
@@ -2482,9 +2493,7 @@
                                         </Border>
                                         <TextBlock
                                             x:Name="TextBlock"
-                                            Grid.Column="1"
-                                            Margin="0,0,4,0"
-                                            HorizontalAlignment="Right"
+                                            HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Text="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=-\{0:D\} m}" />
                                     </Grid>

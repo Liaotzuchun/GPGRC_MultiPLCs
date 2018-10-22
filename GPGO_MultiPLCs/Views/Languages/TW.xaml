@@ -143,4 +143,5 @@
     <sys:String x:Key="Alarm">警報</sys:String>
     <sys:String x:Key="歷時">歷時</sys:String>
     <sys:String x:Key="詳情">詳情</sys:String>
+    <sys:String x:Key="剩餘">剩餘</sys:String>
 </ResourceDictionary>
