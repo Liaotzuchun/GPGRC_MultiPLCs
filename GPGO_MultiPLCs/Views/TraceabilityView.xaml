@@ -429,6 +429,7 @@
                             FontSize="12"
                             HorizontalScrollBarVisibility="Hidden"
                             ItemsSource="{Binding EventList, Mode=OneWay, IsAsync=True}"
+                            SelectedCellsChanged="SelectedCellsChanged"
                             SelectedIndex="{Binding DataContext.EventIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Mode=OneWay}">
                             <DataGrid.RowHeaderTemplate>
                                 <DataTemplate>

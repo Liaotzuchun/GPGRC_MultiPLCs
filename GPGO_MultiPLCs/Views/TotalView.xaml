@@ -2016,7 +2016,9 @@
                                     BorderThickness="0,0,1,0"
                                     FontSize="12"
                                     HorizontalScrollBarVisibility="Hidden"
-                                    ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}">
+                                    ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}"
+                                    SelectedCellsChanged="SelectedCellsChanged"
+                                    SelectedIndex="{Binding Items.Count, ConverterParameter=-1, Converter={StaticResource AddValue}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                                     <DataGrid.RowHeaderTemplate>
                                         <DataTemplate>
                                             <Border
@@ -2490,12 +2492,18 @@
                                                     <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource DisabledBorderBrush}}" />
                                                 </LinearGradientBrush>
                                             </Border.Background>
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Foreground="{StaticResource DisabledForegroundBrush}"
+                                                Text="{DynamicResource 離線}" />
                                         </Border>
                                         <TextBlock
                                             x:Name="TextBlock"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            Text="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=-\{0:D\} m}" />
+                                            Text="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=-\{0:D\} m}"
+                                            Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     </Grid>
                                     <DataTemplate.Triggers>
                                         <DataTrigger

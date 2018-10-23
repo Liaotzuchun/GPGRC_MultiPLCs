@@ -16,6 +16,14 @@ namespace GPGO_MultiPLCs.Views
             ((ComboBox)sender).Text = ((ComboBox)sender).SelectedItem as string;
         }
 
+        private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if (dg.SelectedItem != null)
+            {
+                dg.ScrollIntoView(dg.SelectedItem);
+            }
+        }
+
         public TotalView()
         {
             InitializeComponent();
