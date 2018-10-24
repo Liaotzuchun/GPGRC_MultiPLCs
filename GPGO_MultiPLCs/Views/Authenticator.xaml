@@ -6,7 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
-    xmlns:view="clr-namespace:GPGO_MultiPLCs.Views"
+    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
     Foreground="{StaticResource BaseForeground}"
@@ -94,8 +94,7 @@
                     VerticalAlignment="Center"
                     Stroke="{StaticResource GlyphBrush}"
                     StrokeLineJoin="Round"
-                    StrokeThickness="2"
-                    Visibility="{Binding IsMouseOver, Converter={StaticResource BoolVis}, ElementName=Border, Mode=OneWay}">
+                    StrokeThickness="2">
                     <Path.Data>
                         <GeometryGroup>
                             <LineGeometry
@@ -106,6 +105,18 @@
                                 EndPoint="0,10" />
                         </GeometryGroup>
                     </Path.Data>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <local:SetPropertyAction
+                                    PropertyName="Stroke"
+                                    PropertyValue="{StaticResource WorkingBorderBrush}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <local:SetPropertyAction
+                                    PropertyName="Stroke"
+                                    PropertyValue="{StaticResource WindowBackgroundBrush}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </Path>
             </Border>
             <Rectangle
@@ -464,12 +475,12 @@
                                 IsEnabled="{Binding IsChecked, ElementName=InputTB, Converter={StaticResource BoolNot}, Mode=OneWay}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
-                                        <view:SetPropertyAction
+                                        <local:SetPropertyAction
                                             PropertyName="Content"
                                             PropertyValue="{DynamicResource 套用}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="Unchecked">
-                                        <view:SetPropertyAction
+                                        <local:SetPropertyAction
                                             PropertyName="Content"
                                             PropertyValue="{DynamicResource 修改}" />
                                         <i:InvokeCommandAction
@@ -522,12 +533,12 @@
                                 IsEnabled="{Binding IsChecked, ElementName=TB, Converter={StaticResource BoolNot}, Mode=OneWay}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
-                                        <view:SetPropertyAction
+                                        <local:SetPropertyAction
                                             PropertyName="Content"
                                             PropertyValue="{DynamicResource 套用}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="Unchecked">
-                                        <view:SetPropertyAction
+                                        <local:SetPropertyAction
                                             PropertyName="Content"
                                             PropertyValue="{DynamicResource 修改}" />
                                         <i:InvokeCommandAction
