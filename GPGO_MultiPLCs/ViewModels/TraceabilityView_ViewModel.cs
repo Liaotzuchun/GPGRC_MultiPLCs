@@ -669,7 +669,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorRecoder.RecordError(ex);
+                ex.RecordError();
                 return 0;
             }
         }
