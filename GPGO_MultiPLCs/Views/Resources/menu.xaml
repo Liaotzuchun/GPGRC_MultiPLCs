@@ -460,7 +460,7 @@
                             Margin="8,4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Content="{Binding}"
+                            Content="{Binding Mode=OneWay}"
                             TextElement.FontSize="14" />
                     </Border>
                 </DataTemplate>

@@ -740,7 +740,7 @@
                                             <TextBlock
                                                 Margin="4"
                                                 Foreground="{StaticResource BaseForeground}"
-                                                Text="{Binding}" />
+                                                Text="{Binding Mode=OneWay}" />
                                         </oxy:TrackerControl.Content>
                                     </oxy:TrackerControl>
                                 </ControlTemplate>
@@ -1359,7 +1359,7 @@
                                 <oxy:TrackerControl.Content>
                                     <TextBlock
                                         Margin="4"
-                                        Text="{Binding}" />
+                                        Text="{Binding Mode=OneWay}" />
                                 </oxy:TrackerControl.Content>
                             </oxy:TrackerControl>
                         </ControlTemplate>

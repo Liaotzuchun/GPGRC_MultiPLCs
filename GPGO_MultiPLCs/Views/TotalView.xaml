@@ -219,9 +219,8 @@
                                                     Grid.Column="1"
                                                     BorderThickness="0,1,0,0"
                                                     GotKeyboardFocus="CB_GotKeyboardFocus"
-                                                    IsEditable="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
-                                                    IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
-                                                    IsHitTestVisible="{Binding IsEditable, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                                    IsEditable="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                                    IsHitTestVisible="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                     IsTextSearchEnabled="False"
                                                     ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
                                                     LostKeyboardFocus="CB_LostKeyboardFocus"
@@ -233,10 +232,24 @@
                                                             <helpers:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
+                                                    <ComboBox.IsEnabled>
+                                                        <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
+                                                            <Binding
+                                                                Converter="{StaticResource IsMoreThanValue}"
+                                                                ConverterParameter="1"
+                                                                Mode="OneWay"
+                                                                Path="NowUser.Level"
+                                                                Source="{StaticResource AuthenticatorViewModel}" />
+                                                            <Binding
+                                                                Converter="{StaticResource BoolNot}"
+                                                                Mode="OneWay"
+                                                                Path="AutoMode" />
+                                                        </MultiBinding>
+                                                    </ComboBox.IsEnabled>
                                                     <ComboBox.ItemTemplate>
                                                         <DataTemplate>
                                                             <TextBlock
-                                                                Text="{Binding}"
+                                                                Text="{Binding Mode=OneWay}"
                                                                 TextTrimming="CharacterEllipsis" />
                                                         </DataTemplate>
                                                     </ComboBox.ItemTemplate>
@@ -758,7 +771,7 @@
                                                 <TextBlock
                                                     Margin="4"
                                                     Foreground="{StaticResource BaseForeground}"
-                                                    Text="{Binding}" />
+                                                    Text="{Binding Mode=OneWay}" />
                                             </oxy:TrackerControl.Content>
                                         </oxy:TrackerControl>
                                     </ControlTemplate>
@@ -2316,7 +2329,7 @@
                                                     <TextBlock
                                                         Margin="4"
                                                         Foreground="{StaticResource BaseForeground}"
-                                                        Text="{Binding}" />
+                                                        Text="{Binding Mode=OneWay}" />
                                                 </oxy:TrackerControl.Content>
                                             </oxy:TrackerControl>
                                         </ControlTemplate>

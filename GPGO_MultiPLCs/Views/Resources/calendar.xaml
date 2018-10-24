@@ -16,7 +16,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="14"
                                 FontWeight="Bold"
-                                Text="{Binding}" />
+                                Text="{Binding Mode=OneWay}" />
                         </DataTemplate>
                     </ControlTemplate.Resources>
                     <Grid x:Name="PART_Root">
