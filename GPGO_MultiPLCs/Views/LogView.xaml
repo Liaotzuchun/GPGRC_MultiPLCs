@@ -569,12 +569,6 @@
                                         <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
                                         <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
                                     </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding Value, Mode=OneWay}"
-                                        Value="False">
-                                        <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
-                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
-                                    </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -978,12 +972,6 @@
                                         Value="True">
                                         <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
                                         <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding Value, Mode=OneWay}"
-                                        Value="False">
-                                        <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
-                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

@@ -140,6 +140,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Border Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border
+                                        x:Name="StatusBorder"
                                         Background="{StaticResource OKBrush}"
                                         Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     <Border
@@ -567,6 +568,11 @@
                                     </ToggleButton>
                                 </Grid>
                                 <DataTemplate.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding AutoMode, Mode=OneWay}"
+                                        Value="True">
+                                        <Setter TargetName="StatusBorder" Property="Background" Value="{StaticResource PressedBrush}" />
+                                    </DataTrigger>
                                     <DataTrigger
                                         Binding="{Binding IsChecked, ElementName=ActiveToggle, Mode=OneWay}"
                                         Value="True">
@@ -2103,12 +2109,6 @@
                                                             Value="True">
                                                             <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
                                                             <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
-                                                        </DataTrigger>
-                                                        <DataTrigger
-                                                            Binding="{Binding Value, Mode=OneWay}"
-                                                            Value="False">
-                                                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
-                                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource DisabledBorderBrush}" />
                                                         </DataTrigger>
                                                     </DataTemplate.Triggers>
                                                 </DataTemplate>
