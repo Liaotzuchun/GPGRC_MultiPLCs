@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
-    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
     d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
     Foreground="{StaticResource BaseForeground}"
@@ -66,13 +66,6 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border x:Name="Border">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewMouseDown">
-                        <i:InvokeCommandAction
-                            Command="{Binding ExitLog, Mode=OneTime}"
-                            CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Background" Value="{StaticResource OKBrush}" />
@@ -88,36 +81,47 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <Path
-                    Margin="4,2,4,0"
+                <Border
+                    x:Name="Border2"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Stroke="{StaticResource GlyphBrush}"
-                    StrokeLineJoin="Round"
-                    StrokeThickness="2">
-                    <Path.Data>
-                        <GeometryGroup>
-                            <LineGeometry
-                                StartPoint="0,0"
-                                EndPoint="10,10" />
-                            <LineGeometry
-                                StartPoint="10,0"
-                                EndPoint="0,10" />
-                        </GeometryGroup>
-                    </Path.Data>
+                    Background="Transparent"
+                    BorderBrush="{StaticResource GlyphBrush}"
+                    BorderThickness="0">
                     <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <i:InvokeCommandAction
+                                Command="{Binding ExitLog, Mode=OneTime}"
+                                CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
+                        </i:EventTrigger>
                         <i:EventTrigger EventName="MouseEnter">
                             <local:SetPropertyAction
-                                    PropertyName="Stroke"
-                                    PropertyValue="{StaticResource WorkingBorderBrush}" />
+                                PropertyName="BorderBrush"
+                                PropertyValue="{StaticResource WorkingBorderBrush}" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
                             <local:SetPropertyAction
-                                    PropertyName="Stroke"
-                                    PropertyValue="{StaticResource WindowBackgroundBrush}" />
+                                PropertyName="BorderBrush"
+                                PropertyValue="{StaticResource GlyphBrush}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </Path>
+                    <Path
+                        Margin="4"
+                        VerticalAlignment="Center"
+                        Stroke="{Binding BorderBrush, ElementName=Border2, Mode=OneWay}"
+                        StrokeLineJoin="Round"
+                        StrokeThickness="2">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <LineGeometry
+                                    StartPoint="0,0"
+                                    EndPoint="10,10" />
+                                <LineGeometry
+                                    StartPoint="10,0"
+                                    EndPoint="0,10" />
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                </Border>
             </Border>
             <Rectangle
                 Grid.Row="1"
@@ -585,7 +589,8 @@
                 Margin="8,0,8,8"
                 FontSize="16"
                 ItemContainerStyle="{StaticResource ListBoxItem2}"
-                SelectedIndex="{Binding GT.Lng, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type models:Language}, Mode=TwoWay}" SelectionChanged="ListBox_SelectionChanged">
+                SelectedIndex="{Binding GT.Lng, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type models:Language}, Mode=TwoWay}"
+                SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.Template>
                     <ControlTemplate>
                         <ItemsPresenter />

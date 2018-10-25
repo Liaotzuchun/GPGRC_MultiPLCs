@@ -66,18 +66,31 @@
                 </Grid.ColumnDefinitions>
                 <Border
                     x:Name="Border"
-                    Grid.ColumnSpan="3"
-                    Background="Transparent">
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderBrush="{StaticResource WindowBackgroundBrush}"
+                    BorderThickness="0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
                             <i:InvokeCommandAction Command="{Binding CloseCommand, Mode=OneTime}" />
                         </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <local:SetPropertyAction
+                                PropertyName="BorderBrush"
+                                PropertyValue="{StaticResource WorkingBorderBrush}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <local:SetPropertyAction
+                                PropertyName="BorderBrush"
+                                PropertyValue="{StaticResource WindowBackgroundBrush}" />
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Path
+                        x:Name="Path"
                         Margin="4"
-                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Stroke="{StaticResource WindowBackgroundBrush}"
+                        Stroke="{Binding BorderBrush, ElementName=Border, Mode=OneWay}"
                         StrokeLineJoin="Round"
                         StrokeThickness="2">
                         <Path.Data>
@@ -90,18 +103,6 @@
                                     EndPoint="0,10" />
                             </GeometryGroup>
                         </Path.Data>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <local:SetPropertyAction
-                                    PropertyName="Stroke"
-                                    PropertyValue="{StaticResource WorkingBorderBrush}" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseLeave">
-                                <local:SetPropertyAction
-                                    PropertyName="Stroke"
-                                    PropertyValue="{StaticResource WindowBackgroundBrush}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
                     </Path>
                 </Border>
                 <local:UniformGridWithOrientation
