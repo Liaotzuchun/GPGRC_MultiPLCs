@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
@@ -10,7 +11,10 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>配方管理</summary>
     public class RecipeControl_ViewModel : ObservableObject
     {
+        public string UserName;
+        public PLC_Recipe Selected_PLC_Recipe_Origin;
         private readonly IDataBase<PLC_Recipe> RecipeCollection;
+        private readonly IDataBase<PLC_Recipe> RecipeCollection_History;
 
         /// <summary>所有配方的列表</summary>
         private List<PLC_Recipe> Recipes;
@@ -32,9 +36,15 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ResetCommand { get; }
 
         /// <summary>辨別是否可儲存配方(有正在選取的配方)</summary>
-        public bool Save_Enable => Selected_PLC_Recipe != null;
+        public bool Save_Enable => Selected_PLC_Recipe != null && !Selected_PLC_Recipe.Equals(Selected_PLC_Recipe_Origin);
 
         public RelayCommand SaveCommand { get; }
+
+        public IOrderedEnumerable<PLC_Recipe> Old_ViewRecipes
+        {
+            get => Get<IOrderedEnumerable<PLC_Recipe>>();
+            set => Set(value);
+        }
 
         /// <summary>配方搜尋的關鍵字</summary>
         public string SearchName
@@ -53,7 +63,29 @@ namespace GPGO_MultiPLCs.ViewModels
         public PLC_Recipe Selected_PLC_Recipe
         {
             get => Get<PLC_Recipe>();
-            set => Set(value);
+            set
+            {
+                var old_value = Selected_PLC_Recipe;
+
+                if (old_value != null)
+                {
+                    old_value.PropertyChanged -= RecipePropertyChanged;
+                }
+
+                Set(value);
+
+                if (value != null)
+                {
+                    Selected_PLC_Recipe.PropertyChanged += RecipePropertyChanged;
+
+                    GetHistory(value.RecipeName);
+                }
+            }
+        }
+
+        public void RecipePropertyChanged(object s, PropertyChangedEventArgs e)
+        {
+            NotifyPropertyChanged(nameof(Save_Enable));
         }
 
         /// <summary>目前選取配方在列表中的index</summary>
@@ -66,7 +98,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     Set(ViewRecipes.ElementAt(value).RecipeName, nameof(TypedName));
 
-                    Selected_PLC_Recipe = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy();
+                    Selected_PLC_Recipe_Origin = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy(UserName);
+                    Selected_PLC_Recipe = Selected_PLC_Recipe_Origin?.Copy(UserName);
 
                     NotifyPropertyChanged(nameof(Save_Enable));
                     NotifyPropertyChanged(nameof(Add_Enable));
@@ -94,7 +127,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 Set(value.Length > 26 ? value.Substring(0, 26) : value);
                 Set(string.IsNullOrEmpty(TypedName) ? -1 : ViewRecipes?.ToList().FindIndex(x => x.RecipeName == TypedName) ?? -1, nameof(Selected_PLC_Recipe_Index));
 
-                Selected_PLC_Recipe = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy();
+                Selected_PLC_Recipe_Origin = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy(UserName);
+                Selected_PLC_Recipe = Selected_PLC_Recipe_Origin?.Copy(UserName);
 
                 NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
@@ -143,6 +177,12 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             return result;
+        }
+
+        private async void GetHistory(string name)
+        {
+            var list = await RecipeCollection_History.FindAsync(x => x.RecipeName == name);
+            Old_ViewRecipes = list.OrderBy(x => x.Updated);
         }
 
         /// <summary>讀取配方</summary>
@@ -205,11 +245,20 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Standby = false;
 
-            var TempSet = Selected_PLC_Recipe == null ? new PLC_Recipe(name) : Selected_PLC_Recipe.Copy();
+            var TempSet = Selected_PLC_Recipe == null ? new PLC_Recipe(name) : Selected_PLC_Recipe.Copy(UserName);
 
             try
             {
                 await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(TempSet.RecipeName), TempSet);
+            }
+            catch (Exception ex)
+            {
+                ex.RecordError();
+            }
+
+            try
+            {
+                await RecipeCollection_History.AddAsync(Selected_PLC_Recipe_Origin);
             }
             catch (Exception ex)
             {
@@ -221,9 +270,10 @@ namespace GPGO_MultiPLCs.ViewModels
             Standby = true;
         }
 
-        public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDialogService dialog)
+        public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDataBase<PLC_Recipe> db_history, IDialogService dialog)
         {
             RecipeCollection = db;
+            RecipeCollection_History = db_history;
 
             InitialLoadCommand = new RelayCommand(async e =>
                                                   {
@@ -256,14 +306,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                }
                                            });
 
-            ResetCommand = new RelayCommand(async e =>
+            ResetCommand = new RelayCommand(e =>
                                             {
-                                                if (string.IsNullOrEmpty(TypedName))
-                                                {
-                                                    return;
-                                                }
-
-                                                await Load(TypedName);
+                                                Selected_PLC_Recipe = Selected_PLC_Recipe_Origin.Copy(UserName);
                                             });
 
             AddCommand = new RelayCommand(async e =>

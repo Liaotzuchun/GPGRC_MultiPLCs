@@ -32,7 +32,7 @@ namespace GPGO_MultiPLCs
             set => SetValue(DataOutputPathProperty, value);
         }
 
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(User), typeof(User), typeof(Connector), new PropertyMetadata(default(User), null));
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(User), typeof(User), typeof(Connector), new PropertyMetadata(default(User), UserChanged));
 
         public static readonly DependencyProperty LanguageProperty =
             DependencyProperty.Register(nameof(Language), typeof(Language), typeof(Connector), new PropertyMetadata(Language.TW, LanguageChanged));
@@ -49,6 +49,12 @@ namespace GPGO_MultiPLCs
         {
             get => (Language)GetValue(LanguageProperty);
             set => SetValue(LanguageProperty, value);
+        }
+
+        private static void UserChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var user = (User)e.NewValue;
+            ((Connector)sender).RecipeVM.UserName = user.Name;
         }
 
         public User User
@@ -196,7 +202,9 @@ namespace GPGO_MultiPLCs
 
             DialogVM = new GlobalDialog_ViewModel();
             MainVM = new MainWindow_ViewModel();
-            RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")), DialogVM);
+            RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")),
+                                                   new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("Old_PLC_Recipes")),
+                                                   DialogVM);
             TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("Product_Infos")), DialogVM);
             LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("Event_Logs")), DialogVM);
 
@@ -487,10 +495,10 @@ namespace GPGO_MultiPLCs
                                          var outpath = "";
 
                                          Dispatcher.Invoke(() =>
-                                         {
-                                             inpath = DataInputPath;
-                                             outpath = DataOutputPath;
-                                         });
+                                                           {
+                                                               inpath = DataInputPath;
+                                                               outpath = DataOutputPath;
+                                                           });
 
                                          //!輸出嘉聯益資料
                                          if (!string.IsNullOrEmpty(inpath) && !string.IsNullOrEmpty(outpath) && e.Infos.Any())

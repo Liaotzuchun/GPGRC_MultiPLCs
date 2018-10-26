@@ -8,8 +8,48 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>PLC配方</summary>
     [OrderedObject]
     [BsonIgnoreExtraElements]
-    public class PLC_Recipe : ObservableObject
+    public class PLC_Recipe : ObservableObject, IEquatable<PLC_Recipe>
     {
+        public bool Equals(PLC_Recipe other)
+        {
+            return other != null && (RecipeName == other.RecipeName &&
+                                     ThermostaticTemperature_1 == other.ThermostaticTemperature_1 &&
+                                     ThermostaticTemperature_2 == other.ThermostaticTemperature_2 &&
+                                     ThermostaticTemperature_3 == other.ThermostaticTemperature_3 &&
+                                     ThermostaticTemperature_4 == other.ThermostaticTemperature_4 &&
+                                     ThermostaticTemperature_5 == other.ThermostaticTemperature_5 &&
+                                     ThermostaticTemperature_6 == other.ThermostaticTemperature_6 &&
+                                     ThermostaticTemperature_7 == other.ThermostaticTemperature_7 &&
+                                     ThermostaticTemperature_8 == other.ThermostaticTemperature_8 &&
+                                     WarmingTime_1 == other.WarmingTime_1 &&
+                                     WarmingTime_2 == other.WarmingTime_2 &&
+                                     WarmingTime_3 == other.WarmingTime_3 &&
+                                     WarmingTime_4 == other.WarmingTime_4 &&
+                                     WarmingTime_5 == other.WarmingTime_5 &&
+                                     WarmingTime_6 == other.WarmingTime_6 &&
+                                     WarmingTime_7 == other.WarmingTime_7 &&
+                                     WarmingTime_8 == other.WarmingTime_8 &&
+                                     CoolingTemperature == other.CoolingTemperature &&
+                                     HeatingTime_1 == other.HeatingTime_1 &&
+                                     HeatingTime_2 == other.HeatingTime_2 &&
+                                     HeatingTime_3 == other.HeatingTime_3 &&
+                                     HeatingTime_4 == other.HeatingTime_4 &&
+                                     HeatingTime_5 == other.HeatingTime_5 &&
+                                     HeatingTime_6 == other.HeatingTime_6 &&
+                                     HeatingTime_7 == other.HeatingTime_7 &&
+                                     HeatingTime_8 == other.HeatingTime_8 &&
+                                     InflatingTime == other.InflatingTime &&
+                                     TargetTemperature_1 == other.TargetTemperature_1 &&
+                                     TargetTemperature_2 == other.TargetTemperature_2 &&
+                                     TargetTemperature_3 == other.TargetTemperature_3 &&
+                                     TargetTemperature_4 == other.TargetTemperature_4 &&
+                                     TargetTemperature_5 == other.TargetTemperature_5 &&
+                                     TargetTemperature_6 == other.TargetTemperature_6 &&
+                                     TargetTemperature_7 == other.TargetTemperature_7 &&
+                                     TargetTemperature_8 == other.TargetTemperature_8 &&
+                                     UsedSegmentCounts == other.UsedSegmentCounts);
+        }
+
         public short SegmentCounts_Max => 8;
         public short SegmentCounts_Min => 1;
 
@@ -100,7 +140,6 @@ namespace GPGO_MultiPLCs.Models
 
         [OrderIndex(0)]
         [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
-        [BsonId]
         public string RecipeName
         {
             get => Get<string>();
@@ -246,7 +285,14 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Used Stations", "使用站點", "使用站点")]
         public IList<bool> Used_Stations
         {
-            get => Get <IList<bool>>();
+            get => Get<IList<bool>>();
+            set => Set(value);
+        }
+
+        [LanguageTranslator("Editor", "修改者", "修改者")]
+        public string Editor
+        {
+            get => Get<string>();
             set => Set(value);
         }
 
@@ -322,7 +368,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        public PLC_Recipe Copy()
+        public PLC_Recipe Copy(string user)
         {
             return new PLC_Recipe
                    {
@@ -363,11 +409,12 @@ namespace GPGO_MultiPLCs.Models
                        TargetTemperature_7 = TargetTemperature_7,
                        TargetTemperature_8 = TargetTemperature_8,
                        UsedSegmentCounts = UsedSegmentCounts,
-                       Used_Stations = Used_Stations
+                       Used_Stations = Used_Stations,
+                       Editor = user
                    };
         }
 
-        public PLC_Recipe(string name = "")
+        public PLC_Recipe(string name = "", string user = "")
         {
             Updated = DateTime.Now;
             RecipeName = string.IsNullOrEmpty(name) ? Updated.Ticks.ToString() : name;
@@ -407,6 +454,7 @@ namespace GPGO_MultiPLCs.Models
             TargetTemperature_8 = 200;
             UsedSegmentCounts = 8;
             Used_Stations = new bool[20];
+            Editor = user;
         }
 
         public PLC_Recipe()
