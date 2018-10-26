@@ -214,6 +214,7 @@
                             IsEnabled="{TemplateBinding IsEnabled}"
                             Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource Self}}" />
                         <ContentPresenter
+                            x:Name="CP"
                             Grid.Row="0"
                             Grid.RowSpan="2"
                             HorizontalAlignment="Center"
@@ -288,6 +289,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                            <Setter TargetName="CP" Property="TextElement.Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
