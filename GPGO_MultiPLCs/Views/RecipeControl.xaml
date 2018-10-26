@@ -251,6 +251,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -265,6 +266,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -279,6 +281,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -293,6 +296,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -307,6 +311,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -321,6 +326,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -335,6 +341,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=7}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -349,6 +356,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=8}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -363,6 +371,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -377,6 +386,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -391,6 +401,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -405,6 +416,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -419,6 +431,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -433,6 +446,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -447,6 +461,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=7}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -461,6 +476,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=8}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Temperature_Max, Mode=OneWay}"
@@ -851,6 +867,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -866,6 +883,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -881,6 +899,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -896,6 +915,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -911,6 +931,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -926,6 +947,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -941,6 +963,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=7}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -956,6 +979,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=8}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -971,6 +995,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -986,6 +1011,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -1001,6 +1027,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -1016,6 +1043,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -1031,6 +1059,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -1046,6 +1075,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -1061,6 +1091,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=7}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
@@ -1076,6 +1107,7 @@
                     <Slider
                         Margin="4,0"
                         VerticalAlignment="Center"
+                        IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=8}"
                         IsSelectionRangeEnabled="True"
                         IsSnapToTickEnabled="True"
                         Maximum="{Binding Time_Max, Mode=OneWay}"
