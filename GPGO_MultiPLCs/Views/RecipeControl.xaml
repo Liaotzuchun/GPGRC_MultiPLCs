@@ -1328,7 +1328,7 @@
                     Height="44"
                     FontSize="16"
                     Header="{DynamicResource 修改歷史}">
-                    <Grid>
+                    <Grid TextElement.FontSize="12">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition />
@@ -1336,8 +1336,49 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
                             </Grid.ColumnDefinitions>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <Slider
+                                    Margin="4,0"
+                                    VerticalAlignment="Center"
+                                    IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}"
+                                    IsSelectionRangeEnabled="True"
+                                    IsSnapToTickEnabled="True"
+                                    LargeChange="1"
+                                    Maximum="{Binding Old_ViewRecipes.Count, Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=-1}"
+                                    Minimum="0"
+                                    SmallChange="1"
+                                    Value="{Binding HistoryIndex, Mode=TwoWay}" />
+                            </Border>
+                            <Border
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding SelectedHistory.Updated, Mode=OneWay, StringFormat={}{0:yyyy/MM/dd}}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding SelectedHistory.Updated, Mode=OneWay, StringFormat={}{0:HH:mm:ss}}" />
+                                </StackPanel>
+                            </Border>
+                            <Border
+                                Grid.Column="2"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding SelectedHistory.Editor, Mode=OneWay}" />
+                            </Border>
                         </Grid>
                         <local:AutoGrid
                             Grid.Row="1"
@@ -1345,8 +1386,7 @@
                             DataContext="{Binding SelectedHistory, Mode=OneWay}"
                             IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                             Orientation="Vertical"
-                            RowCount="18"
-                            TextElement.FontSize="12">
+                            RowCount="18">
                             <Border
                                 Grid.RowSpan="2"
                                 Background="{StaticResource WindowBackgroundBrush6}"
@@ -2217,6 +2257,19 @@
                                     FontSize="14"
                                     Text="{Binding RecipeName, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="Auto">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 修改者}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:PLC_Recipe">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Editor, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

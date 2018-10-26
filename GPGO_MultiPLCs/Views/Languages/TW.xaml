@@ -146,4 +146,5 @@
     <sys:String x:Key="剩餘">剩餘</sys:String>
     <sys:String x:Key="目前配方">目前值</sys:String>
     <sys:String x:Key="修改歷史">修改歷史</sys:String>
+    <sys:String x:Key="修改者">修改者</sys:String>
 </ResourceDictionary>

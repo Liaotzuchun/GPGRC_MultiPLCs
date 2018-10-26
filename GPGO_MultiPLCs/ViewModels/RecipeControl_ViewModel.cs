@@ -43,7 +43,11 @@ namespace GPGO_MultiPLCs.ViewModels
         public IList<PLC_Recipe> Old_ViewRecipes
         {
             get => Get<IList<PLC_Recipe>>();
-            set => Set(value);
+            set
+            {
+                Set(value);
+                HistoryIndex = value?.Count - 1 ?? 0;
+            }
         }
 
         public int HistoryIndex
@@ -51,12 +55,16 @@ namespace GPGO_MultiPLCs.ViewModels
             get => Get<int>();
             set
             {
+                if (value < 0)
+                {
+                    value = 0;
+                }
                 Set(value);
                 NotifyPropertyChanged(nameof(SelectedHistory));
             }
         }
 
-        public PLC_Recipe SelectedHistory => Old_ViewRecipes?[HistoryIndex];
+        public PLC_Recipe SelectedHistory => Old_ViewRecipes == null || HistoryIndex >= Old_ViewRecipes.Count ? null : Old_ViewRecipes[HistoryIndex];
 
         /// <summary>配方搜尋的關鍵字</summary>
         public string SearchName
@@ -194,7 +202,14 @@ namespace GPGO_MultiPLCs.ViewModels
         private async void GetHistory(string name)
         {
             var list = await RecipeCollection_History.FindAsync(x => x.RecipeName == name);
-            Old_ViewRecipes = list.OrderBy(x => x.Updated).ToList();
+            if (list != null && list.Count > 0)
+            {
+                Old_ViewRecipes = list.OrderBy(x => x.Updated).ToList();
+            }
+            else
+            {
+                Old_ViewRecipes = new List<PLC_Recipe>();
+            }
         }
 
         /// <summary>讀取配方</summary>
@@ -286,6 +301,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             RecipeCollection = db;
             RecipeCollection_History = db_history;
+            Old_ViewRecipes = new List<PLC_Recipe>();
 
             InitialLoadCommand = new RelayCommand(async e =>
                                                   {
