@@ -66,11 +66,7 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var val = 0.0;
-            foreach (var v in values)
-            {
-                val += (double)v;
-            }
+            var val = values.Cast<double>().Sum();
 
             return val + (parameter == null ? 0 : System.Convert.ToDouble(parameter));
         }
@@ -85,11 +81,7 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var val = 1.0;
-            foreach (var v in values)
-            {
-                val *= (double)v;
-            }
+            var val = values.Aggregate(1.0, (current, v) => current * (double)v);
 
             return val * (parameter == null ? 1.0 : System.Convert.ToDouble(parameter));
         }
