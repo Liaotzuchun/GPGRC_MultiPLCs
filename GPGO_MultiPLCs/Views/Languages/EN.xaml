@@ -144,4 +144,6 @@
     <sys:String x:Key="歷時">Duration</sys:String>
     <sys:String x:Key="檢視">Details</sys:String>
     <sys:String x:Key="剩餘">Remaining</sys:String>
+    <sys:String x:Key="目前配方">Current</sys:String>
+    <sys:String x:Key="修改歷史">History</sys:String>
 </ResourceDictionary>

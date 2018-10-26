@@ -40,9 +40,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public RelayCommand SaveCommand { get; }
 
-        public IOrderedEnumerable<PLC_Recipe> Old_ViewRecipes
+        public IList<PLC_Recipe> Old_ViewRecipes
         {
-            get => Get<IOrderedEnumerable<PLC_Recipe>>();
+            get => Get<IList<PLC_Recipe>>();
             set => Set(value);
         }
 
@@ -182,7 +182,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private async void GetHistory(string name)
         {
             var list = await RecipeCollection_History.FindAsync(x => x.RecipeName == name);
-            Old_ViewRecipes = list.OrderBy(x => x.Updated);
+            Old_ViewRecipes = list.OrderBy(x => x.Updated).ToList();
         }
 
         /// <summary>讀取配方</summary>
