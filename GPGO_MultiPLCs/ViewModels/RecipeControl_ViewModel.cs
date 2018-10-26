@@ -46,6 +46,18 @@ namespace GPGO_MultiPLCs.ViewModels
             set => Set(value);
         }
 
+        public int HistoryIndex
+        {
+            get => Get<int>();
+            set
+            {
+                Set(value);
+                NotifyPropertyChanged(nameof(SelectedHistory));
+            }
+        }
+
+        public PLC_Recipe SelectedHistory => Old_ViewRecipes?[HistoryIndex];
+
         /// <summary>配方搜尋的關鍵字</summary>
         public string SearchName
         {

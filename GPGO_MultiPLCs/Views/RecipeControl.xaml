@@ -22,33 +22,20 @@
         <GroupBox
             Margin="0,0,4,0"
             Background="{StaticResource WindowBackgroundBrush3}"
-            DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}"
-            Header="{Binding RecipeName, Mode=OneWay}">
-            <GroupBox.IsEnabled>
-                <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
-                    <Binding
-                        Converter="{StaticResource IsNotNull}"
-                        Mode="OneWay" />
-                    <Binding
-                        Converter="{StaticResource IsMoreThanValue}"
-                        ConverterParameter="3"
-                        Mode="OneWay"
-                        Path="NowUser.Level"
-                        Source="{StaticResource AuthenticatorViewModel}" />
-                </MultiBinding>
-            </GroupBox.IsEnabled>
+            IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}">
             <TabControl>
                 <TabItem
-                    Height="40"
+                    Height="44"
                     FontSize="16"
                     Header="{DynamicResource 目前配方}">
                     <local:AutoGrid
                         Columns="70,*,54,70,*,54"
+                        DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}"
+                        IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                         Orientation="Vertical"
                         RowCount="18"
                         TextElement.FontSize="12">
                         <Border
-                            x:Name="border"
                             Grid.RowSpan="2"
                             Background="{StaticResource WindowBackgroundBrush6}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1338,9 +1325,778 @@
                     </local:AutoGrid>
                 </TabItem>
                 <TabItem
-                    Height="40"
+                    Height="44"
                     FontSize="16"
-                    Header="{DynamicResource 修改歷史}" />
+                    Header="{DynamicResource 修改歷史}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                        <local:AutoGrid
+                            Grid.Row="1"
+                            Columns="70,*,70,*"
+                            DataContext="{Binding SelectedHistory, Mode=OneWay}"
+                            IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                            Orientation="Vertical"
+                            RowCount="18"
+                            TextElement.FontSize="12">
+                            <Border
+                                Grid.RowSpan="2"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource 使用段數}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 目標溫度}" />
+                                    <Run Text="1" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 目標溫度}" />
+                                    <Run Text="2" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 目標溫度}" />
+                                    <Run Text="3" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 目標溫度}" />
+                                    <Run Text="4" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 目標溫度}" />
+                                    <Run Text="5" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 目標溫度}" />
+                                    <Run Text="6" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 目標溫度}" />
+                                    <Run Text="7" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 目標溫度}" />
+                                    <Run Text="8" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫溫度}" />
+                                    <Run Text="1" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫溫度}" />
+                                    <Run Text="2" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫溫度}" />
+                                    <Run Text="3" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫溫度}" />
+                                    <Run Text="4" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫溫度}" />
+                                    <Run Text="5" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫溫度}" />
+                                    <Run Text="6" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫溫度}" />
+                                    <Run Text="7" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫溫度}" />
+                                    <Run Text="8" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Grid.RowSpan="2"
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TargetTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TargetTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ThermostaticTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ThermostaticTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ThermostaticTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ThermostaticTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ThermostaticTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ThermostaticTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ThermostaticTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ThermostaticTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource 降溫溫度}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource 充氣時間}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 升溫時間}" />
+                                    <Run Text="1" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 升溫時間}" />
+                                    <Run Text="2" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 升溫時間}" />
+                                    <Run Text="3" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 升溫時間}" />
+                                    <Run Text="4" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 升溫時間}" />
+                                    <Run Text="5" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 升溫時間}" />
+                                    <Run Text="6" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 升溫時間}" />
+                                    <Run Text="7" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 升溫時間}" />
+                                    <Run Text="8" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫時間}" />
+                                    <Run Text="1" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫時間}" />
+                                    <Run Text="2" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫時間}" />
+                                    <Run Text="3" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫時間}" />
+                                    <Run Text="4" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫時間}" />
+                                    <Run Text="5" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫時間}" />
+                                    <Run Text="6" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫時間}" />
+                                    <Run Text="7" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{DynamicResource 恆溫時間}" />
+                                    <Run Text="8" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding InflatingTime, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding HeatingTime_1, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding HeatingTime_2, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding HeatingTime_3, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding HeatingTime_4, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding HeatingTime_5, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding HeatingTime_6, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding HeatingTime_7, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding HeatingTime_8, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding WarmingTime_1, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding WarmingTime_2, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding WarmingTime_3, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding WarmingTime_4, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding WarmingTime_5, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding WarmingTime_6, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding WarmingTime_7, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                            <Border
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Run Text="{Binding WarmingTime_8, Mode=OneWay}" />
+                                    <Run Text=" " />
+                                    <Run Text="{DynamicResource 分}" />
+                                </TextBlock>
+                            </Border>
+                        </local:AutoGrid>
+                    </Grid>
+                </TabItem>
             </TabControl>
         </GroupBox>
         <Grid
