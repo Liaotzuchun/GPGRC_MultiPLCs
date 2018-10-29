@@ -11,8 +11,10 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>配方管理</summary>
     public class RecipeControl_ViewModel : ObservableObject
     {
-        public string UserName;
+        /// <summary>未儲存未修改之配方(備份或還原用)</summary>
         public PLC_Recipe Selected_PLC_Recipe_Origin;
+
+        public string UserName;
         private readonly IDataBase<PLC_Recipe> RecipeCollection;
         private readonly IDataBase<PLC_Recipe> RecipeCollection_History;
 
@@ -40,15 +42,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public RelayCommand SaveCommand { get; }
 
-        public IList<PLC_Recipe> Old_ViewRecipes
-        {
-            get => Get<IList<PLC_Recipe>>();
-            set
-            {
-                Set(value);
-                HistoryIndex = value?.Count - 1 ?? 0;
-            }
-        }
+        public PLC_Recipe SelectedHistory => Old_ViewRecipes == null || HistoryIndex >= Old_ViewRecipes.Count ? null : Old_ViewRecipes[HistoryIndex];
 
         public int HistoryIndex
         {
@@ -59,12 +53,21 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     value = 0;
                 }
+
                 Set(value);
                 NotifyPropertyChanged(nameof(SelectedHistory));
             }
         }
 
-        public PLC_Recipe SelectedHistory => Old_ViewRecipes == null || HistoryIndex >= Old_ViewRecipes.Count ? null : Old_ViewRecipes[HistoryIndex];
+        public IList<PLC_Recipe> Old_ViewRecipes
+        {
+            get => Get<IList<PLC_Recipe>>();
+            set
+            {
+                Set(value);
+                HistoryIndex = value?.Count - 1 ?? 0;
+            }
+        }
 
         /// <summary>配方搜尋的關鍵字</summary>
         public string SearchName
@@ -106,11 +109,6 @@ namespace GPGO_MultiPLCs.ViewModels
                     GetHistory(value.RecipeName);
                 }
             }
-        }
-
-        public void RecipePropertyChanged(object s, PropertyChangedEventArgs e)
-        {
-            NotifyPropertyChanged(nameof(Save_Enable));
         }
 
         /// <summary>目前選取配方在列表中的index</summary>
@@ -202,6 +200,11 @@ namespace GPGO_MultiPLCs.ViewModels
             return result;
         }
 
+        public void RecipePropertyChanged(object s, PropertyChangedEventArgs e)
+        {
+            NotifyPropertyChanged(nameof(Save_Enable));
+        }
+
         private async void GetHistory(string name)
         {
             var list = await RecipeCollection_History.FindAsync(x => x.RecipeName == name);
@@ -286,13 +289,16 @@ namespace GPGO_MultiPLCs.ViewModels
                 ex.RecordError();
             }
 
-            try
+            if (Selected_PLC_Recipe_Origin != null)
             {
-                await RecipeCollection_History.AddAsync(Selected_PLC_Recipe_Origin);
-            }
-            catch (Exception ex)
-            {
-                ex.RecordError();
+                try
+                {
+                    await RecipeCollection_History.AddAsync(Selected_PLC_Recipe_Origin);
+                }
+                catch (Exception ex)
+                {
+                    ex.RecordError();
+                }
             }
 
             await RefreshList();
