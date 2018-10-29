@@ -1331,7 +1331,7 @@
                     IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
                     <Grid TextElement.FontSize="12">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="58" />
+                            <RowDefinition Height="64" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid>
@@ -1341,7 +1341,7 @@
                                 <ColumnDefinition Width="80" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="20" />
+                                <RowDefinition Height="24" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Border
@@ -2194,17 +2194,38 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
-                <Button
+                <TabControl
                     Grid.RowSpan="2"
-                    Content="{DynamicResource 儲存}"
-                    FontSize="20"
-                    IsEnabled="{Binding Save_Enable, Mode=OneWay}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding SaveCommand, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
+                    SelectedIndex="{Binding SelectedIndex, ElementName=TC, Mode=OneWay}">
+                    <TabItem
+                        Width="0"
+                        Height="0">
+                        <Button
+                            Content="{DynamicResource 儲存}"
+                            FontSize="20"
+                            IsEnabled="{Binding Save_Enable, Mode=OneWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding SaveCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </TabItem>
+                    <TabItem
+                        Width="0"
+                        Height="0">
+                        <Button
+                            Content="{DynamicResource 復原}"
+                            FontSize="20"
+                            IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ResetCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </TabItem>
+                </TabControl>
                 <Border
                     Grid.Column="1"
                     Background="{StaticResource WindowBackgroundBrush6}"

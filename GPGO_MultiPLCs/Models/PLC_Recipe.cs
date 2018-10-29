@@ -414,6 +414,48 @@ namespace GPGO_MultiPLCs.Models
                    };
         }
 
+        public void CopyValue(string user, PLC_Recipe recipe)
+        {
+                Updated = DateTime.Now;
+                RecipeName = recipe.RecipeName;
+                ThermostaticTemperature_1 = recipe.ThermostaticTemperature_1;
+                ThermostaticTemperature_2 = recipe.ThermostaticTemperature_2;
+                ThermostaticTemperature_3 = recipe.ThermostaticTemperature_3;
+                ThermostaticTemperature_4 = recipe.ThermostaticTemperature_4;
+                ThermostaticTemperature_5 = recipe.ThermostaticTemperature_5;
+                ThermostaticTemperature_6 = recipe.ThermostaticTemperature_6;
+                ThermostaticTemperature_7 = recipe.ThermostaticTemperature_7;
+                ThermostaticTemperature_8 = recipe.ThermostaticTemperature_8;
+                WarmingTime_1 = recipe.WarmingTime_1;
+                WarmingTime_2 = recipe.WarmingTime_2;
+                WarmingTime_3 = recipe.WarmingTime_3;
+                WarmingTime_4 = recipe.WarmingTime_4;
+                WarmingTime_5 = recipe.WarmingTime_5;
+                WarmingTime_6 = recipe.WarmingTime_6;
+                WarmingTime_7 = recipe.WarmingTime_7;
+                WarmingTime_8 = recipe.WarmingTime_8;
+                CoolingTemperature = recipe.CoolingTemperature;
+                HeatingTime_1 = recipe.HeatingTime_1;
+                HeatingTime_2 = recipe.HeatingTime_2;
+                HeatingTime_3 = recipe.HeatingTime_3;
+                HeatingTime_4 = recipe.HeatingTime_4;
+                HeatingTime_5 = recipe.HeatingTime_5;
+                HeatingTime_6 = recipe.HeatingTime_6;
+                HeatingTime_7 = recipe.HeatingTime_7;
+                HeatingTime_8 = recipe.HeatingTime_8;
+                InflatingTime = recipe.InflatingTime;
+                TargetTemperature_1 = recipe.TargetTemperature_1;
+                TargetTemperature_2 = recipe.TargetTemperature_2;
+                TargetTemperature_3 = recipe.TargetTemperature_3;
+                TargetTemperature_4 = recipe.TargetTemperature_4;
+                TargetTemperature_5 = recipe.TargetTemperature_5;
+                TargetTemperature_6 = recipe.TargetTemperature_6;
+                TargetTemperature_7 = recipe.TargetTemperature_7;
+                TargetTemperature_8 = recipe.TargetTemperature_8;
+                UsedSegmentCounts = recipe.UsedSegmentCounts;
+                Editor = user;
+        }
+
         public PLC_Recipe(string name = "", string user = "")
         {
             Updated = DateTime.Now;

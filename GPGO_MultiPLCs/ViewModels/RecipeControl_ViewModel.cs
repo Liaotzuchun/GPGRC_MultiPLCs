@@ -92,9 +92,14 @@ namespace GPGO_MultiPLCs.ViewModels
                     old_value.PropertyChanged -= RecipePropertyChanged;
                 }
 
+                Selected_PLC_Recipe_Origin = value?.Copy(UserName);
                 Set(value);
 
-                if (value != null)
+                if (value == null)
+                {
+                    Old_ViewRecipes = null;
+                }
+                else
                 {
                     Selected_PLC_Recipe.PropertyChanged += RecipePropertyChanged;
 
@@ -118,8 +123,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     Set(ViewRecipes.ElementAt(value).RecipeName, nameof(TypedName));
 
-                    Selected_PLC_Recipe_Origin = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy(UserName);
-                    Selected_PLC_Recipe = Selected_PLC_Recipe_Origin?.Copy(UserName);
+                    Selected_PLC_Recipe = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy(UserName);
 
                     NotifyPropertyChanged(nameof(Save_Enable));
                     NotifyPropertyChanged(nameof(Add_Enable));
@@ -147,8 +151,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 Set(value.Length > 26 ? value.Substring(0, 26) : value);
                 Set(string.IsNullOrEmpty(TypedName) ? -1 : ViewRecipes?.ToList().FindIndex(x => x.RecipeName == TypedName) ?? -1, nameof(Selected_PLC_Recipe_Index));
 
-                Selected_PLC_Recipe_Origin = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy(UserName);
-                Selected_PLC_Recipe = Selected_PLC_Recipe_Origin?.Copy(UserName);
+                Selected_PLC_Recipe = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy(UserName);
 
                 NotifyPropertyChanged(nameof(Save_Enable));
                 NotifyPropertyChanged(nameof(Add_Enable));
@@ -208,7 +211,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             else
             {
-                Old_ViewRecipes = new List<PLC_Recipe>();
+                Old_ViewRecipes = null;
             }
         }
 
@@ -272,7 +275,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Standby = false;
 
-            var TempSet = Selected_PLC_Recipe == null ? new PLC_Recipe(name) : Selected_PLC_Recipe.Copy(UserName);
+            var TempSet = Selected_PLC_Recipe == null ? new PLC_Recipe(name, UserName) : Selected_PLC_Recipe.Copy(UserName);
 
             try
             {
@@ -301,7 +304,6 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             RecipeCollection = db;
             RecipeCollection_History = db_history;
-            Old_ViewRecipes = new List<PLC_Recipe>();
 
             InitialLoadCommand = new RelayCommand(async e =>
                                                   {
@@ -324,9 +326,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                            {
                                                if (await dialog.Show(new Dictionary<Language, string>
                                                                      {
-                                                                         { Language.TW, "即將儲存並覆蓋同名配方，無法復原!\n" + "確定儲存?" },
-                                                                         { Language.CHS, "即将储存并覆盖同名配方，无法复原!\n" + "确定储存?" },
-                                                                         { Language.EN, "The recipe is going to save or replace the same one,\n" + "Can't be restored!" + " OK?" }
+                                                                         { Language.TW, "即將儲存並覆蓋同名配方，確定儲存?" },
+                                                                         { Language.CHS, "即将储存并覆盖同名配方，确定储存?" },
+                                                                         { Language.EN, "The recipe is going to save or replace the same one.\n" + "Are you sure?" }
                                                                      },
                                                                      true))
                                                {
@@ -334,9 +336,20 @@ namespace GPGO_MultiPLCs.ViewModels
                                                }
                                            });
 
-            ResetCommand = new RelayCommand(e =>
+            ResetCommand = new RelayCommand(async e =>
                                             {
-                                                Selected_PLC_Recipe = Selected_PLC_Recipe_Origin.Copy(UserName);
+                                                Selected_PLC_Recipe.CopyValue(UserName, SelectedHistory);
+
+                                                if (await dialog.Show(new Dictionary<Language, string>
+                                                                      {
+                                                                          { Language.TW, "即將儲存並覆蓋同名配方，確定儲存?" },
+                                                                          { Language.CHS, "即将储存并覆盖同名配方，确定储存?" },
+                                                                          { Language.EN, "The recipe is going to save or replace the same one.\n" + "Are you sure?" }
+                                                                      },
+                                                                      true))
+                                                {
+                                                    await Save(TypedName);
+                                                }
                                             });
 
             AddCommand = new RelayCommand(async e =>
