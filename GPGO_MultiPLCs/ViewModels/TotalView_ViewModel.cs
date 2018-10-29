@@ -71,8 +71,6 @@ namespace GPGO_MultiPLCs.ViewModels
                              if (args.Item1 < PLC_All.Count && args.Item1 > -1 && PLC_All[args.Item1].OnlineStatus != args.Item2)
                              {
                                  PLC_All[args.Item1].OnlineStatus = args.Item2;
-                                 EventHappened?.Invoke(args.Item2 ? (args.Item1, EventType.Alarm, DateTime.Now, "PLC NO. " + (args.Item1 + 1) + " Offline!", string.Empty, false) :
-                                                           (args.Item1, EventType.Alarm, DateTime.Now, "PLC NO. " + (args.Item1 + 1) + " Offline!", string.Empty, true));
                              }
                          }
                          catch (Exception)
