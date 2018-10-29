@@ -199,18 +199,18 @@
                             x:Name="Border3"
                             Background="{StaticResource NormalBrush}"
                             BorderBrush="{StaticResource NormalBorderBrush}"
-                            BorderThickness="1" />
+                            BorderThickness="{TemplateBinding BorderThickness}" />
                         <Border
                             x:Name="Border2"
                             Background="{StaticResource PressedBrush}"
                             BorderBrush="{StaticResource PressedBorderBrush}"
-                            BorderThickness="1"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             Visibility="{Binding IsSelected, Converter={StaticResource BoolVis}, RelativeSource={RelativeSource TemplatedParent}}" />
                         <Border
                             Grid.Row="0"
                             Background="{StaticResource DisabledBackgroundBrush}"
                             BorderBrush="{StaticResource DisabledBorderBrush}"
-                            BorderThickness="1"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             IsEnabled="{TemplateBinding IsEnabled}"
                             Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource Self}}" />
                         <ContentPresenter

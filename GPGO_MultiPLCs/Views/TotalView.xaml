@@ -2408,6 +2408,7 @@
                                                                 Background="Cyan"
                                                                 Opacity="0" />
                                                             <TextBlock
+                                                                x:Name="TextBlock"
                                                                 Margin="4,0"
                                                                 HorizontalAlignment="Center"
                                                                 VerticalAlignment="Center"
@@ -2467,6 +2468,13 @@
                                                             <VisualState x:Name="Unselected" />
                                                             <VisualState x:Name="Selected">
                                                                 <Storyboard>
+                                                                    <ColorAnimationUsingKeyFrames
+                                                                        Storyboard.TargetName="TextBlock"
+                                                                        Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)">
+                                                                        <EasingColorKeyFrame
+                                                                            KeyTime="0:0:0.12"
+                                                                            Value="Blue" />
+                                                                    </ColorAnimationUsingKeyFrames>
                                                                     <DoubleAnimationUsingKeyFrames
                                                                         Storyboard.TargetName="Border"
                                                                         Storyboard.TargetProperty="Opacity">
