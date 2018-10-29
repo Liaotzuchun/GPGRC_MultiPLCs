@@ -23,7 +23,7 @@
             Margin="0,0,4,0"
             Background="{StaticResource WindowBackgroundBrush3}"
             IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}">
-            <TabControl>
+            <TabControl x:Name="TC">
                 <TabItem
                     Height="44"
                     FontSize="16"
@@ -1327,10 +1327,11 @@
                 <TabItem
                     Height="44"
                     FontSize="16"
-                    Header="{DynamicResource 修改歷史}">
+                    Header="{DynamicResource 修改歷史}"
+                    IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
                     <Grid TextElement.FontSize="12">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
+                            <RowDefinition Height="58" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid>
@@ -1339,15 +1340,47 @@
                                 <ColumnDefinition Width="80" />
                                 <ColumnDefinition Width="80" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
                             <Border
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,0,1,1">
-                                <Slider
-                                    Margin="4,0"
+                                <TextBlock
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}"
-                                    IsSelectionRangeEnabled="True"
+                                    Text="{DynamicResource 修改歷史}" />
+                            </Border>
+                            <Border
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource 更新時間}" />
+                            </Border>
+                            <Border
+                                Grid.Column="2"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource 修改者}" />
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                                <Slider
+                                    Margin="8,0"
+                                    VerticalAlignment="Center"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Old_ViewRecipes.Count, Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=-1}"
@@ -1356,8 +1389,9 @@
                                     Value="{Binding HistoryIndex, Mode=TwoWay}" />
                             </Border>
                             <Border
+                                Grid.Row="1"
                                 Grid.Column="1"
-                                Background="{StaticResource WindowBackgroundBrush6}"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,0,1,1">
                                 <StackPanel VerticalAlignment="Center">
@@ -1370,8 +1404,9 @@
                                 </StackPanel>
                             </Border>
                             <Border
+                                Grid.Row="1"
                                 Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush6}"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,0,1,1">
                                 <TextBlock
@@ -2238,6 +2273,7 @@
                 EnableRowVirtualization="False"
                 ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                 RowHeaderTemplate="{StaticResource ShowRowNumbers}"
+                SelectedCellsChanged="DataGrid_SelectedCellsChanged"
                 SelectedIndex="{Binding Selected_PLC_Recipe_Index, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
