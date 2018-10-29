@@ -553,6 +553,9 @@
                                                     Mode="OneWay"
                                                     Path="NowUser.Level"
                                                     Source="{StaticResource AuthenticatorViewModel}" />
+                                                <Binding
+                                                    Mode="OneWay"
+                                                    Path="OnlineStatus" />
                                             </MultiBinding>
                                         </ToggleButton.IsEnabled>
                                         <i:Interaction.Triggers>
