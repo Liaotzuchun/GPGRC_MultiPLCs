@@ -2473,7 +2473,7 @@
                                                                         Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)">
                                                                         <EasingColorKeyFrame
                                                                             KeyTime="0:0:0.12"
-                                                                            Value="Blue" />
+                                                                            Value="White" />
                                                                     </ColorAnimationUsingKeyFrames>
                                                                     <DoubleAnimationUsingKeyFrames
                                                                         Storyboard.TargetName="Border"
