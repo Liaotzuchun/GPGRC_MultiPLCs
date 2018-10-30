@@ -35,7 +35,8 @@
                         IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                         Orientation="Vertical"
                         RowCount="18"
-                        TextElement.FontSize="12">
+                        TextElement.FontSize="12"
+                        TextElement.Foreground="{StaticResource BaseForeground}">
                         <Border
                             Grid.RowSpan="2"
                             Background="{StaticResource WindowBackgroundBrush6}"
