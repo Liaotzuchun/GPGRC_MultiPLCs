@@ -19,6 +19,7 @@
     KeyboardNavigation.TabNavigation="None"
     Loaded="Window_Loaded"
     SnapsToDevicePixels="True"
+    Stylus.IsPressAndHoldEnabled="False"
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
