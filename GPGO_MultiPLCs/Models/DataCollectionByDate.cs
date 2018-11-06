@@ -212,7 +212,7 @@ namespace GPGO_MultiPLCs.Models
 
             SubMonthCommand = new RelayCommand(o =>
                                                {
-                                                   Set(new DateTime(Date1.Year, Date1.Month - 1, 1), nameof(Date1));
+                                                   Set(new DateTime(Date1.Year, Date1.Month, 1).AddMonths(-1), nameof(Date1));
                                                    Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
 
                                                    Act();
@@ -227,7 +227,7 @@ namespace GPGO_MultiPLCs.Models
 
             AddMonthCommand = new RelayCommand(o =>
                                                {
-                                                   Set(new DateTime(Date1.Year, Date1.Month + 1, 1), nameof(Date1));
+                                                   Set(new DateTime(Date1.Year, Date1.Month, 1).AddMonths(1), nameof(Date1));
                                                    Set(Date1.AddMonths(1).AddDays(-1), nameof(Date2));
 
                                                    Act();

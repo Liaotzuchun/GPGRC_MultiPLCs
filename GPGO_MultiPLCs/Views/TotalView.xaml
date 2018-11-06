@@ -245,6 +245,9 @@
                                                                 Converter="{StaticResource BoolNot}"
                                                                 Mode="OneWay"
                                                                 Path="AutoMode" />
+                                                            <Binding
+                                                                Mode="OneWay"
+                                                                Path="OnlineStatus" />
                                                         </MultiBinding>
                                                     </ComboBox.IsEnabled>
                                                     <ComboBox.ItemTemplate>

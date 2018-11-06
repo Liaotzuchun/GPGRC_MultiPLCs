@@ -175,7 +175,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Action<string> AssetNumberChanged;
         public event Action<string> CancelCheckIn;
-        public event Action<(EventType type, DateTime time, string note, string tag, object value)> EventHappened;
+        public event Action<(EventType type, DateTime time, string note, string tag, bool value)> EventHappened;
         public event Func<ValueTask<Dictionary<int, short>>> GetPLCRecipeParameter;
         public event Func<string, ValueTask<PLC_Recipe>> GetRecipeEvent;
         public event Action<string> MachineCodeChanged;

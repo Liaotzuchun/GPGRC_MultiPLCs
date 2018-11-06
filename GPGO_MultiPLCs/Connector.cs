@@ -402,9 +402,9 @@ namespace GPGO_MultiPLCs
             TotalVM.WantRecipe += async e => string.IsNullOrEmpty(e.RecipeName) ? null : await RecipeVM.GetRecipe(e.StationIndex, e.RecipeName);
 
             //!由台車code取得前端生產資訊
-            TotalVM.WantFrontData += async TrolleyCode =>
+            TotalVM.WantFrontData += async e =>
                                      {
-                                         var path = DataInputPath + "\\" + TrolleyCode;
+                                         var path = DataInputPath + "\\" + e.TrolleyCode;
 
                                          if (Directory.Exists(path))
                                          {
@@ -434,7 +434,7 @@ namespace GPGO_MultiPLCs
                                                                              {
                                                                                  foreach (var file in files)
                                                                                  {
-                                                                                     var backname = file.FullName + ".bak";
+                                                                                     var backname = file.FullName + ".bak" + e.StationIndex;
                                                                                      if (File.Exists(backname))
                                                                                      {
                                                                                          File.Delete(backname);
@@ -472,10 +472,12 @@ namespace GPGO_MultiPLCs
 
                                          if (Directory.Exists(path))
                                          {
-                                             var files = new DirectoryInfo(path).GetFiles("*.bak");
+                                             var tag = ".bak" + e.StationIndex;
+                                             var files = new DirectoryInfo(path).GetFiles("*" + tag);
                                              foreach (var file in files)
                                              {
-                                                 var sourcename = file.FullName.TrimEnd(".bak".ToCharArray());
+                                                 var sourcename = file.FullName.TrimEnd(tag.ToCharArray());
+
                                                  if (File.Exists(sourcename))
                                                  {
                                                      File.Delete(sourcename);
@@ -539,6 +541,7 @@ namespace GPGO_MultiPLCs
                                                                                      try
                                                                                      {
                                                                                          File.WriteAllText(path + n + ".txt", info.ToString(i), Encoding.ASCII);
+                                                                                         Thread.Sleep(1);
                                                                                          //!紀錄資料到指定輸出資料夾
                                                                                      }
                                                                                      catch (Exception ex)
@@ -573,7 +576,8 @@ namespace GPGO_MultiPLCs
                                                            AddedTime = e.time,
                                                            Type = e.type,
                                                            Description = e.note,
-                                                           Tag = e.tag
+                                                           Tag = e.tag,
+                                                           Value = e.value
                                                        });
                                      };
 
