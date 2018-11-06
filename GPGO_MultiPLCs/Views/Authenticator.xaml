@@ -295,6 +295,7 @@
                     Grid.Column="1"
                     BorderThickness="1,1,1,0"
                     FontSize="14"
+                    GotKeyboardFocus="TextBox_GotKeyboardFocus"
                     Text="{Binding EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="1"
@@ -311,6 +312,7 @@
                     Grid.Column="1"
                     BorderThickness="1,1,1,0"
                     FontSize="14"
+                    GotKeyboardFocus="TextBox_GotKeyboardFocus"
                     Text="{Binding EditPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="2"

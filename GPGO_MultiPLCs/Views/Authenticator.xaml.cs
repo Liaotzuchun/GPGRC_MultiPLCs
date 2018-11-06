@@ -114,6 +114,18 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
+        private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (!(sender is TextBox tb))
+            {
+                return;
+            }
+
+            await Task.Delay(15);
+
+            tb.SelectAll();
+        }
+
         private async void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Visibility == Visibility.Visible)

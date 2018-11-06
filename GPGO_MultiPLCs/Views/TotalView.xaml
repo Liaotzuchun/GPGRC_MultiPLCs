@@ -205,11 +205,13 @@
                                                     <TextBox
                                                         BorderThickness="0"
                                                         Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
+                                                        GotKeyboardFocus="TextBox_GotKeyboardFocus"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                         Text="{Binding OvenInfo.AssetNumber, Mode=TwoWay}" />
                                                     <TextBox
                                                         BorderThickness="0"
                                                         Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
+                                                        GotKeyboardFocus="TextBox_GotKeyboardFocus"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                         Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}"
                                                         Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />

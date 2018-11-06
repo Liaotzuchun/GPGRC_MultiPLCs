@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views
@@ -22,6 +23,18 @@ namespace GPGO_MultiPLCs.Views
             {
                 dg.ScrollIntoView(dg.SelectedItem);
             }
+        }
+
+        private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (!(sender is TextBox tb))
+            {
+                return;
+            }
+
+            await Task.Delay(15);
+
+            tb.SelectAll();
         }
 
         public TotalView()

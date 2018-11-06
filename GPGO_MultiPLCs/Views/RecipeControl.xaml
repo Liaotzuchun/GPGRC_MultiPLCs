@@ -2313,11 +2313,13 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         BorderThickness="0,0,0,1"
+                        GotKeyboardFocus="TextBox_GotKeyboardFocus"
                         Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         BorderThickness="0,0,0,1"
+                        GotKeyboardFocus="TextBox_GotKeyboardFocus"
                         Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
                 </UniformGrid>
                 <Button
