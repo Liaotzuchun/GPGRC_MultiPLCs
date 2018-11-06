@@ -153,11 +153,10 @@ namespace GPGO_MultiPLCs.Models
                                        OvenInfo.TotalHeatingTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
                                        OvenInfo.TargetOvenTemperature = TargetTemperature_1;
 
-                                       CheckInCommand.Result = false;
-
                                        RecordingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
-                                       OvenInfo.Clear();
-                                       Ext_Info.Clear();
+
+                                       //!需在引發紀錄完成後才觸發取消投產
+                                       CheckInCommand.Result = false;
                                    });
 
                 NotifyPropertyChanged(nameof(IsRecording));
