@@ -185,42 +185,41 @@ namespace GPGO_MultiPLCs.ViewModels
 
             var result = true;
 
-            await Task.Factory.StartNew(() =>
+            if (!Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception ex)
+                {
+                    ex.RecordError("CSV輸出資料夾無法創建");
+
+                    return false;
+                }
+            }
+
+            var csv = ViewResults.ToCSV(Language,
+                                        new[]
                                         {
-                                            if (!Directory.Exists(path))
-                                            {
-                                                try
-                                                {
-                                                    Directory.CreateDirectory(path);
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    ex.RecordError("CSV輸出資料夾無法創建");
-                                                    result = false;
-
-                                                    return;
-                                                }
-                                            }
-
-                                            var csv = ViewResults.ToCSV(Language,
-                                                                        new[]
-                                                                        {
-                                                                            typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)),
-                                                                            typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)),
-                                                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
-                                                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Description))
-                                                                        });
-
-                                            try
-                                            {
-                                                File.WriteAllText(path + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", csv, Encoding.UTF8);
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                ex.RecordError("輸出CSV失敗");
-                                                result = false;
-                                            }
+                                            typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)),
+                                            typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)),
+                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
+                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Description))
                                         });
+
+            try
+            {
+                using (var outputFile = new StreamWriter(path + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", false, Encoding.UTF8))
+                {
+                    await outputFile.WriteAsync(csv);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.RecordError("輸出CSV失敗");
+                result = false;
+            }
 
             Standby = true;
 

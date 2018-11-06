@@ -517,41 +517,41 @@ namespace GPGO_MultiPLCs
                                                  }
                                              }
 
-                                             await Task.Factory.StartNew(() =>
-                                                                         {
-                                                                             foreach (var info in e.Infos)
-                                                                             {
-                                                                                 for (var i = 0; i < info.ProcessCount; i++)
-                                                                                 {
-                                                                                     var path = outpath +
-                                                                                                "\\" +
-                                                                                                info.AssetNumber +
-                                                                                                "_" +
-                                                                                                DateTime.Now.ToString("yyyyMMddHHmmssfff") +
-                                                                                                "_" +
-                                                                                                (e.StationIndex + 1) +
-                                                                                                "_";
+                                             foreach (var info in e.Infos)
+                                             {
+                                                 for (var i = 0; i < info.ProcessCount; i++)
+                                                 {
+                                                     var path = outpath +
+                                                                "\\" +
+                                                                info.AssetNumber +
+                                                                "_" +
+                                                                DateTime.Now.ToString("yyyyMMddHHmmssfff") +
+                                                                "_" +
+                                                                (e.StationIndex + 1) +
+                                                                "_";
 
-                                                                                     var n = 1;
-                                                                                     while (File.Exists(path + n))
-                                                                                     {
-                                                                                         n++;
-                                                                                     }
+                                                     var n = 1;
+                                                     while (File.Exists(path + n))
+                                                     {
+                                                         n++;
+                                                     }
 
-                                                                                     try
-                                                                                     {
-                                                                                         File.WriteAllText(path + n + ".txt", info.ToString(i), Encoding.ASCII);
-                                                                                         Thread.Sleep(1);
-                                                                                         //!紀錄資料到指定輸出資料夾
-                                                                                     }
-                                                                                     catch (Exception ex)
-                                                                                     {
-                                                                                         ex.RecordError("資料輸出上傳失敗");
-                                                                                     }
-                                                                                 }
-                                                                             }
-                                                                         },
-                                                                         TaskCreationOptions.LongRunning);
+                                                     try
+                                                     {
+                                                         using (var outputFile = new StreamWriter(path + n + ".txt", false, Encoding.ASCII))
+                                                         {
+                                                             await outputFile.WriteAsync(info.ToString(i));
+                                                         }
+
+                                                         await Task.Delay(1);
+                                                         //!紀錄資料到指定輸出資料夾
+                                                     }
+                                                     catch (Exception ex)
+                                                     {
+                                                         ex.RecordError("資料輸出上傳失敗");
+                                                     }
+                                                 }
+                                             }
 
                                              var _path = inpath + "\\" + e.Infos.First().TrolleyCode;
 
