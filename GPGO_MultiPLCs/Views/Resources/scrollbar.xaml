@@ -270,7 +270,7 @@
                 IsDirectionReversed="True">
                 <Track.Resources>
                     <system:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">
-                        60
+                        48
                     </system:Double>
                 </Track.Resources>
                 <Track.DecreaseRepeatButton>
@@ -282,7 +282,7 @@
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb
-                        Margin="0,-1"
+                        Margin="-1"
                         Background="{StaticResource NormalBrush}"
                         BorderBrush="{StaticResource NormalBorderBrush}"
                         Style="{StaticResource HScrollBarThumb}" />
@@ -330,7 +330,7 @@
                 IsDirectionReversed="False">
                 <Track.Resources>
                     <system:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">
-                        60
+                        48
                     </system:Double>
                 </Track.Resources>
                 <Track.DecreaseRepeatButton>
@@ -342,7 +342,7 @@
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb
-                        Margin="-1,0"
+                        Margin="-1"
                         Background="{StaticResource NormalBrush}"
                         BorderBrush="{StaticResource NormalBorderBrush}"
                         Style="{StaticResource ScrollBarThumb}" />
