@@ -577,7 +577,7 @@
                                     IsZoomEnabled="False"
                                     MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                     MajorGridlineStyle="Dot"
-                                    MajorStep="100"
+                                    MajorStep="50"
                                     MajorTickSize="0"
                                     MaximumPadding="0.2"
                                     Minimum="0"

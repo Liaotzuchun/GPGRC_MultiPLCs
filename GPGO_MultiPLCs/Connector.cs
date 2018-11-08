@@ -146,15 +146,15 @@ namespace GPGO_MultiPLCs
                                        {
                                            StartTime = st,
                                            AddedTime = st + t,
-                                           ThermostatTemperature = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_1 = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_2 = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_3 = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_4 = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_5 = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_6 = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_7 = rn.Next(40 + mins * 2, 40 + mins * 5),
-                                           OvenTemperatures_8 = rn.Next(40 + mins * 2, 40 + mins * 5)
+                                           ThermostatTemperature = rn.Next(30 + mins, 30 + mins * 2),
+                                           OvenTemperatures_1 = rn.Next(30 + mins, 30 + mins * 2),
+                                           OvenTemperatures_2 = rn.Next(30 + mins, 30 + mins * 2),
+                                           OvenTemperatures_3 = rn.Next(30 + mins, 30 + mins * 2),
+                                           OvenTemperatures_4 = rn.Next(30 + mins, 30 + mins * 2),
+                                           OvenTemperatures_5 = rn.Next(30 + mins, 30 + mins * 2),
+                                           OvenTemperatures_6 = rn.Next(30 + mins, 30 + mins * 2),
+                                           OvenTemperatures_7 = rn.Next(30 + mins, 30 + mins * 2),
+                                           OvenTemperatures_8 = rn.Next(30 + mins, 30 + mins * 2)
                                        };
 
                             info.RecordTemperatures.Add(vals);
@@ -611,7 +611,7 @@ namespace GPGO_MultiPLCs
                                       TraceVM.Date1 = e.info.AddedTime.Date;
                                   };
 
-            //MakeTestData(20);
+            MakeTestData(20);
         }
     }
 }
