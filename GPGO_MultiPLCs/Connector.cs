@@ -611,7 +611,7 @@ namespace GPGO_MultiPLCs
                                       TraceVM.Date1 = e.info.AddedTime.Date;
                                   };
 
-            MakeTestData(20);
+            //MakeTestData(20);
         }
     }
 }
