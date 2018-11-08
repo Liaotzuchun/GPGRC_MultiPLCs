@@ -35,8 +35,10 @@
                         IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                         Orientation="Vertical"
                         RowCount="18"
+                        SnapsToDevicePixels="False"
                         TextElement.FontSize="12"
-                        TextElement.Foreground="{StaticResource BaseForeground}">
+                        TextElement.Foreground="{StaticResource BaseForeground}"
+                        UseLayoutRounding="True">
                         <Border
                             Grid.RowSpan="2"
                             Background="{StaticResource WindowBackgroundBrush6}"
@@ -1477,7 +1479,9 @@
                             DataContext="{Binding SelectedHistory, Mode=OneWay}"
                             IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                             Orientation="Vertical"
-                            RowCount="18">
+                            RowCount="18"
+                            SnapsToDevicePixels="False"
+                            UseLayoutRounding="True">
                             <Border
                                 Grid.RowSpan="2"
                                 Background="{StaticResource WindowBackgroundBrush6}"
