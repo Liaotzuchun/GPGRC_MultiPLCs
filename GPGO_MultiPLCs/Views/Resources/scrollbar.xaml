@@ -6,7 +6,6 @@
         x:Key="ScrollBarLineButton"
         TargetType="{x:Type RepeatButton}">
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -93,14 +92,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style
-        x:Key="ScrollBarPageButton"
-        TargetType="{x:Type RepeatButton}">
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
     </Style>
 
     <Style
@@ -256,13 +247,13 @@
         TargetType="{x:Type ScrollBar}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="16" />
+                <RowDefinition Height="0" />
                 <RowDefinition />
-                <RowDefinition Height="16" />
+                <RowDefinition Height="0" />
             </Grid.RowDefinitions>
             <Border
                 Grid.RowSpan="3"
-                Background="{x:Null}"
+                Background="{StaticResource WindowBackgroundBrush2}"
                 BorderBrush="{x:Null}"
                 BorderThickness="0"
                 CornerRadius="0" />
@@ -279,11 +270,12 @@
                 <Track.DecreaseRepeatButton>
                     <RepeatButton
                         Command="ScrollBar.PageUpCommand"
-                        Style="{StaticResource ScrollBarPageButton}" />
+                        Focusable="False"
+                        IsTabStop="False"
+                        Opacity="0" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb
-                        Margin="4,0"
                         Background="{StaticResource NormalBrush}"
                         BorderBrush="{StaticResource NormalBorderBrush}"
                         Style="{StaticResource HScrollBarThumb}" />
@@ -291,7 +283,9 @@
                 <Track.IncreaseRepeatButton>
                     <RepeatButton
                         Command="ScrollBar.PageDownCommand"
-                        Style="{StaticResource ScrollBarPageButton}" />
+                        Focusable="False"
+                        IsTabStop="False"
+                        Opacity="0" />
                 </Track.IncreaseRepeatButton>
             </Track>
             <RepeatButton
@@ -308,13 +302,13 @@
         TargetType="{x:Type ScrollBar}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="0" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="0" />
             </Grid.ColumnDefinitions>
             <Border
                 Grid.ColumnSpan="3"
-                Background="{x:Null}"
+                Background="{StaticResource WindowBackgroundBrush2}"
                 BorderBrush="{x:Null}"
                 BorderThickness="0"
                 CornerRadius="0" />
@@ -330,11 +324,12 @@
                 <Track.DecreaseRepeatButton>
                     <RepeatButton
                         Command="ScrollBar.PageLeftCommand"
-                        Style="{StaticResource ScrollBarPageButton}" />
+                        Focusable="False"
+                        IsTabStop="False"
+                        Opacity="0" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb
-                        Margin="0,4"
                         Background="{StaticResource NormalBrush}"
                         BorderBrush="{StaticResource NormalBorderBrush}"
                         Style="{StaticResource ScrollBarThumb}" />
@@ -342,7 +337,9 @@
                 <Track.IncreaseRepeatButton>
                     <RepeatButton
                         Command="ScrollBar.PageRightCommand"
-                        Style="{StaticResource ScrollBarPageButton}" />
+                        Focusable="False"
+                        IsTabStop="False"
+                        Opacity="0" />
                 </Track.IncreaseRepeatButton>
             </Track>
             <RepeatButton
