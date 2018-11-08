@@ -97,9 +97,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Path
-                        Data="M 0 0 H 10"
-                        Stroke="White"
-                        StrokeThickness="2" />
+                        Data="{StaticResource LeftArrow}"
+                        Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button
                     x:Name="Today"
@@ -121,9 +120,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Path
-                        Data="M 0 5 H 10 M 5 10 V 0"
-                        Stroke="White"
-                        StrokeThickness="2" />
+                        Data="{StaticResource RightArrow}"
+                        Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button
                     x:Name="SubWeek"
@@ -134,9 +132,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Path
-                        Data="M 0 0 H 10"
-                        Stroke="White"
-                        StrokeThickness="2" />
+                        Data="{StaticResource LeftArrow}"
+                        Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button
                     x:Name="ThisWeek"
@@ -159,9 +156,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Path
-                        Data="M 0 5 H 10 M 5 10 V 0"
-                        Stroke="White"
-                        StrokeThickness="2" />
+                        Data="{StaticResource RightArrow}"
+                        Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button
                     x:Name="SubMonth"
@@ -172,9 +168,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Path
-                        Data="M 0 0 H 10"
-                        Stroke="White"
-                        StrokeThickness="2" />
+                        Data="{StaticResource LeftArrow}"
+                        Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button
                     x:Name="ThisMonth"
@@ -197,9 +192,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <Path
-                        Data="M 0 5 H 10 M 5 10 V 0"
-                        Stroke="White"
-                        StrokeThickness="2" />
+                        Data="{StaticResource RightArrow}"
+                        Fill="{StaticResource GlyphBrush}" />
                 </Button>
             </Grid>
             <Border

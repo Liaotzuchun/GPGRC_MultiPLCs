@@ -121,9 +121,10 @@
         x:Key="EaseF"
         EasingMode="EaseInOut" />
 
-    <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>
-    <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>
-    <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
+    <Geometry x:Key="DownArrow">M 0,0 L 4,5 L 8,0 Z</Geometry>
+    <Geometry x:Key="UpArrow">M 0,5 L 4,0 L 8,5 Z</Geometry>
+    <Geometry x:Key="RightArrow">M 0,0 L 5,4 L 0,8 Z</Geometry>
+    <Geometry x:Key="LeftArrow">M 5,0 L 0,4 L 5,8 Z</Geometry>
 
     <VisualBrush
         x:Key="GP_Logo"

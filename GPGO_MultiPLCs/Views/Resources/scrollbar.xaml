@@ -12,13 +12,12 @@
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Border
                         Name="Border"
-                        Background="{x:Null}"
+                        Background="Transparent"
                         BorderThickness="0"
                         CornerRadius="0">
-                        <Viewbox>
+                        <Viewbox Margin="4">
                             <Path
                                 x:Name="p"
-                                Margin="2"
                                 Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
                                 Fill="{StaticResource NormalBrush}"
                                 Stroke="{StaticResource NormalBorderBrush}"
@@ -248,9 +247,9 @@
         TargetType="{x:Type ScrollBar}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="0" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
-                <RowDefinition Height="0" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border
                 Grid.RowSpan="3"
@@ -260,9 +259,9 @@
                 CornerRadius="0" />
             <RepeatButton
                 Grid.Row="0"
-                Height="16"
+                Height="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="ScrollBar.LineUpCommand"
-                Content="M 0 4 L 4 0 L 8 4 Z"
+                Content="{StaticResource UpArrow}"
                 Style="{StaticResource ScrollBarLineButton}" />
             <Track
                 Name="PART_Track"
@@ -282,7 +281,7 @@
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb
-                        Margin="-1"
+                        Margin="-1,0"
                         Background="{StaticResource NormalBrush}"
                         BorderBrush="{StaticResource NormalBorderBrush}"
                         Style="{StaticResource HScrollBarThumb}" />
@@ -297,9 +296,9 @@
             </Track>
             <RepeatButton
                 Grid.Row="2"
-                Height="16"
+                Height="{Binding ActualWidth, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="ScrollBar.LineDownCommand"
-                Content="M 0 0 L 4 4 L 8 0 Z"
+                Content="{StaticResource DownArrow}"
                 Style="{StaticResource ScrollBarLineButton}" />
         </Grid>
     </ControlTemplate>
@@ -309,9 +308,9 @@
         TargetType="{x:Type ScrollBar}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="0" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Border
                 Grid.ColumnSpan="3"
@@ -321,8 +320,9 @@
                 CornerRadius="0" />
             <RepeatButton
                 Grid.Column="0"
+                Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="ScrollBar.LineLeftCommand"
-                Content="M 4 0 L 0 4 L 4 8 Z"
+                Content="{StaticResource LeftArrow}"
                 Style="{StaticResource ScrollBarLineButton}" />
             <Track
                 Name="PART_Track"
@@ -342,7 +342,7 @@
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb
-                        Margin="-1"
+                        Margin="0,-1"
                         Background="{StaticResource NormalBrush}"
                         BorderBrush="{StaticResource NormalBorderBrush}"
                         Style="{StaticResource ScrollBarThumb}" />
@@ -357,8 +357,9 @@
             </Track>
             <RepeatButton
                 Grid.Column="2"
+                Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="ScrollBar.LineRightCommand"
-                Content="M 0 0 L 4 4 L 0 8 Z"
+                Content="{StaticResource RightArrow}"
                 Style="{StaticResource ScrollBarLineButton}" />
         </Grid>
     </ControlTemplate>
