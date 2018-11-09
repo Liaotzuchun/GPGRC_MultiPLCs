@@ -7,28 +7,19 @@ namespace GPGO_MultiPLCs.Helpers
     {
         private volatile TaskCompletionSource<bool> m_tcs = new TaskCompletionSource<bool>();
 
+        public Task WaitAsync() { return m_tcs.Task; }
+
+        public void Set() { m_tcs.TrySetResult(true); }
+
         public void Reset()
         {
             while (true)
             {
                 var tcs = m_tcs;
-                if (!tcs.Task.IsCompleted || Interlocked.CompareExchange(ref m_tcs, new TaskCompletionSource<bool>(), tcs) == tcs)
-                {
+                if (!tcs.Task.IsCompleted ||
+                    Interlocked.CompareExchange(ref m_tcs, new TaskCompletionSource<bool>(), tcs) == tcs)
                     return;
-                }
             }
-        }
-
-        public void Set()
-        {
-            var tcs = m_tcs;
-            Task.Factory.StartNew(s => ((TaskCompletionSource<bool>)s).TrySetResult(true), tcs, CancellationToken.None, TaskCreationOptions.PreferFairness, TaskScheduler.Default);
-            tcs.Task.Wait();
-        }
-
-        public Task WaitAsync()
-        {
-            return m_tcs.Task;
         }
     }
 }

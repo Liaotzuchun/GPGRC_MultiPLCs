@@ -31,19 +31,15 @@ namespace GPGO_MultiPLCs.ViewModels
 
             IsShown_1 = Visibility.Visible;
 
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            Lock_1.Reset();
-                                            if (delay == TimeSpan.Zero)
-                                            {
-                                                Lock_1.WaitOne();
-                                            }
-                                            else
-                                            {
-                                                Lock_1.WaitOne(delay);
-                                            }
-                                        },
-                                        TaskCreationOptions.LongRunning);
+            Lock_1.Reset();
+            if (delay == TimeSpan.Zero)
+            {
+                await Lock_1.WaitOneAsync();
+            }
+            else
+            {
+                await Lock_1.WaitOneAsync((int)delay.TotalMilliseconds);
+            }
 
             IsShown_1 = Visibility.Collapsed;
             Message_1 = "";
@@ -67,12 +63,8 @@ namespace GPGO_MultiPLCs.ViewModels
             Message_1 = msg.TryGetValue(Language, out var val) ? val : msg.Values.First();
             IsShown_1 = Visibility.Visible;
 
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            Lock_1.Reset();
-                                            Lock_1.WaitOne(delay == TimeSpan.Zero ? TimeSpan.FromSeconds(15) : delay);
-                                        },
-                                        TaskCreationOptions.LongRunning);
+            Lock_1.Reset();
+            await Lock_1.WaitOneAsync((int)(delay == TimeSpan.Zero ? TimeSpan.FromSeconds(15) : delay).TotalMilliseconds);
 
             IsShown_1 = Visibility.Collapsed;
             Message_1 = "";
@@ -123,12 +115,8 @@ namespace GPGO_MultiPLCs.ViewModels
             TitleHeader = header.TryGetValue(Language, out var val2) ? val2 : header.Values.First();
             IsShown_2 = Visibility.Visible;
 
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            Lock_2.Reset();
-                                            Lock_2.WaitOne(30000);
-                                        },
-                                        TaskCreationOptions.LongRunning);
+            Lock_2.Reset();
+            await Lock_2.WaitOneAsync(30000);
 
             IsShown_2 = Visibility.Collapsed;
             Message_2 = "";
@@ -138,8 +126,8 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public async ValueTask<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg,
-                                                                       Dictionary<Language, string> header,
-                                                                       Func<string, (bool result, Dictionary<Language, string> title_msg)> condition)
+                                                                            Dictionary<Language, string> header,
+                                                                            Func<string, (bool result, Dictionary<Language, string> title_msg)> condition)
         {
             if (!Lock_2.WaitOne(0))
             {
@@ -157,46 +145,42 @@ namespace GPGO_MultiPLCs.ViewModels
             TitleHeader = header.TryGetValue(Language, out var val2) ? val2 : header.Values.First();
             IsShown_2 = Visibility.Visible;
 
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            while (true)
-                                            {
-                                                Lock_2.Reset();
-                                                if (Lock_2.WaitOne(30000))
-                                                {
-                                                    var (result, title_msg) = condition(Intput);
+            while (true)
+            {
+                Lock_2.Reset();
+                if (await Lock_2.WaitOneAsync(30000))
+                {
+                    var (result, title_msg) = condition(Intput);
 
-                                                    if (EnterResult_2)
-                                                    {
-                                                        ConditionResult = result;
-                                                    }
+                    if (EnterResult_2)
+                    {
+                        ConditionResult = result;
+                    }
 
-                                                    if (ConditionResult != null && EnterResult_2 && !ConditionResult.Value)
-                                                    {
-                                                        Title = title_msg.TryGetValue(Language, out var val3) ? val3 : title_msg.Values.First();
-                                                        Intput = "";
-                                                    }
-                                                    else
-                                                    {
-                                                        Title = "";
+                    if (ConditionResult != null && EnterResult_2 && !ConditionResult.Value)
+                    {
+                        Title = title_msg.TryGetValue(Language, out var val3) ? val3 : title_msg.Values.First();
+                        Intput = "";
+                    }
+                    else
+                    {
+                        Title = "";
 
-                                                        if (EnterResult_2)
-                                                        {
-                                                            AllowIntput = false;
-                                                            Thread.Sleep(450);
-                                                            AllowIntput = true;
-                                                        }
+                        if (EnterResult_2)
+                        {
+                            AllowIntput = false;
+                            await Task.Delay(450);
+                            AllowIntput = true;
+                        }
 
-                                                        break;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    break;
-                                                }
-                                            }
-                                        },
-                                        TaskCreationOptions.LongRunning);
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             IsShown_2 = Visibility.Collapsed;
             Message_2 = "";
@@ -231,6 +215,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public RelayCommand OkayCommand_2 { get; }
 
+        public bool AllowIntput
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
         public bool? ConditionResult
         {
             get => Get<bool?>();
@@ -262,12 +252,6 @@ namespace GPGO_MultiPLCs.ViewModels
         public Visibility IsShown_2
         {
             get => Get<Visibility>();
-            set => Set(value);
-        }
-
-        public bool AllowIntput
-        {
-            get => Get<bool>();
             set => Set(value);
         }
 
