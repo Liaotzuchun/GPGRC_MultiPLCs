@@ -120,13 +120,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\AsyncAutoResetEvent.cs" />
-    <Compile Include="Helpers\AsyncBarrier.cs" />
-    <Compile Include="Helpers\AsyncCountdownEvent.cs" />
-    <Compile Include="Helpers\AsyncLock.cs" />
-    <Compile Include="Helpers\AsyncManualResetEvent.cs" />
-    <Compile Include="Helpers\AsyncReaderWriterLock.cs" />
-    <Compile Include="Helpers\AsyncSemaphore.cs" />
+    <Compile Include="Helpers\Async\AsyncAutoResetEvent.cs" />
+    <Compile Include="Helpers\Async\AsyncBarrier.cs" />
+    <Compile Include="Helpers\Async\AsyncCountdownEvent.cs" />
+    <Compile Include="Helpers\Async\AsyncLock.cs" />
+    <Compile Include="Helpers\Async\AsyncManualResetEvent.cs" />
+    <Compile Include="Helpers\Async\AsyncReaderWriterLock.cs" />
+    <Compile Include="Helpers\Async\AsyncSemaphore.cs" />
     <Compile Include="Helpers\Attributes.cs" />
     <Compile Include="Helpers\ObjectViewModel.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
@@ -135,7 +135,7 @@
     <Compile Include="Helpers\IDataBase.cs" />
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
-    <Compile Include="Helpers\WaitHandleExtensions.cs" />
+    <Compile Include="Helpers\Async\WaitHandleExtensions.cs" />
     <Compile Include="Models\DataCollectionByDate.cs" />
     <Compile Include="Models\GlobalTempSettings.cs" />
     <Compile Include="Models\LanguageEnum.cs" />
@@ -443,5 +443,6 @@
   <ItemGroup>
     <Resource Include="GP.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
