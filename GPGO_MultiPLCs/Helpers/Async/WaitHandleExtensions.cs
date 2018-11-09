@@ -6,7 +6,7 @@ namespace GPGO_MultiPLCs.Helpers
 {
     public static class WaitHandleExtensions
     {
-        public static Task WaitOneAsync(this WaitHandle waitHandle, int timeout = Timeout.Infinite)
+        public static Task<bool> WaitOneAsync(this WaitHandle waitHandle, int timeout = Timeout.Infinite)
         {
             if (waitHandle == null)
             {
