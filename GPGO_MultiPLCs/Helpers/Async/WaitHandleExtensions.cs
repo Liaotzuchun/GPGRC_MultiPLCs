@@ -1,35 +1,31 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GPGO_MultiPLCs.Helpers
 {
     public static class WaitHandleExtensions
     {
-        public static async Task<bool> WaitOneAsync(this WaitHandle waitHandle, int timeout = Timeout.Infinite)
+        public static Task WaitOneAsync(this WaitHandle waitHandle, int timeout = Timeout.Infinite)
         {
-            if (waitHandle is Mutex)
+            if (waitHandle == null)
             {
-                return false;
+                throw new ArgumentNullException(nameof(waitHandle));
             }
 
             var tcs = new TaskCompletionSource<bool>();
             var rwh = ThreadPool.RegisterWaitForSingleObject(waitHandle,
-                                                             (state, timedOut) =>
+                                                             delegate
                                                              {
-                                                                 ((TaskCompletionSource<bool>)state).SetResult(!timedOut);
+                                                                 tcs.TrySetResult(true);
                                                              },
-                                                             tcs,
+                                                             null,
                                                              timeout,
                                                              true);
+            var t = tcs.Task;
+            t.ContinueWith(antecedent => rwh.Unregister(null));
 
-            try
-            {
-                return await tcs.Task.ConfigureAwait(false);
-            }
-            finally
-            {
-                rwh.Unregister(null);
-            }
+            return t;
         }
 
         public static Task WaitOneAsync(this WaitHandle waitHandle, CancellationToken cancellationToken)
