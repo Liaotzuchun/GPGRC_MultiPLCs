@@ -74,28 +74,20 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async void Show(Dictionary<Language, string> msg, DialogMsgType type = DialogMsgType.Normal)
         {
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            var m = new ShowingMessage(msg.TryGetValue(Language, out var val) ? val : msg.Values.First(), type);
-                                            var tag = DateTime.Now.Ticks;
-                                            Msgs.Add(tag, m);
-                                            Thread.Sleep(TimeSpan.FromSeconds(1));
-                                            Msgs.Remove(tag);
-                                        },
-                                        TaskCreationOptions.LongRunning);
+            var m = new ShowingMessage(msg.TryGetValue(Language, out var val) ? val : msg.Values.First(), type);
+            var tag = DateTime.Now.Ticks;
+            Msgs.Add(tag, m);
+            await Task.Delay(1000);
+            Msgs.Remove(tag);
         }
 
         public async void Show(Dictionary<Language, string> msg, TimeSpan delay, DialogMsgType type = DialogMsgType.Normal)
         {
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            var m = new ShowingMessage(msg.TryGetValue(Language, out var val) ? val : msg.Values.First(), type);
-                                            var tag = DateTime.Now.Ticks;
-                                            Msgs.Add(tag, m);
-                                            Thread.Sleep(delay == TimeSpan.Zero ? TimeSpan.FromSeconds(1) : delay);
-                                            Msgs.Remove(tag);
-                                        },
-                                        TaskCreationOptions.LongRunning);
+            var m = new ShowingMessage(msg.TryGetValue(Language, out var val) ? val : msg.Values.First(), type);
+            var tag = DateTime.Now.Ticks;
+            Msgs.Add(tag, m);
+            await Task.Delay((int)(delay == TimeSpan.Zero ? TimeSpan.FromSeconds(1) : delay).TotalMilliseconds);
+            Msgs.Remove(tag);
         }
 
         public async ValueTask<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
