@@ -183,8 +183,6 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Standby = false;
 
-            var result = true;
-
             if (!Directory.Exists(path))
             {
                 try
@@ -218,12 +216,12 @@ namespace GPGO_MultiPLCs.ViewModels
             catch (Exception ex)
             {
                 ex.RecordError("輸出CSV失敗");
-                result = false;
+                return false;
             }
 
             Standby = true;
 
-            return result;
+            return true;
         }
 
         private void UpdateViewResult()

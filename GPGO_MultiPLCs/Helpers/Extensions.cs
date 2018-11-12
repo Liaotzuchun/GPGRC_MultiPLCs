@@ -638,7 +638,7 @@ namespace GPGO_MultiPLCs.Helpers
             {
                 try
                 {
-                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(path, Encoding.Unicode));
+                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(path, Encoding.UTF8));
                 }
                 catch
                 {
@@ -853,7 +853,7 @@ namespace GPGO_MultiPLCs.Helpers
 
             try
             {
-                File.WriteAllText(path, JsonConvert.SerializeObject(val, Formatting.Indented), Encoding.Unicode);
+                File.WriteAllText(path, JsonConvert.SerializeObject(val, Formatting.Indented), Encoding.UTF8);
 
                 return true;
             }

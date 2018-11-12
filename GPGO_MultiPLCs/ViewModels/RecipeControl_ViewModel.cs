@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
@@ -30,6 +31,8 @@ namespace GPGO_MultiPLCs.ViewModels
         public bool Delete_Enable => Selected_PLC_Recipe != null && !Selected_PLC_Recipe.Used_Stations.Any(x => x);
 
         public RelayCommand DeleteCommand { get; }
+        public RelayCommand ExprotCommand { get; }
+        public RelayCommand ImportCommand { get; }
 
         /// <summary>讀取配方列表</summary>
         public RelayCommand InitialLoadCommand { get; }
@@ -203,6 +206,42 @@ namespace GPGO_MultiPLCs.ViewModels
         public void RecipePropertyChanged(object s, PropertyChangedEventArgs e)
         {
             NotifyPropertyChanged(nameof(Save_Enable));
+        }
+
+        public bool SavetoJson(string path)
+        {
+            if (Selected_PLC_Recipe == null)
+            {
+                return false;
+            }
+
+            if (!Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception ex)
+                {
+                    ex.RecordError("配方輸出資料夾無法創建");
+
+                    return false;
+                }
+            }
+
+            try
+            {
+                var recipe = Selected_PLC_Recipe.Copy(UserName);
+                recipe.WriteToJsonFile(path + "\\" + recipe.RecipeName + ".json");
+            }
+            catch (Exception ex)
+            {
+                ex.RecordError("輸出配方失敗");
+
+                return false;
+            }
+
+            return true;
         }
 
         private async void GetHistory(string name)
@@ -379,6 +418,87 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  await RefreshList();
 
                                                  Standby = true;
+                                             });
+
+            ExprotCommand = new RelayCommand(e =>
+                                             {
+                                                 var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Recipes";
+
+                                                 if (SavetoJson(path))
+                                                 {
+                                                     dialog?.Show(new Dictionary<Language, string>
+                                                                  {
+                                                                      { Language.TW, "檔案已輸出至\n" + path }, { Language.CHS, "档案已输出至\n" + path }, { Language.EN, "The file has been output to\n" + path }
+                                                                  },
+                                                                  TimeSpan.FromSeconds(6));
+                                                 }
+                                             });
+
+            ImportCommand = new RelayCommand(async e =>
+                                             {
+                                                 Standby = false;
+
+                                                 var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Recipes";
+                                                 var files = new DirectoryInfo(path).GetFiles("*.json");
+                                                 var updates = 0;
+                                                 var adds = 0;
+
+                                                 foreach (var file in files)
+                                                 {
+                                                     try
+                                                     {
+                                                         var recipe = file.FullName.ReadFromJsonFile<PLC_Recipe>();
+                                                         if (recipe != null)
+                                                         {
+                                                             var old_recipe = Recipes.Find(x => x.RecipeName == recipe.RecipeName);
+
+                                                             if (old_recipe != null && old_recipe.Equals(recipe))
+                                                             {
+                                                                 continue;
+                                                             }
+
+                                                             var new_recipe = recipe.Copy(UserName);
+                                                             new_recipe.Used_Stations = new bool[20];
+
+                                                             await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(new_recipe.RecipeName), new_recipe);
+
+                                                             if (old_recipe == null)
+                                                             {
+                                                                 adds += 1;
+                                                             }
+                                                             else
+                                                             {
+                                                                 await RecipeCollection_History.AddAsync(old_recipe);
+                                                                 updates += 1;
+                                                             }
+                                                         }
+                                                     }
+                                                     catch (Exception ex)
+                                                     {
+                                                         ex.RecordError();
+                                                     }
+                                                 }
+
+                                                 await RefreshList();
+                                                 Standby = true;
+
+                                                 dialog?.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, adds + "個配方已新增\n" + updates + "個配方已更新" },
+                                                                  { Language.CHS, adds + "个配方已新增\n" + updates + "个配方已更新" },
+                                                                  {
+                                                                      Language.EN,
+                                                                      adds +
+                                                                      "recipe" +
+                                                                      (adds > 1 ? "s" : "") +
+                                                                      " have been added\n" +
+                                                                      updates +
+                                                                      "recipe" +
+                                                                      (updates > 1 ? "s" : "") +
+                                                                      " have been updated"
+                                                                  }
+                                                              },
+                                                              TimeSpan.FromSeconds(6));
                                              });
         }
     }
