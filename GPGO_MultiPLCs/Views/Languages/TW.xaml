@@ -148,4 +148,6 @@
     <sys:String x:Key="修改歷史">修改歷史</sys:String>
     <sys:String x:Key="修改者">修改者</sys:String>
     <sys:String x:Key="復原">復原</sys:String>
+    <sys:String x:Key="匯出">匯出</sys:String>
+    <sys:String x:Key="匯入">匯入</sys:String>
 </ResourceDictionary>

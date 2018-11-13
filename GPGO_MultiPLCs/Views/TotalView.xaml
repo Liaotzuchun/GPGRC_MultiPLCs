@@ -1115,8 +1115,7 @@
                                         <TextBlock
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingTime_1, Mode=OneWay}" />
-                                            <Run Text=" " />
+                                            <Run Text="{Binding HeatingTime_1, Mode=OneWay}" />                        
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1128,7 +1127,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_2, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1140,7 +1138,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_3, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1152,7 +1149,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_4, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1164,7 +1160,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_5, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1176,7 +1171,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_6, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1188,7 +1182,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_7, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1200,7 +1193,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_8, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1487,7 +1479,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding InflatingTime, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1499,7 +1490,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_1, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1511,7 +1501,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_2, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1523,7 +1512,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_3, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1535,7 +1523,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_4, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1547,7 +1534,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_5, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1559,7 +1545,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_6, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1571,7 +1556,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_7, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1582,7 +1566,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_8, Mode=OneWay}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1997,7 +1980,6 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
                                             <Run Text="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=\{0:D\}}" />
-                                            <Run Text=" " />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>

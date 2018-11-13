@@ -210,7 +210,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public bool SavetoJson(string path)
         {
-            if (Selected_PLC_Recipe == null)
+            if (Recipes == null || Recipes.Count == 0)
             {
                 return false;
             }
@@ -229,16 +229,16 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
             }
 
-            try
+            foreach (var recipe in Recipes)
             {
-                var recipe = Selected_PLC_Recipe.Copy(UserName);
-                recipe.WriteToJsonFile(path + "\\" + recipe.RecipeName + ".json");
-            }
-            catch (Exception ex)
-            {
-                ex.RecordError("輸出配方失敗");
-
-                return false;
+                try
+                {
+                    recipe.WriteToJsonFile(path + "\\" + recipe.RecipeName + ".json");
+                }
+                catch (Exception ex)
+                {
+                    ex.RecordError("輸出配方失敗");
+                }
             }
 
             return true;
@@ -451,26 +451,25 @@ namespace GPGO_MultiPLCs.ViewModels
                                                          if (recipe != null)
                                                          {
                                                              var old_recipe = Recipes.Find(x => x.RecipeName == recipe.RecipeName);
-
-                                                             if (old_recipe != null && old_recipe.Equals(recipe))
-                                                             {
-                                                                 continue;
-                                                             }
-
                                                              var new_recipe = recipe.Copy(UserName);
-                                                             new_recipe.Used_Stations = new bool[20];
 
-                                                             await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(new_recipe.RecipeName), new_recipe);
+                                                             if (old_recipe != null)
+                                                             {
+                                                                 if (old_recipe.Equals(recipe))
+                                                                 {
+                                                                     continue;
+                                                                 }
 
-                                                             if (old_recipe == null)
-                                                             {
-                                                                 adds += 1;
-                                                             }
-                                                             else
-                                                             {
+                                                                 new_recipe.Used_Stations = old_recipe.Used_Stations;
                                                                  await RecipeCollection_History.AddAsync(old_recipe);
                                                                  updates += 1;
                                                              }
+                                                             else
+                                                             {
+                                                                 adds += 1;
+                                                             }
+
+                                                             await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(new_recipe.RecipeName), new_recipe);
                                                          }
                                                      }
                                                      catch (Exception ex)

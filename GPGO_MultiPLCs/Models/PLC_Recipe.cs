@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -12,57 +13,82 @@ namespace GPGO_MultiPLCs.Models
     {
         public bool Equals(PLC_Recipe other)
         {
-            return other != null && (RecipeName == other.RecipeName &&
-                                     ThermostaticTemperature_1 == other.ThermostaticTemperature_1 &&
-                                     ThermostaticTemperature_2 == other.ThermostaticTemperature_2 &&
-                                     ThermostaticTemperature_3 == other.ThermostaticTemperature_3 &&
-                                     ThermostaticTemperature_4 == other.ThermostaticTemperature_4 &&
-                                     ThermostaticTemperature_5 == other.ThermostaticTemperature_5 &&
-                                     ThermostaticTemperature_6 == other.ThermostaticTemperature_6 &&
-                                     ThermostaticTemperature_7 == other.ThermostaticTemperature_7 &&
-                                     ThermostaticTemperature_8 == other.ThermostaticTemperature_8 &&
-                                     WarmingTime_1 == other.WarmingTime_1 &&
-                                     WarmingTime_2 == other.WarmingTime_2 &&
-                                     WarmingTime_3 == other.WarmingTime_3 &&
-                                     WarmingTime_4 == other.WarmingTime_4 &&
-                                     WarmingTime_5 == other.WarmingTime_5 &&
-                                     WarmingTime_6 == other.WarmingTime_6 &&
-                                     WarmingTime_7 == other.WarmingTime_7 &&
-                                     WarmingTime_8 == other.WarmingTime_8 &&
-                                     CoolingTemperature == other.CoolingTemperature &&
-                                     HeatingTime_1 == other.HeatingTime_1 &&
-                                     HeatingTime_2 == other.HeatingTime_2 &&
-                                     HeatingTime_3 == other.HeatingTime_3 &&
-                                     HeatingTime_4 == other.HeatingTime_4 &&
-                                     HeatingTime_5 == other.HeatingTime_5 &&
-                                     HeatingTime_6 == other.HeatingTime_6 &&
-                                     HeatingTime_7 == other.HeatingTime_7 &&
-                                     HeatingTime_8 == other.HeatingTime_8 &&
-                                     InflatingTime == other.InflatingTime &&
-                                     TargetTemperature_1 == other.TargetTemperature_1 &&
-                                     TargetTemperature_2 == other.TargetTemperature_2 &&
-                                     TargetTemperature_3 == other.TargetTemperature_3 &&
-                                     TargetTemperature_4 == other.TargetTemperature_4 &&
-                                     TargetTemperature_5 == other.TargetTemperature_5 &&
-                                     TargetTemperature_6 == other.TargetTemperature_6 &&
-                                     TargetTemperature_7 == other.TargetTemperature_7 &&
-                                     TargetTemperature_8 == other.TargetTemperature_8 &&
-                                     UsedSegmentCounts == other.UsedSegmentCounts);
+            return other != null &&
+                   RecipeName == other.RecipeName &&
+                   ThermostaticTemperature_1 == other.ThermostaticTemperature_1 &&
+                   ThermostaticTemperature_2 == other.ThermostaticTemperature_2 &&
+                   ThermostaticTemperature_3 == other.ThermostaticTemperature_3 &&
+                   ThermostaticTemperature_4 == other.ThermostaticTemperature_4 &&
+                   ThermostaticTemperature_5 == other.ThermostaticTemperature_5 &&
+                   ThermostaticTemperature_6 == other.ThermostaticTemperature_6 &&
+                   ThermostaticTemperature_7 == other.ThermostaticTemperature_7 &&
+                   ThermostaticTemperature_8 == other.ThermostaticTemperature_8 &&
+                   WarmingTime_1 == other.WarmingTime_1 &&
+                   WarmingTime_2 == other.WarmingTime_2 &&
+                   WarmingTime_3 == other.WarmingTime_3 &&
+                   WarmingTime_4 == other.WarmingTime_4 &&
+                   WarmingTime_5 == other.WarmingTime_5 &&
+                   WarmingTime_6 == other.WarmingTime_6 &&
+                   WarmingTime_7 == other.WarmingTime_7 &&
+                   WarmingTime_8 == other.WarmingTime_8 &&
+                   CoolingTemperature == other.CoolingTemperature &&
+                   HeatingTime_1 == other.HeatingTime_1 &&
+                   HeatingTime_2 == other.HeatingTime_2 &&
+                   HeatingTime_3 == other.HeatingTime_3 &&
+                   HeatingTime_4 == other.HeatingTime_4 &&
+                   HeatingTime_5 == other.HeatingTime_5 &&
+                   HeatingTime_6 == other.HeatingTime_6 &&
+                   HeatingTime_7 == other.HeatingTime_7 &&
+                   HeatingTime_8 == other.HeatingTime_8 &&
+                   InflatingTime == other.InflatingTime &&
+                   TargetTemperature_1 == other.TargetTemperature_1 &&
+                   TargetTemperature_2 == other.TargetTemperature_2 &&
+                   TargetTemperature_3 == other.TargetTemperature_3 &&
+                   TargetTemperature_4 == other.TargetTemperature_4 &&
+                   TargetTemperature_5 == other.TargetTemperature_5 &&
+                   TargetTemperature_6 == other.TargetTemperature_6 &&
+                   TargetTemperature_7 == other.TargetTemperature_7 &&
+                   TargetTemperature_8 == other.TargetTemperature_8 &&
+                   UsedSegmentCounts == other.UsedSegmentCounts;
         }
 
+        [JsonIgnore]
         public short SegmentCounts_Max => 8;
+        [JsonIgnore]
         public short SegmentCounts_Min => 1;
-
+        [JsonIgnore]
         public double Temperature_Max => 240.0;
+        [JsonIgnore]
         public double Temperature_Min => 40.0;
-
+        [JsonIgnore]
         public short Time_Max => 600;
+        [JsonIgnore]
         public short Time_Min => 1;
 
         [LanguageTranslator("Cooling Temperature", "降溫溫度", "降温温度")]
         public short CoolingTemperature
         {
             get => Get<short>();
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = (short)Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = (short)Temperature_Min;
+                }
+
+                Set(value);
+            }
+        }
+
+        [JsonIgnore]
+        [LanguageTranslator("Editor", "修改者", "修改者")]
+        public string Editor
+        {
+            get => Get<string>();
             set => Set(value);
         }
 
@@ -71,7 +97,19 @@ namespace GPGO_MultiPLCs.Models
         public short HeatingTime_1
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(13)]
@@ -79,7 +117,19 @@ namespace GPGO_MultiPLCs.Models
         public short HeatingTime_2
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(14)]
@@ -87,7 +137,19 @@ namespace GPGO_MultiPLCs.Models
         public short HeatingTime_3
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(15)]
@@ -95,7 +157,19 @@ namespace GPGO_MultiPLCs.Models
         public short HeatingTime_4
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(16)]
@@ -103,7 +177,19 @@ namespace GPGO_MultiPLCs.Models
         public short HeatingTime_5
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(17)]
@@ -111,7 +197,19 @@ namespace GPGO_MultiPLCs.Models
         public short HeatingTime_6
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(18)]
@@ -119,7 +217,19 @@ namespace GPGO_MultiPLCs.Models
         public short HeatingTime_7
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(19)]
@@ -127,7 +237,19 @@ namespace GPGO_MultiPLCs.Models
         public short HeatingTime_8
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(3)]
@@ -135,7 +257,19 @@ namespace GPGO_MultiPLCs.Models
         public short InflatingTime
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(0)]
@@ -151,7 +285,19 @@ namespace GPGO_MultiPLCs.Models
         public double TargetTemperature_1
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(5)]
@@ -159,7 +305,19 @@ namespace GPGO_MultiPLCs.Models
         public double TargetTemperature_2
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(6)]
@@ -167,7 +325,19 @@ namespace GPGO_MultiPLCs.Models
         public double TargetTemperature_3
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(7)]
@@ -175,7 +345,19 @@ namespace GPGO_MultiPLCs.Models
         public double TargetTemperature_4
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(8)]
@@ -183,7 +365,19 @@ namespace GPGO_MultiPLCs.Models
         public double TargetTemperature_5
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(9)]
@@ -191,7 +385,19 @@ namespace GPGO_MultiPLCs.Models
         public double TargetTemperature_6
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(10)]
@@ -199,7 +405,19 @@ namespace GPGO_MultiPLCs.Models
         public double TargetTemperature_7
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(11)]
@@ -207,7 +425,19 @@ namespace GPGO_MultiPLCs.Models
         public double TargetTemperature_8
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(20)]
@@ -215,7 +445,19 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemperature_1
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(21)]
@@ -223,7 +465,19 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemperature_2
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(22)]
@@ -231,7 +485,19 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemperature_3
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(23)]
@@ -239,7 +505,19 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemperature_4
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(24)]
@@ -247,7 +525,19 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemperature_5
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(25)]
@@ -255,7 +545,19 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemperature_6
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(26)]
@@ -263,7 +565,19 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemperature_7
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(27)]
@@ -271,9 +585,22 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemperature_8
         {
             get => Get<double>();
-            set => Set(value);
+            set
+            {
+                if (value > Temperature_Max)
+                {
+                    value = Temperature_Max;
+                }
+                else if (value < Temperature_Min)
+                {
+                    value = Temperature_Min;
+                }
+
+                Set(value);
+            }
         }
 
+        [JsonIgnore]
         [OrderIndex(1)]
         [LanguageTranslator("Updated Time", "更新時間", "更新时间")]
         public DateTime Updated
@@ -282,17 +609,11 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [JsonIgnore]
         [LanguageTranslator("Used Stations", "使用站點", "使用站点")]
         public IList<bool> Used_Stations
         {
             get => Get<IList<bool>>();
-            set => Set(value);
-        }
-
-        [LanguageTranslator("Editor", "修改者", "修改者")]
-        public string Editor
-        {
-            get => Get<string>();
             set => Set(value);
         }
 
@@ -301,7 +622,19 @@ namespace GPGO_MultiPLCs.Models
         public short UsedSegmentCounts
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > SegmentCounts_Max)
+                {
+                    value = SegmentCounts_Max;
+                }
+                else if (value < SegmentCounts_Min)
+                {
+                    value = SegmentCounts_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(28)]
@@ -309,7 +642,19 @@ namespace GPGO_MultiPLCs.Models
         public short WarmingTime_1
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(29)]
@@ -317,7 +662,19 @@ namespace GPGO_MultiPLCs.Models
         public short WarmingTime_2
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(30)]
@@ -325,7 +682,19 @@ namespace GPGO_MultiPLCs.Models
         public short WarmingTime_3
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(31)]
@@ -333,7 +702,19 @@ namespace GPGO_MultiPLCs.Models
         public short WarmingTime_4
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(32)]
@@ -341,7 +722,19 @@ namespace GPGO_MultiPLCs.Models
         public short WarmingTime_5
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(33)]
@@ -349,7 +742,19 @@ namespace GPGO_MultiPLCs.Models
         public short WarmingTime_6
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(34)]
@@ -357,7 +762,19 @@ namespace GPGO_MultiPLCs.Models
         public short WarmingTime_7
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         [OrderIndex(35)]
@@ -365,7 +782,19 @@ namespace GPGO_MultiPLCs.Models
         public short WarmingTime_8
         {
             get => Get<short>();
-            set => Set(value);
+            set
+            {
+                if (value > Time_Max)
+                {
+                    value = Time_Max;
+                }
+                else if (value < Time_Min)
+                {
+                    value = Time_Min;
+                }
+
+                Set(value);
+            }
         }
 
         public PLC_Recipe Copy(string user)
@@ -416,44 +845,44 @@ namespace GPGO_MultiPLCs.Models
 
         public void CopyValue(string user, PLC_Recipe recipe)
         {
-                Updated = DateTime.Now;
-                RecipeName = recipe.RecipeName;
-                ThermostaticTemperature_1 = recipe.ThermostaticTemperature_1;
-                ThermostaticTemperature_2 = recipe.ThermostaticTemperature_2;
-                ThermostaticTemperature_3 = recipe.ThermostaticTemperature_3;
-                ThermostaticTemperature_4 = recipe.ThermostaticTemperature_4;
-                ThermostaticTemperature_5 = recipe.ThermostaticTemperature_5;
-                ThermostaticTemperature_6 = recipe.ThermostaticTemperature_6;
-                ThermostaticTemperature_7 = recipe.ThermostaticTemperature_7;
-                ThermostaticTemperature_8 = recipe.ThermostaticTemperature_8;
-                WarmingTime_1 = recipe.WarmingTime_1;
-                WarmingTime_2 = recipe.WarmingTime_2;
-                WarmingTime_3 = recipe.WarmingTime_3;
-                WarmingTime_4 = recipe.WarmingTime_4;
-                WarmingTime_5 = recipe.WarmingTime_5;
-                WarmingTime_6 = recipe.WarmingTime_6;
-                WarmingTime_7 = recipe.WarmingTime_7;
-                WarmingTime_8 = recipe.WarmingTime_8;
-                CoolingTemperature = recipe.CoolingTemperature;
-                HeatingTime_1 = recipe.HeatingTime_1;
-                HeatingTime_2 = recipe.HeatingTime_2;
-                HeatingTime_3 = recipe.HeatingTime_3;
-                HeatingTime_4 = recipe.HeatingTime_4;
-                HeatingTime_5 = recipe.HeatingTime_5;
-                HeatingTime_6 = recipe.HeatingTime_6;
-                HeatingTime_7 = recipe.HeatingTime_7;
-                HeatingTime_8 = recipe.HeatingTime_8;
-                InflatingTime = recipe.InflatingTime;
-                TargetTemperature_1 = recipe.TargetTemperature_1;
-                TargetTemperature_2 = recipe.TargetTemperature_2;
-                TargetTemperature_3 = recipe.TargetTemperature_3;
-                TargetTemperature_4 = recipe.TargetTemperature_4;
-                TargetTemperature_5 = recipe.TargetTemperature_5;
-                TargetTemperature_6 = recipe.TargetTemperature_6;
-                TargetTemperature_7 = recipe.TargetTemperature_7;
-                TargetTemperature_8 = recipe.TargetTemperature_8;
-                UsedSegmentCounts = recipe.UsedSegmentCounts;
-                Editor = user;
+            Updated = DateTime.Now;
+            RecipeName = recipe.RecipeName;
+            ThermostaticTemperature_1 = recipe.ThermostaticTemperature_1;
+            ThermostaticTemperature_2 = recipe.ThermostaticTemperature_2;
+            ThermostaticTemperature_3 = recipe.ThermostaticTemperature_3;
+            ThermostaticTemperature_4 = recipe.ThermostaticTemperature_4;
+            ThermostaticTemperature_5 = recipe.ThermostaticTemperature_5;
+            ThermostaticTemperature_6 = recipe.ThermostaticTemperature_6;
+            ThermostaticTemperature_7 = recipe.ThermostaticTemperature_7;
+            ThermostaticTemperature_8 = recipe.ThermostaticTemperature_8;
+            WarmingTime_1 = recipe.WarmingTime_1;
+            WarmingTime_2 = recipe.WarmingTime_2;
+            WarmingTime_3 = recipe.WarmingTime_3;
+            WarmingTime_4 = recipe.WarmingTime_4;
+            WarmingTime_5 = recipe.WarmingTime_5;
+            WarmingTime_6 = recipe.WarmingTime_6;
+            WarmingTime_7 = recipe.WarmingTime_7;
+            WarmingTime_8 = recipe.WarmingTime_8;
+            CoolingTemperature = recipe.CoolingTemperature;
+            HeatingTime_1 = recipe.HeatingTime_1;
+            HeatingTime_2 = recipe.HeatingTime_2;
+            HeatingTime_3 = recipe.HeatingTime_3;
+            HeatingTime_4 = recipe.HeatingTime_4;
+            HeatingTime_5 = recipe.HeatingTime_5;
+            HeatingTime_6 = recipe.HeatingTime_6;
+            HeatingTime_7 = recipe.HeatingTime_7;
+            HeatingTime_8 = recipe.HeatingTime_8;
+            InflatingTime = recipe.InflatingTime;
+            TargetTemperature_1 = recipe.TargetTemperature_1;
+            TargetTemperature_2 = recipe.TargetTemperature_2;
+            TargetTemperature_3 = recipe.TargetTemperature_3;
+            TargetTemperature_4 = recipe.TargetTemperature_4;
+            TargetTemperature_5 = recipe.TargetTemperature_5;
+            TargetTemperature_6 = recipe.TargetTemperature_6;
+            TargetTemperature_7 = recipe.TargetTemperature_7;
+            TargetTemperature_8 = recipe.TargetTemperature_8;
+            UsedSegmentCounts = recipe.UsedSegmentCounts;
+            Editor = user;
         }
 
         public PLC_Recipe(string name = "", string user = "")
