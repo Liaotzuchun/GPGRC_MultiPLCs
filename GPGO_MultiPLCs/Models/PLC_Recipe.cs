@@ -272,6 +272,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        [JsonIgnore]
         [OrderIndex(0)]
         [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
         public string RecipeName

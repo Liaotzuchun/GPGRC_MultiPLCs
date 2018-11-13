@@ -450,6 +450,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                          var recipe = file.FullName.ReadFromJsonFile<PLC_Recipe>();
                                                          if (recipe != null)
                                                          {
+                                                             recipe.RecipeName = Path.GetFileNameWithoutExtension(file.Name);
                                                              var old_recipe = Recipes.Find(x => x.RecipeName == recipe.RecipeName);
                                                              var new_recipe = recipe.Copy(UserName);
 
