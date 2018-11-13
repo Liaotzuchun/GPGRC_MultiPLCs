@@ -391,7 +391,17 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!烘烤流程結束時
                 PLC_All[i].RecordingFinished += async e =>
                                                 {
-                                                    if (e.productInfo.Count > 0)
+                                                    if (!e.Pass)
+                                                    {
+                                                        dialog?.Show(new Dictionary<Language, string>
+                                                                     {
+                                                                         { Language.TW, "第" + (index + 1) + "站已取消烘烤!" },
+                                                                         { Language.CHS, "第" + (index + 1) + "站已取消烘烤!" },
+                                                                         { Language.EN, "Oven No" + (index + 1) + "has been canceled!" }
+                                                                     },
+                                                                     TimeSpan.FromSeconds(2));
+                                                    }
+                                                    else if (e.productInfo.Count > 0)
                                                     {
                                                         //!寫入資料庫，上傳
                                                         var infos = new List<ProcessInfo>();

@@ -28,6 +28,7 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
+        private bool PassTag;
 
         private readonly IDialogService Dialog;
 
@@ -137,7 +138,7 @@ namespace GPGO_MultiPLCs.Models
             {
                 Set(value);
 
-                value.ContinueWith(x =>
+                value.ContinueWith(async x =>
                                    {
                                        NotifyPropertyChanged(nameof(IsRecording));
                                        NotifyPropertyChanged(nameof(Progress));
@@ -153,7 +154,10 @@ namespace GPGO_MultiPLCs.Models
                                        OvenInfo.TotalHeatingTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
                                        OvenInfo.TargetOvenTemperature = TargetTemperature_1;
 
-                                       RecordingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
+                                       if (RecordingFinished != null)
+                                       {
+                                           await RecordingFinished.Invoke((OvenInfo.Copy(), Ext_Info.ToArray(), PassTag));
+                                       }
 
                                        //!需在引發紀錄完成後才觸發取消投產
                                        CheckInCommand.Result = false;
@@ -179,7 +183,7 @@ namespace GPGO_MultiPLCs.Models
         public event Func<string, ValueTask<PLC_Recipe>> GetRecipeEvent;
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
-        public event Action<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo)> RecordingFinished;
+        public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
         public event Func<Dictionary<int, short>, ValueTask> SetPLCRecipeParameter;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
@@ -240,6 +244,8 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>重設CancellationTokenSource狀態</summary>
         public void ResetStopTokenSource()
         {
+            PassTag = false;
+
             CTS?.Dispose();
 
             CTS = new CancellationTokenSource();
@@ -627,7 +633,21 @@ namespace GPGO_MultiPLCs.Models
                                          }
                                          else if (IsRecording)
                                          {
-                                             if (key1 == SignalNames.自動停止 || key1 == SignalNames.程式結束)
+                                             if (key1 == SignalNames.程式結束)
+                                             {
+                                                 PassTag = true;
+
+                                                 EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
+                                                 AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
+
+                                                 if (!value)
+                                                 {
+                                                     return;
+                                                 }
+
+                                                 CTS?.Cancel();
+                                             }
+                                             else if (key1 == SignalNames.自動停止)
                                              {
                                                  EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
