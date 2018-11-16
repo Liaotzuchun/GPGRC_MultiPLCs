@@ -649,11 +649,6 @@ namespace GPGO_MultiPLCs.Models
                                              }
                                              else if (key1 == SignalNames.自動停止)
                                              {
-                                                 if (IsCooling)
-                                                 {
-                                                     PassTag = true;
-                                                 }
-
                                                  EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
 
@@ -678,6 +673,11 @@ namespace GPGO_MultiPLCs.Models
                                              }
                                              else if (key1 == SignalNames.降溫中)
                                              {
+                                                 if (IsCooling)
+                                                 {
+                                                     PassTag = true;
+                                                 }
+
                                                  EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
                                                  NotifyPropertyChanged(nameof(Progress));
