@@ -616,6 +616,22 @@ namespace GPGO_MultiPLCs.Helpers
             return JsonConvert.DeserializeXNode(json, "Root").ToString();
         }
 
+        /// <summary>過濾字串，只保留ASCII可辨識字元</summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static string OnlyASCII(this string val)
+        {
+            return string.Concat(val.Where(x => x >= 32 && x <= 127));
+        }
+
+        /// <summary>過濾字串，只保留Unicode可辨識字元</summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static string OnlyPrintable(this string val)
+        {
+            return string.Concat(val.Where(x => char.IsLetterOrDigit(x) || char.IsPunctuation(x) || char.IsSymbol(x) || char.IsWhiteSpace(x)));
+        }
+
         /// <summary>字串置中</summary>
         /// <param name="source"></param>
         /// <param name="length">總長度</param>
@@ -723,6 +739,14 @@ namespace GPGO_MultiPLCs.Helpers
             return dt.AddDays(-1 * diff).Date;
         }
 
+        /// <summary>將物件序列化為XML</summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string To_Json(this object data)
+        {
+            return JsonConvert.SerializeObject(data is IEnumerable ? new { Row = data } : data, Formatting.Indented);
+        }
+
         /// <summary>將集合物件輸出至CSV(僅public property)</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
@@ -771,14 +795,6 @@ namespace GPGO_MultiPLCs.Helpers
         public static string ToJsonString(this object data)
         {
             return JsonConvert.SerializeObject(data, Formatting.Indented);
-        }
-
-        /// <summary>將物件序列化為XML</summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public static string To_Json(this object data)
-        {
-            return JsonConvert.SerializeObject(data is IEnumerable ? new { Row = data } : data, Formatting.Indented);
         }
 
         /// <summary>將物件序列化為XML</summary>
