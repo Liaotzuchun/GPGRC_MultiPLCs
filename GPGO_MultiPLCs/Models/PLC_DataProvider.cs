@@ -89,7 +89,7 @@ namespace GPGO_MultiPLCs.Models
                     return Status.待命中;
                 }
 
-                if (IsCooling && CurrentSegment >= UsedSegmentCounts * 2)
+                if (IsCooling)
                 {
                     return Status.降溫;
                 }
@@ -649,6 +649,11 @@ namespace GPGO_MultiPLCs.Models
                                              }
                                              else if (key1 == SignalNames.自動停止)
                                              {
+                                                 if (IsCooling)
+                                                 {
+                                                     PassTag = true;
+                                                 }
+
                                                  EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2.ToString("M# "), value));
                                                  AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), value);
 
