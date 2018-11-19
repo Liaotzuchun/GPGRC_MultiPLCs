@@ -2400,6 +2400,7 @@
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <local:UniformGridWithOrientation
+                                                Columns="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
                                                 Orientation="Vertical"
                                                 Rows="2" />
                                         </ItemsPanelTemplate>

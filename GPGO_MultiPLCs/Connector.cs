@@ -16,6 +16,7 @@ namespace GPGO_MultiPLCs
 {
     public sealed class Connector : DependencyObject, IDisposable
     {
+        public static readonly DependencyProperty OvenCountProperty = DependencyProperty.Register(nameof(OvenCount), typeof(int), typeof(Connector), new PropertyMetadata(20, OvenCountChanged));
         public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
 
         public string DataInputPath
@@ -49,6 +50,16 @@ namespace GPGO_MultiPLCs
         {
             get => (Language)GetValue(LanguageProperty);
             set => SetValue(LanguageProperty, value);
+        }
+
+        private static void OvenCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        public int OvenCount
+        {
+            get => (int)GetValue(OvenCountProperty);
+            set => SetValue(OvenCountProperty, value);
         }
 
         private static void UserChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -408,7 +419,7 @@ namespace GPGO_MultiPLCs
 
                                          if (Directory.Exists(path))
                                          {
-                                             var products = new List<(string ordercode, int number, string panelcode)>();
+                                             var products = new List<string>();
 
                                              await Task.Factory.StartNew(() =>
                                                                          {
@@ -423,7 +434,7 @@ namespace GPGO_MultiPLCs
                                                                                                      .Select(x => x.Split('='))
                                                                                                      .ToDictionary(x => x[0], x => x[1]);
 
-                                                                                     products.Add((result["General1"], int.Parse(result["General2"]), result["General7"]));
+                                                                                     products.Add(result["General7"]);
                                                                                  }
                                                                                  catch
                                                                                  {
@@ -449,9 +460,7 @@ namespace GPGO_MultiPLCs
                                                                          },
                                                                          TaskCreationOptions.LongRunning);
 
-                                             return products.GroupBy(x => x.ordercode)
-                                                            .Select(x => new ProductInfo(x.Key, x.First().number) { PanelCodes = x.Select(y => y.panelcode).ToList() })
-                                                            .ToList();
+                                             return products;
                                          }
 
                                          try
@@ -521,14 +530,7 @@ namespace GPGO_MultiPLCs
                                              {
                                                  for (var i = 0; i < info.ProcessCount; i++)
                                                  {
-                                                     var path = outpath +
-                                                                "\\" +
-                                                                info.AssetNumber +
-                                                                "_" +
-                                                                DateTime.Now.ToString("yyyyMMddHHmmssfff") +
-                                                                "_" +
-                                                                (e.StationIndex + 1) +
-                                                                "_";
+                                                     var path = outpath + "\\" + info.AssetNumber + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (e.StationIndex + 1) + "_";
 
                                                      var n = 1;
                                                      while (File.Exists(path + n))
@@ -586,7 +588,10 @@ namespace GPGO_MultiPLCs
                                               {
                                                   foreach (var (StationIndex, Production) in datas)
                                                   {
-                                                      TotalVM.TotalProduction[StationIndex] = Production;
+                                                      if (StationIndex < TotalVM.TotalProduction.Count)
+                                                      {
+                                                          TotalVM.TotalProduction[StationIndex] = Production;
+                                                      }
                                                   }
                                               };
 

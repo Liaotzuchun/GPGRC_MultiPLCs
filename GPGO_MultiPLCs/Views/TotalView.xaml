@@ -108,7 +108,9 @@
                         SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid Columns="2" />
+                                <UniformGrid
+                                    Columns="2"
+                                    Rows="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
@@ -1115,7 +1117,7 @@
                                         <TextBlock
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingTime_1, Mode=OneWay}" />                        
+                                            <Run Text="{Binding HeatingTime_1, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -2362,6 +2364,7 @@
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <local:UniformGridWithOrientation
+                                        Columns="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
                                         Orientation="Vertical"
                                         Rows="2" />
                                 </ItemsPanelTemplate>

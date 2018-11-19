@@ -45,6 +45,17 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public int OvenCount
+        {
+            get => Get<int>();
+            set
+            {
+                Set(value);
+
+                Save();
+            }
+        }
+
         public void Load()
         {
             if (File.Exists(FilePath))
@@ -54,6 +65,7 @@ namespace GPGO_MultiPLCs.Models
                     Set(val.DataInputPath, nameof(DataInputPath));
                     Set(val.DataOutputPath, nameof(DataOutputPath));
                     Set(val.Lng, nameof(Lng));
+                    Set(val.OvenCount, nameof(OvenCount));
                 }
                 else
                 {
@@ -65,6 +77,7 @@ namespace GPGO_MultiPLCs.Models
                     {
                         ex.RecordError();
                     }
+
                     Save();
                 }
             }
@@ -84,6 +97,7 @@ namespace GPGO_MultiPLCs.Models
             Set("D:\\Intput", nameof(DataInputPath));
             Set("D:", nameof(DataOutputPath));
             Set(Language.TW, nameof(Lng));
+            Set(20, nameof(OvenCount));
         }
     }
 }

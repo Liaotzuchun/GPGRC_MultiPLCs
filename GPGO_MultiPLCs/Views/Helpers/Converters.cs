@@ -340,6 +340,29 @@ namespace GPGO_MultiPLCs.Views
         }
     }
 
+    public class RatioValueINT : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return (int)Math.Ceiling(a * b);
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (parameter != null && value != null && double.TryParse(value.ToString(), out var a) && double.TryParse(parameter.ToString(), out var b))
+            {
+                return a / b;
+            }
+
+            return value;
+        }
+    }
+
     public class RatioValue : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

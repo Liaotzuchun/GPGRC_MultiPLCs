@@ -28,9 +28,9 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
-        private bool PassTag;
 
         private readonly IDialogService Dialog;
+        private bool PassTag;
 
         /// <summary>取消投產</summary>
         public RelayCommand CancelCheckInCommand { get; }
@@ -185,7 +185,7 @@ namespace GPGO_MultiPLCs.Models
         public event Action RecipeKeyInError;
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
         public event Func<Dictionary<int, short>, ValueTask> SetPLCRecipeParameter;
-        public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
+        public event Func<string, ValueTask<List<string>>> WantFrontData;
 
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, bool value)
         {
@@ -401,9 +401,7 @@ namespace GPGO_MultiPLCs.Models
                                                                  var (result2, intput2) =
                                                                      await Dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     { Language.TW, "輸入台車Code" },
-                                                                                                     { Language.CHS, "输入台车Code" },
-                                                                                                     { Language.EN, "Enter the Trolley Code" }
+                                                                                                     { Language.TW, "輸入台車碼" }, { Language.CHS, "输入台车码" }, { Language.EN, "Enter the Trolley Code" }
                                                                                                  },
                                                                                                  new Dictionary<Language, string>
                                                                                                  {
@@ -428,8 +426,8 @@ namespace GPGO_MultiPLCs.Models
                                                                      OvenInfo.TrolleyCode = intput2;
 
                                                                      //? 取得上位資訊(料號、總量、投產量)
-                                                                     var infos = await WantFrontData.Invoke(OvenInfo.TrolleyCode = intput2);
-                                                                     if (infos == null || infos.Count == 0)
+                                                                     var panels = await WantFrontData.Invoke(OvenInfo.TrolleyCode = intput2);
+                                                                     if (panels == null || panels.Count == 0)
                                                                      {
                                                                          Dialog.Show(new Dictionary<Language, string>
                                                                                      {
@@ -440,11 +438,52 @@ namespace GPGO_MultiPLCs.Models
                                                                          return false;
                                                                      }
 
-                                                                     Ext_Info.Clear();
-                                                                     foreach (var info in infos)
+                                                                     var (result3, intput3) =
+                                                                         await Dialog.ShowWithIntput(new Dictionary<Language, string>
+                                                                                                     {
+                                                                                                         { Language.TW, "輸入工單碼和製程序" },
+                                                                                                         { Language.CHS, "输入工单码和制程序" },
+                                                                                                         { Language.EN, "Enter order code and process number" }
+                                                                                                     },
+                                                                                                     new Dictionary<Language, string>
+                                                                                                     {
+                                                                                                         { Language.TW, para }, { Language.CHS, para }, { Language.EN, para }
+                                                                                                     },
+                                                                                                     x =>
+                                                                                                     {
+                                                                                                         var str = x.Trim();
+
+                                                                                                         if (!str.Contains(','))
+                                                                                                         {
+                                                                                                             return (false,
+                                                                                                                     new Dictionary<Language, string>
+                                                                                                                     {
+                                                                                                                         { Language.TW, "未包含\",\"分隔號，請重試!" },
+                                                                                                                         { Language.CHS, "未包含\",\"分隔符，请重试!" },
+                                                                                                                         { Language.EN, "Does not contain the separator \",\", please try again!" }
+                                                                                                                     });
+                                                                                                         }
+
+                                                                                                         var s = str.Split(',');
+
+                                                                                                         return
+                                                                                                             (s.Length > 1 && s[0].Length >= 8 && s[0].Length <= 12 && s[1].Length > 0 && s[1].Length <= 4,
+                                                                                                              new Dictionary<Language, string>
+                                                                                                              {
+                                                                                                                  { Language.TW, "字數錯誤，請重試!" },
+                                                                                                                  { Language.CHS, "字数错误，请重试!" },
+                                                                                                                  { Language.EN, "Input error, please try again!" }
+                                                                                                              });
+                                                                                                     });
+
+                                                                     if (!result3)
                                                                      {
-                                                                         Ext_Info.Add(info);
+                                                                         return false;
                                                                      }
+
+                                                                     Ext_Info.Clear();
+                                                                     var info = new ProductInfo(intput3) { PanelCodes = panels };
+                                                                     Ext_Info.Add(info);
 
                                                                      if (GetRecipeEvent != null && await GetRecipeEvent.Invoke(RecipeName) is PLC_Recipe recipe)
                                                                      {

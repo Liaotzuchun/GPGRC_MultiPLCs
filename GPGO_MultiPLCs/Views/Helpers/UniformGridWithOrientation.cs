@@ -43,12 +43,14 @@ namespace GPGO_MultiPLCs.Views
             var ah = Math.Floor(arrangeSize.Height / _rows);
             var _x = arrangeSize.Width - aw * _columns;
             var _y = arrangeSize.Height - ah * Rows;
+            var c = 1;
+            var r = 1;
 
-            if(Orientation == Orientation.Horizontal)
+            if (Orientation == Orientation.Horizontal)
             {
                 foreach (UIElement child in InternalChildren)
                 {
-                    if (child.Visibility != Visibility.Collapsed)
+                    if (child.Visibility != Visibility.Collapsed && r <= _rows)
                     {
                         var w = _x > 0 ? aw + 1 : aw;
                         var h = _y > 0 ? ah + 1 : ah;
@@ -59,9 +61,10 @@ namespace GPGO_MultiPLCs.Views
                         if (x >= arrangeSize.Width - 1.0)
                         {
                             x = 0;
-                            _x= arrangeSize.Width - aw * _columns;
+                            _x = arrangeSize.Width - aw * _columns;
                             y += h;
                             _y -= 1;
+                            r += 1;
                         }
                     }
                 }
@@ -70,7 +73,7 @@ namespace GPGO_MultiPLCs.Views
             {
                 foreach (UIElement child in InternalChildren)
                 {
-                    if (child.Visibility != Visibility.Collapsed)
+                    if (child.Visibility != Visibility.Collapsed && c <= _columns)
                     {
                         var w = _x > 0 ? aw + 1 : aw;
                         var h = _y > 0 ? ah + 1 : ah;
@@ -84,6 +87,7 @@ namespace GPGO_MultiPLCs.Views
                             _y = arrangeSize.Height - ah * Rows;
                             x += w;
                             _x -= 1;
+                            c += 1;
                         }
                     }
                 }

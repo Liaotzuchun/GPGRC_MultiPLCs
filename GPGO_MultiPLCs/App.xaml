@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:GPGO_MultiPLCs"
     xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-    StartupUri="Views/MainWindow.xaml" SessionEnding="Application_SessionEnding" Exit="Application_Exit">
+    Exit="Application_Exit"
+    SessionEnding="Application_SessionEnding"
+    StartupUri="Views/MainWindow.xaml">
 
     <Application.Resources>
         <ResourceDictionary>

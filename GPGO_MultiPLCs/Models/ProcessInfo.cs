@@ -230,7 +230,7 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("General1=");
             stb.AppendLine(OrderCode);
             stb.Append("General2=");
-            stb.AppendLine(ProcessNumber.ToString("000"));
+            stb.AppendLine(ProcessNumber.ToString("0000"));
             stb.Append("General3=");
             stb.AppendLine(StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
             stb.Append("General4=");
@@ -244,9 +244,9 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("General8=");
             stb.AppendLine(RecipeName);
             stb.Append("General9=");
-            stb.AppendLine(ProcessCount.ToString());
+            stb.AppendLine((index + 1).ToString());
             stb.Append("General10=");
-            stb.AppendLine(index.ToString());
+            stb.AppendLine(ProcessCount.ToString());
             stb.Append("General11=");
             stb.AppendLine(OperatorID);
             stb.Append("General12=");

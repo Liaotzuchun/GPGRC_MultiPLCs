@@ -4,6 +4,7 @@
     xmlns:local="clr-namespace:GPGO_MultiPLCs.Views">
 
     <local:RatioValue x:Key="RatioValue" />
+    <local:RatioValueINT x:Key="RatioValueINT" />
     <local:GetDayofDate x:Key="GetDayofDate" />
     <local:BoolVis x:Key="BoolVis" />
     <local:VisBool x:Key="VisBool" />
