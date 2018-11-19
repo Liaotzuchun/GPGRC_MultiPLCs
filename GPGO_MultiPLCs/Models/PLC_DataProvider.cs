@@ -485,6 +485,20 @@ namespace GPGO_MultiPLCs.Models
                                                                      var info = new ProductInfo(intput3) { PanelCodes = panels };
                                                                      Ext_Info.Add(info);
 
+                                                                     if (PC_ByPass)
+                                                                     {
+                                                                         return await Dialog.Show(new Dictionary<Language, string>
+                                                                                                  {
+                                                                                                      { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎?" },
+                                                                                                      { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗?" },
+                                                                                                      {
+                                                                                                          Language.EN,
+                                                                                                          "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"
+                                                                                                      }
+                                                                                                  },
+                                                                                                  true);
+                                                                     }
+
                                                                      if (GetRecipeEvent != null && await GetRecipeEvent.Invoke(RecipeName) is PLC_Recipe recipe)
                                                                      {
                                                                          recipe.CopyTo(this);
