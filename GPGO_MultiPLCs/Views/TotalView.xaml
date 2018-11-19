@@ -763,7 +763,7 @@
                                     <oxy:BarSeries
                                         x:Name="BS"
                                         FillColor="Cyan"
-                                        ItemsSource="{Binding TotalProduction, Mode=OneWay}"
+                                        ItemsSource="{Binding TotalProduction_View, Mode=OneWay}"
                                         LabelFormatString="{}{0}"
                                         LabelMargin="4"
                                         LabelPlacement="Outside"

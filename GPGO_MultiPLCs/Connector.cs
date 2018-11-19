@@ -16,7 +16,7 @@ namespace GPGO_MultiPLCs
 {
     public sealed class Connector : DependencyObject, IDisposable
     {
-        public static readonly DependencyProperty OvenCountProperty = DependencyProperty.Register(nameof(OvenCount), typeof(int), typeof(Connector), new PropertyMetadata(20, OvenCountChanged));
+        public static readonly DependencyProperty OvenCountProperty = DependencyProperty.Register(nameof(OvenCount), typeof(int), typeof(Connector), new PropertyMetadata(0, OvenCountChanged));
         public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
 
         public string DataInputPath
@@ -54,6 +54,8 @@ namespace GPGO_MultiPLCs
 
         private static void OvenCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
+            var count = (int)e.NewValue;
+            ((Connector)sender).TotalVM.TotalProduction_ViewCount = count;
         }
 
         public int OvenCount

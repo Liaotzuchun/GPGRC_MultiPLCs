@@ -48,6 +48,7 @@
                 DataInputPath="{Binding GT.DataInputPath, Source={StaticResource AuthenticatorViewModel}}"
                 DataOutputPath="{Binding GT.DataOutputPath, Source={StaticResource AuthenticatorViewModel}}"
                 Language="{Binding GT.Lng, Source={StaticResource AuthenticatorViewModel}}"
+                OvenCount="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}}"
                 User="{Binding NowUser, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
         </ResourceDictionary>
     </Application.Resources>

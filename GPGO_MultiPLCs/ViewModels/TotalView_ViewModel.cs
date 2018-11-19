@@ -111,7 +111,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>產量統計</summary>
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
 
-        public int TotalProductionCount => TotalProduction.Sum(x => x.Value);
+        public int TotalProductionCount => TotalProduction_View?.Sum(x => x.Value) ?? 0;
 
         /// <summary>PLC Gate連線狀態</summary>
         public bool Gate_Status
@@ -132,6 +132,26 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     ViewIndex = -1;
                 }
+            }
+        }
+
+        public IEnumerable<KeyValuePair<int, int>> TotalProduction_View
+        {
+            get => Get<IEnumerable<KeyValuePair<int, int>>>();
+            set
+            {
+                Set(value);
+                NotifyPropertyChanged(nameof(TotalProductionCount));
+            }
+        }
+
+        public int TotalProduction_ViewCount
+        {
+            get => Get<int>();
+            set
+            {
+                Set(value);
+                TotalProduction_View = TotalProduction.Take(value);
             }
         }
 
@@ -370,7 +390,7 @@ namespace GPGO_MultiPLCs.ViewModels
             //!當各PLC產量變更時更新總量顯示
             TotalProduction.CollectionChanged += (obj, args) =>
                                                  {
-                                                     NotifyPropertyChanged(nameof(TotalProductionCount));
+                                                     TotalProduction_ViewCount = TotalProduction_ViewCount;
                                                  };
 
             //!註冊PLC事件需引發的動作
