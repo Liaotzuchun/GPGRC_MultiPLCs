@@ -435,7 +435,7 @@ namespace GPGO_MultiPLCs.Models
         public bool AutoMode => M_Values[SignalNames.自動模式];
         public bool AutoMode_Stop => M_Values[SignalNames.自動停止];
         public bool AutoMode_Start => M_Values[SignalNames.自動啟動];
-        public bool PC_ByPass => M_Values[SignalNames.PC_ByPass];
+        public bool PC_InUsed => M_Values[SignalNames.PC_InUsed];
         public double ThermostatTemperature => D_Values[DataNames.溫控器溫度] * 0.1;
         public short OvenTemperature_1 => D_Values[DataNames.爐內溫度_1];
         public short OvenTemperature_2 => D_Values[DataNames.爐內溫度_2];

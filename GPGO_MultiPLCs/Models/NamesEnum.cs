@@ -26,7 +26,7 @@
         自動模式,
         自動停止,
         自動啟動,
-        PC_ByPass,
+        PC_InUsed,
 
         //! PC->PLC
         PC_HeartBeat

@@ -486,7 +486,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      var info = new ProductInfo(intput3) { PanelCodes = panels };
                                                                      Ext_Info.Add(info);
 
-                                                                     if (!PC_ByPass) //!目前是反的
+                                                                     if (!PC_InUsed)
                                                                      {
                                                                          return await Dialog.Show(new Dictionary<Language, string>
                                                                                                   {
@@ -562,7 +562,7 @@ namespace GPGO_MultiPLCs.Models
 
             var M_Map = new Dictionary<SignalNames, string>
                         {
-                            { SignalNames.PC_ByPass, nameof(PC_ByPass) },
+                            { SignalNames.PC_InUsed, nameof(PC_InUsed) },
                             { SignalNames.自動模式, nameof(AutoMode) },
                             { SignalNames.自動啟動, nameof(AutoMode_Start) },
                             { SignalNames.自動停止, nameof(AutoMode_Stop) },

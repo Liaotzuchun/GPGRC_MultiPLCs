@@ -225,7 +225,7 @@ namespace GPGO_MultiPLCs
                                          //!PLC的M區位置
                                          new Dictionary<SignalNames, int>
                                          {
-                                             { SignalNames.PC_ByPass, 20 },
+                                             { SignalNames.PC_InUsed, 20 },
                                              { SignalNames.自動模式, 50 },
                                              { SignalNames.自動啟動, 51 },
                                              { SignalNames.自動停止, 52 },
