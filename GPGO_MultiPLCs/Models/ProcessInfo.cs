@@ -154,8 +154,9 @@ namespace GPGO_MultiPLCs.Models
         /// <param name="code">工單條碼</param>
         public ProductInfo(string code)
         {
-            var strs = code.Split(',');
-            OrderCode = strs[0];
+            var strs = code.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            OrderCode = strs.Length > 0 ? strs[0] : "";
             ProcessNumber = strs.Length > 1 ? int.TryParse(strs[1], out var num) ? num : 0 : 0;
         }
 

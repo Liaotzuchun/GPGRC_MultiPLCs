@@ -174,7 +174,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
         public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
         public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, bool value)> EventHappened;
-        public event Func<(int StationIndex, string TrolleyCode), ValueTask<List<string>>> WantFrontData;
+        public event Func<(int StationIndex, string TrolleyCode, string OrderCode), ValueTask<List<string>>> WantFrontData;
         public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
 
         /// <summary>讀取財產編號</summary>
@@ -448,11 +448,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 };
 
                 //!由台車code取得前端生產資訊
-                PLC_All[i].WantFrontData += async TrolleyCode =>
+                PLC_All[i].WantFrontData += async e =>
                                             {
                                                 if (WantFrontData != null)
                                                 {
-                                                    return await WantFrontData.Invoke((index, TrolleyCode));
+                                                    return await WantFrontData.Invoke((index, e.TrolleyCode, e.OrderCode));
                                                 }
 
                                                 return null;

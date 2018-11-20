@@ -134,11 +134,11 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition
                                             Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                            MaxWidth="100" />
+                                            MaxWidth="75" />
                                         <ColumnDefinition />
                                         <ColumnDefinition
                                             Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                            MaxWidth="100" />
+                                            MaxWidth="75" />
                                     </Grid.ColumnDefinitions>
                                     <Border Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border
@@ -205,7 +205,7 @@
                                                     Grid.Column="1"
                                                     Rows="1">
                                                     <TextBox
-                                                        BorderThickness="0"
+                                                        BorderThickness="0" 
                                                         Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
                                                         GotKeyboardFocus="TextBox_GotKeyboardFocus"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"

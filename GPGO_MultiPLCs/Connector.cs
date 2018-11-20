@@ -436,28 +436,23 @@ namespace GPGO_MultiPLCs
                                                                                                      .Select(x => x.Split('='))
                                                                                                      .ToDictionary(x => x[0], x => x[1]);
 
-                                                                                     products.Add(result["General7"]);
-                                                                                 }
-                                                                                 catch
-                                                                                 {
-                                                                                 }
-                                                                             }
-
-                                                                             try
-                                                                             {
-                                                                                 foreach (var file in files)
-                                                                                 {
-                                                                                     var backname = file.FullName + ".bak" + e.StationIndex;
-                                                                                     if (File.Exists(backname))
+                                                                                     if (string.IsNullOrEmpty(e.OrderCode) || result["General1"] == e.OrderCode)
                                                                                      {
-                                                                                         File.Delete(backname);
-                                                                                     }
+                                                                                         products.Add(result["General7"]);
 
-                                                                                     file.MoveTo(backname);
+                                                                                         var backname = file.FullName + ".bak" + e.StationIndex;
+                                                                                         if (File.Exists(backname))
+                                                                                         {
+                                                                                             File.Delete(backname);
+                                                                                         }
+
+                                                                                         file.MoveTo(backname);
+                                                                                     }
                                                                                  }
-                                                                             }
-                                                                             catch
-                                                                             {
+                                                                                 catch(Exception ex)
+                                                                                 {
+                                                                                     ex.RecordError();
+                                                                                 }
                                                                              }
                                                                          },
                                                                          TaskCreationOptions.LongRunning);
@@ -561,7 +556,8 @@ namespace GPGO_MultiPLCs
 
                                              if (Directory.Exists(_path))
                                              {
-                                                 var files = new DirectoryInfo(_path).GetFiles();
+                                                 var tag = ".bak" + e.StationIndex;
+                                                 var files = new DirectoryInfo(_path).GetFiles("*" + tag);
                                                  foreach (var file in files)
                                                  {
                                                      file.Delete();

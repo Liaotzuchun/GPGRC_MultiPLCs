@@ -185,7 +185,7 @@ namespace GPGO_MultiPLCs.Models
         public event Action RecipeKeyInError;
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
         public event Func<Dictionary<int, short>, ValueTask> SetPLCRecipeParameter;
-        public event Func<string, ValueTask<List<string>>> WantFrontData;
+        public event Func<(string TrolleyCode, string OrderCode), ValueTask<List<string>>> WantFrontData;
 
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, bool value)
         {
@@ -420,23 +420,10 @@ namespace GPGO_MultiPLCs.Models
                                                                                                              });
                                                                                                  });
 
-                                                                 if (result2 && WantFrontData != null)
+                                                                 if (result2)
                                                                  {
                                                                      OvenInfo.OperatorID = intput1;
                                                                      OvenInfo.TrolleyCode = intput2;
-
-                                                                     //? 取得上位資訊(料號、總量、投產量)
-                                                                     var panels = await WantFrontData.Invoke(OvenInfo.TrolleyCode = intput2);
-                                                                     if (panels == null || panels.Count == 0)
-                                                                     {
-                                                                         Dialog.Show(new Dictionary<Language, string>
-                                                                                     {
-                                                                                         { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
-                                                                                     },
-                                                                                     DialogMsgType.Alarm);
-
-                                                                         return false;
-                                                                     }
 
                                                                      var (result3, intput3) =
                                                                          await Dialog.ShowWithIntput(new Dictionary<Language, string>
@@ -464,7 +451,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                                      });
                                                                                                          }
 
-                                                                                                         var s = str.Split(',');
+                                                                                                         var s = str.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
                                                                                                          return
                                                                                                              (s.Length > 1 && s[0].Length >= 8 && s[0].Length <= 12 && s[1].Length > 0 && s[1].Length <= 4,
@@ -476,8 +463,22 @@ namespace GPGO_MultiPLCs.Models
                                                                                                               });
                                                                                                      });
 
-                                                                     if (!result3)
+                                                                     if (!result3 || WantFrontData == null)
                                                                      {
+                                                                         return false;
+                                                                     }
+
+                                                                     var panels = await WantFrontData.Invoke((OvenInfo.TrolleyCode,
+                                                                                                              intput3.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0]));
+
+                                                                     if (!panels.Any())
+                                                                     {
+                                                                         Dialog.Show(new Dictionary<Language, string>
+                                                                                     {
+                                                                                         { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
+                                                                                     },
+                                                                                     DialogMsgType.Alarm);
+
                                                                          return false;
                                                                      }
 
