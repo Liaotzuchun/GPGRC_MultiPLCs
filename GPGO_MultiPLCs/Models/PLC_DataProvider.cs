@@ -486,7 +486,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      var info = new ProductInfo(intput3) { PanelCodes = panels };
                                                                      Ext_Info.Add(info);
 
-                                                                     if (PC_ByPass)
+                                                                     if (!PC_ByPass) //!目前是反的
                                                                      {
                                                                          return await Dialog.Show(new Dictionary<Language, string>
                                                                                                   {
