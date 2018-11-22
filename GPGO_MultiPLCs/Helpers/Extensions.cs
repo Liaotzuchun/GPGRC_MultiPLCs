@@ -450,6 +450,17 @@ namespace GPGO_MultiPLCs.Helpers
             return Math.Sqrt(sumOfSquaresOfDifferences / vals.Count);
         }
 
+        /// <summary>計算標準差</summary>
+        /// <param name="vals"></param>
+        /// <returns></returns>
+        public static double StandardDeviation(this ICollection<int> vals)
+        {
+            var average = vals.Average();
+            var sumOfSquaresOfDifferences = vals.Select(val => (val - average) * (val - average)).Sum();
+
+            return Math.Sqrt(sumOfSquaresOfDifferences / vals.Count);
+        }
+
         /// <summary>取得日期的當週起始日</summary>
         /// <param name="dt"></param>
         /// <param name="startOfWeek"></param>
