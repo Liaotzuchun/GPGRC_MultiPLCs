@@ -98,21 +98,19 @@ namespace GPGO_MultiPLCs.Helpers
             var type = typeof(T);
             var target = new T();
 
-            foreach (var sourceProperty in type.GetProperties())
+            foreach (var property in type.GetProperties())
             {
-                var targetProperty = type.GetProperty(sourceProperty.Name);
-                if (targetProperty != null && targetProperty.CanWrite)
+                if (property.CanWrite)
                 {
-                    targetProperty.SetValue(target, sourceProperty.GetValue(source, null), null);
+                    property.SetValue(target, property.GetValue(source, null), null);
                 }
             }
 
-            foreach (var sourceField in type.GetFields())
+            foreach (var Field in type.GetFields())
             {
-                var targetField = type.GetField(sourceField.Name);
-                if (!targetField.IsInitOnly)
+                if (!Field.IsInitOnly)
                 {
-                    targetField.SetValue(target, sourceField.GetValue(source));
+                    Field.SetValue(target, Field.GetValue(source));
                 }
             }
 
@@ -182,21 +180,20 @@ namespace GPGO_MultiPLCs.Helpers
         public static void CopyTo<T>(this T source, T target) where T : class
         {
             var type = typeof(T);
-            foreach (var sourceProperty in type.GetProperties())
+
+            foreach (var property in type.GetProperties())
             {
-                var targetProperty = type.GetProperty(sourceProperty.Name);
-                if (targetProperty != null && targetProperty.CanWrite)
+                if (property.CanWrite)
                 {
-                    targetProperty.SetValue(target, sourceProperty.GetValue(source, null), null);
+                    property.SetValue(target, property.GetValue(source, null), null);
                 }
             }
 
-            foreach (var sourceField in type.GetFields())
+            foreach (var Field in type.GetFields())
             {
-                var targetField = type.GetField(sourceField.Name);
-                if (!targetField.IsInitOnly)
+                if (!Field.IsInitOnly)
                 {
-                    targetField.SetValue(target, sourceField.GetValue(source));
+                    Field.SetValue(target, Field.GetValue(source));
                 }
             }
         }
@@ -424,7 +421,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static T ReadFromJsonFile<T>(this string path)
         {
-            if (path != "" && File.Exists(path))
+            if (!string.IsNullOrEmpty(path) && File.Exists(path))
             {
                 try
                 {
@@ -548,7 +545,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static bool WriteToJsonFile<T>(this T val, [CallerMemberName] string path = "")
         {
-            if (val == null || path == "")
+            if (val == null || string.IsNullOrEmpty(path))
             {
                 return false;
             }
