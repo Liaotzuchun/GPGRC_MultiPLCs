@@ -59,6 +59,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string AlignCenter(this string source, int length, Language Lng)
         {
+            source = source.Trim();
             var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
             var spaces = length - source_length;
             var d = spaces / 2 + source_length;
@@ -73,6 +74,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string AlignLeft(this string source, int length, Language Lng)
         {
+            source = source.Trim();
             var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
 
             return source.PadRight(length - (source_length - source.Length));
@@ -85,6 +87,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string AlignRight(this string source, int length, Language Lng)
         {
+            source = source.Trim();
             var source_length = Encoding.GetEncoding(Lng == Language.CHS ? "GB2312" : "Big5").GetByteCount(source);
 
             return source.PadLeft(length - (source_length - source.Length));
@@ -339,7 +342,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static int GetColumnNmuber(this string ColumnName)
         {
-            return ColumnName.Select(c => Convert.ToInt32(c) - Convert.ToInt32("A"[0]) + 1).Aggregate((m, n) => m * 26 + n);
+            return ColumnName.Trim().Select(c => Convert.ToInt32(c) - Convert.ToInt32("A"[0]) + 1).Aggregate((m, n) => m * 26 + n);
         }
 
         /// <summary>將欄序整數轉換至Excel的欄序數，1=A，2=B，Z=26...</summary>
@@ -392,7 +395,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string OnlyASCII(this string val)
         {
-            return string.Concat(val.Where(x => x >= 32 && x <= 127));
+            return string.Concat(val.Trim().Where(x => x >= 32 && x <= 127));
         }
 
         /// <summary>過濾字串，只保留Unicode可辨識字元</summary>
@@ -400,7 +403,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string OnlyPrintable(this string val)
         {
-            return string.Concat(val.Where(x => char.IsLetterOrDigit(x) || char.IsPunctuation(x) || char.IsSymbol(x) || char.IsWhiteSpace(x)));
+            return string.Concat(val.Trim().Where(x => char.IsLetterOrDigit(x) || char.IsPunctuation(x) || char.IsSymbol(x) || char.IsWhiteSpace(x)));
         }
 
         /// <summary>字串置中</summary>
@@ -772,7 +775,7 @@ namespace GPGO_MultiPLCs.Helpers
 
         public static byte HexToByte(this string val)
         {
-            return Convert.ToByte(val, 16);
+            return Convert.ToByte(val.Trim(), 16);
         }
 
         /// <summary>16進位字串轉換至byte陣列</summary>
@@ -780,7 +783,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static byte[] HexToBytes(this string[] val)
         {
-            return val.Select(x => Convert.ToByte(x, 16)).ToArray();
+            return val.Select(x => Convert.ToByte(x.Trim(), 16)).ToArray();
         }
 
         /// <summary>16進位字串轉換成整int數</summary>
@@ -788,7 +791,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static int HexToInt(this string val)
         {
-            return int.Parse(val, NumberStyles.HexNumber);
+            return int.Parse(val.Trim(), NumberStyles.HexNumber);
         }
 
         /// <summary>int整數轉換至bit陣列(0/1的byte陣列，長度32)</summary>
