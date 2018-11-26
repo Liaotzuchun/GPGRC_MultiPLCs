@@ -436,9 +436,9 @@ namespace GPGO_MultiPLCs
                                                                                                      .Select(x => x.Split('='))
                                                                                                      .ToDictionary(x => x[0], x => x[1]);
 
-                                                                                     if (string.IsNullOrEmpty(e.OrderCode) || result["General1"] == e.OrderCode)
+                                                                                     if (string.IsNullOrEmpty(e.OrderCode) || result["General1"].OnlyASCII() == e.OrderCode)
                                                                                      {
-                                                                                         products.Add(result["General7"]);
+                                                                                         products.Add(result["General7"].OnlyASCII());
 
                                                                                          var backname = file.FullName + ".bak" + e.StationIndex;
                                                                                          if (File.Exists(backname))
