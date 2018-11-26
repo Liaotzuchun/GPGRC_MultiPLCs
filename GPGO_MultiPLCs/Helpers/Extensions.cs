@@ -395,7 +395,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string OnlyASCII(this string val)
         {
-            return string.Concat(val.Trim().Where(x => x >= 32 && x <= 127));
+            return string.Concat(val.Where(x => x >= 32 && x <= 127)).Trim();
         }
 
         /// <summary>過濾字串，只保留Unicode可辨識字元</summary>
@@ -403,7 +403,7 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         public static string OnlyPrintable(this string val)
         {
-            return string.Concat(val.Trim().Where(x => char.IsLetterOrDigit(x) || char.IsPunctuation(x) || char.IsSymbol(x) || char.IsWhiteSpace(x)));
+            return string.Concat(val.Where(x => char.IsLetterOrDigit(x) || char.IsPunctuation(x) || char.IsSymbol(x) || char.IsWhiteSpace(x))).Trim();
         }
 
         /// <summary>字串置中</summary>
