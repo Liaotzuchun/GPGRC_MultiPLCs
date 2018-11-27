@@ -738,6 +738,15 @@ namespace GPGO_MultiPLCs.Models
                                                  NotifyPropertyChanged(nameof(Progress));
                                                  NotifyPropertyChanged(nameof(ProgressStatus));
                                              }
+                                             else if (key1 == SignalNames.OTP超溫異常 ||
+                                                      key1 == SignalNames.充氮氣逾時 ||
+                                                      key1 == SignalNames.冷卻進氣風車異常 ||
+                                                      key1 == SignalNames.溫控器低溫異常 ||
+                                                      key1 == SignalNames.超溫警報)
+                                             {
+                                                 EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2, value));
+                                                 AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                             }
                                          }
                                      };
 
