@@ -93,7 +93,7 @@ namespace GPGO_MultiPLCs
         /// <param name="PLC_Count"></param>
         public void MakeTestData(int PLC_Count)
         {
-            var tags = new[] { "", "M100", "M101", "M102", "M103", "M104", "M105", "M106", "M107", "M108", "M109", "M110", "M111", "M112", "M113", "M114", "", "", "", "", "" };
+            var tags = new[] { 0, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 0, 0, 0, 0, 0 };
 
             var events = new[]
                          {
@@ -449,7 +449,7 @@ namespace GPGO_MultiPLCs
                                                                                          file.MoveTo(backname);
                                                                                      }
                                                                                  }
-                                                                                 catch(Exception ex)
+                                                                                 catch (Exception ex)
                                                                                  {
                                                                                      ex.RecordError();
                                                                                  }

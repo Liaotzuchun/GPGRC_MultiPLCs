@@ -101,7 +101,7 @@ namespace GPGO_MultiPLCs.Models
         public int StationNumber { get; set; }
 
         [LanguageTranslator("Tag", "標籤", "标签")]
-        public string Tag { get; set; }
+        public int Tag { get; set; }
 
         [LanguageTranslator("Type", "類型", "类型")]
         public EventType Type { get; set; }

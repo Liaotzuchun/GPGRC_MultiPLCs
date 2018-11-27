@@ -173,7 +173,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
         public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
-        public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, bool value)> EventHappened;
+        public event Action<(int StationIndex, EventType type, DateTime time, string note, int tag, bool value)> EventHappened;
         public event Func<(int StationIndex, string TrolleyCode, string OrderCode), ValueTask<List<string>>> WantFrontData;
         public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
 
@@ -532,13 +532,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                     {
                                         if (Connect() && Initial() && SetReadLists(namearray)) //!連線並發送訂閱列表
                                         {
-                                            //EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, false));
                                             Gate_Status = true;
                                         }
                                     }
                                     else if (!Check() && Gate_Status)
                                     {
-                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
+                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", 0, true));
 
                                         Gate_Status = false;
 
