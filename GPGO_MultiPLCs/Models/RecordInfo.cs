@@ -71,6 +71,11 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostatTemperature { get; set; }
     }
 
+    public enum PCEventCode
+    {
+        PC_Offline = 1
+    }
+
     /// <summary>事件類型</summary>
     public enum EventType
     {

@@ -537,7 +537,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     }
                                     else if (!Check() && Gate_Status)
                                     {
-                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", 0, true));
+                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", (int)PCEventCode.PC_Offline, true));
 
                                         Gate_Status = false;
 

@@ -115,10 +115,10 @@ namespace GPGO_MultiPLCs.Models
                 NotifyPropertyChanged(nameof(Progress));
                 NotifyPropertyChanged(nameof(ProgressStatus));
 
-                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", 0, value));
+                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", (int)PCEventCode.PC_Offline, value));
                 if (IsRecording)
                 {
-                    AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, DateTime.Now, "PLC Offline!", 0, value);
+                    AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, DateTime.Now, "PLC Offline!", (int)PCEventCode.PC_Offline, value);
                     CTS?.Cancel();
                 }
             }

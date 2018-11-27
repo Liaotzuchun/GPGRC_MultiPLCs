@@ -577,7 +577,7 @@
                                     <TextBlock
                                         Margin="0,0,4,0"
                                         Text="{Binding Tag, Mode=OneWay, StringFormat={}({0})}"
-                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource StrCheckVis}}" />
+                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource CountVis}}" />
                                     <TextBlock
                                         Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
                                         TextTrimming="CharacterEllipsis" />
@@ -981,7 +981,7 @@
                                     <TextBlock
                                         Margin="0,0,4,0"
                                         Text="{Binding Tag, Mode=OneWay, StringFormat={}({0})}"
-                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource StrCheckVis}}" />
+                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource CountVis}}" />
                                     <TextBlock
                                         Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
                                         TextTrimming="CharacterEllipsis" />
