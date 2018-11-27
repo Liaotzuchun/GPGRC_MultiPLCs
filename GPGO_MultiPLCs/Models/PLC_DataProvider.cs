@@ -742,7 +742,10 @@ namespace GPGO_MultiPLCs.Models
                                                       key1 == SignalNames.充氮氣逾時 ||
                                                       key1 == SignalNames.冷卻進氣風車異常 ||
                                                       key1 == SignalNames.溫控器低溫異常 ||
-                                                      key1 == SignalNames.超溫警報)
+                                                      key1 == SignalNames.超溫警報 ||
+                                                      key1 == SignalNames.升恆溫逾時 ||
+                                                      key1 == SignalNames.加熱門未關 ||
+                                                      key1 == SignalNames.門未關定位異常)
                                              {
                                                  EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2, value));
                                                  AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
