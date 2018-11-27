@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using GPGO_MultiPLCs.Helpers;
@@ -97,6 +98,16 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Event", "事件", "事件")]
         public string Description { get; set; }
 
+        [LanguageTranslator("Event", "事件", "事件")]
+        public string Description2
+        {
+            get
+            {
+                var obj = Application.Current.TryFindResource(Description);
+                return obj != null ? obj.ToString() : Description;
+            }
+        }
+
         //!當處在生產中時，即烤箱開始生產的時間，若未在生產，則沒有值
         [LanguageTranslator("Started", "開始時間", "开始时间")]
         public DateTime StartTime { get; set; }
@@ -106,7 +117,7 @@ namespace GPGO_MultiPLCs.Models
         public int StationNumber { get; set; }
 
         [LanguageTranslator("Tag", "標籤", "标签")]
-        public int Tag { get; set; }
+        public int TagCode { get; set; }
 
         [LanguageTranslator("Type", "類型", "类型")]
         public EventType Type { get; set; }

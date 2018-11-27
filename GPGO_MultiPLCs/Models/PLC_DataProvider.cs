@@ -195,7 +195,7 @@ namespace GPGO_MultiPLCs.Models
                                        StartTime = start,
                                        AddedTime = addtime,
                                        Description = note,
-                                       Tag = tag,
+                                       TagCode = tag,
                                        Value = value
                                    });
         }

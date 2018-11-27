@@ -576,8 +576,8 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock
                                         Margin="0,0,4,0"
-                                        Text="{Binding Tag, Mode=OneWay, StringFormat={}({0})}"
-                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource CountVis}}" />
+                                        Text="{Binding TagCode, Mode=OneWay, StringFormat={}({0})}"
+                                        Visibility="{Binding TagCode, Mode=OneWay, Converter={StaticResource CountVis}}" />
                                     <TextBlock
                                         Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
                                         TextTrimming="CharacterEllipsis" />
@@ -980,8 +980,8 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock
                                         Margin="0,0,4,0"
-                                        Text="{Binding Tag, Mode=OneWay, StringFormat={}({0})}"
-                                        Visibility="{Binding Tag, Mode=OneWay, Converter={StaticResource CountVis}}" />
+                                        Text="{Binding TagCode, Mode=OneWay, StringFormat={}({0})}"
+                                        Visibility="{Binding TagCode, Mode=OneWay, Converter={StaticResource CountVis}}" />
                                     <TextBlock
                                         Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
                                         TextTrimming="CharacterEllipsis" />

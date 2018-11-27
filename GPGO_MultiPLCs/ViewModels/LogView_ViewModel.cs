@@ -203,7 +203,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                             typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)),
                                             typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)),
                                             typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
-                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Description))
+                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Description2))
                                         });
 
             try

@@ -145,7 +145,7 @@ namespace GPGO_MultiPLCs
                                              StartTime = st,
                                              AddedTime = st + t,
                                              Description = events[rn.Next(0, events.Length)],
-                                             Tag = tags[rn.Next(0, tags.Length)],
+                                             TagCode = tags[rn.Next(0, tags.Length)],
                                              Type = (EventType)rn.Next(0, 4),
                                              Value = Convert.ToBoolean(rn.Next(0, 2))
                                          };
@@ -576,7 +576,7 @@ namespace GPGO_MultiPLCs
                                                            AddedTime = e.time,
                                                            Type = e.type,
                                                            Description = e.note,
-                                                           Tag = e.tag,
+                                                           TagCode = e.tag,
                                                            Value = e.value
                                                        });
                                      };

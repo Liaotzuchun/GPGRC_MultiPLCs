@@ -491,7 +491,7 @@ namespace GPGO_MultiPLCs.Helpers
             var csv = new StringBuilder();
             if (properties == null)
             {
-                properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanWrite && !typeof(ICollection).IsAssignableFrom(x.PropertyType)).ToArray();
+                properties = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanRead && !typeof(ICollection).IsAssignableFrom(x.PropertyType)).ToArray();
             }
 
             csv.Append(string.Join(",", properties.Select(x => x.GetName(lng))));
