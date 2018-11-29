@@ -137,8 +137,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                             }
 
                                             Set(-1, nameof(SelectedIndex2));
-                                        },
-                                        TaskCreationOptions.LongRunning);
+                                        });
 
             if (WantInfo != null)
             {
@@ -168,8 +167,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                             }
 
                                             Set(-1, nameof(SelectedIndex1));
-                                        },
-                                        TaskCreationOptions.LongRunning);
+                                        });
 
             if (WantInfo != null)
             {

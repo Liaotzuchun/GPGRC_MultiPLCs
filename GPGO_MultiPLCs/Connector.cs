@@ -88,6 +88,7 @@ namespace GPGO_MultiPLCs
         public RecipeControl_ViewModel RecipeVM { get; }
         public TotalView_ViewModel TotalVM { get; }
         public TraceabilityView_ViewModel TraceVM { get; }
+        private readonly AsyncLock lockobj = new AsyncLock();
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
@@ -454,8 +455,7 @@ namespace GPGO_MultiPLCs
                                                                                      ex.RecordError();
                                                                                  }
                                                                              }
-                                                                         },
-                                                                         TaskCreationOptions.LongRunning);
+                                                                         });
 
                                              return products;
                                          }
@@ -497,8 +497,6 @@ namespace GPGO_MultiPLCs
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
             TotalVM.AddRecordToDB += async e =>
                                      {
-                                         TraceVM.AddToDB(e.StationIndex, e.Infos);
-
                                          var inpath = "";
                                          var outpath = "";
 
@@ -508,59 +506,64 @@ namespace GPGO_MultiPLCs
                                                                outpath = DataOutputPath;
                                                            });
 
-                                         //!輸出嘉聯益資料
-                                         if (!string.IsNullOrEmpty(inpath) && !string.IsNullOrEmpty(outpath) && e.Infos.Any())
+                                         using (await lockobj.LockAsync())
                                          {
-                                             if (!Directory.Exists(outpath))
+                                             TraceVM.AddToDB(e.StationIndex, e.Infos);
+
+                                             //!輸出嘉聯益資料
+                                             if (!string.IsNullOrEmpty(inpath) && !string.IsNullOrEmpty(outpath) && e.Infos.Any())
                                              {
-                                                 try
+                                                 if (!Directory.Exists(outpath))
                                                  {
-                                                     Directory.CreateDirectory(outpath);
-                                                 }
-                                                 catch (Exception ex)
-                                                 {
-                                                     ex.RecordError("上傳資料夾不存在且無法創建");
-                                                 }
-                                             }
-
-                                             foreach (var info in e.Infos)
-                                             {
-                                                 for (var i = 0; i < info.ProcessCount; i++)
-                                                 {
-                                                     var path = outpath + "\\" + info.AssetNumber + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (e.StationIndex + 1) + "_";
-
-                                                     var n = 1;
-                                                     while (File.Exists(path + n))
-                                                     {
-                                                         n++;
-                                                     }
-
                                                      try
                                                      {
-                                                         using (var outputFile = new StreamWriter(path + n + ".txt", false, Encoding.ASCII))
-                                                         {
-                                                             await outputFile.WriteAsync(info.ToString(i));
-                                                         }
-
-                                                         await Task.Delay(1);
-                                                         //!紀錄資料到指定輸出資料夾
+                                                         Directory.CreateDirectory(outpath);
                                                      }
                                                      catch (Exception ex)
                                                      {
-                                                         ex.RecordError("資料輸出上傳失敗");
+                                                         ex.RecordError("上傳資料夾不存在且無法創建");
                                                      }
                                                  }
-                                             }
 
-                                             var _path = inpath + "\\" + e.Infos.First().TrolleyCode;
-
-                                             if (Directory.Exists(_path))
-                                             {
-                                                 var tag = ".bak" + e.StationIndex;
-                                                 var files = new DirectoryInfo(_path).GetFiles("*" + tag);
-                                                 foreach (var file in files)
+                                                 foreach (var info in e.Infos)
                                                  {
-                                                     file.Delete();
+                                                     for (var i = 0; i < info.ProcessCount; i++)
+                                                     {
+                                                         var path = outpath + "\\" + info.AssetNumber + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (e.StationIndex + 1) + "_";
+
+                                                         var n = 1;
+                                                         while (File.Exists(path + n))
+                                                         {
+                                                             n++;
+                                                         }
+
+                                                         try
+                                                         {
+                                                             using (var outputFile = new StreamWriter(path + n + ".txt", false, Encoding.ASCII))
+                                                             {
+                                                                 await outputFile.WriteAsync(info.ToString(i));
+                                                             }
+
+                                                             await Task.Delay(1);
+                                                             //!紀錄資料到指定輸出資料夾
+                                                         }
+                                                         catch (Exception ex)
+                                                         {
+                                                             ex.RecordError("資料輸出上傳失敗");
+                                                         }
+                                                     }
+                                                 }
+
+                                                 var _path = inpath + "\\" + e.Infos.First().TrolleyCode;
+
+                                                 if (Directory.Exists(_path))
+                                                 {
+                                                     var tag = ".bak" + e.StationIndex;
+                                                     var files = new DirectoryInfo(_path).GetFiles("*" + tag);
+                                                     foreach (var file in files)
+                                                     {
+                                                         file.Delete();
+                                                     }
                                                  }
                                              }
                                          }

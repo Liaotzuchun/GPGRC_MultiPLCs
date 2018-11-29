@@ -508,8 +508,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                                  xlwb.Dispose();
                                                              });
-                                            },
-                                            TaskCreationOptions.LongRunning);
+                                            });
             }
             else
             {
