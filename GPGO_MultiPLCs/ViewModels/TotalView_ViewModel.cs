@@ -424,12 +424,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     else if (e.productInfo.Count > 0)
                                                     {
                                                         //!寫入資料庫，上傳
-                                                        var infos = new List<ProcessInfo>();
-
-                                                        foreach (var info in e.productInfo)
-                                                        {
-                                                            infos.Add(new ProcessInfo(e.baseInfo, info));
-                                                        }
+                                                        var infos = e.productInfo.Select(info => new ProcessInfo(e.baseInfo, info)).ToList();
 
                                                         if (AddRecordToDB != null && index < TotalProduction.Count)
                                                         {
