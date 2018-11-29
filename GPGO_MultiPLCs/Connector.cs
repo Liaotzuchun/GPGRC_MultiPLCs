@@ -82,13 +82,14 @@ namespace GPGO_MultiPLCs
             TotalVM.Dispose();
         }
 
+        private readonly AsyncLock lockobj = new AsyncLock();
+
         public GlobalDialog_ViewModel DialogVM { get; }
         public LogView_ViewModel LogVM { get; }
         public MainWindow_ViewModel MainVM { get; }
         public RecipeControl_ViewModel RecipeVM { get; }
         public TotalView_ViewModel TotalVM { get; }
         public TraceabilityView_ViewModel TraceVM { get; }
-        private readonly AsyncLock lockobj = new AsyncLock();
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
@@ -422,7 +423,7 @@ namespace GPGO_MultiPLCs
 
                                          if (Directory.Exists(path))
                                          {
-                                             var products = new List<string>();
+                                             var products = new List<(string ordercode, int number, string panelcode)>();
 
                                              await Task.Factory.StartNew(() =>
                                                                          {
@@ -437,18 +438,16 @@ namespace GPGO_MultiPLCs
                                                                                                      .Select(x => x.Split('='))
                                                                                                      .ToDictionary(x => x[0], x => x[1]);
 
-                                                                                     if (string.IsNullOrEmpty(e.OrderCode) || result["General1"].OnlyASCII() == e.OrderCode)
+                                                                                     int.TryParse(result["General2"].OnlyASCII(), out var number);
+                                                                                     products.Add((result["General1"].OnlyASCII(), number, result["General7"].OnlyASCII()));
+
+                                                                                     var backname = file.FullName + ".bak" + e.StationIndex;
+                                                                                     if (File.Exists(backname))
                                                                                      {
-                                                                                         products.Add(result["General7"].OnlyASCII());
-
-                                                                                         var backname = file.FullName + ".bak" + e.StationIndex;
-                                                                                         if (File.Exists(backname))
-                                                                                         {
-                                                                                             File.Delete(backname);
-                                                                                         }
-
-                                                                                         file.MoveTo(backname);
+                                                                                         File.Delete(backname);
                                                                                      }
+
+                                                                                     file.MoveTo(backname);
                                                                                  }
                                                                                  catch (Exception ex)
                                                                                  {
@@ -457,7 +456,10 @@ namespace GPGO_MultiPLCs
                                                                              }
                                                                          });
 
-                                             return products;
+
+                                             return products.GroupBy(x => x.ordercode)
+                                                            .Select(x => new ProductInfo(x.Key, x.First().number) { PanelCodes = x.Select(y => y.panelcode).ToList() })
+                                                            .ToList();
                                          }
 
                                          try

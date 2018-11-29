@@ -871,11 +871,11 @@
                                 VerticalAlignment="Center"
                                 IsSelectionRangeEnabled="True"
                                 IsSnapToTickEnabled="True"
-                                LargeChange="0.1"
+                                LargeChange="1"
                                 Maximum="{Binding Temperature_Max, Mode=OneWay}"
                                 Minimum="{Binding Temperature_Min, Mode=OneWay}"
-                                SmallChange="0.1"
-                                TickFrequency="0.1"
+                                SmallChange="1"
+                                TickFrequency="1"
                                 Value="{Binding CoolingTemperature, Mode=TwoWay}" />
                         </Border>
                         <Border
@@ -889,7 +889,7 @@
                                 IsSnapToTickEnabled="True"
                                 LargeChange="1"
                                 Maximum="{Binding Time_Max, Mode=OneWay}"
-                                Minimum="{Binding Time_Min, Mode=OneWay}"
+                                Minimum="0"
                                 SmallChange="1"
                                 TickFrequency="1"
                                 Value="{Binding InflatingTime, Mode=TwoWay}" />

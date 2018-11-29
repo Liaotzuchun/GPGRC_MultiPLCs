@@ -136,6 +136,7 @@
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
     <Compile Include="Helpers\Async\WaitHandleExtensions.cs" />
+    <Compile Include="Helpers\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="Models\DataCollectionByDate.cs" />
     <Compile Include="Models\GlobalTempSettings.cs" />
     <Compile Include="Models\LanguageEnum.cs" />

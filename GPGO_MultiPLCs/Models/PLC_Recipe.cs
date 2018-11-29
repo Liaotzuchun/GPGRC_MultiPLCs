@@ -263,9 +263,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < Time_Min)
+                else if (value < 0)
                 {
-                    value = Time_Min;
+                    value = 0;
                 }
 
                 Set(value);

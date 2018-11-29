@@ -205,7 +205,7 @@
                                                     Grid.Column="1"
                                                     Rows="1">
                                                     <TextBox
-                                                        BorderThickness="0" 
+                                                        BorderThickness="0"
                                                         Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
                                                         GotKeyboardFocus="TextBox_GotKeyboardFocus"
                                                         IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
@@ -422,10 +422,21 @@
                                                                                 </DataTemplate>
                                                                             </DataGridTemplateColumn.CellTemplate>
                                                                         </DataGridTemplateColumn>
-                                                                        <DataGridTextColumn
-                                                                            Width="Auto"
-                                                                            Binding="{Binding ProcessNumber, Mode=OneWay, StringFormat=\{0:D3\}}"
-                                                                            Header="{DynamicResource 製造序}" />
+                                                                        <DataGridTemplateColumn>
+                                                                            <DataGridTemplateColumn.Header>
+                                                                                <TextBlock Text="{DynamicResource 製造序}" />
+                                                                            </DataGridTemplateColumn.Header>
+                                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                                <DataTemplate DataType="models:ProductInfo">
+                                                                                    <TextBlock
+                                                                                        Margin="4"
+                                                                                        HorizontalAlignment="Center"
+                                                                                        VerticalAlignment="Center"
+                                                                                        Text="{Binding ProcessNumber, Mode=OneWay, StringFormat=\{0:D3\}}"
+                                                                                        TextTrimming="CharacterEllipsis" />
+                                                                                </DataTemplate>
+                                                                            </DataGridTemplateColumn.CellTemplate>
+                                                                        </DataGridTemplateColumn>
                                                                         <DataGridTemplateColumn Width="Auto">
                                                                             <DataGridTemplateColumn.Header>
                                                                                 <TextBlock Text="{DynamicResource 數量}" />

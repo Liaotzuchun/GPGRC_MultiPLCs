@@ -28,6 +28,7 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
+        private readonly TaskFactory OneScheduler = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(1));
 
         private readonly IDialogService Dialog;
         private bool PassTag;
@@ -185,7 +186,7 @@ namespace GPGO_MultiPLCs.Models
         public event Action RecipeKeyInError;
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
         public event Func<Dictionary<int, short>, ValueTask> SetPLCRecipeParameter;
-        public event Func<(string TrolleyCode, string OrderCode), ValueTask<List<string>>> WantFrontData;
+        public event Func<string , ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, int tag, bool value)
         {
@@ -287,7 +288,7 @@ namespace GPGO_MultiPLCs.Models
         {
             OvenInfo.StartTime = DateTime.Now;
 
-            await Task.Factory.StartNew(() =>
+            await OneScheduler.StartNew(() =>
                                         {
                                             var n = TimeSpan.Zero;
 
@@ -340,7 +341,7 @@ namespace GPGO_MultiPLCs.Models
                                                             OvenTemperature_7,
                                                             OvenTemperature_8);
                                         },
-                                        TaskCreationOptions.LongRunning);
+                                        ct);
         }
 
         public PLC_DataProvider(PLC_DevicesMap map, IDialogService dialog)
@@ -421,17 +422,30 @@ namespace GPGO_MultiPLCs.Models
                                                                                                              });
                                                                                                  });
 
-                                                                 if (result2)
+                                                                 if (result2 && WantFrontData != null)
                                                                  {
                                                                      OvenInfo.OperatorID = intput1;
                                                                      OvenInfo.TrolleyCode = intput2;
 
+                                                                     //! 取得上位資訊(料號、總量、投產量)
+                                                                     var panels = await WantFrontData.Invoke(OvenInfo.TrolleyCode);
+                                                                     if (panels == null || panels.Count == 0)
+                                                                     {
+                                                                         Dialog.Show(new Dictionary<Language, string>
+                                                                                     {
+                                                                                         { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
+                                                                                     },
+                                                                                     DialogMsgType.Alarm);
+
+                                                                         return false;
+                                                                     }
+
                                                                      var (result3, intput3) =
                                                                          await Dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                                      {
-                                                                                                         { Language.TW, "輸入工單碼和製程序" },
-                                                                                                         { Language.CHS, "输入工单码和制程序" },
-                                                                                                         { Language.EN, "Enter order code and process number" }
+                                                                                                         { Language.TW, "輸入製程序" },
+                                                                                                         { Language.CHS, "输入制程序" },
+                                                                                                         { Language.EN, "Enter the process number" }
                                                                                                      },
                                                                                                      new Dictionary<Language, string>
                                                                                                      {
@@ -441,21 +455,8 @@ namespace GPGO_MultiPLCs.Models
                                                                                                      {
                                                                                                          var str = x.Trim();
 
-                                                                                                         if (!str.Contains(','))
-                                                                                                         {
-                                                                                                             return (false,
-                                                                                                                     new Dictionary<Language, string>
-                                                                                                                     {
-                                                                                                                         { Language.TW, "未包含\",\"分隔號，請重試!" },
-                                                                                                                         { Language.CHS, "未包含\",\"分隔符，请重试!" },
-                                                                                                                         { Language.EN, "Does not contain the separator \",\", please try again!" }
-                                                                                                                     });
-                                                                                                         }
-
-                                                                                                         var s = str.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
                                                                                                          return
-                                                                                                             (s.Length > 1 && s[0].Length >= 8 && s[0].Length <= 12 && s[1].Length > 0 && s[1].Length <= 4,
+                                                                                                             (str.Length > 0 && str.Length <= 4,
                                                                                                               new Dictionary<Language, string>
                                                                                                               {
                                                                                                                   { Language.TW, "字數錯誤，請重試!" },
@@ -469,23 +470,23 @@ namespace GPGO_MultiPLCs.Models
                                                                          return false;
                                                                      }
 
-                                                                     var panels = await WantFrontData.Invoke((OvenInfo.TrolleyCode,
-                                                                                                              intput3.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0]));
-
-                                                                     if (!panels.Any())
-                                                                     {
-                                                                         Dialog.Show(new Dictionary<Language, string>
-                                                                                     {
-                                                                                         { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
-                                                                                     },
-                                                                                     DialogMsgType.Alarm);
-
-                                                                         return false;
-                                                                     }
-
                                                                      Ext_Info.Clear();
-                                                                     var info = new ProductInfo(intput3) { PanelCodes = panels };
-                                                                     Ext_Info.Add(info);
+
+                                                                     if(int.TryParse(intput3, out var num))
+                                                                     {
+                                                                         foreach (var panel in panels)
+                                                                         {
+                                                                             panel.ProcessNumber = num;
+                                                                             Ext_Info.Add(panel);
+                                                                         }
+                                                                     }
+                                                                     else
+                                                                     {
+                                                                         foreach (var panel in panels)
+                                                                         {
+                                                                             Ext_Info.Add(panel);
+                                                                         }
+                                                                     }
 
                                                                      if (!PC_InUsed)
                                                                      {
