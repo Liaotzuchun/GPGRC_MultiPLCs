@@ -130,7 +130,6 @@
     <Compile Include="Helpers\Attributes.cs" />
     <Compile Include="Helpers\ObjectViewModel.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
-    <Compile Include="Helpers\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\FilterGroup.cs" />
     <Compile Include="Helpers\IDataBase.cs" />
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
