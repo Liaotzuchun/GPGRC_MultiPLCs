@@ -136,7 +136,12 @@
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
     <Compile Include="Helpers\Async\WaitHandleExtensions.cs" />
-    <Compile Include="Helpers\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="Helpers\TaskSchedulers\CurrentThreadTaskScheduler.cs" />
+    <Compile Include="Helpers\TaskSchedulers\LimitedConcurrencyLevelTaskScheduler.cs" />
+    <Compile Include="Helpers\TaskSchedulers\OrderedTaskScheduler.cs" />
+    <Compile Include="Helpers\TaskSchedulers\StaTaskScheduler.cs" />
+    <Compile Include="Helpers\TaskSchedulers\SynchronizationContextTaskScheduler.cs" />
+    <Compile Include="Helpers\TaskSchedulers\ThreadPerTaskkScheduler.cs" />
     <Compile Include="Models\DataCollectionByDate.cs" />
     <Compile Include="Models\GlobalTempSettings.cs" />
     <Compile Include="Models\LanguageEnum.cs" />

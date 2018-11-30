@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Helpers;
 
@@ -28,9 +29,9 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
-        private readonly TaskFactory OneScheduler = new TaskFactory(new LimitedConcurrencyLevelTaskScheduler(1));
 
         private readonly IDialogService Dialog;
+        private readonly TaskFactory OneScheduler = new TaskFactory(new StaTaskScheduler(1));
         private bool PassTag;
 
         /// <summary>取消投產</summary>
@@ -186,7 +187,7 @@ namespace GPGO_MultiPLCs.Models
         public event Action RecipeKeyInError;
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
         public event Func<Dictionary<int, short>, ValueTask> SetPLCRecipeParameter;
-        public event Func<string , ValueTask<ICollection<ProductInfo>>> WantFrontData;
+        public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, int tag, bool value)
         {
@@ -455,14 +456,13 @@ namespace GPGO_MultiPLCs.Models
                                                                                                      {
                                                                                                          var str = x.Trim();
 
-                                                                                                         return
-                                                                                                             (str.Length > 0 && str.Length <= 4,
-                                                                                                              new Dictionary<Language, string>
-                                                                                                              {
-                                                                                                                  { Language.TW, "字數錯誤，請重試!" },
-                                                                                                                  { Language.CHS, "字数错误，请重试!" },
-                                                                                                                  { Language.EN, "Input error, please try again!" }
-                                                                                                              });
+                                                                                                         return (str.Length > 0 && str.Length <= 4,
+                                                                                                                 new Dictionary<Language, string>
+                                                                                                                 {
+                                                                                                                     { Language.TW, "字數錯誤，請重試!" },
+                                                                                                                     { Language.CHS, "字数错误，请重试!" },
+                                                                                                                     { Language.EN, "Input error, please try again!" }
+                                                                                                                 });
                                                                                                      });
 
                                                                      if (!result3 || WantFrontData == null)
@@ -472,7 +472,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      Ext_Info.Clear();
 
-                                                                     if(int.TryParse(intput3, out var num))
+                                                                     if (int.TryParse(intput3, out var num))
                                                                      {
                                                                          foreach (var panel in panels)
                                                                          {

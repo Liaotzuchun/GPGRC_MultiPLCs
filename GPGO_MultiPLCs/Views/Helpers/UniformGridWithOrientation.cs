@@ -41,8 +41,8 @@ namespace GPGO_MultiPLCs.Views
             var y = 0.0;
             var aw = Math.Floor(arrangeSize.Width / _columns);
             var ah = Math.Floor(arrangeSize.Height / _rows);
-            var _x = arrangeSize.Width - aw * _columns;
-            var _y = arrangeSize.Height - ah * Rows;
+            var _x = Math.Round(arrangeSize.Width) - aw * _columns;
+            var _y = Math.Round(arrangeSize.Height) - ah * _rows;
             var c = 1;
             var r = 1;
 
@@ -56,10 +56,12 @@ namespace GPGO_MultiPLCs.Views
                         var h = _y > 0 ? ah + 1 : ah;
                         child.Arrange(new Rect(x, y, w, h));
 
+                        c += 1;
                         x += w;
                         _x -= 1;
-                        if (x >= arrangeSize.Width - 1.0)
+                        if (c > _columns + 1)
                         {
+                            c = 1;
                             x = 0;
                             _x = arrangeSize.Width - aw * _columns;
                             y += h;
@@ -79,10 +81,12 @@ namespace GPGO_MultiPLCs.Views
                         var h = _y > 0 ? ah + 1 : ah;
                         child.Arrange(new Rect(x, y, w, h));
 
+                        r += 1;
                         y += h;
                         _y -= 1;
-                        if (y >= arrangeSize.Height - 1.0)
+                        if (r >= _rows + 1)
                         {
+                            r = 0;
                             y = 0;
                             _y = arrangeSize.Height - ah * Rows;
                             x += w;

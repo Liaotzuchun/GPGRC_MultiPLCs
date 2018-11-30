@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace System.Threading.Tasks.Schedulers
 {
+    /// <summary>Provides a task scheduler that ensures a maximum concurrency level while running on top of the ThreadPool.</summary>
     public class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
     {
-        // Indicates whether the current thread is processing work items.
+        /// <summary>Whether the current thread is processing work items.</summary>
         [ThreadStatic]
         private static bool _currentThreadIsProcessingItems;
 
-        // The maximum concurrency level allowed by this scheduler. 
+        /// <summary>The maximum concurrency level allowed by this scheduler.</summary>
+        private readonly int _maxDegreeOfParallelism;
 
-        // The list of tasks to be executed 
+        /// <summary>The list of tasks to be executed.</summary>
         private readonly LinkedList<Task> _tasks = new LinkedList<Task>(); // protected by lock(_tasks)
 
-        // Indicates whether the scheduler is currently processing work items. 
-        private int _delegatesQueuedOrRunning;
+        /// <summary>Whether the scheduler is currently processing work items.</summary>
+        private int _delegatesQueuedOrRunning; // protected by lock(_tasks)
 
-        // Gets the maximum concurrency level supported by this scheduler. 
-        public sealed override int MaximumConcurrencyLevel { get; }
+        /// <summary>Gets the maximum concurrency level supported by this scheduler.</summary>
+        public sealed override int MaximumConcurrencyLevel => _maxDegreeOfParallelism;
 
-        // Gets an enumerable of the tasks currently scheduled on this scheduler. 
+        /// <summary>Gets an enumerable of the tasks currently scheduled on this scheduler.</summary>
+        /// <returns>An enumerable of the tasks currently scheduled.</returns>
         protected sealed override IEnumerable<Task> GetScheduledTasks()
         {
             var lockTaken = false;
@@ -31,7 +32,7 @@ namespace GPGO_MultiPLCs.Helpers
                 Monitor.TryEnter(_tasks, ref lockTaken);
                 if (lockTaken)
                 {
-                    return _tasks;
+                    return _tasks.ToArray();
                 }
                 else
                 {
@@ -47,15 +48,16 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        // Queues a task to the scheduler. 
+        /// <summary>Queues a task to the scheduler.</summary>
+        /// <param name="task">The task to be queued.</param>
         protected sealed override void QueueTask(Task task)
         {
-            // Add the task to the list of tasks to be processed.  If there aren't enough 
-            // delegates currently queued or running to process tasks, schedule another. 
+            // Add the task to the list of tasks to be processed.  If there aren't enough
+            // delegates currently queued or running to process tasks, schedule another.
             lock (_tasks)
             {
                 _tasks.AddLast(task);
-                if (_delegatesQueuedOrRunning < MaximumConcurrencyLevel)
+                if (_delegatesQueuedOrRunning < _maxDegreeOfParallelism)
                 {
                     ++_delegatesQueuedOrRunning;
                     NotifyThreadPoolOfPendingWork();
@@ -63,7 +65,9 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        // Attempt to remove a previously scheduled task from the scheduler. 
+        /// <summary>Attempts to remove a previously scheduled task from the scheduler.</summary>
+        /// <param name="task">The task to be removed.</param>
+        /// <returns>Whether the task could be found and removed.</returns>
         protected sealed override bool TryDequeue(Task task)
         {
             lock (_tasks)
@@ -72,7 +76,10 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        // Attempts to execute the specified task on the current thread. 
+        /// <summary>Attempts to execute the specified task on the current thread.</summary>
+        /// <param name="task">The task to be executed.</param>
+        /// <param name="taskWasPreviouslyQueued"></param>
+        /// <returns>Whether the task could be executed on the current thread.</returns>
         protected sealed override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             // If this thread isn't already processing a task, we don't support inlining
@@ -83,15 +90,15 @@ namespace GPGO_MultiPLCs.Helpers
 
             // If the task was previously queued, remove it from the queue
             if (taskWasPreviouslyQueued)
-                // Try to run the task. 
             {
-                return TryDequeue(task) && TryExecuteTask(task);
+                TryDequeue(task);
             }
 
+            // Try to run the task.
             return TryExecuteTask(task);
         }
 
-        // Inform the ThreadPool that there's work to be executed for this scheduler. 
+        /// <summary>Informs the ThreadPool that there's work to be executed for this scheduler.</summary>
         private void NotifyThreadPoolOfPendingWork()
         {
             ThreadPool.UnsafeQueueUserWorkItem(_ =>
@@ -134,7 +141,11 @@ namespace GPGO_MultiPLCs.Helpers
                                                null);
         }
 
-        // Creates a new instance with the specified degree of parallelism. 
+        /// <summary>
+        ///     Initializes an instance of the LimitedConcurrencyLevelTaskScheduler class with the specified degree of
+        ///     parallelism.
+        /// </summary>
+        /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism provided by this scheduler.</param>
         public LimitedConcurrencyLevelTaskScheduler(int maxDegreeOfParallelism)
         {
             if (maxDegreeOfParallelism < 1)
@@ -142,7 +153,7 @@ namespace GPGO_MultiPLCs.Helpers
                 throw new ArgumentOutOfRangeException(nameof(maxDegreeOfParallelism));
             }
 
-            MaximumConcurrencyLevel = maxDegreeOfParallelism;
+            _maxDegreeOfParallelism = maxDegreeOfParallelism;
         }
     }
 }

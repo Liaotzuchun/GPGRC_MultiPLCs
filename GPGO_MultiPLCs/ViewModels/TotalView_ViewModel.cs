@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Schedulers;
 using GPGO_MultiPLCs.GP_PLCs;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
@@ -31,31 +31,31 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">更新值集合</param>
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
-            ao?.Post(e =>
-                     {
-                         var args = (ValueTuple<int, PLC_Messages>)e;
-                         try
-                         {
-                             if (args.Item1 < PLC_All.Count && args.Item1 > -1)
-                             {
-                                 //! short data先，bit bool後
+            OneScheduler.StartNew(e =>
+                                  {
+                                      var args = (ValueTuple<int, PLC_Messages>)e;
+                                      try
+                                      {
+                                          if (args.Item1 < PLC_All.Count && args.Item1 > -1)
+                                          {
+                                              //! short data先，bit bool後
 
-                                 foreach (var D in args.Item2.D)
-                                 {
-                                     PLC_All[args.Item1].D_Values[D.Key] = D.Value;
-                                 }
+                                              foreach (var D in args.Item2.D)
+                                              {
+                                                  PLC_All[args.Item1].D_Values[D.Key] = D.Value;
+                                              }
 
-                                 foreach (var M in args.Item2.M)
-                                 {
-                                     PLC_All[args.Item1].M_Values[M.Key] = M.Value;
-                                 }
-                             }
-                         }
-                         catch (Exception)
-                         {
-                         }
-                     },
-                     (index, val));
+                                              foreach (var M in args.Item2.M)
+                                              {
+                                                  PLC_All[args.Item1].M_Values[M.Key] = M.Value;
+                                              }
+                                          }
+                                      }
+                                      catch (Exception)
+                                      {
+                                      }
+                                  },
+                                  (index, val));
         }
 
         /// <summary>PLC連線狀態</summary>
@@ -63,21 +63,21 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">是否連線</param>
         void IGPServiceCallback.Status_Changed(int index, bool val)
         {
-            ao?.Post(e =>
-                     {
-                         var args = (ValueTuple<int, bool>)e;
-                         try
-                         {
-                             if (args.Item1 < PLC_All.Count && args.Item1 > -1 && PLC_All[args.Item1].OnlineStatus != args.Item2)
-                             {
-                                 PLC_All[args.Item1].OnlineStatus = args.Item2;
-                             }
-                         }
-                         catch (Exception)
-                         {
-                         }
-                     },
-                     (index, val));
+            OneScheduler.StartNew(e =>
+                                  {
+                                      var args = (ValueTuple<int, bool>)e;
+                                      try
+                                      {
+                                          if (args.Item1 < PLC_All.Count && args.Item1 > -1 && PLC_All[args.Item1].OnlineStatus != args.Item2)
+                                          {
+                                              PLC_All[args.Item1].OnlineStatus = args.Item2;
+                                          }
+                                      }
+                                      catch (Exception)
+                                      {
+                                      }
+                                  },
+                                  (index, val));
         }
 
         /// <summary>財產編號儲存位置</summary>
@@ -89,10 +89,10 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>設備碼儲存位置</summary>
         private const string MachineCodesPath = "MachineCodes.json";
 
-        private readonly AsyncOperation ao;
-
         /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
+
+        private readonly TaskFactory OneScheduler = new TaskFactory(new StaTaskScheduler(1));
 
         private readonly InstanceContext site;
 
@@ -377,7 +377,6 @@ namespace GPGO_MultiPLCs.ViewModels
             ViewIndex = -1;
             var PLC_Count = plc_maps.Count;
             site = new InstanceContext(this);
-            ao = AsyncOperationManager.CreateOperation(null);
 
             BackCommand = new RelayCommand(o =>
                                            {
