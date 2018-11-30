@@ -281,7 +281,7 @@
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
                     <Thumb
-                        Margin="-1,0"
+                        Margin="0,0"
                         Background="{StaticResource NormalBrush}"
                         BorderBrush="{StaticResource NormalBorderBrush}"
                         Style="{StaticResource HScrollBarThumb}" />

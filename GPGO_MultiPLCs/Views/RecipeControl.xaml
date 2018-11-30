@@ -2392,8 +2392,8 @@
                                         <ControlTemplate>
                                             <Border
                                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                BorderThickness="1,1,0,0">
-                                                <ItemsPresenter />
+                                                BorderThickness="0,0,1,1">
+                                                <ItemsPresenter Margin="0,0,1,0"/>
                                             </Border>
                                         </ControlTemplate>
                                     </ItemsControl.Template>
@@ -2407,21 +2407,19 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid>
-                                                <Border
-                                                    x:Name="Border"
-                                                    Background="Transparent"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,0,1,1">
-                                                    <TextBlock
-                                                        x:Name="TextBlock"
-                                                        Margin="3"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        FontSize="12"
-                                                        Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
-                                                </Border>
-                                            </Grid>
+                                            <Border
+                                                x:Name="Border"
+                                                Background="Transparent"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1,1,0,0">
+                                                <TextBlock
+                                                    x:Name="TextBlock"
+                                                    Margin="3"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="12"
+                                                    Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
+                                            </Border>
                                             <DataTemplate.Triggers>
                                                 <DataTrigger
                                                     Binding="{Binding Mode=OneWay}"

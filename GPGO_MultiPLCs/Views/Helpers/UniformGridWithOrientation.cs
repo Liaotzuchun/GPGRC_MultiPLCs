@@ -41,8 +41,8 @@ namespace GPGO_MultiPLCs.Views
             var y = 0.0;
             var aw = Math.Floor(arrangeSize.Width / _columns);
             var ah = Math.Floor(arrangeSize.Height / _rows);
-            var _x = Math.Round(arrangeSize.Width) - aw * _columns;
-            var _y = Math.Round(arrangeSize.Height) - ah * _rows;
+            var dx = arrangeSize.Width - aw * _columns;
+            var dy = arrangeSize.Height - ah * _rows;
             var c = 1;
             var r = 1;
 
@@ -52,20 +52,20 @@ namespace GPGO_MultiPLCs.Views
                 {
                     if (child.Visibility != Visibility.Collapsed && r <= _rows)
                     {
-                        var w = _x > 0 ? aw + 1 : aw;
-                        var h = _y > 0 ? ah + 1 : ah;
+                        var w = dx > 0 ? aw + 1 : aw;
+                        var h = dy > 0 ? ah + 1 : ah;
                         child.Arrange(new Rect(x, y, w, h));
 
                         c += 1;
                         x += w;
-                        _x -= 1;
-                        if (c > _columns + 1)
+                        dx -= 1;
+                        if (c > _columns)
                         {
                             c = 1;
                             x = 0;
-                            _x = arrangeSize.Width - aw * _columns;
+                            dx = arrangeSize.Width - aw * _columns;
                             y += h;
-                            _y -= 1;
+                            dy -= 1;
                             r += 1;
                         }
                     }
@@ -77,20 +77,20 @@ namespace GPGO_MultiPLCs.Views
                 {
                     if (child.Visibility != Visibility.Collapsed && c <= _columns)
                     {
-                        var w = _x > 0 ? aw + 1 : aw;
-                        var h = _y > 0 ? ah + 1 : ah;
+                        var w = dx > 0 ? aw + 1 : aw;
+                        var h = dy > 0 ? ah + 1 : ah;
                         child.Arrange(new Rect(x, y, w, h));
 
                         r += 1;
                         y += h;
-                        _y -= 1;
-                        if (r >= _rows + 1)
+                        dy -= 1;
+                        if (r > _rows)
                         {
-                            r = 0;
+                            r = 1;
                             y = 0;
-                            _y = arrangeSize.Height - ah * Rows;
+                            dy = arrangeSize.Height - ah * Rows;
                             x += w;
-                            _x -= 1;
+                            dx -= 1;
                             c += 1;
                         }
                     }
@@ -104,24 +104,23 @@ namespace GPGO_MultiPLCs.Views
         {
             UpdateComputedValues();
 
-            var availableSize = new Size(constraint.Width / _columns, constraint.Height / _rows);
             var w = 0.0;
             var h = 0.0;
 
             foreach (UIElement child in InternalChildren)
             {
-                child.Measure(availableSize);
-
                 if (child.Visibility != Visibility.Collapsed)
                 {
-                    if (child.DesiredSize.Width > w)
-                    {
-                        w = child.DesiredSize.Width;
-                    }
+                    child.Measure(constraint);
+                    var childDesiredSize = child.DesiredSize;
 
-                    if (child.DesiredSize.Height > h)
+                    if (childDesiredSize.Width > w)
                     {
-                        h = child.DesiredSize.Height;
+                        w = childDesiredSize.Width;
+                    }
+                    else if(childDesiredSize.Height > h)
+                    {
+                        h = childDesiredSize.Height;
                     }
                 }
             }
