@@ -127,6 +127,7 @@
     <Compile Include="Helpers\Async\AsyncManualResetEvent.cs" />
     <Compile Include="Helpers\Async\AsyncReaderWriterLock.cs" />
     <Compile Include="Helpers\Async\AsyncSemaphore.cs" />
+    <Compile Include="Helpers\Async\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\Attributes.cs" />
     <Compile Include="Helpers\ObjectViewModel.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
