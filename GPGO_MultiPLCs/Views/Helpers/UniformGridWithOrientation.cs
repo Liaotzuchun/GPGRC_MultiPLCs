@@ -39,8 +39,8 @@ namespace GPGO_MultiPLCs.Views
         {
             var x = 0.0;
             var y = 0.0;
-            var aw = Math.Floor(arrangeSize.Width / _columns);
-            var ah = Math.Floor(arrangeSize.Height / _rows);
+            var aw = Math.Floor(Math.Round(arrangeSize.Width) / _columns);
+            var ah = Math.Floor(Math.Round(arrangeSize.Height) / _rows);
             var dx = arrangeSize.Width - aw * _columns;
             var dy = arrangeSize.Height - ah * _rows;
             var c = 1;
