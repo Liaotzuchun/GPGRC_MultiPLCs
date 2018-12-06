@@ -33,7 +33,6 @@
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
-                <Setter Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
