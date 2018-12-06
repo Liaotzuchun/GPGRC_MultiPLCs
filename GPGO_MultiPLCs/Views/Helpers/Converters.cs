@@ -529,4 +529,24 @@ namespace GPGO_MultiPLCs.Views
             return null;
         }
     }
+
+    public class SubHeadString : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+
+            var str = value.ToString();
+
+            return parameter == null || str.Length < 2 ? str : str.Substring(0, int.TryParse(parameter.ToString(), out var n) ? n : str.Length).ToUpper();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
 }

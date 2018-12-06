@@ -9,10 +9,10 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>使用者階層</summary>
         public enum UserLevel
         {
-            GU, //Guest
-            OP, //Operator
-            MA, //Manager
-            AD, //Administrator
+            Guest, //Guest
+            Operator, //Operator
+            Manager, //Manager
+            Administrator, //Administrator
             S //GP
         }
 

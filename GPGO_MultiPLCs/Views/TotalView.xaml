@@ -687,7 +687,7 @@
                                     FontSize="20"
                                     FontWeight="Bold"
                                     Foreground="White"
-                                    Text="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
+                                    Text="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}"/>
                             </Border>
                         </Grid>
                         <Grid Grid.Row="2">

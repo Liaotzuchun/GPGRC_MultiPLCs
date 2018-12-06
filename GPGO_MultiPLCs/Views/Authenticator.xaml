@@ -259,7 +259,7 @@
                         FontSize="36"
                         FontWeight="Bold"
                         Foreground="White"
-                        Text="{Binding NowUser.Level}" />
+                        Text="{Binding NowUser.Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
                 </Border>
             </Grid>
             <Grid

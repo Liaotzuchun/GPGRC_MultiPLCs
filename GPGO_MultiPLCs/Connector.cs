@@ -351,7 +351,7 @@ namespace GPGO_MultiPLCs
                                                              { Language.EN, "Still in production,\n" + "cannot terminate the program." }
                                                          });
                                        }
-                                       else if (User.Level > User.UserLevel.OP)
+                                       else if (User.Level > User.UserLevel.Operator)
                                        {
                                            var user = User.Copy();
                                            var result = await DialogVM.ShowWithIntput(new Dictionary<Language, string>

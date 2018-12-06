@@ -33,4 +33,5 @@
     <local:BoolOnOff x:Key="BoolOnOff" />
     <local:StringCombiner x:Key="StringCombiner" />
     <local:SubTimespanConverter x:Key="SubTimespanConverter" />
+    <local:SubHeadString x:Key="SubHeadString" />
 </ResourceDictionary>
