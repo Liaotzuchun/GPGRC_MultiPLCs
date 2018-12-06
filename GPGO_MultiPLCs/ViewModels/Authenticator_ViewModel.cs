@@ -16,10 +16,10 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };
 
         /// <summary>最低權限帳號，訪客</summary>
-        private readonly User Guest = new User { Name = "", Password = "", Level = User.UserLevel.D };
+        private readonly User Guest = new User { Name = "", Password = "", Level = User.UserLevel.GU };
 
         /// <summary>所有權限階級</summary>
-        private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.A, User.UserLevel.B, User.UserLevel.C };
+        private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.AD, User.UserLevel.MA, User.UserLevel.OP };
 
         private const string UsersPath = "Users.json";
 
@@ -147,7 +147,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     Set("", nameof(EditName));
                     Set("", nameof(EditPassword));
-                    Set(User.UserLevel.C, nameof(EditLevel));
+                    Set(User.UserLevel.GU, nameof(EditLevel));
                 }
                 else
                 {
@@ -158,7 +158,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
 
                 Update_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != EditPassword || x.Level != EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(EditPassword) && EditLevel != User.UserLevel.D && Users.TrueForAll(x => !string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
+                Add_Enable = !string.IsNullOrEmpty(EditPassword) && EditLevel != User.UserLevel.GU && Users.TrueForAll(x => !string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
                 Remove_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == EditPassword && x.Level == EditLevel);
             }
         }
@@ -231,7 +231,7 @@ namespace GPGO_MultiPLCs.ViewModels
             IsShown = Visibility.Collapsed;
             LoadUsers();
 
-            NowUser = Users.Where(x => x.Level == User.UserLevel.C && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+            NowUser = Users.Where(x => x.Level == User.UserLevel.OP && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
 
             GT = new GlobalTempSettings();
             GT.Load();

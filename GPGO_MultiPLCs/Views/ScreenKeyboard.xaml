@@ -615,8 +615,7 @@
                     Margin="0,0,3,0"
                     Columns="3"
                     Focusable="False"
-                    Orientation="Horizontal"
-                    Rows="4">
+                    Orientation="Horizontal">
                     <Button
                         x:Name="Button1"
                         Margin="1"
