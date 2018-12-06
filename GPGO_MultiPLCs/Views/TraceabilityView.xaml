@@ -406,7 +406,7 @@
             AutoGenerateColumns="False"
             BorderThickness="0"
             FontSize="12"
-            HorizontalScrollBarVisibility="Hidden"
+            HorizontalScrollBarVisibility="Disabled"
             ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}"
             SelectedCellsChanged="SelectedCellsChanged"
             SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
@@ -422,7 +422,7 @@
                             AutoGenerateColumns="False"
                             BorderThickness="0,0,1,0"
                             FontSize="12"
-                            HorizontalScrollBarVisibility="Hidden"
+                            HorizontalScrollBarVisibility="Disabled"
                             ItemsSource="{Binding EventList, Mode=OneWay, IsAsync=True}"
                             SelectedCellsChanged="SelectedCellsChanged"
                             SelectedIndex="{Binding DataContext.EventIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Mode=OneWay}">

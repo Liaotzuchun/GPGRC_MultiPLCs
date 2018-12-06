@@ -2322,6 +2322,7 @@
                 AutoGenerateColumns="False"
                 BorderThickness="0"
                 EnableRowVirtualization="False"
+                HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                 RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                 SelectedCellsChanged="DataGrid_SelectedCellsChanged"
@@ -2393,7 +2394,7 @@
                                             <Border
                                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                 BorderThickness="0,0,1,1">
-                                                <ItemsPresenter Margin="0,0,1,0"/>
+                                                <ItemsPresenter Margin="0,0,1,0" />
                                             </Border>
                                         </ControlTemplate>
                                     </ItemsControl.Template>

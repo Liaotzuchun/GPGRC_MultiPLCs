@@ -396,6 +396,7 @@
                                                                     AlternationCount="2147483647"
                                                                     AutoGenerateColumns="False"
                                                                     BorderThickness="1,1,0,0"
+                                                                    HorizontalScrollBarVisibility="Disabled"
                                                                     IsHitTestVisible="False"
                                                                     ItemsSource="{Binding Ext_Info, Mode=OneWay}"
                                                                     RowHeaderTemplate="{StaticResource ShowRowNumbers}"
@@ -687,7 +688,7 @@
                                     FontSize="20"
                                     FontWeight="Bold"
                                     Foreground="White"
-                                    Text="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}"/>
+                                    Text="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
                             </Border>
                         </Grid>
                         <Grid Grid.Row="2">
@@ -2038,7 +2039,7 @@
                                     AutoGenerateColumns="False"
                                     BorderThickness="0,0,1,0"
                                     FontSize="12"
-                                    HorizontalScrollBarVisibility="Hidden"
+                                    HorizontalScrollBarVisibility="Disabled"
                                     ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}"
                                     SelectedCellsChanged="SelectedCellsChanged"
                                     SelectedIndex="{Binding Items.Count, ConverterParameter=-1, Converter={StaticResource AddValue}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
