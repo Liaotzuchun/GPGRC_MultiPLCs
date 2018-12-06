@@ -12,6 +12,8 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>提供身分驗證登入和系統設定</summary>
     public class Authenticator_ViewModel : ObservableObject
     {
+        private const string UsersPath = "Users.json";
+
         /// <summary>最高權限帳號</summary>
         private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };
 
@@ -20,8 +22,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>所有權限階級</summary>
         private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.Administrator, User.UserLevel.Manager, User.UserLevel.Operator };
-
-        private const string UsersPath = "Users.json";
 
         /// <summary>所有使用者列表</summary>
         private List<User> Users;
@@ -60,7 +60,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand UpdateUser { get; }
 
         /// <summary>依據權限過濾顯示的使用者列表</summary>
-        public IQueryable<User> ViewUsers => Users?.AsQueryable().Where(x => x.Level < NowUser.Level);
+        public List<User> ViewUsers => Users?.Where(x => x.Level < NowUser.Level).OrderByDescending(x => x.Level).ToList();
 
         /// <summary>辨別是否可新增使用者</summary>
         public bool Add_Enable
@@ -76,8 +76,8 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 Set(value);
-                Update_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != EditPassword || x.Level != value));
-                Remove_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == EditPassword && x.Level == value);
+
+                CheckEnable();
             }
         }
 
@@ -88,9 +88,8 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 Set(value);
-                Update_Enable = Users.Exists(x => string.Equals(x.Name, value, StringComparison.CurrentCultureIgnoreCase) && (x.Password != EditPassword || x.Level != EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(EditPassword) && Users.TrueForAll(x => !string.Equals(x.Name, value, StringComparison.CurrentCultureIgnoreCase));
-                Remove_Enable = Users.Exists(x => string.Equals(x.Name, value, StringComparison.CurrentCultureIgnoreCase) && x.Password == EditPassword && x.Level == EditLevel);
+
+                CheckEnable();
             }
         }
 
@@ -101,9 +100,8 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 Set(value);
-                Update_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != value || x.Level != EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(value) && Users.TrueForAll(x => !string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
-                Remove_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == value && x.Level == EditLevel);
+
+                CheckEnable();
             }
         }
 
@@ -157,9 +155,7 @@ namespace GPGO_MultiPLCs.ViewModels
                     Set(user.Level, nameof(EditLevel));
                 }
 
-                Update_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != EditPassword || x.Level != EditLevel));
-                Add_Enable = !string.IsNullOrEmpty(EditPassword) && EditLevel != User.UserLevel.Guest && Users.TrueForAll(x => !string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
-                Remove_Enable = Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == EditPassword && x.Level == EditLevel);
+                CheckEnable();
             }
         }
 
@@ -179,6 +175,22 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             get => Get<bool>();
             set => Set(value);
+        }
+
+        public void CheckEnable()
+        {
+            if (EditName == GP.Name || string.IsNullOrEmpty(EditName) || string.IsNullOrEmpty(EditPassword))
+            {
+                Update_Enable = false;
+                Remove_Enable = false;
+                Add_Enable = false;
+            }
+            else
+            {
+                Update_Enable = ViewUsers.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != EditPassword || x.Level != EditLevel));
+                Remove_Enable = ViewUsers.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == EditPassword && x.Level == EditLevel);
+                Add_Enable = !Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
+            }
         }
 
         /// <summary>讀取所有使用者列表</summary>
@@ -238,7 +250,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             UpdateUser = new RelayCommand(e =>
                                           {
-                                              if (Update_Enable)
+                                              if (Update_Enable && SelectedUser != null)
                                               {
                                                   SelectedUser.Password = EditPassword;
                                                   SelectedUser.Level = EditLevel;
@@ -336,13 +348,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                            }
                                        });
 
-            SetInputPath = new RelayCommand(e=>
-                                             {
-                                                 if (e is string str && Directory.Exists(str))
-                                                 {
-                                                     GT.DataInputPath = str;
-                                                 }
-                                             });
+            SetInputPath = new RelayCommand(e =>
+                                            {
+                                                if (e is string str && Directory.Exists(str))
+                                                {
+                                                    GT.DataInputPath = str;
+                                                }
+                                            });
 
             SetPath = new RelayCommand(e =>
                                        {

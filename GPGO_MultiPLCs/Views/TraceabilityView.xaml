@@ -406,6 +406,7 @@
             AutoGenerateColumns="False"
             BorderThickness="0"
             FontSize="12"
+            HorizontalScrollBarVisibility="Hidden"
             ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}"
             SelectedCellsChanged="SelectedCellsChanged"
             SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">

@@ -387,7 +387,9 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate DataType="models:User">
-                                        <TextBlock Text="{Binding Name, Mode=OneWay}" />
+                                        <TextBlock
+                                            Text="{Binding Name, Mode=OneWay}"
+                                            TextTrimming="CharacterEllipsis" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -397,17 +399,19 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate DataType="models:User">
-                                        <TextBlock Text="{Binding Password, Mode=OneWay}" />
+                                        <TextBlock
+                                            Text="{Binding Password, Mode=OneWay}"
+                                            TextTrimming="CharacterEllipsis" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
+                            <DataGridTemplateColumn MinWidth="40">
                                 <DataGridTemplateColumn.Header>
                                     <TextBlock Text="{DynamicResource 層級}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate DataType="models:User">
-                                        <TextBlock Text="{Binding Level, Mode=OneWay}" />
+                                        <TextBlock Text="{Binding Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

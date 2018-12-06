@@ -378,6 +378,7 @@
                 AutoGenerateColumns="False"
                 BorderThickness="0"
                 FontSize="12"
+                HorizontalScrollBarVisibility="Hidden"
                 ItemsSource="{Binding ViewResults_On, Mode=OneWay, IsAsync=True}"
                 SelectedCellsChanged="dg1_SelectedCellsChanged"
                 SelectedIndex="{Binding SelectedIndex1, Mode=TwoWay}">
@@ -785,6 +786,7 @@
                 AutoGenerateColumns="False"
                 BorderThickness="0"
                 FontSize="12"
+                HorizontalScrollBarVisibility="Hidden"
                 ItemsSource="{Binding ViewResults_Off, Mode=OneWay, IsAsync=True}"
                 SelectedCellsChanged="dg2_SelectedCellsChanged"
                 SelectedIndex="{Binding SelectedIndex2, Mode=TwoWay}">
