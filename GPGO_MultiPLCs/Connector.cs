@@ -134,7 +134,7 @@ namespace GPGO_MultiPLCs
 
                     for (var k = 0; k < 8; k++)
                     {
-                        var info = new ProcessInfo { StartTime = st, TrolleyCode = rn.Next(1, 100).ToString("000"), OperatorID = rn.Next(1, 10).ToString("000") };
+                        var info = new ProcessInfo { StartTime = st, TrolleyCode = rn.Next(1, 10000).ToString("00000"), OperatorID = rn.Next(1, 10).ToString("000") };
 
                         var t = new TimeSpan(0, 0, 1);
                         for (var m = 0; m < 100; m++)

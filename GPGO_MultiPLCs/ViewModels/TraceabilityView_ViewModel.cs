@@ -652,6 +652,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                             OpFilter.Check(x.OperatorID) &&
                                                                                             TrolleyFilter.Check(x.TrolleyCode) &&
                                                                                             SideFilter.Check(x.Side))
+                                                                                .OrderByDescending(x => x.AddedTime)
                                                                                 .ToList() : null;
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));

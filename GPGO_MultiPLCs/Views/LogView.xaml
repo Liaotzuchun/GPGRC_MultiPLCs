@@ -422,13 +422,13 @@
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid Margin="4,0">
+                                            <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
-                                                    Margin="4,0"
+                                                    Margin="0,0,4,0"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Text="{DynamicResource 烤箱序號}" />
@@ -484,13 +484,13 @@
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid Margin="4,0">
+                                            <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
-                                                    Margin="4,0"
+                                                    Margin="0,0,4,0"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Text="{DynamicResource 類型}" />
@@ -826,13 +826,13 @@
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid Margin="4,0">
+                                            <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
-                                                    Margin="4,0"
+                                                    Margin="0,0,4,0"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Text="{DynamicResource 烤箱序號}" />
@@ -888,13 +888,13 @@
                                     </i:Interaction.Triggers>
                                     <MenuItem.Header>
                                         <Border>
-                                            <Grid Margin="4,0">
+                                            <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition />
                                                     <ColumnDefinition Width="10" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
-                                                    Margin="4,0"
+                                                    Margin="0,0,4,0"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Text="{DynamicResource 類型}" />

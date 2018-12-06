@@ -43,9 +43,9 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>加熱時間(升溫至目標溫度)</summary>
         [LanguageTranslator("Heating Time", "加熱時間", "加热时间")]
-        public int HeatingTime
+        public List<int> HeatingTimes
         {
-            get => Get<int>();
+            get => Get<List<int>>();
             set => Set(value);
         }
 
@@ -91,9 +91,9 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>目標溫度</summary>
         [LanguageTranslator("Target Temperature", "目標溫度", "目标温度")]
-        public double TargetOvenTemperature
+        public List<double> TargetOvenTemperatures
         {
-            get => Get<double>();
+            get => Get<List<double>>();
             set => Set(value);
         }
 
@@ -115,9 +115,9 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>恆溫時間</summary>
         [LanguageTranslator("Warming Time", "恆溫時間", "恒温时间")]
-        public int WarmingTime
+        public List<int> WarmingTimes
         {
-            get => Get<int>();
+            get => Get<List<int>>();
             set => Set(value);
         }
 
@@ -193,7 +193,7 @@ namespace GPGO_MultiPLCs.Models
         public int ProcessNumber { get; set; }
 
         /// <summary>正反面</summary>
-        [LanguageTranslator("Side", "正反面", "正反面")]
+        [LanguageTranslator("Side", "面", "面")]
         public string Side { get; set; } = "A";
 
         public string AlarmListString()
@@ -261,11 +261,11 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("Machine1=");
             stb.AppendLine(TrolleyCode);
             stb.Append("Machine2=");
-            stb.AppendLine(TargetOvenTemperature.ToString("0"));
+            stb.AppendLine(string.Join(",", TargetOvenTemperatures.Select(x => ((int)Math.Round(x, MidpointRounding.AwayFromZero)).ToString())));
             stb.Append("Machine3=");
-            stb.AppendLine(WarmingTime.ToString());
+            stb.AppendLine(string.Join(",", WarmingTimes.Select(x => x.ToString())));
             stb.Append("Machine4=");
-            stb.AppendLine(HeatingTime.ToString());
+            stb.AppendLine(string.Join(",", HeatingTimes.Select(x => x.ToString())));
             stb.Append("Machine5=");
             stb.AppendLine(TotalHeatingTime.ToString());
             stb.Append("Machine6=");

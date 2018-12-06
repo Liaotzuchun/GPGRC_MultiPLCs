@@ -147,7 +147,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     Set("", nameof(EditName));
                     Set("", nameof(EditPassword));
-                    Set(User.UserLevel.GU, nameof(EditLevel));
+                    Set(User.UserLevel.OP, nameof(EditLevel));
                 }
                 else
                 {

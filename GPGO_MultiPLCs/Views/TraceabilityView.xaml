@@ -765,13 +765,13 @@
                                 </i:Interaction.Triggers>
                                 <MenuItem.Header>
                                     <Border>
-                                        <Grid Margin="4,0">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="10" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
-                                                Margin="4,0"
+                                                Margin="0,0,4,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{DynamicResource 烤箱序號}" />
@@ -825,13 +825,13 @@
                                 </i:Interaction.Triggers>
                                 <MenuItem.Header>
                                     <Border>
-                                        <Grid Margin="4,0">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="10" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
-                                                Margin="4,0"
+                                                Margin="0,0,4,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{DynamicResource 配方}" />
@@ -874,7 +874,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="Auto"
-                    MinWidth="60"
+                    MinWidth="80"
                     HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
                         <Menu>
@@ -886,13 +886,13 @@
                                 </i:Interaction.Triggers>
                                 <MenuItem.Header>
                                     <Border>
-                                        <Grid Margin="4,0">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="10" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
-                                                Margin="4,0"
+                                                Margin="0,0,4,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{DynamicResource 工單}" />
@@ -929,13 +929,15 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock Text="{Binding OrderCode, Mode=OneWay}" />
+                            <TextBlock
+                                Text="{Binding OrderCode, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="Auto"
-                    MinWidth="60"
+                    MinWidth="80"
                     HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
                         <Menu>
@@ -947,13 +949,13 @@
                                 </i:Interaction.Triggers>
                                 <MenuItem.Header>
                                     <Border>
-                                        <Grid Margin="4,0">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="10" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
-                                                Margin="4,0"
+                                                Margin="0,0,4,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{DynamicResource 操作員}" />
@@ -990,13 +992,15 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock Text="{Binding OperatorID, Mode=OneWay}" />
+                            <TextBlock
+                                Text="{Binding OperatorID, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn
                     Width="Auto"
-                    MinWidth="60"
+                    MinWidth="80"
                     HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
                         <Menu>
@@ -1008,13 +1012,13 @@
                                 </i:Interaction.Triggers>
                                 <MenuItem.Header>
                                     <Border>
-                                        <Grid Margin="4,0">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="10" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
-                                                Margin="4,0"
+                                                Margin="0,0,4,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{DynamicResource 台車}" />
@@ -1051,7 +1055,9 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock Text="{Binding TrolleyCode, Mode=OneWay}" />
+                            <TextBlock
+                                Text="{Binding TrolleyCode, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -1197,13 +1203,13 @@
                                 </i:Interaction.Triggers>
                                 <MenuItem.Header>
                                     <Border>
-                                        <Grid Margin="4,0">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition />
                                                 <ColumnDefinition Width="10" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock
-                                                Margin="4,0"
+                                                Margin="0,0,4,0"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Text="{DynamicResource 正反面}" />

@@ -89,7 +89,7 @@
     <sys:String x:Key="全部">全部</sys:String>
     <sys:String x:Key="紀錄時間">紀錄時間</sys:String>
     <sys:String x:Key="烤箱序號">烤箱序號</sys:String>
-    <sys:String x:Key="正反面">正反面</sys:String>
+    <sys:String x:Key="正反面">面</sys:String>
     <sys:String x:Key="分類">分類</sys:String>
     <sys:String x:Key="生產總量">生產總量</sys:String>
     <sys:String x:Key="日期時間">日期 / 時間</sys:String>
