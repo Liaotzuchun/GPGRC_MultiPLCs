@@ -256,7 +256,8 @@
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="40"
+                        FontSize="36"
+                        FontWeight="Bold"
                         Foreground="White"
                         Text="{Binding NowUser.Level}" />
                 </Border>
