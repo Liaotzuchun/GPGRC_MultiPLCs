@@ -685,7 +685,7 @@
                                 <TextBlock
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontSize="20"
+                                    FontSize="18"
                                     FontWeight="Bold"
                                     Foreground="White"
                                     Text="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />

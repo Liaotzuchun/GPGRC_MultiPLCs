@@ -243,7 +243,7 @@ namespace GPGO_MultiPLCs.ViewModels
             IsShown = Visibility.Collapsed;
             LoadUsers();
 
-            NowUser = Users.Where(x => x.Level == User.UserLevel.Operator && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+            NowUser = Users.Where(x => x.Level <= User.UserLevel.Manager && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
 
             GT = new GlobalTempSettings();
             GT.Load();
