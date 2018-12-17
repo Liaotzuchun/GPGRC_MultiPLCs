@@ -1329,7 +1329,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} pcs}" />
+                        Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} panels}" />
                 </Border>
             </Grid>
             <Border

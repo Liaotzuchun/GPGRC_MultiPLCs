@@ -706,7 +706,7 @@
                                     <Run Text="{DynamicResource 本日產量}" />
                                     <Run Text=": " />
                                     <Run Text="{Binding TotalProductionCount, Mode=OneWay}" />
-                                    <Run Text="pcs" />
+                                    <Run Text="panels" />
                                 </TextBlock>
                             </Border>
                             <oxy:Plot

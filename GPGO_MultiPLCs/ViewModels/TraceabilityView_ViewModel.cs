@@ -680,8 +680,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                            {
                                                var (result, intput) = await dialog.ShowWithIntput(new Dictionary<Language, string>
                                                                                                   {
-                                                                                                      { Language.TW, "請輸入欲搜尋之料號：" },
-                                                                                                      { Language.CHS, "请输入欲搜寻之料号：" },
+                                                                                                      { Language.TW, "請輸入欲搜尋之PanelCode：" },
+                                                                                                      { Language.CHS, "请输入欲搜寻之PanelCode：" },
                                                                                                       { Language.EN, "Please enter the PanelCode you want to find：" }
                                                                                                   },
                                                                                                   new Dictionary<Language, string>
