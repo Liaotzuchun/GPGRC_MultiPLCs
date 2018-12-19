@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
+using Serilog;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -234,7 +235,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ex.RecordError();
+                Log.Error(ex, "");
             }
         }
 

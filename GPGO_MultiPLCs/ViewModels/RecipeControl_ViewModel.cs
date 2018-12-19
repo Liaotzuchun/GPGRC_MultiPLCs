@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
+using Serilog;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -196,7 +197,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ex.RecordError("配方資料庫更新使用站點資訊失敗");
+                    Log.Error(ex, "配方資料庫更新使用站點資訊失敗");
                 }
             }
 
@@ -223,7 +224,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ex.RecordError("配方輸出資料夾無法創建");
+                    Log.Error(ex, "配方輸出資料夾無法創建");
 
                     return false;
                 }
@@ -237,7 +238,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ex.RecordError("輸出配方失敗");
+                    Log.Error(ex, "輸出配方失敗");
                 }
             }
 
@@ -279,7 +280,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ex.RecordError();
+                    Log.Error(ex, "");
                 }
             }
 
@@ -299,7 +300,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ex.RecordError();
+                Log.Error(ex, "");
             }
             finally
             {
@@ -325,7 +326,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ex.RecordError();
+                Log.Error(ex, "");
             }
 
             if (Selected_PLC_Recipe_Origin != null)
@@ -336,7 +337,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ex.RecordError();
+                    Log.Error(ex, "");
                 }
             }
 
@@ -475,7 +476,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      }
                                                      catch (Exception ex)
                                                      {
-                                                         ex.RecordError();
+                                                         Log.Error(ex, "");
                                                      }
                                                  }
 

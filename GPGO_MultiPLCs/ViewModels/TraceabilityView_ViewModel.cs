@@ -13,6 +13,7 @@ using OfficeOpenXml.Style;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using Serilog;
 
 //using Newtonsoft.Json;
 
@@ -126,7 +127,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ex.RecordError("生產紀錄寫入資料庫失敗");
+                Log.Error(ex, "生產紀錄寫入資料庫失敗");
             }
         }
 
@@ -156,8 +157,26 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ex.RecordError("生產紀錄寫入資料庫失敗");
+                    Log.Error(ex, "生產紀錄寫入資料庫失敗");
                 }
+            }
+        }
+
+        public async Task<int> CheckProductions(int index)
+        {
+            try
+            {
+                var date1 = DateTime.Today.Date;
+                var date2 = date1.AddDays(1);
+                var result = await DataCollection.FindAsync(x => x.StationNumber == index + 1 && x.AddedTime >= date1 && x.AddedTime < date2);
+
+                return result.Sum(x => x.ProcessCount);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "");
+
+                return 0;
             }
         }
 
@@ -186,7 +205,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     }
                                                     catch (Exception ex)
                                                     {
-                                                        ex.RecordError("EXCEL輸出資料夾無法創建");
+                                                        Log.Error(ex, "EXCEL輸出資料夾無法創建");
                                                         result = false;
 
                                                         return;
@@ -500,7 +519,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  }
                                                                  catch (Exception ex)
                                                                  {
-                                                                     ex.RecordError("EXCEL儲存失敗");
+                                                                     Log.Error(ex, "EXCEL儲存失敗");
                                                                      result = false;
 
                                                                      return;
@@ -656,22 +675,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                 .ToList() : null;
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));
-        }
-
-        public async Task<int> CheckProductions(int index)
-        {
-            try
-            {
-                var date1 = DateTime.Today.Date;
-                var date2 = date1.AddDays(1);
-                var result = await DataCollection.FindAsync(x => x.StationNumber == (index + 1) && x.AddedTime >= date1 && x.AddedTime < date2);
-                return result.Sum(x => x.ProcessCount);
-            }
-            catch (Exception ex)
-            {
-                ex.RecordError();
-                return 0;
-            }
         }
 
         public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db, IDialogService dialog) : base(db)

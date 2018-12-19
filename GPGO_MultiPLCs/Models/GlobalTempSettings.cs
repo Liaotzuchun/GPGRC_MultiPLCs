@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using GPGO_MultiPLCs.Helpers;
+using Serilog;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -75,7 +76,7 @@ namespace GPGO_MultiPLCs.Models
                     }
                     catch (Exception ex)
                     {
-                        ex.RecordError();
+                        Log.Error(ex, "");
                     }
 
                     Save();

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
+using Serilog;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -113,7 +114,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ex.RecordError("事件紀錄寫入資料庫失敗");
+                Log.Error(ex, "事件紀錄寫入資料庫失敗");
             }
         }
 
@@ -189,7 +190,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    ex.RecordError("CSV輸出資料夾無法創建");
+                    Log.Error(ex, "CSV輸出資料夾無法創建");
 
                     return false;
                 }
@@ -213,7 +214,8 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch (Exception ex)
             {
-                ex.RecordError("輸出CSV失敗");
+                Log.Error(ex, "輸出CSV失敗");
+
                 return false;
             }
 

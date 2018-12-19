@@ -2,11 +2,12 @@
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using Serilog;
 
 namespace GPGO_MultiPLCs
 {
@@ -15,15 +16,15 @@ namespace GPGO_MultiPLCs
     {
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            if(e.ApplicationExitCode != 23555277)
+            if (e.ApplicationExitCode != 23555277)
             {
-                ErrorRecoder.RecordError(null, "程序未經授權中止");
+                Log.Error("程序未經授權中止");
             }
         }
 
         private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
         {
-            ErrorRecoder.RecordError(null, "程序未正常中止");
+            Log.Error("程序未正常中止");
         }
 
         public App()
@@ -32,9 +33,11 @@ namespace GPGO_MultiPLCs
             var mp = Process.GetCurrentProcess();
             temp.Where(p => p.ProcessName.ToLower().Contains(mp.ProcessName.ToLower()) && p.Id != mp.Id).ToList().ForEach(p => p.Kill());
 
+            Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Errors\\log.txt", rollingInterval: RollingInterval.Day, shared: true, encoding: Encoding.UTF8).CreateLogger();
+
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
                                                           {
-                                                              ((Exception)e.ExceptionObject).RecordError();
+                                                              Log.Error((Exception)e.ExceptionObject, "");
 
                                                               if (e.IsTerminating)
                                                               {
@@ -45,7 +48,7 @@ namespace GPGO_MultiPLCs
 
             TaskScheduler.UnobservedTaskException += (s, e) =>
                                                      {
-                                                         e.Exception.RecordError();
+                                                         Log.Error(e.Exception, "");
                                                          e.SetObserved();
 
                                                          //Process.Start(ResourceAssembly.Location);
@@ -55,7 +58,7 @@ namespace GPGO_MultiPLCs
             DispatcherUnhandledException += (s, e) =>
                                             {
                                                 e.Handled = true;
-                                                e.Exception.RecordError();
+                                                Log.Error(e.Exception, "");
 
                                                 //Process.Start(ResourceAssembly.Location);
                                                 //Current.Shutdown();
@@ -75,7 +78,7 @@ namespace GPGO_MultiPLCs
                 }
                 catch (Exception ex)
                 {
-                    ex.RecordError("Mongo嘗試啟動失敗");
+                    Log.Error(ex, "Mongo嘗試啟動失敗");
                 }
             }
         }

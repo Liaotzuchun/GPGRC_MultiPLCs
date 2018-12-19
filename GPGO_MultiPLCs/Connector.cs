@@ -11,6 +11,7 @@ using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Driver;
+using Serilog;
 
 namespace GPGO_MultiPLCs
 {
@@ -451,11 +452,10 @@ namespace GPGO_MultiPLCs
                                                                                  }
                                                                                  catch (Exception ex)
                                                                                  {
-                                                                                     ex.RecordError();
+                                                                                     Log.Error(ex, "");
                                                                                  }
                                                                              }
                                                                          });
-
 
                                              return products.GroupBy(x => x.ordercode)
                                                             .Select(x => new ProductInfo(x.Key, x.First().number) { PanelCodes = x.Select(y => y.panelcode).ToList() })
@@ -468,7 +468,7 @@ namespace GPGO_MultiPLCs
                                          }
                                          catch (Exception ex)
                                          {
-                                             ex.RecordError("台車資料夾不存在且無法創建");
+                                             Log.Error(ex, "台車資料夾不存在且無法創建");
                                          }
 
                                          return null;
@@ -523,7 +523,7 @@ namespace GPGO_MultiPLCs
                                                      }
                                                      catch (Exception ex)
                                                      {
-                                                         ex.RecordError("上傳資料夾不存在且無法創建");
+                                                         Log.Error(ex, "上傳資料夾不存在且無法創建");
                                                      }
                                                  }
 
@@ -551,7 +551,7 @@ namespace GPGO_MultiPLCs
                                                          }
                                                          catch (Exception ex)
                                                          {
-                                                             ex.RecordError("資料輸出上傳失敗");
+                                                             Log.Error(ex, "資料輸出上傳失敗");
                                                          }
                                                      }
                                                  }
