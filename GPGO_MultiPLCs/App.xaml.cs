@@ -33,7 +33,7 @@ namespace GPGO_MultiPLCs
             var mp = Process.GetCurrentProcess();
             temp.Where(p => p.ProcessName.ToLower().Contains(mp.ProcessName.ToLower()) && p.Id != mp.Id).ToList().ForEach(p => p.Kill());
 
-            Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Errors\\log.txt", rollingInterval: RollingInterval.Day, shared: true, encoding: Encoding.UTF8).CreateLogger();
+            Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt", rollingInterval: RollingInterval.Day, shared: true, encoding: Encoding.UTF8).CreateLogger();
 
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
                                                           {
