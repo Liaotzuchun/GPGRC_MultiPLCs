@@ -8,7 +8,7 @@ using System.Windows;
 [assembly: AssemblyTitle("GPGO_MultiPLCs")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Group Up Industrial co., ltd.")]
 [assembly: AssemblyProduct("GPGO_MultiPLCs")]
 [assembly: AssemblyCopyright("Copyright © 2018 GP All rights reserved.")]
 [assembly: AssemblyTrademark("")]
@@ -46,5 +46,5 @@ using System.Windows;
 // 您可以指定所有的值，或將組建編號或修訂編號設為預設值
 // 指定為預設值: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.18.4.2")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.18.4.5")]
+[assembly: AssemblyFileVersion("1.18.4.5")]
