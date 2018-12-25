@@ -463,11 +463,11 @@ namespace GPGO_MultiPLCs.Models
                                                                                                      {
                                                                                                          var str = x.Trim();
 
-                                                                                                         return (str.Length > 0 && str.Length <= 4,
+                                                                                                         return (str.Length > 0 && str.Length <= 4 && !int.TryParse(str, out _),
                                                                                                                  new Dictionary<Language, string>
                                                                                                                  {
-                                                                                                                     { Language.TW, "字數錯誤，請重試!" },
-                                                                                                                     { Language.CHS, "字数错误，请重试!" },
+                                                                                                                     { Language.TW, "字數錯誤或非整數，請重試!" },
+                                                                                                                     { Language.CHS, "字数错误或非整数，请重试!" },
                                                                                                                      { Language.EN, "Input error, please try again!" }
                                                                                                                  });
                                                                                                      });
