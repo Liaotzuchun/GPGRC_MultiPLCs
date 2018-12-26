@@ -349,7 +349,7 @@ namespace GPGO_MultiPLCs
                                                          {
                                                              { Language.TW, "仍在生產中，無法終止程式!" },
                                                              { Language.CHS, "仍在生产中，无法终止程序!" },
-                                                             { Language.EN, "Still in production,\n" + "cannot terminate the program." }
+                                                             { Language.EN, "Still processing,\n" + "cannot terminate the program." }
                                                          });
                                        }
                                        else if (User.Level > User.UserLevel.Operator)

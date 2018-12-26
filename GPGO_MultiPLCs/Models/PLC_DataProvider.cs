@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Helpers;
-using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -523,12 +522,12 @@ namespace GPGO_MultiPLCs.Models
                                                                      if (GetRecipeEvent != null && await GetRecipeEvent.Invoke(RecipeName) is PLC_Recipe recipe)
                                                                      {
                                                                          recipe.CopyTo(this);
-                                                                     }
 
-                                                                     if (SetPLCRecipeParameter != null)
-                                                                     {
-                                                                         //!PLC配方位置在監視位置+100的位置
-                                                                         await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
+                                                                         if (SetPLCRecipeParameter != null)
+                                                                         {
+                                                                             //!PLC配方位置在監視位置+100的位置
+                                                                             await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
+                                                                         }
                                                                      }
 
                                                                      return true;
@@ -538,8 +537,15 @@ namespace GPGO_MultiPLCs.Models
                                                              return false;
                                                          });
 
-            CancelCheckInCommand = new RelayCommand(e =>
+            CancelCheckInCommand = new RelayCommand(async e =>
                                                     {
+                                                        if (RecordingTask != null && IsRecording)
+                                                        {
+                                                            CTS?.Cancel();
+
+                                                            await RecordingTask;
+                                                        }
+
                                                         CancelCheckIn?.Invoke(OvenInfo.TrolleyCode);
                                                         OvenInfo.Clear();
                                                         Ext_Info.Clear();
@@ -685,7 +691,7 @@ namespace GPGO_MultiPLCs.Models
                                                  return;
                                              }
 
-                                             if (IsRecording)
+                                             if (RecordingTask != null && IsRecording)
                                              {
                                                  CTS?.Cancel();
 
