@@ -174,8 +174,9 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
         public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
         public event Action<(int StationIndex, EventType type, DateTime time, string note, int tag, bool value)> EventHappened;
+        public event Func<(int StationIndex, string RecipeName), PLC_Recipe> GetRecipe;
+        public event Action<(int StationIndex, string RecipeName)> RecipeUsed;
         public event Func<(int StationIndex, string TrolleyCode), ValueTask<ICollection<ProductInfo>>> WantFrontData;
-        public event Func<(int StationIndex, string RecipeName), ValueTask<PLC_Recipe>> WantRecipe;
 
         /// <summary>讀取財產編號</summary>
         public void LoadAssetNumbers()
@@ -401,13 +402,11 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i] = new PLC_DataProvider(plc_maps.ElementAt(i), dialog);
                 var index = i;
 
-                //!PLC由OP指定變更配方時
-                PLC_All[i].GetRecipeEvent += async recipeName =>
-                                             {
-                                                 var recipe = WantRecipe == null ? null : await WantRecipe.Invoke((index, recipeName));
+                //!PLC讀取配方內容時
+                PLC_All[i].GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke((index, recipeName));
 
-                                                 return recipe;
-                                             };
+                //!PLC由OP指定變更配方時
+                PLC_All[i].RecipeUsed += recipeName => RecipeUsed?.Invoke((index, recipeName));
 
                 //!烘烤流程結束時
                 PLC_All[i].RecordingFinished += async e =>
@@ -494,12 +493,12 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i].GetPLCParameters += async values => PLC_Client?.State == CommunicationState.Opened ? await PLC_Client.Get_DataAsync(DataType.D, index, values) : null;
 
                 PLC_All[i].SetPLCParameters += async values =>
-                                                    {
-                                                        if (PLC_Client?.State == CommunicationState.Opened)
-                                                        {
-                                                            await PLC_Client.Set_DataAsync(DataType.D, index, values);
-                                                        }
-                                                    };
+                                               {
+                                                   if (PLC_Client?.State == CommunicationState.Opened)
+                                                   {
+                                                       await PLC_Client.Set_DataAsync(DataType.D, index, values);
+                                                   }
+                                               };
             }
 
             LoadMachineCodes();

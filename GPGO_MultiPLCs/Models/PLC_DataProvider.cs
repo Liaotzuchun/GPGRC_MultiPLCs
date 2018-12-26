@@ -199,9 +199,10 @@ namespace GPGO_MultiPLCs.Models
         public event Action<string> CancelCheckIn;
         public event Action<(EventType type, DateTime time, string note, int tag, bool value)> EventHappened;
         public event Func<int[], ValueTask<Dictionary<int, short>>> GetPLCParameters;
-        public event Func<string, ValueTask<PLC_Recipe>> GetRecipeEvent;
+        public event Func<string, PLC_Recipe> GetRecipe;
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
+        public event Action<string> RecipeUsed;
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
         public event Func<Dictionary<int, short>, ValueTask> SetPLCParameters;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
@@ -279,21 +280,21 @@ namespace GPGO_MultiPLCs.Models
 
         public async void SetRecipe(string recipeName)
         {
-            if (GetRecipeEvent != null && await GetRecipeEvent.Invoke(recipeName) is PLC_Recipe recipe)
+            if (GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe)
             {
                 if (await Dialog.Show(new Dictionary<Language, string> { { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" } }, recipe, true))
                 {
+                    RecipeUsed?.Invoke(recipeName);
                     recipe.CopyTo(this);
-
-                    Set(RecipeName, nameof(Selected_Name));
                 }
-            }
 
-            Intput_Name = Selected_Name;
+                Set(RecipeName, nameof(Selected_Name));
+                Intput_Name = Selected_Name;
 
-            if (SetPLCParameters != null)
-            {
-                await SetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                if (SetPLCParameters != null)
+                {
+                    await SetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                }
             }
         }
 
@@ -504,21 +505,19 @@ namespace GPGO_MultiPLCs.Models
                                                                          }
                                                                      }
 
-                                                                     if (!PC_InUsed && !await Dialog.Show(new Dictionary<Language, string>
-                                                                                                          {
-                                                                                                              { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎?" },
-                                                                                                              { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗?" },
-                                                                                                              {
-                                                                                                                  Language.EN,
-                                                                                                                  "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"
-                                                                                                              }
-                                                                                                          },
-                                                                                                          true))
+                                                                     if (!PC_InUsed &&
+                                                                         !await Dialog.Show(new Dictionary<Language, string>
+                                                                                            {
+                                                                                                { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎?" },
+                                                                                                { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗?" },
+                                                                                                { Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?" }
+                                                                                            },
+                                                                                            true))
                                                                      {
                                                                          return false;
                                                                      }
 
-                                                                     if (GetRecipeEvent != null && await GetRecipeEvent.Invoke(RecipeName) is PLC_Recipe recipe)
+                                                                     if (GetRecipe?.Invoke(Intput_Name) is PLC_Recipe recipe)
                                                                      {
                                                                          recipe.CopyTo(this);
 
@@ -704,7 +703,7 @@ namespace GPGO_MultiPLCs.Models
                                              {
                                                  foreach (var val in recipe)
                                                  {
-                                                     Recipe_Values[val.Key] = val.Value;
+                                                     Recipe_Values[val.Key + 100] = val.Value;
                                                  }
                                              }
 

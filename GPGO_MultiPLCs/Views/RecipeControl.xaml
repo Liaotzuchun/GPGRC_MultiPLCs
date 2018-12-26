@@ -2210,7 +2210,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid
-                IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
                 TextElement.FontSize="14">
                 <Grid.RowDefinitions>
                     <RowDefinition />

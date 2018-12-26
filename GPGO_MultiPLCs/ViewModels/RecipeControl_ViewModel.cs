@@ -178,30 +178,9 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="index">烤箱站號</param>
         /// <param name="name">配方名</param>
         /// <returns></returns>
-        public async ValueTask<PLC_Recipe> GetRecipe(int index, string name)
+        public PLC_Recipe GetRecipe(int index, string name)
         {
-            var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
-
-            if (result != null)
-            {
-                try
-                {
-                    foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
-                    {
-                        recipe.Used_Stations[index] = false;
-                        await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), nameof(PLC_Recipe.Used_Stations), recipe.Used_Stations);
-                    }
-
-                    result.Used_Stations[index] = true;
-                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), nameof(PLC_Recipe.Used_Stations), result.Used_Stations);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "配方資料庫更新使用站點資訊失敗");
-                }
-            }
-
-            return result;
+            return Recipes.FirstOrDefault(x => x.RecipeName == name);
         }
 
         public void RecipePropertyChanged(object s, PropertyChangedEventArgs e)
@@ -243,6 +222,30 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             return true;
+        }
+
+        public async void SetUsed(int index, string name)
+        {
+            var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
+
+            if (result != null)
+            {
+                try
+                {
+                    foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
+                    {
+                        recipe.Used_Stations[index] = false;
+                        await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), nameof(PLC_Recipe.Used_Stations), recipe.Used_Stations);
+                    }
+
+                    result.Used_Stations[index] = true;
+                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), nameof(PLC_Recipe.Used_Stations), result.Used_Stations);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "配方資料庫更新使用站點資訊失敗");
+                }
+            }
         }
 
         private async void GetHistory(string name)
