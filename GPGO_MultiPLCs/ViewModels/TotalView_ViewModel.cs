@@ -292,10 +292,9 @@ namespace GPGO_MultiPLCs.ViewModels
             if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
             {
                 recipe.CopyTo(PLC_All[index]);
-                //!PLC配方位置在監視位置+100的位置
-                await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
+                await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
             }
-            else if(string.IsNullOrEmpty(PLC_All[index].RecipeName))
+            else if (string.IsNullOrEmpty(PLC_All[index].RecipeName))
             {
                 recipe.CopyTo(PLC_All[index]);
             }
@@ -492,16 +491,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 CancelCheckIn?.Invoke((index, TrolleyCode));
                                             };
 
-                //!讀取PLC目前配方參數
-                PLC_All[i].GetPLCRecipeParameter += async () =>
-                                                    {
-                                                        return PLC_Client?.State == CommunicationState.Opened ?
-                                                                   await PLC_Client.Get_DataAsync(DataType.D,
-                                                                                                  index,
-                                                                                                  PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().Select(x => x.Key).ToArray()) : null;
-                                                    };
+                PLC_All[i].GetPLCParameters += async values => PLC_Client?.State == CommunicationState.Opened ? await PLC_Client.Get_DataAsync(DataType.D, index, values) : null;
 
-                PLC_All[i].SetPLCRecipeParameter += async values =>
+                PLC_All[i].SetPLCParameters += async values =>
                                                     {
                                                         if (PLC_Client?.State == CommunicationState.Opened)
                                                         {

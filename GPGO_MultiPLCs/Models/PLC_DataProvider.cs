@@ -198,12 +198,12 @@ namespace GPGO_MultiPLCs.Models
         public event Action<string> AssetNumberChanged;
         public event Action<string> CancelCheckIn;
         public event Action<(EventType type, DateTime time, string note, int tag, bool value)> EventHappened;
-        public event Func<ValueTask<Dictionary<int, short>>> GetPLCRecipeParameter;
+        public event Func<int[], ValueTask<Dictionary<int, short>>> GetPLCParameters;
         public event Func<string, ValueTask<PLC_Recipe>> GetRecipeEvent;
         public event Action<string> MachineCodeChanged;
         public event Action RecipeKeyInError;
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
-        public event Func<Dictionary<int, short>, ValueTask> SetPLCRecipeParameter;
+        public event Func<Dictionary<int, short>, ValueTask> SetPLCParameters;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, int tag, bool value)
@@ -291,10 +291,9 @@ namespace GPGO_MultiPLCs.Models
 
             Intput_Name = Selected_Name;
 
-            if (SetPLCRecipeParameter != null)
+            if (SetPLCParameters != null)
             {
-                //!PLC配方位置在監視位置+100的位置
-                await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
+                await SetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
             }
         }
 
@@ -505,28 +504,27 @@ namespace GPGO_MultiPLCs.Models
                                                                          }
                                                                      }
 
-                                                                     if (!PC_InUsed)
+                                                                     if (!PC_InUsed && !await Dialog.Show(new Dictionary<Language, string>
+                                                                                                          {
+                                                                                                              { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎?" },
+                                                                                                              { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗?" },
+                                                                                                              {
+                                                                                                                  Language.EN,
+                                                                                                                  "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"
+                                                                                                              }
+                                                                                                          },
+                                                                                                          true))
                                                                      {
-                                                                         return await Dialog.Show(new Dictionary<Language, string>
-                                                                                                  {
-                                                                                                      { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎?" },
-                                                                                                      { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗?" },
-                                                                                                      {
-                                                                                                          Language.EN,
-                                                                                                          "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"
-                                                                                                      }
-                                                                                                  },
-                                                                                                  true);
+                                                                         return false;
                                                                      }
 
                                                                      if (GetRecipeEvent != null && await GetRecipeEvent.Invoke(RecipeName) is PLC_Recipe recipe)
                                                                      {
                                                                          recipe.CopyTo(this);
 
-                                                                         if (SetPLCRecipeParameter != null)
+                                                                         if (SetPLCParameters != null)
                                                                          {
-                                                                             //!PLC配方位置在監視位置+100的位置
-                                                                             await SetPLCRecipeParameter.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
+                                                                             await SetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
                                                                          }
                                                                      }
 
@@ -700,8 +698,9 @@ namespace GPGO_MultiPLCs.Models
 
                                              ResetStopTokenSource();
 
-                                             //! 當沒有刷取台車code時，抓取PLC目前配方參數以記錄
-                                             if (string.IsNullOrEmpty(OvenInfo.TrolleyCode) && GetPLCRecipeParameter != null && await GetPLCRecipeParameter.Invoke() is Dictionary<int, short> recipe)
+                                             //!讀取配方實際值，實際位置為寫入位置-100
+                                             if (GetPLCParameters != null &&
+                                                 await GetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().Select(x => x.Key - 100).ToArray()) is Dictionary<int, short> recipe)
                                              {
                                                  foreach (var val in recipe)
                                                  {
