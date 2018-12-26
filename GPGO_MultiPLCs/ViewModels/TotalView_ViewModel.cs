@@ -295,6 +295,10 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!PLC配方位置在監視位置+100的位置
                 await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key + 100, x => x.Value));
             }
+            else if(string.IsNullOrEmpty(PLC_All[index].RecipeName))
+            {
+                recipe.CopyTo(PLC_All[index]);
+            }
         }
 
         /// <summary>設定使用的PLC配方(透過配方名)</summary>
