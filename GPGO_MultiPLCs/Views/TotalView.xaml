@@ -2311,14 +2311,26 @@
                                             DataContext="{Binding SelectedItem, ElementName=dg, Mode=OneWay}"
                                             FontSize="12"
                                             StrokeThickness="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                            Text="{Binding (models:LogEvent.Description), Mode=OneWay, Converter={local:StringToResource}}"
                                             TextColor="{Binding (models:LogEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
                                             TextHorizontalAlignment="Center"
                                             TextOrientation="Horizontal"
                                             TextVerticalAlignment="Bottom"
                                             Type="Vertical"
                                             X="{Binding (models:LogEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
-                                            Color="{Binding TextColor, RelativeSource={RelativeSource Self}}" />
+                                            Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">
+                                            <oxy:LineAnnotation.Text>
+                                                <MultiBinding StringFormat="{}{0} ({1})">
+                                                    <Binding
+                                                        Converter="{local:StringToResource}"
+                                                        Mode="OneWay"
+                                                        Path="(models:LogEvent.Description)" />
+                                                    <Binding
+                                                        Converter="{StaticResource BoolOnOff}"
+                                                        Mode="OneWay"
+                                                        Path="(models:LogEvent.Value)" />
+                                                </MultiBinding>
+                                            </oxy:LineAnnotation.Text>
+                                        </oxy:LineAnnotation>
                                     </oxy:Plot.Annotations>
                                     <oxy:Plot.DefaultTrackerTemplate>
                                         <ControlTemplate>
