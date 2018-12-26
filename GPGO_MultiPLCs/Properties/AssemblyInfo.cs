@@ -46,5 +46,5 @@ using System.Windows;
 // 您可以指定所有的值，或將組建編號或修訂編號設為預設值
 // 指定為預設值: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.18.4.5")]
-[assembly: AssemblyFileVersion("1.18.4.5")]
+[assembly: AssemblyVersion("1.18.4.8")]
+[assembly: AssemblyFileVersion("1.18.4.8")]

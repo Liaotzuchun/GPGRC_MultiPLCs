@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Helpers;
+using OfficeOpenXml.FormulaParsing.Utilities;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -150,7 +151,17 @@ namespace GPGO_MultiPLCs.Models
 
                                        var h = new int[] { HeatingTime_1, HeatingTime_2, HeatingTime_3, HeatingTime_4, HeatingTime_5, HeatingTime_6, HeatingTime_7, HeatingTime_8 };
                                        var w = new int[] { WarmingTime_1, WarmingTime_2, WarmingTime_3, WarmingTime_4, WarmingTime_5, WarmingTime_6, WarmingTime_7, WarmingTime_8 };
-                                       var t = new[] { TargetTemperature_1, TargetTemperature_2, TargetTemperature_3, TargetTemperature_4, TargetTemperature_5, TargetTemperature_6, TargetTemperature_7, TargetTemperature_8 };
+                                       var t = new[]
+                                               {
+                                                   TargetTemperature_1,
+                                                   TargetTemperature_2,
+                                                   TargetTemperature_3,
+                                                   TargetTemperature_4,
+                                                   TargetTemperature_5,
+                                                   TargetTemperature_6,
+                                                   TargetTemperature_7,
+                                                   TargetTemperature_8
+                                               };
                                        Array.Resize(ref h, UsedSegmentCounts);
                                        Array.Resize(ref w, UsedSegmentCounts);
                                        Array.Resize(ref t, UsedSegmentCounts);
@@ -463,7 +474,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                      {
                                                                                                          var str = x.Trim();
 
-                                                                                                         return (str.Length > 0 && str.Length <= 4 && !int.TryParse(str, out _),
+                                                                                                         return (str.Length > 0 && str.Length <= 4 && str.All(char.IsDigit),
                                                                                                                  new Dictionary<Language, string>
                                                                                                                  {
                                                                                                                      { Language.TW, "字數錯誤或非整數，請重試!" },
