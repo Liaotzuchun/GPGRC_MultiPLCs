@@ -123,18 +123,21 @@ namespace GPGO_MultiPLCs.Views
 
             foreach (UIElement child in InternalChildren)
             {
-                child.Measure(constraint);
-                var childDesiredSize = child.DesiredSize;
+                if (child.Visibility != Visibility.Collapsed)
+                {
+                    child.Measure(constraint);
+                    var childDesiredSize = child.DesiredSize;
 
-                if (Orientation == Orientation.Horizontal)
-                {
-                    fw += childDesiredSize.Width;
-                    fh = Math.Max(fh, childDesiredSize.Height);
-                }
-                else if (Orientation == Orientation.Vertical)
-                {
-                    fh += childDesiredSize.Height;
-                    fw = Math.Max(fw, childDesiredSize.Width);
+                    if (Orientation == Orientation.Horizontal)
+                    {
+                        fw += childDesiredSize.Width;
+                        fh = Math.Max(fh, childDesiredSize.Height);
+                    }
+                    else if (Orientation == Orientation.Vertical)
+                    {
+                        fh += childDesiredSize.Height;
+                        fw = Math.Max(fw, childDesiredSize.Width);
+                    }
                 }
             }
 

@@ -1379,7 +1379,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="60" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="24" />
@@ -2348,7 +2348,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn Width="Auto" MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 修改者}" />
                         </DataGridTemplateColumn.Header>

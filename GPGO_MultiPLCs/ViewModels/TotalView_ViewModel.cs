@@ -290,7 +290,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 return false;
             }
 
-            if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && !PLC_All[index].IsRecording)
+            if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && PLC_All[index].OnlineStatus && !PLC_All[index].IsRecording)
             {
                 recipe.CopyTo(PLC_All[index]);
                 await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));

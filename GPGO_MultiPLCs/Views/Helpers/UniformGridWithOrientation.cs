@@ -118,7 +118,8 @@ namespace GPGO_MultiPLCs.Views
                     {
                         w = childDesiredSize.Width;
                     }
-                    else if(childDesiredSize.Height > h)
+
+                    if(childDesiredSize.Height > h)
                     {
                         h = childDesiredSize.Height;
                     }
