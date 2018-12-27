@@ -164,6 +164,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
+                    Foreground="White"
                     Text="{DynamicResource 警告}" />
             </Border>
             <Grid Grid.Row="1">
