@@ -213,7 +213,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 try
                 {
-                    recipe.WriteToJsonFile(path + "\\" + recipe.RecipeName + ".json");
+                    recipe.WriteToJsonFile($"{path}\\{recipe.RecipeName}.json");
                 }
                 catch (Exception ex)
                 {
@@ -377,7 +377,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      {
                                                                          { Language.TW, "即將儲存並覆蓋同名配方，確定儲存?" },
                                                                          { Language.CHS, "即将储存并覆盖同名配方，确定储存?" },
-                                                                         { Language.EN, "The recipe is going to save or replace the same one.\n" + "Are you sure?" }
+                                                                         { Language.EN, "The recipe is going to save or replace the same one.\nAre you sure?" }
                                                                      },
                                                                      true))
                                                {
@@ -393,7 +393,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                       {
                                                                           { Language.TW, "即將儲存並覆蓋同名配方，確定儲存?" },
                                                                           { Language.CHS, "即将储存并覆盖同名配方，确定储存?" },
-                                                                          { Language.EN, "The recipe is going to save or replace the same one.\n" + "Are you sure?" }
+                                                                          { Language.EN, "The recipe is going to save or replace the same one.\nAre you sure?" }
                                                                       },
                                                                       true))
                                                 {
@@ -426,13 +426,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
             ExprotCommand = new RelayCommand(e =>
                                              {
-                                                 var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Recipes";
+                                                 var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
 
                                                  if (SavetoJson(path))
                                                  {
                                                      dialog?.Show(new Dictionary<Language, string>
                                                                   {
-                                                                      { Language.TW, "檔案已輸出至\n" + path }, { Language.CHS, "档案已输出至\n" + path }, { Language.EN, "The file has been output to\n" + path }
+                                                                      { Language.TW, $"檔案已輸出至\n{path}" }, { Language.CHS, "档案已输出至\n" + path }, { Language.EN, "The file has been output to\n" + path }
                                                                   },
                                                                   TimeSpan.FromSeconds(6));
                                                  }
@@ -442,7 +442,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                              {
                                                  Standby = false;
 
-                                                 var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Recipes";
+                                                 var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
                                                  var files = new DirectoryInfo(path).GetFiles("*.json");
                                                  var updates = 0;
                                                  var adds = 0;
@@ -488,19 +488,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
-                                                                  { Language.TW, adds + "個配方已新增\n" + updates + "個配方已更新" },
-                                                                  { Language.CHS, adds + "个配方已新增\n" + updates + "个配方已更新" },
-                                                                  {
-                                                                      Language.EN,
-                                                                      adds +
-                                                                      "recipe" +
-                                                                      (adds > 1 ? "s" : "") +
-                                                                      " have been added\n" +
-                                                                      updates +
-                                                                      "recipe" +
-                                                                      (updates > 1 ? "s" : "") +
-                                                                      " have been updated"
-                                                                  }
+                                                                  { Language.TW, $"{adds}個配方已新增\n{updates}個配方已更新" },
+                                                                  { Language.CHS, $"{adds}个配方已新增\n{updates}个配方已更新" },
+                                                                  { Language.EN, $"{adds}recipe{(adds > 1 ? "s" : "")} have been added\n{updates}recipe{(updates > 1 ? "s" : "")} have been updated" }
                                                               },
                                                               TimeSpan.FromSeconds(6));
                                              });

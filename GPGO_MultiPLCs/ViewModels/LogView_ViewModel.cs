@@ -207,7 +207,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                using (var outputFile = new StreamWriter(path + "\\" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + ".csv", false, Encoding.UTF8))
+                using (var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8))
                 {
                     await outputFile.WriteAsync(csv);
                 }
@@ -236,12 +236,12 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             ToFileCommand = new RelayCommand(async o =>
                                              {
-                                                 var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\EventLogs";
+                                                 var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\EventLogs";
                                                  if (await SaveToCSV(path))
                                                  {
                                                      dialog?.Show(new Dictionary<Language, string>
                                                                   {
-                                                                      { Language.TW, "檔案已輸出至\n" + path }, { Language.CHS, "档案已输出至\n" + path }, { Language.EN, "The file has been output to\n" + path }
+                                                                      { Language.TW, $"檔案已輸出至\n{path}" }, { Language.CHS, $"档案已输出至\n{path}" }, { Language.EN, $"The file has been output to\n{path}" }
                                                                   },
                                                                   TimeSpan.FromSeconds(6));
                                                  }

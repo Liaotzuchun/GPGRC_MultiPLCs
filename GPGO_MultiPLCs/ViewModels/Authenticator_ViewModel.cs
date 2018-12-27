@@ -208,14 +208,14 @@ namespace GPGO_MultiPLCs.ViewModels
                     else
                     {
                         Users = new List<User>();
-                        File.Move(UsersPath, "Users" + DateTime.Now.Ticks + ".back");
+                        File.Move(UsersPath, $"Users{DateTime.Now.Ticks}.back");
                         SaveUsers();
                     }
                 }
                 catch
                 {
                     Users = new List<User>();
-                    File.Move(UsersPath, "Users" + DateTime.Now.Ticks + ".back");
+                    File.Move(UsersPath, $"Users{DateTime.Now.Ticks}.back");
                     SaveUsers();
                 }
             }

@@ -24,7 +24,7 @@ namespace GPGO_MultiPLCs
         {
             InitializeComponent();
 
-            Title = "群翊工業 " + Assembly.GetExecutingAssembly().GetName().Version;
+            Title = $"群翊工業 {Assembly.GetExecutingAssembly().GetName().Version}";
         }
     }
 }

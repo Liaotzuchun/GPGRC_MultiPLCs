@@ -789,7 +789,7 @@ namespace GPGO_MultiPLCs.Models
                                                  AddProcessEvent(EventType.Normal,
                                                                  OvenInfo.StartTime,
                                                                  nt,
-                                                                 CurrentSegment == 0 ? "準備中" : "第" + Math.Ceiling(CurrentSegment / 2.0).ToString("0") + "段" + (CurrentSegment % 2 == 0 ? "恆溫" : "升溫"),
+                                                                 CurrentSegment == 0 ? "準備中" : $"第{Math.Ceiling(CurrentSegment / 2.0):0}段{(CurrentSegment % 2 == 0 ? "恆溫" : "升溫")}",
                                                                  0,
                                                                  true);
                                              }

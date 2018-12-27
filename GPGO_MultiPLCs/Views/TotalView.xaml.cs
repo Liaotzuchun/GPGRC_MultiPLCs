@@ -40,7 +40,7 @@ namespace GPGO_MultiPLCs.Views
         public TotalView()
         {
             InitializeComponent();
-            CA.LabelFormatter = val => "No. " + (val + 1).ToString("00");
+            CA.LabelFormatter = val => $"No. {val + 1:00}";
             //BS.LabelFormatString = "{0}";
         }
     }

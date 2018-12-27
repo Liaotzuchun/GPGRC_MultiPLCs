@@ -347,9 +347,7 @@ namespace GPGO_MultiPLCs
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, "仍在生產中，無法終止程式!" },
-                                                             { Language.CHS, "仍在生产中，无法终止程序!" },
-                                                             { Language.EN, "Still processing,\n" + "cannot terminate the program." }
+                                                             { Language.TW, "仍在生產中，無法終止程式!" }, { Language.CHS, "仍在生产中，无法终止程序!" }, { Language.EN, "Still processing,\ncannot terminate the program." }
                                                          });
                                        }
                                        else if (User.Level > User.UserLevel.Operator)
@@ -390,9 +388,7 @@ namespace GPGO_MultiPLCs
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, "權限不足，不可關閉程式!" },
-                                                             { Language.CHS, "权限不足，不可关闭程序!" },
-                                                             { Language.EN, "Insufficient permissions,\n" + "can't close the program." }
+                                                             { Language.TW, "權限不足，不可關閉程式!" }, { Language.CHS, "权限不足，不可关闭程序!" }, { Language.EN, "Insufficient permissions,\ncan't close the program." }
                                                          });
                                        }
                                    };
@@ -402,15 +398,33 @@ namespace GPGO_MultiPLCs
                                          {
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
-                                             foreach (var recipe in list)
+                                             var l = new List<int>();
+
+                                             for (var i = 0; i < TotalVM.PLC_All.Count - 1; i++)
                                              {
-                                                 for (var i = 0; i < recipe.Used_Stations.Count; i++)
+                                                 var j = i;
+                                                 var recipe = list.Find(x => x.Used_Stations[j]);
+                                                 if (recipe != null)
                                                  {
-                                                     if (recipe.Used_Stations[i])
+                                                     if (!await TotalVM.SetRecipe(i, recipe, true))
                                                      {
-                                                         await TotalVM.SetRecipe(i, recipe, true);
+                                                         l.Add(i + 1);
                                                      }
                                                  }
+                                             }
+
+                                             if (l.Any())
+                                             {
+                                                 var str = string.Join(", ", l);
+
+                                                 DialogVM.Show(new Dictionary<Language, string>
+                                                               {
+                                                                   { Language.TW, $"{str} 號\n烤箱目前無法寫入配方!" },
+                                                                   { Language.CHS, $"{str} 号\n烤箱目前无法写入配方!" },
+                                                                   { Language.EN, $"No. {str} oven{(l.Count > 1 ? "s" : "")} {(l.Count > 1 ? "are" : "is")}\ncurrently unable to write the recipe!" }
+                                                               },
+                                                               TimeSpan.FromSeconds(3),
+                                                               DialogMsgType.Alert);
                                              }
                                          };
 
@@ -423,7 +437,7 @@ namespace GPGO_MultiPLCs
             //!由台車code取得前端生產資訊
             TotalVM.WantFrontData += async e =>
                                      {
-                                         var path = DataInputPath + "\\" + e.TrolleyCode;
+                                         var path = $"{DataInputPath}\\{e.TrolleyCode}";
 
                                          if (Directory.Exists(path))
                                          {
@@ -445,7 +459,7 @@ namespace GPGO_MultiPLCs
                                                                                      int.TryParse(result["General2"].OnlyASCII(), out var number);
                                                                                      products.Add((result["General1"].OnlyASCII(), number, result["General7"].OnlyASCII()));
 
-                                                                                     var backname = file.FullName + ".bak" + e.StationIndex;
+                                                                                     var backname = $"{file.FullName}.bak{e.StationIndex}";
                                                                                      if (File.Exists(backname))
                                                                                      {
                                                                                          File.Delete(backname);
@@ -479,12 +493,12 @@ namespace GPGO_MultiPLCs
 
             TotalVM.CancelCheckIn += e =>
                                      {
-                                         var path = DataInputPath + "\\" + e.TrolleyCode;
+                                         var path = $"{DataInputPath}\\{e.TrolleyCode}";
 
                                          if (Directory.Exists(path))
                                          {
-                                             var tag = ".bak" + e.StationIndex;
-                                             var files = new DirectoryInfo(path).GetFiles("*" + tag);
+                                             var tag = $".bak{e.StationIndex}";
+                                             var files = new DirectoryInfo(path).GetFiles($"*{tag}");
                                              foreach (var file in files)
                                              {
                                                  var sourcename = file.FullName.TrimEnd(tag.ToCharArray());
@@ -534,17 +548,17 @@ namespace GPGO_MultiPLCs
                                                  {
                                                      for (var i = 0; i < info.ProcessCount; i++)
                                                      {
-                                                         var path = outpath + "\\" + info.AssetNumber + "_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + (e.StationIndex + 1) + "_";
+                                                         var path = $"{outpath}\\{info.AssetNumber}_{DateTime.Now:yyyyMMddHHmmssfff}_{e.StationIndex + 1}_";
 
                                                          var n = 1;
-                                                         while (File.Exists(path + n))
+                                                         while (File.Exists($"{path}{n}"))
                                                          {
                                                              n++;
                                                          }
 
                                                          try
                                                          {
-                                                             using (var outputFile = new StreamWriter(path + n + ".txt", false, Encoding.ASCII))
+                                                             using (var outputFile = new StreamWriter($"{path}{n}.txt", false, Encoding.ASCII))
                                                              {
                                                                  await outputFile.WriteAsync(info.ToString(i));
                                                              }
@@ -559,12 +573,12 @@ namespace GPGO_MultiPLCs
                                                      }
                                                  }
 
-                                                 var _path = inpath + "\\" + e.Infos.First().TrolleyCode;
+                                                 var _path = $"{inpath}\\{e.Infos.First().TrolleyCode}";
 
                                                  if (Directory.Exists(_path))
                                                  {
-                                                     var tag = ".bak" + e.StationIndex;
-                                                     var files = new DirectoryInfo(_path).GetFiles("*" + tag);
+                                                     var tag = $".bak{e.StationIndex}";
+                                                     var files = new DirectoryInfo(_path).GetFiles($"*{tag}");
                                                      foreach (var file in files)
                                                      {
                                                          file.Delete();

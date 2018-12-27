@@ -72,7 +72,7 @@ namespace GPGO_MultiPLCs.Models
                 {
                     try
                     {
-                        File.Move(FilePath, "Settings" + DateTime.Now.Ticks + ".back");
+                        File.Move(FilePath, $"Settings{DateTime.Now.Ticks}.back");
                     }
                     catch (Exception ex)
                     {

@@ -229,12 +229,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              x,
                                                              index =>
                                                              {
-                                                                 var fi = new FileInfo(path + "\\" + created.ToString("yyyy-MM-dd-HH-mm-ss-fff(") + (index + 1) + ").xlsm");
+                                                                 var fi = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff(}{index + 1}).xlsm");
                                                                  var datas = ViewResults.GetRange(500 * index, index == x - 1 ? y : 500);
                                                                  var n = datas.Count;
                                                                  var xlwb = new ExcelPackage();
                                                                  xlwb.Workbook.CreateVBAProject();
-                                                                 var wsht = xlwb.Workbook.Worksheets.Add(n + (n <= 1 ? " result" : " results"));
+                                                                 var wsht = xlwb.Workbook.Worksheets.Add($"{n}{(n <= 1 ? " result" : " results")}");
                                                                  wsht.View.ShowGridLines = false;
                                                                  wsht.View.FreezePanes(4, 1);
                                                                  wsht.Row(1).Height = 225;
@@ -282,8 +282,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                          }
                                                                      }
 
-                                                                     var sheet_name = "Records " + (i + 1);
-                                                                     wsht.Cells[i + 4, values.Length].Formula = "HYPERLINK(\"#'" + sheet_name + "'!$A$4\",\"@\")";
+                                                                     var sheet_name = $"Records {i + 1}";
+                                                                     wsht.Cells[i + 4, values.Length].Formula = $"HYPERLINK(\"#'{sheet_name}'!$A$4\",\"@\")";
                                                                      wsht.Cells[i + 4, values.Length].Style.Font.Color.SetColor(Color.Blue);
                                                                      wsht.Cells[i + 4, values.Length].Style.Font.UnderLine = false;
 
@@ -294,7 +294,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                                      record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
                                                                      record_sht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                                                                     record_sht.Cells[2, 1].Formula = "HYPERLINK(\"#'" + wsht.Name + "'!$A$" + (i + 4) + "\",\"<<<<<<Back\")";
+                                                                     record_sht.Cells[2, 1].Formula = $"HYPERLINK(\"#'{wsht.Name}'!$A${i + 4}\",\"<<<<<<Back\")";
                                                                      record_sht.Cells[2, 1].Style.Font.Color.SetColor(Color.Blue);
                                                                      record_sht.Cells[2, 1].Style.Font.UnderLine = false;
                                                                      record_sht.Cells[3, 1].Value = nameof(RecordTemperatures.Time);
@@ -438,17 +438,17 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                                  for (var i = 1; i <= max_count; i++)
                                                                  {
-                                                                     data_sht.Cells[i, 1].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$A$" + (i + 3) + "\")";
+                                                                     data_sht.Cells[i, 1].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$A${i + 3}\")";
                                                                      data_sht.Cells[i, 1].Style.Numberformat.Format = "[h]:mm:ss";
-                                                                     data_sht.Cells[i, 2].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$B$" + (i + 3) + "\")";
-                                                                     data_sht.Cells[i, 3].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$C$" + (i + 3) + "\")";
-                                                                     data_sht.Cells[i, 4].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$D$" + (i + 3) + "\")";
-                                                                     data_sht.Cells[i, 5].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$E$" + (i + 3) + "\")";
-                                                                     data_sht.Cells[i, 6].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$F$" + (i + 3) + "\")";
-                                                                     data_sht.Cells[i, 7].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$G$" + (i + 3) + "\")";
-                                                                     data_sht.Cells[i, 8].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$H$" + (i + 3) + "\")";
-                                                                     data_sht.Cells[i, 9].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$I$" + (i + 3) + "\")";
-                                                                     data_sht.Cells[i, 10].Formula = "INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$J$" + (i + 3) + "\")";
+                                                                     data_sht.Cells[i, 2].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$B${i + 3}\")";
+                                                                     data_sht.Cells[i, 3].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$C${i + 3}\")";
+                                                                     data_sht.Cells[i, 4].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$D${i + 3}\")";
+                                                                     data_sht.Cells[i, 5].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$E${i + 3}\")";
+                                                                     data_sht.Cells[i, 6].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$F${i + 3}\")";
+                                                                     data_sht.Cells[i, 7].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$G${i + 3}\")";
+                                                                     data_sht.Cells[i, 8].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$H${i + 3}\")";
+                                                                     data_sht.Cells[i, 9].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$I${i + 3}\")";
+                                                                     data_sht.Cells[i, 10].Formula = $"INDIRECT(\"'\" & \"Records \" & ooxx & \"'\" & \"!$J${i + 3}\")";
                                                                  }
 
                                                                  var chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
@@ -569,7 +569,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                           return x.OrderCode;
                                                       }
 
-                                                      return ByDate ? x.AddedTime.Date.ToString("MM/dd") : x.AddedTime.Hour.ToString("00") + ":00";
+                                                      return ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00";
                                                   })
                                          .OrderBy(x => x.Key)
                                          .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
@@ -645,7 +645,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                          return x.AddedTime.Date.ToString("MM/dd") == categories[j];
                                                      }
 
-                                                     return x.AddedTime.Hour.ToString("00") + ":00" == categories[j];
+                                                     return $"{x.AddedTime.Hour:00}:00" == categories[j];
                                                  })
                                           .Sum(x => x.ProcessCount);
                             if (val > 0)
@@ -714,12 +714,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
             ToExcelCommand = new RelayCommand(async o =>
                                               {
-                                                  var path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Reports";
+                                                  var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Reports";
                                                   if (await SaveToExcel(path))
                                                   {
                                                       dialog?.Show(new Dictionary<Language, string>
                                                                    {
-                                                                       { Language.TW, "檔案已輸出至\n" + path }, { Language.CHS, "档案已输出至\n" + path }, { Language.EN, "The file has been output to\n" + path }
+                                                                       { Language.TW, $"檔案已輸出至\n{path}" }, { Language.CHS, $"档案已输出至\n{path}" }, { Language.EN, $"The file has been output to\n{path}" }
                                                                    },
                                                                    TimeSpan.FromSeconds(6));
                                                   }
