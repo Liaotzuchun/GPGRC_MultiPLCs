@@ -150,4 +150,5 @@
     <sys:String x:Key="復原">复原</sys:String>
     <sys:String x:Key="匯出">汇出</sys:String>
     <sys:String x:Key="匯入">汇入</sys:String>
+    <sys:String x:Key="改名">改名</sys:String>
 </ResourceDictionary>

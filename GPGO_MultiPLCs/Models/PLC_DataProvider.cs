@@ -207,6 +207,12 @@ namespace GPGO_MultiPLCs.Models
         public event Func<Dictionary<int, short>, ValueTask> SetPLCParameters;
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
+        public void SetSelectedRecipeName(string name)
+        {
+            Set(name, nameof(Selected_Name));
+            Intput_Name = Selected_Name;
+        }
+
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, int tag, bool value)
         {
             OvenInfo.EventList.Add(new LogEvent
@@ -517,7 +523,7 @@ namespace GPGO_MultiPLCs.Models
                                                                          return false;
                                                                      }
 
-                                                                     if (GetRecipe?.Invoke(Intput_Name) is PLC_Recipe recipe)
+                                                                     if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
                                                                      {
                                                                          recipe.CopyTo(this);
 
@@ -806,6 +812,7 @@ namespace GPGO_MultiPLCs.Models
                                               if (key1.ToString().Contains("配方名稱"))
                                               {
                                                   Set(RecipeName, nameof(Selected_Name));
+                                                  Intput_Name = Selected_Name;
                                               }
                                               else if (key1 == DataNames.使用段數)
                                               {

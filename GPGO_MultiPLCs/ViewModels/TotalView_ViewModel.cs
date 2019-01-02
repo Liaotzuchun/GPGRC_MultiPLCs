@@ -290,24 +290,26 @@ namespace GPGO_MultiPLCs.ViewModels
                 return false;
             }
 
-            if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && PLC_All[index].OnlineStatus && !PLC_All[index].IsRecording)
+            if (PLC_All[index].IsRecording)
             {
-                recipe.CopyTo(PLC_All[index]);
+                PLC_All[index].SetSelectedRecipeName(recipe.RecipeName);
+                return false;
+            }
+
+            recipe.CopyTo(PLC_All[index]);
+
+            if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && PLC_All[index].OnlineStatus)
+            {
                 await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
 
                 return true;
-            }
-
-            if (string.IsNullOrEmpty(PLC_All[index].RecipeName))
-            {
-                recipe.CopyTo(PLC_All[index]);
             }
 
             return false;
         }
 
         /// <summary>設定使用的PLC配方(透過配方名)</summary>
-        /// <param name="names">配方名</param>
+        /// <param name="names">配方名列表</param>
         public void SetRecipeNames(ICollection<string> names)
         {
             foreach (var plc in PLC_All)

@@ -13,24 +13,18 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>配方管理</summary>
     public class RecipeControl_ViewModel : ObservableObject
     {
+        private readonly IDataBase<PLC_Recipe> RecipeCollection;
+        private readonly IDataBase<PLC_Recipe> RecipeCollection_History;
+
         /// <summary>未儲存未修改之配方(備份或還原用)</summary>
         public PLC_Recipe Selected_PLC_Recipe_Origin;
 
         public string UserName;
-        private readonly IDataBase<PLC_Recipe> RecipeCollection;
-        private readonly IDataBase<PLC_Recipe> RecipeCollection_History;
 
         /// <summary>所有配方的列表</summary>
         private List<PLC_Recipe> Recipes;
 
-        /// <summary>辨識是否可新增配方(列表中沒有和輸入名相同的配方)</summary>
-        public bool Add_Enable => !string.IsNullOrEmpty(TypedName) && Recipes.All(x => x.RecipeName != TypedName);
-
         public RelayCommand AddCommand { get; }
-
-        /// <summary>辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)</summary>
-        public bool Delete_Enable => Selected_PLC_Recipe != null && !Selected_PLC_Recipe.Used_Stations.Any(x => x);
-
         public RelayCommand DeleteCommand { get; }
         public RelayCommand ExprotCommand { get; }
         public RelayCommand ImportCommand { get; }
@@ -41,10 +35,18 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>重新讀取配方參數(未儲存時)</summary>
         public RelayCommand ResetCommand { get; }
 
-        /// <summary>辨別是否可儲存配方(有正在選取的配方)</summary>
-        public bool Save_Enable => Selected_PLC_Recipe != null && !Selected_PLC_Recipe.Equals(Selected_PLC_Recipe_Origin);
+        public RelayCommand ReNameCommand { get; }
 
         public RelayCommand SaveCommand { get; }
+
+        /// <summary>辨識是否可新增配方(列表中沒有和輸入名相同的配方)</summary>
+        public bool Add_Enable => !string.IsNullOrEmpty(TypedName) && Recipes.All(x => x.RecipeName != TypedName);
+
+        /// <summary>辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)</summary>
+        public bool Delete_Enable => Selected_PLC_Recipe != null && !Selected_PLC_Recipe.Used_Stations.Any(x => x);
+
+        /// <summary>辨別是否可儲存配方(有正在選取的配方)</summary>
+        public bool Save_Enable => Selected_PLC_Recipe != null && !Selected_PLC_Recipe.Equals(Selected_PLC_Recipe_Origin);
 
         public PLC_Recipe SelectedHistory => Old_ViewRecipes == null || HistoryIndex >= Old_ViewRecipes.Count ? null : Old_ViewRecipes[HistoryIndex];
 
@@ -63,14 +65,29 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public IList<PLC_Recipe> Old_ViewRecipes
+        /// <summary>輸入/選定的配方名</summary>
+        public string TypedName
         {
-            get => Get<IList<PLC_Recipe>>();
+            get => Get<string>();
             set
             {
-                Set(value);
-                HistoryIndex = value?.Count - 1 ?? 0;
+                value = value.Replace(" ", "_");
+                Set(value.Length > 26 ? value.Substring(0, 26) : value);
+                Set(string.IsNullOrEmpty(TypedName) ? -1 : ViewRecipes?.ToList().FindIndex(x => x.RecipeName == TypedName) ?? -1, nameof(Selected_PLC_Recipe_Index));
+
+                Selected_PLC_Recipe = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy(UserName);
+
+                NotifyPropertyChanged(nameof(Save_Enable));
+                NotifyPropertyChanged(nameof(Add_Enable));
+                NotifyPropertyChanged(nameof(Delete_Enable));
             }
+        }
+
+        /// <summary>修改配方名</summary>
+        public string EditedName
+        {
+            get => Get<string>();
+            set => Set(value);
         }
 
         /// <summary>配方搜尋的關鍵字</summary>
@@ -83,6 +100,16 @@ namespace GPGO_MultiPLCs.ViewModels
                 Set(value);
 
                 ViewRecipes = string.IsNullOrEmpty(SearchName) ? Recipes.AsQueryable() : Recipes?.AsQueryable().Where(x => x.RecipeName.ToLower().Contains(SearchName.ToLower()));
+            }
+        }
+
+        public IList<PLC_Recipe> Old_ViewRecipes
+        {
+            get => Get<IList<PLC_Recipe>>();
+            set
+            {
+                Set(value);
+                HistoryIndex = value?.Count - 1 ?? 0;
             }
         }
 
@@ -141,24 +168,6 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             get => Get<bool>();
             set => Set(value);
-        }
-
-        /// <summary>輸入/選定的配方名</summary>
-        public string TypedName
-        {
-            get => Get<string>();
-            set
-            {
-                value = value.Replace(" ", "_");
-                Set(value.Length > 26 ? value.Substring(0, 26) : value);
-                Set(string.IsNullOrEmpty(TypedName) ? -1 : ViewRecipes?.ToList().FindIndex(x => x.RecipeName == TypedName) ?? -1, nameof(Selected_PLC_Recipe_Index));
-
-                Selected_PLC_Recipe = string.IsNullOrEmpty(TypedName) ? null : Recipes?.FirstOrDefault(x => x.RecipeName == TypedName)?.Copy(UserName);
-
-                NotifyPropertyChanged(nameof(Save_Enable));
-                NotifyPropertyChanged(nameof(Add_Enable));
-                NotifyPropertyChanged(nameof(Delete_Enable));
-            }
         }
 
         /// <summary>顯示的配方列表(依據搜尋條件)</summary>
@@ -375,9 +384,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                            {
                                                if (await dialog.Show(new Dictionary<Language, string>
                                                                      {
-                                                                         { Language.TW, "即將儲存並覆蓋同名配方，確定儲存?" },
-                                                                         { Language.CHS, "即将储存并覆盖同名配方，确定储存?" },
-                                                                         { Language.EN, "The recipe is going to save or replace the same one.\nAre you sure?" }
+                                                                         { Language.TW, "即將儲存配方，確定儲存?" },
+                                                                         { Language.CHS, "即将储存配方，确定储存?" },
+                                                                         { Language.EN, "The recipe is going to save.\nAre you sure?" }
                                                                      },
                                                                      true))
                                                {
@@ -391,9 +400,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                 if (await dialog.Show(new Dictionary<Language, string>
                                                                       {
-                                                                          { Language.TW, "即將儲存並覆蓋同名配方，確定儲存?" },
-                                                                          { Language.CHS, "即将储存并覆盖同名配方，确定储存?" },
-                                                                          { Language.EN, "The recipe is going to save or replace the same one.\nAre you sure?" }
+                                                                          { Language.TW, "即將儲存配方，確定儲存?" },
+                                                                          { Language.CHS, "即将储存配方，确定储存?" },
+                                                                          { Language.EN, "The recipe is going to save.\nAre you sure?" }
                                                                       },
                                                                       true))
                                                 {
@@ -493,6 +502,45 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                   { Language.EN, $"{adds}recipe{(adds > 1 ? "s" : "")} have been added\n{updates}recipe{(updates > 1 ? "s" : "")} have been updated" }
                                                               },
                                                               TimeSpan.FromSeconds(6));
+                                             });
+
+            ReNameCommand = new RelayCommand(async e =>
+                                             {
+                                                 if (string.IsNullOrEmpty(EditedName))
+                                                 {
+                                                     dialog?.Show(new Dictionary<Language, string>
+                                                                  {
+                                                                      { Language.TW, "配方名稱不可為空白!" }, { Language.CHS, "配方名称不可为空白!" }, { Language.EN, "Recipe Name cannot be blank!" }
+                                                                  },
+                                                                  DialogMsgType.Alert);
+
+                                                     return;
+                                                 }
+
+                                                 if (Recipes.Any(x => string.Equals(x.RecipeName, EditedName, StringComparison.CurrentCultureIgnoreCase)))
+                                                 {
+                                                     dialog?.Show(new Dictionary<Language, string>
+                                                                  {
+                                                                      { Language.TW, "已有相同名稱!" }, { Language.CHS, "已有相同名称!" }, { Language.EN, "The same name already exists!" }
+                                                                  },
+                                                                  DialogMsgType.Alert);
+
+                                                     return;
+                                                 }
+
+                                                 if (await dialog.Show(new Dictionary<Language, string>
+                                                                       {
+                                                                           { Language.TW, "更改配方名稱無法復原!\n確定更改?" },
+                                                                           { Language.CHS, "更改配方名称无法复原!\n确定更改?" },
+                                                                           { Language.EN, "Change recipe name cannot be restored!\nAre you sure?" }
+                                                                       },
+                                                                       true))
+                                                 {
+                                                     await RecipeCollection.UpdateOneAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(PLC_Recipe.RecipeName), EditedName);
+                                                     await RecipeCollection_History.UpdateManyAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(PLC_Recipe.RecipeName), EditedName);
+                                                     EditedName = "";
+                                                     await RefreshList();
+                                                 }
                                              });
         }
     }

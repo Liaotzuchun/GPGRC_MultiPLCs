@@ -12,6 +12,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     Foreground="{StaticResource BaseForeground}"
+    Loaded="UserControl_Loaded"
     mc:Ignorable="d">
 
     <Grid>
@@ -2275,24 +2276,31 @@
                         VerticalAlignment="Center"
                         Text="{DynamicResource 搜尋}" />
                 </Border>
-                <UniformGrid
-                    Grid.RowSpan="2"
+                <TextBox
                     Grid.Column="2"
-                    Columns="1"
-                    KeyboardNavigation.TabNavigation="Cycle">
-                    <TextBox
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        BorderThickness="0,0,0,1"
-                        GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                        Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        BorderThickness="0,0,0,1"
-                        GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                        Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
-                </UniformGrid>
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    BorderThickness="0,0,0,1"
+                    GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                    Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox
+                    x:Name="EditTextBox"
+                    Grid.Column="2"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    BorderThickness="0,0,0,1"
+                    GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                    IsEnabled="{Binding IsChecked, ElementName=EditedTB, Mode=OneWay}"
+                    Text="{Binding EditedName, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" KeyDown="EditTextBox_KeyDown" />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    BorderThickness="0,0,0,1"
+                    GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                    Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
                 <Button
                     Grid.Column="3"
                     Content="{DynamicResource 新增}"
@@ -2303,9 +2311,32 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
+                <ToggleButton
+                    x:Name="EditedTB"
+                    Grid.Column="3"
+                    Checked="EditedTB_Checked"
+                    Content="{DynamicResource 改名}"
+                    IsEnabled="{Binding Selected_PLC_Recipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                    Unchecked="EditedTB_Unchecked"
+                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Unchecked">
+                            <i:InvokeCommandAction Command="{Binding ReNameCommand, Mode=OneTime}" />
+                            <local:SetPropertyAction
+                                PropertyName="Content"
+                                PropertyValue="{DynamicResource 修改}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Checked">
+                            <local:SetPropertyAction
+                                PropertyName="Content"
+                                PropertyValue="{DynamicResource 套用}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ToggleButton>
                 <Button
                     Grid.Row="1"
                     Grid.Column="3"
+                    BorderThickness="1,0,1,1"
                     Content="{DynamicResource 刪除}"
                     IsEnabled="{Binding Delete_Enable, Mode=OneWay}">
                     <i:Interaction.Triggers>
@@ -2323,6 +2354,7 @@
                 BorderThickness="0"
                 EnableRowVirtualization="False"
                 HorizontalScrollBarVisibility="Disabled"
+                IsEnabled="{Binding IsChecked, ElementName=EditedTB, Converter={StaticResource BoolNot}, Mode=OneWay}"
                 ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                 RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                 SelectedCellsChanged="DataGrid_SelectedCellsChanged"
@@ -2348,7 +2380,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto" MinWidth="60">
+                    <DataGridTemplateColumn
+                        Width="Auto"
+                        MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 修改者}" />
                         </DataGridTemplateColumn.Header>

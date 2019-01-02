@@ -87,6 +87,20 @@ namespace GPGO_MultiPLCs.Helpers
         /// <returns></returns>
         ValueTask<bool> UpdateOneAsync(Expression<Func<T, bool>> condition, string propertyName, object value);
 
+        /// <summary>更新符合條件之所有資料的特定屬性</summary>
+        /// <param name="condition"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        bool UpdateMany(Expression<Func<T, bool>> condition, string propertyName, object value);
+
+        /// <summary>(非同步)更新符合條件之所有資料的特定屬性</summary>
+        /// <param name="condition"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        ValueTask<bool> UpdateManyAsync(Expression<Func<T, bool>> condition, string propertyName, object value);
+
         /// <summary>更新單一資料，若資料庫中本來沒有則會自動新增</summary>
         /// <param name="condition"></param>
         /// <param name="data"></param>
@@ -178,6 +192,16 @@ namespace GPGO_MultiPLCs.Helpers
         public async ValueTask<bool> UpdateOneAsync(Expression<Func<T, bool>> condition, string propertyName, object value)
         {
             return (await MongoCollection.UpdateOneAsync(condition, Builders<T>.Update.Set(propertyName, value))).IsAcknowledged;
+        }
+
+        public bool UpdateMany(Expression<Func<T, bool>> condition, string propertyName, object value)
+        {
+            return MongoCollection.UpdateMany(condition, Builders<T>.Update.Set(propertyName, value)).IsAcknowledged;
+        }
+
+        public async ValueTask<bool> UpdateManyAsync(Expression<Func<T, bool>> condition, string propertyName, object value)
+        {
+            return (await MongoCollection.UpdateManyAsync(condition, Builders<T>.Update.Set(propertyName, value))).IsAcknowledged;
         }
 
         public bool Upsert(Expression<Func<T, bool>> condition, T data)
