@@ -95,6 +95,11 @@ namespace GPGO_MultiPLCs.Views
                 var width = grid.ColumnWidth;
                 if (grid.ColumnDefinitions.Count > 0)
                 {
+                    if (!string.IsNullOrEmpty(grid.Columns))
+                    {
+                        return;
+                    }
+
                     width = grid.ColumnDefinitions[0].Width;
                 }
 
@@ -131,6 +136,8 @@ namespace GPGO_MultiPLCs.Views
                 {
                     grid.ColumnDefinitions.Add(new ColumnDefinition { Width = def });
                 }
+
+                grid.ColumnCount = defs.Length;
             }
         }
 
@@ -205,6 +212,11 @@ namespace GPGO_MultiPLCs.Views
                 var height = grid.RowHeight;
                 if (grid.RowDefinitions.Count > 0)
                 {
+                    if (!string.IsNullOrEmpty(grid.Rows))
+                    {
+                        return;
+                    }
+
                     height = grid.RowDefinitions[0].Height;
                 }
 
@@ -270,6 +282,8 @@ namespace GPGO_MultiPLCs.Views
                 {
                     grid.RowDefinitions.Add(new RowDefinition { Height = def });
                 }
+
+                grid.RowCount = defs.Length;
             }
         }
 
@@ -353,7 +367,7 @@ namespace GPGO_MultiPLCs.Views
             var skip = new bool[rowCount, colCount];
             foreach (UIElement child in Children)
             {
-                if (IsAutoIndexing && child.Visibility != Visibility.Collapsed)
+                if (IsAutoIndexing && child.Visibility != Visibility.Collapsed && GetColumn(child) == 0 && GetRow(child) == 0)
                 {
                     if (Orientation == Orientation.Horizontal)
                     {

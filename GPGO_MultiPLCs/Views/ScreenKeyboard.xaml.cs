@@ -14,7 +14,7 @@ namespace GPGO_MultiPLCs.Views
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            Panel.SetZIndex(this, 100);
+            Panel.SetZIndex(this, int.MaxValue);
         }
 
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)

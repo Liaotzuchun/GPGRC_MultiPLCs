@@ -14,6 +14,7 @@ namespace GPGO_MultiPLCs.Models
         JobNo
     }
 
+    /// <summary>機台資訊</summary>
     [BsonIgnoreExtraElements]
     public class BaseInfo : ObservableObject
     {
@@ -167,6 +168,7 @@ namespace GPGO_MultiPLCs.Models
         }
     }
 
+    /// <summary>資料庫紀錄資訊 = 機台資訊 + 製程資訊</summary>
     [BsonIgnoreExtraElements]
     public class ProcessInfo : BaseInfo, ILogData
     {

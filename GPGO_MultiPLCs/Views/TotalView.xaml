@@ -833,6 +833,7 @@
                                 Header="{DynamicResource 配方參數}"
                                 IsHitTestVisible="False">
                                 <local:AutoGrid
+                                    ClipToBounds="True"
                                     Columns="70,*,70,*,70,*,70,*"
                                     Orientation="Vertical"
                                     RowCount="9">
@@ -935,7 +936,6 @@
                                         </TextBlock>
                                     </Border>
                                     <Border
-                                        Grid.Column="1"
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
@@ -1584,6 +1584,12 @@
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
+                                    <Border
+                                        Grid.Row="{Binding UsedSegmentCounts, Converter={StaticResource AddValue}, ConverterParameter=1, Mode=OneWay}"
+                                        Grid.RowSpan="8"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="{Binding ColumnCount, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoGrid}}}"
+                                        Background="{StaticResource WindowBackgroundBrush6}" />
                                 </local:AutoGrid>
                             </GroupBox>
                             <GroupBox
