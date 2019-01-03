@@ -347,7 +347,7 @@ namespace GPGO_MultiPLCs
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, "仍在生產中，無法終止程式!" }, { Language.CHS, "仍在生产中，无法终止程序!" }, { Language.EN, "Still processing,\ncannot terminate the program." }
+                                                             { Language.TW, "仍在生產中，無法終止程式！" }, { Language.CHS, "仍在生产中，无法终止程序！" }, { Language.EN, "Still processing,\ncannot terminate the program." }
                                                          });
                                        }
                                        else if (User.Level > User.UserLevel.Operator)
@@ -388,7 +388,7 @@ namespace GPGO_MultiPLCs
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, "權限不足，不可關閉程式!" }, { Language.CHS, "权限不足，不可关闭程序!" }, { Language.EN, "Insufficient permissions,\ncan't close the program." }
+                                                             { Language.TW, "權限不足，不可關閉程式！" }, { Language.CHS, "权限不足，不可关闭程序！" }, { Language.EN, "Insufficient permissions,\ncan't close the program." }
                                                          });
                                        }
                                    };
@@ -419,8 +419,8 @@ namespace GPGO_MultiPLCs
 
                                                  DialogVM.Show(new Dictionary<Language, string>
                                                                {
-                                                                   { Language.TW, $"{str} 號\n烤箱目前無法寫入配方!" },
-                                                                   { Language.CHS, $"{str} 号\n烤箱目前无法写入配方!" },
+                                                                   { Language.TW, $"{str} 號\n烤箱目前無法寫入配方！" },
+                                                                   { Language.CHS, $"{str} 号\n烤箱目前无法写入配方！" },
                                                                    { Language.EN, $"No. {str} oven{(l.Count > 1 ? "s" : "")} {(l.Count > 1 ? "are" : "is")}\ncurrently unable to write the recipe!" }
                                                                },
                                                                TimeSpan.FromSeconds(3),

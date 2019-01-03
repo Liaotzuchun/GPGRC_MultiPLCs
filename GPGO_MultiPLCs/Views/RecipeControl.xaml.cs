@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views
@@ -46,7 +45,12 @@ namespace GPGO_MultiPLCs.Views
         {
             if (e.Key == Key.Enter)
             {
-                EditedTB.RaiseEvent(new RoutedEventArgs(ToggleButton.UncheckedEvent));
+                EditedTB.IsChecked = false;
+            }
+            else if (e.Key == Key.Escape)
+            {
+                EditTextBox.Text = "";
+                EditedTB.IsChecked = false;
             }
         }
 

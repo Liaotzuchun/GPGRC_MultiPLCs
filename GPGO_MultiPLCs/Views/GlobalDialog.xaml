@@ -123,6 +123,7 @@
                             Value="Alert">
                             <Setter TargetName="HeaderBorder" Property="Background" Value="{StaticResource WorkingBrush}" />
                             <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
+                            <Setter TargetName="HeaderText" Property="Foreground" Value="Red" />
                             <Setter TargetName="HeaderText" Property="Text" Value="{DynamicResource 警告}" />
                         </DataTrigger>
                         <DataTrigger
@@ -130,6 +131,7 @@
                             Value="Alarm">
                             <Setter TargetName="HeaderBorder" Property="Background" Value="{StaticResource ErrorBrush}" />
                             <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                            <Setter TargetName="HeaderText" Property="Foreground" Value="White" />
                             <Setter TargetName="HeaderText" Property="Text" Value="{DynamicResource 錯誤}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
@@ -164,7 +166,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="20"
-                    Foreground="White"
+                    Foreground="Red"
                     Text="{DynamicResource 警告}" />
             </Border>
             <Grid Grid.Row="1">
@@ -179,7 +181,8 @@
                         StretchDirection="DownOnly">
                         <TextBlock
                             FontSize="28"
-                            Text="{Binding Message_1, Mode=OneWay}" />
+                            Text="{Binding Message_1, Mode=OneWay}"
+                            TextAlignment="Center" />
                     </Viewbox>
                 </ScrollViewer>
                 <ItemsControl

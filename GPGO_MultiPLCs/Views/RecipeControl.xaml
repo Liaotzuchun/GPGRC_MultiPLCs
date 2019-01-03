@@ -2324,7 +2324,7 @@
                             <i:InvokeCommandAction Command="{Binding ReNameCommand, Mode=OneTime}" />
                             <local:SetPropertyAction
                                 PropertyName="Content"
-                                PropertyValue="{DynamicResource 修改}" />
+                                PropertyValue="{DynamicResource 改名}" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="Checked">
                             <local:SetPropertyAction

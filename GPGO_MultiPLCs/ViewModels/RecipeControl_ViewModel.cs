@@ -87,7 +87,11 @@ namespace GPGO_MultiPLCs.ViewModels
         public string EditedName
         {
             get => Get<string>();
-            set => Set(value);
+            set
+            {
+                value = value.Replace(" ", "_");
+                Set(value.Length > 26 ? value.Substring(0, 26) : value);
+            }
         }
 
         /// <summary>配方搜尋的關鍵字</summary>
@@ -384,8 +388,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                            {
                                                if (await dialog.Show(new Dictionary<Language, string>
                                                                      {
-                                                                         { Language.TW, "即將儲存配方，確定儲存?" },
-                                                                         { Language.CHS, "即将储存配方，确定储存?" },
+                                                                         { Language.TW, "即將儲存配方，確定儲存？" },
+                                                                         { Language.CHS, "即将储存配方，确定储存？" },
                                                                          { Language.EN, "The recipe is going to save.\nAre you sure?" }
                                                                      },
                                                                      true))
@@ -400,8 +404,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                 if (await dialog.Show(new Dictionary<Language, string>
                                                                       {
-                                                                          { Language.TW, "即將儲存配方，確定儲存?" },
-                                                                          { Language.CHS, "即将储存配方，确定储存?" },
+                                                                          { Language.TW, "即將儲存配方，確定儲存？" },
+                                                                          { Language.CHS, "即将储存配方，确定储存？" },
                                                                           { Language.EN, "The recipe is going to save.\nAre you sure?" }
                                                                       },
                                                                       true))
@@ -508,11 +512,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                              {
                                                  if (string.IsNullOrEmpty(EditedName))
                                                  {
-                                                     dialog?.Show(new Dictionary<Language, string>
-                                                                  {
-                                                                      { Language.TW, "配方名稱不可為空白!" }, { Language.CHS, "配方名称不可为空白!" }, { Language.EN, "Recipe Name cannot be blank!" }
-                                                                  },
-                                                                  DialogMsgType.Alert);
+                                                     //dialog?.Show(new Dictionary<Language, string>
+                                                     //             {
+                                                     //                 { Language.TW, "配方名稱不可為空白！" }, { Language.CHS, "配方名称不可为空白！" }, { Language.EN, "Recipe Name cannot be blank!" }
+                                                     //             },
+                                                     //             DialogMsgType.Alert);
 
                                                      return;
                                                  }
@@ -521,7 +525,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                      dialog?.Show(new Dictionary<Language, string>
                                                                   {
-                                                                      { Language.TW, "已有相同名稱!" }, { Language.CHS, "已有相同名称!" }, { Language.EN, "The same name already exists!" }
+                                                                      { Language.TW, "已有相同名稱！" }, { Language.CHS, "已有相同名称！" }, { Language.EN, "The same name already exists!" }
                                                                   },
                                                                   DialogMsgType.Alert);
 
@@ -530,9 +534,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  if (await dialog.Show(new Dictionary<Language, string>
                                                                        {
-                                                                           { Language.TW, "更改配方名稱無法復原!\n確定更改?" },
-                                                                           { Language.CHS, "更改配方名称无法复原!\n确定更改?" },
-                                                                           { Language.EN, "Change recipe name cannot be restored!\nAre you sure?" }
+                                                                           { Language.TW, $"更改配方名稱：\n{TypedName} -> {EditedName}\n無法復原！ 確定更改？" },
+                                                                           { Language.CHS, $"更改配方名称：\n{TypedName} -> {EditedName}\n无法复原！ 确定更改？" },
+                                                                           { Language.EN, $"Change recipe name:\n{TypedName} -> {EditedName}\nCannot be restored! Are you sure?" }
                                                                        },
                                                                        true))
                                                  {

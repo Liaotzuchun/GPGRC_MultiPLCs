@@ -2542,6 +2542,7 @@
                                             x:Name="TextBlock"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
+                                            Text="{DynamicResource 待命}"
                                             Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     </Grid>
                                     <DataTemplate.Triggers>
@@ -2549,11 +2550,6 @@
                                             Binding="{Binding IsRecording, Mode=OneWay}"
                                             Value="True">
                                             <Setter TargetName="TextBlock" Property="Text" Value="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=-\{0:D\} m}" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding IsRecording, Mode=OneWay}"
-                                            Value="False">
-                                            <Setter TargetName="TextBlock" Property="Text" Value="{DynamicResource 待命}" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding ProgressStatus, Mode=OneWay}"

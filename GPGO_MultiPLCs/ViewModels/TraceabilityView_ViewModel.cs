@@ -702,7 +702,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                    if (SearchResult == null)
                                                    {
-                                                       dialog.Show(new Dictionary<Language, string> { { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" } },
+                                                       dialog.Show(new Dictionary<Language, string> { { Language.TW, "查無資料！" }, { Language.CHS, "查无资料！" }, { Language.EN, "No data found!" } },
                                                                    DialogMsgType.Alarm);
                                                    }
                                                    else

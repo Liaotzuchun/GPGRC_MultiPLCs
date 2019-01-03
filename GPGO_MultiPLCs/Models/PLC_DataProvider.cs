@@ -416,8 +416,8 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  return (str.Length > 4 && str.Length < 10,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
-                                                                                                             { Language.TW, "字數錯誤，請重試!" },
-                                                                                                             { Language.CHS, "字数错误，请重试!" },
+                                                                                                             { Language.TW, "字數錯誤，請重試！" },
+                                                                                                             { Language.CHS, "字数错误，请重试！" },
                                                                                                              { Language.EN, "Input error, please try again!" }
                                                                                                          });
                                                                                              });
@@ -440,8 +440,8 @@ namespace GPGO_MultiPLCs.Models
                                                                                                      return (str.Length > 4 && str.Length < 15,
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
-                                                                                                                 { Language.TW, "字數錯誤，請重試!" },
-                                                                                                                 { Language.CHS, "字数错误，请重试!" },
+                                                                                                                 { Language.TW, "字數錯誤，請重試！" },
+                                                                                                                 { Language.CHS, "字数错误，请重试！" },
                                                                                                                  { Language.EN, "Input error, please try again!" }
                                                                                                              });
                                                                                                  });
@@ -457,7 +457,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      {
                                                                          Dialog.Show(new Dictionary<Language, string>
                                                                                      {
-                                                                                         { Language.TW, "查無資料!" }, { Language.CHS, "查无资料!" }, { Language.EN, "No data found!" }
+                                                                                         { Language.TW, "查無資料！" }, { Language.CHS, "查无资料！" }, { Language.EN, "No data found!" }
                                                                                      },
                                                                                      DialogMsgType.Alarm);
 
@@ -482,8 +482,8 @@ namespace GPGO_MultiPLCs.Models
                                                                                                          return (str.Length > 0 && str.Length <= 4 && str.All(char.IsDigit),
                                                                                                                  new Dictionary<Language, string>
                                                                                                                  {
-                                                                                                                     { Language.TW, "字數錯誤或非整數，請重試!" },
-                                                                                                                     { Language.CHS, "字数错误或非整数，请重试!" },
+                                                                                                                     { Language.TW, "字數錯誤或非整數，請重試！" },
+                                                                                                                     { Language.CHS, "字数错误或非整数，请重试！" },
                                                                                                                      { Language.EN, "Input error, please try again!" }
                                                                                                                  });
                                                                                                      });
@@ -514,8 +514,8 @@ namespace GPGO_MultiPLCs.Models
                                                                      if (!PC_InUsed &&
                                                                          !await Dialog.Show(new Dictionary<Language, string>
                                                                                             {
-                                                                                                { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎?" },
-                                                                                                { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗?" },
+                                                                                                { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎？" },
+                                                                                                { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗？" },
                                                                                                 { Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?" }
                                                                                             },
                                                                                             true))
