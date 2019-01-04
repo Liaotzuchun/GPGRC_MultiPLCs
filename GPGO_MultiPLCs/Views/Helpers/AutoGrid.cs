@@ -367,7 +367,10 @@ namespace GPGO_MultiPLCs.Views
             var skip = new bool[rowCount, colCount];
             foreach (UIElement child in Children)
             {
-                if (IsAutoIndexing && child.Visibility != Visibility.Collapsed && GetColumn(child) == 0 && GetRow(child) == 0)
+                var cc = GetColumn(child);
+                var rc = GetRow(child);
+
+                if (IsAutoIndexing && child.Visibility != Visibility.Collapsed && cc == 0 && rc == 0)
                 {
                     if (Orientation == Orientation.Horizontal)
                     {
@@ -432,6 +435,10 @@ namespace GPGO_MultiPLCs.Views
                             }
                         }
                     }
+                }
+                else if (cc >= colCount || rc >= rowCount)
+                {
+                    child.Visibility = Visibility.Collapsed;
                 }
 
                 ApplyChildLayout(child);
