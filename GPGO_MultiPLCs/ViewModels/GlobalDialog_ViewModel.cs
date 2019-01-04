@@ -15,59 +15,65 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public async ValueTask<bool> Show(Dictionary<Language, string> msg, object obj, bool support_cancel, TimeSpan delay = default(TimeSpan))
         {
-            if (!Lock_1.WaitOne(0))
+            using (await AsyncLock_1.LockAsync())
             {
+                if (!Lock_1.WaitOne(0))
+                {
+                    EnterResult_1 = false;
+                    Lock_1.Set();
+
+                    await Task.Delay(30);
+                }
+
                 EnterResult_1 = false;
-                Lock_1.Set();
+                SupportCancel = support_cancel;
 
-                await Task.Delay(30);
+                Message_1 = msg.TryGetValue(Language, out var val) ? val : msg.Values.First();
+                ObjectPropertiesView = obj.ToDictionary(Language);
+
+                IsShown_1 = Visibility.Visible;
+
+                Lock_1.Reset();
+                if (delay == TimeSpan.Zero)
+                {
+                    await Lock_1.WaitOneAsync();
+                }
+                else
+                {
+                    await Lock_1.WaitOneAsync((int)delay.TotalMilliseconds);
+                }
+
+                IsShown_1 = Visibility.Collapsed;
+                Message_1 = "";
+                ObjectPropertiesView = null;
             }
-
-            EnterResult_1 = false;
-            SupportCancel = support_cancel;
-
-            Message_1 = msg.TryGetValue(Language, out var val) ? val : msg.Values.First();
-            ObjectPropertiesView = obj.ToDictionary(Language);
-
-            IsShown_1 = Visibility.Visible;
-
-            Lock_1.Reset();
-            if (delay == TimeSpan.Zero)
-            {
-                await Lock_1.WaitOneAsync();
-            }
-            else
-            {
-                await Lock_1.WaitOneAsync((int)delay.TotalMilliseconds);
-            }
-
-            IsShown_1 = Visibility.Collapsed;
-            Message_1 = "";
-            ObjectPropertiesView = null;
 
             return EnterResult_1;
         }
 
         public async ValueTask<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay = default(TimeSpan))
         {
-            if (!Lock_1.WaitOne(0))
+            using (await AsyncLock_1.LockAsync())
             {
+                if (!Lock_1.WaitOne(0))
+                {
+                    EnterResult_1 = false;
+                    Lock_1.Set();
+
+                    await Task.Delay(30);
+                }
+
                 EnterResult_1 = false;
-                Lock_1.Set();
+                SupportCancel = support_cancel;
+                Message_1 = msg.TryGetValue(Language, out var val) ? val : msg.Values.First();
+                IsShown_1 = Visibility.Visible;
 
-                await Task.Delay(30);
+                Lock_1.Reset();
+                await Lock_1.WaitOneAsync((int)(delay == TimeSpan.Zero ? TimeSpan.FromSeconds(15) : delay).TotalMilliseconds);
+
+                IsShown_1 = Visibility.Collapsed;
+                Message_1 = "";
             }
-
-            EnterResult_1 = false;
-            SupportCancel = support_cancel;
-            Message_1 = msg.TryGetValue(Language, out var val) ? val : msg.Values.First();
-            IsShown_1 = Visibility.Visible;
-
-            Lock_1.Reset();
-            await Lock_1.WaitOneAsync((int)(delay == TimeSpan.Zero ? TimeSpan.FromSeconds(15) : delay).TotalMilliseconds);
-
-            IsShown_1 = Visibility.Collapsed;
-            Message_1 = "";
 
             return EnterResult_1;
         }
@@ -92,27 +98,30 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async ValueTask<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
         {
-            if (!Lock_2.WaitOne(0))
+            using (await AsyncLock_1.LockAsync())
             {
+                if (!Lock_2.WaitOne(0))
+                {
+                    EnterResult_2 = false;
+                    Lock_2.Set();
+
+                    await Task.Delay(30);
+                }
+
+                Intput = "";
+                ConditionResult = null;
                 EnterResult_2 = false;
-                Lock_2.Set();
+                Message_2 = msg.TryGetValue(Language, out var val1) ? val1 : msg.Values.First();
+                TitleHeader = header.TryGetValue(Language, out var val2) ? val2 : header.Values.First();
+                IsShown_2 = Visibility.Visible;
 
-                await Task.Delay(30);
+                Lock_2.Reset();
+                await Lock_2.WaitOneAsync(30000);
+
+                IsShown_2 = Visibility.Collapsed;
+                Message_2 = "";
+                TitleHeader = "";
             }
-
-            Intput = "";
-            ConditionResult = null;
-            EnterResult_2 = false;
-            Message_2 = msg.TryGetValue(Language, out var val1) ? val1 : msg.Values.First();
-            TitleHeader = header.TryGetValue(Language, out var val2) ? val2 : header.Values.First();
-            IsShown_2 = Visibility.Visible;
-
-            Lock_2.Reset();
-            await Lock_2.WaitOneAsync(30000);
-
-            IsShown_2 = Visibility.Collapsed;
-            Message_2 = "";
-            TitleHeader = "";
 
             return (EnterResult_2, Intput);
         }
@@ -121,62 +130,65 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                             Dictionary<Language, string> header,
                                                                             Func<string, (bool result, Dictionary<Language, string> title_msg)> condition)
         {
-            if (!Lock_2.WaitOne(0))
+            using (await AsyncLock_1.LockAsync())
             {
-                EnterResult_2 = false;
-                Lock_2.Set();
-
-                await Task.Delay(30);
-            }
-
-            Title = "";
-            Intput = "";
-            ConditionResult = null;
-            EnterResult_2 = false;
-            Message_2 = msg.TryGetValue(Language, out var val1) ? val1 : msg.Values.First();
-            TitleHeader = header.TryGetValue(Language, out var val2) ? val2 : header.Values.First();
-            IsShown_2 = Visibility.Visible;
-
-            while (true)
-            {
-                Lock_2.Reset();
-                if (await Lock_2.WaitOneAsync(30000))
+                if (!Lock_2.WaitOne(0))
                 {
-                    var (result, title_msg) = condition(Intput);
+                    EnterResult_2 = false;
+                    Lock_2.Set();
 
-                    if (EnterResult_2)
-                    {
-                        ConditionResult = result;
-                    }
+                    await Task.Delay(30);
+                }
 
-                    if (ConditionResult != null && EnterResult_2 && !ConditionResult.Value)
+                Title = "";
+                Intput = "";
+                ConditionResult = null;
+                EnterResult_2 = false;
+                Message_2 = msg.TryGetValue(Language, out var val1) ? val1 : msg.Values.First();
+                TitleHeader = header.TryGetValue(Language, out var val2) ? val2 : header.Values.First();
+                IsShown_2 = Visibility.Visible;
+
+                while (true)
+                {
+                    Lock_2.Reset();
+                    if (await Lock_2.WaitOneAsync(30000))
                     {
-                        Title = title_msg.TryGetValue(Language, out var val3) ? val3 : title_msg.Values.First();
-                        Intput = "";
-                    }
-                    else
-                    {
-                        Title = "";
+                        var (result, title_msg) = condition(Intput);
 
                         if (EnterResult_2)
                         {
-                            AllowIntput = false;
-                            await Task.Delay(450);
-                            AllowIntput = true;
+                            ConditionResult = result;
                         }
 
+                        if (ConditionResult != null && EnterResult_2 && !ConditionResult.Value)
+                        {
+                            Title = title_msg.TryGetValue(Language, out var val3) ? val3 : title_msg.Values.First();
+                            Intput = "";
+                        }
+                        else
+                        {
+                            Title = "";
+
+                            if (EnterResult_2)
+                            {
+                                AllowIntput = false;
+                                await Task.Delay(450);
+                                AllowIntput = true;
+                            }
+
+                            break;
+                        }
+                    }
+                    else
+                    {
                         break;
                     }
                 }
-                else
-                {
-                    break;
-                }
-            }
 
-            IsShown_2 = Visibility.Collapsed;
-            Message_2 = "";
-            TitleHeader = "";
+                IsShown_2 = Visibility.Collapsed;
+                Message_2 = "";
+                TitleHeader = "";
+            }
 
             return (ConditionResult != null && EnterResult_2 && ConditionResult.Value, Intput);
         }
@@ -188,7 +200,8 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public Language Language;
-
+        private readonly AsyncLock AsyncLock_1 = new AsyncLock();
+        private readonly AsyncLock AsyncLock_2 = new AsyncLock();
         private readonly ManualResetEvent Lock_1;
         private readonly ManualResetEvent Lock_2;
 
