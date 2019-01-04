@@ -14,39 +14,33 @@ namespace GPGO_MultiPLCs.Models
         JobNo
     }
 
+    public struct RecipeValues
+    {
+        public double TargetOvenTemp { get; set; }
+        public double ThermostaticTemp { get; set; }
+        public double HeatingTime { get; set; }
+        public double WarmingTime { get; set; }
+    }
+
     /// <summary>機台資訊</summary>
     [BsonIgnoreExtraElements]
     public class BaseInfo : ObservableObject
     {
+        public List<RecipeValues> RecipeValues => TargetOvenTemperatures
+                                                  .Select((t, i) => new RecipeValues
+                                                                    {
+                                                                        TargetOvenTemp = t,
+                                                                        ThermostaticTemp = ThermostaticTemperatures[i],
+                                                                        HeatingTime = HeatingTimes[i],
+                                                                        WarmingTime = WarmingTimes[i]
+                                                                    })
+                                                  .ToList();
+
         /// <summary>財產編號</summary>
-        [LanguageTranslator("Asset Number", "財產編號", "财产编号")]
+        [LanguageTranslator("Asset No.", "財產編號", "财产编号")]
         public string AssetNumber
         {
             get => Get<string>();
-            set => Set(value);
-        }
-
-        /// <summary>結束時間</summary>
-        [LanguageTranslator("Closing Time", "結束時間", "结束时间")]
-        public DateTime EndTime
-        {
-            get => Get<DateTime>();
-            set => Set(value);
-        }
-
-        /// <summary>事件紀錄</summary>
-        [LanguageTranslator("Events", "事件紀錄", "事件纪录")]
-        public ObservableConcurrentCollection<LogEvent> EventList
-        {
-            get => Get<ObservableConcurrentCollection<LogEvent>>();
-            set => Set(value);
-        }
-
-        /// <summary>加熱時間(升溫至目標溫度)</summary>
-        [LanguageTranslator("Heating Time", "加熱時間", "加热时间")]
-        public List<int> HeatingTimes
-        {
-            get => Get<List<int>>();
             set => Set(value);
         }
 
@@ -74,11 +68,11 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        /// <summary>紀錄溫度</summary>
-        [LanguageTranslator("Temperatures", "溫度紀錄", "温度纪录")]
-        public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
+        /// <summary>台車編號</summary>
+        [LanguageTranslator("Trolley", "台車", "台车")]
+        public string TrolleyCode
         {
-            get => Get<ObservableConcurrentCollection<RecordTemperatures>>();
+            get => Get<string>();
             set => Set(value);
         }
 
@@ -90,27 +84,51 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>結束時間</summary>
+        [LanguageTranslator("Closing Time", "結束時間", "结束时间")]
+        public DateTime EndTime
+        {
+            get => Get<DateTime>();
+            set => Set(value);
+        }
+
+        /// <summary>紀錄溫度</summary>
+        [LanguageTranslator("Temps", "溫度紀錄", "温度纪录")]
+        public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
+        {
+            get => Get<ObservableConcurrentCollection<RecordTemperatures>>();
+            set => Set(value);
+        }
+
+        /// <summary>事件紀錄</summary>
+        [LanguageTranslator("Events", "事件紀錄", "事件纪录")]
+        public ObservableConcurrentCollection<LogEvent> EventList
+        {
+            get => Get<ObservableConcurrentCollection<LogEvent>>();
+            set => Set(value);
+        }
+
         /// <summary>目標溫度</summary>
-        [LanguageTranslator("Target Temperature", "目標溫度", "目标温度")]
+        [LanguageTranslator("Target Temp.", "目標溫度", "目标温度")]
         public List<double> TargetOvenTemperatures
         {
             get => Get<List<double>>();
             set => Set(value);
         }
 
-        /// <summary>總烘烤時間</summary>
-        [LanguageTranslator("Total Heating Time", "總烘烤時間", "总烘烤时间")]
-        public int TotalHeatingTime
+        /// <summary>恆溫溫度</summary>
+        [LanguageTranslator("Thermostatic Temp.", "恆溫溫度", "恒温温度")]
+        public List<double> ThermostaticTemperatures
         {
-            get => Get<int>();
+            get => Get<List<double>>();
             set => Set(value);
         }
 
-        /// <summary>台車編號</summary>
-        [LanguageTranslator("Trolley", "台車", "台车")]
-        public string TrolleyCode
+        /// <summary>加熱時間(升溫至目標溫度)</summary>
+        [LanguageTranslator("Heating Time", "加熱時間", "加热时间")]
+        public List<int> HeatingTimes
         {
-            get => Get<string>();
+            get => Get<List<int>>();
             set => Set(value);
         }
 
@@ -119,6 +137,14 @@ namespace GPGO_MultiPLCs.Models
         public List<int> WarmingTimes
         {
             get => Get<List<int>>();
+            set => Set(value);
+        }
+
+        /// <summary>總烘烤時間</summary>
+        [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
+        public int TotalHeatingTime
+        {
+            get => Get<int>();
             set => Set(value);
         }
 
@@ -141,7 +167,7 @@ namespace GPGO_MultiPLCs.Models
         }
     }
 
-    /// <summary>客戶製程資訊</summary>
+    /// <summary>材料生產資訊</summary>
     public class ProductInfo
     {
         public CodeType CodeType { get; set; } = CodeType.Panel;
@@ -168,7 +194,7 @@ namespace GPGO_MultiPLCs.Models
         }
     }
 
-    /// <summary>資料庫紀錄資訊 = 機台資訊 + 製程資訊</summary>
+    /// <summary>資料庫紀錄資訊 = 機台資訊(BaseInfo) + 材料生產資訊(ProductInfo)</summary>
     [BsonIgnoreExtraElements]
     public class ProcessInfo : BaseInfo, ILogData
     {

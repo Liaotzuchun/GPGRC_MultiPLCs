@@ -131,8 +131,19 @@ namespace GPGO_MultiPLCs.Views
 
         private void UpdateComputedValues()
         {
-            _columns = InternalChildren.Count < Columns ? InternalChildren.Count : Columns;
-            _rows = InternalChildren.Count < Rows ? InternalChildren.Count : Rows;
+            if(Orientation == Orientation.Horizontal)
+            {
+                _columns = InternalChildren.Count < Columns ? InternalChildren.Count : Columns;
+                var n = (int)Math.Ceiling((double)InternalChildren.Count / Columns);
+                _rows = n > Rows ? n : Rows;
+            }
+            else
+            {
+                _rows = InternalChildren.Count < Rows ? InternalChildren.Count : Rows;
+                var n = (int)Math.Ceiling((double)InternalChildren.Count / Rows);
+                _columns = n > Columns ? n : Columns;
+            }
+
             if (FirstColumn >= _columns)
             {
                 FirstColumn = 0;

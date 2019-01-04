@@ -27,11 +27,12 @@ namespace GPGO_MultiPLCs.Models
             降溫
         }
 
+        private readonly IDialogService Dialog;
+        private readonly TaskFactory OneScheduler = new TaskFactory(new StaTaskScheduler(1));
+
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
 
-        private readonly IDialogService Dialog;
-        private readonly TaskFactory OneScheduler = new TaskFactory(new StaTaskScheduler(1));
         private bool PassTag;
 
         /// <summary>取消投產</summary>
@@ -161,9 +162,21 @@ namespace GPGO_MultiPLCs.Models
                                                    TargetTemperature_7,
                                                    TargetTemperature_8
                                                };
+                                       var s = new[]
+                                               {
+                                                   ThermostaticTemperature_1,
+                                                   ThermostaticTemperature_2,
+                                                   ThermostaticTemperature_3,
+                                                   ThermostaticTemperature_4,
+                                                   ThermostaticTemperature_5,
+                                                   ThermostaticTemperature_6,
+                                                   ThermostaticTemperature_7,
+                                                   ThermostaticTemperature_8
+                                               };
                                        Array.Resize(ref h, UsedSegmentCounts);
                                        Array.Resize(ref w, UsedSegmentCounts);
                                        Array.Resize(ref t, UsedSegmentCounts);
+                                       Array.Resize(ref s, UsedSegmentCounts);
 
                                        //!結束生產，填入資料
                                        OvenInfo.EndTime = DateTime.Now;
@@ -172,6 +185,7 @@ namespace GPGO_MultiPLCs.Models
                                        OvenInfo.WarmingTimes = w.ToList();
                                        OvenInfo.TotalHeatingTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
                                        OvenInfo.TargetOvenTemperatures = t.ToList();
+                                       OvenInfo.ThermostaticTemperatures = s.ToList();
 
                                        if (RecordingFinished != null)
                                        {

@@ -9,6 +9,14 @@ namespace GPGO_MultiPLCs.Helpers
         private readonly Queue<TaskCompletionSource<bool>> m_waits = new Queue<TaskCompletionSource<bool>>();
         private bool m_signaled;
 
+        public bool IsSet()
+        {
+            lock (m_waits)
+            {
+                return m_signaled;
+            }
+        }
+
         public void Set()
         {
             TaskCompletionSource<bool> toRelease = null;

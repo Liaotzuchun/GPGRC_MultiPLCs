@@ -54,18 +54,23 @@ namespace GPGO_MultiPLCs.Models
 
         [JsonIgnore]
         public short SegmentCounts_Max => 8;
+
         [JsonIgnore]
         public short SegmentCounts_Min => 1;
+
         [JsonIgnore]
         public double Temperature_Max => 240.0;
+
         [JsonIgnore]
         public double Temperature_Min => 40.0;
+
         [JsonIgnore]
         public short Time_Max => 600;
+
         [JsonIgnore]
         public short Time_Min => 1;
 
-        [LanguageTranslator("Cooling Temperature", "降溫溫度", "降温温度")]
+        [LanguageTranslator("Cooling Temp.", "降溫溫度", "降温温度")]
         public short CoolingTemperature
         {
             get => Get<short>();
@@ -282,7 +287,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(4)]
-        [LanguageTranslator("Target Temperature 1", "目標溫度 1", "目标温度 1")]
+        [LanguageTranslator("Target Temp. 1", "目標溫度 1", "目标温度 1")]
         public double TargetTemperature_1
         {
             get => Get<double>();
@@ -302,7 +307,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(5)]
-        [LanguageTranslator("Target Temperature 2", "目標溫度 2", "目标温度 2")]
+        [LanguageTranslator("Target Temp. 2", "目標溫度 2", "目标温度 2")]
         public double TargetTemperature_2
         {
             get => Get<double>();
@@ -322,7 +327,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(6)]
-        [LanguageTranslator("Target Temperature 3", "目標溫度 3", "目标温度 3")]
+        [LanguageTranslator("Target Temp. 3", "目標溫度 3", "目标温度 3")]
         public double TargetTemperature_3
         {
             get => Get<double>();
@@ -342,7 +347,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(7)]
-        [LanguageTranslator("Target Temperature 4", "目標溫度 4", "目标温度 4")]
+        [LanguageTranslator("Target Temp. 4", "目標溫度 4", "目标温度 4")]
         public double TargetTemperature_4
         {
             get => Get<double>();
@@ -362,7 +367,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(8)]
-        [LanguageTranslator("Target Temperature 5", "目標溫度 5", "目标温度 5")]
+        [LanguageTranslator("Target Temp. 5", "目標溫度 5", "目标温度 5")]
         public double TargetTemperature_5
         {
             get => Get<double>();
@@ -382,7 +387,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(9)]
-        [LanguageTranslator("Target Temperature 6", "目標溫度 6", "目标温度 6")]
+        [LanguageTranslator("Target Temp. 6", "目標溫度 6", "目标温度 6")]
         public double TargetTemperature_6
         {
             get => Get<double>();
@@ -402,7 +407,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(10)]
-        [LanguageTranslator("Target Temperature 7", "目標溫度 7", "目标温度 7")]
+        [LanguageTranslator("Target Temp. 7", "目標溫度 7", "目标温度 7")]
         public double TargetTemperature_7
         {
             get => Get<double>();
@@ -422,7 +427,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(11)]
-        [LanguageTranslator("Target Temperature 8", "目標溫度 8", "目标温度 8")]
+        [LanguageTranslator("Target Temp. 8", "目標溫度 8", "目标温度 8")]
         public double TargetTemperature_8
         {
             get => Get<double>();
@@ -442,7 +447,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(20)]
-        [LanguageTranslator("Thermostatic Temperature 1", "恆溫溫度 1", "恒温温度 1")]
+        [LanguageTranslator("Thermostatic Temp. 1", "恆溫溫度 1", "恒温温度 1")]
         public double ThermostaticTemperature_1
         {
             get => Get<double>();
@@ -462,7 +467,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(21)]
-        [LanguageTranslator("Thermostatic Temperature 2", "恆溫溫度 2", "恒温温度 2")]
+        [LanguageTranslator("Thermostatic Temp. 2", "恆溫溫度 2", "恒温温度 2")]
         public double ThermostaticTemperature_2
         {
             get => Get<double>();
@@ -482,7 +487,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(22)]
-        [LanguageTranslator("Thermostatic Temperature 3", "恆溫溫度 3", "恒温温度 3")]
+        [LanguageTranslator("Thermostatic Temp. 3", "恆溫溫度 3", "恒温温度 3")]
         public double ThermostaticTemperature_3
         {
             get => Get<double>();
@@ -502,7 +507,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(23)]
-        [LanguageTranslator("Thermostatic Temperature 4", "恆溫溫度 4", "恒温温度 4")]
+        [LanguageTranslator("Thermostatic Temp. 4", "恆溫溫度 4", "恒温温度 4")]
         public double ThermostaticTemperature_4
         {
             get => Get<double>();
@@ -522,7 +527,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(24)]
-        [LanguageTranslator("Thermostatic Temperature 5", "恆溫溫度 5", "恒温温度 5")]
+        [LanguageTranslator("Thermostatic Temp. 5", "恆溫溫度 5", "恒温温度 5")]
         public double ThermostaticTemperature_5
         {
             get => Get<double>();
@@ -542,7 +547,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(25)]
-        [LanguageTranslator("Thermostatic Temperature 6", "恆溫溫度 6", "恒温温度 6")]
+        [LanguageTranslator("Thermostatic Temp. 6", "恆溫溫度 6", "恒温温度 6")]
         public double ThermostaticTemperature_6
         {
             get => Get<double>();
@@ -562,7 +567,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(26)]
-        [LanguageTranslator("Thermostatic Temperature 7", "恆溫溫度 7", "恒温温度 7")]
+        [LanguageTranslator("Thermostatic Temp. 7", "恆溫溫度 7", "恒温温度 7")]
         public double ThermostaticTemperature_7
         {
             get => Get<double>();
@@ -582,7 +587,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(27)]
-        [LanguageTranslator("Thermostatic Temperature 8", "恆溫溫度 8", "恒温温度 8")]
+        [LanguageTranslator("Thermostatic Temp. 8", "恆溫溫度 8", "恒温温度 8")]
         public double ThermostaticTemperature_8
         {
             get => Get<double>();

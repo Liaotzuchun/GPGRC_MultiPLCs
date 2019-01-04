@@ -85,6 +85,8 @@ namespace GPGO_MultiPLCs
 
         private readonly AsyncLock lockobj = new AsyncLock();
 
+        private AsyncAutoResetEvent _Testdatalock;
+
         public GlobalDialog_ViewModel DialogVM { get; }
         public LogView_ViewModel LogVM { get; }
         public MainWindow_ViewModel MainVM { get; }
@@ -94,8 +96,11 @@ namespace GPGO_MultiPLCs
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
-        public void MakeTestData(int PLC_Count)
+        public async void MakeTestData(int PLC_Count)
         {
+            _Testdatalock = new AsyncAutoResetEvent();
+            await _Testdatalock.WaitAsync();
+
             var tags = new[] { 0, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 0, 0, 0, 0, 0 };
 
             var events = new[]
@@ -136,8 +141,62 @@ namespace GPGO_MultiPLCs
                     for (var k = 0; k < 8; k++)
                     {
                         var info = new ProcessInfo { StartTime = st, TrolleyCode = rn.Next(1, 10000).ToString("00000"), OperatorID = rn.Next(1, 10).ToString("000") };
+                        var h = new int[]
+                                {
+                                    TotalVM.PLC_All[i].HeatingTime_1,
+                                    TotalVM.PLC_All[i].HeatingTime_2,
+                                    TotalVM.PLC_All[i].HeatingTime_3,
+                                    TotalVM.PLC_All[i].HeatingTime_4,
+                                    TotalVM.PLC_All[i].HeatingTime_5,
+                                    TotalVM.PLC_All[i].HeatingTime_6,
+                                    TotalVM.PLC_All[i].HeatingTime_7,
+                                    TotalVM.PLC_All[i].HeatingTime_8
+                                };
+                        var w = new int[]
+                                {
+                                    TotalVM.PLC_All[i].WarmingTime_1,
+                                    TotalVM.PLC_All[i].WarmingTime_2,
+                                    TotalVM.PLC_All[i].WarmingTime_3,
+                                    TotalVM.PLC_All[i].WarmingTime_4,
+                                    TotalVM.PLC_All[i].WarmingTime_5,
+                                    TotalVM.PLC_All[i].WarmingTime_6,
+                                    TotalVM.PLC_All[i].WarmingTime_7,
+                                    TotalVM.PLC_All[i].WarmingTime_8
+                                };
+                        var t = new[]
+                                {
+                                    TotalVM.PLC_All[i].TargetTemperature_1,
+                                    TotalVM.PLC_All[i].TargetTemperature_2,
+                                    TotalVM.PLC_All[i].TargetTemperature_3,
+                                    TotalVM.PLC_All[i].TargetTemperature_4,
+                                    TotalVM.PLC_All[i].TargetTemperature_5,
+                                    TotalVM.PLC_All[i].TargetTemperature_6,
+                                    TotalVM.PLC_All[i].TargetTemperature_7,
+                                    TotalVM.PLC_All[i].TargetTemperature_8
+                                };
+                        var s = new[]
+                                {
+                                    TotalVM.PLC_All[i].ThermostaticTemperature_1,
+                                    TotalVM.PLC_All[i].ThermostaticTemperature_2,
+                                    TotalVM.PLC_All[i].ThermostaticTemperature_3,
+                                    TotalVM.PLC_All[i].ThermostaticTemperature_4,
+                                    TotalVM.PLC_All[i].ThermostaticTemperature_5,
+                                    TotalVM.PLC_All[i].ThermostaticTemperature_6,
+                                    TotalVM.PLC_All[i].ThermostaticTemperature_7,
+                                    TotalVM.PLC_All[i].ThermostaticTemperature_8
+                                };
+                        Array.Resize(ref h, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref w, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref t, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref s, TotalVM.PLC_All[i].UsedSegmentCounts);
 
-                        var t = new TimeSpan(0, 0, 1);
+                        info.RecipeName = TotalVM.PLC_All[i].RecipeName;
+                        info.HeatingTimes = h.ToList();
+                        info.WarmingTimes = w.ToList();
+                        info.TargetOvenTemperatures = t.ToList();
+                        info.ThermostaticTemperatures = s.ToList();
+
+                        var ttime = new TimeSpan(0, 0, 1);
                         for (var m = 0; m < 100; m++)
                         {
                             if (rn.Next(0, 100) > 95)
@@ -146,7 +205,7 @@ namespace GPGO_MultiPLCs
                                          {
                                              StationNumber = i + 1,
                                              StartTime = st,
-                                             AddedTime = st + t,
+                                             AddedTime = st + ttime,
                                              Description = events[rn.Next(0, events.Length)],
                                              TagCode = tags[rn.Next(0, tags.Length)],
                                              Type = (EventType)rn.Next(0, 4),
@@ -157,11 +216,11 @@ namespace GPGO_MultiPLCs
                                 info.EventList.Add(ev);
                             }
 
-                            var mins = (int)t.TotalMinutes + 1;
+                            var mins = (int)ttime.TotalMinutes + 1;
                             var vals = new RecordTemperatures
                                        {
                                            StartTime = st,
-                                           AddedTime = st + t,
+                                           AddedTime = st + ttime,
                                            ThermostatTemperature = rn.Next(30 + mins, 30 + mins * 2),
                                            OvenTemperatures_1 = rn.Next(30 + mins, 30 + mins * 2),
                                            OvenTemperatures_2 = rn.Next(30 + mins, 30 + mins * 2),
@@ -175,10 +234,11 @@ namespace GPGO_MultiPLCs
 
                             info.RecordTemperatures.Add(vals);
 
-                            t = t.Add(TimeSpan.FromMinutes(1));
+                            ttime = ttime.Add(TimeSpan.FromMinutes(1));
                         }
 
-                        info.EndTime = info.StartTime + t;
+                        info.EndTime = info.StartTime + ttime;
+                        info.TotalHeatingTime = (info.EndTime - info.StartTime).Minutes;
 
                         st = info.EndTime + TimeSpan.FromMinutes(10);
 
@@ -425,6 +485,12 @@ namespace GPGO_MultiPLCs
                                                                },
                                                                TimeSpan.FromSeconds(3),
                                                                DialogMsgType.Alert);
+                                             }
+
+                                             //!當偵測到有測試資料需生成時
+                                             if (_Testdatalock != null && !_Testdatalock.IsSet())
+                                             {
+                                                 _Testdatalock.Set();
                                              }
                                          };
 

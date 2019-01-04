@@ -11,6 +11,8 @@ namespace GPGO_MultiPLCs.Helpers
 
         public void Set() { m_tcs.TrySetResult(true); }
 
+        public bool IsSet => m_tcs.Task.IsCompleted;
+
         public void Reset()
         {
             while (true)

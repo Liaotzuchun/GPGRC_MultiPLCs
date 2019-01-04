@@ -9,6 +9,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
+    //!此區是烘烤時的溫度和事件紀錄資料模型
+
     /// <summary>定義事件type的代表顏色</summary>
     public class EventTypeToColor : IValueConverter
     {
@@ -96,17 +98,18 @@ namespace GPGO_MultiPLCs.Models
         public TimeSpan Time => AddedTime - StartTime;
 
         [LanguageTranslator("Event", "事件", "事件")]
-        public string Description { get; set; }
-
-        [LanguageTranslator("Event", "事件", "事件")]
         public string Description2
         {
             get
             {
                 var obj = Application.Current.TryFindResource(Description);
+
                 return obj != null ? obj.ToString() : Description;
             }
         }
+
+        [LanguageTranslator("Event", "事件", "事件")]
+        public string Description { get; set; }
 
         //!當處在生產中時，即烤箱開始生產的時間，若未在生產，則沒有值
         [LanguageTranslator("Started", "開始時間", "开始时间")]
