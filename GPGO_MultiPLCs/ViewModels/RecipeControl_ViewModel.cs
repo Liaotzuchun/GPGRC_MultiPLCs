@@ -182,7 +182,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>配方列表更新事件</summary>
-        public event Action<List<PLC_Recipe>> ListUpdatedEvent;
+        public event Action<(List<PLC_Recipe> list, bool tip)> ListUpdatedEvent;
 
         /// <summary>單一配方讀取完成事件</summary>
         public event Action RecipeLoadedEvent;
@@ -305,7 +305,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>更新配方列表</summary>
         /// <returns></returns>
-        private async Task RefreshList()
+        private async Task RefreshList(bool Tip)
         {
             try
             {
@@ -322,7 +322,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 if (Recipes != null && Recipes.Count > 0)
                 {
-                    ListUpdatedEvent?.Invoke(Recipes);
+                    ListUpdatedEvent?.Invoke((Recipes, Tip));
                 }
             }
         }
@@ -357,7 +357,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
             }
 
-            await RefreshList();
+            await RefreshList(true);
 
             Standby = true;
         }
@@ -373,7 +373,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                       {
                                                           Standby = false;
 
-                                                          await RefreshList();
+                                                          await RefreshList(false);
 
                                                           Standby = true;
                                                       }
@@ -432,7 +432,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                  }
 
-                                                 await RefreshList();
+                                                 await RefreshList(false);
 
                                                  Standby = true;
                                              });
@@ -496,7 +496,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      }
                                                  }
 
-                                                 await RefreshList();
+                                                 await RefreshList(false);
                                                  Standby = true;
 
                                                  dialog?.Show(new Dictionary<Language, string>
@@ -543,7 +543,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      await RecipeCollection.UpdateOneAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(PLC_Recipe.RecipeName), EditedName);
                                                      await RecipeCollection_History.UpdateManyAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(PLC_Recipe.RecipeName), EditedName);
                                                      EditedName = "";
-                                                     await RefreshList();
+                                                     await RefreshList(false);
                                                  }
                                              });
         }

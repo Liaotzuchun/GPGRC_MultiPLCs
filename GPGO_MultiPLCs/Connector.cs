@@ -454,8 +454,10 @@ namespace GPGO_MultiPLCs
                                    };
 
             //!當配方列表更新時，依據使用站別發佈配方
-            RecipeVM.ListUpdatedEvent += async list =>
+            RecipeVM.ListUpdatedEvent += async e =>
                                          {
+                                             var (list, tip) = e;
+
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
                                              var l = new List<int>();
@@ -473,7 +475,7 @@ namespace GPGO_MultiPLCs
                                                  }
                                              }
 
-                                             if (l.Any())
+                                             if (tip && l.Any())
                                              {
                                                  var str = string.Join(", ", l);
 
