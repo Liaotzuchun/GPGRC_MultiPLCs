@@ -908,7 +908,9 @@
                                             </local:SetPropertyAction>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-                                    <Border Background="Transparent">
+                                    <Border
+                                        x:Name="Border"
+                                        Background="Transparent">
                                         <Border
                                             Margin="15,10,15,15"
                                             Background="{StaticResource LightColorBrush}"
@@ -1083,7 +1085,7 @@
                                             <Binding
                                                 Converter="{StaticResource RatioValue}"
                                                 ConverterParameter="0.5"
-                                                ElementName="ItemsControl"
+                                                ElementName="Border"
                                                 Path="ActualHeight" />
                                             <Binding
                                                 Converter="{StaticResource RatioValue}"
