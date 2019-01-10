@@ -448,7 +448,9 @@ namespace GPGO_MultiPLCs
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, "權限不足，不可關閉程式！" }, { Language.CHS, "权限不足，不可关闭程序！" }, { Language.EN, "Insufficient permissions,\ncan't close the program." }
+                                                             { Language.TW, "權限不足，不可關閉程式！" },
+                                                             { Language.CHS, "权限不足，不可关闭程序！" },
+                                                             { Language.EN, "Insufficient permissions,\ncan't close the program." }
                                                          });
                                        }
                                    };
