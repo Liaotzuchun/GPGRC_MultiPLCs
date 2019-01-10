@@ -62,12 +62,10 @@
                             <!--<Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource PressedBrushForeground}" />-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ExpandPath" Property="Fill"
-                                    Value="{StaticResource DarkBrushForeground}" />
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource DarkBrushForeground}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="ExpandPath" Property="Fill"
-                                    Value="{StaticResource DisabledForegroundBrush}" />
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -95,8 +93,7 @@
         TargetType="{x:Type TreeViewItem}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="HorizontalContentAlignment"
-                Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="Padding" Value="1,0,0,0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -182,14 +179,12 @@
                         </MultiTrigger>-->
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Bd2" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="PART_Header" Property="TextElement.Foreground"
-                                    Value="{StaticResource DisabledForegroundBrush}" />
+                            <Setter TargetName="PART_Header" Property="TextElement.Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="VerticalContentAlignment"
-                Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
     </Style>
 </ResourceDictionary>

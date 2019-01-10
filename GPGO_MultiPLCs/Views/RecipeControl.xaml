@@ -2291,8 +2291,9 @@
                     BorderThickness="0,0,0,1"
                     GotKeyboardFocus="TextBox_GotKeyboardFocus"
                     IsEnabled="{Binding IsChecked, ElementName=EditedTB, Mode=OneWay}"
+                    KeyDown="EditTextBox_KeyDown"
                     Text="{Binding EditedName, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" KeyDown="EditTextBox_KeyDown" />
+                    Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                 <TextBox
                     Grid.Row="1"
                     Grid.Column="2"

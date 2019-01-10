@@ -30,14 +30,15 @@ namespace GPGO_MultiPLCs.ViewModels
             Pie
         }
 
-        public Language Language = Language.TW;
-        public LogEvent SearchEvent;
-        public ProcessInfo SearchResult;
         private readonly OxyColor bgcolor = OxyColor.FromRgb(240, 255, 235);
         private readonly OxyColor bordercolor = OxyColor.FromRgb(174, 187, 168);
         private readonly CategoryAxis categoryAxis1;
         private readonly CategoryAxis categoryAxis2;
         private readonly OxyColor fontcolor = OxyColor.FromRgb(50, 70, 60);
+
+        public Language Language = Language.TW;
+        public LogEvent SearchEvent;
+        public ProcessInfo SearchResult;
 
         /// <summary>依據工單或料號搜尋</summary>
         public RelayCommand FindCommand { get; }
@@ -689,7 +690,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                   },
                                                                                                   new Dictionary<Language, string>
                                                                                                   {
-                                                                                                      { Language.TW, "搜尋" }, { Language.CHS, "搜寻" }, { Language.EN, "Find" }
+                                                                                                      { Language.TW, "搜尋" },
+                                                                                                      { Language.CHS, "搜寻" },
+                                                                                                      { Language.EN, "Find" }
                                                                                                   });
 
                                                if (result)
@@ -702,7 +705,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                    if (SearchResult == null)
                                                    {
-                                                       dialog.Show(new Dictionary<Language, string> { { Language.TW, "查無資料！" }, { Language.CHS, "查无资料！" }, { Language.EN, "No data found!" } },
+                                                       dialog.Show(new Dictionary<Language, string>
+                                                                   {
+                                                                       { Language.TW, "查無資料！" },
+                                                                       { Language.CHS, "查无资料！" },
+                                                                       { Language.EN, "No data found!" }
+                                                                   },
                                                                    DialogMsgType.Alarm);
                                                    }
                                                    else
@@ -719,7 +727,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   {
                                                       dialog?.Show(new Dictionary<Language, string>
                                                                    {
-                                                                       { Language.TW, $"檔案已輸出至\n{path}" }, { Language.CHS, $"档案已输出至\n{path}" }, { Language.EN, $"The file has been output to\n{path}" }
+                                                                       { Language.TW, $"檔案已輸出至\n{path}" },
+                                                                       { Language.CHS, $"档案已输出至\n{path}" },
+                                                                       { Language.EN, $"The file has been output to\n{path}" }
                                                                    },
                                                                    TimeSpan.FromSeconds(6));
                                                   }

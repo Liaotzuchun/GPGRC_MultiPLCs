@@ -121,8 +121,7 @@
                             <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DarkBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsDefaulted" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource NormalBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource EnergyBrush}" />
@@ -132,15 +131,12 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource EnergyBrush}" />
                             <Setter TargetName="Border" Property="Background" Value="{StaticResource EnergyBrush}" />
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource EnergyBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource EnergyBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-                            <Setter TargetName="Border" Property="Background"
-                                    Value="{StaticResource DisabledBackgroundBrush}" />
-                            <Setter TargetName="Border" Property="BorderBrush"
-                                    Value="{StaticResource DisabledBorderBrush}" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

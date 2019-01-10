@@ -43,8 +43,7 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource DisabledForegroundBrush}" />
-                            <Setter TargetName="Ellipse" Property="Fill"
-                                    Value="{StaticResource DisabledBackgroundBrush}" />
+                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource DisabledBackgroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -126,10 +125,8 @@
                             <Setter TargetName="HighlightBorder" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsSubmenuOpen" Value="True">
-                            <Setter TargetName="HighlightBorder" Property="Background"
-                                    Value="{StaticResource PressedBrush}" />
-                            <Setter TargetName="HighlightBorder" Property="BorderBrush"
-                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="HighlightBorder" Property="Background" Value="{StaticResource PressedBrush}" />
+                            <Setter TargetName="HighlightBorder" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource DisabledForegroundBrush}" />
@@ -145,12 +142,10 @@
         TargetType="MenuItem">
         <Setter Property="Command" Value="NavigationCommands.NavigateJournal" />
         <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}" />
-        <Setter Property="CommandTarget"
-                Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu}}, Path=TemplatedParent}" />
+        <Setter Property="CommandTarget" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu}}, Path=TemplatedParent}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Header" Value="{Binding Path=(JournalEntry.Name)}" />
-        <Setter Property="JournalEntryUnifiedViewConverter.JournalEntryPosition"
-                Value="{Binding (JournalEntryUnifiedViewConverter.JournalEntryPosition)}" />
+        <Setter Property="JournalEntryUnifiedViewConverter.JournalEntryPosition" Value="{Binding (JournalEntryUnifiedViewConverter.JournalEntryPosition)}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -182,8 +177,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="MenuItem.IsHighlighted" Value="True" />
-                                <Condition Property="JournalEntryUnifiedViewConverter.JournalEntryPosition"
-                                           Value="Forward" />
+                                <Condition Property="JournalEntryUnifiedViewConverter.JournalEntryPosition" Value="Forward" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Glyph" Property="Data" Value="M 3 1 L 7 5 L 3 9 z" />
                             <Setter TargetName="Glyph" Property="Fill" Value="{StaticResource GlyphBrush}" />
@@ -192,8 +186,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="MenuItem.IsHighlighted" Value="True" />
-                                <Condition Property="JournalEntryUnifiedViewConverter.JournalEntryPosition"
-                                           Value="Back" />
+                                <Condition Property="JournalEntryUnifiedViewConverter.JournalEntryPosition" Value="Back" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Glyph" Property="Data" Value="M 7 1 L 3 5 L 7 9 z" />
                             <Setter TargetName="Glyph" Property="Fill" Value="{StaticResource GlyphBrush}" />
