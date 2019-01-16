@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,11 +67,14 @@ namespace GPGO_MultiPLCs
             //!當啟MongoDB服務或進程不存在時動MongoDB
             if (Process.GetProcessesByName("mongod").Length == 0)
             {
+                var info = new DirectoryInfo("C:\\Program Files\\MongoDB\\Server\\");
+                var version = info.EnumerateDirectories().Select(x => double.TryParse(x.Name, out var v) ? v : -1.0).OrderBy(x => x).Last();
+
                 var process = new Process
                               {
                                   StartInfo = new ProcessStartInfo
                                               {
-                                                  FileName = "C:\\Program Files\\MongoDB\\Server\\4.0\\bin\\mongod.exe",
+                                                  FileName = $"C:\\Program Files\\MongoDB\\Server\\{version:f1}\\bin\\mongod.exe",
                                                   Arguments = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all",
                                                   WindowStyle = ProcessWindowStyle.Hidden
                                               }
