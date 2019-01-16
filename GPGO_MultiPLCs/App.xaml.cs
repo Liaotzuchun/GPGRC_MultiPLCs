@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Win32;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Serilog;
@@ -14,6 +15,24 @@ namespace GPGO_MultiPLCs
     /// <summary>App.xaml 的互動邏輯</summary>
     public partial class App : Application
     {
+        public string GetServiceInstallPath(string serviceName)
+        {
+            var imagePath = (string)Registry.LocalMachine.OpenSubKey($"SYSTEM\\CurrentControlSet\\services\\{serviceName}")?.GetValue("ImagePath");
+            if (string.IsNullOrEmpty(imagePath))
+            {
+                return imagePath;
+            }
+
+            if (imagePath[0] == '"')
+            {
+                return imagePath.Substring(1, imagePath.IndexOf('"', 1) - 1);
+            }
+
+            var indexOfParameters = imagePath.IndexOf(' ');
+
+            return indexOfParameters >= 0 ? imagePath.Remove(indexOfParameters) : imagePath;
+        }
+
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             if (e.ApplicationExitCode != 23555277)
@@ -67,19 +86,19 @@ namespace GPGO_MultiPLCs
             //!當啟MongoDB服務或進程不存在時動MongoDB
             if (Process.GetProcessesByName("mongod").Length == 0)
             {
-                var info = new DirectoryInfo("C:\\Program Files\\MongoDB\\Server\\");
-                var version = info.EnumerateDirectories().Select(x => double.TryParse(x.Name, out var v) ? v : -1.0).OrderBy(x => x).Last();
+                var path = GetServiceInstallPath("MongoDB");
 
-                var process = new Process
-                              {
-                                  StartInfo = new ProcessStartInfo
-                                              {
-                                                  FileName = $"C:\\Program Files\\MongoDB\\Server\\{version:f1}\\bin\\mongod.exe",
-                                                  Arguments = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all",
-                                                  WindowStyle = ProcessWindowStyle.Hidden
-                                              }
-                              };
-                process.Start();
+                if (!string.IsNullOrEmpty(path) && File.Exists(path))
+                {
+                    var process = new Process
+                                  {
+                                      StartInfo = new ProcessStartInfo
+                                                  {
+                                                      FileName = path, Arguments = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all", WindowStyle = ProcessWindowStyle.Hidden
+                                                  }
+                                  };
+                    process.Start();
+                }
             }
 
             //!以下方式在win10時，須保證在系統管理員權限下執行才可成功，可在app.config中加入<requestedExecutionLevel level="requireAdministrator" uiAccess="false" />，
