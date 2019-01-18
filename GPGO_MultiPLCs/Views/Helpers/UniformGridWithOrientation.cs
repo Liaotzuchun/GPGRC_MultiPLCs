@@ -104,6 +104,7 @@ namespace GPGO_MultiPLCs.Views
         {
             UpdateComputedValues();
 
+            var availableSize = new Size(constraint.Width / _columns, constraint.Height / _rows);
             var w = 0.0;
             var h = 0.0;
 
@@ -111,7 +112,7 @@ namespace GPGO_MultiPLCs.Views
             {
                 if (child.Visibility != Visibility.Collapsed)
                 {
-                    child.Measure(constraint);
+                    child.Measure(availableSize);
                     var childDesiredSize = child.DesiredSize;
 
                     if (childDesiredSize.Width > w)
