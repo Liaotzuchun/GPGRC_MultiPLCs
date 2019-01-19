@@ -120,7 +120,7 @@ namespace GPGO_MultiPLCs.Views
                         w = childDesiredSize.Width;
                     }
 
-                    if(childDesiredSize.Height > h)
+                    if (childDesiredSize.Height > h)
                     {
                         h = childDesiredSize.Height;
                     }
@@ -132,17 +132,15 @@ namespace GPGO_MultiPLCs.Views
 
         private void UpdateComputedValues()
         {
-            if(Orientation == Orientation.Horizontal)
+            if (Orientation == Orientation.Horizontal)
             {
                 _columns = InternalChildren.Count < Columns ? InternalChildren.Count : Columns;
-                var n = (int)Math.Ceiling((double)InternalChildren.Count / Columns);
-                _rows = n > Rows ? n : Rows;
+                _rows = Rows == 0 ? (int)Math.Ceiling((double)InternalChildren.Count / Columns) : Rows;
             }
             else
             {
                 _rows = InternalChildren.Count < Rows ? InternalChildren.Count : Rows;
-                var n = (int)Math.Ceiling((double)InternalChildren.Count / Rows);
-                _columns = n > Columns ? n : Columns;
+                _columns = Columns == 0 ? (int)Math.Ceiling((double)InternalChildren.Count / Rows) : Columns;
             }
 
             if (FirstColumn >= _columns)
