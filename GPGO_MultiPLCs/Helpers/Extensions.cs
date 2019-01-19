@@ -162,7 +162,7 @@ namespace GPGO_MultiPLCs.Helpers
                 var targetProperty = type2.GetProperty(sourceProperty.Name);
                 if (targetProperty != null && targetProperty.CanRead)
                 {
-                    sourceProperty.SetValue(source, targetProperty.GetValue(source, null), null);
+                    sourceProperty.SetValue(source, targetProperty.GetValue(target, null), null);
                 }
             }
 
@@ -171,7 +171,7 @@ namespace GPGO_MultiPLCs.Helpers
                 var targetField = type2.GetField(sourceField.Name);
                 if (!targetField.IsInitOnly)
                 {
-                    sourceField.SetValue(source, targetField.GetValue(source));
+                    sourceField.SetValue(source, targetField.GetValue(target));
                 }
             }
         }
