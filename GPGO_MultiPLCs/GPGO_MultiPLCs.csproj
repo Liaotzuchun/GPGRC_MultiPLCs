@@ -145,6 +145,7 @@
     <Compile Include="Helpers\Async\AsyncSemaphore.cs" />
     <Compile Include="Helpers\Async\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\Attributes.cs" />
+    <Compile Include="Helpers\Deque.cs" />
     <Compile Include="Helpers\ObjectViewModel.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
     <Compile Include="Helpers\FilterGroup.cs" />
@@ -152,6 +153,8 @@
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
     <Compile Include="Helpers\Async\WaitHandleExtensions.cs" />
+    <Compile Include="Helpers\ObservableQueue.cs" />
+    <Compile Include="Helpers\ObservableStack.cs" />
     <Compile Include="Helpers\TaskSchedulers\CurrentThreadTaskScheduler.cs" />
     <Compile Include="Helpers\TaskSchedulers\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="Helpers\TaskSchedulers\OrderedTaskScheduler.cs" />
