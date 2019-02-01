@@ -194,7 +194,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             var result = true;
 
-            if (ViewResults.Any())
+            if (ViewResults?.Count > 0)
             {
                 await Task.Factory.StartNew(() =>
                                             {
@@ -690,9 +690,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                   },
                                                                                                   new Dictionary<Language, string>
                                                                                                   {
-                                                                                                      { Language.TW, "搜尋" },
-                                                                                                      { Language.CHS, "搜寻" },
-                                                                                                      { Language.EN, "Find" }
+                                                                                                      { Language.TW, "搜尋" }, { Language.CHS, "搜寻" }, { Language.EN, "Find" }
                                                                                                   });
 
                                                if (result)
@@ -705,13 +703,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                    if (SearchResult == null)
                                                    {
-                                                       dialog.Show(new Dictionary<Language, string>
-                                                                   {
-                                                                       { Language.TW, "查無資料！" },
-                                                                       { Language.CHS, "查无资料！" },
-                                                                       { Language.EN, "No data found!" }
-                                                                   },
-                                                                   DialogMsgType.Alarm);
+                                                       SearchResult = new ProcessInfo{StationNumber = -1};
+                                                       Date1 = Date1;
                                                    }
                                                    else
                                                    {
@@ -727,9 +720,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   {
                                                       dialog?.Show(new Dictionary<Language, string>
                                                                    {
-                                                                       { Language.TW, $"檔案已輸出至\n{path}" },
-                                                                       { Language.CHS, $"档案已输出至\n{path}" },
-                                                                       { Language.EN, $"The file has been output to\n{path}" }
+                                                                       { Language.TW, $"檔案已輸出至\n{path}" }, { Language.CHS, $"档案已输出至\n{path}" }, { Language.EN, $"The file has been output to\n{path}" }
                                                                    },
                                                                    TimeSpan.FromSeconds(6));
                                                   }
@@ -845,17 +836,23 @@ namespace GPGO_MultiPLCs.ViewModels
                                   UpdateViewResult();
                                   UpdateChart(Date1, Date2);
 
-                                  if (SearchResult != null)
+                                  if (SearchResult != null && ViewResults?.Count > 0)
                                   {
                                       SelectedIndex = ViewResults.FindIndex(x => x.StationNumber == SearchResult.StationNumber && x.AddedTime == SearchResult.AddedTime);
                                       SearchResult = null;
+
+                                      if (SelectedIndex == -1)
+                                      {
+                                          dialog.Show(new Dictionary<Language, string> { { Language.TW, "查無資料！" }, { Language.CHS, "查无资料！" }, { Language.EN, "No data found!" } },
+                                                      DialogMsgType.Alarm);
+                                      }
                                   }
                                   else
                                   {
                                       SelectedIndex = -1;
                                   }
 
-                                  if (SearchEvent != null)
+                                  if (SearchEvent != null && ViewResults?.Count > 0 && SelectedIndex > -1)
                                   {
                                       EventIndex = ViewResults[SelectedIndex]
                                                    .EventList.Select((x, i) => (index: i, value: x))
@@ -864,6 +861,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                    .First()
                                                    .index;
                                       SearchEvent = null;
+
+                                      if (EventIndex == -1)
+                                      {
+                                          dialog.Show(new Dictionary<Language, string> { { Language.TW, "查無事件！" }, { Language.CHS, "查无事件！" }, { Language.EN, "No event found!" } },
+                                                      DialogMsgType.Alarm);
+                                      }
                                   }
                                   else
                                   {
