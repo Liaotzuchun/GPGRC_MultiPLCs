@@ -28,7 +28,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>日期時間範圍的結束</summary>
         public DateTime? EndTime => Results?.Count > 0 ? Results[EndIndex]?.AddedTime : null;
 
-        public int TotalCount => Results?.Count > 0 ? Results.Count - 1 : 0;
+        public int MaxIndex => Results?.Count > 0 ? Results.Count - 1 : 0;
 
         /// <summary>位移-1天</summary>
         public RelayCommand SubDayCommand { get; }
@@ -47,19 +47,6 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>指定至本日</summary>
         public RelayCommand TodayCommand { get; }
-
-        /// <summary>篩選的開始時間點(RAM)</summary>
-        public int BeginIndex
-        {
-            get => Get<int>();
-            set
-            {
-                Set(value);
-                NotifyPropertyChanged(nameof(BeginTime));
-
-                BeginIndexChanged?.Invoke(value);
-            }
-        }
 
         /// <summary>選取的開始日期(資料庫)</summary>
         public DateTime Date1
@@ -95,6 +82,19 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        /// <summary>篩選的開始時間點(RAM)</summary>
+        public int BeginIndex
+        {
+            get => Get<int>();
+            set
+            {
+                Set(value);
+                NotifyPropertyChanged(nameof(BeginTime));
+
+                BeginIndexChanged?.Invoke(value);
+            }
+        }
+
         /// <summary>篩選的結束時間點(RAM)</summary>
         public int EndIndex
         {
@@ -115,7 +115,10 @@ namespace GPGO_MultiPLCs.Models
             set
             {
                 Set(value);
-                NotifyPropertyChanged(nameof(TotalCount));
+                NotifyPropertyChanged(nameof(MaxIndex));
+
+                BeginIndex = 0;
+                EndIndex = MaxIndex;
 
                 ResultsChanged?.Invoke(value);
             }

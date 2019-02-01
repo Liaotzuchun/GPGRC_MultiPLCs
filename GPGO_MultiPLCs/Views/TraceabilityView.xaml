@@ -25,9 +25,7 @@
 
     <UserControl.Resources>
         <models:EventTypeToColor x:Key="EventTypeToColor" />
-        <Style
-            x:Key="ColumnFilterStyle"
-            TargetType="DataGridColumnHeader">
+        <Style x:Key="ColumnFilterStyle" TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
             <Setter Property="Template">
@@ -44,27 +42,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <local:FilterGroupProxy
-            x:Key="OvenFilterData"
-            Data="{Binding OvenFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy
-            x:Key="RecipeFilterData"
-            Data="{Binding RecipeFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy
-            x:Key="OrderFilterData"
-            Data="{Binding OrderFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy
-            x:Key="OpFilterData"
-            Data="{Binding OpFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy
-            x:Key="TrolleyFilterData"
-            Data="{Binding TrolleyFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy
-            x:Key="SideFilterData"
-            Data="{Binding SideFilter, Mode=OneWay}" />
-        <DataTemplate
-            x:Key="EqualFilterTemplate"
-            DataType="helpers:EqualFilter">
+        <local:FilterGroupProxy x:Key="OvenFilterData" Data="{Binding OvenFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy x:Key="RecipeFilterData" Data="{Binding RecipeFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy x:Key="OrderFilterData" Data="{Binding OrderFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy x:Key="OpFilterData" Data="{Binding OpFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy x:Key="TrolleyFilterData" Data="{Binding TrolleyFilter, Mode=OneWay}" />
+        <local:FilterGroupProxy x:Key="SideFilterData" Data="{Binding SideFilter, Mode=OneWay}" />
+        <DataTemplate x:Key="EqualFilterTemplate" DataType="helpers:EqualFilter">
             <MenuItem
                 Header="{Binding Value, Mode=OneWay}"
                 IsCheckable="True"
@@ -92,9 +76,7 @@
                 <RowDefinition Height="40" />
                 <RowDefinition Height="39" />
             </Grid.RowDefinitions>
-            <Grid
-                Grid.RowSpan="2"
-                IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
+            <Grid Grid.RowSpan="2" IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
@@ -105,17 +87,13 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Button
-                    x:Name="SubDay"
-                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                <Button x:Name="SubDay" Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SubDayCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Path
-                        Data="{StaticResource LeftArrow}"
-                        Fill="{StaticResource GlyphBrush}" />
+                    <Path Data="{StaticResource LeftArrow}" Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button
                     x:Name="Today"
@@ -136,21 +114,15 @@
                             <i:InvokeCommandAction Command="{Binding AddDayCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Path
-                        Data="{StaticResource RightArrow}"
-                        Fill="{StaticResource GlyphBrush}" />
+                    <Path Data="{StaticResource RightArrow}" Fill="{StaticResource GlyphBrush}" />
                 </Button>
-                <Button
-                    x:Name="SubWeek"
-                    Grid.Row="1">
+                <Button x:Name="SubWeek" Grid.Row="1">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SubWeekCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Path
-                        Data="{StaticResource LeftArrow}"
-                        Fill="{StaticResource GlyphBrush}" />
+                    <Path Data="{StaticResource LeftArrow}" Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button
                     x:Name="ThisWeek"
@@ -172,21 +144,15 @@
                             <i:InvokeCommandAction Command="{Binding AddWeekCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Path
-                        Data="{StaticResource RightArrow}"
-                        Fill="{StaticResource GlyphBrush}" />
+                    <Path Data="{StaticResource RightArrow}" Fill="{StaticResource GlyphBrush}" />
                 </Button>
-                <Button
-                    x:Name="SubMonth"
-                    Grid.Row="2">
+                <Button x:Name="SubMonth" Grid.Row="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SubMonthCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Path
-                        Data="{StaticResource LeftArrow}"
-                        Fill="{StaticResource GlyphBrush}" />
+                    <Path Data="{StaticResource LeftArrow}" Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button
                     x:Name="ThisMonth"
@@ -208,9 +174,7 @@
                             <i:InvokeCommandAction Command="{Binding AddMonthCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Path
-                        Data="{StaticResource RightArrow}"
-                        Fill="{StaticResource GlyphBrush}" />
+                    <Path Data="{StaticResource RightArrow}" Fill="{StaticResource GlyphBrush}" />
                 </Button>
             </Grid>
             <Border
@@ -273,13 +237,11 @@
                     VerticalAlignment="Center"
                     IsEnabled="{Binding Results, Converter={StaticResource IsNotNull}, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
-                    LowerValue="{Binding BeginIndex, Mode=OneWayToSource}"
-                    Maximum="{Binding TotalCount, Mode=OneWay}"
-                    UpperValue="{Binding EndIndex, Mode=OneWayToSource}" />
+                    LowerValue="{Binding BeginIndex, Mode=TwoWay}"
+                    Maximum="{Binding MaxIndex, Mode=OneWay}"
+                    UpperValue="{Binding EndIndex, Mode=TwoWay}" />
             </Border>
-            <Grid
-                Grid.Row="1"
-                Grid.Column="4">
+            <Grid Grid.Row="1" Grid.Column="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50" />
                     <ColumnDefinition />
@@ -433,24 +395,16 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1" />
                                     <DataTemplate.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                            Value="Normal">
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}" Value="Normal">
                                             <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                            Value="Trigger">
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}" Value="Trigger">
                                             <Setter TargetName="Border" Property="Background" Value="Blue" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                            Value="Operator">
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}" Value="Operator">
                                             <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                            Value="Alarm">
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}" Value="Alarm">
                                             <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
@@ -486,14 +440,10 @@
                                                     Fill="{StaticResource DisabledBackgroundBrush}"
                                                     Stroke="{StaticResource DisabledBorderBrush}"
                                                     StrokeThickness="1" />
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
                                             </Grid>
                                             <DataTemplate.Triggers>
-                                                <DataTrigger
-                                                    Binding="{Binding Value, Mode=OneWay}"
-                                                    Value="True">
+                                                <DataTrigger Binding="{Binding Value, Mode=OneWay}" Value="True">
                                                     <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
                                                     <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
                                                 </DataTrigger>
@@ -507,9 +457,7 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:LogEvent">
-                                            <TextBlock
-                                                Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
-                                                TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}" TextTrimming="CharacterEllipsis" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -738,9 +686,7 @@
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
             <DataGrid.Columns>
-                <DataGridTemplateColumn
-                    Width="Auto"
-                    MinWidth="60">
+                <DataGridTemplateColumn Width="Auto" MinWidth="60">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource 紀錄時間}" />
                     </DataGridTemplateColumn.Header>
@@ -750,14 +696,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="Auto"
-                    HeaderStyle="{StaticResource ColumnFilterStyle}">
+                <DataGridTemplateColumn Width="Auto" HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
                         <Menu>
-                            <MenuItem
-                                ItemTemplate="{StaticResource EqualFilterTemplate}"
-                                SubmenuClosed="MenuItem_SubmenuClosed">
+                            <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}" SubmenuClosed="MenuItem_SubmenuClosed">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                         <i:InvokeCommandAction Command="{Binding Data.AllCommand, Source={StaticResource OvenFilterData}}" />
@@ -812,9 +754,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="*"
-                    HeaderStyle="{StaticResource ColumnFilterStyle}">
+                <DataGridTemplateColumn Width="*" HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
                         <Menu>
                             <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
@@ -897,18 +837,14 @@
                                     PopupAnimation="Fade">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseLeave">
-                                            <local:SetPropertyAction
-                                                PropertyName="IsChecked"
-                                                TargetObject="{Binding ElementName=ToggleButton, Mode=OneTime}">
+                                            <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding ElementName=ToggleButton, Mode=OneTime}">
                                                 <local:SetPropertyAction.PropertyValue>
                                                     <system:Boolean>False</system:Boolean>
                                                 </local:SetPropertyAction.PropertyValue>
                                             </local:SetPropertyAction>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-                                    <Border
-                                        x:Name="Border"
-                                        Background="Transparent">
+                                    <Border x:Name="Border" Background="Transparent">
                                         <Border
                                             Margin="15,10,15,15"
                                             Background="{StaticResource LightColorBrush}"
@@ -933,9 +869,7 @@
                                                         <ColumnDefinition Width="70" />
                                                         <ColumnDefinition Width="70" />
                                                     </Grid.ColumnDefinitions>
-                                                    <Border
-                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                        BorderThickness="0,0,1,1" />
+                                                    <Border BorderBrush="{StaticResource WindowBackgroundBrush4}" BorderThickness="0,0,1,1" />
                                                     <Border
                                                         Grid.Column="1"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -993,9 +927,7 @@
                                                     </ItemsControl.Template>
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
-                                                            <local:UniformGridWithOrientation
-                                                                Columns="1"
-                                                                Orientation="Vertical" />
+                                                            <local:UniformGridWithOrientation Columns="1" Orientation="Vertical" />
                                                         </ItemsPanelTemplate>
                                                     </ItemsControl.ItemsPanel>
                                                     <ItemsControl.ItemTemplate>
@@ -1154,9 +1086,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock
-                                Text="{Binding OrderCode, Mode=OneWay}"
-                                TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding OrderCode, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -1217,9 +1147,7 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock
-                                Text="{Binding OperatorID, Mode=OneWay}"
-                                TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding OperatorID, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -1280,15 +1208,11 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock
-                                Text="{Binding TrolleyCode, Mode=OneWay}"
-                                TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding TrolleyCode, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="Auto"
-                    MinWidth="40">
+                <DataGridTemplateColumn Width="Auto" MinWidth="40">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource 數量}" />
                     </DataGridTemplateColumn.Header>
@@ -1323,9 +1247,7 @@
                                     PopupAnimation="Fade">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseLeave">
-                                            <local:SetPropertyAction
-                                                PropertyName="IsChecked"
-                                                TargetObject="{Binding ElementName=ToggleButton, Mode=OneTime}">
+                                            <local:SetPropertyAction PropertyName="IsChecked" TargetObject="{Binding ElementName=ToggleButton, Mode=OneTime}">
                                                 <local:SetPropertyAction.PropertyValue>
                                                     <system:Boolean>False</system:Boolean>
                                                 </local:SetPropertyAction.PropertyValue>
@@ -1357,9 +1279,7 @@
                                         </ItemsControl.Template>
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <local:UniformGridWithOrientation
-                                                    Orientation="Vertical"
-                                                    Rows="10" />
+                                                <local:UniformGridWithOrientation Orientation="Vertical" Rows="10" />
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
@@ -1415,9 +1335,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="Auto"
-                    HeaderStyle="{StaticResource ColumnFilterStyle}">
+                <DataGridTemplateColumn Width="Auto" HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
                         <Menu>
                             <MenuItem ItemTemplate="{StaticResource EqualFilterTemplate}">
@@ -1475,9 +1393,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="Auto"
-                    MinWidth="60">
+                <DataGridTemplateColumn Width="Auto" MinWidth="60">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource 開始時間}" />
                     </DataGridTemplateColumn.Header>
@@ -1487,9 +1403,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn
-                    Width="Auto"
-                    MinWidth="60">
+                <DataGridTemplateColumn Width="Auto" MinWidth="60">
                     <DataGridTemplateColumn.Header>
                         <TextBlock Text="{DynamicResource 結束時間}" />
                     </DataGridTemplateColumn.Header>
@@ -1501,9 +1415,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid
-            Grid.Row="2"
-            Margin="0,4,0,0">
+        <Grid Grid.Row="2" Margin="0,4,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition />
@@ -1556,9 +1468,7 @@
                         Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} panels}" />
                 </Border>
             </Grid>
-            <Border
-                Grid.Row="1"
-                Background="{StaticResource WindowBackgroundBrush6}">
+            <Border Grid.Row="1" Background="{StaticResource WindowBackgroundBrush6}">
                 <oxy:PlotView
                     Background="{StaticResource WindowBackgroundBrush6}"
                     IsMouseWheelEnabled="False"
@@ -1576,9 +1486,7 @@
                                 Position="{Binding Position}"
                                 VerticalLineVisibility="Collapsed">
                                 <oxy:TrackerControl.Content>
-                                    <TextBlock
-                                        Margin="4"
-                                        Text="{Binding Mode=OneWay}" />
+                                    <TextBlock Margin="4" Text="{Binding Mode=OneWay}" />
                                 </oxy:TrackerControl.Content>
                             </oxy:TrackerControl>
                         </ControlTemplate>

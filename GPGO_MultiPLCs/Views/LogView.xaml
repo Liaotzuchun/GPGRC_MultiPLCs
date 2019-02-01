@@ -256,9 +256,9 @@
                     VerticalAlignment="Center"
                     IsEnabled="{Binding Results, Converter={StaticResource IsNotNull}, Mode=OneWay}"
                     IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
-                    LowerValue="{Binding BeginIndex, Mode=OneWayToSource}"
-                    Maximum="{Binding TotalCount, Mode=OneWay}"
-                    UpperValue="{Binding EndIndex, Mode=OneWayToSource}" />
+                    LowerValue="{Binding BeginIndex, Mode=TwoWay}"
+                    Maximum="{Binding MaxIndex, Mode=OneWay}"
+                    UpperValue="{Binding EndIndex, Mode=TwoWay}" />
             </Border>
             <Grid
                 Grid.Row="1"
