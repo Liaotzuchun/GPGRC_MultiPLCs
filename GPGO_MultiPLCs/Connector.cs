@@ -197,6 +197,8 @@ namespace GPGO_MultiPLCs
                         info.ThermostaticTemperatures = s.ToList();
 
                         var ttime = new TimeSpan(0, 0, 1);
+                        var cc = 0;
+                        var dp = Math.PI / 200;
                         for (var m = 0; m < 100; m++)
                         {
                             if (rn.Next(0, 100) > 95)
@@ -221,17 +223,18 @@ namespace GPGO_MultiPLCs
                                        {
                                            StartTime = st,
                                            AddedTime = st + ttime,
-                                           ThermostatTemperature = rn.Next(30 + mins, 30 + mins * 2),
-                                           OvenTemperatures_1 = rn.Next(30 + mins, 30 + mins * 2),
-                                           OvenTemperatures_2 = rn.Next(30 + mins, 30 + mins * 2),
-                                           OvenTemperatures_3 = rn.Next(30 + mins, 30 + mins * 2),
-                                           OvenTemperatures_4 = rn.Next(30 + mins, 30 + mins * 2),
-                                           OvenTemperatures_5 = rn.Next(30 + mins, 30 + mins * 2),
-                                           OvenTemperatures_6 = rn.Next(30 + mins, 30 + mins * 2),
-                                           OvenTemperatures_7 = rn.Next(30 + mins, 30 + mins * 2),
-                                           OvenTemperatures_8 = rn.Next(30 + mins, 30 + mins * 2)
+                                           ThermostatTemperature = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
+                                           OvenTemperatures_1 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
+                                           OvenTemperatures_2 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
+                                           OvenTemperatures_3 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
+                                           OvenTemperatures_4 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
+                                           OvenTemperatures_5 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
+                                           OvenTemperatures_6 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
+                                           OvenTemperatures_7 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
+                                           OvenTemperatures_8 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10)
                                        };
 
+                            cc += 1;
                             info.RecordTemperatures.Add(vals);
 
                             ttime = ttime.Add(TimeSpan.FromMinutes(1));
@@ -448,9 +451,7 @@ namespace GPGO_MultiPLCs
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, "權限不足，不可關閉程式！" },
-                                                             { Language.CHS, "权限不足，不可关闭程序！" },
-                                                             { Language.EN, "Insufficient permissions,\ncan't close the program." }
+                                                             { Language.TW, "權限不足，不可關閉程式！" }, { Language.CHS, "权限不足，不可关闭程序！" }, { Language.EN, "Insufficient permissions,\ncan't close the program." }
                                                          });
                                        }
                                    };
