@@ -21,17 +21,13 @@
 
     <UserControl.Resources>
         <models:EventTypeToColor x:Key="EventTypeToColor" />
-        <DataTemplate
-            x:Key="ProgressDataTemplate"
-            DataType="models:PLC_DataProvider">
+        <DataTemplate x:Key="ProgressDataTemplate" DataType="models:PLC_DataProvider">
             <Grid>
                 <ProgressBar
                     x:Name="Progress"
                     Maximum="1"
                     Value="{Binding Progress, Mode=OneWay}" />
-                <Border
-                    Background="{StaticResource DisabledBackgroundBrush}"
-                    Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                <Border Background="{StaticResource DisabledBackgroundBrush}" Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                 <TextBlock
                     x:Name="ProgressString"
                     HorizontalAlignment="Center"
@@ -39,47 +35,35 @@
                     Foreground="{StaticResource BaseForeground}" />
             </Grid>
             <DataTemplate.Triggers>
-                <DataTrigger
-                    Binding="{Binding ProgressStatus, Mode=OneWay}"
-                    Value="-1">
+                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="-1">
                     <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 離線}" />
                 </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding ProgressStatus, Mode=OneWay}"
-                    Value="0">
+                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="0">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 待命}" />
                 </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding ProgressStatus, Mode=OneWay}"
-                    Value="1">
+                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="1">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 準備中}" />
                 </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding ProgressStatus, Mode=OneWay}"
-                    Value="2">
+                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="2">
                     <Setter TargetName="Progress" Property="Background" Value="Yellow" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource EnergyBorderBrush}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
                 </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding ProgressStatus, Mode=OneWay}"
-                    Value="3">
+                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="3">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 恆溫中}" />
                 </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding ProgressStatus, Mode=OneWay}"
-                    Value="4">
+                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="4">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
@@ -91,9 +75,7 @@
 
     <Grid>
         <TabControl SelectedIndex="{Binding Index, Mode=TwoWay}">
-            <TabItem
-                Width="0"
-                Height="0">
+            <TabItem Width="0" Height="0">
                 <Grid x:Name="MG">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -108,9 +90,7 @@
                         SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid
-                                    Columns="2"
-                                    Rows="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}" />
+                                <UniformGrid Columns="2" Rows="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
@@ -132,22 +112,16 @@
                                     d:DataContext="{d:DesignInstance models:PLC_DataProvider}"
                                     Background="{StaticResource LightColorBrush}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition
-                                            Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                            MaxWidth="75" />
+                                        <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" MaxWidth="75" />
                                         <ColumnDefinition />
-                                        <ColumnDefinition
-                                            Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                            MaxWidth="75" />
+                                        <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" MaxWidth="75" />
                                     </Grid.ColumnDefinitions>
                                     <Border Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border
                                         x:Name="StatusBorder"
                                         Background="{StaticResource OKBrush}"
                                         Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
-                                    <Border
-                                        Background="{StaticResource WorkingBrush}"
-                                        Visibility="{Binding IsRecording, Mode=OneWay, Converter={StaticResource BoolVis}}" />
+                                    <Border Background="{StaticResource WorkingBrush}" Visibility="{Binding IsRecording, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     <TextBlock
                                         x:Name="TextBlock"
                                         HorizontalAlignment="Center"
@@ -157,16 +131,12 @@
                                         Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
                                     <TabControl Grid.Column="1">
                                         <TabControl.SelectedIndex>
-                                            <MultiBinding
-                                                Converter="{StaticResource MultiAnyTrueConverterToInt}"
-                                                Mode="OneWay">
+                                            <MultiBinding Converter="{StaticResource MultiAnyTrueConverterToInt}" Mode="OneWay">
                                                 <Binding
                                                     ElementName="ActiveToggle"
                                                     Mode="OneWay"
                                                     Path="IsChecked" />
-                                                <Binding
-                                                    Mode="OneWay"
-                                                    Path="IsRecording" />
+                                                <Binding Mode="OneWay" Path="IsRecording" />
                                             </MultiBinding>
                                         </TabControl.SelectedIndex>
                                         <TabItem
@@ -201,9 +171,7 @@
                                                         VerticalAlignment="Center"
                                                         Text="{DynamicResource 配方}" />
                                                 </Border>
-                                                <UniformGrid
-                                                    Grid.Column="1"
-                                                    Rows="1">
+                                                <UniformGrid Grid.Column="1" Rows="1">
                                                     <TextBox
                                                         BorderThickness="0"
                                                         Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
@@ -249,24 +217,18 @@
                                                                 Converter="{StaticResource BoolNot}"
                                                                 Mode="OneWay"
                                                                 Path="AutoMode" />
-                                                            <Binding
-                                                                Mode="OneWay"
-                                                                Path="OnlineStatus" />
+                                                            <Binding Mode="OneWay" Path="OnlineStatus" />
                                                         </MultiBinding>
                                                     </ComboBox.IsEnabled>
                                                     <ComboBox.ItemTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock
-                                                                Text="{Binding Mode=OneWay}"
-                                                                TextTrimming="CharacterEllipsis" />
+                                                            <TextBlock Text="{Binding Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                                                         </DataTemplate>
                                                     </ComboBox.ItemTemplate>
                                                 </ComboBox>
                                             </Grid>
                                         </TabItem>
-                                        <TabItem
-                                            Width="0"
-                                            Height="0">
+                                        <TabItem Width="0" Height="0">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="60" />
@@ -334,9 +296,7 @@
                                                     Background="{StaticResource LightColorBrush}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,0,0,0">
-                                                    <ContentControl
-                                                        Content="{Binding Mode=OneWay}"
-                                                        ContentTemplate="{StaticResource ProgressDataTemplate}" />
+                                                    <ContentControl Content="{Binding Mode=OneWay}" ContentTemplate="{StaticResource ProgressDataTemplate}" />
                                                 </Border>
                                                 <Border
                                                     Grid.Row="1"
@@ -388,9 +348,7 @@
                                                             IsOpen="{Binding IsChecked, ElementName=ToggleButton, Mode=OneWay}"
                                                             Placement="Center"
                                                             PopupAnimation="Fade">
-                                                            <Border
-                                                                x:Name="Border"
-                                                                Background="Transparent">
+                                                            <Border x:Name="Border" Background="Transparent">
                                                                 <DataGrid
                                                                     Margin="15"
                                                                     AlternationCount="2147483647"
@@ -465,9 +423,7 @@
                                                                                             Padding="4"
                                                                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                                                             BorderThickness="0,0,0,1">
-                                                                                            <TextBlock
-                                                                                                HorizontalAlignment="Center"
-                                                                                                Text="{Binding PanelCodes.Count, Mode=OneWay}" />
+                                                                                            <TextBlock HorizontalAlignment="Center" Text="{Binding PanelCodes.Count, Mode=OneWay}" />
                                                                                         </Border>
                                                                                         <ItemsControl
                                                                                             x:Name="ItemsControl"
@@ -494,16 +450,12 @@
                                                                                             </ItemsControl.ItemsPanel>
                                                                                             <ItemsControl.ItemTemplate>
                                                                                                 <DataTemplate>
-                                                                                                    <Grid
-                                                                                                        MinHeight="20"
-                                                                                                        TextElement.Foreground="{StaticResource BaseForeground}">
+                                                                                                    <Grid MinHeight="20" TextElement.Foreground="{StaticResource BaseForeground}">
                                                                                                         <Grid.ColumnDefinitions>
                                                                                                             <ColumnDefinition Width="30" />
                                                                                                             <ColumnDefinition />
                                                                                                         </Grid.ColumnDefinitions>
-                                                                                                        <Border
-                                                                                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                            BorderThickness="0,1,1,0">
+                                                                                                        <Border BorderBrush="{StaticResource WindowBackgroundBrush4}" BorderThickness="0,1,1,0">
                                                                                                             <TextBlock
                                                                                                                 HorizontalAlignment="Center"
                                                                                                                 VerticalAlignment="Center"
@@ -572,16 +524,12 @@
                                                     Mode="OneWay"
                                                     Path="NowUser.Level"
                                                     Source="{StaticResource AuthenticatorViewModel}" />
-                                                <Binding
-                                                    Mode="OneWay"
-                                                    Path="OnlineStatus" />
+                                                <Binding Mode="OneWay" Path="OnlineStatus" />
                                             </MultiBinding>
                                         </ToggleButton.IsEnabled>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
-                                                <i:InvokeCommandAction
-                                                    Command="{Binding CheckInCommand, Mode=OneTime}"
-                                                    CommandParameter="{Binding Text, ElementName=TextBlock, Mode=OneWay}" />
+                                                <i:InvokeCommandAction Command="{Binding CheckInCommand, Mode=OneTime}" CommandParameter="{Binding Text, ElementName=TextBlock, Mode=OneWay}" />
                                             </i:EventTrigger>
                                             <i:EventTrigger EventName="Unchecked">
                                                 <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
@@ -590,19 +538,13 @@
                                     </ToggleButton>
                                 </Grid>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger
-                                        Binding="{Binding AutoMode, Mode=OneWay}"
-                                        Value="True">
+                                    <DataTrigger Binding="{Binding AutoMode, Mode=OneWay}" Value="True">
                                         <Setter TargetName="StatusBorder" Property="Background" Value="{StaticResource PressedBrush}" />
                                     </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding IsChecked, ElementName=ActiveToggle, Mode=OneWay}"
-                                        Value="True">
+                                    <DataTrigger Binding="{Binding IsChecked, ElementName=ActiveToggle, Mode=OneWay}" Value="True">
                                         <Setter TargetName="ActiveToggle" Property="Content" Value="{DynamicResource 取消}" />
                                     </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding OnlineStatus, Mode=OneWay}"
-                                        Value="True">
+                                    <DataTrigger Binding="{Binding OnlineStatus, Mode=OneWay}" Value="True">
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsRecording, Mode=OneWay}">
@@ -614,9 +556,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <Grid
-                        Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush2}">
+                    <Grid Grid.Column="1" Background="{StaticResource WindowBackgroundBrush2}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="4" />
                             <RowDefinition Height="40" />
@@ -643,9 +583,7 @@
                                     <i:InvokeCommandAction Command="{Binding StartLog, Source={StaticResource AuthenticatorViewModel}, Mode=OneTime}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            <Border
-                                Background="{StaticResource LightColorBrush}"
-                                BorderBrush="{StaticResource WindowBackgroundBrush4}">
+                            <Border Background="{StaticResource LightColorBrush}" BorderBrush="{StaticResource WindowBackgroundBrush4}">
                                 <TextBlock
                                     Margin="4,0"
                                     HorizontalAlignment="Center"
@@ -659,24 +597,16 @@
                                         <Setter Property="Background" Value="LightSlateGray" />
                                         <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                         <Style.Triggers>
-                                            <DataTrigger
-                                                Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
-                                                Value="1">
+                                            <DataTrigger Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" Value="1">
                                                 <Setter Property="Background" Value="Green" />
                                             </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
-                                                Value="2">
+                                            <DataTrigger Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" Value="2">
                                                 <Setter Property="Background" Value="Blue" />
                                             </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
-                                                Value="3">
+                                            <DataTrigger Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" Value="3">
                                                 <Setter Property="Background" Value="Purple" />
                                             </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
-                                                Value="4">
+                                            <DataTrigger Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" Value="4">
                                                 <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -700,9 +630,7 @@
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,1">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <Run Text="{DynamicResource 本日產量}" />
                                     <Run Text=": " />
                                     <Run Text="{Binding TotalProductionCount, Mode=OneWay}" />
@@ -810,9 +738,7 @@
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem
-                Width="0"
-                Height="0">
+            <TabItem Width="0" Height="0">
                 <Grid Background="{StaticResource WindowBackgroundBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -851,9 +777,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 目標溫度}" />
                                             <Run Text="1" />
                                         </TextBlock>
@@ -862,9 +786,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 目標溫度}" />
                                             <Run Text="2" />
                                         </TextBlock>
@@ -873,9 +795,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 目標溫度}" />
                                             <Run Text="3" />
                                         </TextBlock>
@@ -884,9 +804,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 目標溫度}" />
                                             <Run Text="4" />
                                         </TextBlock>
@@ -895,9 +813,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 目標溫度}" />
                                             <Run Text="5" />
                                         </TextBlock>
@@ -906,9 +822,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 目標溫度}" />
                                             <Run Text="6" />
                                         </TextBlock>
@@ -917,9 +831,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 目標溫度}" />
                                             <Run Text="7" />
                                         </TextBlock>
@@ -928,9 +840,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,0">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 目標溫度}" />
                                             <Run Text="8" />
                                         </TextBlock>
@@ -1030,9 +940,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 升溫時間}" />
                                             <Run Text="1" />
                                         </TextBlock>
@@ -1041,9 +949,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 升溫時間}" />
                                             <Run Text="2" />
                                         </TextBlock>
@@ -1052,9 +958,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 升溫時間}" />
                                             <Run Text="3" />
                                         </TextBlock>
@@ -1063,9 +967,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 升溫時間}" />
                                             <Run Text="4" />
                                         </TextBlock>
@@ -1074,9 +976,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 升溫時間}" />
                                             <Run Text="5" />
                                         </TextBlock>
@@ -1085,9 +985,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 升溫時間}" />
                                             <Run Text="6" />
                                         </TextBlock>
@@ -1096,9 +994,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 升溫時間}" />
                                             <Run Text="7" />
                                         </TextBlock>
@@ -1107,9 +1003,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,0">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 升溫時間}" />
                                             <Run Text="8" />
                                         </TextBlock>
@@ -1127,9 +1021,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_1, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1138,9 +1030,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_2, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1149,9 +1039,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_3, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1160,9 +1048,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_4, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1171,9 +1057,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_5, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1182,9 +1066,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_6, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1193,9 +1075,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_7, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1204,9 +1084,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,0">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_8, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1224,9 +1102,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫溫度}" />
                                             <Run Text="1" />
                                         </TextBlock>
@@ -1235,9 +1111,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫溫度}" />
                                             <Run Text="2" />
                                         </TextBlock>
@@ -1246,9 +1120,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫溫度}" />
                                             <Run Text="3" />
                                         </TextBlock>
@@ -1257,9 +1129,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫溫度}" />
                                             <Run Text="4" />
                                         </TextBlock>
@@ -1268,9 +1138,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫溫度}" />
                                             <Run Text="5" />
                                         </TextBlock>
@@ -1279,9 +1147,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫溫度}" />
                                             <Run Text="6" />
                                         </TextBlock>
@@ -1290,9 +1156,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫溫度}" />
                                             <Run Text="7" />
                                         </TextBlock>
@@ -1301,9 +1165,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,0">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫溫度}" />
                                             <Run Text="8" />
                                         </TextBlock>
@@ -1402,9 +1264,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫時間}" />
                                             <Run Text="1" />
                                         </TextBlock>
@@ -1413,9 +1273,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫時間}" />
                                             <Run Text="2" />
                                         </TextBlock>
@@ -1424,9 +1282,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫時間}" />
                                             <Run Text="3" />
                                         </TextBlock>
@@ -1435,9 +1291,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫時間}" />
                                             <Run Text="4" />
                                         </TextBlock>
@@ -1446,9 +1300,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫時間}" />
                                             <Run Text="5" />
                                         </TextBlock>
@@ -1457,9 +1309,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫時間}" />
                                             <Run Text="6" />
                                         </TextBlock>
@@ -1468,9 +1318,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫時間}" />
                                             <Run Text="7" />
                                         </TextBlock>
@@ -1479,9 +1327,7 @@
                                         Background="{StaticResource WindowBackgroundBrush6}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,0">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{DynamicResource 恆溫時間}" />
                                             <Run Text="8" />
                                         </TextBlock>
@@ -1490,9 +1336,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding InflatingTime, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1501,9 +1345,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_1, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1512,9 +1354,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_2, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1523,9 +1363,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_3, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1534,9 +1372,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_4, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1545,9 +1381,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_5, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1556,9 +1390,7 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_6, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -1567,29 +1399,17 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_7, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
-                                    <Border
-                                        Background="{StaticResource LightColorBrush}"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                    <Border Background="{StaticResource LightColorBrush}" BorderBrush="{StaticResource WindowBackgroundBrush4}">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_8, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
-                                    <Border
-                                        Grid.Row="{Binding UsedSegmentCounts, Converter={StaticResource AddValue}, ConverterParameter=1, Mode=OneWay}"
-                                        Grid.RowSpan="8"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="{Binding ColumnCount, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AutoGrid}}}"
-                                        Background="{StaticResource WindowBackgroundBrush6}" />
                                 </local:AutoGrid>
                             </GroupBox>
                             <GroupBox
@@ -1850,9 +1670,7 @@
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                         <TabControl SelectedIndex="{Binding AutoMode, Mode=OneWay}">
-                                            <TabItem
-                                                Width="0"
-                                                Height="0">
+                                            <TabItem Width="0" Height="0">
                                                 <Border Background="{StaticResource OKBrush}">
                                                     <TextBlock
                                                         HorizontalAlignment="Center"
@@ -1862,9 +1680,7 @@
                                                         Text="{DynamicResource 手動}" />
                                                 </Border>
                                             </TabItem>
-                                            <TabItem
-                                                Width="0"
-                                                Height="0">
+                                            <TabItem Width="0" Height="0">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition />
@@ -1926,15 +1742,9 @@
                                             Style="{StaticResource SignalView}">
                                             <CheckBox.IsChecked>
                                                 <MultiBinding Converter="{StaticResource MultiAnyTrueConverter}">
-                                                    <Binding
-                                                        Mode="OneWay"
-                                                        Path="LowTemperature" />
-                                                    <Binding
-                                                        Mode="OneWay"
-                                                        Path="OTP_TemperatureError" />
-                                                    <Binding
-                                                        Mode="OneWay"
-                                                        Path="OverTemperatureAlarm" />
+                                                    <Binding Mode="OneWay" Path="LowTemperature" />
+                                                    <Binding Mode="OneWay" Path="OTP_TemperatureError" />
+                                                    <Binding Mode="OneWay" Path="OverTemperatureAlarm" />
                                                 </MultiBinding>
                                             </CheckBox.IsChecked>
                                         </CheckBox>
@@ -1950,15 +1760,9 @@
                                             Style="{StaticResource SignalView}">
                                             <CheckBox.IsChecked>
                                                 <MultiBinding Converter="{StaticResource MultiAnyTrueConverter}">
-                                                    <Binding
-                                                        Mode="OneWay"
-                                                        Path="CirculatingFanOverload" />
-                                                    <Binding
-                                                        Mode="OneWay"
-                                                        Path="CoolingFanAbnormal" />
-                                                    <Binding
-                                                        Mode="OneWay"
-                                                        Path="CirculatingFanInversion" />
+                                                    <Binding Mode="OneWay" Path="CirculatingFanOverload" />
+                                                    <Binding Mode="OneWay" Path="CoolingFanAbnormal" />
+                                                    <Binding Mode="OneWay" Path="CirculatingFanInversion" />
                                                 </MultiBinding>
                                             </CheckBox.IsChecked>
                                         </CheckBox>
@@ -1989,17 +1793,13 @@
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
-                                        <ContentControl
-                                            Content="{Binding Mode=OneWay}"
-                                            ContentTemplate="{StaticResource ProgressDataTemplate}" />
+                                        <ContentControl Content="{Binding Mode=OneWay}" ContentTemplate="{StaticResource ProgressDataTemplate}" />
                                     </Border>
                                     <Border
                                         Background="{StaticResource LightColorBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0">
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <Run Text="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=\{0:D\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
@@ -2007,9 +1807,7 @@
                                 </local:AutoGrid>
                             </GroupBox>
                         </Grid>
-                        <GroupBox
-                            Grid.Row="1"
-                            Margin="4,0,4,4">
+                        <GroupBox Grid.Row="1" Margin="4,0,4,4">
                             <GroupBox.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -2057,24 +1855,16 @@
                                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                 BorderThickness="0,0,1,1" />
                                             <DataTemplate.Triggers>
-                                                <DataTrigger
-                                                    Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                    Value="Normal">
+                                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}" Value="Normal">
                                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
                                                 </DataTrigger>
-                                                <DataTrigger
-                                                    Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                    Value="Trigger">
+                                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}" Value="Trigger">
                                                     <Setter TargetName="Border" Property="Background" Value="Blue" />
                                                 </DataTrigger>
-                                                <DataTrigger
-                                                    Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                    Value="Operator">
+                                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}" Value="Operator">
                                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
                                                 </DataTrigger>
-                                                <DataTrigger
-                                                    Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                    Value="Alarm">
+                                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}" Value="Alarm">
                                                     <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
                                                 </DataTrigger>
                                             </DataTemplate.Triggers>
@@ -2110,14 +1900,10 @@
                                                             Fill="{StaticResource DisabledBackgroundBrush}"
                                                             Stroke="{StaticResource DisabledBorderBrush}"
                                                             StrokeThickness="1" />
-                                                        <TextBlock
-                                                            Grid.Column="1"
-                                                            Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                                                        <TextBlock Grid.Column="1" Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
                                                     </Grid>
                                                     <DataTemplate.Triggers>
-                                                        <DataTrigger
-                                                            Binding="{Binding Value, Mode=OneWay}"
-                                                            Value="True">
+                                                        <DataTrigger Binding="{Binding Value, Mode=OneWay}" Value="True">
                                                             <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
                                                             <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
                                                         </DataTrigger>
@@ -2131,9 +1917,7 @@
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate DataType="models:LogEvent">
-                                                    <TextBlock
-                                                        Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
-                                                        TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}" TextTrimming="CharacterEllipsis" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
@@ -2362,21 +2146,15 @@
                             </Grid>
                         </GroupBox>
                     </Grid>
-                    <Grid
-                        Grid.Row="1"
-                        Margin="4,0,4,4">
+                    <Grid Grid.Row="1" Margin="4,0,4,4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button
-                            Content="{DynamicResource 返回總覽}"
-                            FontSize="16">
+                        <Button Content="{DynamicResource 返回總覽}" FontSize="16">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction
-                                        Command="{Binding BackCommand, Mode=OneTime}"
-                                        CommandParameter="0" />
+                                    <i:InvokeCommandAction Command="{Binding BackCommand, Mode=OneTime}" CommandParameter="0" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
@@ -2469,12 +2247,8 @@
                                                             <VisualState x:Name="Normal" />
                                                             <VisualState x:Name="MouseOver">
                                                                 <Storyboard>
-                                                                    <DoubleAnimationUsingKeyFrames
-                                                                        Storyboard.TargetName="Border2"
-                                                                        Storyboard.TargetProperty="Opacity">
-                                                                        <EasingDoubleKeyFrame
-                                                                            KeyTime="0:0:0.12"
-                                                                            Value="1" />
+                                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border2" Storyboard.TargetProperty="Opacity">
+                                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.12" Value="1" />
                                                                     </DoubleAnimationUsingKeyFrames>
                                                                 </Storyboard>
                                                             </VisualState>
@@ -2483,33 +2257,19 @@
                                                         <VisualStateGroup x:Name="SelectionStates">
                                                             <VisualStateGroup.Transitions>
                                                                 <VisualTransition GeneratedDuration="0:0:0.12" />
-                                                                <VisualTransition
-                                                                    GeneratedDuration="0"
-                                                                    To="Selected" />
+                                                                <VisualTransition GeneratedDuration="0" To="Selected" />
                                                             </VisualStateGroup.Transitions>
                                                             <VisualState x:Name="Unselected" />
                                                             <VisualState x:Name="Selected">
                                                                 <Storyboard>
-                                                                    <ColorAnimationUsingKeyFrames
-                                                                        Storyboard.TargetName="TextBlock"
-                                                                        Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)">
-                                                                        <EasingColorKeyFrame
-                                                                            KeyTime="0:0:0.12"
-                                                                            Value="White" />
+                                                                    <ColorAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)">
+                                                                        <EasingColorKeyFrame KeyTime="0:0:0.12" Value="White" />
                                                                     </ColorAnimationUsingKeyFrames>
-                                                                    <DoubleAnimationUsingKeyFrames
-                                                                        Storyboard.TargetName="Border"
-                                                                        Storyboard.TargetProperty="Opacity">
-                                                                        <EasingDoubleKeyFrame
-                                                                            KeyTime="0:0:0.12"
-                                                                            Value="1" />
+                                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="Opacity">
+                                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.12" Value="1" />
                                                                     </DoubleAnimationUsingKeyFrames>
-                                                                    <DoubleAnimationUsingKeyFrames
-                                                                        Storyboard.TargetName="Border3"
-                                                                        Storyboard.TargetProperty="Opacity">
-                                                                        <EasingDoubleKeyFrame
-                                                                            KeyTime="0:0:0.12"
-                                                                            Value="1" />
+                                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border3" Storyboard.TargetProperty="Opacity">
+                                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.12" Value="1" />
                                                                     </DoubleAnimationUsingKeyFrames>
                                                                 </Storyboard>
                                                             </VisualState>
@@ -2523,9 +2283,7 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid
-                                        TextElement.FontSize="12"
-                                        TextElement.Foreground="{StaticResource BaseForeground}">
+                                    <Grid TextElement.FontSize="12" TextElement.Foreground="{StaticResource BaseForeground}">
                                         <ProgressBar
                                             x:Name="Progress"
                                             BorderThickness="0"
@@ -2552,47 +2310,33 @@
                                             Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     </Grid>
                                     <DataTemplate.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding IsRecording, Mode=OneWay}"
-                                            Value="True">
+                                        <DataTrigger Binding="{Binding IsRecording, Mode=OneWay}" Value="True">
                                             <Setter TargetName="TextBlock" Property="Text" Value="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=-\{0:D\} m}" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                            Value="-1">
+                                        <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="-1">
                                             <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                            Value="0">
+                                        <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="0">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                                             <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                            Value="1">
+                                        <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="1">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                                             <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                            Value="2">
+                                        <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="2">
                                             <Setter TargetName="Progress" Property="Background" Value="Yellow" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource EnergyBorderBrush}" />
                                             <Setter TargetName="TextBlock" Property="Foreground" Value="Red" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                            Value="3">
+                                        <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="3">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
                                             <Setter TargetName="TextBlock" Property="Foreground" Value="Red" />
                                         </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding ProgressStatus, Mode=OneWay}"
-                                            Value="4">
+                                        <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}" Value="4">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                                             <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                                             <Setter TargetName="TextBlock" Property="Foreground" Value="Blue" />
