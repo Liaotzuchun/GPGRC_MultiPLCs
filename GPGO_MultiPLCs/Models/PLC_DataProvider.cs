@@ -701,7 +701,7 @@ namespace GPGO_MultiPLCs.Models
 
                                          if (key1 == SignalNames.自動啟動)
                                          {
-                                             EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2, value));
+                                             EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
 
                                              if (!value)
                                              {
@@ -735,8 +735,8 @@ namespace GPGO_MultiPLCs.Models
                                              {
                                                  PassTag = true;
 
-                                                 EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2, value));
-                                                 AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                                 EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
+                                                 AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
 
                                                  if (!value)
                                                  {
@@ -747,8 +747,8 @@ namespace GPGO_MultiPLCs.Models
                                              }
                                              else if (key1 == SignalNames.自動停止)
                                              {
-                                                 EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2, value));
-                                                 AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                                 EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
+                                                 AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
 
                                                  if (!value)
                                                  {
@@ -776,8 +776,8 @@ namespace GPGO_MultiPLCs.Models
                                                      PassTag = true;
                                                  }
 
-                                                 EventHappened?.Invoke((EventType.Normal, nt, key1.ToString(), key2, value));
-                                                 AddProcessEvent(EventType.Normal, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                                 EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
+                                                 AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
                                                  NotifyPropertyChanged(nameof(Progress));
                                                  NotifyPropertyChanged(nameof(ProgressStatus));
                                              }

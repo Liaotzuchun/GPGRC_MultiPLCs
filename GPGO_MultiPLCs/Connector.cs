@@ -101,32 +101,6 @@ namespace GPGO_MultiPLCs
             _Testdatalock = new AsyncAutoResetEvent();
             await _Testdatalock.WaitAsync();
 
-            var tags = new[] { 0, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 0, 0, 0, 0, 0 };
-
-            var events = new[]
-                         {
-                             "自動停止",
-                             "程式結束",
-                             "電源反相",
-                             "循環風車過載",
-                             "循環風車INV異常",
-                             "第1段恆溫",
-                             "第1段升溫",
-                             "第2段恆溫",
-                             "第2段升溫",
-                             "第3段恆溫",
-                             "第3段升溫",
-                             "第4段恆溫",
-                             "第4段升溫",
-                             "第5段恆溫",
-                             "第5段升溫",
-                             "第6段恆溫",
-                             "第6段升溫",
-                             "第7段恆溫",
-                             "第7段升溫",
-                             "第8段恆溫",
-                             "第8段升溫"
-                         };
             var order_code = new[] { "ooxx", "abc", "zzz", "qoo", "boom", "xxx", "wunmao" };
             var time = DateTime.Now;
 
@@ -198,40 +172,68 @@ namespace GPGO_MultiPLCs
 
                         var ttime = new TimeSpan(0, 0, 1);
                         var cc = 0;
-                        var dp = Math.PI / 200;
+
+                        var _ev = new LogEvent
+                                 {
+                                     StationNumber = i + 1,
+                                     StartTime = st,
+                                     AddedTime = st + ttime,
+                                     Description = "第1段升溫",
+                                     TagCode = 100,
+                                     Type = EventType.Normal,
+                                     Value = true
+                                 };
+
+                        LogVM.AddToDB(_ev);
+                        info.EventList.Add(_ev);
+
                         for (var m = 0; m < 100; m++)
                         {
-                            if (rn.Next(0, 100) > 95)
+                            if (m == 60)
                             {
-                                var ev = new LogEvent
+                                var ev1 = new LogEvent
                                          {
                                              StationNumber = i + 1,
                                              StartTime = st,
-                                             AddedTime = st + ttime,
-                                             Description = events[rn.Next(0, events.Length)],
-                                             TagCode = tags[rn.Next(0, tags.Length)],
-                                             Type = (EventType)rn.Next(0, 4),
-                                             Value = Convert.ToBoolean(rn.Next(0, 2))
+                                             AddedTime = st + ttime - TimeSpan.FromMilliseconds(1),
+                                             Description = "第1段升溫",
+                                             TagCode = 100,
+                                             Type = EventType.Normal,
+                                             Value = false
                                          };
 
-                                LogVM.AddToDB(ev);
-                                info.EventList.Add(ev);
+                                LogVM.AddToDB(ev1);
+                                info.EventList.Add(ev1);
+
+                                var ev2 = new LogEvent
+                                          {
+                                              StationNumber = i + 1,
+                                              StartTime = st,
+                                              AddedTime = st + ttime,
+                                              Description = "第1段恆溫",
+                                              TagCode = 101,
+                                              Type = EventType.Normal,
+                                              Value = true
+                                          };
+
+                                LogVM.AddToDB(ev2);
+                                info.EventList.Add(ev2);
                             }
 
-                            var mins = (int)ttime.TotalMinutes + 1;
+                            var tempt = 30 * (1 + 5 * 1 / (1 + Math.Exp(-0.12 * cc + 3)));
                             var vals = new RecordTemperatures
                                        {
                                            StartTime = st,
                                            AddedTime = st + ttime,
-                                           ThermostatTemperature = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
-                                           OvenTemperatures_1 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
-                                           OvenTemperatures_2 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
-                                           OvenTemperatures_3 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
-                                           OvenTemperatures_4 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
-                                           OvenTemperatures_5 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
-                                           OvenTemperatures_6 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
-                                           OvenTemperatures_7 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10),
-                                           OvenTemperatures_8 = 30 * (1 + 5 * Math.Cos(cc * dp)) + rn.Next(0, 10)
+                                           ThermostatTemperature = tempt,
+                                           OvenTemperatures_1 = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_2 = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_3 = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_4 = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_5 = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_6 = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_7 = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_8 = tempt + rn.Next(-5, 5)
                                        };
 
                             cc += 1;
@@ -239,6 +241,48 @@ namespace GPGO_MultiPLCs
 
                             ttime = ttime.Add(TimeSpan.FromMinutes(1));
                         }
+
+                        var ev_1 = new LogEvent
+                                  {
+                                      StationNumber = i + 1,
+                                      StartTime = st,
+                                      AddedTime = st + ttime - TimeSpan.FromSeconds(60),
+                                      Description = "第1段恆溫",
+                                      TagCode = 100,
+                                      Type = EventType.Normal,
+                                      Value = false
+                                  };
+
+                        LogVM.AddToDB(ev_1);
+                        info.EventList.Add(ev_1);
+
+                        var ev_2 = new LogEvent
+                                  {
+                                      StationNumber = i + 1,
+                                      StartTime = st,
+                                      AddedTime = st + ttime - TimeSpan.FromSeconds(1),
+                                      Description = "程式結束",
+                                      TagCode = 102,
+                                      Type = EventType.Trigger,
+                                      Value = true
+                                  };
+
+                        LogVM.AddToDB(ev_2);
+                        info.EventList.Add(ev_2);
+
+                        var ev_3 = new LogEvent
+                                   {
+                                       StationNumber = i + 1,
+                                       StartTime = st,
+                                       AddedTime = st + ttime,
+                                       Description = "自動停止",
+                                       TagCode = 102,
+                                       Type = EventType.Trigger,
+                                       Value = true
+                                   };
+
+                        LogVM.AddToDB(ev_3);
+                        info.EventList.Add(ev_3);
 
                         info.EndTime = info.StartTime + ttime;
                         info.TotalHeatingTime = (info.EndTime - info.StartTime).Minutes;
@@ -465,7 +509,7 @@ namespace GPGO_MultiPLCs
 
                                              var l = new List<int>();
 
-                                             for (var i = 0; i < TotalVM.PLC_All.Count - 1; i++)
+                                             for (var i = 0; i < TotalVM.PLC_All.Count; i++)
                                              {
                                                  var j = i;
                                                  var recipe = list.Find(x => x.Used_Stations[j]);
