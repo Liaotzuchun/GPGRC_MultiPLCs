@@ -198,7 +198,7 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class ProcessInfo : BaseInfo, ILogData
     {
-        /// <summary>單一製造序材料數量</summary>
+        /// <summary>單一製程序材料數量</summary>
         [LanguageTranslator("Quantity", "數量", "数量")]
         public int ProcessCount => PanelCodes.Count;
 
@@ -216,7 +216,7 @@ namespace GPGO_MultiPLCs.Models
 
         public List<string> PanelCodes { get; set; } = new List<string>();
 
-        /// <summary>製造序</summary>
+        /// <summary>製程序</summary>
         [LanguageTranslator("SN", "序號", "序号")]
         public int ProcessNumber { get; set; }
 

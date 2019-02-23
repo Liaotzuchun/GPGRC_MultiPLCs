@@ -383,7 +383,7 @@
                                                                         </DataGridTemplateColumn>
                                                                         <DataGridTemplateColumn>
                                                                             <DataGridTemplateColumn.Header>
-                                                                                <TextBlock Text="{DynamicResource 製造序}" />
+                                                                                <TextBlock Text="{DynamicResource 製程序}" />
                                                                             </DataGridTemplateColumn.Header>
                                                                             <DataGridTemplateColumn.CellTemplate>
                                                                                 <DataTemplate DataType="models:ProductInfo">

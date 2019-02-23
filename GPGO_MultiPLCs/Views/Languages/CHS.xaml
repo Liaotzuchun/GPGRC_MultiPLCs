@@ -14,7 +14,7 @@
     <sys:String x:Key="投產">投产</sys:String>
     <sys:String x:Key="取消">取消</sys:String>
     <sys:String x:Key="操作員">操作员</sys:String>
-    <sys:String x:Key="製造序">制造序</sys:String>
+    <sys:String x:Key="製程序">制程序</sys:String>
     <sys:String x:Key="台車">台车</sys:String>
     <sys:String x:Key="數量">数量</sys:String>
     <sys:String x:Key="工單">工单</sys:String>
