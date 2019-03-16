@@ -160,7 +160,7 @@
     <Compile Include="Helpers\TaskSchedulers\OrderedTaskScheduler.cs" />
     <Compile Include="Helpers\TaskSchedulers\StaTaskScheduler.cs" />
     <Compile Include="Helpers\TaskSchedulers\SynchronizationContextTaskScheduler.cs" />
-    <Compile Include="Helpers\TaskSchedulers\ThreadPerTaskkScheduler.cs" />
+    <Compile Include="Helpers\TaskSchedulers\ThreadPerTaskScheduler.cs" />
     <Compile Include="Models\DataCollectionByDate.cs" />
     <Compile Include="Models\GlobalTempSettings.cs" />
     <Compile Include="Models\LanguageEnum.cs" />
