@@ -15,7 +15,7 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public async ValueTask<bool> Show(Dictionary<Language, string> msg, object obj, bool support_cancel, TimeSpan delay = default(TimeSpan))
         {
-            using (await AsyncLock_1.LockAsync())
+            using (await AsyncLock.LockAsync())
             {
                 if (!Lock_1.WaitOne(0))
                 {
@@ -53,7 +53,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async ValueTask<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay = default(TimeSpan))
         {
-            using (await AsyncLock_1.LockAsync())
+            using (await AsyncLock.LockAsync())
             {
                 if (!Lock_1.WaitOne(0))
                 {
@@ -98,7 +98,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public async ValueTask<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
         {
-            using (await AsyncLock_1.LockAsync())
+            using (await AsyncLock.LockAsync())
             {
                 if (!Lock_2.WaitOne(0))
                 {
@@ -130,7 +130,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                             Dictionary<Language, string> header,
                                                                             Func<string, (bool result, Dictionary<Language, string> title_msg)> condition)
         {
-            using (await AsyncLock_1.LockAsync())
+            using (await AsyncLock.LockAsync())
             {
                 if (!Lock_2.WaitOne(0))
                 {
@@ -200,8 +200,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public Language Language;
-        private readonly AsyncLock AsyncLock_1 = new AsyncLock();
-        private readonly AsyncLock AsyncLock_2 = new AsyncLock();
+        private readonly AsyncLock AsyncLock = new AsyncLock();
         private readonly ManualResetEvent Lock_1;
         private readonly ManualResetEvent Lock_2;
 
