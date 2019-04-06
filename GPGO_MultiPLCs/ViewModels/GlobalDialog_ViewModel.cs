@@ -13,7 +13,7 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>實作IDialogService，負責所有對話視窗</summary>
     public sealed class GlobalDialog_ViewModel : ObservableObject, IDialogService, IDisposable
     {
-        public async ValueTask<bool> Show(Dictionary<Language, string> msg, object obj, bool support_cancel, TimeSpan delay = default(TimeSpan))
+        public async ValueTask<bool> Show(Dictionary<Language, string> msg, object obj, bool support_cancel, TimeSpan delay = default)
         {
             using (await AsyncLock.LockAsync())
             {
@@ -51,7 +51,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return EnterResult_1;
         }
 
-        public async ValueTask<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay = default(TimeSpan))
+        public async ValueTask<bool> Show(Dictionary<Language, string> msg, bool support_cancel, TimeSpan delay = default)
         {
             using (await AsyncLock.LockAsync())
             {

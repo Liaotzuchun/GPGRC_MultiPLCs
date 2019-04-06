@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,8 +11,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Media;
 using System.Xml.Linq;
-using GPGO_MultiPLCs.Models;
-using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Helpers
 {
@@ -432,11 +432,11 @@ namespace GPGO_MultiPLCs.Helpers
                 }
                 catch
                 {
-                    return default(T);
+                    return default;
                 }
             }
 
-            return default(T);
+            return default;
         }
 
         /// <summary>計算標準差</summary>
@@ -654,7 +654,7 @@ namespace GPGO_MultiPLCs.Helpers
 
             if (bits[31] > 0)
             {
-                val = val - 2147483648;
+                val -= 2147483648;
             }
 
             return (int)val;
@@ -684,7 +684,7 @@ namespace GPGO_MultiPLCs.Helpers
 
             if (bits[15] > 0)
             {
-                val = val - 32768;
+                val -= 32768;
             }
 
             return (short)val;
@@ -714,7 +714,7 @@ namespace GPGO_MultiPLCs.Helpers
 
             if (bits[31])
             {
-                val = val - 2147483648;
+                val -= 2147483648;
             }
 
             return (int)val;
@@ -744,7 +744,7 @@ namespace GPGO_MultiPLCs.Helpers
 
             if (bits[15])
             {
-                val = val - 32768;
+                val -= 32768;
             }
 
             return (short)val;
