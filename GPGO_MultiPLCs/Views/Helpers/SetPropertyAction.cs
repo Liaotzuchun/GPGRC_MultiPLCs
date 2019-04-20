@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Windows;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 
 namespace GPGO_MultiPLCs.Views
 {
