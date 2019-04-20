@@ -9,7 +9,7 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>PLC配方</summary>
     [OrderedObject]
     [BsonIgnoreExtraElements]
-    public class PLC_Recipe : ObservableObject, IEquatable<PLC_Recipe>
+    public class PLC_Recipe : ObservableObject, IRecipe<PLC_Recipe>
     {
         public bool Equals(PLC_Recipe other)
         {

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace GPGO_MultiPLCs.Helpers
 {
     /// <summary>使實作INotifyPropertyChanged變成非常簡單的類別</summary>
-    public class ObservableObject : INotifyPropertyChanged
+    public abstract class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Dictionary<string, object> Properties = new Dictionary<string, object>();
@@ -18,10 +18,10 @@ namespace GPGO_MultiPLCs.Helpers
         {
             if (Properties.TryGetValue(name, out var value))
             {
-                return value == null ? default(T) : (T)value;
+                return value == null ? default : (T)value;
             }
 
-            return default(T);
+            return default;
         }
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

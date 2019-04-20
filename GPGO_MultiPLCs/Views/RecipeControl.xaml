@@ -32,7 +32,7 @@
                     Header="{DynamicResource 目前配方}">
                     <local:AutoGrid
                         Columns="70,*,54,70,*,54"
-                        DataContext="{Binding Selected_PLC_Recipe, Mode=OneWay}"
+                        DataContext="{Binding Selected_Recipe, Mode=OneWay}"
                         IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                         Orientation="Vertical"
                         RowCount="18"
@@ -2317,7 +2317,7 @@
                     Grid.Column="3"
                     Checked="EditedTB_Checked"
                     Content="{DynamicResource 改名}"
-                    IsEnabled="{Binding Selected_PLC_Recipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                    IsEnabled="{Binding Selected_Recipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
                     Unchecked="EditedTB_Unchecked"
                     Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <i:Interaction.Triggers>
@@ -2359,7 +2359,7 @@
                 ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                 RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                 SelectedCellsChanged="DataGrid_SelectedCellsChanged"
-                SelectedIndex="{Binding Selected_PLC_Recipe_Index, Mode=TwoWay}">
+                SelectedIndex="{Binding Selected_Recipe_Index, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding InitialLoadCommand, Mode=OneTime}" />
