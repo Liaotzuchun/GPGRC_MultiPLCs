@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    public interface IRecipe<T> : INotifyPropertyChanged, IEquatable<T> where T : class, IRecipe<T>, new()
+    public interface IRecipe<T> : INotifyPropertyChanged, IEquatable<T> where T : class, new()
     {
         string RecipeName { get; set; }
         DateTime Updated { get; set; }
