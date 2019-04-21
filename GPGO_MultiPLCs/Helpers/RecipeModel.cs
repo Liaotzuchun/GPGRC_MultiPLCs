@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GPGO_MultiPLCs.Helpers
 {
-    public abstract class RecipeModel<T> : ObservableObject where T : class, IRecipe<T>, new()
+    public abstract class RecipeModel<T> : ObservableObject where T : RecipeBase<T>, new()
     {
         public readonly IDataBase<T> RecipeCollection;
         public readonly IDataBase<T> RecipeCollection_History;

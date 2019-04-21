@@ -9,9 +9,9 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>PLC配方</summary>
     [OrderedObject]
     [BsonIgnoreExtraElements]
-    public class PLC_Recipe : ObservableObject, IRecipe<PLC_Recipe>
+    public class PLC_Recipe : RecipeBase<PLC_Recipe>
     {
-        public bool Equals(PLC_Recipe other)
+        public override bool Equals(PLC_Recipe other)
         {
             return other != null &&
                    RecipeName == other.RecipeName &&
@@ -53,6 +53,21 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [JsonIgnore]
+        [OrderIndex(0)]
+        [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
+        public override string RecipeName { get; set; }
+
+        [JsonIgnore]
+        [OrderIndex(1)]
+        [LanguageTranslator("Updated Time", "更新時間", "更新时间")]
+        public override DateTime Updated { get; set; }
+
+        [JsonIgnore]
+        [OrderIndex(2)]
+        [LanguageTranslator("Editor", "修改者", "修改者")]
+        public override string Editor { get; set; }
+
+        [JsonIgnore]
         public short SegmentCounts_Max => 8;
 
         [JsonIgnore]
@@ -87,14 +102,6 @@ namespace GPGO_MultiPLCs.Models
 
                 Set(value);
             }
-        }
-
-        [JsonIgnore]
-        [LanguageTranslator("Editor", "修改者", "修改者")]
-        public string Editor
-        {
-            get => Get<string>();
-            set => Set(value);
         }
 
         [OrderIndex(12)]
@@ -275,15 +282,6 @@ namespace GPGO_MultiPLCs.Models
 
                 Set(value);
             }
-        }
-
-        [JsonIgnore]
-        [OrderIndex(0)]
-        [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
-        public string RecipeName
-        {
-            get => Get<string>();
-            set => Set(value);
         }
 
         [OrderIndex(4)]
@@ -607,15 +605,6 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [JsonIgnore]
-        [OrderIndex(1)]
-        [LanguageTranslator("Updated Time", "更新時間", "更新时间")]
-        public DateTime Updated
-        {
-            get => Get<DateTime>();
-            set => Set(value);
-        }
-
-        [JsonIgnore]
         [LanguageTranslator("Used Stations", "使用站點", "使用站点")]
         public IList<bool> Used_Stations
         {
@@ -803,7 +792,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public PLC_Recipe Copy(string user)
+        public override PLC_Recipe Copy(string user)
         {
             return new PLC_Recipe
                    {
@@ -849,7 +838,7 @@ namespace GPGO_MultiPLCs.Models
                    };
         }
 
-        public void CopyValue(string user, PLC_Recipe recipe)
+        public override void CopyValue(string user, PLC_Recipe recipe)
         {
             Updated = DateTime.Now;
             RecipeName = recipe.RecipeName;
@@ -891,10 +880,8 @@ namespace GPGO_MultiPLCs.Models
             Editor = user;
         }
 
-        public PLC_Recipe(string name = "", string user = "")
+        public PLC_Recipe(string name = "", string user = "") : base(name, user)
         {
-            Updated = DateTime.Now;
-            RecipeName = string.IsNullOrEmpty(name) ? Updated.Ticks.ToString() : name;
             ThermostaticTemperature_1 = 200;
             ThermostaticTemperature_2 = 200;
             ThermostaticTemperature_3 = 200;
@@ -931,10 +918,9 @@ namespace GPGO_MultiPLCs.Models
             TargetTemperature_8 = 200;
             UsedSegmentCounts = 8;
             Used_Stations = new bool[20];
-            Editor = user;
         }
 
-        public PLC_Recipe()
+        public PLC_Recipe() : base()
         {
             Used_Stations = new bool[20];
         }
