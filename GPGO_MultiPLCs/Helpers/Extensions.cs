@@ -301,30 +301,35 @@ namespace GPGO_MultiPLCs.Helpers
                         b = aa;
 
                         break;
+
                     case 1:
                         r = bb;
                         g = val;
                         b = aa;
 
                         break;
+
                     case 2:
                         r = aa;
                         g = val;
                         b = cc;
 
                         break;
+
                     case 3:
                         r = aa;
                         g = bb;
                         b = val;
 
                         break;
+
                     case 4:
                         r = cc;
                         g = aa;
                         b = val;
 
                         break;
+
                     case 5:
                         r = val;
                         g = aa;
@@ -990,6 +995,6 @@ namespace GPGO_MultiPLCs.Helpers
             return vals.ToArray();
         }
 
-        #endregion
+        #endregion 數據轉換
     }
 }

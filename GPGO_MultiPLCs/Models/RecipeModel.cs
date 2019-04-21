@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using GPGO_MultiPLCs.Helpers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace GPGO_MultiPLCs.Models
 {
     public abstract class RecipeModel<T> : ObservableObject where T : RecipeBase<T>, new()
     {
@@ -21,18 +22,19 @@ namespace GPGO_MultiPLCs.Helpers
         /// <summary>所有配方的列表</summary>
         public List<T> Recipes;
 
-        public abstract RelayCommand AddCommand { get; }
-        public abstract RelayCommand DeleteCommand { get; }
-        public abstract RelayCommand ExprotCommand { get; }
-        public abstract RelayCommand ImportCommand { get; }
+        public virtual RelayCommand AddCommand { get; }
+        public virtual RelayCommand DeleteCommand { get; }
+        public virtual RelayCommand ExprotCommand { get; }
+        public virtual RelayCommand ImportCommand { get; }
 
         /// <summary>讀取配方列表</summary>
-        public abstract RelayCommand InitialLoadCommand { get; }
+        public virtual RelayCommand InitialLoadCommand { get; }
 
         /// <summary>重新讀取配方參數(未儲存時)</summary>
-        public abstract RelayCommand ResetCommand { get; }
-        public abstract RelayCommand ReNameCommand { get; }
-        public abstract RelayCommand SaveCommand { get; }
+        public virtual RelayCommand ResetCommand { get; }
+
+        public virtual RelayCommand ReNameCommand { get; }
+        public virtual RelayCommand SaveCommand { get; }
 
         /// <summary>辨識是否可新增配方(列表中沒有和輸入名相同的配方)</summary>
         public virtual bool Add_Enable => !string.IsNullOrEmpty(TypedName) && Recipes.All(x => x.RecipeName != TypedName);
@@ -333,10 +335,185 @@ namespace GPGO_MultiPLCs.Helpers
             Standby = true;
         }
 
-        public RecipeModel(IDataBase<T> db, IDataBase<T> db_history)
+        public RecipeModel(IDataBase<T> db, IDataBase<T> db_history, IDialogService dialog)
         {
             RecipeCollection = db;
             RecipeCollection_History = db_history;
+
+            InitialLoadCommand = new RelayCommand(async e =>
+            {
+                if (Recipes == null || Recipes.Count == 0)
+                {
+                    Standby = false;
+
+                    await RefreshList(false);
+
+                    Standby = true;
+                }
+                else
+                {
+                    TypedName = "";
+                    SearchName = "";
+                }
+            });
+
+            SaveCommand = new RelayCommand(async e =>
+            {
+                if (await dialog.Show(new Dictionary<Language, string>{
+                                                                        { Language.TW, "即將儲存配方，確定儲存？" },
+                                                                        { Language.CHS, "即将储存配方，确定储存？" },
+                                                                        { Language.EN, "The recipe is going to save.\nAre you sure?" }
+                                                                      },
+                                      true))
+                {
+                    await Save(TypedName);
+                }
+            });
+
+            ResetCommand = new RelayCommand(async e =>
+            {
+                Selected_Recipe.CopyValue(UserName, SelectedHistory);
+
+                if (await dialog.Show(new Dictionary<Language, string>{
+                                                                        { Language.TW, "即將儲存配方，確定儲存？" },
+                                                                        { Language.CHS, "即将储存配方，确定储存？" },
+                                                                        { Language.EN, "The recipe is going to save.\nAre you sure?" }
+                                                                      },
+                                      true))
+                {
+                    await Save(TypedName);
+                }
+            });
+
+            AddCommand = new RelayCommand(async e =>
+            {
+                await Save(TypedName);
+                SearchName = "";
+            });
+
+            DeleteCommand = new RelayCommand(async e =>
+            {
+                Standby = false;
+
+                try
+                {
+                    await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(TypedName));
+                }
+                catch
+                {
+                }
+
+                await RefreshList(false);
+
+                Standby = true;
+            });
+
+            ExprotCommand = new RelayCommand(e =>
+            {
+                var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
+
+                if (SavetoJson(path))
+                {
+                    dialog?.Show(new Dictionary<Language, string>{
+                                                                    { Language.TW, $"檔案已輸出至\n{path}" },
+                                                                    { Language.CHS, $"档案已输出至\n{path}" },
+                                                                    { Language.EN, $"The file has been output to\n{path}" }
+                                                                 },
+                                 TimeSpan.FromSeconds(6));
+                }
+            });
+
+            ImportCommand = new RelayCommand(async e =>
+            {
+                Standby = false;
+
+                var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
+                var files = new DirectoryInfo(path).GetFiles("*.json");
+                var updates = 0;
+                var adds = 0;
+
+                foreach (var file in files)
+                {
+                    try
+                    {
+                        var recipe = file.FullName.ReadFromJsonFile<T>();
+                        if (recipe != null)
+                        {
+                            recipe.RecipeName = Path.GetFileNameWithoutExtension(file.Name);
+                            var old_recipe = Recipes.Find(x => x.RecipeName == recipe.RecipeName);
+                            var new_recipe = recipe.Copy(UserName);
+
+                            if (old_recipe != null)
+                            {
+                                if (old_recipe.Equals(recipe))
+                                {
+                                    continue;
+                                }
+
+                                await RecipeCollection_History.AddAsync(old_recipe);
+                                updates += 1;
+                            }
+                            else
+                            {
+                                adds += 1;
+                            }
+
+                            await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(new_recipe.RecipeName), new_recipe);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "");
+                    }
+                }
+
+                await RefreshList(false);
+                Standby = true;
+
+                dialog?.Show(new Dictionary<Language, string>{
+                                                                { Language.TW, $"{adds}個配方已新增\n{updates}個配方已更新" },
+                                                                { Language.CHS, $"{adds}个配方已新增\n{updates}个配方已更新" },
+                                                                { Language.EN, $"{adds}recipe{(adds > 1 ? "s" : "")} have been added\n{updates}recipe{(updates > 1 ? "s" : "")} have been updated" }
+                                                             },
+                             TimeSpan.FromSeconds(6));
+            });
+
+            ReNameCommand = new RelayCommand(async e =>
+            {
+                if (string.IsNullOrEmpty(EditedName))
+                {
+                    //dialog?.Show(new Dictionary<Language, string>
+                    //             {
+                    //                 { Language.TW, "配方名稱不可為空白！" }, { Language.CHS, "配方名称不可为空白！" }, { Language.EN, "Recipe Name cannot be blank!" }
+                    //             },
+                    //             DialogMsgType.Alert);
+
+                    return;
+                }
+
+                if (Recipes.Any(x => string.Equals(x.RecipeName, EditedName, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    dialog?.Show(new Dictionary<Language, string>{
+                                                                    { Language.TW, "已有相同名稱！" }, { Language.CHS, "已有相同名称！" }, { Language.EN, "The same name already exists!" }
+                                                                 },
+                                 DialogMsgType.Alert);
+
+                    return;
+                }
+
+                if (await dialog.Show(new Dictionary<Language, string>{
+                                                                        { Language.TW, $"更改配方名稱：\n{TypedName} -> {EditedName}\n無法復原！ 確定更改？" },
+                                                                        { Language.CHS, $"更改配方名称：\n{TypedName} -> {EditedName}\n无法复原！ 确定更改？" },
+                                                                        { Language.EN, $"Change recipe name:\n{TypedName} -> {EditedName}\nCannot be restored! Are you sure?" }
+                                                                      },
+                                      true))
+                {
+                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(PLC_Recipe.RecipeName), EditedName);
+                    await RecipeCollection_History.UpdateManyAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(PLC_Recipe.RecipeName), EditedName);
+                    EditedName = "";
+                    await RefreshList(false);
+                }
+            });
         }
     }
 }

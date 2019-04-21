@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace GPGO_MultiPLCs.Models
 {
     public class MongoBase<T> : IDataBase<T> where T : class, new()
     {

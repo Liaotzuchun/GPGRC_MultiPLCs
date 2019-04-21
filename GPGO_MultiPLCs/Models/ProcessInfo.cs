@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Helpers;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GPGO_MultiPLCs.Helpers;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -28,12 +28,12 @@ namespace GPGO_MultiPLCs.Models
     {
         public List<RecipeValues> RecipeValues => TargetOvenTemperatures
                                                   .Select((t, i) => new RecipeValues
-                                                                    {
-                                                                        TargetOvenTemp = t,
-                                                                        ThermostaticTemp = ThermostaticTemperatures[i],
-                                                                        HeatingTime = HeatingTimes[i],
-                                                                        WarmingTime = WarmingTimes[i]
-                                                                    })
+                                                  {
+                                                      TargetOvenTemp = t,
+                                                      ThermostaticTemp = ThermostaticTemperatures[i],
+                                                      HeatingTime = HeatingTimes[i],
+                                                      WarmingTime = WarmingTimes[i]
+                                                  })
                                                   .ToList();
 
         /// <summary>財產編號</summary>
@@ -323,6 +323,6 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
         public int StationNumber { get; set; }
 
-        #endregion
+        #endregion 此區由TraceabilityView_ViewModel新增至資料庫時填入
     }
 }

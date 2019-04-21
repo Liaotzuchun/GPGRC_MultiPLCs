@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace GPGO_MultiPLCs.Models
 {
     public class ObjectViewModelHierarchy
     {
@@ -21,6 +21,7 @@ namespace GPGO_MultiPLCs.Helpers
     public class ObjectViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         private readonly object _object;
         private readonly Type _type;
 

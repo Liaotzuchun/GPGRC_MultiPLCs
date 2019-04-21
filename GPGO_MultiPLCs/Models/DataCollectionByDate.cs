@@ -1,12 +1,12 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Helpers;
+using System;
 using System.Collections.Generic;
-using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Models
 {
     public interface ILogData
     {
-        DateTime AddedTime{ get; set; }
+        DateTime AddedTime { get; set; }
     }
 
     public class DataCollectionByDate<T> : ObservableObject where T : ILogData, new()
@@ -132,7 +132,9 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public event Action<int> BeginIndexChanged;
+
         public event Action<int> EndIndexChanged;
+
         public event Action<List<T>> ResultsChanged;
 
         /// <summary>依據條件，更新查詢資料庫結果列表</summary>

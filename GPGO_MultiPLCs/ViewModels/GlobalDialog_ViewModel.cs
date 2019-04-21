@@ -1,12 +1,12 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Helpers;
+using GPGO_MultiPLCs.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using GPGO_MultiPLCs.Helpers;
-using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {

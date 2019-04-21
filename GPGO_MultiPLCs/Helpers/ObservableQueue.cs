@@ -18,7 +18,9 @@ namespace GPGO_MultiPLCs.Helpers
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
         private readonly Queue<T> queue = new Queue<T>();
         public int Count => queue.Count;
 
@@ -27,7 +29,7 @@ namespace GPGO_MultiPLCs.Helpers
             queue.Enqueue(item);
             CollectionChanged?.Invoke(this,
                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            PropertyChanged?.Invoke(this, 
+            PropertyChanged?.Invoke(this,
                                     new PropertyChangedEventArgs(nameof(Count)));
         }
 
@@ -36,7 +38,7 @@ namespace GPGO_MultiPLCs.Helpers
             var item = queue.Dequeue();
             CollectionChanged?.Invoke(this,
                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-            PropertyChanged?.Invoke(this, 
+            PropertyChanged?.Invoke(this,
                                     new PropertyChangedEventArgs(nameof(Count)));
 
             return item;

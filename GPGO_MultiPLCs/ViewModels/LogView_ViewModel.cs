@@ -1,12 +1,12 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Helpers;
+using GPGO_MultiPLCs.Models;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GPGO_MultiPLCs.Helpers;
-using GPGO_MultiPLCs.Models;
-using Serilog;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -96,6 +96,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public event Action<(ProcessInfo info, LogEvent _event)> GoDetailView;
+
         public event Func<(int station, DateTime time), ValueTask<ProcessInfo>> WantInfo;
 
         /// <summary>新增至資料庫</summary>

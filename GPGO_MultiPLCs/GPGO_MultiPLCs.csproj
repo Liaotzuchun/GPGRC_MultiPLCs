@@ -148,18 +148,18 @@
     <Compile Include="Helpers\Async\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\Attributes.cs" />
     <Compile Include="Helpers\Deque.cs" />
-    <Compile Include="Helpers\RecipeBase.cs" />
-    <Compile Include="Helpers\MongoBase.cs" />
-    <Compile Include="Helpers\ObjectViewModel.cs" />
-    <Compile Include="Helpers\ObservableObject.cs" />
-    <Compile Include="Helpers\FilterGroup.cs" />
-    <Compile Include="Helpers\IDataBase.cs" />
+    <Compile Include="Models\RecipeBase.cs" />
+    <Compile Include="Models\MongoBase.cs" />
+    <Compile Include="Models\ObjectViewModel.cs" />
+    <Compile Include="Models\ObservableObject.cs" />
+    <Compile Include="Models\FilterGroup.cs" />
+    <Compile Include="Models\IDataBase.cs" />
     <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
     <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
     <Compile Include="Helpers\Async\WaitHandleExtensions.cs" />
     <Compile Include="Helpers\ObservableQueue.cs" />
     <Compile Include="Helpers\ObservableStack.cs" />
-    <Compile Include="Helpers\RecipeModel.cs" />
+    <Compile Include="Models\RecipeModel.cs" />
     <Compile Include="Helpers\TaskSchedulers\CurrentThreadTaskScheduler.cs" />
     <Compile Include="Helpers\TaskSchedulers\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="Helpers\TaskSchedulers\OrderedTaskScheduler.cs" />
@@ -261,8 +261,8 @@
     </Compile>
     <Compile Include="Connector.cs" />
     <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Helpers\IDialogService.cs" />
-    <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Models\IDialogService.cs" />
+    <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Helpers\TwoKeyDictionary.cs" />
     <Compile Include="ViewModels\TotalView_ViewModel.cs" />
     <Compile Include="Views\Helpers\TextBoxWatermarkBehavior.cs" />

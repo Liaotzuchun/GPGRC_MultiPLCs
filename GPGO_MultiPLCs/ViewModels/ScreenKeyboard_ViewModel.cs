@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Models;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -131,9 +131,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                            new TextComposition(InputManager.Current,
                                                                                                                Target,
                                                                                                                e is Button but ? (string)but.GetValue(ContentControl.ContentProperty) : ""))
-                                                              {
-                                                                  RoutedEvent = TextCompositionManager.TextInputEvent
-                                                              };
+                                                   {
+                                                       RoutedEvent = TextCompositionManager.TextInputEvent
+                                                   };
 
                                                    InputManager.Current.ProcessInput(teve);
                                                });
@@ -153,9 +153,9 @@ namespace GPGO_MultiPLCs.ViewModels
             PasteCommand = new RelayCommand(e =>
                                             {
                                                 var teve = new TextCompositionEventArgs(Keyboard.PrimaryDevice, new TextComposition(InputManager.Current, Target, Clipboard.GetText()))
-                                                           {
-                                                               RoutedEvent = TextCompositionManager.TextInputEvent
-                                                           };
+                                                {
+                                                    RoutedEvent = TextCompositionManager.TextInputEvent
+                                                };
 
                                                 InputManager.Current.ProcessInput(teve);
                                             });
@@ -165,7 +165,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  var keve = new KeyEventArgs(Keyboard.PrimaryDevice,
                                                                              PresentationSource.FromDependencyObject(Target) ?? throw new InvalidOperationException(),
                                                                              0,
-                                                                             (Key)e) { RoutedEvent = Keyboard.KeyDownEvent };
+                                                                             (Key)e)
+                                                 { RoutedEvent = Keyboard.KeyDownEvent };
 
                                                  InputManager.Current.ProcessInput(keve);
                                              });
@@ -194,13 +195,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                             PresentationSource.FromDependencyObject(Target) ?? throw new InvalidOperationException(),
                                                                             0,
                                                                             Key.Enter)
-                                                           { RoutedEvent = Keyboard.KeyDownEvent };
+                                                { RoutedEvent = Keyboard.KeyDownEvent };
 
                                                 var keve2 = new KeyEventArgs(Keyboard.PrimaryDevice,
                                                                             PresentationSource.FromDependencyObject(Target) ?? throw new InvalidOperationException(),
                                                                             0,
                                                                             Key.Enter)
-                                                           { RoutedEvent = Keyboard.KeyUpEvent };
+                                                { RoutedEvent = Keyboard.KeyUpEvent };
 
                                                 InputManager.Current.ProcessInput(keve1);
                                                 InputManager.Current.ProcessInput(keve2);

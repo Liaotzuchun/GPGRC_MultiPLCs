@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GPGO_MultiPLCs.Models;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace GPGO_MultiPLCs.Models
 {
     /// <summary>訊息類型</summary>
     public enum DialogMsgType

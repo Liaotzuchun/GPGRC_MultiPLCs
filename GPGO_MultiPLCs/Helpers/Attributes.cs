@@ -1,5 +1,5 @@
-﻿using System;
-using GPGO_MultiPLCs.Models;
+﻿using GPGO_MultiPLCs.Models;
+using System;
 
 namespace GPGO_MultiPLCs.Helpers
 {

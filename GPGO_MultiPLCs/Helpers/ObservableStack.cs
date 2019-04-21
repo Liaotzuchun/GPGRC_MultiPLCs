@@ -18,7 +18,9 @@ namespace GPGO_MultiPLCs.Helpers
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
         private readonly Stack<T> stack = new Stack<T>();
         public int Count => stack.Count;
 

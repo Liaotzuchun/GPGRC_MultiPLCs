@@ -1,12 +1,11 @@
-﻿<Application
-    x:Class="GPGO_MultiPLCs.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:GPGO_MultiPLCs"
-    xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-    Exit="Application_Exit"
-    SessionEnding="Application_SessionEnding"
-    StartupUri="Views/MainWindow.xaml">
+﻿<Application x:Class="GPGO_MultiPLCs.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:GPGO_MultiPLCs"
+             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             Exit="Application_Exit"
+             SessionEnding="Application_SessionEnding"
+             StartupUri="Views/MainWindow.xaml">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -43,13 +42,12 @@
             </ResourceDictionary.MergedDictionaries>
             <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
             <vm:ScreenKeyboard_ViewModel x:Key="ScreenKeyboardViewModel" />
-            <local:Connector
-                x:Key="Connector"
-                DataInputPath="{Binding GT.DataInputPath, Source={StaticResource AuthenticatorViewModel}}"
-                DataOutputPath="{Binding GT.DataOutputPath, Source={StaticResource AuthenticatorViewModel}}"
-                Language="{Binding GT.Lng, Source={StaticResource AuthenticatorViewModel}}"
-                OvenCount="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}}"
-                User="{Binding NowUser, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
+            <local:Connector x:Key="Connector"
+                             DataInputPath="{Binding GT.DataInputPath, Source={StaticResource AuthenticatorViewModel}}"
+                             DataOutputPath="{Binding GT.DataOutputPath, Source={StaticResource AuthenticatorViewModel}}"
+                             Language="{Binding GT.Lng, Source={StaticResource AuthenticatorViewModel}}"
+                             OvenCount="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}}"
+                             User="{Binding NowUser, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

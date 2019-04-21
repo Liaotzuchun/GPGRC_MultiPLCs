@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace GPGO_MultiPLCs.Models
 {
     //!因MongoDB Driver的支援問題，所以條件式皆用Func<T, bool>而非Predicate<T>
     //!Expression<Func<T, bool>>是運算式資料結構，等於是將委派包裝成物件(因此理論上可序列化)，

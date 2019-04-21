@@ -1,41 +1,39 @@
-﻿<Window
-    x:Class="GPGO_MultiPLCs.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="clr-namespace:GPGO_MultiPLCs.Helpers"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Name="Main"
-    MinWidth="800"
-    MinHeight="600"
-    Background="{StaticResource WindowBackgroundBrush}"
-    DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
-    FontFamily="Microsoft JhengHei"
-    Foreground="{StaticResource BaseForeground}"
-    Icon="/GPGO_MultiPLCs;component/GP.ico"
-    KeyboardNavigation.TabNavigation="None"
-    Loaded="Window_Loaded"
-    SnapsToDevicePixels="True"
-    Stylus.IsPressAndHoldEnabled="False"
-    WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
-    mc:Ignorable="d">
+﻿<Window x:Class="GPGO_MultiPLCs.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+        x:Name="Main"
+        MinWidth="800"
+        MinHeight="600"
+        Background="{StaticResource WindowBackgroundBrush}"
+        DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneWay}"
+        FontFamily="Microsoft JhengHei"
+        Foreground="{StaticResource BaseForeground}"
+        Icon="/GPGO_MultiPLCs;component/GP.ico"
+        KeyboardNavigation.TabNavigation="None"
+        Loaded="Window_Loaded"
+        SnapsToDevicePixels="True"
+        Stylus.IsPressAndHoldEnabled="False"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
-            <helpers:InteractiveCommand Command="{Binding ClosingCommand, Mode=OneTime}" />
+            <models:InteractiveCommand Command="{Binding ClosingCommand, Mode=OneTime}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction
-                Command="{Binding LoadedCommand, Mode=OneTime}"
-                CommandParameter="{Binding Dispatcher, ElementName=Main}" />
+            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}"
+                                   CommandParameter="{Binding Dispatcher, ElementName=Main}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="GotKeyboardFocus">
-            <helpers:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
+            <models:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="LostKeyboardFocus">
-            <helpers:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
+            <models:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -48,42 +46,35 @@
             <RowDefinition Height="78" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid
-            x:Name="PopGrid"
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="2">
+        <Grid x:Name="PopGrid"
+              Grid.RowSpan="2"
+              Grid.ColumnSpan="2">
             <Border Background="#7F333333">
                 <Border.Visibility>
                     <MultiBinding Converter="{StaticResource MultiAnyVisibleConverter}">
-                        <Binding
-                            ElementName="Authenticator"
-                            Mode="OneWay"
-                            Path="Visibility" />
-                        <Binding
-                            ElementName="GlobalDialog"
-                            Mode="OneWay"
-                            Path="Visibility" />
+                        <Binding ElementName="Authenticator"
+                                 Mode="OneWay"
+                                 Path="Visibility" />
+                        <Binding ElementName="GlobalDialog"
+                                 Mode="OneWay"
+                                 Path="Visibility" />
                     </MultiBinding>
                 </Border.Visibility>
             </Border>
             <Grid>
-                <local:ScreenKeyboard
-                    x:Name="ScreenKeyboard"
-                    DataContext="{StaticResource ScreenKeyboardViewModel}" />
-                <local:Authenticator
-                    x:Name="Authenticator"
-                    DataContext="{StaticResource AuthenticatorViewModel}" />
-                <local:GlobalDialog
-                    x:Name="GlobalDialog"
-                    DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}"
-                    IsVisibleChanged="GlobalDialog_IsVisibleChanged" />
+                <local:ScreenKeyboard x:Name="ScreenKeyboard"
+                                      DataContext="{StaticResource ScreenKeyboardViewModel}" />
+                <local:Authenticator x:Name="Authenticator"
+                                     DataContext="{StaticResource AuthenticatorViewModel}" />
+                <local:GlobalDialog x:Name="GlobalDialog"
+                                    DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}"
+                                    IsVisibleChanged="GlobalDialog_IsVisibleChanged" />
             </Grid>
         </Grid>
         <Grid Background="{StaticResource LightColorBrush}">
-            <ListBox
-                FontSize="20"
-                ItemContainerStyle="{StaticResource ListBoxItem2}"
-                SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
+            <ListBox FontSize="20"
+                     ItemContainerStyle="{StaticResource ListBoxItem2}"
+                     SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                 <ListBox.Template>
                     <ControlTemplate>
                         <ItemsPresenter />
@@ -100,43 +91,33 @@
                 <TextBlock Text="{DynamicResource 事件履歷}" />
             </ListBox>
         </Grid>
-        <Border
-            Grid.Column="1"
-            Background="{StaticResource LightColorBrush}">
-            <Border
-                Margin="8"
-                Background="{StaticResource GP_Logo}" />
+        <Border Grid.Column="1"
+                Background="{StaticResource LightColorBrush}">
+            <Border Margin="8"
+                    Background="{StaticResource GP_Logo}" />
         </Border>
-        <TabControl
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Background="{StaticResource WindowBackgroundBrush}"
-            SelectedIndex="{Binding ViewIndex, Mode=OneWay}">
-            <TabItem
-                Width="0"
-                Height="0">
+        <TabControl Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Background="{StaticResource WindowBackgroundBrush}"
+                    SelectedIndex="{Binding ViewIndex, Mode=OneWay}">
+            <TabItem Width="0"
+                     Height="0">
                 <local:TotalView DataContext="{Binding TotalVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
-            <TabItem
-                Width="0"
-                Height="0">
-                <local:RecipeControl
-                    Margin="0,4,0,0"
-                    DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}" />
+            <TabItem Width="0"
+                     Height="0">
+                <local:RecipeControl Margin="0,4,0,0"
+                                     DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
-            <TabItem
-                Width="0"
-                Height="0">
-                <local:TraceabilityView
-                    Margin="0,4,0,0"
-                    DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" />
+            <TabItem Width="0"
+                     Height="0">
+                <local:TraceabilityView Margin="0,4,0,0"
+                                        DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
-            <TabItem
-                Width="0"
-                Height="0">
-                <local:LogView
-                    Margin="0,4,0,0"
-                    DataContext="{Binding LogVM, Source={StaticResource Connector}, Mode=OneWay}" />
+            <TabItem Width="0"
+                     Height="0">
+                <local:LogView Margin="0,4,0,0"
+                               DataContext="{Binding LogVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
         </TabControl>
     </Grid>

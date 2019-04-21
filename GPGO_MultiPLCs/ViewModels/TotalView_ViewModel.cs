@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.GP_PLCs;
+using GPGO_MultiPLCs.Helpers;
+using GPGO_MultiPLCs.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,9 +9,6 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
-using GPGO_MultiPLCs.GP_PLCs;
-using GPGO_MultiPLCs.Helpers;
-using GPGO_MultiPLCs.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -172,10 +172,15 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
+
         public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
+
         public event Action<(int StationIndex, EventType type, DateTime time, string note, int tag, bool value)> EventHappened;
+
         public event Func<(int StationIndex, string RecipeName), PLC_Recipe> GetRecipe;
+
         public event Action<(int StationIndex, string RecipeName)> RecipeUsed;
+
         public event Func<(int StationIndex, string TrolleyCode), ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         /// <summary>讀取財產編號</summary>

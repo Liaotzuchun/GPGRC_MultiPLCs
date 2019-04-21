@@ -761,7 +761,7 @@ namespace GPGO_MultiPLCs.Helpers
             return GetEnumerator();
         }
 
-        #endregion
+        #endregion GenericListImplementations
 
         #region ObjectListImplementations
 
@@ -881,7 +881,7 @@ namespace GPGO_MultiPLCs.Helpers
 
         object ICollection.SyncRoot => this;
 
-        #endregion
+        #endregion ObjectListImplementations
 
         #region GenericListHelpers
 
@@ -951,6 +951,6 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        #endregion
+        #endregion GenericListHelpers
     }
 }

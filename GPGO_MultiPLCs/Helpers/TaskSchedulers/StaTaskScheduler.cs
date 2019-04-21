@@ -90,7 +90,8 @@ namespace System.Threading.Tasks.Schedulers
                                                                          {
                                                                              TryExecuteTask(t);
                                                                          }
-                                                                     }) { IsBackground = true };
+                                                                     })
+                                             { IsBackground = true };
                                              thread.SetApartmentState(ApartmentState.STA);
 
                                              return thread;

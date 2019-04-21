@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using Serilog;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Win32;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
-using Serilog;
 
 namespace GPGO_MultiPLCs
 {
@@ -91,12 +91,14 @@ namespace GPGO_MultiPLCs
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
                 {
                     var process = new Process
-                                  {
-                                      StartInfo = new ProcessStartInfo
-                                                  {
-                                                      FileName = path, Arguments = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all", WindowStyle = ProcessWindowStyle.Hidden
-                                                  }
-                                  };
+                    {
+                        StartInfo = new ProcessStartInfo
+                        {
+                            FileName = path,
+                            Arguments = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all",
+                            WindowStyle = ProcessWindowStyle.Hidden
+                        }
+                    };
                     process.Start();
                 }
             }

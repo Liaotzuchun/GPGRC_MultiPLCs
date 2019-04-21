@@ -1,10 +1,10 @@
-﻿using System;
+﻿using OxyPlot.Axes;
+using System;
 using System.Collections;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using OxyPlot.Axes;
 
 namespace GPGO_MultiPLCs.Views
 {

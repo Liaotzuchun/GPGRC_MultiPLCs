@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.Xaml.Behaviors;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.Xaml.Behaviors;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace GPGO_MultiPLCs.Models
 {
     /// <summary>提供可繫結的command</summary>
     public sealed class RelayCommand : ICommand
@@ -210,7 +210,7 @@ namespace GPGO_MultiPLCs.Helpers
             }
         }
 
-        #endregion
+        #endregion ICommand Members
     }
 
     /// <summary>Attached Behaviour，提供更簡易的Command繫結方式(缺點是只能單一事件繫結)</summary>

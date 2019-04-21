@@ -155,7 +155,7 @@ namespace GPGO_MultiPLCs.Views
 
             if (_rows == 0 || _columns == 0)
             {
-                var num = 0; // Visible children  
+                var num = 0; // Visible children
                 var num2 = 0;
                 var count = InternalChildren.Count;
                 while (num2 < count)

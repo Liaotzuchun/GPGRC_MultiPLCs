@@ -407,7 +407,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        #endregion
+        #endregion 生產配方
 
         #region 警告
 
@@ -426,7 +426,7 @@ namespace GPGO_MultiPLCs.Models
         public bool DoorNotClosed_AbnormalPositioning => M_Values[SignalNames.門未關定位異常];
         public bool HeatingTimeExceeded => M_Values[SignalNames.升恆溫逾時];
 
-        #endregion
+        #endregion 警告
 
         #region 機台狀態
 
@@ -449,6 +449,6 @@ namespace GPGO_MultiPLCs.Models
         public short Total_RemainingTime => D_Values[DataNames.總剩餘時間];
         public short CurrentSegment => D_Values[DataNames.目前段數];
 
-        #endregion
+        #endregion 機台狀態
     }
 }

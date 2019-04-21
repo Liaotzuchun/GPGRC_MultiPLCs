@@ -1,21 +1,20 @@
-﻿<UserControl
-    x:Class="GPGO_MultiPLCs.Views.ScreenKeyboard"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-    Height="220"
-    MaxWidth="800"
-    VerticalAlignment="{Binding VA, Mode=OneWay}"
-    d:DataContext="{d:DesignInstance vm:ScreenKeyboard_ViewModel}"
-    FontSize="16"
-    Loaded="UserControl_Loaded"
-    MouseEnter="UserControl_MouseEnter"
-    MouseLeave="UserControl_MouseLeave"
-    mc:Ignorable="d">
+﻿<UserControl x:Class="GPGO_MultiPLCs.Views.ScreenKeyboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             Height="220"
+             MaxWidth="800"
+             VerticalAlignment="{Binding VA, Mode=OneWay}"
+             d:DataContext="{d:DesignInstance vm:ScreenKeyboard_ViewModel}"
+             FontSize="16"
+             Loaded="UserControl_Loaded"
+             MouseEnter="UserControl_MouseEnter"
+             MouseLeave="UserControl_MouseLeave"
+             mc:Ignorable="d">
     <UserControl.Style>
         <Style TargetType="FrameworkElement">
             <Setter Property="Visibility" Value="{Binding Shown, Mode=OneWay}" />
@@ -24,11 +23,10 @@
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation
-                                    Storyboard.TargetProperty="Opacity"
-                                    From="0"
-                                    To="1"
-                                    Duration="0:0:0.15">
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 From="0"
+                                                 To="1"
+                                                 Duration="0:0:0.15">
                                     <DoubleAnimation.EasingFunction>
                                         <ExponentialEase EasingMode="EaseOut" />
                                     </DoubleAnimation.EasingFunction>
@@ -42,16 +40,14 @@
     </UserControl.Style>
 
     <Border>
-        <Border
-            Margin="15"
-            Background="{StaticResource WindowBackgroundBrush6}"
-            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-            BorderThickness="1">
+        <Border Margin="15"
+                Background="{StaticResource WindowBackgroundBrush6}"
+                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                BorderThickness="1">
             <Border.Effect>
-                <DropShadowEffect
-                    BlurRadius="15"
-                    Direction="270"
-                    Opacity="0.25" />
+                <DropShadowEffect BlurRadius="15"
+                                  Direction="270"
+                                  Opacity="0.25" />
             </Border.Effect>
             <Grid Focusable="False">
                 <Grid.RowDefinitions>
@@ -64,848 +60,722 @@
                     <ColumnDefinition Width="4" />
                     <ColumnDefinition Width="3*" />
                 </Grid.ColumnDefinitions>
-                <Border
-                    x:Name="Border"
-                    Grid.Column="2"
-                    HorizontalAlignment="Right"
-                    Background="Transparent"
-                    BorderBrush="{StaticResource WindowBackgroundBrush}"
-                    BorderThickness="0">
+                <Border x:Name="Border"
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Background="Transparent"
+                        BorderBrush="{StaticResource WindowBackgroundBrush}"
+                        BorderThickness="0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
                             <i:InvokeCommandAction Command="{Binding CloseCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseEnter">
-                            <local:SetPropertyAction
-                                PropertyName="BorderBrush"
-                                PropertyValue="{StaticResource WorkingBorderBrush}" />
+                            <local:SetPropertyAction PropertyName="BorderBrush"
+                                                     PropertyValue="{StaticResource WorkingBorderBrush}" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
-                            <local:SetPropertyAction
-                                PropertyName="BorderBrush"
-                                PropertyValue="{StaticResource WindowBackgroundBrush}" />
+                            <local:SetPropertyAction PropertyName="BorderBrush"
+                                                     PropertyValue="{StaticResource WindowBackgroundBrush}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Path
-                        x:Name="Path"
-                        Margin="4"
-                        VerticalAlignment="Center"
-                        Stroke="{Binding BorderBrush, ElementName=Border, Mode=OneWay}"
-                        StrokeLineJoin="Round"
-                        StrokeThickness="2">
+                    <Path x:Name="Path"
+                          Margin="4"
+                          VerticalAlignment="Center"
+                          Stroke="{Binding BorderBrush, ElementName=Border, Mode=OneWay}"
+                          StrokeLineJoin="Round"
+                          StrokeThickness="2">
                         <Path.Data>
                             <GeometryGroup>
-                                <LineGeometry
-                                    StartPoint="0,0"
-                                    EndPoint="10,10" />
-                                <LineGeometry
-                                    StartPoint="10,0"
-                                    EndPoint="0,10" />
+                                <LineGeometry StartPoint="0,0"
+                                              EndPoint="10,10" />
+                                <LineGeometry StartPoint="10,0"
+                                              EndPoint="0,10" />
                             </GeometryGroup>
                         </Path.Data>
                     </Path>
                 </Border>
-                <local:UniformGridWithOrientation
-                    x:Name="WP"
-                    Grid.Row="1"
-                    Margin="3,0,0,0"
-                    Columns="10"
-                    Focusable="False"
-                    Orientation="Horizontal"
-                    Rows="4">
-                    <Button
-                        x:Name="Button11"
-                        Margin="1"
-                        Content="{Binding StrVals.Q, Mode=OneWay}"
-                        Focusable="False">
+                <local:UniformGridWithOrientation x:Name="WP"
+                                                  Grid.Row="1"
+                                                  Margin="3,0,0,0"
+                                                  Columns="10"
+                                                  Focusable="False"
+                                                  Orientation="Horizontal"
+                                                  Rows="4">
+                    <Button x:Name="Button11"
+                            Margin="1"
+                            Content="{Binding StrVals.Q, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button11, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button11, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button12"
-                        Margin="1"
-                        Content="{Binding StrVals.W, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button12"
+                            Margin="1"
+                            Content="{Binding StrVals.W, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button12, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button12, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button13"
-                        Margin="1"
-                        Content="{Binding StrVals.E, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button13"
+                            Margin="1"
+                            Content="{Binding StrVals.E, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button13, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button13, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button14"
-                        Margin="1"
-                        Content="{Binding StrVals.R, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button14"
+                            Margin="1"
+                            Content="{Binding StrVals.R, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button14, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button14, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button15"
-                        Margin="1"
-                        Content="{Binding StrVals.T, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button15"
+                            Margin="1"
+                            Content="{Binding StrVals.T, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button15, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button15, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button16"
-                        Margin="1"
-                        Content="{Binding StrVals.Y, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button16"
+                            Margin="1"
+                            Content="{Binding StrVals.Y, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button16, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button16, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button17"
-                        Margin="1"
-                        Content="{Binding StrVals.U, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button17"
+                            Margin="1"
+                            Content="{Binding StrVals.U, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button17, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button17, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button18"
-                        Margin="1"
-                        Content="{Binding StrVals.I, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button18"
+                            Margin="1"
+                            Content="{Binding StrVals.I, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button18, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button18, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button19"
-                        Margin="1"
-                        Content="{Binding StrVals.O, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button19"
+                            Margin="1"
+                            Content="{Binding StrVals.O, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button19, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button19, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button20"
-                        Margin="1"
-                        Content="{Binding StrVals.P, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button20"
+                            Margin="1"
+                            Content="{Binding StrVals.P, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button20, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button20, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button21"
-                        Margin="1"
-                        Content="{Binding StrVals.A, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button21"
+                            Margin="1"
+                            Content="{Binding StrVals.A, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button21, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button21, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button22"
-                        Margin="1"
-                        Content="{Binding StrVals.S, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button22"
+                            Margin="1"
+                            Content="{Binding StrVals.S, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button22, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button22, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button23"
-                        Margin="1"
-                        Content="{Binding StrVals.D, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button23"
+                            Margin="1"
+                            Content="{Binding StrVals.D, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button23, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button23, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button24"
-                        Margin="1"
-                        Content="{Binding StrVals.F, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button24"
+                            Margin="1"
+                            Content="{Binding StrVals.F, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button24, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button24, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button25"
-                        Margin="1"
-                        Content="{Binding StrVals.G, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button25"
+                            Margin="1"
+                            Content="{Binding StrVals.G, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button25, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button25, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button26"
-                        Margin="1"
-                        Content="{Binding StrVals.H, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button26"
+                            Margin="1"
+                            Content="{Binding StrVals.H, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button26, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button26, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button27"
-                        Margin="1"
-                        Content="{Binding StrVals.J, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button27"
+                            Margin="1"
+                            Content="{Binding StrVals.J, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button27, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button27, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button28"
-                        Margin="1"
-                        Content="{Binding StrVals.K, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button28"
+                            Margin="1"
+                            Content="{Binding StrVals.K, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button28, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button28, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button29"
-                        Margin="1"
-                        Content="{Binding StrVals.L, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button29"
+                            Margin="1"
+                            Content="{Binding StrVals.L, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button29, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button29, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button31"
-                        Margin="1"
-                        Content=":"
-                        Focusable="False">
+                    <Button x:Name="Button31"
+                            Margin="1"
+                            Content=":"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button31, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button31, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button32"
-                        Margin="1"
-                        Content="{Binding StrVals.Z, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button32"
+                            Margin="1"
+                            Content="{Binding StrVals.Z, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button32, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button32, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button33"
-                        Margin="1"
-                        Content="{Binding StrVals.X, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button33"
+                            Margin="1"
+                            Content="{Binding StrVals.X, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button33, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button33, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button34"
-                        Margin="1"
-                        Content="{Binding StrVals.C, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button34"
+                            Margin="1"
+                            Content="{Binding StrVals.C, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button34, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button34, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button35"
-                        Margin="1"
-                        Content="{Binding StrVals.V, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button35"
+                            Margin="1"
+                            Content="{Binding StrVals.V, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button35, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button35, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button36"
-                        Margin="1"
-                        Content="{Binding StrVals.B, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button36"
+                            Margin="1"
+                            Content="{Binding StrVals.B, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button36, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button36, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button37"
-                        Margin="1"
-                        Content="{Binding StrVals.N, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button37"
+                            Margin="1"
+                            Content="{Binding StrVals.N, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button37, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button37, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button38"
-                        Margin="1"
-                        Content="{Binding StrVals.M, Mode=OneWay}"
-                        Focusable="False">
+                    <Button x:Name="Button38"
+                            Margin="1"
+                            Content="{Binding StrVals.M, Mode=OneWay}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button38, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button38, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button39"
-                        Margin="1"
-                        Content=","
-                        Focusable="False">
+                    <Button x:Name="Button39"
+                            Margin="1"
+                            Content=","
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button39, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button39, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button40"
-                        Margin="1"
-                        Content="."
-                        Focusable="False">
+                    <Button x:Name="Button40"
+                            Margin="1"
+                            Content="."
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button40, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button40, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button41"
-                        Margin="1"
-                        Content="/"
-                        Focusable="False">
+                    <Button x:Name="Button41"
+                            Margin="1"
+                            Content="/"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button41, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button41, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button42"
-                        Margin="1"
-                        Content="~"
-                        Focusable="False">
+                    <Button x:Name="Button42"
+                            Margin="1"
+                            Content="~"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button42, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button42, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button43"
-                        Margin="1"
-                        Content="_"
-                        Focusable="False">
+                    <Button x:Name="Button43"
+                            Margin="1"
+                            Content="_"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button43, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button43, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button44"
-                        Margin="1"
-                        Content=" "
-                        Focusable="False">
+                    <Button x:Name="Button44"
+                            Margin="1"
+                            Content=" "
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button44, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button44, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button46"
-                        Margin="1"
-                        Content="!"
-                        Focusable="False">
+                    <Button x:Name="Button46"
+                            Margin="1"
+                            Content="!"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button46, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button46, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button47"
-                        Margin="1"
-                        Content="*"
-                        Focusable="False">
+                    <Button x:Name="Button47"
+                            Margin="1"
+                            Content="*"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button47, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button47, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button48"
-                        Margin="1"
-                        Content="@"
-                        Focusable="False">
+                    <Button x:Name="Button48"
+                            Margin="1"
+                            Content="@"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button48, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button48, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button49"
-                        Margin="1"
-                        Content="#"
-                        Focusable="False">
+                    <Button x:Name="Button49"
+                            Margin="1"
+                            Content="#"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button49, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button49, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button50"
-                        Margin="1"
-                        Content="%"
-                        Focusable="False">
+                    <Button x:Name="Button50"
+                            Margin="1"
+                            Content="%"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button50, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button50, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
                 </local:UniformGridWithOrientation>
-                <local:UniformGridWithOrientation
-                    x:Name="numkey"
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Margin="0,0,3,0"
-                    Columns="3"
-                    Focusable="False"
-                    Orientation="Horizontal">
-                    <Button
-                        x:Name="Button1"
-                        Margin="1"
-                        Content="1"
-                        Focusable="False">
+                <local:UniformGridWithOrientation x:Name="numkey"
+                                                  Grid.Row="1"
+                                                  Grid.Column="2"
+                                                  Margin="0,0,3,0"
+                                                  Columns="3"
+                                                  Focusable="False"
+                                                  Orientation="Horizontal">
+                    <Button x:Name="Button1"
+                            Margin="1"
+                            Content="1"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button1, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button1, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button2"
-                        Margin="1"
-                        Content="2"
-                        Focusable="False">
+                    <Button x:Name="Button2"
+                            Margin="1"
+                            Content="2"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button2, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button2, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button3"
-                        Margin="1"
-                        Content="3"
-                        Focusable="False">
+                    <Button x:Name="Button3"
+                            Margin="1"
+                            Content="3"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button3, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button3, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button4"
-                        Margin="1"
-                        Content="4"
-                        Focusable="False">
+                    <Button x:Name="Button4"
+                            Margin="1"
+                            Content="4"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button4, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button4, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button5"
-                        Margin="1"
-                        Content="5"
-                        Focusable="False">
+                    <Button x:Name="Button5"
+                            Margin="1"
+                            Content="5"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button5, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button5, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button6"
-                        Margin="1"
-                        Content="6"
-                        Focusable="False">
+                    <Button x:Name="Button6"
+                            Margin="1"
+                            Content="6"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button6, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button6, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button7"
-                        Margin="1"
-                        Content="7"
-                        Focusable="False">
+                    <Button x:Name="Button7"
+                            Margin="1"
+                            Content="7"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button7, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button7, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button8"
-                        Margin="1"
-                        Content="8"
-                        Focusable="False">
+                    <Button x:Name="Button8"
+                            Margin="1"
+                            Content="8"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button8, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button8, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button9"
-                        Margin="1"
-                        Content="9"
-                        Focusable="False">
+                    <Button x:Name="Button9"
+                            Margin="1"
+                            Content="9"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button9, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button9, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button10"
-                        Margin="1"
-                        Content="0"
-                        Focusable="False">
+                    <Button x:Name="Button10"
+                            Margin="1"
+                            Content="0"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button10, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button10, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button45"
-                        Margin="1"
-                        Content="-"
-                        Focusable="False">
+                    <Button x:Name="Button45"
+                            Margin="1"
+                            Content="-"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button45, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button45, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button30"
-                        Margin="1"
-                        Content="+"
-                        Focusable="False">
+                    <Button x:Name="Button30"
+                            Margin="1"
+                            Content="+"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding KeyInputCommand, Mode=OneTime}"
-                                    CommandParameter="{Binding ElementName=Button30, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding KeyInputCommand, Mode=OneTime}"
+                                                       CommandParameter="{Binding ElementName=Button30, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
                 </local:UniformGridWithOrientation>
-                <local:UniformGridWithOrientation
-                    x:Name="WP2"
-                    Grid.Row="2"
-                    Margin="3,1,0,3"
-                    Columns="10"
-                    Focusable="False"
-                    Orientation="Horizontal"
-                    Rows="1">
-                    <Button
-                        x:Name="Button51"
-                        Margin="1"
-                        Content="←"
-                        Focusable="False">
+                <local:UniformGridWithOrientation x:Name="WP2"
+                                                  Grid.Row="2"
+                                                  Margin="3,1,0,3"
+                                                  Columns="10"
+                                                  Focusable="False"
+                                                  Orientation="Horizontal"
+                                                  Rows="1">
+                    <Button x:Name="Button51"
+                            Margin="1"
+                            Content="←"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding ActionCommand, Mode=OneTime}"
-                                    CommandParameter="{x:Static Key.Left}" />
+                                <i:InvokeCommandAction Command="{Binding ActionCommand, Mode=OneTime}"
+                                                       CommandParameter="{x:Static Key.Left}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button52"
-                        Margin="1"
-                        Content="→"
-                        Focusable="False">
+                    <Button x:Name="Button52"
+                            Margin="1"
+                            Content="→"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding ActionCommand, Mode=OneTime}"
-                                    CommandParameter="{x:Static Key.Right}" />
+                                <i:InvokeCommandAction Command="{Binding ActionCommand, Mode=OneTime}"
+                                                       CommandParameter="{x:Static Key.Right}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button53"
-                        Margin="1"
-                        Content="{DynamicResource 退格}"
-                        Focusable="False">
+                    <Button x:Name="Button53"
+                            Margin="1"
+                            Content="{DynamicResource 退格}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding ActionCommand, Mode=OneTime}"
-                                    CommandParameter="{x:Static Key.Back}" />
+                                <i:InvokeCommandAction Command="{Binding ActionCommand, Mode=OneTime}"
+                                                       CommandParameter="{x:Static Key.Back}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button54"
-                        Margin="1"
-                        Content="{DynamicResource 刪除}"
-                        Focusable="False">
+                    <Button x:Name="Button54"
+                            Margin="1"
+                            Content="{DynamicResource 刪除}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding ActionCommand, Mode=OneTime}"
-                                    CommandParameter="{x:Static Key.Delete}" />
+                                <i:InvokeCommandAction Command="{Binding ActionCommand, Mode=OneTime}"
+                                                       CommandParameter="{x:Static Key.Delete}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button55"
-                        Margin="1"
-                        Content="{DynamicResource 起端}"
-                        Focusable="False">
+                    <Button x:Name="Button55"
+                            Margin="1"
+                            Content="{DynamicResource 起端}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding ActionCommand, Mode=OneTime}"
-                                    CommandParameter="{x:Static Key.Home}" />
+                                <i:InvokeCommandAction Command="{Binding ActionCommand, Mode=OneTime}"
+                                                       CommandParameter="{x:Static Key.Home}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button56"
-                        Margin="1"
-                        Content="{DynamicResource 末端}"
-                        Focusable="False">
+                    <Button x:Name="Button56"
+                            Margin="1"
+                            Content="{DynamicResource 末端}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction
-                                    Command="{Binding ActionCommand, Mode=OneTime}"
-                                    CommandParameter="{x:Static Key.End}" />
+                                <i:InvokeCommandAction Command="{Binding ActionCommand, Mode=OneTime}"
+                                                       CommandParameter="{x:Static Key.End}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button58"
-                        Margin="1"
-                        Content="{DynamicResource 複製}"
-                        Focusable="False">
+                    <Button x:Name="Button58"
+                            Margin="1"
+                            Content="{DynamicResource 複製}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding CopyCommand, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button59"
-                        Margin="1"
-                        Content="{DynamicResource 貼上}"
-                        Focusable="False">
+                    <Button x:Name="Button59"
+                            Margin="1"
+                            Content="{DynamicResource 貼上}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding PasteCommand, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button
-                        x:Name="Button57"
-                        Margin="1"
-                        Content="{DynamicResource 清除}"
-                        Focusable="False">
+                    <Button x:Name="Button57"
+                            Margin="1"
+                            Content="{DynamicResource 清除}"
+                            Focusable="False">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding ClearCommand, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <ToggleButton
-                        x:Name="TB1"
-                        Margin="1"
-                        Content="{DynamicResource 大小寫}"
-                        Focusable="False"
-                        IsChecked="{Binding StrVals.IsUpper}" />
+                    <ToggleButton x:Name="TB1"
+                                  Margin="1"
+                                  Content="{DynamicResource 大小寫}"
+                                  Focusable="False"
+                                  IsChecked="{Binding StrVals.IsUpper}" />
                 </local:UniformGridWithOrientation>
-                <Button
-                    x:Name="CloseB"
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    Margin="1,2,3,4"
-                    Content="{DynamicResource 輸入}"
-                    Focusable="False">
+                <Button x:Name="CloseB"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Margin="1,2,3,4"
+                        Content="{DynamicResource 輸入}"
+                        Focusable="False">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding EnterCommand, Mode=OneTime}" />

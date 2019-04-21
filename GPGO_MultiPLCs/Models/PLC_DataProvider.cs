@@ -1,11 +1,11 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
-using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -210,15 +210,25 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public event Action<string> AssetNumberChanged;
+
         public event Action<string> CancelCheckIn;
+
         public event Action<(EventType type, DateTime time, string note, int tag, bool value)> EventHappened;
+
         public event Func<int[], ValueTask<Dictionary<int, short>>> GetPLCParameters;
+
         public event Func<string, PLC_Recipe> GetRecipe;
+
         public event Action<string> MachineCodeChanged;
+
         public event Action RecipeKeyInError;
+
         public event Action<string> RecipeUsed;
+
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
+
         public event Func<Dictionary<int, short>, ValueTask> SetPLCParameters;
+
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public void SetSelectedRecipeName(string name)
@@ -230,32 +240,32 @@ namespace GPGO_MultiPLCs.Models
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, int tag, bool value)
         {
             OvenInfo.EventList.Add(new LogEvent
-                                   {
-                                       Type = type,
-                                       StartTime = start,
-                                       AddedTime = addtime,
-                                       Description = note,
-                                       TagCode = tag,
-                                       Value = value
-                                   });
+            {
+                Type = type,
+                StartTime = start,
+                AddedTime = addtime,
+                Description = note,
+                TagCode = tag,
+                Value = value
+            });
         }
 
         public void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
             OvenInfo.RecordTemperatures.Add(new RecordTemperatures
-                                            {
-                                                StartTime = start,
-                                                AddedTime = addtime,
-                                                ThermostatTemperature = t0,
-                                                OvenTemperatures_1 = t1,
-                                                OvenTemperatures_2 = t2,
-                                                OvenTemperatures_3 = t3,
-                                                OvenTemperatures_4 = t4,
-                                                OvenTemperatures_5 = t5,
-                                                OvenTemperatures_6 = t6,
-                                                OvenTemperatures_7 = t7,
-                                                OvenTemperatures_8 = t8
-                                            });
+            {
+                StartTime = start,
+                AddedTime = addtime,
+                ThermostatTemperature = t0,
+                OvenTemperatures_1 = t1,
+                OvenTemperatures_2 = t2,
+                OvenTemperatures_3 = t3,
+                OvenTemperatures_4 = t4,
+                OvenTemperatures_5 = t5,
+                OvenTemperatures_6 = t6,
+                OvenTemperatures_7 = t7,
+                OvenTemperatures_8 = t8
+            });
         }
 
         /// <summary>重設PLC資料對應列表</summary>
@@ -690,7 +700,7 @@ namespace GPGO_MultiPLCs.Models
                             { DataNames.配方名稱_13, nameof(RecipeName) }
                         };
 
-            #endregion
+            #endregion 將PLC掃描值和ViewModel上的Property做map連結
 
             #region 註冊PLC事件
 
@@ -840,7 +850,7 @@ namespace GPGO_MultiPLCs.Models
                                               NotifyPropertyChanged(nameof(ProcessCounts));
                                           };
 
-            #endregion
+            #endregion 註冊PLC事件
         }
     }
 }

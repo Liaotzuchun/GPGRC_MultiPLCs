@@ -1,15 +1,17 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace GPGO_MultiPLCs.Models
 {
     public abstract class RecipeBase<T> : ObservableObject, IEquatable<T> where T : class, new()
     {
         public virtual string RecipeName { get; set; }
         public virtual DateTime Updated { get; set; }
         public virtual string Editor { get; set; }
+
         public abstract bool Equals(T other);
+
         public abstract T Copy(string user);
+
         public abstract void CopyValue(string user, T recipe);
 
         public RecipeBase(string name, string user)

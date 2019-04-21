@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using GPGO_MultiPLCs.Helpers;
+﻿using GPGO_MultiPLCs.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -795,47 +795,47 @@ namespace GPGO_MultiPLCs.Models
         public override PLC_Recipe Copy(string user)
         {
             return new PLC_Recipe
-                   {
-                       Updated = DateTime.Now,
-                       RecipeName = RecipeName,
-                       ThermostaticTemperature_1 = ThermostaticTemperature_1,
-                       ThermostaticTemperature_2 = ThermostaticTemperature_2,
-                       ThermostaticTemperature_3 = ThermostaticTemperature_3,
-                       ThermostaticTemperature_4 = ThermostaticTemperature_4,
-                       ThermostaticTemperature_5 = ThermostaticTemperature_5,
-                       ThermostaticTemperature_6 = ThermostaticTemperature_6,
-                       ThermostaticTemperature_7 = ThermostaticTemperature_7,
-                       ThermostaticTemperature_8 = ThermostaticTemperature_8,
-                       WarmingTime_1 = WarmingTime_1,
-                       WarmingTime_2 = WarmingTime_2,
-                       WarmingTime_3 = WarmingTime_3,
-                       WarmingTime_4 = WarmingTime_4,
-                       WarmingTime_5 = WarmingTime_5,
-                       WarmingTime_6 = WarmingTime_6,
-                       WarmingTime_7 = WarmingTime_7,
-                       WarmingTime_8 = WarmingTime_8,
-                       CoolingTemperature = CoolingTemperature,
-                       HeatingTime_1 = HeatingTime_1,
-                       HeatingTime_2 = HeatingTime_2,
-                       HeatingTime_3 = HeatingTime_3,
-                       HeatingTime_4 = HeatingTime_4,
-                       HeatingTime_5 = HeatingTime_5,
-                       HeatingTime_6 = HeatingTime_6,
-                       HeatingTime_7 = HeatingTime_7,
-                       HeatingTime_8 = HeatingTime_8,
-                       InflatingTime = InflatingTime,
-                       TargetTemperature_1 = TargetTemperature_1,
-                       TargetTemperature_2 = TargetTemperature_2,
-                       TargetTemperature_3 = TargetTemperature_3,
-                       TargetTemperature_4 = TargetTemperature_4,
-                       TargetTemperature_5 = TargetTemperature_5,
-                       TargetTemperature_6 = TargetTemperature_6,
-                       TargetTemperature_7 = TargetTemperature_7,
-                       TargetTemperature_8 = TargetTemperature_8,
-                       UsedSegmentCounts = UsedSegmentCounts,
-                       Used_Stations = Used_Stations,
-                       Editor = user
-                   };
+            {
+                Updated = DateTime.Now,
+                RecipeName = RecipeName,
+                ThermostaticTemperature_1 = ThermostaticTemperature_1,
+                ThermostaticTemperature_2 = ThermostaticTemperature_2,
+                ThermostaticTemperature_3 = ThermostaticTemperature_3,
+                ThermostaticTemperature_4 = ThermostaticTemperature_4,
+                ThermostaticTemperature_5 = ThermostaticTemperature_5,
+                ThermostaticTemperature_6 = ThermostaticTemperature_6,
+                ThermostaticTemperature_7 = ThermostaticTemperature_7,
+                ThermostaticTemperature_8 = ThermostaticTemperature_8,
+                WarmingTime_1 = WarmingTime_1,
+                WarmingTime_2 = WarmingTime_2,
+                WarmingTime_3 = WarmingTime_3,
+                WarmingTime_4 = WarmingTime_4,
+                WarmingTime_5 = WarmingTime_5,
+                WarmingTime_6 = WarmingTime_6,
+                WarmingTime_7 = WarmingTime_7,
+                WarmingTime_8 = WarmingTime_8,
+                CoolingTemperature = CoolingTemperature,
+                HeatingTime_1 = HeatingTime_1,
+                HeatingTime_2 = HeatingTime_2,
+                HeatingTime_3 = HeatingTime_3,
+                HeatingTime_4 = HeatingTime_4,
+                HeatingTime_5 = HeatingTime_5,
+                HeatingTime_6 = HeatingTime_6,
+                HeatingTime_7 = HeatingTime_7,
+                HeatingTime_8 = HeatingTime_8,
+                InflatingTime = InflatingTime,
+                TargetTemperature_1 = TargetTemperature_1,
+                TargetTemperature_2 = TargetTemperature_2,
+                TargetTemperature_3 = TargetTemperature_3,
+                TargetTemperature_4 = TargetTemperature_4,
+                TargetTemperature_5 = TargetTemperature_5,
+                TargetTemperature_6 = TargetTemperature_6,
+                TargetTemperature_7 = TargetTemperature_7,
+                TargetTemperature_8 = TargetTemperature_8,
+                UsedSegmentCounts = UsedSegmentCounts,
+                Used_Stations = Used_Stations,
+                Editor = user
+            };
         }
 
         public override void CopyValue(string user, PLC_Recipe recipe)

@@ -2,12 +2,13 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace GPGO_MultiPLCs.Helpers
+namespace GPGO_MultiPLCs.Models
 {
     /// <summary>使實作INotifyPropertyChanged變成非常簡單的類別</summary>
     public abstract class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         private readonly Dictionary<string, object> Properties = new Dictionary<string, object>();
 
         /// <summary>取得欄位值</summary>
