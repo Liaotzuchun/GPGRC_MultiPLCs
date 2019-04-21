@@ -508,8 +508,8 @@ namespace GPGO_MultiPLCs.Models
                                                                       },
                                       true))
                 {
-                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(PLC_Recipe.RecipeName), EditedName);
-                    await RecipeCollection_History.UpdateManyAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(PLC_Recipe.RecipeName), EditedName);
+                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(RecipeBase<T>.RecipeName), EditedName);
+                    await RecipeCollection_History.UpdateManyAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(RecipeBase<T>.RecipeName), EditedName);
                     EditedName = "";
                     await RefreshList(false);
                 }
