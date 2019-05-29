@@ -61,7 +61,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand UpdateUser { get; }
 
         /// <summary>依據權限過濾顯示的使用者列表</summary>
-        public List<User> ViewUsers => Users?.Where(x => x.Level < NowUser.Level).OrderByDescending(x => x.Level).ToList();
+        public List<User> ViewUsers => Users?.Where(x => x.Level < NowUser.Level).OrderByDescending(x => x.Level).ThenByDescending(x => x.LastLoginTime).ToList();
 
         /// <summary>辨別是否可新增使用者</summary>
         public bool Add_Enable
