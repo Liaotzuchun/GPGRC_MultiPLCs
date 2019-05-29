@@ -185,7 +185,6 @@ namespace GPGO_MultiPLCs.Models
         public event Action RecipeLoadedEvent;
 
         /// <summary>獲取指定配方</summary>
-        /// <param name="index">烤箱站號</param>
         /// <param name="name">配方名</param>
         /// <returns></returns>
         public T GetRecipe(string name)
