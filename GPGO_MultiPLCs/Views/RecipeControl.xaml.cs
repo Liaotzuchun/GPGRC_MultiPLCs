@@ -54,6 +54,11 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
+        private void EditTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            EditedTB.IsChecked = false;
+        }
+
         public RecipeControl()
         {
             InitializeComponent();

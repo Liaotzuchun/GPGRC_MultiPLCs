@@ -1911,7 +1911,7 @@
                          IsEnabled="{Binding IsChecked, ElementName=EditedTB, Mode=OneWay}"
                          KeyDown="EditTextBox_KeyDown"
                          Text="{Binding EditedName, UpdateSourceTrigger=PropertyChanged}"
-                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" LostKeyboardFocus="EditTextBox_LostKeyboardFocus" />
                 <TextBox Grid.Row="1"
                          Grid.Column="2"
                          HorizontalContentAlignment="Center"
