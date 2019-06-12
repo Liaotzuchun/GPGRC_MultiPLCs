@@ -96,7 +96,7 @@ namespace GPGO_MultiPLCs.ViewModels
             Msgs.Remove(tag);
         }
 
-        public async ValueTask<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
+        public async ValueTask<(bool result, string intput)> ShowWithInput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
         {
             using (await AsyncLock.LockAsync())
             {
@@ -126,9 +126,9 @@ namespace GPGO_MultiPLCs.ViewModels
             return (EnterResult_2, Intput);
         }
 
-        public async ValueTask<(bool result, string intput)> ShowWithIntput(Dictionary<Language, string> msg,
-                                                                            Dictionary<Language, string> header,
-                                                                            Func<string, (bool result, Dictionary<Language, string> title_msg)> condition)
+        public async ValueTask<(bool result, string intput)> ShowWithInput(Dictionary<Language, string> msg,
+                                                                           Dictionary<Language, string> header,
+                                                                           Func<string, (bool result, Dictionary<Language, string> title_msg)> condition)
         {
             using (await AsyncLock.LockAsync())
             {

@@ -38,6 +38,7 @@ namespace GPGO_MultiPLCs.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            EditTextBox.Text = "";
             EditedTB.IsChecked = false;
         }
 

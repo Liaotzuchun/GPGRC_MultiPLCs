@@ -427,8 +427,8 @@ namespace GPGO_MultiPLCs.Models
                                                          {
                                                              var para = (string)o;
 
-                                                             var (result1, intput1) =
-                                                                 await Dialog.ShowWithIntput(new Dictionary<Language, string>
+                                                             var (result1, input1) =
+                                                                 await Dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                              {
                                                                                                  { Language.TW, "輸入操作人員ID" }, { Language.CHS, "输入操作人员ID" }, { Language.EN, "Enter the Operator ID" }
                                                                                              },
@@ -448,8 +448,8 @@ namespace GPGO_MultiPLCs.Models
 
                                                              if (result1)
                                                              {
-                                                                 var (result2, intput2) =
-                                                                     await Dialog.ShowWithIntput(new Dictionary<Language, string>
+                                                                 var (result2, input2) =
+                                                                     await Dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                  {
                                                                                                      { Language.TW, "輸入台車碼" }, { Language.CHS, "输入台车码" }, { Language.EN, "Enter the Trolley Code" }
                                                                                                  },
@@ -472,8 +472,8 @@ namespace GPGO_MultiPLCs.Models
 
                                                                  if (result2 && WantFrontData != null)
                                                                  {
-                                                                     OvenInfo.OperatorID = intput1;
-                                                                     OvenInfo.TrolleyCode = intput2;
+                                                                     OvenInfo.OperatorID = input1;
+                                                                     OvenInfo.TrolleyCode = input2;
 
                                                                      //! 取得上位資訊(料號、總量、投產量)
                                                                      var panels = await WantFrontData.Invoke(OvenInfo.TrolleyCode);
@@ -489,7 +489,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      }
 
                                                                      var (result3, intput3) =
-                                                                         await Dialog.ShowWithIntput(new Dictionary<Language, string>
+                                                                         await Dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                      {
                                                                                                          { Language.TW, "輸入製程序" },
                                                                                                          { Language.CHS, "输入制程序" },

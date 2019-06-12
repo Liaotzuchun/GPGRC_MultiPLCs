@@ -681,7 +681,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             FindCommand = new RelayCommand(async o =>
                                            {
-                                               var (result, intput) = await dialog.ShowWithIntput(new Dictionary<Language, string>
+                                               var (result, input) = await dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                   {
                                                                                                       { Language.TW, "請輸入欲搜尋之PanelCode：" },
                                                                                                       { Language.CHS, "请输入欲搜寻之PanelCode：" },
@@ -696,7 +696,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                {
                                                    Standby = false;
 
-                                                   SearchResult = await DataCollection.FindOneAsync(x => x.PanelCodes.Contains(intput));
+                                                   SearchResult = await DataCollection.FindOneAsync(x => x.PanelCodes.Contains(input));
 
                                                    Standby = true;
 
