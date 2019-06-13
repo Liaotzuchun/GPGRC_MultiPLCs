@@ -361,7 +361,7 @@
                     </Button>
                     <Button Margin="4,8"
                             Padding="12,8"
-                            Content="{DynamicResource 取消}">
+                            Content="{DynamicResource 取消}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding CancelCommand_2, Mode=OneTime}" />

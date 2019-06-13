@@ -96,6 +96,19 @@ namespace GPGO_MultiPLCs.ViewModels
             Msgs.Remove(tag);
         }
 
+        public async ValueTask<bool> Show(Dictionary<Language, string> msg, Task task, TimeSpan timeout, DialogMsgType type = DialogMsgType.Normal)
+        {
+            if (msg == null) return false;
+
+            var m = new ShowingMessage(msg.TryGetValue(Language, out var val) ? val : msg.Values.First(), type);
+            var tag = DateTime.Now.Ticks;
+            Msgs.Add(tag, m);
+            var result = await task.TimeoutAfter(timeout).ConfigureAwait(false);
+            Msgs.Remove(tag);
+
+            return result;
+        }
+
         public async ValueTask<(bool result, string intput)> ShowWithInput(Dictionary<Language, string> msg, Dictionary<Language, string> header)
         {
             using (await AsyncLock.LockAsync())

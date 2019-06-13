@@ -80,17 +80,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        /// <summary>修改配方名</summary>
-        public string EditedName
-        {
-            get => Get<string>();
-            set
-            {
-                value = value.Replace(" ", "_");
-                Set(value.Length > 26 ? value.Substring(0, 26) : value);
-            }
-        }
-
         /// <summary>配方搜尋的關鍵字</summary>
         public string SearchName
         {
@@ -479,18 +468,25 @@ namespace GPGO_MultiPLCs.Models
 
             ReNameCommand = new RelayCommand(async e =>
             {
-                if (string.IsNullOrEmpty(EditedName))
-                {
-                    //dialog?.Show(new Dictionary<Language, string>
-                    //             {
-                    //                 { Language.TW, "配方名稱不可為空白！" }, { Language.CHS, "配方名称不可为空白！" }, { Language.EN, "Recipe Name cannot be blank!" }
-                    //             },
-                    //             DialogMsgType.Alert);
+                var (result, input) = await dialog.ShowWithInput(new Dictionary<Language, string>{
+                                                                                     { Language.TW, "請輸入新配方名稱" },
+                                                                                     { Language.CHS, "请输入新配方名称" },
+                                                                                     { Language.EN, "Please enter a new recipe name" }
+                                                                                 },
+                                                 new Dictionary<Language, string>{
+                                                                                     { Language.TW, "更改配方名稱" },
+                                                                                     { Language.CHS, "更改配方名称" },
+                                                                                     { Language.EN, "Change recipe name" }
+                                                                                 }
+                                                 );
 
-                    return;
-                }
+                var name = input.ToString();
+                name = name.Replace(" ", "_");
+                name = name.Length > 26 ? name.Substring(0, 26) : name;
 
-                if (Recipes.Any(x => string.Equals(x.RecipeName, EditedName, StringComparison.CurrentCultureIgnoreCase)))
+                if (!result || string.IsNullOrEmpty(name)) return;
+
+                if (Recipes.Any(x => string.Equals(x.RecipeName, name, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     dialog?.Show(new Dictionary<Language, string>{
                                                                     { Language.TW, "已有相同名稱！" }, { Language.CHS, "已有相同名称！" }, { Language.EN, "The same name already exists!" }
@@ -501,15 +497,14 @@ namespace GPGO_MultiPLCs.Models
                 }
 
                 if (await dialog.Show(new Dictionary<Language, string>{
-                                                                        { Language.TW, $"更改配方名稱：\n{TypedName} -> {EditedName}\n無法復原！ 確定更改？" },
-                                                                        { Language.CHS, $"更改配方名称：\n{TypedName} -> {EditedName}\n无法复原！ 确定更改？" },
-                                                                        { Language.EN, $"Change recipe name:\n{TypedName} -> {EditedName}\nCannot be restored! Are you sure?" }
+                                                                        { Language.TW, $"更改配方名稱：\n{TypedName} -> {name}\n無法復原！ 確定更改？" },
+                                                                        { Language.CHS, $"更改配方名称：\n{TypedName} -> {name}\n无法复原！ 确定更改？" },
+                                                                        { Language.EN, $"Change recipe name:\n{TypedName} -> {name}\nCannot be restored! Are you sure?" }
                                                                       },
                                       true))
                 {
-                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(RecipeBase<T>.RecipeName), EditedName);
-                    await RecipeCollection_History.UpdateManyAsync(x => x.RecipeName.ToLower() == TypedName.ToLower(), nameof(RecipeBase<T>.RecipeName), EditedName);
-                    EditedName = "";
+                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(TypedName), nameof(RecipeBase<T>.RecipeName), name);
+                    await RecipeCollection_History.UpdateManyAsync(x => x.RecipeName.Equals(TypedName), nameof(RecipeBase<T>.RecipeName), name);
                     await RefreshList(false);
                 }
             });

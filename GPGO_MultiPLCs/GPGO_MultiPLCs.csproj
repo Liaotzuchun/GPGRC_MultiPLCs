@@ -148,6 +148,7 @@
     <Compile Include="Helpers\Async\FIFOTaskActionList.cs" />
     <Compile Include="Helpers\Attributes.cs" />
     <Compile Include="Helpers\Deque.cs" />
+    <Compile Include="Helpers\TaskExtensions.cs" />
     <Compile Include="Models\RecipeBase.cs" />
     <Compile Include="Models\MongoBase.cs" />
     <Compile Include="Models\ObjectViewModel.cs" />

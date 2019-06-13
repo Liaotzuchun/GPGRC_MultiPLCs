@@ -25,39 +25,8 @@ namespace GPGO_MultiPLCs.Views
             tb.SelectAll();
         }
 
-        private async void EditedTB_Checked(object sender, RoutedEventArgs e)
-        {
-            await Task.Delay(15);
-            Keyboard.Focus(EditTextBox);
-        }
-
-        private void EditedTB_Unchecked(object sender, RoutedEventArgs e)
-        {
-            Keyboard.ClearFocus();
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            EditTextBox.Text = "";
-            EditedTB.IsChecked = false;
-        }
-
-        private void EditTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                EditedTB.IsChecked = false;
-            }
-            else if (e.Key == Key.Escape)
-            {
-                EditTextBox.Text = "";
-                EditedTB.IsChecked = false;
-            }
-        }
-
-        private void EditTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            EditedTB.IsChecked = false;
         }
 
         public RecipeControl()

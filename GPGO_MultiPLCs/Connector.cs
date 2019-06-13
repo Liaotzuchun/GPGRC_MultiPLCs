@@ -460,7 +460,7 @@ namespace GPGO_MultiPLCs
                                        else if (User.Level > User.UserLevel.Operator)
                                        {
                                            var user = User.Copy();
-                                           var result = await DialogVM.ShowWithIntput(new Dictionary<Language, string>
+                                           var result = await DialogVM.ShowWithInput(new Dictionary<Language, string>
                                                                                       {
                                                                                           { Language.TW, "請輸入權限密碼：" },
                                                                                           { Language.CHS, "请输入权限密码：" },

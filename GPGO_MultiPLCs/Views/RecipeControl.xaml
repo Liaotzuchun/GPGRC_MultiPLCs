@@ -1902,16 +1902,6 @@
                          BorderThickness="0,0,0,1"
                          GotKeyboardFocus="TextBox_GotKeyboardFocus"
                          Text="{Binding TypedName, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox x:Name="EditTextBox"
-                         Grid.Column="2"
-                         HorizontalContentAlignment="Center"
-                         VerticalContentAlignment="Center"
-                         BorderThickness="0,0,0,1"
-                         GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                         IsEnabled="{Binding IsChecked, ElementName=EditedTB, Mode=OneWay}"
-                         KeyDown="EditTextBox_KeyDown"
-                         Text="{Binding EditedName, UpdateSourceTrigger=PropertyChanged}"
-                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" LostKeyboardFocus="EditTextBox_LostKeyboardFocus" />
                 <TextBox Grid.Row="1"
                          Grid.Column="2"
                          HorizontalContentAlignment="Center"
@@ -1928,25 +1918,16 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <ToggleButton x:Name="EditedTB"
-                              Grid.Column="3"
-                              Checked="EditedTB_Checked"
-                              Content="{DynamicResource 改名}"
-                              IsEnabled="{Binding Selected_Recipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
-                              Unchecked="EditedTB_Unchecked"
-                              Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                <Button Grid.Column="3"
+                        Content="{DynamicResource 改名}"
+                        IsEnabled="{Binding Selected_Recipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                        Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Unchecked">
+                        <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding ReNameCommand, Mode=OneTime}" />
-                            <local:SetPropertyAction PropertyName="Content"
-                                                     PropertyValue="{DynamicResource 改名}" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Checked">
-                            <local:SetPropertyAction PropertyName="Content"
-                                                     PropertyValue="{DynamicResource 套用}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </ToggleButton>
+                </Button>
                 <Button Grid.Row="1"
                         Grid.Column="3"
                         BorderThickness="1,0,1,1"
