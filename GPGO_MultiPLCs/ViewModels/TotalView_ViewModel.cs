@@ -305,7 +305,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && PLC_All[index].OnlineStatus)
             {
-                await PLC_Client.Set_DataAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                await PLC_Client.Set_DatasAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
 
                 return true;
             }
@@ -502,13 +502,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 CancelCheckIn?.Invoke((index, TrolleyCode));
                                             };
 
-                PLC_All[i].GetPLCParameters += async values => PLC_Client?.State == CommunicationState.Opened ? await PLC_Client.Get_DataAsync(DataType.D, index, values) : null;
+                PLC_All[i].GetPLCParameters += async values => PLC_Client?.State == CommunicationState.Opened ? await PLC_Client.Get_DatasAsync(DataType.D, index, values) : null;
 
                 PLC_All[i].SetPLCParameters += async values =>
                                                {
                                                    if (PLC_Client?.State == CommunicationState.Opened)
                                                    {
-                                                       await PLC_Client.Set_DataAsync(DataType.D, index, values);
+                                                       await PLC_Client.Set_DatasAsync(DataType.D, index, values);
                                                    }
                                                };
             }
