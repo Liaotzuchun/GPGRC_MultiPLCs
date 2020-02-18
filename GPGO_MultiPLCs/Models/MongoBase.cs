@@ -98,12 +98,12 @@ namespace GPGO_MultiPLCs.Models
 
         public bool Upsert(Expression<Func<T, bool>> condition, T data)
         {
-            return MongoCollection.ReplaceOne(condition, data, new UpdateOptions { IsUpsert = true }).IsAcknowledged;
+            return MongoCollection.ReplaceOne(condition, data, new ReplaceOptions { IsUpsert = true }).IsAcknowledged;
         }
 
         public async ValueTask<bool> UpsertAsync(Expression<Func<T, bool>> condition, T data)
         {
-            return (await MongoCollection.ReplaceOneAsync(condition, data, new UpdateOptions { IsUpsert = true })).IsAcknowledged;
+            return (await MongoCollection.ReplaceOneAsync(condition, data, new ReplaceOptions { IsUpsert = true })).IsAcknowledged;
         }
 
         private readonly IMongoCollection<T> MongoCollection;
