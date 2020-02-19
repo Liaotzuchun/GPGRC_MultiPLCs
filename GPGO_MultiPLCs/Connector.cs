@@ -634,7 +634,7 @@ namespace GPGO_MultiPLCs
                                          var inpath = "";
                                          var outpath = "";
 
-                                         Dispatcher.Invoke(() =>
+                                         Dispatcher?.Invoke(() =>
                                                            {
                                                                inpath = DataInputPath;
                                                                outpath = DataOutputPath;
