@@ -388,10 +388,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      record_chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
                                                                      record_chart.XAxis.MajorTickMark = eAxisTickMark.In;
                                                                      record_chart.XAxis.MinorTickMark = eAxisTickMark.None;
+                                                                     record_chart.XAxis.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
+                                                                     record_chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
                                                                      record_chart.YAxis.Title.Text = "Temperature (°C)";
                                                                      record_chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                                     record_chart.YAxis.Title.Rotation = 270;
                                                                      record_chart.YAxis.MajorTickMark = eAxisTickMark.In;
                                                                      record_chart.YAxis.MinorTickMark = eAxisTickMark.None;
+                                                                     record_chart.YAxis.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
                                                                      record_chart.RoundedCorners = false;
                                                                      record_chart.Border.Fill.Color = Color.Black;
                                                                      record_chart.SetPosition(0, 0, 0, 0);
@@ -429,8 +433,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  condition_v.Style.Fill.PatternType = ExcelFillStyle.Solid;
                                                                  condition_v.Style.Fill.BackgroundColor.Color = Color.Honeydew;
 
-                                                                 var ooxx = new ExcelNamedRange("ooxx", null, wsht, "A1", 1);
-                                                                 xlwb.Workbook.Names.Add("ooxx", ooxx);
+                                                                 xlwb.Workbook.Names.Add("ooxx", wsht.Cells[1, 1]);
 
                                                                  //!首頁溫度曲線所需的分頁
                                                                  var data_sht = xlwb.Workbook.Worksheets.Add("Data");
@@ -485,10 +488,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
                                                                  chart.XAxis.MajorTickMark = eAxisTickMark.In;
                                                                  chart.XAxis.MinorTickMark = eAxisTickMark.None;
+                                                                 chart.XAxis.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
+                                                                 chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
                                                                  chart.YAxis.Title.Text = "Temperature (°C)";
                                                                  chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                                 chart.YAxis.Title.Rotation = 270;
                                                                  chart.YAxis.MajorTickMark = eAxisTickMark.In;
                                                                  chart.YAxis.MinorTickMark = eAxisTickMark.None;
+                                                                 chart.YAxis.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
                                                                  chart.RoundedCorners = false;
                                                                  chart.Border.Fill.Color = Color.Black;
                                                                  chart.SetPosition(0, 0, 0, 0);
@@ -679,6 +686,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db, IDialogService dialog) : base(db)
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
             FindCommand = new RelayCommand(async o =>
                                            {
                                                var (result, input) = await dialog.ShowWithInput(new Dictionary<Language, string>
