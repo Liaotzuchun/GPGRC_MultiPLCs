@@ -805,7 +805,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 LegendTitleFontSize = 12,
                 //LegendItemOrder = LegendItemOrder.Reverse,
                 LegendMargin = 4,
-                LegendPadding = 5
+                LegendPadding = 5,
+                TextColor = fontcolor
             };
 
             ResultView.Axes.Add(linearAxis);
