@@ -153,7 +153,7 @@
                                         <TabItem Width="0"
                                                  Height="0"
                                                  FontSize="14">
-                                            <Grid>
+                                            <Grid TextElement.Foreground="{StaticResource BaseForeground}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="60" />
                                                     <ColumnDefinition />
@@ -191,8 +191,7 @@
                                                              Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}"
                                                              Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                                 </UniformGrid>
-                                                <ComboBox 
-                                                          Grid.Row="1"
+                                                <ComboBox Grid.Row="1"
                                                           Grid.Column="1"
                                                           BorderThickness="0,1,0,0"
                                                           GotKeyboardFocus="CB_GotKeyboardFocus"
@@ -735,7 +734,7 @@
                                       Header="{DynamicResource 配方參數}"
                                       IsHitTestVisible="False">
                                 <views:AutoGrid ClipToBounds="True"
-                                                Columns="70,*,70,*,70,*,70,*"
+                                                Columns="75,*,75,*,75,*,75,*"
                                                 Orientation="Vertical"
                                                 Rows="*,*,*,*,*,*,*,*,*">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
@@ -1347,7 +1346,7 @@
                                       Margin="2,4,4,4"
                                       Header="{DynamicResource 設備狀態}"
                                       IsHitTestVisible="False">
-                                <views:AutoGrid Columns="70,*,70,*"
+                                <views:AutoGrid Columns="75,*,75,*"
                                                 Orientation="Vertical"
                                                 Rows="*,*,*,*,*,*,*,*,*">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
