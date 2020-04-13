@@ -1947,7 +1947,6 @@
                       BorderThickness="0"
                       EnableRowVirtualization="False"
                       HorizontalScrollBarVisibility="Disabled"
-                      IsEnabled="{Binding IsChecked, ElementName=EditedTB, Converter={StaticResource BoolNot}, Mode=OneWay}"
                       ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                       RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                       SelectedCellsChanged="DataGrid_SelectedCellsChanged"
