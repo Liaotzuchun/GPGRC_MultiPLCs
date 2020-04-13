@@ -1,10 +1,11 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using GPGO_MultiPLCs.Models;
+﻿using GPGO_MultiPLCs.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -15,7 +16,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public override RelayCommand ImportCommand { get; }
 
         /// <summary>辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)</summary>
-        public override bool Delete_Enable => Selected_Recipe != null && !Selected_Recipe.Used_Stations.Any(x => x);
+        public override bool DeleteEnable => SelectedRecipe != null && !SelectedRecipe.Used_Stations.Any(x => x);
 
         public async void SetUsed(int index, string name)
         {
@@ -76,7 +77,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                          {
                                                              recipe.RecipeName = Path.GetFileNameWithoutExtension(file.Name);
                                                              var old_recipe = Recipes.Find(x => x.RecipeName == recipe.RecipeName);
-                                                             var new_recipe = recipe.Copy(UserName);
+                                                             var new_recipe = recipe.Copy(UserName, UserLevel);
 
                                                              if (old_recipe != null)
                                                              {

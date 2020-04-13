@@ -1,5 +1,4 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using GPGO_MultiPLCs.Models;
+﻿using GPGO_MultiPLCs.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using User = GPGO_MultiPLCs.Models.User;
 
 namespace GPGO_MultiPLCs.ViewModels
 {

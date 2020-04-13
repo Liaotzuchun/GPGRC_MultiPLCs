@@ -1,7 +1,7 @@
-﻿using GPGO_MultiPLCs.Models;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows.Threading;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {

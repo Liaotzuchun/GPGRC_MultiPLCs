@@ -10,38 +10,43 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Views/Resources/Converters.xaml" />
-                <ResourceDictionary Source="Views/Resources/Shared.xaml" />
-                <ResourceDictionary Source="Views/Resources/Button.xaml" />
-                <ResourceDictionary Source="Views/Resources/CheckBox.xaml" />
-                <ResourceDictionary Source="Views/Resources/RadioButton.xaml" />
-                <ResourceDictionary Source="Views/Resources/ComboBox.xaml" />
-                <ResourceDictionary Source="Views/Resources/ListBox.xaml" />
-                <ResourceDictionary Source="Views/Resources/Menu.xaml" />
-                <ResourceDictionary Source="Views/Resources/ScrollBar.xaml" />
-                <ResourceDictionary Source="Views/Resources/Expander.xaml" />
-                <ResourceDictionary Source="Views/Resources/GroupBox.xaml" />
-                <ResourceDictionary Source="Views/Resources/Label.xaml" />
-                <ResourceDictionary Source="Views/Resources/TabControl.xaml" />
-                <ResourceDictionary Source="Views/Resources/ProgressBar.xaml" />
-                <ResourceDictionary Source="Views/Resources/slider.xaml" />
-                <ResourceDictionary Source="Views/Resources/textbox.xaml" />
-                <ResourceDictionary Source="Views/Resources/tooltip.xaml" />
-                <ResourceDictionary Source="Views/Resources/treeview.xaml" />
-                <ResourceDictionary Source="Views/Resources/scrollviewer.xaml" />
-                <ResourceDictionary Source="Views/Resources/toolbar.xaml" />
-                <ResourceDictionary Source="Views/Resources/statusbar.xaml" />
-                <ResourceDictionary Source="Views/Resources/window.xaml" />
-                <ResourceDictionary Source="Views/Resources/navigationwindow.xaml" />
-                <ResourceDictionary Source="Views/Resources/datagrid.xaml" />
-                <ResourceDictionary Source="Views/Resources/togglebutton.xaml" />
-                <ResourceDictionary Source="Views/Resources/Thumb.xaml" />
-                <ResourceDictionary Source="Views/Resources/calendar.xaml" />
-                <ResourceDictionary Source="Views/Resources/datepicker.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Brushes_Classic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Shared.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/TabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/ComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Menu.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/ScrollBar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Expander.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/GroupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Label.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/ProgressBar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/slider.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/textbox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/tooltip.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/treeview.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/scrollviewer.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/toolbar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/statusbar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/window.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/navigationwindow.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/datagrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/togglebutton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Thumb.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/calendar.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/datepicker.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/FilePicker.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/DirectoryPicker.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/SpinControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/PathText.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/UniversalWindow.xaml" />
                 <ResourceDictionary Source="Views/Languages/TW.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
-            <vm:ScreenKeyboard_ViewModel x:Key="ScreenKeyboardViewModel" />
             <local:Connector x:Key="Connector"
                              DataInputPath="{Binding GT.DataInputPath, Source={StaticResource AuthenticatorViewModel}}"
                              DataOutputPath="{Binding GT.DataOutputPath, Source={StaticResource AuthenticatorViewModel}}"

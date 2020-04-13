@@ -1,9 +1,10 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GPMVVM.Models;
+using GPMVVM.Helpers;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -309,7 +310,7 @@ namespace GPGO_MultiPLCs.Models
         public ProcessInfo(BaseInfo baseInfo, ProductInfo productInfo)
         {
             baseInfo.CopyTo(this);
-            productInfo.CopyTo(this);
+            productInfo.CopyToObj(this);
         }
 
         #region 此區由TraceabilityView_ViewModel新增至資料庫時填入

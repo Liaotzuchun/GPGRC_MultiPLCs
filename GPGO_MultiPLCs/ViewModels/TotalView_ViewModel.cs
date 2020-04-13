@@ -1,5 +1,4 @@
 ﻿using GPGO_MultiPLCs.GP_PLCs;
-using GPGO_MultiPLCs.Helpers;
 using GPGO_MultiPLCs.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,8 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -301,7 +302,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 return false;
             }
 
-            recipe.CopyTo(PLC_All[index]);
+            recipe.CopyToObj(PLC_All[index]);
 
             if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && PLC_All[index].OnlineStatus)
             {

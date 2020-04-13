@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:RecipeControl_ViewModel}"
              d:DesignHeight="450"
@@ -22,16 +23,16 @@
         <GroupBox Margin="0,0,4,0"
                   Background="{StaticResource WindowBackgroundBrush3}"
                   IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-            <TabControl x:Name="TC">
+            <TabControl x:Name="TC" views:TabControl.EnableSliding="True">
                 <TabItem Height="44"
                          BorderThickness="1,1,1,0"
                          FontSize="16"
                          Header="{DynamicResource 目前配方}">
-                    <local:AutoGrid Columns="70,*,54,70,*,54"
-                                    DataContext="{Binding Selected_Recipe, Mode=OneWay}"
+                    <views:AutoGrid Columns="70,*,54,70,*,54"
+                                    DataContext="{Binding SelectedRecipe, Mode=OneWay}"
                                     IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                                     Orientation="Vertical"
-                                    RowCount="18"
+                                    Rows="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"
                                     SnapsToDevicePixels="False"
                                     TextElement.FontSize="12"
                                     TextElement.Foreground="{StaticResource BaseForeground}"
@@ -1149,13 +1150,13 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                    </local:AutoGrid>
+                    </views:AutoGrid>
                 </TabItem>
                 <TabItem Height="44"
                          BorderThickness="1,1,1,0"
                          FontSize="16"
                          Header="{DynamicResource 修改歷史}"
-                         IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
+                         IsEnabled="{Binding OldViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
                     <Grid TextElement.FontSize="12">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="64" />
@@ -1202,7 +1203,7 @@
                                         VerticalAlignment="Center"
                                         IsSnapToTickEnabled="True"
                                         LargeChange="1"
-                                        Maximum="{Binding Old_ViewRecipes.Count, Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=-1}"
+                                        Maximum="{Binding OldViewRecipes.Count, Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=-1}"
                                         Minimum="0"
                                         SmallChange="1"
                                         Value="{Binding HistoryIndex, Mode=TwoWay}" />
@@ -1229,12 +1230,12 @@
                                            Text="{Binding SelectedHistory.Editor, Mode=OneWay}" />
                             </Border>
                         </Grid>
-                        <local:AutoGrid Grid.Row="1"
+                        <views:AutoGrid Grid.Row="1"
                                         Columns="70,*,70,*"
                                         DataContext="{Binding SelectedHistory, Mode=OneWay}"
                                         IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                                         Orientation="Vertical"
-                                        RowCount="18"
+                                        Rows="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"
                                         SnapsToDevicePixels="False"
                                         UseLayoutRounding="True">
                             <Border Grid.RowSpan="2"
@@ -1828,7 +1829,7 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                        </local:AutoGrid>
+                        </views:AutoGrid>
                     </Grid>
                 </TabItem>
             </TabControl>
@@ -1852,13 +1853,13 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
-                <TabControl Grid.RowSpan="2"
+                <TabControl Grid.RowSpan="2" views:TabControl.EnableSliding="True"
                             SelectedIndex="{Binding SelectedIndex, ElementName=TC, Mode=OneWay}">
                     <TabItem Width="0"
                              Height="0">
                         <Button Content="{DynamicResource 儲存}"
                                 FontSize="20"
-                                IsEnabled="{Binding Save_Enable, Mode=OneWay}">
+                                IsEnabled="{Binding SaveEnable, Mode=OneWay}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding SaveCommand, Mode=OneTime}" />
@@ -1870,7 +1871,7 @@
                              Height="0">
                         <Button Content="{DynamicResource 復原}"
                                 FontSize="20"
-                                IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
+                                IsEnabled="{Binding OldViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding ResetCommand, Mode=OneTime}" />
@@ -1911,7 +1912,7 @@
                          Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Grid.Column="3"
                         Content="{DynamicResource 新增}"
-                        IsEnabled="{Binding Add_Enable, Mode=OneWay}">
+                        IsEnabled="{Binding AddEnable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding AddCommand, Mode=OneTime}" />
@@ -1920,7 +1921,7 @@
                 </Button>
                 <Button Grid.Column="3"
                         Content="{DynamicResource 改名}"
-                        IsEnabled="{Binding Selected_Recipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                        IsEnabled="{Binding SelectedRecipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -1932,7 +1933,7 @@
                         Grid.Column="3"
                         BorderThickness="1,0,1,1"
                         Content="{DynamicResource 刪除}"
-                        IsEnabled="{Binding Delete_Enable, Mode=OneWay}">
+                        IsEnabled="{Binding DeleteEnable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding DeleteCommand, Mode=OneTime}" />
@@ -1950,7 +1951,7 @@
                       ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                       RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                       SelectedCellsChanged="DataGrid_SelectedCellsChanged"
-                      SelectedIndex="{Binding Selected_Recipe_Index, Mode=TwoWay}">
+                      SelectedIndex="{Binding SelectedRecipeIndex, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding InitialLoadCommand, Mode=OneTime}" />
@@ -2019,7 +2020,7 @@
                                     </ItemsControl.Template>
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <local:UniformGridWithOrientation Columns="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
+                                            <views:UniformGridWithOrientation Columns="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
                                                                               Orientation="Vertical"
                                                                               Rows="2" />
                                         </ItemsPanelTemplate>

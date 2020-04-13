@@ -1,4 +1,5 @@
 ﻿using System;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {

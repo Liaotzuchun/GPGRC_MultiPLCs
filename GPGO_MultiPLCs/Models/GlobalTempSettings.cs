@@ -1,7 +1,8 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using Serilog;
+﻿using Serilog;
 using System;
 using System.IO;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {

@@ -1,8 +1,9 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -792,7 +793,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public override PLC_Recipe Copy(string user)
+        public override PLC_Recipe Copy(string user, UserLevel level)
         {
             return new PLC_Recipe
             {
@@ -838,7 +839,7 @@ namespace GPGO_MultiPLCs.Models
             };
         }
 
-        public override void CopyValue(string user, PLC_Recipe recipe)
+        public override void CopyValue(string user, UserLevel level, PLC_Recipe recipe)
         {
             Updated = DateTime.Now;
             RecipeName = recipe.RecipeName;
@@ -880,7 +881,7 @@ namespace GPGO_MultiPLCs.Models
             Editor = user;
         }
 
-        public PLC_Recipe(string name = "", string user = "") : base(name, user)
+        public PLC_Recipe(string name, string user, UserLevel level) : base(name, user, level)
         {
             ThermostaticTemperature_1 = 200;
             ThermostaticTemperature_2 = 200;

@@ -1,5 +1,4 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using GPGO_MultiPLCs.Models;
+﻿using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using MongoDB.Driver;
 using Serilog;
@@ -12,6 +11,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using User = GPGO_MultiPLCs.Models.User;
 
 namespace GPGO_MultiPLCs
 {
@@ -79,7 +81,6 @@ namespace GPGO_MultiPLCs
 
         public void Dispose()
         {
-            DialogVM.Dispose();
             TotalVM.Dispose();
         }
 
@@ -460,14 +461,15 @@ namespace GPGO_MultiPLCs
                                        else if (User.Level > User.UserLevel.Operator)
                                        {
                                            var user = User.Copy();
-                                           var result = await DialogVM.ShowWithInput(new Dictionary<Language, string>
+                                           var result = await DialogVM.CheckCondition(new Dictionary<Language, string>
                                                                                       {
                                                                                           { Language.TW, "請輸入權限密碼：" },
                                                                                           { Language.CHS, "请输入权限密码：" },
                                                                                           { Language.EN, "Please enter the permission password:" }
                                                                                       },
                                                                                       new Dictionary<Language, string> { { Language.TW, "驗證" }, { Language.CHS, "验证" }, { Language.EN, "Identify" } },
-                                                                                      x => (x == user.Password,
+                                                                                      true,
+                                                                                      x => (x.ToString() == user.Password,
                                                                                             new Dictionary<Language, string>
                                                                                             {
                                                                                                 { Language.TW, "密碼錯誤！" }, { Language.CHS, "密码错误！" }, { Language.EN, "Wrong password!" }

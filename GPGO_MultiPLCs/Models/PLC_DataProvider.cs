@@ -1,11 +1,12 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -315,7 +316,7 @@ namespace GPGO_MultiPLCs.Models
                 if (await Dialog.Show(new Dictionary<Language, string> { { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" } }, recipe, true))
                 {
                     RecipeUsed?.Invoke(recipeName);
-                    recipe.CopyTo(this);
+                    recipe.CopyToObj(this);
                 }
 
                 Set(RecipeName, nameof(Selected_Name));
@@ -428,14 +429,15 @@ namespace GPGO_MultiPLCs.Models
                                                              var para = (string)o;
 
                                                              var (result1, input1) =
-                                                                 await Dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
                                                                                                  { Language.TW, "輸入操作人員ID" }, { Language.CHS, "输入操作人员ID" }, { Language.EN, "Enter the Operator ID" }
                                                                                              },
                                                                                              new Dictionary<Language, string> { { Language.TW, para }, { Language.CHS, para }, { Language.EN, para } },
+                                                                                             true,
                                                                                              x =>
                                                                                              {
-                                                                                                 var str = x.Trim();
+                                                                                                 var str = x.ToString().Trim();
 
                                                                                                  return (str.Length > 4 && str.Length < 10,
                                                                                                          new Dictionary<Language, string>
@@ -449,7 +451,7 @@ namespace GPGO_MultiPLCs.Models
                                                              if (result1)
                                                              {
                                                                  var (result2, input2) =
-                                                                     await Dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                     await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                                  {
                                                                                                      { Language.TW, "輸入台車碼" }, { Language.CHS, "输入台车码" }, { Language.EN, "Enter the Trolley Code" }
                                                                                                  },
@@ -457,9 +459,10 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  {
                                                                                                      { Language.TW, para }, { Language.CHS, para }, { Language.EN, para }
                                                                                                  },
+                                                                                                 true,
                                                                                                  x =>
                                                                                                  {
-                                                                                                     var str = x.Trim();
+                                                                                                     var str = x.ToString().Trim();
 
                                                                                                      return (str.Length > 4 && str.Length < 15,
                                                                                                              new Dictionary<Language, string>
@@ -472,8 +475,8 @@ namespace GPGO_MultiPLCs.Models
 
                                                                  if (result2 && WantFrontData != null)
                                                                  {
-                                                                     OvenInfo.OperatorID = input1;
-                                                                     OvenInfo.TrolleyCode = input2;
+                                                                     OvenInfo.OperatorID = input1.ToString();
+                                                                     OvenInfo.TrolleyCode = input2.ToString();
 
                                                                      //! 取得上位資訊(料號、總量、投產量)
                                                                      var panels = await WantFrontData.Invoke(OvenInfo.TrolleyCode);
@@ -489,7 +492,7 @@ namespace GPGO_MultiPLCs.Models
                                                                      }
 
                                                                      var (result3, intput3) =
-                                                                         await Dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                         await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                                      {
                                                                                                          { Language.TW, "輸入製程序" },
                                                                                                          { Language.CHS, "输入制程序" },
@@ -499,9 +502,10 @@ namespace GPGO_MultiPLCs.Models
                                                                                                      {
                                                                                                          { Language.TW, para }, { Language.CHS, para }, { Language.EN, para }
                                                                                                      },
+                                                                                                     true,
                                                                                                      x =>
                                                                                                      {
-                                                                                                         var str = x.Trim();
+                                                                                                         var str = x.ToString().Trim();
 
                                                                                                          return (str.Length > 0 && str.Length <= 4 && str.All(char.IsDigit),
                                                                                                                  new Dictionary<Language, string>
@@ -519,7 +523,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      Ext_Info.Clear();
 
-                                                                     if (int.TryParse(intput3, out var num))
+                                                                     if (int.TryParse(intput3.ToString(), out var num))
                                                                      {
                                                                          foreach (var panel in panels)
                                                                          {
@@ -549,7 +553,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
                                                                      {
-                                                                         recipe.CopyTo(this);
+                                                                         recipe.CopyToObj(this);
 
                                                                          if (SetPLCParameters != null)
                                                                          {

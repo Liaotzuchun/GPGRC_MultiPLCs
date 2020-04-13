@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -9,6 +10,7 @@
              xmlns:oxy="http://oxyplot.org/wpf"
              xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              x:Name="userControl"
              d:DataContext="{d:DesignInstance vm:TotalView_ViewModel}"
@@ -18,6 +20,7 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
+        <local:TimespanToDouble x:Key="TimespanToDouble" />
         <models:EventTypeToColor x:Key="EventTypeToColor" />
         <DataTemplate x:Key="ProgressDataTemplate"
                       DataType="models:PLC_DataProvider">
@@ -78,7 +81,8 @@
     </UserControl.Resources>
 
     <Grid>
-        <TabControl SelectedIndex="{Binding Index, Mode=TwoWay}">
+        <TabControl views:TabControl.EnableSliding="True"
+                    SelectedIndex="{Binding Index, Mode=TwoWay}">
             <TabItem Width="0"
                      Height="0">
                 <Grid x:Name="MG">
@@ -134,7 +138,8 @@
                                                FontSize="36"
                                                Foreground="{StaticResource DisabledForegroundBrush}"
                                                Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-                                    <TabControl Grid.Column="1">
+                                    <TabControl Grid.Column="1"
+                                                views:TabControl.EnableSliding="True">
                                         <TabControl.SelectedIndex>
                                             <MultiBinding Converter="{StaticResource MultiAnyTrueConverterToInt}"
                                                           Mode="OneWay">
@@ -186,7 +191,7 @@
                                                              Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}"
                                                              Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                                 </UniformGrid>
-                                                <ComboBox x:Name="CB"
+                                                <ComboBox 
                                                           Grid.Row="1"
                                                           Grid.Column="1"
                                                           BorderThickness="0,1,0,0"
@@ -201,7 +206,7 @@
                                                     <i:Interaction.Triggers>
                                                         <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
                                                         <i:EventTrigger EventName="KeyUp">
-                                                            <models:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
+                                                            <gpmodels:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
                                                     <ComboBox.IsEnabled>
@@ -317,11 +322,11 @@
                                                                       Style="{StaticResource ArrowToggle}">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="MouseLeave">
-                                                                    <local:SetPropertyAction PropertyName="IsChecked">
-                                                                        <local:SetPropertyAction.PropertyValue>
+                                                                    <views:SetPropertyAction PropertyName="IsChecked">
+                                                                        <views:SetPropertyAction.PropertyValue>
                                                                             <system:Boolean>False</system:Boolean>
-                                                                        </local:SetPropertyAction.PropertyValue>
-                                                                    </local:SetPropertyAction>
+                                                                        </views:SetPropertyAction.PropertyValue>
+                                                                    </views:SetPropertyAction>
                                                                 </i:EventTrigger>
                                                             </i:Interaction.Triggers>
                                                         </ToggleButton>
@@ -420,7 +425,7 @@
                                                                                             </ItemsControl.Template>
                                                                                             <ItemsControl.ItemsPanel>
                                                                                                 <ItemsPanelTemplate>
-                                                                                                    <local:UniformGridWithOrientation Margin="0,-1,0,0"
+                                                                                                    <views:UniformGridWithOrientation Margin="0,-1,0,0"
                                                                                                                                       Orientation="Vertical"
                                                                                                                                       Rows="10" />
                                                                                                 </ItemsPanelTemplate>
@@ -729,10 +734,10 @@
                             <GroupBox Margin="4,4,2,4"
                                       Header="{DynamicResource 配方參數}"
                                       IsHitTestVisible="False">
-                                <local:AutoGrid ClipToBounds="True"
+                                <views:AutoGrid ClipToBounds="True"
                                                 Columns="70,*,70,*,70,*,70,*"
                                                 Orientation="Vertical"
-                                                RowCount="9">
+                                                Rows="*,*,*,*,*,*,*,*,*">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
@@ -1336,15 +1341,15 @@
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
-                                </local:AutoGrid>
+                                </views:AutoGrid>
                             </GroupBox>
                             <GroupBox Grid.Column="1"
                                       Margin="2,4,4,4"
                                       Header="{DynamicResource 設備狀態}"
                                       IsHitTestVisible="False">
-                                <local:AutoGrid Columns="70,*,70,*"
+                                <views:AutoGrid Columns="70,*,70,*"
                                                 Orientation="Vertical"
-                                                RowCount="9">
+                                                Rows="*,*,*,*,*,*,*,*,*">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
@@ -1538,7 +1543,8 @@
                                     <Border Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <TabControl SelectedIndex="{Binding AutoMode, Mode=OneWay}">
+                                        <TabControl views:TabControl.EnableSliding="True"
+                                                    SelectedIndex="{Binding AutoMode, Mode=OneWay}">
                                             <TabItem Width="0"
                                                      Height="0">
                                                 <Border Background="{StaticResource OKBrush}">
@@ -1665,7 +1671,7 @@
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
-                                </local:AutoGrid>
+                                </views:AutoGrid>
                             </GroupBox>
                         </Grid>
                         <GroupBox Grid.Row="1"
@@ -1780,7 +1786,7 @@
                                             </DataGridTemplateColumn.Header>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate DataType="models:LogEvent">
-                                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
+                                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
                                                                TextTrimming="CharacterEllipsis" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -1961,7 +1967,7 @@
                                                             Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">
                                             <oxy:LineAnnotation.Text>
                                                 <MultiBinding StringFormat="{}{0} ({1})">
-                                                    <Binding Converter="{local:StringToResource}"
+                                                    <Binding Converter="{views:StringToResource}"
                                                              Mode="OneWay"
                                                              Path="(models:LogEvent.Description)" />
                                                     <Binding Converter="{StaticResource BoolOnOff}"
@@ -2021,7 +2027,7 @@
                             </ListBox.Template>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <local:UniformGridWithOrientation Columns="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
+                                    <views:UniformGridWithOrientation Columns="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
                                                                       Orientation="Vertical"
                                                                       Rows="2" />
                                 </ItemsPanelTemplate>

@@ -79,6 +79,9 @@
     <Reference Include="EPPlus, Version=5.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.5.1.0\lib\net45\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="GPMVVM, Version=1.4.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GPMVVM.1.4.9\lib\net48\GPMVVM.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
@@ -90,6 +93,9 @@
     </Reference>
     <Reference Include="MongoDB.Driver.Core, Version=2.10.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Driver.Core.2.10.3\lib\net452\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.GridFS, Version=2.10.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.GridFS.2.10.3\lib\net452\MongoDB.Driver.GridFS.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Libmongocrypt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Libmongocrypt.1.0.0\lib\net452\MongoDB.Libmongocrypt.dll</HintPath>
@@ -165,38 +171,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\Async\AsyncAutoResetEvent.cs" />
-    <Compile Include="Helpers\Async\AsyncBarrier.cs" />
-    <Compile Include="Helpers\Async\AsyncCountdownEvent.cs" />
-    <Compile Include="Helpers\Async\AsyncLock.cs" />
-    <Compile Include="Helpers\Async\AsyncManualResetEvent.cs" />
-    <Compile Include="Helpers\Async\AsyncReaderWriterLock.cs" />
-    <Compile Include="Helpers\Async\AsyncSemaphore.cs" />
-    <Compile Include="Helpers\Async\FIFOTaskActionList.cs" />
-    <Compile Include="Helpers\Attributes.cs" />
-    <Compile Include="Helpers\Deque.cs" />
-    <Compile Include="Helpers\TaskExtensions.cs" />
-    <Compile Include="Models\RecipeBase.cs" />
-    <Compile Include="Models\MongoBase.cs" />
-    <Compile Include="Models\ObjectViewModel.cs" />
-    <Compile Include="Models\ObservableObject.cs" />
-    <Compile Include="Models\FilterGroup.cs" />
-    <Compile Include="Models\IDataBase.cs" />
-    <Compile Include="Helpers\ObservableConcurrentCollection.cs" />
-    <Compile Include="Helpers\ObservableConcurrentDictionary.cs" />
-    <Compile Include="Helpers\Async\WaitHandleExtensions.cs" />
-    <Compile Include="Helpers\ObservableQueue.cs" />
-    <Compile Include="Helpers\ObservableStack.cs" />
-    <Compile Include="Models\RecipeModel.cs" />
-    <Compile Include="Helpers\TaskSchedulers\CurrentThreadTaskScheduler.cs" />
-    <Compile Include="Helpers\TaskSchedulers\LimitedConcurrencyLevelTaskScheduler.cs" />
-    <Compile Include="Helpers\TaskSchedulers\OrderedTaskScheduler.cs" />
-    <Compile Include="Helpers\TaskSchedulers\StaTaskScheduler.cs" />
-    <Compile Include="Helpers\TaskSchedulers\SynchronizationContextTaskScheduler.cs" />
-    <Compile Include="Helpers\TaskSchedulers\ThreadPerTaskScheduler.cs" />
-    <Compile Include="Models\DataCollectionByDate.cs" />
     <Compile Include="Models\GlobalTempSettings.cs" />
-    <Compile Include="Models\LanguageEnum.cs" />
     <Compile Include="Models\NamesEnum.cs" />
     <Compile Include="Models\PLC_Data.cs" />
     <Compile Include="Models\PLC_DevicesMap.cs" />
@@ -210,7 +185,6 @@
     <Compile Include="ViewModels\LogView_ViewModel.cs" />
     <Compile Include="ViewModels\MainWindow_ViewModel.cs" />
     <Compile Include="ViewModels\RecipeControl_ViewModel.cs" />
-    <Compile Include="ViewModels\ScreenKeyboard_ViewModel.cs" />
     <Compile Include="ViewModels\TraceabilityView_ViewModel.cs" />
     <Compile Include="Views\Authenticator.xaml.cs">
       <DependentUpon>Authenticator.xaml</DependentUpon>
@@ -218,27 +192,12 @@
     <Compile Include="Views\GlobalDialog.xaml.cs">
       <DependentUpon>GlobalDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Helpers\AutoGrid.cs" />
-    <Compile Include="Views\Helpers\BindableBinding.cs" />
-    <Compile Include="Views\Helpers\BindingDataProxy.cs" />
     <Compile Include="Views\Helpers\Converters.cs" />
-    <Compile Include="Views\Helpers\DisplayRowNumberBehavior.cs" />
-    <Compile Include="Views\Helpers\MultiValueConverters.cs" />
-    <Compile Include="Views\Helpers\RangeSlider.xaml.cs">
-      <DependentUpon>RangeSlider.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Helpers\StringToResource.cs" />
-    <Compile Include="Views\Helpers\SetPropertyAction.cs" />
-    <Compile Include="Views\Helpers\TypeTemplateSelector.cs" />
-    <Compile Include="Views\Helpers\UniformStackPanel.cs" />
     <Compile Include="Views\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RecipeControl.xaml.cs">
       <DependentUpon>RecipeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ScreenKeyboard.xaml.cs">
-      <DependentUpon>ScreenKeyboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TotalView.xaml.cs">
       <DependentUpon>TotalView.xaml</DependentUpon>
@@ -251,10 +210,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GlobalDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Helpers\RangeSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,143 +243,12 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Connector.cs" />
-    <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Models\IDialogService.cs" />
-    <Compile Include="Models\RelayCommand.cs" />
-    <Compile Include="Helpers\TwoKeyDictionary.cs" />
     <Compile Include="ViewModels\TotalView_ViewModel.cs" />
-    <Compile Include="Views\Helpers\TextBoxWatermarkBehavior.cs" />
-    <Compile Include="Views\Helpers\UniformGridWithOrientation.cs" />
-    <Compile Include="Views\Helpers\ValidationRules.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\RecipeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resources\button.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\calendar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\checkbox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\combobox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\Converters.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Resources\datagrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\datepicker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\expander.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\groupbox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\label.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\listbox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\menu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\navigationwindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\progressbar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\radiobutton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\resizegrip.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\scrollbar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\scrollviewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\separator.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\shared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\slider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\statusbar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\tabcontrol.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\textbox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\Thumb.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\togglebutton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\toolbar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\tooltip.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\treeview.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Resources\window.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ScreenKeyboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -500,7 +324,13 @@
   <ItemGroup>
     <Resource Include="GP.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+    <Folder Include="Views\Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="mongocrypt.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MongoDB.Libmongocrypt.1.0.0\build\MongoDB.Libmongocrypt.targets" Condition="Exists('..\packages\MongoDB.Libmongocrypt.1.0.0\build\MongoDB.Libmongocrypt.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

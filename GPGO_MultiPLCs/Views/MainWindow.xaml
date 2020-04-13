@@ -2,38 +2,29 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+        xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
         x:Name="Main"
         MinWidth="800"
         MinHeight="600"
-        Background="{StaticResource WindowBackgroundBrush}"
         DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneTime}"
-        FontFamily="Microsoft JhengHei"
-        Foreground="{StaticResource BaseForeground}"
+        Style="{StaticResource UniversalWindow}"
         Icon="/GPGO_MultiPLCs;component/GP.ico"
-        KeyboardNavigation.TabNavigation="None"
         Loaded="Window_Loaded"
-        SnapsToDevicePixels="True"
-        Stylus.IsPressAndHoldEnabled="False"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         mc:Ignorable="d">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
-            <models:InteractiveCommand Command="{Binding ClosingCommand, Mode=OneTime}" />
+            <gpmodels:InteractiveCommand Command="{Binding ClosingCommand, Mode=OneTime}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}"
                                    CommandParameter="{Binding Dispatcher, ElementName=Main}" />
-        </i:EventTrigger>
-        <i:EventTrigger EventName="GotKeyboardFocus">
-            <models:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
-        </i:EventTrigger>
-        <i:EventTrigger EventName="LostKeyboardFocus">
-            <models:InteractiveCommand Command="{Binding FocusCommand, Source={StaticResource ScreenKeyboardViewModel}, Mode=OneTime}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -62,8 +53,7 @@
                 </Border.Visibility>
             </Border>
             <Grid>
-                <local:ScreenKeyboard x:Name="ScreenKeyboard"
-                                      DataContext="{StaticResource ScreenKeyboardViewModel}" />
+                <views:ScreenKeyboard UILanguage="{Binding Language, Source={StaticResource Connector}, Mode=OneWay}"/>
                 <local:Authenticator x:Name="Authenticator"
                                      DataContext="{StaticResource AuthenticatorViewModel}" />
                 <local:GlobalDialog x:Name="GlobalDialog"
@@ -73,7 +63,7 @@
         </Grid>
         <Grid Background="{StaticResource LightColorBrush}">
             <ListBox FontSize="20"
-                     ItemContainerStyle="{StaticResource ListBoxItem2}"
+                     ItemContainerStyle="{StaticResource ListBoxItem_Top}"
                      SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                 <ListBox.Template>
                     <ControlTemplate>
@@ -92,11 +82,9 @@
             </ListBox>
         </Grid>
         <Border Grid.Column="1"
-                Background="{StaticResource LightColorBrush}">
-            <Border Margin="8"
-                    Background="{StaticResource GP_Logo}" />
-        </Border>
-        <TabControl Grid.Row="1"
+                Background="{StaticResource LightColorBrush}"
+                Child="{StaticResource GP_Logo}" />
+        <TabControl Grid.Row="1" views:TabControl.EnableSliding="True"
                     Grid.ColumnSpan="2"
                     Background="{StaticResource WindowBackgroundBrush}"
                     SelectedIndex="{Binding ViewIndex, Mode=OneWay}">

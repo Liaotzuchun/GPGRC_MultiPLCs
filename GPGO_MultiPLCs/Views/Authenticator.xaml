@@ -7,6 +7,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
+             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
              Foreground="{StaticResource BaseForeground}"
              IsVisibleChanged="UserControl_IsVisibleChanged"
@@ -87,11 +89,11 @@
                                                    CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseEnter">
-                            <local:SetPropertyAction PropertyName="BorderBrush"
+                            <views:SetPropertyAction PropertyName="BorderBrush"
                                                      PropertyValue="{StaticResource WorkingBorderBrush}" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
-                            <local:SetPropertyAction PropertyName="BorderBrush"
+                            <views:SetPropertyAction PropertyName="BorderBrush"
                                                      PropertyValue="{StaticResource GlyphBrush}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
@@ -124,7 +126,7 @@
             <Border Grid.Row="1"
                     Height="70"
                     Margin="10"
-                    Background="{StaticResource GP_Logo}" />
+                    Child="{StaticResource GP_Logo}" />
             <Grid Grid.Row="2"
                   Margin="8,0"
                   KeyboardNavigation.TabNavigation="Cycle"
@@ -321,7 +323,7 @@
                     </i:Interaction.Triggers>
                 </Button>
             </Grid>
-            <TabControl Grid.Row="6"
+            <TabControl Grid.Row="6" views:TabControl.EnableSliding="True"
                         Margin="8"
                         Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
                 <TabItem Height="40"
@@ -432,11 +434,11 @@
                                           IsEnabled="{Binding IsChecked, ElementName=InputTB, Converter={StaticResource BoolNot}, Mode=OneWay}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
-                                        <local:SetPropertyAction PropertyName="Content"
+                                        <views:SetPropertyAction PropertyName="Content"
                                                                  PropertyValue="{DynamicResource 套用}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="Unchecked">
-                                        <local:SetPropertyAction PropertyName="Content"
+                                        <views:SetPropertyAction PropertyName="Content"
                                                                  PropertyValue="{DynamicResource 修改}" />
                                         <i:InvokeCommandAction Command="{Binding SetPath, Mode=OneTime}"
                                                                CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
@@ -481,11 +483,11 @@
                                           IsEnabled="{Binding IsChecked, ElementName=TB, Converter={StaticResource BoolNot}, Mode=OneWay}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
-                                        <local:SetPropertyAction PropertyName="Content"
+                                        <views:SetPropertyAction PropertyName="Content"
                                                                  PropertyValue="{DynamicResource 套用}" />
                                     </i:EventTrigger>
                                     <i:EventTrigger EventName="Unchecked">
-                                        <local:SetPropertyAction PropertyName="Content"
+                                        <views:SetPropertyAction PropertyName="Content"
                                                                  PropertyValue="{DynamicResource 修改}" />
                                         <i:InvokeCommandAction Command="{Binding SetInputPath, Mode=OneTime}"
                                                                CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
@@ -523,8 +525,8 @@
                      Height="40"
                      Margin="8,0,8,8"
                      FontSize="16"
-                     ItemContainerStyle="{StaticResource ListBoxItem2}"
-                     SelectedIndex="{Binding GT.Lng, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type models:Language}, Mode=TwoWay}"
+                     ItemContainerStyle="{StaticResource ListBoxItem_Top}"
+                     SelectedIndex="{Binding GT.Lng, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type gpmodels:Language}, Mode=TwoWay}"
                      SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.Template>
                     <ControlTemplate>

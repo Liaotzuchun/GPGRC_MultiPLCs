@@ -1,4 +1,5 @@
-﻿using GPGO_MultiPLCs.Helpers;
+﻿using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {
