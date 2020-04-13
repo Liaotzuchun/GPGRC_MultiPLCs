@@ -129,11 +129,14 @@
                                     </Grid.ColumnDefinitions>
                                     <Border Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border x:Name="StatusBorder"
+                                            Grid.Column="0"
                                             Background="{StaticResource OKBrush}"
                                             Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
-                                    <Border Background="{StaticResource WorkingBrush}"
+                                    <Border Grid.Column="0"
+                                            Background="{StaticResource WorkingBrush}"
                                             Visibility="{Binding IsRecording, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     <TextBlock x:Name="TextBlock"
+                                               Grid.Column="0"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="36"
@@ -171,6 +174,7 @@
                                                                Text="{DynamicResource 財產編號}" />
                                                 </Border>
                                                 <Border Grid.Row="1"
+                                                        Grid.Column="0"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                         BorderThickness="0,1,1,0">
@@ -178,7 +182,8 @@
                                                                VerticalAlignment="Center"
                                                                Text="{DynamicResource 配方}" />
                                                 </Border>
-                                                <UniformGrid Grid.Column="1"
+                                                <UniformGrid Grid.Row="0"
+                                                             Grid.Column="1"
                                                              Rows="1">
                                                     <TextBox BorderThickness="0"
                                                              Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
@@ -252,7 +257,8 @@
                                                                VerticalAlignment="Center"
                                                                Text="{DynamicResource 操作員}" />
                                                 </Border>
-                                                <Border Grid.Column="1"
+                                                <Border Grid.Row="0"
+                                                        Grid.Column="1"
                                                         Background="{StaticResource LightColorBrush}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                         BorderThickness="0,0,1,0">
@@ -261,6 +267,7 @@
                                                                Text="{Binding OvenInfo.OperatorID, Mode=OneWay}" />
                                                 </Border>
                                                 <Border Grid.Row="1"
+                                                        Grid.Column="0"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                         BorderThickness="0,1,1,0">
@@ -278,6 +285,7 @@
                                                                Text="{Binding OvenInfo.TrolleyCode, Mode=OneWay}" />
                                                 </Border>
                                                 <Border x:Name="Border1"
+                                                        Grid.Row="0"
                                                         Grid.Column="2"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -286,7 +294,8 @@
                                                                VerticalAlignment="Center"
                                                                Text="{DynamicResource 狀態}" />
                                                 </Border>
-                                                <Border Grid.Column="3"
+                                                <Border Grid.Row="0"
+                                                        Grid.Column="3"
                                                         Background="{StaticResource LightColorBrush}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                         BorderThickness="0,0,0,0">
@@ -294,6 +303,7 @@
                                                                     ContentTemplate="{StaticResource ProgressDataTemplate}" />
                                                 </Border>
                                                 <Border Grid.Row="1"
+                                                        Grid.Column="0"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                         BorderThickness="0,1,1,0">
