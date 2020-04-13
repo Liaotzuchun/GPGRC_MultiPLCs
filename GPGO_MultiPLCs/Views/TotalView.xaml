@@ -27,6 +27,7 @@
             <Grid>
                 <ProgressBar x:Name="Progress"
                              Maximum="1"
+                             Style="{StaticResource ProgressBarNoText}"
                              Value="{Binding Progress, Mode=OneWay}" />
                 <Border Background="{StaticResource DisabledBackgroundBrush}"
                         Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
@@ -733,10 +734,10 @@
                             <GroupBox Margin="4,4,2,4"
                                       Header="{DynamicResource 配方參數}"
                                       IsHitTestVisible="False">
-                                <views:AutoGrid ClipToBounds="True"
+                                <local:AutoGrid ClipToBounds="True"
                                                 Columns="75,*,75,*,75,*,75,*"
                                                 Orientation="Vertical"
-                                                Rows="*,*,*,*,*,*,*,*,*">
+                                                RowCount="9">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
@@ -1340,15 +1341,15 @@
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
-                                </views:AutoGrid>
+                                </local:AutoGrid>
                             </GroupBox>
                             <GroupBox Grid.Column="1"
                                       Margin="2,4,4,4"
                                       Header="{DynamicResource 設備狀態}"
                                       IsHitTestVisible="False">
-                                <views:AutoGrid Columns="75,*,75,*"
+                                <local:AutoGrid Columns="75,*,75,*"
                                                 Orientation="Vertical"
-                                                Rows="*,*,*,*,*,*,*,*,*">
+                                                RowCount="9">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
@@ -1670,7 +1671,7 @@
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
-                                </views:AutoGrid>
+                                </local:AutoGrid>
                             </GroupBox>
                         </Grid>
                         <GroupBox Grid.Row="1"
@@ -2146,6 +2147,7 @@
                                         <ProgressBar x:Name="Progress"
                                                      BorderThickness="0"
                                                      Maximum="1"
+                                                     Style="{StaticResource ProgressBarNoText}"
                                                      Value="{Binding Progress, Mode=OneWay}" />
                                         <Border Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                             <Border.Background>

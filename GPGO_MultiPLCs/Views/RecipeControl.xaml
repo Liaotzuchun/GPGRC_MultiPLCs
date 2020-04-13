@@ -28,11 +28,11 @@
                          BorderThickness="1,1,1,0"
                          FontSize="16"
                          Header="{DynamicResource 目前配方}">
-                    <views:AutoGrid Columns="70,*,54,70,*,54"
+                    <local:AutoGrid Columns="70,*,54,70,*,54"
                                     DataContext="{Binding SelectedRecipe, Mode=OneWay}"
                                     IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                                     Orientation="Vertical"
-                                    Rows="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"
+                                    RowCount="18"
                                     SnapsToDevicePixels="False"
                                     TextElement.FontSize="12"
                                     TextElement.Foreground="{StaticResource BaseForeground}"
@@ -1150,7 +1150,7 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                    </views:AutoGrid>
+                    </local:AutoGrid>
                 </TabItem>
                 <TabItem Height="44"
                          BorderThickness="1,1,1,0"
@@ -1230,12 +1230,12 @@
                                            Text="{Binding SelectedHistory.Editor, Mode=OneWay}" />
                             </Border>
                         </Grid>
-                        <views:AutoGrid Grid.Row="1"
+                        <local:AutoGrid Grid.Row="1"
                                         Columns="70,*,70,*"
                                         DataContext="{Binding SelectedHistory, Mode=OneWay}"
                                         IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                                         Orientation="Vertical"
-                                        Rows="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"
+                                        RowCount="18"
                                         SnapsToDevicePixels="False"
                                         UseLayoutRounding="True">
                             <Border Grid.RowSpan="2"
@@ -1829,7 +1829,7 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                        </views:AutoGrid>
+                        </local:AutoGrid>
                     </Grid>
                 </TabItem>
             </TabControl>
