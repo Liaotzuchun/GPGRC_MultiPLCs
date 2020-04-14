@@ -2,13 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
-             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
-             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
+             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
              Foreground="{StaticResource BaseForeground}"
              IsVisibleChanged="UserControl_IsVisibleChanged"
@@ -155,7 +155,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Border Grid.Column="1"
+                <Border Grid.Row="0"
+                        Grid.Column="1"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
@@ -172,7 +173,8 @@
                                VerticalAlignment="Center"
                                Text="{DynamicResource 密碼}" />
                 </Border>
-                <UniformGrid Grid.RowSpan="2"
+                <UniformGrid Grid.Row="0"
+                             Grid.RowSpan="2"
                              Grid.Column="2"
                              Columns="1"
                              KeyboardNavigation.TabNavigation="Cycle">
@@ -187,6 +189,7 @@
                                  KeyDown="Password_KeyDown" />
                 </UniformGrid>
                 <Button x:Name="LoginButton"
+                        Grid.Row="0"
                         Grid.RowSpan="2"
                         Grid.Column="3"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -198,7 +201,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Border>
+                <Border Grid.Row="0">
                     <Border.Style>
                         <Style TargetType="Border">
                             <Setter Property="Background" Value="LightSlateGray" />
@@ -260,12 +263,14 @@
                                VerticalAlignment="Center"
                                Text="{DynamicResource 帳號}" />
                 </Border>
-                <TextBox Grid.Column="1"
+                <TextBox Grid.Row="0"
+                         Grid.Column="1"
                          BorderThickness="1,1,1,0"
                          FontSize="14"
                          GotKeyboardFocus="TextBox_GotKeyboardFocus"
                          Text="{Binding EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border Grid.Row="1"
+                        Grid.Column="0"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
@@ -280,6 +285,7 @@
                          GotKeyboardFocus="TextBox_GotKeyboardFocus"
                          Text="{Binding EditPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <Border Grid.Row="2"
+                        Grid.Column="0"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,1">
@@ -292,7 +298,8 @@
                           Grid.Column="1"
                           ItemsSource="{Binding EditLevels, Mode=OneWay}"
                           SelectedItem="{Binding EditLevel, Mode=TwoWay}" />
-                <Button Grid.RowSpan="3"
+                <Button Grid.Row="0"
+                        Grid.RowSpan="3"
                         Grid.Column="2"
                         Content="{DynamicResource 修改}"
                         IsEnabled="{Binding Update_Enable, Mode=OneWay}">
@@ -302,7 +309,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Grid.RowSpan="3"
+                <Button Grid.Row="0"
+                        Grid.RowSpan="3"
                         Grid.Column="3"
                         Content="{DynamicResource 新增}"
                         IsEnabled="{Binding Add_Enable, Mode=OneWay}">
@@ -312,7 +320,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Grid.RowSpan="3"
+                <Button Grid.Row="0"
+                        Grid.RowSpan="3"
                         Grid.Column="4"
                         Content="{DynamicResource 刪除}"
                         IsEnabled="{Binding Remove_Enable, Mode=OneWay}">
@@ -323,8 +332,9 @@
                     </i:Interaction.Triggers>
                 </Button>
             </Grid>
-            <TabControl Grid.Row="6" views:TabControl.EnableSliding="True"
+            <TabControl Grid.Row="6"
                         Margin="8"
+                        views:TabControl.EnableSliding="True"
                         Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
                 <TabItem Height="40"
                          FontSize="16"

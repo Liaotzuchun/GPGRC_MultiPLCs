@@ -85,7 +85,7 @@
                     SelectedIndex="{Binding Index, Mode=TwoWay}">
             <TabItem Width="0"
                      Height="0">
-                <Grid x:Name="MG">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="224" />
@@ -120,13 +120,12 @@
                                       d:DataContext="{d:DesignInstance models:PLC_DataProvider}"
                                       Background="{StaticResource LightColorBrush}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          MaxWidth="75" />
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition />
-                                        <ColumnDefinition Width="{Binding (FrameworkElement.ActualHeight), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                          MaxWidth="75" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Background="{StaticResource DisabledBackgroundBrush}" />
+                                    <Border Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                            Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border x:Name="StatusBorder"
                                             Grid.Column="0"
                                             Background="{StaticResource OKBrush}"
@@ -496,6 +495,7 @@
                                     <ToggleButton x:Name="ActiveToggle"
                                                   Grid.Row="0"
                                                   Grid.Column="2"
+                                                  Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                   Content="{DynamicResource 投產}"
                                                   FontSize="20"
                                                   IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
