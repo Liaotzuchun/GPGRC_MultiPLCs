@@ -98,8 +98,8 @@
                              SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid Columns="2"
-                                             Rows="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}" />
+                                <views:UniformGridWithOrientation Columns="2"
+                                                                  Rows="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
@@ -1357,7 +1357,7 @@
                                       Header="{DynamicResource 設備狀態}"
                                       IsHitTestVisible="False">
                                 <views:AutoGrid ClipToBounds="True"
-                                                Columns="75,*,75,*,75,*,75,*"
+                                                Columns="75,*,75,*"
                                                 Orientation="Vertical"
                                                 Rows="*,*,*,*,*,*,*,*,*">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
