@@ -14,7 +14,7 @@
              mc:Ignorable="d">
 
     <UserControl.Visibility>
-        <MultiBinding Converter="{StaticResource MultiAnyVisibleConverter}"
+        <MultiBinding Converter="{StaticResource MultiAnyVisible}"
                       Mode="OneWay">
             <Binding Converter="{StaticResource CountVis}"
                      Mode="OneWay"

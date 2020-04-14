@@ -143,7 +143,7 @@
                                     <TabControl Grid.Column="1"
                                                 views:TabControl.EnableSliding="True">
                                         <TabControl.SelectedIndex>
-                                            <MultiBinding Converter="{StaticResource MultiAnyTrueConverterToInt}"
+                                            <MultiBinding Converter="{StaticResource MultiAnyTrueToInt}"
                                                           Mode="OneWay">
                                                 <Binding ElementName="ActiveToggle"
                                                          Mode="OneWay"
@@ -213,7 +213,7 @@
                                                         </i:EventTrigger>
                                                     </i:Interaction.Triggers>
                                                     <ComboBox.IsEnabled>
-                                                        <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
+                                                        <MultiBinding Converter="{StaticResource MultiAllTrue}">
                                                             <Binding Converter="{StaticResource IsMoreThanValue}"
                                                                      ConverterParameter="1"
                                                                      Mode="OneWay"
@@ -500,7 +500,7 @@
                                                   FontSize="20"
                                                   IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
                                         <ToggleButton.IsEnabled>
-                                            <MultiBinding Converter="{StaticResource MultiBooleanConverter}">
+                                            <MultiBinding Converter="{StaticResource MultiAllTrue}">
                                                 <Binding Converter="{StaticResource BoolNot}"
                                                          Mode="OneWay"
                                                          Path="IsRecording" />
@@ -1856,7 +1856,7 @@
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   Style="{StaticResource SignalView}">
                                             <CheckBox.IsChecked>
-                                                <MultiBinding Converter="{StaticResource MultiAnyTrueConverter}">
+                                                <MultiBinding Converter="{StaticResource MultiAnyTrue}">
                                                     <Binding Mode="OneWay"
                                                              Path="LowTemperature" />
                                                     <Binding Mode="OneWay"
@@ -1877,7 +1877,7 @@
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   Style="{StaticResource SignalView}">
                                             <CheckBox.IsChecked>
-                                                <MultiBinding Converter="{StaticResource MultiAnyTrueConverter}">
+                                                <MultiBinding Converter="{StaticResource MultiAnyTrue}">
                                                     <Binding Mode="OneWay"
                                                              Path="CirculatingFanOverload" />
                                                     <Binding Mode="OneWay"

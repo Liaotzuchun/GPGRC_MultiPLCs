@@ -41,7 +41,7 @@
               Grid.ColumnSpan="2">
             <Border Background="#7F333333">
                 <Border.Visibility>
-                    <MultiBinding Converter="{StaticResource MultiAnyVisibleConverter}">
+                    <MultiBinding Converter="{StaticResource MultiAnyVisible}">
                         <Binding ElementName="Authenticator"
                                  Mode="OneWay"
                                  Path="Visibility" />

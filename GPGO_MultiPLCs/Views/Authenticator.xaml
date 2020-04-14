@@ -513,7 +513,7 @@
                         </Grid>
                         <Grid Grid.Row="2">
                             <Grid.IsEnabled>
-                                <MultiBinding Converter="{StaticResource MultiAnyTrueConverter}"
+                                <MultiBinding Converter="{StaticResource MultiAnyTrue}"
                                               Mode="OneWay">
                                     <Binding ElementName="TB"
                                              Mode="OneWay"
