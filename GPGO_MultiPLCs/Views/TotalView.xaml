@@ -12,7 +12,6 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-             x:Name="userControl"
              d:DataContext="{d:DesignInstance vm:TotalView_ViewModel}"
              d:DesignHeight="600"
              d:DesignWidth="800"
@@ -744,10 +743,10 @@
                             <GroupBox Margin="4,4,2,4"
                                       Header="{DynamicResource 配方參數}"
                                       IsHitTestVisible="False">
-                                <local:AutoGrid ClipToBounds="True"
+                                <views:AutoGrid ClipToBounds="True"
                                                 Columns="75,*,75,*,75,*,75,*"
                                                 Orientation="Vertical"
-                                                RowCount="9">
+                                                Rows="*,*,*,*,*,*,*,*,*">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
@@ -1351,15 +1350,16 @@
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
-                                </local:AutoGrid>
+                                </views:AutoGrid>
                             </GroupBox>
                             <GroupBox Grid.Column="1"
                                       Margin="2,4,4,4"
                                       Header="{DynamicResource 設備狀態}"
                                       IsHitTestVisible="False">
-                                <local:AutoGrid Columns="75,*,75,*"
+                                <views:AutoGrid ClipToBounds="True"
+                                                Columns="75,*,75,*,75,*,75,*"
                                                 Orientation="Vertical"
-                                                RowCount="9">
+                                                Rows="*,*,*,*,*,*,*,*,*">
                                     <Border Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
@@ -1681,7 +1681,7 @@
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
-                                </local:AutoGrid>
+                                </views:AutoGrid>
                             </GroupBox>
                         </Grid>
                         <GroupBox Grid.Row="1"

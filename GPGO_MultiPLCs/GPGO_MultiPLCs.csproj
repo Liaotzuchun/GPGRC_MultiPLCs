@@ -189,7 +189,6 @@
     <Compile Include="Views\Authenticator.xaml.cs">
       <DependentUpon>Authenticator.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\AutoGrid.cs" />
     <Compile Include="Views\GlobalDialog.xaml.cs">
       <DependentUpon>GlobalDialog.xaml</DependentUpon>
     </Compile>
@@ -327,6 +326,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
+    <Folder Include="Views\Controls\" />
     <Folder Include="Views\Resources\" />
   </ItemGroup>
   <ItemGroup>
