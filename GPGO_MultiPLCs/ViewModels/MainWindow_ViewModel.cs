@@ -9,7 +9,7 @@ namespace GPGO_MultiPLCs.ViewModels
     public class MainWindow_ViewModel : ObservableObject
     {
         public RelayCommand ClosingCommand { get; }
-        public RelayCommand LoadedCommand { get; }
+        public RelayCommand LoadedCommand  { get; }
 
         public int ViewIndex
         {

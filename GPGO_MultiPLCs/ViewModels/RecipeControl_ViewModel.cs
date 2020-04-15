@@ -45,28 +45,29 @@ namespace GPGO_MultiPLCs.ViewModels
         public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDataBase<PLC_Recipe> db_history, IDialogService dialog) : base(db, db_history, dialog)
         {
             ExprotCommand = new RelayCommand(e =>
-            {
-                var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
+                                             {
+                                                 var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
 
-                if (SavetoJson(path))
-                {
-                    dialog?.Show(new Dictionary<Language, string>{
-                                                                    { Language.TW, $"檔案已輸出至\n{path}" },
-                                                                    { Language.CHS, $"档案已输出至\n{path}" },
-                                                                    { Language.EN, $"The file has been output to\n{path}" }
-                                                                 },
-                                 TimeSpan.FromSeconds(6));
-                }
-            });
+                                                 if (SavetoJson(path))
+                                                 {
+                                                     dialog?.Show(new Dictionary<Language, string>
+                                                                  {
+                                                                      {Language.TW, $"檔案已輸出至\n{path}"},
+                                                                      {Language.CHS, $"档案已输出至\n{path}"},
+                                                                      {Language.EN, $"The file has been output to\n{path}"}
+                                                                  },
+                                                                  TimeSpan.FromSeconds(6));
+                                                 }
+                                             });
 
             ImportCommand = new RelayCommand(async e =>
                                              {
                                                  Standby = false;
 
-                                                 var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
-                                                 var files = new DirectoryInfo(path).GetFiles("*.json");
+                                                 var path    = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
+                                                 var files   = new DirectoryInfo(path).GetFiles("*.json");
                                                  var updates = 0;
-                                                 var adds = 0;
+                                                 var adds    = 0;
 
                                                  foreach (var file in files)
                                                  {
@@ -109,9 +110,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
-                                                                  { Language.TW, $"{adds}個配方已新增\n{updates}個配方已更新" },
-                                                                  { Language.CHS, $"{adds}个配方已新增\n{updates}个配方已更新" },
-                                                                  { Language.EN, $"{adds}recipe{(adds > 1 ? "s" : "")} have been added\n{updates}recipe{(updates > 1 ? "s" : "")} have been updated" }
+                                                                  {Language.TW, $"{adds}個配方已新增\n{updates}個配方已更新"},
+                                                                  {Language.CHS, $"{adds}个配方已新增\n{updates}个配方已更新"},
+                                                                  {Language.EN, $"{adds}recipe{(adds > 1 ? "s" : "")} have been added\n{updates}recipe{(updates > 1 ? "s" : "")} have been updated"}
                                                               },
                                                               TimeSpan.FromSeconds(6));
                                              });

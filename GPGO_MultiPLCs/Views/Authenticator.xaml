@@ -435,7 +435,7 @@
                                            VerticalAlignment="Center"
                                            FontFamily="Consolas"
                                            FontSize="14"
-                                           Text="{Binding GT.DataOutputPath, Mode=OneWay}" />
+                                           Text="{Binding Settings.DataOutputPath, Mode=OneWay}" />
                             </Border>
                             <ToggleButton x:Name="TB"
                                           Grid.Column="2"
@@ -483,7 +483,7 @@
                                            VerticalAlignment="Center"
                                            FontFamily="Consolas"
                                            FontSize="14"
-                                           Text="{Binding GT.DataInputPath, Mode=OneWay}" />
+                                           Text="{Binding Settings.DataInputPath, Mode=OneWay}" />
                             </Border>
                             <ToggleButton x:Name="InputTB"
                                           Grid.Column="2"
@@ -536,7 +536,7 @@
                      Margin="8,0,8,8"
                      FontSize="16"
                      ItemContainerStyle="{StaticResource ListBoxItem_Top}"
-                     SelectedIndex="{Binding GT.Lng, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type gpmodels:Language}, Mode=TwoWay}"
+                     SelectedIndex="{Binding Settings.Lng, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type gpmodels:Language}, Mode=TwoWay}"
                      SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.Template>
                     <ControlTemplate>

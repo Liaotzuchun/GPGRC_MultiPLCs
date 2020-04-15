@@ -6,31 +6,23 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>PLC基礎資料</summary>
     public abstract class PLC_Data : ObservableObject
     {
-        public TwoKeyDictionary<DataNames, int, short> D_Values;
+        public TwoKeyDictionary<DataNames, int, short>  D_Values;
         public TwoKeyDictionary<SignalNames, int, bool> M_Values;
-        public TwoKeyDictionary<DataNames, int, short> Recipe_Values;
+        public TwoKeyDictionary<DataNames, int, short>  Recipe_Values;
 
         #region 生產配方
 
         public string RecipeName
         {
-            get => new[]
-                   {
-                       Recipe_Values[DataNames.配方名稱_01],
-                       Recipe_Values[DataNames.配方名稱_02],
-                       Recipe_Values[DataNames.配方名稱_03],
-                       Recipe_Values[DataNames.配方名稱_04],
-                       Recipe_Values[DataNames.配方名稱_05],
-                       Recipe_Values[DataNames.配方名稱_06],
-                       Recipe_Values[DataNames.配方名稱_07],
-                       Recipe_Values[DataNames.配方名稱_08],
-                       Recipe_Values[DataNames.配方名稱_09],
-                       Recipe_Values[DataNames.配方名稱_10],
-                       Recipe_Values[DataNames.配方名稱_11],
-                       Recipe_Values[DataNames.配方名稱_12],
-                       Recipe_Values[DataNames.配方名稱_13]
-                   }.ASCIIfromShorts()
-                    .Trim();
+            get =>
+                new[]
+                    {
+                        Recipe_Values[DataNames.配方名稱_01], Recipe_Values[DataNames.配方名稱_02], Recipe_Values[DataNames.配方名稱_03], Recipe_Values[DataNames.配方名稱_04],
+                        Recipe_Values[DataNames.配方名稱_05], Recipe_Values[DataNames.配方名稱_06], Recipe_Values[DataNames.配方名稱_07], Recipe_Values[DataNames.配方名稱_08],
+                        Recipe_Values[DataNames.配方名稱_09], Recipe_Values[DataNames.配方名稱_10], Recipe_Values[DataNames.配方名稱_11], Recipe_Values[DataNames.配方名稱_12],
+                        Recipe_Values[DataNames.配方名稱_13]
+                    }.ASCIIfromShorts()
+                     .Trim();
             set
             {
                 if (value.Length > 26)
@@ -412,43 +404,43 @@ namespace GPGO_MultiPLCs.Models
 
         #region 警告
 
-        public bool ProgramStop => M_Values[SignalNames.程式結束];
-        public bool DoorNotClosed => M_Values[SignalNames.加熱門未關];
-        public bool EmergencyStop => M_Values[SignalNames.緊急停止];
-        public bool LowTemperature => M_Values[SignalNames.溫控器低溫異常];
-        public bool PowerInversion => M_Values[SignalNames.電源反相];
-        public bool OTP_TemperatureError => M_Values[SignalNames.OTP超溫異常];
-        public bool CirculatingFanOverload => M_Values[SignalNames.循環風車過載];
-        public bool CoolingFanAbnormal => M_Values[SignalNames.冷卻進氣風車異常];
-        public bool OverTemperatureAlarm => M_Values[SignalNames.超溫警報];
-        public bool DoorNotOpen => M_Values[SignalNames.停止後未開門];
-        public bool CirculatingFanInversion => M_Values[SignalNames.循環風車INV異常];
-        public bool InflatingTimeExceeded => M_Values[SignalNames.充氮氣逾時];
+        public bool ProgramStop                       => M_Values[SignalNames.程式結束];
+        public bool DoorNotClosed                     => M_Values[SignalNames.加熱門未關];
+        public bool EmergencyStop                     => M_Values[SignalNames.緊急停止];
+        public bool LowTemperature                    => M_Values[SignalNames.溫控器低溫異常];
+        public bool PowerInversion                    => M_Values[SignalNames.電源反相];
+        public bool OTP_TemperatureError              => M_Values[SignalNames.OTP超溫異常];
+        public bool CirculatingFanOverload            => M_Values[SignalNames.循環風車過載];
+        public bool CoolingFanAbnormal                => M_Values[SignalNames.冷卻進氣風車異常];
+        public bool OverTemperatureAlarm              => M_Values[SignalNames.超溫警報];
+        public bool DoorNotOpen                       => M_Values[SignalNames.停止後未開門];
+        public bool CirculatingFanInversion           => M_Values[SignalNames.循環風車INV異常];
+        public bool InflatingTimeExceeded             => M_Values[SignalNames.充氮氣逾時];
         public bool DoorNotClosed_AbnormalPositioning => M_Values[SignalNames.門未關定位異常];
-        public bool HeatingTimeExceeded => M_Values[SignalNames.升恆溫逾時];
+        public bool HeatingTimeExceeded               => M_Values[SignalNames.升恆溫逾時];
 
         #endregion 警告
 
         #region 機台狀態
 
-        public bool IsCooling => M_Values[SignalNames.降溫中];
-        public bool ManualMode => M_Values[SignalNames.手動模式];
-        public bool AutoMode => M_Values[SignalNames.自動模式];
-        public bool AutoMode_Stop => M_Values[SignalNames.自動停止];
-        public bool AutoMode_Start => M_Values[SignalNames.自動啟動];
-        public bool PC_InUsed => M_Values[SignalNames.PC_InUsed];
+        public bool   IsCooling             => M_Values[SignalNames.降溫中];
+        public bool   ManualMode            => M_Values[SignalNames.手動模式];
+        public bool   AutoMode              => M_Values[SignalNames.自動模式];
+        public bool   AutoMode_Stop         => M_Values[SignalNames.自動停止];
+        public bool   AutoMode_Start        => M_Values[SignalNames.自動啟動];
+        public bool   PC_InUsed             => M_Values[SignalNames.PC_InUsed];
         public double ThermostatTemperature => D_Values[DataNames.溫控器溫度] * 0.1;
-        public short OvenTemperature_1 => D_Values[DataNames.爐內溫度_1];
-        public short OvenTemperature_2 => D_Values[DataNames.爐內溫度_2];
-        public short OvenTemperature_3 => D_Values[DataNames.爐內溫度_3];
-        public short OvenTemperature_4 => D_Values[DataNames.爐內溫度_4];
-        public short OvenTemperature_5 => D_Values[DataNames.爐內溫度_5];
-        public short OvenTemperature_6 => D_Values[DataNames.爐內溫度_6];
-        public short OvenTemperature_7 => D_Values[DataNames.爐內溫度_7];
-        public short OvenTemperature_8 => D_Values[DataNames.爐內溫度_8];
-        public short Segment_RemainingTime => D_Values[DataNames.片段剩餘時間];
-        public short Total_RemainingTime => D_Values[DataNames.總剩餘時間];
-        public short CurrentSegment => D_Values[DataNames.目前段數];
+        public short  OvenTemperature_1     => D_Values[DataNames.爐內溫度_1];
+        public short  OvenTemperature_2     => D_Values[DataNames.爐內溫度_2];
+        public short  OvenTemperature_3     => D_Values[DataNames.爐內溫度_3];
+        public short  OvenTemperature_4     => D_Values[DataNames.爐內溫度_4];
+        public short  OvenTemperature_5     => D_Values[DataNames.爐內溫度_5];
+        public short  OvenTemperature_6     => D_Values[DataNames.爐內溫度_6];
+        public short  OvenTemperature_7     => D_Values[DataNames.爐內溫度_7];
+        public short  OvenTemperature_8     => D_Values[DataNames.爐內溫度_8];
+        public short  Segment_RemainingTime => D_Values[DataNames.片段剩餘時間];
+        public short  Total_RemainingTime   => D_Values[DataNames.總剩餘時間];
+        public short  CurrentSegment        => D_Values[DataNames.目前段數];
 
         #endregion 機台狀態
     }

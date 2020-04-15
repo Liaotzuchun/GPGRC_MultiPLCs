@@ -338,28 +338,28 @@ namespace GPGO_MultiPLCs.Models
 
             await OneScheduler.StartNew(() =>
                                         {
-                                            var n = TimeSpan.Zero;
+                                            var n                      = TimeSpan.Zero;
                                             var _ThermostatTemperature = ThermostatTemperature;
-                                            var _OvenTemperature_1 = OvenTemperature_1;
-                                            var _OvenTemperature_2 = OvenTemperature_2;
-                                            var _OvenTemperature_3 = OvenTemperature_3;
-                                            var _OvenTemperature_4 = OvenTemperature_4;
-                                            var _OvenTemperature_5 = OvenTemperature_5;
-                                            var _OvenTemperature_6 = OvenTemperature_6;
-                                            var _OvenTemperature_7 = OvenTemperature_7;
-                                            var _OvenTemperature_8 = OvenTemperature_8;
+                                            var _OvenTemperature_1     = OvenTemperature_1;
+                                            var _OvenTemperature_2     = OvenTemperature_2;
+                                            var _OvenTemperature_3     = OvenTemperature_3;
+                                            var _OvenTemperature_4     = OvenTemperature_4;
+                                            var _OvenTemperature_5     = OvenTemperature_5;
+                                            var _OvenTemperature_6     = OvenTemperature_6;
+                                            var _OvenTemperature_7     = OvenTemperature_7;
+                                            var _OvenTemperature_8     = OvenTemperature_8;
 
                                             while (!ct.IsCancellationRequested)
                                             {
                                                 _ThermostatTemperature = ThermostatTemperature <= 0 ? _ThermostatTemperature : ThermostatTemperature;
-                                                _OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
-                                                _OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
-                                                _OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
-                                                _OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
-                                                _OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
-                                                _OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
-                                                _OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
-                                                _OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+                                                _OvenTemperature_1     = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
+                                                _OvenTemperature_2     = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
+                                                _OvenTemperature_3     = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
+                                                _OvenTemperature_4     = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
+                                                _OvenTemperature_5     = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
+                                                _OvenTemperature_6     = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
+                                                _OvenTemperature_7     = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
+                                                _OvenTemperature_8     = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
 
                                                 if (DateTime.Now - OvenInfo.StartTime >= n)
                                                 {

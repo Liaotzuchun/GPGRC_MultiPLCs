@@ -16,10 +16,10 @@
             </ResourceDictionary.MergedDictionaries>
             <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
             <local:Connector x:Key="Connector"
-                             DataInputPath="{Binding GT.DataInputPath, Source={StaticResource AuthenticatorViewModel}}"
-                             DataOutputPath="{Binding GT.DataOutputPath, Source={StaticResource AuthenticatorViewModel}}"
-                             Language="{Binding GT.Lng, Source={StaticResource AuthenticatorViewModel}}"
-                             OvenCount="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}}"
+                             DataInputPath="{Binding Settings.DataInputPath, Source={StaticResource AuthenticatorViewModel}}"
+                             DataOutputPath="{Binding Settings.DataOutputPath, Source={StaticResource AuthenticatorViewModel}}"
+                             Language="{Binding Settings.Lng, Source={StaticResource AuthenticatorViewModel}}"
+                             OvenCount="{Binding Settings.OvenCount, Source={StaticResource AuthenticatorViewModel}}"
                              User="{Binding NowUser, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
         </ResourceDictionary>
     </Application.Resources>

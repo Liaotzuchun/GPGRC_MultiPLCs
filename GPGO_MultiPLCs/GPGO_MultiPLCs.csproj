@@ -171,7 +171,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\GlobalTempSettings.cs" />
+    <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\NamesEnum.cs" />
     <Compile Include="Models\PLC_Data.cs" />
     <Compile Include="Models\PLC_DevicesMap.cs" />

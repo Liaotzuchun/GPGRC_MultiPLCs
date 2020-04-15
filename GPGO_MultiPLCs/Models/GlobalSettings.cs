@@ -3,7 +3,7 @@
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>PC程式參數</summary>
-    public class GlobalTempSettings : RecipeFileBase<GlobalTempSettings>
+    public class GlobalSettings : RecipeFileBase<GlobalSettings>
     {
         /// <summary>前端資料輸入位置</summary>
         public string DataInputPath
@@ -32,12 +32,12 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        public GlobalTempSettings() : base("Settings")
+        public GlobalSettings() : base("Settings")
         {
-            DataInputPath = "D:\\Intput";
+            DataInputPath  = "D:\\Intput";
             DataOutputPath = "D:\\";
-            Lng = Language.TW;
-            OvenCount = 20;
+            Lng            = Language.TW;
+            OvenCount      = 20;
         }
     }
 }

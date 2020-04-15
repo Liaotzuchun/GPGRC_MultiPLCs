@@ -17,25 +17,26 @@ namespace GPGO_MultiPLCs.Models
 
     public struct RecipeValues
     {
-        public double TargetOvenTemp { get; set; }
+        public double TargetOvenTemp   { get; set; }
         public double ThermostaticTemp { get; set; }
-        public double HeatingTime { get; set; }
-        public double WarmingTime { get; set; }
+        public double HeatingTime      { get; set; }
+        public double WarmingTime      { get; set; }
     }
 
     /// <summary>機台資訊</summary>
     [BsonIgnoreExtraElements]
     public class BaseInfo : ObservableObject
     {
-        public List<RecipeValues> RecipeValues => TargetOvenTemperatures
-                                                  .Select((t, i) => new RecipeValues
-                                                  {
-                                                      TargetOvenTemp = t,
-                                                      ThermostaticTemp = ThermostaticTemperatures[i],
-                                                      HeatingTime = HeatingTimes[i],
-                                                      WarmingTime = WarmingTimes[i]
-                                                  })
-                                                  .ToList();
+        public List<RecipeValues> RecipeValues =>
+            TargetOvenTemperatures
+               .Select((t, i) => new RecipeValues
+                                 {
+                                     TargetOvenTemp   = t,
+                                     ThermostaticTemp = ThermostaticTemperatures[i],
+                                     HeatingTime      = HeatingTimes[i],
+                                     WarmingTime      = WarmingTimes[i]
+                                 })
+               .ToList();
 
         /// <summary>財產編號</summary>
         [LanguageTranslator("Asset No.", "財產編號", "财产编号")]
@@ -155,15 +156,15 @@ namespace GPGO_MultiPLCs.Models
             EventList.Clear();
             RecordTemperatures.Clear();
 
-            StartTime = new DateTime();
-            EndTime = new DateTime();
-            OperatorID = "";
+            StartTime   = new DateTime();
+            EndTime     = new DateTime();
+            OperatorID  = "";
             TrolleyCode = "";
         }
 
         public BaseInfo()
         {
-            EventList = new ObservableConcurrentCollection<LogEvent>();
+            EventList          = new ObservableConcurrentCollection<LogEvent>();
             RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
         }
     }
@@ -171,26 +172,26 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>材料生產資訊</summary>
     public class ProductInfo
     {
-        public CodeType CodeType { get; set; } = CodeType.Panel;
-        public bool FirstPanel { get; set; } = false;
-        public string OrderCode { get; set; }
-        public List<string> PanelCodes { get; set; } = new List<string>();
-        public int ProcessNumber { get; set; }
-        public string Side { get; set; } = "A";
+        public CodeType     CodeType      { get; set; } = CodeType.Panel;
+        public bool         FirstPanel    { get; set; } = false;
+        public string       OrderCode     { get; set; }
+        public List<string> PanelCodes    { get; set; } = new List<string>();
+        public int          ProcessNumber { get; set; }
+        public string       Side          { get; set; } = "A";
 
         /// <summary></summary>
         /// <param name="code">工單條碼</param>
         public ProductInfo(string code)
         {
-            var strs = code.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var strs = code.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-            OrderCode = strs.Length > 0 ? strs[0] : "";
+            OrderCode     = strs.Length > 0 ? strs[0] : "";
             ProcessNumber = strs.Length > 1 ? int.TryParse(strs[1], out var num) ? num : 0 : 0;
         }
 
         public ProductInfo(string orderCode, int processNumber)
         {
-            OrderCode = orderCode;
+            OrderCode     = orderCode;
             ProcessNumber = processNumber;
         }
     }
@@ -225,32 +226,27 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Side", "面", "面")]
         public string Side { get; set; } = "A";
 
-        public string AlarmListString()
-        {
-            return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm).Select(x => x.TagCode));
-        }
+        public string AlarmListString() { return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm).Select(x => x.TagCode)); }
 
         /// <summary>匯出成Dictionary</summary>
         /// <param name="lng">語系</param>
         /// <returns></returns>
-        public Dictionary<string, object> ToDic(Language lng)
-        {
-            return new Dictionary<string, object>
-                   {
-                       { GetType().GetProperty(nameof(AddedTime)).GetName(lng), AddedTime },
-                       { GetType().GetProperty(nameof(StationNumber)).GetName(lng), StationNumber },
-                       { GetType().GetProperty(nameof(RecipeName)).GetName(lng), RecipeName },
-                       { GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode },
-                       { GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode },
-                       { GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID },
-                       { GetType().GetProperty(nameof(TrolleyCode)).GetName(lng), TrolleyCode },
-                       { GetType().GetProperty(nameof(ProcessCount)).GetName(lng), ProcessCount },
-                       { GetType().GetProperty(nameof(Side)).GetName(lng), Side },
-                       { GetType().GetProperty(nameof(StartTime)).GetName(lng), StartTime },
-                       { GetType().GetProperty(nameof(EndTime)).GetName(lng), EndTime },
-                       { GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng), "@" }
-                   };
-        }
+        public Dictionary<string, object> ToDic(Language lng) =>
+            new Dictionary<string, object>
+            {
+                {GetType().GetProperty(nameof(AddedTime)).GetName(lng), AddedTime},
+                {GetType().GetProperty(nameof(StationNumber)).GetName(lng), StationNumber},
+                {GetType().GetProperty(nameof(RecipeName)).GetName(lng), RecipeName},
+                {GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
+                {GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
+                {GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
+                {GetType().GetProperty(nameof(TrolleyCode)).GetName(lng), TrolleyCode},
+                {GetType().GetProperty(nameof(ProcessCount)).GetName(lng), ProcessCount},
+                {GetType().GetProperty(nameof(Side)).GetName(lng), Side},
+                {GetType().GetProperty(nameof(StartTime)).GetName(lng), StartTime},
+                {GetType().GetProperty(nameof(EndTime)).GetName(lng), EndTime},
+                {GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng), "@"}
+            };
 
         /// <summary>輸出客戶指定之文字字串</summary>
         /// <returns></returns>
@@ -303,9 +299,7 @@ namespace GPGO_MultiPLCs.Models
             return stb.ToString();
         }
 
-        public ProcessInfo()
-        {
-        }
+        public ProcessInfo() {}
 
         public ProcessInfo(BaseInfo baseInfo, ProductInfo productInfo)
         {

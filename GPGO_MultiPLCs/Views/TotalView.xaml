@@ -99,7 +99,7 @@
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <views:UniformGridWithOrientation Columns="2"
-                                                                  Rows="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}" />
+                                                                  Rows="{Binding Settings.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
@@ -740,7 +740,7 @@
                                 <ColumnDefinition Width="2*" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <GroupBox Margin="4,4,2,4"
+                            <GroupBox Margin="0,4,2,4"
                                       Header="{DynamicResource 配方參數}"
                                       IsHitTestVisible="False">
                                 <Grid ClipToBounds="True">
@@ -1515,7 +1515,7 @@
                                 </Grid>
                             </GroupBox>
                             <GroupBox Grid.Column="1"
-                                      Margin="2,4,4,4"
+                                      Margin="2,4,0,4"
                                       Header="{DynamicResource 設備狀態}"
                                       IsHitTestVisible="False">
                                 <Grid ClipToBounds="True">
@@ -1933,7 +1933,7 @@
                             </GroupBox>
                         </Grid>
                         <GroupBox Grid.Row="1"
-                                  Margin="4,0,4,4">
+                                  Margin="0,0,0,4">
                             <GroupBox.Header>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -2258,7 +2258,7 @@
                         </GroupBox>
                     </Grid>
                     <Grid Grid.Row="1"
-                          Margin="4,0,4,4">
+                          Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition />
@@ -2285,7 +2285,7 @@
                             </ListBox.Template>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <views:UniformGridWithOrientation Columns="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
+                                    <views:UniformGridWithOrientation Columns="{Binding Settings.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
                                                                       Orientation="Vertical"
                                                                       Rows="2" />
                                 </ItemsPanelTemplate>

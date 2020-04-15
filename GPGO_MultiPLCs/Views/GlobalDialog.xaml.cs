@@ -17,14 +17,8 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            Keyboard.ClearFocus();
-        }
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) { Keyboard.ClearFocus(); }
 
-        public GlobalDialog()
-        {
-            InitializeComponent();
-        }
+        public GlobalDialog() { InitializeComponent(); }
     }
 }

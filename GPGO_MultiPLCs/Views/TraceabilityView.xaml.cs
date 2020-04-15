@@ -7,10 +7,7 @@ namespace GPGO_MultiPLCs.Views
     /// <summary>TraceabilityView.xaml 的互動邏輯</summary>
     public partial class TraceabilityView : UserControl
     {
-        private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
-        {
-            Keyboard.ClearFocus();
-        }
+        private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e) { Keyboard.ClearFocus(); }
 
         private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
@@ -20,9 +17,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        public TraceabilityView()
-        {
-            InitializeComponent();
-        }
+        public TraceabilityView() { InitializeComponent(); }
     }
 }

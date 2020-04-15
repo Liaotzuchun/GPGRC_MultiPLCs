@@ -399,7 +399,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                Index = o is int i ? i : 0;
                                            });
 
-            PLC_All = new PLC_DataProvider[PLC_Count];
+            PLC_All         = new PLC_DataProvider[PLC_Count];
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
 
             //!當各PLC產量變更時更新總量顯示
@@ -428,9 +428,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     {
                                                         dialog?.Show(new Dictionary<Language, string>
                                                                      {
-                                                                         { Language.TW, $"第{index + 1}站已取消烘烤！" },
-                                                                         { Language.CHS, $"第{index + 1}站已取消烘烤！" },
-                                                                         { Language.EN, $"Oven No{index + 1}has been canceled!" }
+                                                                         {Language.TW, $"第{index + 1}站已取消烘烤！"},
+                                                                         {Language.CHS, $"第{index + 1}站已取消烘烤！"},
+                                                                         {Language.EN, $"Oven No{index + 1}has been canceled!"}
                                                                      },
                                                                      TimeSpan.FromSeconds(2));
                                                     }
@@ -447,9 +447,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                         //!完成上傳後，清空生產資訊
                                                         dialog?.Show(new Dictionary<Language, string>
                                                                      {
-                                                                         { Language.TW, $"第{index + 1}站已完成烘烤！" },
-                                                                         { Language.CHS, $"第{index + 1}站已完成烘烤！" },
-                                                                         { Language.EN, $"Oven No{index + 1}has been finished!" }
+                                                                         {Language.TW, $"第{index + 1}站已完成烘烤！"},
+                                                                         {Language.CHS, $"第{index + 1}站已完成烘烤！"},
+                                                                         {Language.EN, $"Oven No{index + 1}has been finished!"}
                                                                      },
                                                                      TimeSpan.FromSeconds(2));
                                                     }
@@ -483,9 +483,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                {
                                                    dialog?.Show(new Dictionary<Language, string>
                                                                 {
-                                                                    { Language.TW, $"第{index + 1}站配方輸入錯誤！" },
-                                                                    { Language.CHS, $"第{index + 1}站配方输入错误！" },
-                                                                    { Language.EN, $"Oven No{index + 1} recipe input error!" }
+                                                                    {Language.TW, $"第{index + 1}站配方輸入錯誤！"},
+                                                                    {Language.CHS, $"第{index + 1}站配方输入错误！"},
+                                                                    {Language.EN, $"Oven No{index + 1} recipe input error!"}
                                                                 },
                                                                 TimeSpan.FromSeconds(1),
                                                                 DialogMsgType.Alarm);
