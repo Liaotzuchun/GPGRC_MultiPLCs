@@ -24,7 +24,6 @@
     </i:Interaction.Triggers>
 
     <UserControl.Resources>
-        <local:TimespanToDouble x:Key="TimespanToDouble" />
         <models:EventTypeToColor x:Key="EventTypeToColor" />
         <Style x:Key="ColumnFilterStyle"
                TargetType="DataGridColumnHeader">
@@ -677,7 +676,7 @@
                                                     TextOrientation="Horizontal"
                                                     TextVerticalAlignment="Bottom"
                                                     Type="Vertical"
-                                                    X="{Binding (models:LogEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
+                                                    X="{Binding (models:LogEvent.Time).TotalSeconds, Mode=OneWay}"
                                                     Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">
                                     <oxy:LineAnnotation.Text>
                                         <MultiBinding StringFormat="{}{0} ({1})">
@@ -930,7 +929,7 @@
                                         </Border>
                                     </Border>
                                     <Popup.VerticalOffset>
-                                        <MultiBinding Converter="{StaticResource SumValueConverter}">
+                                        <MultiBinding Converter="{StaticResource SumValues}">
                                             <Binding Converter="{StaticResource RatioValue}"
                                                      ConverterParameter="0.5"
                                                      ElementName="Border"
@@ -1089,7 +1088,7 @@
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                     <Popup.VerticalOffset>
-                                        <MultiBinding Converter="{StaticResource SumValueConverter}">
+                                        <MultiBinding Converter="{StaticResource SumValues}">
                                             <Binding Converter="{StaticResource RatioValue}"
                                                      ConverterParameter="0.5"
                                                      ElementName="ItemsControl"

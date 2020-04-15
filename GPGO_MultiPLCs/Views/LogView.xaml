@@ -571,7 +571,7 @@
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center">
                         <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource SubTimespanConverter}">
+                            <MultiBinding Converter="{StaticResource SubTimespan}">
                                 <Binding ElementName="dg2"
                                          Mode="OneWay"
                                          Path="SelectedItem.(models:LogEvent.AddedTime)" />

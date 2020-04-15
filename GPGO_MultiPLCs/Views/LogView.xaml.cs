@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace GPGO_MultiPLCs.Views
 {
     /// <summary>LogView.xaml 的互動邏輯</summary>
-    public partial class LogView : UserControl
+    public partial class LogView
     {
         private void dg1_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {

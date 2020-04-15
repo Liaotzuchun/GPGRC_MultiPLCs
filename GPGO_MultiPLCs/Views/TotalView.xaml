@@ -19,7 +19,6 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <local:TimespanToDouble x:Key="TimespanToDouble" />
         <models:EventTypeToColor x:Key="EventTypeToColor" />
         <DataTemplate x:Key="ProgressDataTemplate"
                       DataType="models:PLC_DataProvider">
@@ -98,8 +97,37 @@
                              SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <views:UniformGridWithOrientation Columns="2"
-                                                                  Rows="{Binding Settings.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}" />
+                                <views:UniformGridWithOrientation x:Name="UniformGridWithOrientation">
+                                    <views:UniformGridWithOrientation.Columns>
+                                        <MultiBinding Converter="{StaticResource IfElse}">
+                                            <Binding Converter="{StaticResource IsLessThanValue}"
+                                                     ConverterParameter="10"
+                                                     Mode="OneWay"
+                                                     Path="Settings.OvenCount"
+                                                     Source="{StaticResource AuthenticatorViewModel}" />
+                                            <Binding>
+                                                <Binding.Source>
+                                                    <system:Int32>1</system:Int32>
+                                                </Binding.Source>
+                                            </Binding>
+                                            <Binding>
+                                                <Binding.Source>
+                                                    <system:Int32>2</system:Int32>
+                                                </Binding.Source>
+                                            </Binding>
+                                        </MultiBinding>
+                                    </views:UniformGridWithOrientation.Columns>
+                                    <views:UniformGridWithOrientation.Rows>
+                                        <MultiBinding Converter="{StaticResource DivideInts}">
+                                            <Binding Mode="OneWay"
+                                                     Path="Settings.OvenCount"
+                                                     Source="{StaticResource AuthenticatorViewModel}" />
+                                            <Binding ElementName="UniformGridWithOrientation"
+                                                     Mode="OneWay"
+                                                     Path="Columns" />
+                                        </MultiBinding>
+                                    </views:UniformGridWithOrientation.Rows>
+                                </views:UniformGridWithOrientation>
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
@@ -125,6 +153,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Border Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                            MaxWidth="100"
                                             Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border x:Name="StatusBorder"
                                             Grid.Column="0"
@@ -475,7 +504,7 @@
                                                                 </DataGrid>
                                                             </Border>
                                                             <Popup.VerticalOffset>
-                                                                <MultiBinding Converter="{StaticResource SumValueConverter}">
+                                                                <MultiBinding Converter="{StaticResource SumValues}">
                                                                     <Binding Converter="{StaticResource RatioValue}"
                                                                              ConverterParameter="0.5"
                                                                              ElementName="Border"
@@ -496,6 +525,7 @@
                                                   Grid.Row="0"
                                                   Grid.Column="2"
                                                   Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                                                  MaxWidth="100"
                                                   Content="{DynamicResource 投產}"
                                                   FontSize="20"
                                                   IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
@@ -2221,7 +2251,7 @@
                                                             TextOrientation="Horizontal"
                                                             TextVerticalAlignment="Bottom"
                                                             Type="Vertical"
-                                                            X="{Binding (models:LogEvent.Time), Converter={StaticResource TimespanToDouble}, Mode=OneWay}"
+                                                            X="{Binding (models:LogEvent.Time).TotalSeconds, Mode=OneWay}"
                                                             Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">
                                             <oxy:LineAnnotation.Text>
                                                 <MultiBinding StringFormat="{}{0} ({1})">

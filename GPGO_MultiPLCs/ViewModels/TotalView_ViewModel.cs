@@ -54,6 +54,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                       }
                                       catch (Exception)
                                       {
+                                          // ignored
                                       }
                                   },
                                   (index, val));
@@ -76,6 +77,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                       }
                                       catch (Exception)
                                       {
+                                          // ignored
                                       }
                                   },
                                   (index, val));
@@ -202,6 +204,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch
                 {
+                    // ignored
                 }
             }
 
@@ -229,6 +232,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
                 catch
                 {
+                    // ignored
                 }
             }
 
@@ -247,6 +251,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -259,6 +264,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
             catch
             {
+                // ignored
             }
         }
 

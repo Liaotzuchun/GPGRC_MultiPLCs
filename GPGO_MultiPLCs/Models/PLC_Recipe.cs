@@ -911,6 +911,6 @@ namespace GPGO_MultiPLCs.Models
             Used_Stations             = new bool[20];
         }
 
-        public PLC_Recipe() : base() => Used_Stations = new bool[20];
+        public PLC_Recipe() => Used_Stations = new bool[20];
     }
 }
