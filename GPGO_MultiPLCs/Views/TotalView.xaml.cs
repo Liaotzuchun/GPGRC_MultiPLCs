@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace GPGO_MultiPLCs.Views
 {
     /// <summary>TotalView.xaml 的互動邏輯</summary>
-    public partial class TotalView : UserControl
+    public partial class TotalView
     {
         private void CB_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((ComboBox)sender).Text = ""; }
 

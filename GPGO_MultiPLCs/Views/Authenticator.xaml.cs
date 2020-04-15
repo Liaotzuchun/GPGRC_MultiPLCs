@@ -10,7 +10,7 @@ using System.Windows.Input;
 namespace GPGO_MultiPLCs.Views
 {
     /// <summary>Authenticator.xaml 的互動邏輯</summary>
-    public partial class Authenticator : UserControl
+    public partial class Authenticator
     {
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -96,6 +96,7 @@ namespace GPGO_MultiPLCs.Views
                 }
                 catch
                 {
+                    // ignored
                 }
             }
         }

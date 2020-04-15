@@ -536,7 +536,7 @@
                      Margin="8,0,8,8"
                      FontSize="16"
                      ItemContainerStyle="{StaticResource ListBoxItem_Top}"
-                     SelectedIndex="{Binding Settings.Lng, Converter={StaticResource EnumToIntConverter}, ConverterParameter={x:Type gpmodels:Language}, Mode=TwoWay}"
+                     SelectedIndex="{Binding Settings.Lng, Converter={StaticResource EnumToInt}, ConverterParameter={x:Type gpmodels:Language}, Mode=TwoWay}"
                      SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.Template>
                     <ControlTemplate>
