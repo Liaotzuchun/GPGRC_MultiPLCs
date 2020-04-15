@@ -15,8 +15,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GPMVVM.Models;
 
-//using Newtonsoft.Json;
-
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>生產紀錄追蹤</summary>
