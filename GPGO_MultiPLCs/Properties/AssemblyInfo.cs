@@ -29,12 +29,12 @@ using System.Windows;
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, //主題特定資源字典的位置
-    //(在頁面中找不到時使用，
-    // 或應用程式資源字典中找不到資源時)
-    ResourceDictionaryLocation.SourceAssembly //泛型資源字典的位置
-    //(在頁面中找不到時使用，
-    // 或是應用程式或任何主題特定資源字典中找不到資源時)
-)]
+                     //(在頁面中找不到時使用，
+                     // 或應用程式資源字典中找不到資源時)
+                     ResourceDictionaryLocation.SourceAssembly //泛型資源字典的位置
+                     //(在頁面中找不到時使用，
+                     // 或是應用程式或任何主題特定資源字典中找不到資源時)
+                    )]
 
 // 組件的版本資訊由下列四個值所組成: 
 //
@@ -46,5 +46,5 @@ using System.Windows;
 // 您可以指定所有的值，或將組建編號或修訂編號設為預設值
 // 指定為預設值: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.19.6.1")]
-[assembly: AssemblyFileVersion("1.19.6.1")]
+[assembly: AssemblyVersion("1.20.4.2")]
+[assembly: AssemblyFileVersion("1.20.4.2")]

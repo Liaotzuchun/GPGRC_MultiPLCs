@@ -1,31 +1,50 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using GPGO_MultiPLCs.Models;
-using Serilog;
+﻿using GPGO_MultiPLCs.Models;
+using GPMVVM.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using User = GPGO_MultiPLCs.Models.User;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>提供身分驗證登入和系統設定</summary>
     public class Authenticator_ViewModel : ObservableObject
     {
-        private const string UsersPath = "Users.json";
+        private class Users : RecipeFileBase<Users>
+        {
+            public List<User> List
+            {
+                get => Get<List<User>>();
+                set => Set(value);
+            }
+
+            public Users() : base("Users") => List = new List<User>();
+        }
 
         /// <summary>最高權限帳號</summary>
-        private readonly User GP = new User { Name = "GP", Password = "23555277", Level = User.UserLevel.S };
+        private readonly User GP = new User
+                                   {
+                                       Name     = "GP",
+                                       Password = "23555277",
+                                       Level    = User.UserLevel.S
+                                   };
 
         /// <summary>最低權限帳號，訪客</summary>
-        private readonly User Guest = new User { Name = "", Password = "", Level = User.UserLevel.Guest };
+        private readonly User Guest = new User
+                                      {
+                                          Name     = "Guest",
+                                          Password = "",
+                                          Level    = User.UserLevel.Guest
+                                      };
 
         /// <summary>所有權限階級</summary>
-        private readonly User.UserLevel[] Levels = { User.UserLevel.S, User.UserLevel.Administrator, User.UserLevel.Manager, User.UserLevel.Operator };
+        private readonly User.UserLevel[] Levels = {User.UserLevel.S, User.UserLevel.Administrator, User.UserLevel.Manager, User.UserLevel.Operator};
 
         /// <summary>所有使用者列表</summary>
-        private List<User> Users;
+        private readonly Users UserList;
 
         /// <summary>新增使用者帳號</summary>
         public RelayCommand AddUser { get; }
@@ -37,7 +56,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand ExitLog { get; }
 
         /// <summary>系統參數</summary>
-        public GlobalTempSettings GT { get; }
+        public GlobalSettings Settings { get; }
 
         /// <summary>登入使用者</summary>
         public CommandWithResult<bool> Login { get; }
@@ -61,7 +80,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand UpdateUser { get; }
 
         /// <summary>依據權限過濾顯示的使用者列表</summary>
-        public List<User> ViewUsers => Users?.Where(x => x.Level < NowUser.Level).OrderByDescending(x => x.Level).ThenByDescending(x => x.LastLoginTime).ToList();
+        public List<User> ViewUsers => UserList.List.Where(x => x.Level < NowUser.Level).OrderByDescending(x => x.Level).ThenByDescending(x => x.LastLoginTime).ToList();
 
         /// <summary>辨別是否可新增使用者</summary>
         public bool Add_Enable
@@ -144,16 +163,16 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (value == null)
                 {
-                    Set("", nameof(EditName));
-                    Set("", nameof(EditPassword));
+                    Set("",                      nameof(EditName));
+                    Set("",                      nameof(EditPassword));
                     Set(User.UserLevel.Operator, nameof(EditLevel));
                 }
                 else
                 {
                     var user = SelectedUser;
-                    Set(user.Name, nameof(EditName));
+                    Set(user.Name,     nameof(EditName));
                     Set(user.Password, nameof(EditPassword));
-                    Set(user.Level, nameof(EditLevel));
+                    Set(user.Level,    nameof(EditLevel));
                 }
 
                 CheckEnable();
@@ -184,78 +203,37 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Update_Enable = false;
                 Remove_Enable = false;
-                Add_Enable = false;
+                Add_Enable    = false;
             }
             else
             {
                 Update_Enable = ViewUsers.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && (x.Password != EditPassword || x.Level != EditLevel));
                 Remove_Enable = ViewUsers.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase) && x.Password == EditPassword && x.Level == EditLevel);
-                Add_Enable = !Users.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
-            }
-        }
-
-        /// <summary>讀取所有使用者列表</summary>
-        public void LoadUsers()
-        {
-            if (File.Exists(UsersPath))
-            {
-                try
-                {
-                    if (UsersPath.ReadFromJsonFile<List<User>>() is List<User> val)
-                    {
-                        Users = val;
-                    }
-                    else
-                    {
-                        Users = new List<User>();
-                        File.Move(UsersPath, $"Users{DateTime.Now.Ticks}.back");
-                        SaveUsers();
-                    }
-                }
-                catch
-                {
-                    Users = new List<User>();
-                    File.Move(UsersPath, $"Users{DateTime.Now.Ticks}.back");
-                    SaveUsers();
-                }
-            }
-            else
-            {
-                Users = new List<User>();
-                SaveUsers();
-            }
-        }
-
-        /// <summary>儲存使用者列表</summary>
-        public void SaveUsers()
-        {
-            try
-            {
-                Users?.WriteToJsonFile(UsersPath);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "");
+                Add_Enable    = !UserList.List.Exists(x => string.Equals(x.Name, EditName, StringComparison.CurrentCultureIgnoreCase));
             }
         }
 
         public Authenticator_ViewModel()
         {
             IsShown = Visibility.Collapsed;
-            LoadUsers();
 
-            NowUser = Users.Where(x => x.Level < User.UserLevel.Manager && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+            UserList = new Users();
+            UserList.Load(false);
+            UserList.RegisterChanged();
 
-            GT = new GlobalTempSettings();
-            GT.Load();
+            NowUser = UserList.List.Where(x => x.Level < User.UserLevel.Manager && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+
+            Settings = new GlobalSettings();
+            Settings.Load(false);
+            Settings.RegisterChanged();
 
             UpdateUser = new RelayCommand(e =>
                                           {
                                               if (Update_Enable && SelectedUser != null)
                                               {
                                                   SelectedUser.Password = EditPassword;
-                                                  SelectedUser.Level = EditLevel;
-                                                  SaveUsers();
+                                                  SelectedUser.Level    = EditLevel;
+                                                  UserList.Save();
                                               }
                                           });
 
@@ -263,10 +241,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                        {
                                            if (Add_Enable)
                                            {
-                                               Users.Add(new User { Name = EditName, Password = EditPassword, Level = EditLevel, CreatedTime = DateTime.Now });
+                                               UserList.List.Add(new User
+                                                                 {
+                                                                     Name        = EditName,
+                                                                     Password    = EditPassword,
+                                                                     Level       = EditLevel,
+                                                                     CreatedTime = DateTime.Now
+                                                                 });
                                                NotifyPropertyChanged(nameof(ViewUsers));
                                                NotifyPropertyChanged(nameof(Add_Enable));
-                                               SaveUsers();
+                                               UserList.Save();
                                            }
                                        });
 
@@ -274,16 +258,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                           {
                                               if (Remove_Enable)
                                               {
-                                                  Users.RemoveAll(x => x.Name == EditName);
+                                                  UserList.List.RemoveAll(x => x.Name == EditName);
                                                   NotifyPropertyChanged(nameof(ViewUsers));
                                                   NotifyPropertyChanged(nameof(Remove_Enable));
-                                                  SaveUsers();
+                                                  UserList.Save();
                                               }
                                           });
 
             Login = new CommandWithResult<bool>(e =>
                                                 {
-                                                    LoadUsers();
+                                                    UserList.Load(true);
 
                                                     if (e is PasswordBox password)
                                                     {
@@ -298,11 +282,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                             return true;
                                                         }
 
-                                                        if (Users != null && Users.Find(x => x.Name == TypedName && x.Password == pass) is User _user)
+                                                        if (UserList.List.Find(x => x.Name == TypedName && x.Password == pass) is User _user)
                                                         {
                                                             _user.LastLoginTime = DateTime.Now;
-                                                            NowUser = _user;
-                                                            SaveUsers();
+                                                            NowUser             = _user;
+                                                            UserList.Save();
 
                                                             return true;
                                                         }
@@ -312,13 +296,15 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                     return false;
                                                 })
-            { Result = true };
+                    {
+                        Result = true
+                    };
 
             Logout = new RelayCommand(e =>
                                       {
                                           Login.Result = true;
-                                          TypedName = "";
-                                          NowUser = Guest;
+                                          TypedName    = "";
+                                          NowUser      = Guest;
 
                                           if (e is PasswordBox password)
                                           {
@@ -329,9 +315,9 @@ namespace GPGO_MultiPLCs.ViewModels
             StartLog = new RelayCommand(e =>
                                         {
                                             Login.Result = true;
-                                            TypedName = NowUser.Name;
+                                            TypedName    = NowUser.Name;
                                             SelectedUser = null;
-                                            IsShown = Visibility.Visible;
+                                            IsShown      = Visibility.Visible;
 
                                             if (e is PasswordBox password)
                                             {
@@ -342,7 +328,7 @@ namespace GPGO_MultiPLCs.ViewModels
             ExitLog = new RelayCommand(e =>
                                        {
                                            Login.Result = true;
-                                           IsShown = Visibility.Collapsed;
+                                           IsShown      = Visibility.Collapsed;
 
                                            if (e is PasswordBox password)
                                            {
@@ -354,7 +340,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                             {
                                                 if (e is string str && Directory.Exists(str))
                                                 {
-                                                    GT.DataInputPath = str;
+                                                    Settings.DataInputPath = str;
                                                 }
                                             });
 
@@ -362,7 +348,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                        {
                                            if (e is string str && Directory.Exists(str))
                                            {
-                                               GT.DataOutputPath = str;
+                                               Settings.DataOutputPath = str;
                                            }
                                        });
         }

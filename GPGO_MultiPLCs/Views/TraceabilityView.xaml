@@ -10,6 +10,8 @@
              xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
+             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              d:DataContext="{d:DesignInstance vm:TraceabilityView_ViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -22,6 +24,7 @@
     </i:Interaction.Triggers>
 
     <UserControl.Resources>
+        <local:TimespanToDouble x:Key="TimespanToDouble" />
         <models:EventTypeToColor x:Key="EventTypeToColor" />
         <Style x:Key="ColumnFilterStyle"
                TargetType="DataGridColumnHeader">
@@ -40,20 +43,20 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <local:FilterGroupProxy x:Key="OvenFilterData"
+        <views:FilterGroupProxy x:Key="OvenFilterData"
                                 Data="{Binding OvenFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy x:Key="RecipeFilterData"
+        <views:FilterGroupProxy x:Key="RecipeFilterData"
                                 Data="{Binding RecipeFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy x:Key="OrderFilterData"
+        <views:FilterGroupProxy x:Key="OrderFilterData"
                                 Data="{Binding OrderFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy x:Key="OpFilterData"
+        <views:FilterGroupProxy x:Key="OpFilterData"
                                 Data="{Binding OpFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy x:Key="TrolleyFilterData"
+        <views:FilterGroupProxy x:Key="TrolleyFilterData"
                                 Data="{Binding TrolleyFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy x:Key="SideFilterData"
+        <views:FilterGroupProxy x:Key="SideFilterData"
                                 Data="{Binding SideFilter, Mode=OneWay}" />
         <DataTemplate x:Key="EqualFilterTemplate"
-                      DataType="models:EqualFilter">
+                      DataType="gpmodels:EqualFilter">
             <MenuItem Header="{Binding Value, Mode=OneWay}"
                       IsCheckable="True"
                       IsChecked="{Binding IsEnabled, Mode=TwoWay}"
@@ -69,7 +72,7 @@
                                       SubmenuClosed="MenuItem_SubmenuClosed">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding Content.(local:FilterGroupProxy.Data).AllCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                        <i:InvokeCommandAction Command="{Binding Content.(views:FilterGroupProxy.Data).AllCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <MenuItem.Header>
@@ -96,7 +99,7 @@
                                                        Fill="Cyan"
                                                        Stroke="{StaticResource PressedBrush}"
                                                        StrokeThickness="1"
-                                                       Visibility="{Binding Content.(local:FilterGroupProxy.Data).AllCommand.Result, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                       Visibility="{Binding Content.(views:FilterGroupProxy.Data).AllCommand.Result, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                         </Grid>
                                     </Border>
                                 </MenuItem.Header>
@@ -104,9 +107,9 @@
                                     <CompositeCollection>
                                         <MenuItem x:Name="MenuItem"
                                                   BorderThickness="0,0,0,1"
-                                                  Command="{Binding Content.(local:FilterGroupProxy.Data).AllCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                  Command="{Binding Content.(views:FilterGroupProxy.Data).AllCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                   Header="{DynamicResource 全部}"
-                                                  Tag="{Binding Content.(local:FilterGroupProxy.Data).Filter, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                                  Tag="{Binding Content.(views:FilterGroupProxy.Data).Filter, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
                                         <!--  此處因不在相同的VisualTree，因此必須使用x:Reference而不能指定ElementName  -->
                                         <CollectionContainer Collection="{Binding Tag, Source={x:Reference MenuItem}, Mode=OneWay}" />
                                     </CompositeCollection>
@@ -288,7 +291,7 @@
                     Background="{StaticResource LightColorBrush}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,0,1">
-                <local:RangeSlider x:Name="RS"
+                <views:RangeSlider x:Name="RS"
                                    Margin="4,0"
                                    VerticalAlignment="Center"
                                    IsEnabled="{Binding Results, Converter={StaticResource IsNotNull}, Mode=OneWay}"
@@ -498,7 +501,7 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:LogEvent">
-                                            <TextBlock Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
+                                            <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
                                                        TextTrimming="CharacterEllipsis" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -678,7 +681,7 @@
                                                     Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">
                                     <oxy:LineAnnotation.Text>
                                         <MultiBinding StringFormat="{}{0} ({1})">
-                                            <Binding Converter="{local:StringToResource}"
+                                            <Binding Converter="{views:StringToResource}"
                                                      Mode="OneWay"
                                                      Path="(models:LogEvent.Description)" />
                                             <Binding Converter="{StaticResource BoolOnOff}"
@@ -770,12 +773,12 @@
                                        PopupAnimation="Fade">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseLeave">
-                                            <local:SetPropertyAction PropertyName="IsChecked"
+                                            <views:SetPropertyAction PropertyName="IsChecked"
                                                                      TargetObject="{Binding ElementName=ToggleButton, Mode=OneTime}">
-                                                <local:SetPropertyAction.PropertyValue>
+                                                <views:SetPropertyAction.PropertyValue>
                                                     <system:Boolean>False</system:Boolean>
-                                                </local:SetPropertyAction.PropertyValue>
-                                            </local:SetPropertyAction>
+                                                </views:SetPropertyAction.PropertyValue>
+                                            </views:SetPropertyAction>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <Border x:Name="Border"
@@ -852,7 +855,7 @@
                                                     </ItemsControl.Template>
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
-                                                            <local:UniformGridWithOrientation Columns="1"
+                                                            <views:UniformGridWithOrientation Columns="1"
                                                                                               Orientation="Vertical" />
                                                         </ItemsPanelTemplate>
                                                     </ItemsControl.ItemsPanel>
@@ -1021,12 +1024,12 @@
                                        PopupAnimation="Fade">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="MouseLeave">
-                                            <local:SetPropertyAction PropertyName="IsChecked"
+                                            <views:SetPropertyAction PropertyName="IsChecked"
                                                                      TargetObject="{Binding ElementName=ToggleButton, Mode=OneTime}">
-                                                <local:SetPropertyAction.PropertyValue>
+                                                <views:SetPropertyAction.PropertyValue>
                                                     <system:Boolean>False</system:Boolean>
-                                                </local:SetPropertyAction.PropertyValue>
-                                            </local:SetPropertyAction>
+                                                </views:SetPropertyAction.PropertyValue>
+                                            </views:SetPropertyAction>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <ItemsControl x:Name="ItemsControl"
@@ -1051,7 +1054,7 @@
                                         </ItemsControl.Template>
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <local:UniformGridWithOrientation Orientation="Vertical"
+                                                <views:UniformGridWithOrientation Orientation="Vertical"
                                                                                   Rows="10" />
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
@@ -1154,7 +1157,7 @@
                 </Grid.ColumnDefinitions>
                 <ListBox Grid.Column="1"
                          FontSize="16"
-                         ItemContainerStyle="{StaticResource ListBoxItem2}"
+                         ItemContainerStyle="{StaticResource ListBoxItem_Top}"
                          SelectedIndex="{Binding Mode, Mode=TwoWay}">
                     <ListBox.Template>
                         <ControlTemplate>

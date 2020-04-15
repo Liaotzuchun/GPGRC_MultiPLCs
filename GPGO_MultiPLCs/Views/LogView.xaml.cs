@@ -23,14 +23,8 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e)
-        {
-            Keyboard.ClearFocus();
-        }
+        private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e) { Keyboard.ClearFocus(); }
 
-        public LogView()
-        {
-            InitializeComponent();
-        }
+        public LogView() { InitializeComponent(); }
     }
 }

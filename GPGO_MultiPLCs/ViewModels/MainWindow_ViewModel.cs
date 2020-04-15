@@ -1,7 +1,7 @@
-﻿using GPGO_MultiPLCs.Models;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows.Threading;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -9,7 +9,7 @@ namespace GPGO_MultiPLCs.ViewModels
     public class MainWindow_ViewModel : ObservableObject
     {
         public RelayCommand ClosingCommand { get; }
-        public RelayCommand LoadedCommand { get; }
+        public RelayCommand LoadedCommand  { get; }
 
         public int ViewIndex
         {

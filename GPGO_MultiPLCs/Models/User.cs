@@ -1,4 +1,5 @@
 ﻿using System;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -8,11 +9,11 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>使用者階層</summary>
         public enum UserLevel
         {
-            Guest, //Guest
-            Operator, //Operator
-            Manager, //Manager
+            Guest,         //Guest
+            Operator,      //Operator
+            Manager,       //Manager
             Administrator, //Administrator
-            S //GP
+            S              //GP
         }
 
         /// <summary>創建時間</summary>

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:RecipeControl_ViewModel}"
              d:DesignHeight="450"
@@ -22,21 +23,48 @@
         <GroupBox Margin="0,0,4,0"
                   Background="{StaticResource WindowBackgroundBrush3}"
                   IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-            <TabControl x:Name="TC">
+            <TabControl x:Name="TC"
+                        views:TabControl.EnableSliding="True">
                 <TabItem Height="44"
                          BorderThickness="1,1,1,0"
                          FontSize="16"
                          Header="{DynamicResource 目前配方}">
-                    <local:AutoGrid Columns="70,*,54,70,*,54"
-                                    DataContext="{Binding Selected_Recipe, Mode=OneWay}"
-                                    IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
-                                    Orientation="Vertical"
-                                    RowCount="18"
-                                    SnapsToDevicePixels="False"
-                                    TextElement.FontSize="12"
-                                    TextElement.Foreground="{StaticResource BaseForeground}"
-                                    UseLayoutRounding="True">
-                        <Border Grid.RowSpan="2"
+                    <Grid ClipToBounds="True"
+                          DataContext="{Binding SelectedRecipe, Mode=OneWay}"
+                          IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                          TextElement.FontSize="12"
+                          TextElement.Foreground="{StaticResource BaseForeground}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="54" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="54" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
@@ -44,7 +72,9 @@
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource 使用段數}" />
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="2"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -53,7 +83,9 @@
                                 <Run Text="1" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="3"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -62,7 +94,9 @@
                                 <Run Text="2" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="4"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -71,7 +105,9 @@
                                 <Run Text="3" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="5"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -80,7 +116,9 @@
                                 <Run Text="4" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="6"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -89,7 +127,9 @@
                                 <Run Text="5" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="7"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -98,7 +138,9 @@
                                 <Run Text="6" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="8"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -107,7 +149,9 @@
                                 <Run Text="7" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="9"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -116,7 +160,9 @@
                                 <Run Text="8" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="10"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -125,7 +171,9 @@
                                 <Run Text="1" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="11"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -134,7 +182,9 @@
                                 <Run Text="2" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="12"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -143,7 +193,9 @@
                                 <Run Text="3" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="13"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -152,7 +204,9 @@
                                 <Run Text="4" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="14"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -161,7 +215,9 @@
                                 <Run Text="5" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="15"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -170,7 +226,9 @@
                                 <Run Text="6" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="16"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -179,7 +237,9 @@
                                 <Run Text="7" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="17"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -188,7 +248,9 @@
                                 <Run Text="8" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.RowSpan="2"
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
                                 Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
@@ -202,7 +264,9 @@
                                     SmallChange="1"
                                     Value="{Binding UsedSegmentCounts, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="2"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -217,7 +281,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding TargetTemperature_1, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="3"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -232,7 +298,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding TargetTemperature_2, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="4"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -247,7 +315,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding TargetTemperature_3, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="5"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -262,7 +332,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding TargetTemperature_4, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="6"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -277,7 +349,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding TargetTemperature_5, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="7"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -292,7 +366,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding TargetTemperature_6, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="8"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -307,7 +383,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding TargetTemperature_7, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="9"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -322,7 +400,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding TargetTemperature_8, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="10"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -337,7 +417,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding ThermostaticTemperature_1, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="11"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -352,7 +434,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding ThermostaticTemperature_2, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="12"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -367,7 +451,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding ThermostaticTemperature_3, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="13"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -382,7 +468,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding ThermostaticTemperature_4, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="14"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -397,7 +485,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding ThermostaticTemperature_5, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="15"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -412,7 +502,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding ThermostaticTemperature_6, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="16"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -427,7 +519,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding ThermostaticTemperature_7, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="17"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -442,7 +536,9 @@
                                     TickFrequency="0.1"
                                     Value="{Binding ThermostaticTemperature_8, Mode=TwoWay}" />
                         </Border>
-                        <Border Grid.RowSpan="2"
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
                                 Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
@@ -451,133 +547,171 @@
                                        FontSize="18"
                                        Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="2"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="3"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="4"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="5"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="6"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="7"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="8"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding TargetTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="9"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding TargetTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="10"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding ThermostaticTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="11"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding ThermostaticTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="12"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding ThermostaticTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="13"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding ThermostaticTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="14"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding ThermostaticTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="15"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding ThermostaticTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="16"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding ThermostaticTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="17"
+                                Grid.Column="2"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding ThermostaticTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="0"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource 降溫溫度}" />
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="1"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource 充氣時間}" />
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="2"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -586,7 +720,9 @@
                                 <Run Text="1" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="3"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -595,7 +731,9 @@
                                 <Run Text="2" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="4"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -604,7 +742,9 @@
                                 <Run Text="3" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="5"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -613,7 +753,9 @@
                                 <Run Text="4" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="6"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -622,7 +764,9 @@
                                 <Run Text="5" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="7"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -631,7 +775,9 @@
                                 <Run Text="6" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="8"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -640,7 +786,9 @@
                                 <Run Text="7" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="9"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -649,7 +797,9 @@
                                 <Run Text="8" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="10"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -658,7 +808,9 @@
                                 <Run Text="1" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="11"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -667,7 +819,9 @@
                                 <Run Text="2" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="12"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -676,7 +830,9 @@
                                 <Run Text="3" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="13"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -685,7 +841,9 @@
                                 <Run Text="4" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="14"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -694,7 +852,9 @@
                                 <Run Text="5" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="15"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -703,7 +863,9 @@
                                 <Run Text="6" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="16"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -712,7 +874,9 @@
                                 <Run Text="7" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource WindowBackgroundBrush6}"
+                        <Border Grid.Row="17"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -721,7 +885,9 @@
                                 <Run Text="8" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="0"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -735,7 +901,9 @@
                                     TickFrequency="1"
                                     Value="{Binding CoolingTemperature, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="1"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -749,7 +917,9 @@
                                     TickFrequency="1"
                                     Value="{Binding InflatingTime, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="2"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -764,7 +934,9 @@
                                     TickFrequency="1"
                                     Value="{Binding HeatingTime_1, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="3"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -779,7 +951,9 @@
                                     TickFrequency="1"
                                     Value="{Binding HeatingTime_2, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="4"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -794,7 +968,9 @@
                                     TickFrequency="1"
                                     Value="{Binding HeatingTime_3, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="5"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -809,7 +985,9 @@
                                     TickFrequency="1"
                                     Value="{Binding HeatingTime_4, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="6"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -824,7 +1002,9 @@
                                     TickFrequency="1"
                                     Value="{Binding HeatingTime_5, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="7"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -839,7 +1019,9 @@
                                     TickFrequency="1"
                                     Value="{Binding HeatingTime_6, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="8"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -854,7 +1036,9 @@
                                     TickFrequency="1"
                                     Value="{Binding HeatingTime_7, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="9"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -869,7 +1053,9 @@
                                     TickFrequency="1"
                                     Value="{Binding HeatingTime_8, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="10"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -884,7 +1070,9 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingTime_1, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="11"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -899,7 +1087,9 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingTime_2, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="12"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -914,7 +1104,9 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingTime_3, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="13"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -929,7 +1121,9 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingTime_4, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="14"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -944,7 +1138,9 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingTime_5, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="15"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -959,7 +1155,9 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingTime_6, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="16"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -974,7 +1172,9 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingTime_7, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="17"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
@@ -989,14 +1189,18 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingTime_8, Mode=TwoWay}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="0"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="1"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1005,7 +1209,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="2"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1014,7 +1220,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="3"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1023,7 +1231,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="4"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1032,7 +1242,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="5"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1041,7 +1253,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="6"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1050,7 +1264,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="7"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1059,7 +1275,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="8"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1068,7 +1286,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="9"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1077,7 +1297,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="10"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1086,7 +1308,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="11"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1095,7 +1319,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="12"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1104,7 +1330,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="13"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1113,7 +1341,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="14"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1122,7 +1352,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="15"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1131,7 +1363,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="16"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1140,7 +1374,9 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                        <Border Background="{StaticResource LightColorBrush}"
+                        <Border Grid.Row="17"
+                                Grid.Column="5"
+                                Background="{StaticResource LightColorBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
@@ -1149,13 +1385,13 @@
                                 <Run Text="{DynamicResource 分}" />
                             </TextBlock>
                         </Border>
-                    </local:AutoGrid>
+                    </Grid>
                 </TabItem>
                 <TabItem Height="44"
                          BorderThickness="1,1,1,0"
                          FontSize="16"
                          Header="{DynamicResource 修改歷史}"
-                         IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
+                         IsEnabled="{Binding OldViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
                     <Grid TextElement.FontSize="12">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="64" />
@@ -1202,7 +1438,7 @@
                                         VerticalAlignment="Center"
                                         IsSnapToTickEnabled="True"
                                         LargeChange="1"
-                                        Maximum="{Binding Old_ViewRecipes.Count, Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=-1}"
+                                        Maximum="{Binding OldViewRecipes.Count, Mode=OneWay, Converter={StaticResource AddValue}, ConverterParameter=-1}"
                                         Minimum="0"
                                         SmallChange="1"
                                         Value="{Binding HistoryIndex, Mode=TwoWay}" />
@@ -1229,15 +1465,39 @@
                                            Text="{Binding SelectedHistory.Editor, Mode=OneWay}" />
                             </Border>
                         </Grid>
-                        <local:AutoGrid Grid.Row="1"
-                                        Columns="70,*,70,*"
-                                        DataContext="{Binding SelectedHistory, Mode=OneWay}"
-                                        IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
-                                        Orientation="Vertical"
-                                        RowCount="18"
-                                        SnapsToDevicePixels="False"
-                                        UseLayoutRounding="True">
-                            <Border Grid.RowSpan="2"
+                        <Grid Grid.Row="1"
+                              ClipToBounds="True"
+                              DataContext="{Binding SelectedHistory, Mode=OneWay}"
+                              IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
@@ -1245,7 +1505,9 @@
                                            VerticalAlignment="Center"
                                            Text="{DynamicResource 使用段數}" />
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="2"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1254,7 +1516,9 @@
                                     <Run Text="1" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="3"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1263,7 +1527,9 @@
                                     <Run Text="2" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="4"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1272,7 +1538,9 @@
                                     <Run Text="3" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="5"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1281,7 +1549,9 @@
                                     <Run Text="4" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="6"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1290,7 +1560,9 @@
                                     <Run Text="5" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="7"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1299,7 +1571,9 @@
                                     <Run Text="6" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="8"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1308,7 +1582,9 @@
                                     <Run Text="7" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="9"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1317,7 +1593,9 @@
                                     <Run Text="8" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="10"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1326,7 +1604,9 @@
                                     <Run Text="1" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="11"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1335,7 +1615,9 @@
                                     <Run Text="2" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="12"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1344,7 +1626,9 @@
                                     <Run Text="3" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="13"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1353,7 +1637,9 @@
                                     <Run Text="4" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="14"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1362,7 +1648,9 @@
                                     <Run Text="5" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="15"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1371,7 +1659,9 @@
                                     <Run Text="6" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="16"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1380,7 +1670,9 @@
                                     <Run Text="7" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="17"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1389,7 +1681,9 @@
                                     <Run Text="8" />
                                 </TextBlock>
                             </Border>
-                            <Border Grid.RowSpan="2"
+                            <Border Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
                                     Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
@@ -1398,133 +1692,171 @@
                                            FontSize="18"
                                            Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="2"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="3"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="4"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="5"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="6"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="7"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="8"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding TargetTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="9"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding TargetTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="10"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding ThermostaticTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="11"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding ThermostaticTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="12"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding ThermostaticTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="13"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding ThermostaticTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="14"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding ThermostaticTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="15"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding ThermostaticTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="16"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding ThermostaticTemperature_7, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="17"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding ThermostaticTemperature_8, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="0"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{DynamicResource 降溫溫度}" />
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="1"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{DynamicResource 充氣時間}" />
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="2"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1533,7 +1865,9 @@
                                     <Run Text="1" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="3"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1542,7 +1876,9 @@
                                     <Run Text="2" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="4"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1551,7 +1887,9 @@
                                     <Run Text="3" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="5"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1560,7 +1898,9 @@
                                     <Run Text="4" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="6"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1569,7 +1909,9 @@
                                     <Run Text="5" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="7"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1578,7 +1920,9 @@
                                     <Run Text="6" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="8"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1587,7 +1931,9 @@
                                     <Run Text="7" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="9"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1596,7 +1942,9 @@
                                     <Run Text="8" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="10"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1605,7 +1953,9 @@
                                     <Run Text="1" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="11"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1614,7 +1964,9 @@
                                     <Run Text="2" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="12"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1623,7 +1975,9 @@
                                     <Run Text="3" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="13"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1632,7 +1986,9 @@
                                     <Run Text="4" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="14"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1641,7 +1997,9 @@
                                     <Run Text="5" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="15"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1650,7 +2008,9 @@
                                     <Run Text="6" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="16"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1659,7 +2019,9 @@
                                     <Run Text="7" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Grid.Row="17"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1668,14 +2030,18 @@
                                     <Run Text="8" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="0"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:D\} °C}" />
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="1"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1684,7 +2050,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="2"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1693,7 +2061,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="3"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1702,7 +2072,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="4"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1711,7 +2083,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="5"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1720,7 +2094,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="6"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1729,7 +2105,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="7"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1738,7 +2116,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="8"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1747,7 +2127,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="9"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1756,7 +2138,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="10"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1765,7 +2149,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="11"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1774,7 +2160,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="12"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1783,7 +2171,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="13"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1792,7 +2182,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="14"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1801,7 +2193,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="15"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1810,7 +2204,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="16"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1819,7 +2215,9 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Grid.Row="17"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
@@ -1828,7 +2226,7 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                        </local:AutoGrid>
+                        </Grid>
                     </Grid>
                 </TabItem>
             </TabControl>
@@ -1853,12 +2251,13 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <TabControl Grid.RowSpan="2"
+                            views:TabControl.EnableSliding="True"
                             SelectedIndex="{Binding SelectedIndex, ElementName=TC, Mode=OneWay}">
                     <TabItem Width="0"
                              Height="0">
                         <Button Content="{DynamicResource 儲存}"
                                 FontSize="20"
-                                IsEnabled="{Binding Save_Enable, Mode=OneWay}">
+                                IsEnabled="{Binding SaveEnable, Mode=OneWay}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding SaveCommand, Mode=OneTime}" />
@@ -1870,7 +2269,7 @@
                              Height="0">
                         <Button Content="{DynamicResource 復原}"
                                 FontSize="20"
-                                IsEnabled="{Binding Old_ViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
+                                IsEnabled="{Binding OldViewRecipes, Mode=OneWay, Converter={StaticResource IsNotNull}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding ResetCommand, Mode=OneTime}" />
@@ -1911,7 +2310,7 @@
                          Text="{Binding SearchName, UpdateSourceTrigger=PropertyChanged}" />
                 <Button Grid.Column="3"
                         Content="{DynamicResource 新增}"
-                        IsEnabled="{Binding Add_Enable, Mode=OneWay}">
+                        IsEnabled="{Binding AddEnable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding AddCommand, Mode=OneTime}" />
@@ -1920,7 +2319,7 @@
                 </Button>
                 <Button Grid.Column="3"
                         Content="{DynamicResource 改名}"
-                        IsEnabled="{Binding Selected_Recipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                        IsEnabled="{Binding SelectedRecipe, Converter={StaticResource IsNotNull}, Mode=OneWay}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -1932,7 +2331,7 @@
                         Grid.Column="3"
                         BorderThickness="1,0,1,1"
                         Content="{DynamicResource 刪除}"
-                        IsEnabled="{Binding Delete_Enable, Mode=OneWay}">
+                        IsEnabled="{Binding DeleteEnable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding DeleteCommand, Mode=OneTime}" />
@@ -1950,7 +2349,7 @@
                       ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                       RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                       SelectedCellsChanged="DataGrid_SelectedCellsChanged"
-                      SelectedIndex="{Binding Selected_Recipe_Index, Mode=TwoWay}">
+                      SelectedIndex="{Binding SelectedRecipeIndex, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding InitialLoadCommand, Mode=OneTime}" />
@@ -2019,7 +2418,7 @@
                                     </ItemsControl.Template>
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <local:UniformGridWithOrientation Columns="{Binding GT.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
+                                            <views:UniformGridWithOrientation Columns="{Binding Settings.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
                                                                               Orientation="Vertical"
                                                                               Rows="2" />
                                         </ItemsPanelTemplate>

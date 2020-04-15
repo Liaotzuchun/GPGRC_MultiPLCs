@@ -7,6 +7,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
+             xmlns:models1="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              d:DataContext="{d:DesignInstance vm:LogView_ViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -36,13 +38,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <local:FilterGroupProxy x:Key="OvenFilterData"
+        <views:FilterGroupProxy x:Key="OvenFilterData"
                                 Data="{Binding OvenFilter, Mode=OneWay}" />
-        <local:FilterGroupProxy x:Key="TypeFilterData"
+        <views:FilterGroupProxy x:Key="TypeFilterData"
                                 Data="{Binding TypeFilter, Mode=OneWay}" />
         <DataTemplate x:Key="EqualFilterTemplate"
-                      DataType="models:EqualFilter">
-            <MenuItem Header="{Binding Value, Mode=OneWay, Converter={local:StringToResource}}"
+                      DataType="models1:EqualFilter">
+            <MenuItem Header="{Binding Value, Mode=OneWay, Converter={views:StringToResource}}"
                       IsCheckable="True"
                       IsChecked="{Binding IsEnabled, Mode=TwoWay}"
                       StaysOpenOnClick="True" />
@@ -57,7 +59,7 @@
                                       SubmenuClosed="MenuItem_SubmenuClosed">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="PreviewMouseRightButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding Content.(local:FilterGroupProxy.Data).AllCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                        <i:InvokeCommandAction Command="{Binding Content.(views:FilterGroupProxy.Data).AllCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <MenuItem.Header>
@@ -84,7 +86,7 @@
                                                        Fill="Cyan"
                                                        Stroke="{StaticResource PressedBrush}"
                                                        StrokeThickness="1"
-                                                       Visibility="{Binding Content.(local:FilterGroupProxy.Data).AllCommand.Result, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                                       Visibility="{Binding Content.(views:FilterGroupProxy.Data).AllCommand.Result, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                         </Grid>
                                     </Border>
                                 </MenuItem.Header>
@@ -92,9 +94,9 @@
                                     <CompositeCollection>
                                         <MenuItem x:Name="MenuItem"
                                                   BorderThickness="0,0,0,1"
-                                                  Command="{Binding Content.(local:FilterGroupProxy.Data).AllCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                  Command="{Binding Content.(views:FilterGroupProxy.Data).AllCommand, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                   Header="{DynamicResource 全部}"
-                                                  Tag="{Binding Content.(local:FilterGroupProxy.Data).Filter, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                                  Tag="{Binding Content.(views:FilterGroupProxy.Data).Filter, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
                                         <!--  此處因不在相同的VisualTree，因此必須使用x:Reference而不能指定ElementName  -->
                                         <CollectionContainer Collection="{Binding Tag, Source={x:Reference MenuItem}, Mode=OneWay}" />
                                     </CompositeCollection>
@@ -275,7 +277,7 @@
                     Background="{StaticResource LightColorBrush}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,0,1">
-                <local:RangeSlider x:Name="RS"
+                <views:RangeSlider x:Name="RS"
                                    Margin="4,0"
                                    VerticalAlignment="Center"
                                    IsEnabled="{Binding Results, Converter={StaticResource IsNotNull}, Mode=OneWay}"
@@ -432,7 +434,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding Type, Mode=OneWay, Converter={local:StringToResource}}" />
+                                <TextBlock Text="{Binding Type, Mode=OneWay, Converter={views:StringToResource}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -478,7 +480,7 @@
                                     <TextBlock Margin="0,0,4,0"
                                                Text="{Binding TagCode, Mode=OneWay, StringFormat={}({0})}"
                                                Visibility="{Binding TagCode, Mode=OneWay, Converter={StaticResource CountVis}}" />
-                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
+                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
                                                TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                             </DataTemplate>
@@ -694,7 +696,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:LogEvent">
-                                <TextBlock Text="{Binding Type, Mode=OneWay, Converter={local:StringToResource}}" />
+                                <TextBlock Text="{Binding Type, Mode=OneWay, Converter={views:StringToResource}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -740,7 +742,7 @@
                                     <TextBlock Margin="0,0,4,0"
                                                Text="{Binding TagCode, Mode=OneWay, StringFormat={}({0})}"
                                                Visibility="{Binding TagCode, Mode=OneWay, Converter={StaticResource CountVis}}" />
-                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={local:StringToResource}}"
+                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
                                                TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                             </DataTemplate>

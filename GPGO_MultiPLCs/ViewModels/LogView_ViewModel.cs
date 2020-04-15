@@ -1,5 +1,4 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using GPGO_MultiPLCs.Models;
+﻿using GPGO_MultiPLCs.Models;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -78,7 +79,7 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 Set(value);
-                ViewResults_On = value?.Where(x => x.Value).ToList();
+                ViewResults_On  = value?.Where(x => x.Value).ToList();
                 ViewResults_Off = value?.Where(x => !x.Value).ToList();
             }
         }
@@ -198,13 +199,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             var csv = ViewResults.ToCSV(Language,
-                                        new[]
-                                        {
-                                            typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)),
-                                            typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)),
-                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
-                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Description2))
-                                        });
+                                        new[] {typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)), typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)), typeof(LogEvent).GetProperty(nameof(LogEvent.Type)), typeof(LogEvent).GetProperty(nameof(LogEvent.Description2))});
 
             try
             {
@@ -227,10 +222,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = EndIndex >= BeginIndex && Results?.Count > 0 ? Results?.GetRange(BeginIndex, EndIndex - BeginIndex + 1)
-                                                                                .Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type))
-                                                                                .OrderByDescending(x => x.AddedTime)
-                                                                                .ToList() : null;
+            ViewResults = EndIndex >= BeginIndex && Results?.Count > 0 ?
+                              Results?.GetRange(BeginIndex, EndIndex - BeginIndex + 1)
+                                      .Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type))
+                                      .OrderByDescending(x => x.AddedTime)
+                                      .ToList() :
+                              null;
         }
 
         public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService dialog) : base(db)
@@ -242,7 +239,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                      dialog?.Show(new Dictionary<Language, string>
                                                                   {
-                                                                      { Language.TW, $"檔案已輸出至\n{path}" }, { Language.CHS, $"档案已输出至\n{path}" }, { Language.EN, $"The file has been output to\n{path}" }
+                                                                      {Language.TW, $"檔案已輸出至\n{path}"},
+                                                                      {Language.CHS, $"档案已输出至\n{path}"},
+                                                                      {Language.EN, $"The file has been output to\n{path}"}
                                                                   },
                                                                   TimeSpan.FromSeconds(6));
                                                  }

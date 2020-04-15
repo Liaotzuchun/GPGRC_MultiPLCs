@@ -24,7 +24,12 @@ namespace GPGO_MultiPLCs.Views
             TV.Items.Clear();
             foreach (var s in Directory.GetLogicalDrives())
             {
-                var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
+                var item = new TreeViewItem
+                           {
+                               Header     = s,
+                               Tag        = s,
+                               FontWeight = FontWeights.Normal
+                           };
 
                 item.Items.Add(null);
                 item.Expanded += Folder_Expanded;
@@ -46,7 +51,12 @@ namespace GPGO_MultiPLCs.Views
             TV.Items.Clear();
             foreach (var s in Directory.GetLogicalDrives())
             {
-                var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
+                var item = new TreeViewItem
+                           {
+                               Header     = s,
+                               Tag        = s,
+                               FontWeight = FontWeights.Normal
+                           };
 
                 item.Items.Add(null);
                 item.Expanded += Folder_Expanded;
@@ -72,7 +82,12 @@ namespace GPGO_MultiPLCs.Views
                                                           return !(info.HasFlag(FileAttributes.System) || info.HasFlag(FileAttributes.Hidden) || info.HasFlag(FileAttributes.ReadOnly));
                                                       }))
                     {
-                        var subitem = new TreeViewItem { Header = s.Substring(s.LastIndexOf("\\", StringComparison.Ordinal) + 1), Tag = s, FontWeight = FontWeights.Normal };
+                        var subitem = new TreeViewItem
+                                      {
+                                          Header     = s.Substring(s.LastIndexOf("\\", StringComparison.Ordinal) + 1),
+                                          Tag        = s,
+                                          FontWeight = FontWeights.Normal
+                                      };
 
                         subitem.Items.Add(null);
                         subitem.Expanded += Folder_Expanded;
@@ -90,13 +105,10 @@ namespace GPGO_MultiPLCs.Views
             var index = ((ListBox)sender).SelectedIndex;
             Application.Current.Resources.MergedDictionaries.Last().Source = index == 2 ? new Uri("pack://application:,,,/Views/Languages/EN.xaml") :
                                                                              index == 1 ? new Uri("pack://application:,,,/Views/Languages/CHS.xaml") :
-                                                                             new Uri("pack://application:,,,/Views/Languages/TW.xaml");
+                                                                                          new Uri("pack://application:,,,/Views/Languages/TW.xaml");
         }
 
-        private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            NameBox.Clear();
-        }
+        private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { NameBox.Clear(); }
 
         private void NameBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -143,7 +155,12 @@ namespace GPGO_MultiPLCs.Views
             TV.Items.Clear();
             foreach (var s in Directory.GetLogicalDrives())
             {
-                var item = new TreeViewItem { Header = s, Tag = s, FontWeight = FontWeights.Normal };
+                var item = new TreeViewItem
+                           {
+                               Header     = s,
+                               Tag        = s,
+                               FontWeight = FontWeights.Normal
+                           };
 
                 item.Items.Add(null);
                 item.Expanded += Folder_Expanded;
@@ -151,9 +168,6 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        public Authenticator()
-        {
-            InitializeComponent();
-        }
+        public Authenticator() { InitializeComponent(); }
     }
 }

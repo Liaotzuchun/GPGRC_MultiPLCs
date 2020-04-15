@@ -6,34 +6,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              d:DataContext="{d:DesignInstance vm:GlobalDialog_ViewModel}"
              Foreground="{StaticResource BaseForeground}"
              IsVisibleChanged="UserControl_IsVisibleChanged"
              UseLayoutRounding="True"
              mc:Ignorable="d">
+
     <UserControl.Visibility>
-        <MultiBinding Converter="{StaticResource MultiAnyVisibleConverter}"
+        <MultiBinding Converter="{StaticResource MultiAnyVisible}"
                       Mode="OneWay">
             <Binding Converter="{StaticResource CountVis}"
                      Mode="OneWay"
                      Path="Msgs.Count" />
             <Binding Mode="OneWay"
-                     Path="IsShown_1" />
+                     Path="IsShown1" />
             <Binding Mode="OneWay"
-                     Path="IsShown_2" />
+                     Path="IsShown2" />
         </MultiBinding>
     </UserControl.Visibility>
     <UserControl.Style>
         <Style TargetType="UserControl">
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform />
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
                 <Trigger Property="Visibility" Value="Visible">
                     <Trigger.EnterActions>
-                        <BeginStoryboard>
+                        <BeginStoryboard x:Name="BeginStoryboard">
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                                  From="0"
                                                  To="1"
-                                                 Duration="0:0:0.15">
+                                                 Duration="0:0:0.21">
                                     <DoubleAnimation.EasingFunction>
                                         <ExponentialEase EasingMode="EaseOut" />
                                     </DoubleAnimation.EasingFunction>
@@ -72,7 +79,7 @@
                 <DataTemplate>
                     <Grid Height="200"
                           Margin="16"
-                          Background="{StaticResource LightColorBrush}">
+                          Background="{DynamicResource LightColorBrush}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition />
@@ -84,14 +91,15 @@
                                               ShadowDepth="8" />
                         </Grid.Effect>
                         <Border x:Name="HeaderBorder"
-                                Background="{StaticResource OKBrush}"
-                                BorderBrush="{StaticResource OKBorderBrush}"
+                                Background="{DynamicResource OKBrush}"
+                                BorderBrush="{DynamicResource OKBorderBrush}"
                                 BorderThickness="1">
                             <TextBlock x:Name="HeaderText"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="20"
-                                       Foreground="White"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource GlyphBrush}"
                                        Text="{DynamicResource 提示}" />
                         </Border>
                         <Viewbox Grid.Row="1"
@@ -105,17 +113,17 @@
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Value.Type, Mode=OneWay}"
-                                     Value="Alert">
-                            <Setter TargetName="HeaderBorder" Property="Background" Value="{StaticResource WorkingBrush}" />
-                            <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
+                                     Value="{x:Static gpmodels:DialogMsgType.Alert}">
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource WorkingBrush}" />
+                            <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{DynamicResource WorkingBorderBrush}" />
                             <Setter TargetName="HeaderText" Property="Foreground" Value="Red" />
                             <Setter TargetName="HeaderText" Property="Text" Value="{DynamicResource 警告}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Value.Type, Mode=OneWay}"
-                                     Value="Alarm">
-                            <Setter TargetName="HeaderBorder" Property="Background" Value="{StaticResource ErrorBrush}" />
-                            <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
-                            <Setter TargetName="HeaderText" Property="Foreground" Value="White" />
+                                     Value="{x:Static gpmodels:DialogMsgType.Alarm}">
+                            <Setter TargetName="HeaderBorder" Property="Background" Value="{DynamicResource ErrorBrush}" />
+                            <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{DynamicResource ErrorBorderBrush}" />
+                            <Setter TargetName="HeaderText" Property="Foreground" Value="{DynamicResource GlyphBrush}" />
                             <Setter TargetName="HeaderText" Property="Text" Value="{DynamicResource 錯誤}" />
                         </DataTrigger>
                     </DataTemplate.Triggers>
@@ -127,9 +135,9 @@
               MinHeight="240"
               Margin="16"
               VerticalAlignment="Center"
-              Background="{StaticResource LightColorBrush}"
+              Background="{DynamicResource LightColorBrush}"
               KeyboardNavigation.TabNavigation="Cycle"
-              Visibility="{Binding IsShown_1, Mode=OneWay}">
+              Visibility="{Binding IsShown1, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition />
@@ -140,12 +148,13 @@
                                   Opacity="0.3"
                                   ShadowDepth="8" />
             </Grid.Effect>
-            <Border Background="{StaticResource WorkingBrush}"
-                    BorderBrush="{StaticResource WorkingBorderBrush}"
+            <Border Background="{DynamicResource WorkingBrush}"
+                    BorderBrush="{DynamicResource WorkingBorderBrush}"
                     BorderThickness="1">
                 <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="20"
+                           FontWeight="Bold"
                            Foreground="Red"
                            Text="{DynamicResource 警告}" />
             </Border>
@@ -159,7 +168,7 @@
                     <Viewbox Margin="20,8,20,4"
                              StretchDirection="DownOnly">
                         <TextBlock FontSize="28"
-                                   Text="{Binding Message_1, Mode=OneWay}"
+                                   Text="{Binding Message1, Mode=OneWay}"
                                    TextAlignment="Center" />
                     </Viewbox>
                 </ScrollViewer>
@@ -170,29 +179,29 @@
                     <ItemsControl.Template>
                         <ControlTemplate>
                             <Border Margin="8,8,8,0"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    Background="{DynamicResource WindowBackgroundBrush2}"
+                                    BorderBrush="{DynamicResource WindowBackgroundBrush4}"
                                     BorderThickness="1">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    <Grid Background="{StaticResource LightColorBrush}">
+                                    <Grid Background="{DynamicResource LightColorBrush}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        <Border Background="{DynamicResource WindowBackgroundBrush2}"
+                                                BorderBrush="{DynamicResource WindowBackgroundBrush4}"
                                                 BorderThickness="0,0,1,1">
                                             <TextBlock Margin="4"
                                                        HorizontalAlignment="Center"
                                                        Text="{DynamicResource 欄位}" />
                                         </Border>
                                         <Border Grid.Column="1"
-                                                Background="{StaticResource WindowBackgroundBrush2}"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                Background="{DynamicResource WindowBackgroundBrush2}"
+                                                BorderBrush="{DynamicResource WindowBackgroundBrush4}"
                                                 BorderThickness="0,0,0,1">
                                             <TextBlock Margin="4"
                                                        HorizontalAlignment="Center"
@@ -215,19 +224,19 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Background="{StaticResource LightColorBrush}">
+                            <Grid Background="{DynamicResource LightColorBrush}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                <Border BorderBrush="{DynamicResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,1">
                                     <TextBlock Margin="4"
                                                HorizontalAlignment="Center"
                                                Text="{Binding Key, Mode=OneWay}" />
                                 </Border>
                                 <Border Grid.Column="1"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderBrush="{DynamicResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,0,1">
                                     <TextBlock Margin="4"
                                                HorizontalAlignment="Center"
@@ -247,16 +256,17 @@
                             Content="{DynamicResource 確定}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding OkayCommand_1, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding OkayCommand1, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
                     <Button Margin="4,8"
                             Padding="12,8"
-                            Content="{DynamicResource 取消}">
+                            Content="{DynamicResource 取消}"
+                            Visibility="{Binding SupportCancel1, Mode=OneWay, Converter={StaticResource BoolVis}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding CancelCommand_1, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding CancelCommand1, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
@@ -268,9 +278,9 @@
               Height="240"
               Margin="16"
               VerticalAlignment="Center"
-              Background="{StaticResource LightColorBrush}"
+              Background="{DynamicResource LightColorBrush}"
               KeyboardNavigation.TabNavigation="Cycle"
-              Visibility="{Binding IsShown_2, Mode=OneWay}">
+              Visibility="{Binding IsShown2, Mode=OneWay}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition />
@@ -281,23 +291,24 @@
                                   Opacity="0.3"
                                   ShadowDepth="8" />
             </Grid.Effect>
-            <Border Background="{StaticResource WorkingBrush}"
-                    BorderBrush="{StaticResource WorkingBorderBrush}"
+            <Border Background="{DynamicResource WorkingBrush}"
+                    BorderBrush="{DynamicResource WorkingBorderBrush}"
                     BorderThickness="1" />
-            <Border BorderThickness="1"
+            <Border Grid.Row="0"
+                    BorderThickness="1"
                     Visibility="{Binding ConditionResult, Mode=OneWay, Converter={StaticResource NullVis}}">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ConditionResult, Mode=OneWay}"
                                          Value="False">
-                                <Setter Property="Background" Value="{StaticResource ErrorBrush}" />
-                                <Setter Property="BorderBrush" Value="{StaticResource ErrorBorderBrush}" />
+                                <Setter Property="Background" Value="{DynamicResource ErrorBrush}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource ErrorBorderBrush}" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding ConditionResult, Mode=OneWay}"
                                          Value="True">
-                                <Setter Property="Background" Value="{StaticResource OKBrush}" />
-                                <Setter Property="BorderBrush" Value="{StaticResource OKBorderBrush}" />
+                                <Setter Property="Background" Value="{DynamicResource OKBrush}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource OKBorderBrush}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -305,10 +316,11 @@
                 <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="20"
-                           Foreground="White"
+                           Foreground="{DynamicResource GlyphBrush}"
                            Text="{Binding Title, Mode=OneWay}" />
             </Border>
-            <Border MinWidth="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+            <Border Grid.Row="0"
+                    MinWidth="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                     Padding="4,0"
                     HorizontalAlignment="Left"
                     Background="#7FFFFFFF"
@@ -327,7 +339,7 @@
                 <Viewbox Margin="20,8,20,4"
                          StretchDirection="DownOnly">
                     <TextBlock FontSize="36"
-                               Text="{Binding Message_2, Mode=OneWay}"
+                               Text="{Binding Message2, Mode=OneWay}"
                                TextAlignment="Center"
                                TextWrapping="WrapWithOverflow" />
                 </Viewbox>
@@ -341,7 +353,7 @@
                          Text="{Binding Intput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="KeyDown">
-                            <models:InteractiveCommand Command="{Binding EnterCommand, Mode=OneTime}" />
+                            <gpmodels:InteractiveCommand Command="{Binding EnterCommand, Mode=OneTime}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
@@ -355,16 +367,17 @@
                             Content="{DynamicResource 確定}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding OkayCommand_2, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding OkayCommand2, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
                     <Button Margin="4,8"
                             Padding="12,8"
-                            Content="{DynamicResource 取消}" >
+                            Content="{DynamicResource 取消}"
+                            Visibility="{Binding SupportCancel2, Mode=OneWay, Converter={StaticResource BoolVis}}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding CancelCommand_2, Mode=OneTime}" />
+                                <i:InvokeCommandAction Command="{Binding CancelCommand2, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>

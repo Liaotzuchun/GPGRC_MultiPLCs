@@ -1,4 +1,4 @@
-﻿using GPGO_MultiPLCs.Helpers;
+﻿using GPMVVM.Helpers;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Globalization;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -34,24 +35,36 @@ namespace GPGO_MultiPLCs.Models
             return (EventType)value == EventType.Operator ? Colors.DarkOrange : Colors.Red;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
     }
 
     /// <summary>溫度紀錄</summary>
     [BsonIgnoreExtraElements]
     public class RecordTemperatures
     {
-        public double Avg => new[] { OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8 }
-            .Average();
+        public double Avg =>
+            new[]
+                {
+                    OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
+                    OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8
+                }
+               .Average();
 
-        public double Max => new[] { OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8 }
-            .Max();
+        public double Max =>
+            new[]
+                {
+                    OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
+                    OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8
+                }
+               .Max();
 
-        public double Min => new[] { OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4, OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8 }
-            .Min();
+        public double Min =>
+            new[]
+                {
+                    OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
+                    OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8
+                }
+               .Min();
 
         [LanguageTranslator("Duration", "歷時", "历时")]
         public TimeSpan Time => AddedTime - StartTime;
@@ -82,10 +95,10 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>事件類型</summary>
     public enum EventType
     {
-        Normal, //一般事件
-        Trigger, //觸發事件
+        Normal,   //一般事件
+        Trigger,  //觸發事件
         Operator, //OP操作事件
-        Alarm //警報事件
+        Alarm     //警報事件
     }
 
     [BsonIgnoreExtraElements]

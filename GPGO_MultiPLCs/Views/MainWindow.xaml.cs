@@ -15,10 +15,7 @@ namespace GPGO_MultiPLCs
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Panel.SetZIndex(PopGrid, int.MaxValue);
-        }
+        private void Window_Loaded(object sender, RoutedEventArgs e) { Panel.SetZIndex(PopGrid, int.MaxValue); }
 
         public MainWindow()
         {

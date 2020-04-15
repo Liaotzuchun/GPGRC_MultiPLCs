@@ -1,21 +1,19 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {
     /// <summary>連接PLC並提供PLC資訊</summary>
     public sealed class PLC_DataProvider : PLC_Data, IDisposable
     {
-        public void Dispose()
-        {
-            CTS.Dispose();
-        }
+        public void Dispose() { CTS.Dispose(); }
 
         public enum Status
         {
@@ -28,7 +26,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         private readonly IDialogService Dialog;
-        private readonly TaskFactory OneScheduler = new TaskFactory(new StaTaskScheduler(1));
+        private readonly TaskFactory    OneScheduler = new TaskFactory(new StaTaskScheduler(1));
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
@@ -149,29 +147,25 @@ namespace GPGO_MultiPLCs.Models
 
                                        x.Dispose();
 
-                                       var h = new int[] { HeatingTime_1, HeatingTime_2, HeatingTime_3, HeatingTime_4, HeatingTime_5, HeatingTime_6, HeatingTime_7, HeatingTime_8 };
-                                       var w = new int[] { WarmingTime_1, WarmingTime_2, WarmingTime_3, WarmingTime_4, WarmingTime_5, WarmingTime_6, WarmingTime_7, WarmingTime_8 };
+                                       var h = new int[]
+                                               {
+                                                   HeatingTime_1, HeatingTime_2, HeatingTime_3, HeatingTime_4,
+                                                   HeatingTime_5, HeatingTime_6, HeatingTime_7, HeatingTime_8
+                                               };
+                                       var w = new int[]
+                                               {
+                                                   WarmingTime_1, WarmingTime_2, WarmingTime_3, WarmingTime_4,
+                                                   WarmingTime_5, WarmingTime_6, WarmingTime_7, WarmingTime_8
+                                               };
                                        var t = new[]
                                                {
-                                                   TargetTemperature_1,
-                                                   TargetTemperature_2,
-                                                   TargetTemperature_3,
-                                                   TargetTemperature_4,
-                                                   TargetTemperature_5,
-                                                   TargetTemperature_6,
-                                                   TargetTemperature_7,
-                                                   TargetTemperature_8
+                                                   TargetTemperature_1, TargetTemperature_2, TargetTemperature_3, TargetTemperature_4,
+                                                   TargetTemperature_5, TargetTemperature_6, TargetTemperature_7, TargetTemperature_8
                                                };
                                        var s = new[]
                                                {
-                                                   ThermostaticTemperature_1,
-                                                   ThermostaticTemperature_2,
-                                                   ThermostaticTemperature_3,
-                                                   ThermostaticTemperature_4,
-                                                   ThermostaticTemperature_5,
-                                                   ThermostaticTemperature_6,
-                                                   ThermostaticTemperature_7,
-                                                   ThermostaticTemperature_8
+                                                   ThermostaticTemperature_1, ThermostaticTemperature_2, ThermostaticTemperature_3, ThermostaticTemperature_4,
+                                                   ThermostaticTemperature_5, ThermostaticTemperature_6, ThermostaticTemperature_7, ThermostaticTemperature_8
                                                };
                                        Array.Resize(ref h, UsedSegmentCounts);
                                        Array.Resize(ref w, UsedSegmentCounts);
@@ -179,12 +173,12 @@ namespace GPGO_MultiPLCs.Models
                                        Array.Resize(ref s, UsedSegmentCounts);
 
                                        //!結束生產，填入資料
-                                       OvenInfo.EndTime = DateTime.Now;
-                                       OvenInfo.RecipeName = RecipeName;
-                                       OvenInfo.HeatingTimes = h.ToList();
-                                       OvenInfo.WarmingTimes = w.ToList();
-                                       OvenInfo.TotalHeatingTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
-                                       OvenInfo.TargetOvenTemperatures = t.ToList();
+                                       OvenInfo.EndTime                  = DateTime.Now;
+                                       OvenInfo.RecipeName               = RecipeName;
+                                       OvenInfo.HeatingTimes             = h.ToList();
+                                       OvenInfo.WarmingTimes             = w.ToList();
+                                       OvenInfo.TotalHeatingTime         = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
+                                       OvenInfo.TargetOvenTemperatures   = t.ToList();
                                        OvenInfo.ThermostaticTemperatures = s.ToList();
 
                                        if (RecordingFinished != null)
@@ -240,32 +234,32 @@ namespace GPGO_MultiPLCs.Models
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, int tag, bool value)
         {
             OvenInfo.EventList.Add(new LogEvent
-            {
-                Type = type,
-                StartTime = start,
-                AddedTime = addtime,
-                Description = note,
-                TagCode = tag,
-                Value = value
-            });
+                                   {
+                                       Type        = type,
+                                       StartTime   = start,
+                                       AddedTime   = addtime,
+                                       Description = note,
+                                       TagCode     = tag,
+                                       Value       = value
+                                   });
         }
 
         public void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
             OvenInfo.RecordTemperatures.Add(new RecordTemperatures
-            {
-                StartTime = start,
-                AddedTime = addtime,
-                ThermostatTemperature = t0,
-                OvenTemperatures_1 = t1,
-                OvenTemperatures_2 = t2,
-                OvenTemperatures_3 = t3,
-                OvenTemperatures_4 = t4,
-                OvenTemperatures_5 = t5,
-                OvenTemperatures_6 = t6,
-                OvenTemperatures_7 = t7,
-                OvenTemperatures_8 = t8
-            });
+                                            {
+                                                StartTime             = start,
+                                                AddedTime             = addtime,
+                                                ThermostatTemperature = t0,
+                                                OvenTemperatures_1    = t1,
+                                                OvenTemperatures_2    = t2,
+                                                OvenTemperatures_3    = t3,
+                                                OvenTemperatures_4    = t4,
+                                                OvenTemperatures_5    = t5,
+                                                OvenTemperatures_6    = t6,
+                                                OvenTemperatures_7    = t7,
+                                                OvenTemperatures_8    = t8
+                                            });
         }
 
         /// <summary>重設PLC資料對應列表</summary>
@@ -312,10 +306,15 @@ namespace GPGO_MultiPLCs.Models
         {
             if (GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe)
             {
-                if (await Dialog.Show(new Dictionary<Language, string> { { Language.TW, "請確認配方內容：" }, { Language.CHS, "请确认配方内容：" }, { Language.EN, "Please confirm this recipe:" } }, recipe, true))
+                if (await Dialog.Show(new Dictionary<Language, string>
+                                      {
+                                          {Language.TW, "請確認配方內容："},
+                                          {Language.CHS, "请确认配方内容："},
+                                          {Language.EN, "Please confirm this recipe:"}
+                                      }, recipe, true))
                 {
                     RecipeUsed?.Invoke(recipeName);
-                    recipe.CopyTo(this);
+                    recipe.CopyToObj(this);
                 }
 
                 Set(RecipeName, nameof(Selected_Name));
@@ -339,28 +338,28 @@ namespace GPGO_MultiPLCs.Models
 
             await OneScheduler.StartNew(() =>
                                         {
-                                            var n = TimeSpan.Zero;
+                                            var n                      = TimeSpan.Zero;
                                             var _ThermostatTemperature = ThermostatTemperature;
-                                            var _OvenTemperature_1 = OvenTemperature_1;
-                                            var _OvenTemperature_2 = OvenTemperature_2;
-                                            var _OvenTemperature_3 = OvenTemperature_3;
-                                            var _OvenTemperature_4 = OvenTemperature_4;
-                                            var _OvenTemperature_5 = OvenTemperature_5;
-                                            var _OvenTemperature_6 = OvenTemperature_6;
-                                            var _OvenTemperature_7 = OvenTemperature_7;
-                                            var _OvenTemperature_8 = OvenTemperature_8;
+                                            var _OvenTemperature_1     = OvenTemperature_1;
+                                            var _OvenTemperature_2     = OvenTemperature_2;
+                                            var _OvenTemperature_3     = OvenTemperature_3;
+                                            var _OvenTemperature_4     = OvenTemperature_4;
+                                            var _OvenTemperature_5     = OvenTemperature_5;
+                                            var _OvenTemperature_6     = OvenTemperature_6;
+                                            var _OvenTemperature_7     = OvenTemperature_7;
+                                            var _OvenTemperature_8     = OvenTemperature_8;
 
                                             while (!ct.IsCancellationRequested)
                                             {
                                                 _ThermostatTemperature = ThermostatTemperature <= 0 ? _ThermostatTemperature : ThermostatTemperature;
-                                                _OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
-                                                _OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
-                                                _OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
-                                                _OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
-                                                _OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
-                                                _OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
-                                                _OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
-                                                _OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+                                                _OvenTemperature_1     = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
+                                                _OvenTemperature_2     = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
+                                                _OvenTemperature_3     = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
+                                                _OvenTemperature_4     = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
+                                                _OvenTemperature_5     = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
+                                                _OvenTemperature_6     = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
+                                                _OvenTemperature_7     = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
+                                                _OvenTemperature_8     = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
 
                                                 if (DateTime.Now - OvenInfo.StartTime >= n)
                                                 {
@@ -423,7 +422,12 @@ namespace GPGO_MultiPLCs.Models
 
                                                             if (Selected_Name == Intput_Name)
                                                             {
-                                                                Dialog.Show(new Dictionary<Language, string> { { Language.TW, "配方無變更" }, { Language.CHS, "配方无变更" }, { Language.EN, "No change." } });
+                                                                Dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                {Language.TW, "配方無變更"},
+                                                                                {Language.CHS, "配方无变更"},
+                                                                                {Language.EN, "No change."}
+                                                                            });
                                                             }
                                                             else if (Recipe_Names.Contains(Intput_Name))
                                                             {
@@ -446,52 +450,65 @@ namespace GPGO_MultiPLCs.Models
                                                              var para = (string)o;
 
                                                              var (result1, input1) =
-                                                                 await Dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
-                                                                                                 { Language.TW, "輸入操作人員ID" }, { Language.CHS, "输入操作人员ID" }, { Language.EN, "Enter the Operator ID" }
+                                                                                                 {Language.TW, "輸入操作人員ID"},
+                                                                                                 {Language.CHS, "输入操作人员ID"},
+                                                                                                 {Language.EN, "Enter the Operator ID"}
                                                                                              },
-                                                                                             new Dictionary<Language, string> { { Language.TW, para }, { Language.CHS, para }, { Language.EN, para } },
+                                                                                             new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 {Language.TW, para},
+                                                                                                 {Language.CHS, para},
+                                                                                                 {Language.EN, para}
+                                                                                             },
+                                                                                             true,
                                                                                              x =>
                                                                                              {
-                                                                                                 var str = x.Trim();
+                                                                                                 var str = x.ToString().Trim();
 
                                                                                                  return (str.Length > 4 && str.Length < 10,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
-                                                                                                             { Language.TW, "字數錯誤，請重試！" },
-                                                                                                             { Language.CHS, "字数错误，请重试！" },
-                                                                                                             { Language.EN, "Input error, please try again!" }
+                                                                                                             {Language.TW, "字數錯誤，請重試！"},
+                                                                                                             {Language.CHS, "字数错误，请重试！"},
+                                                                                                             {Language.EN, "Input error, please try again!"}
                                                                                                          });
                                                                                              });
 
                                                              if (result1)
                                                              {
                                                                  var (result2, input2) =
-                                                                     await Dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                     await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     { Language.TW, "輸入台車碼" }, { Language.CHS, "输入台车码" }, { Language.EN, "Enter the Trolley Code" }
+                                                                                                     {Language.TW, "輸入台車碼"},
+                                                                                                     {Language.CHS, "输入台车码"},
+                                                                                                     {Language.EN, "Enter the Trolley Code"}
                                                                                                  },
                                                                                                  new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     { Language.TW, para }, { Language.CHS, para }, { Language.EN, para }
+                                                                                                     {Language.TW, para},
+                                                                                                     {Language.CHS, para},
+                                                                                                     {Language.EN, para}
                                                                                                  },
+                                                                                                 true,
                                                                                                  x =>
                                                                                                  {
-                                                                                                     var str = x.Trim();
+                                                                                                     var str = x.ToString().Trim();
 
                                                                                                      return (str.Length > 4 && str.Length < 15,
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
-                                                                                                                 { Language.TW, "字數錯誤，請重試！" },
-                                                                                                                 { Language.CHS, "字数错误，请重试！" },
-                                                                                                                 { Language.EN, "Input error, please try again!" }
+                                                                                                                 {Language.TW, "字數錯誤，請重試！"},
+                                                                                                                 {Language.CHS, "字数错误，请重试！"},
+                                                                                                                 {Language.EN, "Input error, please try again!"}
                                                                                                              });
                                                                                                  });
 
                                                                  if (result2 && WantFrontData != null)
                                                                  {
-                                                                     OvenInfo.OperatorID = input1;
-                                                                     OvenInfo.TrolleyCode = input2;
+                                                                     OvenInfo.OperatorID  = input1.ToString();
+                                                                     OvenInfo.TrolleyCode = input2.ToString();
 
                                                                      //! 取得上位資訊(料號、總量、投產量)
                                                                      var panels = await WantFrontData.Invoke(OvenInfo.TrolleyCode);
@@ -499,7 +516,9 @@ namespace GPGO_MultiPLCs.Models
                                                                      {
                                                                          Dialog.Show(new Dictionary<Language, string>
                                                                                      {
-                                                                                         { Language.TW, "查無資料！" }, { Language.CHS, "查无资料！" }, { Language.EN, "No data found!" }
+                                                                                         {Language.TW, "查無資料！"},
+                                                                                         {Language.CHS, "查无资料！"},
+                                                                                         {Language.EN, "No data found!"}
                                                                                      },
                                                                                      DialogMsgType.Alarm);
 
@@ -507,26 +526,29 @@ namespace GPGO_MultiPLCs.Models
                                                                      }
 
                                                                      var (result3, intput3) =
-                                                                         await Dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                         await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                                      {
-                                                                                                         { Language.TW, "輸入製程序" },
-                                                                                                         { Language.CHS, "输入制程序" },
-                                                                                                         { Language.EN, "Enter the process number" }
+                                                                                                         {Language.TW, "輸入製程序"},
+                                                                                                         {Language.CHS, "输入制程序"},
+                                                                                                         {Language.EN, "Enter the process number"}
                                                                                                      },
                                                                                                      new Dictionary<Language, string>
                                                                                                      {
-                                                                                                         { Language.TW, para }, { Language.CHS, para }, { Language.EN, para }
+                                                                                                         {Language.TW, para},
+                                                                                                         {Language.CHS, para},
+                                                                                                         {Language.EN, para}
                                                                                                      },
+                                                                                                     true,
                                                                                                      x =>
                                                                                                      {
-                                                                                                         var str = x.Trim();
+                                                                                                         var str = x.ToString().Trim();
 
                                                                                                          return (str.Length > 0 && str.Length <= 4 && str.All(char.IsDigit),
                                                                                                                  new Dictionary<Language, string>
                                                                                                                  {
-                                                                                                                     { Language.TW, "字數錯誤或非整數，請重試！" },
-                                                                                                                     { Language.CHS, "字数错误或非整数，请重试！" },
-                                                                                                                     { Language.EN, "Input error, please try again!" }
+                                                                                                                     {Language.TW, "字數錯誤或非整數，請重試！"},
+                                                                                                                     {Language.CHS, "字数错误或非整数，请重试！"},
+                                                                                                                     {Language.EN, "Input error, please try again!"}
                                                                                                                  });
                                                                                                      });
 
@@ -537,7 +559,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      Ext_Info.Clear();
 
-                                                                     if (int.TryParse(intput3, out var num))
+                                                                     if (int.TryParse(intput3.ToString(), out var num))
                                                                      {
                                                                          foreach (var panel in panels)
                                                                          {
@@ -556,9 +578,9 @@ namespace GPGO_MultiPLCs.Models
                                                                      if (!PC_InUsed &&
                                                                          !await Dialog.Show(new Dictionary<Language, string>
                                                                                             {
-                                                                                                { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎？" },
-                                                                                                { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗？" },
-                                                                                                { Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?" }
+                                                                                                {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎？"},
+                                                                                                {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗？"},
+                                                                                                {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"}
                                                                                             },
                                                                                             true))
                                                                      {
@@ -567,7 +589,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                                      if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
                                                                      {
-                                                                         recipe.CopyTo(this);
+                                                                         recipe.CopyToObj(this);
 
                                                                          if (SetPLCParameters != null)
                                                                          {
@@ -610,8 +632,8 @@ namespace GPGO_MultiPLCs.Models
                                             }
                                         };
 
-            M_Values = new TwoKeyDictionary<SignalNames, int, bool>();
-            D_Values = new TwoKeyDictionary<DataNames, int, short>();
+            M_Values      = new TwoKeyDictionary<SignalNames, int, bool>();
+            D_Values      = new TwoKeyDictionary<DataNames, int, short>();
             Recipe_Values = new TwoKeyDictionary<DataNames, int, short>();
 
             foreach (var loc in map.SignalList)
@@ -633,89 +655,89 @@ namespace GPGO_MultiPLCs.Models
 
             var M_Map = new Dictionary<SignalNames, string>
                         {
-                            { SignalNames.PC_InUsed, nameof(PC_InUsed) },
-                            { SignalNames.自動模式, nameof(AutoMode) },
-                            { SignalNames.自動啟動, nameof(AutoMode_Start) },
-                            { SignalNames.自動停止, nameof(AutoMode_Stop) },
-                            { SignalNames.手動模式, nameof(ManualMode) },
-                            { SignalNames.降溫中, nameof(IsCooling) },
-                            { SignalNames.程式結束, nameof(ProgramStop) },
-                            { SignalNames.加熱門未關, nameof(DoorNotClosed) },
-                            { SignalNames.緊急停止, nameof(EmergencyStop) },
-                            { SignalNames.溫控器低溫異常, nameof(LowTemperature) },
-                            { SignalNames.電源反相, nameof(PowerInversion) },
-                            { SignalNames.OTP超溫異常, nameof(OTP_TemperatureError) },
-                            { SignalNames.循環風車過載, nameof(CirculatingFanOverload) },
-                            { SignalNames.冷卻進氣風車異常, nameof(CoolingFanAbnormal) },
-                            { SignalNames.超溫警報, nameof(OverTemperatureAlarm) },
-                            { SignalNames.停止後未開門, nameof(DoorNotOpen) },
-                            { SignalNames.循環風車INV異常, nameof(CirculatingFanInversion) },
-                            { SignalNames.充氮氣逾時, nameof(InflatingTimeExceeded) },
-                            { SignalNames.門未關定位異常, nameof(DoorNotClosed_AbnormalPositioning) },
-                            { SignalNames.升恆溫逾時, nameof(HeatingTimeExceeded) }
+                            {SignalNames.PC_InUsed, nameof(PC_InUsed)},
+                            {SignalNames.自動模式, nameof(AutoMode)},
+                            {SignalNames.自動啟動, nameof(AutoMode_Start)},
+                            {SignalNames.自動停止, nameof(AutoMode_Stop)},
+                            {SignalNames.手動模式, nameof(ManualMode)},
+                            {SignalNames.降溫中, nameof(IsCooling)},
+                            {SignalNames.程式結束, nameof(ProgramStop)},
+                            {SignalNames.加熱門未關, nameof(DoorNotClosed)},
+                            {SignalNames.緊急停止, nameof(EmergencyStop)},
+                            {SignalNames.溫控器低溫異常, nameof(LowTemperature)},
+                            {SignalNames.電源反相, nameof(PowerInversion)},
+                            {SignalNames.OTP超溫異常, nameof(OTP_TemperatureError)},
+                            {SignalNames.循環風車過載, nameof(CirculatingFanOverload)},
+                            {SignalNames.冷卻進氣風車異常, nameof(CoolingFanAbnormal)},
+                            {SignalNames.超溫警報, nameof(OverTemperatureAlarm)},
+                            {SignalNames.停止後未開門, nameof(DoorNotOpen)},
+                            {SignalNames.循環風車INV異常, nameof(CirculatingFanInversion)},
+                            {SignalNames.充氮氣逾時, nameof(InflatingTimeExceeded)},
+                            {SignalNames.門未關定位異常, nameof(DoorNotClosed_AbnormalPositioning)},
+                            {SignalNames.升恆溫逾時, nameof(HeatingTimeExceeded)}
                         };
             var D_Map = new Dictionary<DataNames, string>
                         {
-                            { DataNames.溫控器溫度, nameof(ThermostatTemperature) },
-                            { DataNames.片段剩餘時間, nameof(Segment_RemainingTime) },
-                            { DataNames.總剩餘時間, nameof(Total_RemainingTime) },
-                            { DataNames.目前段數, nameof(CurrentSegment) },
-                            { DataNames.爐內溫度_1, nameof(OvenTemperature_1) },
-                            { DataNames.爐內溫度_2, nameof(OvenTemperature_2) },
-                            { DataNames.爐內溫度_3, nameof(OvenTemperature_3) },
-                            { DataNames.爐內溫度_4, nameof(OvenTemperature_4) },
-                            { DataNames.爐內溫度_5, nameof(OvenTemperature_5) },
-                            { DataNames.爐內溫度_6, nameof(OvenTemperature_6) },
-                            { DataNames.爐內溫度_7, nameof(OvenTemperature_7) },
-                            { DataNames.爐內溫度_8, nameof(OvenTemperature_8) },
-                            { DataNames.目標溫度_1, nameof(TargetTemperature_1) },
-                            { DataNames.升溫時間_1, nameof(HeatingTime_1) },
-                            { DataNames.恆溫溫度_1, nameof(ThermostaticTemperature_1) },
-                            { DataNames.恆溫時間_1, nameof(WarmingTime_1) },
-                            { DataNames.目標溫度_2, nameof(TargetTemperature_2) },
-                            { DataNames.升溫時間_2, nameof(HeatingTime_2) },
-                            { DataNames.恆溫溫度_2, nameof(ThermostaticTemperature_2) },
-                            { DataNames.恆溫時間_2, nameof(WarmingTime_2) },
-                            { DataNames.目標溫度_3, nameof(TargetTemperature_3) },
-                            { DataNames.升溫時間_3, nameof(HeatingTime_3) },
-                            { DataNames.恆溫溫度_3, nameof(ThermostaticTemperature_3) },
-                            { DataNames.恆溫時間_3, nameof(WarmingTime_3) },
-                            { DataNames.目標溫度_4, nameof(TargetTemperature_4) },
-                            { DataNames.升溫時間_4, nameof(HeatingTime_4) },
-                            { DataNames.恆溫溫度_4, nameof(ThermostaticTemperature_4) },
-                            { DataNames.恆溫時間_4, nameof(WarmingTime_4) },
-                            { DataNames.目標溫度_5, nameof(TargetTemperature_5) },
-                            { DataNames.升溫時間_5, nameof(HeatingTime_5) },
-                            { DataNames.恆溫溫度_5, nameof(ThermostaticTemperature_5) },
-                            { DataNames.恆溫時間_5, nameof(WarmingTime_5) },
-                            { DataNames.目標溫度_6, nameof(TargetTemperature_6) },
-                            { DataNames.升溫時間_6, nameof(HeatingTime_6) },
-                            { DataNames.恆溫溫度_6, nameof(ThermostaticTemperature_6) },
-                            { DataNames.恆溫時間_6, nameof(WarmingTime_6) },
-                            { DataNames.目標溫度_7, nameof(TargetTemperature_7) },
-                            { DataNames.升溫時間_7, nameof(HeatingTime_7) },
-                            { DataNames.恆溫溫度_7, nameof(ThermostaticTemperature_7) },
-                            { DataNames.恆溫時間_7, nameof(WarmingTime_7) },
-                            { DataNames.目標溫度_8, nameof(TargetTemperature_8) },
-                            { DataNames.升溫時間_8, nameof(HeatingTime_8) },
-                            { DataNames.恆溫溫度_8, nameof(ThermostaticTemperature_8) },
-                            { DataNames.恆溫時間_8, nameof(WarmingTime_8) },
-                            { DataNames.降溫溫度, nameof(CoolingTemperature) },
-                            { DataNames.充氣時間, nameof(InflatingTime) },
-                            { DataNames.使用段數, nameof(UsedSegmentCounts) },
-                            { DataNames.配方名稱_01, nameof(RecipeName) },
-                            { DataNames.配方名稱_02, nameof(RecipeName) },
-                            { DataNames.配方名稱_03, nameof(RecipeName) },
-                            { DataNames.配方名稱_04, nameof(RecipeName) },
-                            { DataNames.配方名稱_05, nameof(RecipeName) },
-                            { DataNames.配方名稱_06, nameof(RecipeName) },
-                            { DataNames.配方名稱_07, nameof(RecipeName) },
-                            { DataNames.配方名稱_08, nameof(RecipeName) },
-                            { DataNames.配方名稱_09, nameof(RecipeName) },
-                            { DataNames.配方名稱_10, nameof(RecipeName) },
-                            { DataNames.配方名稱_11, nameof(RecipeName) },
-                            { DataNames.配方名稱_12, nameof(RecipeName) },
-                            { DataNames.配方名稱_13, nameof(RecipeName) }
+                            {DataNames.溫控器溫度, nameof(ThermostatTemperature)},
+                            {DataNames.片段剩餘時間, nameof(Segment_RemainingTime)},
+                            {DataNames.總剩餘時間, nameof(Total_RemainingTime)},
+                            {DataNames.目前段數, nameof(CurrentSegment)},
+                            {DataNames.爐內溫度_1, nameof(OvenTemperature_1)},
+                            {DataNames.爐內溫度_2, nameof(OvenTemperature_2)},
+                            {DataNames.爐內溫度_3, nameof(OvenTemperature_3)},
+                            {DataNames.爐內溫度_4, nameof(OvenTemperature_4)},
+                            {DataNames.爐內溫度_5, nameof(OvenTemperature_5)},
+                            {DataNames.爐內溫度_6, nameof(OvenTemperature_6)},
+                            {DataNames.爐內溫度_7, nameof(OvenTemperature_7)},
+                            {DataNames.爐內溫度_8, nameof(OvenTemperature_8)},
+                            {DataNames.目標溫度_1, nameof(TargetTemperature_1)},
+                            {DataNames.升溫時間_1, nameof(HeatingTime_1)},
+                            {DataNames.恆溫溫度_1, nameof(ThermostaticTemperature_1)},
+                            {DataNames.恆溫時間_1, nameof(WarmingTime_1)},
+                            {DataNames.目標溫度_2, nameof(TargetTemperature_2)},
+                            {DataNames.升溫時間_2, nameof(HeatingTime_2)},
+                            {DataNames.恆溫溫度_2, nameof(ThermostaticTemperature_2)},
+                            {DataNames.恆溫時間_2, nameof(WarmingTime_2)},
+                            {DataNames.目標溫度_3, nameof(TargetTemperature_3)},
+                            {DataNames.升溫時間_3, nameof(HeatingTime_3)},
+                            {DataNames.恆溫溫度_3, nameof(ThermostaticTemperature_3)},
+                            {DataNames.恆溫時間_3, nameof(WarmingTime_3)},
+                            {DataNames.目標溫度_4, nameof(TargetTemperature_4)},
+                            {DataNames.升溫時間_4, nameof(HeatingTime_4)},
+                            {DataNames.恆溫溫度_4, nameof(ThermostaticTemperature_4)},
+                            {DataNames.恆溫時間_4, nameof(WarmingTime_4)},
+                            {DataNames.目標溫度_5, nameof(TargetTemperature_5)},
+                            {DataNames.升溫時間_5, nameof(HeatingTime_5)},
+                            {DataNames.恆溫溫度_5, nameof(ThermostaticTemperature_5)},
+                            {DataNames.恆溫時間_5, nameof(WarmingTime_5)},
+                            {DataNames.目標溫度_6, nameof(TargetTemperature_6)},
+                            {DataNames.升溫時間_6, nameof(HeatingTime_6)},
+                            {DataNames.恆溫溫度_6, nameof(ThermostaticTemperature_6)},
+                            {DataNames.恆溫時間_6, nameof(WarmingTime_6)},
+                            {DataNames.目標溫度_7, nameof(TargetTemperature_7)},
+                            {DataNames.升溫時間_7, nameof(HeatingTime_7)},
+                            {DataNames.恆溫溫度_7, nameof(ThermostaticTemperature_7)},
+                            {DataNames.恆溫時間_7, nameof(WarmingTime_7)},
+                            {DataNames.目標溫度_8, nameof(TargetTemperature_8)},
+                            {DataNames.升溫時間_8, nameof(HeatingTime_8)},
+                            {DataNames.恆溫溫度_8, nameof(ThermostaticTemperature_8)},
+                            {DataNames.恆溫時間_8, nameof(WarmingTime_8)},
+                            {DataNames.降溫溫度, nameof(CoolingTemperature)},
+                            {DataNames.充氣時間, nameof(InflatingTime)},
+                            {DataNames.使用段數, nameof(UsedSegmentCounts)},
+                            {DataNames.配方名稱_01, nameof(RecipeName)},
+                            {DataNames.配方名稱_02, nameof(RecipeName)},
+                            {DataNames.配方名稱_03, nameof(RecipeName)},
+                            {DataNames.配方名稱_04, nameof(RecipeName)},
+                            {DataNames.配方名稱_05, nameof(RecipeName)},
+                            {DataNames.配方名稱_06, nameof(RecipeName)},
+                            {DataNames.配方名稱_07, nameof(RecipeName)},
+                            {DataNames.配方名稱_08, nameof(RecipeName)},
+                            {DataNames.配方名稱_09, nameof(RecipeName)},
+                            {DataNames.配方名稱_10, nameof(RecipeName)},
+                            {DataNames.配方名稱_11, nameof(RecipeName)},
+                            {DataNames.配方名稱_12, nameof(RecipeName)},
+                            {DataNames.配方名稱_13, nameof(RecipeName)}
                         };
 
             #endregion 將PLC掃描值和ViewModel上的Property做map連結
