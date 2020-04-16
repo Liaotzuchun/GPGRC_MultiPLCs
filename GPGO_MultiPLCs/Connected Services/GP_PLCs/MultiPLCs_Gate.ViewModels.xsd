@@ -5,6 +5,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="M" />
       <xs:enumeration value="B" />
+      <xs:enumeration value="S" />
       <xs:enumeration value="X" />
       <xs:enumeration value="Y" />
     </xs:restriction>
@@ -22,9 +23,10 @@
       <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="B" nillable="true" type="q1:ArrayOfKeyValueOfintboolean" />
       <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="D" nillable="true" type="q2:ArrayOfKeyValueOfintshort" />
       <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="M" nillable="true" type="q3:ArrayOfKeyValueOfintboolean" />
-      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="W" nillable="true" type="q4:ArrayOfKeyValueOfintshort" />
-      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="X" nillable="true" type="q5:ArrayOfKeyValueOfintboolean" />
-      <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Y" nillable="true" type="q6:ArrayOfKeyValueOfintboolean" />
+      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="S" nillable="true" type="q4:ArrayOfKeyValueOfintboolean" />
+      <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="W" nillable="true" type="q5:ArrayOfKeyValueOfintshort" />
+      <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="X" nillable="true" type="q6:ArrayOfKeyValueOfintboolean" />
+      <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Y" nillable="true" type="q7:ArrayOfKeyValueOfintboolean" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="PLC_Messages" nillable="true" type="tns:PLC_Messages" />

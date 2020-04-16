@@ -24,10 +24,13 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         B = 1,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        X = 2,
+        S = 2,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        Y = 3,
+        X = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Y = 4,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
@@ -58,6 +61,9 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Collections.Generic.Dictionary<int, bool> MField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Collections.Generic.Dictionary<int, bool> SField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Collections.Generic.Dictionary<int, short> WField;
@@ -113,6 +119,19 @@ namespace GPGO_MultiPLCs.GP_PLCs {
                 if ((object.ReferenceEquals(this.MField, value) != true)) {
                     this.MField = value;
                     this.RaisePropertyChanged("M");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Collections.Generic.Dictionary<int, bool> S {
+            get {
+                return this.SField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SField, value) != true)) {
+                    this.SField = value;
+                    this.RaisePropertyChanged("S");
                 }
             }
         }
