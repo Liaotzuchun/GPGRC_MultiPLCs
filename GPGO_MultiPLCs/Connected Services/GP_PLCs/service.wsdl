@@ -16,6 +16,7 @@
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IGPService_CheckSignal_InputMessage">
@@ -36,6 +37,12 @@
   <wsdl:message name="IGPService_Get_Bits_OutputMessage">
     <wsdl:part name="parameters" element="tns:Get_BitsResponse" />
   </wsdl:message>
+  <wsdl:message name="IGPService_Get_Bits2_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Bits2" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Get_Bits2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Bits2Response" />
+  </wsdl:message>
   <wsdl:message name="IGPService_Get_Data_InputMessage">
     <wsdl:part name="parameters" element="tns:Get_Data" />
   </wsdl:message>
@@ -47,6 +54,12 @@
   </wsdl:message>
   <wsdl:message name="IGPService_Get_Datas_OutputMessage">
     <wsdl:part name="parameters" element="tns:Get_DatasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Get_Datas2_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Datas2" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Get_Datas2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Datas2Response" />
   </wsdl:message>
   <wsdl:message name="IGPService_Get_Int_InputMessage">
     <wsdl:part name="parameters" element="tns:Get_Int" />
@@ -60,6 +73,12 @@
   <wsdl:message name="IGPService_Get_Ints_OutputMessage">
     <wsdl:part name="parameters" element="tns:Get_IntsResponse" />
   </wsdl:message>
+  <wsdl:message name="IGPService_Get_Ints2_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Ints2" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Get_Ints2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_Ints2Response" />
+  </wsdl:message>
   <wsdl:message name="IGPService_Get_String_InputMessage">
     <wsdl:part name="parameters" element="tns:Get_String" />
   </wsdl:message>
@@ -72,17 +91,26 @@
   <wsdl:message name="IGPService_Set_Bits_InputMessage">
     <wsdl:part name="parameters" element="tns:Set_Bits" />
   </wsdl:message>
+  <wsdl:message name="IGPService_Set_Bits2_InputMessage">
+    <wsdl:part name="parameters" element="tns:Set_Bits2" />
+  </wsdl:message>
   <wsdl:message name="IGPService_Set_Data_InputMessage">
     <wsdl:part name="parameters" element="tns:Set_Data" />
   </wsdl:message>
   <wsdl:message name="IGPService_Set_Datas_InputMessage">
     <wsdl:part name="parameters" element="tns:Set_Datas" />
   </wsdl:message>
+  <wsdl:message name="IGPService_Set_Datas2_InputMessage">
+    <wsdl:part name="parameters" element="tns:Set_Datas2" />
+  </wsdl:message>
   <wsdl:message name="IGPService_Set_Int_InputMessage">
     <wsdl:part name="parameters" element="tns:Set_Int" />
   </wsdl:message>
   <wsdl:message name="IGPService_Set_Ints_InputMessage">
     <wsdl:part name="parameters" element="tns:Set_Ints" />
+  </wsdl:message>
+  <wsdl:message name="IGPService_Set_Ints2_InputMessage">
+    <wsdl:part name="parameters" element="tns:Set_Ints2" />
   </wsdl:message>
   <wsdl:message name="IGPService_Set_String_InputMessage">
     <wsdl:part name="parameters" element="tns:Set_String" />
@@ -114,6 +142,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_Bits" message="tns:IGPService_Get_Bits_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_BitsResponse" message="tns:IGPService_Get_Bits_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_Bits2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_Bits2" message="tns:IGPService_Get_Bits2_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_Bits2Response" message="tns:IGPService_Get_Bits2_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_Data">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_Data" message="tns:IGPService_Get_Data_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_DataResponse" message="tns:IGPService_Get_Data_OutputMessage" />
@@ -122,6 +154,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_Datas" message="tns:IGPService_Get_Datas_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_DatasResponse" message="tns:IGPService_Get_Datas_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_Datas2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_Datas2" message="tns:IGPService_Get_Datas2_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_Datas2Response" message="tns:IGPService_Get_Datas2_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_Int">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_Int" message="tns:IGPService_Get_Int_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_IntResponse" message="tns:IGPService_Get_Int_OutputMessage" />
@@ -129,6 +165,10 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_Ints">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_Ints" message="tns:IGPService_Get_Ints_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_IntsResponse" message="tns:IGPService_Get_Ints_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_Ints2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_Ints2" message="tns:IGPService_Get_Ints2_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IGPService/Get_Ints2Response" message="tns:IGPService_Get_Ints2_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Get_String">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Get_String" message="tns:IGPService_Get_String_InputMessage" />
@@ -140,17 +180,26 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Bits">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Bits" message="tns:IGPService_Set_Bits_InputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Bits2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Bits2" message="tns:IGPService_Set_Bits2_InputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Data">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Data" message="tns:IGPService_Set_Data_InputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Datas">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Datas" message="tns:IGPService_Set_Datas_InputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Datas2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Datas2" message="tns:IGPService_Set_Datas2_InputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Int">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Int" message="tns:IGPService_Set_Int_InputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Ints">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Ints" message="tns:IGPService_Set_Ints_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_Ints2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_Ints2" message="tns:IGPService_Set_Ints2_InputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Set_String">
       <wsdl:input wsaw:Action="http://tempuri.org/IGPService/Set_String" message="tns:IGPService_Set_String_InputMessage" />
@@ -202,6 +251,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Get_Bits2">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Get_Bits2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Get_Data">
       <soap12:operation soapAction="http://tempuri.org/IGPService/Get_Data" style="document" />
       <wsdl:input>
@@ -220,6 +278,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Get_Datas2">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Get_Datas2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Get_Int">
       <soap12:operation soapAction="http://tempuri.org/IGPService/Get_Int" style="document" />
       <wsdl:input>
@@ -231,6 +298,15 @@
     </wsdl:operation>
     <wsdl:operation name="Get_Ints">
       <soap12:operation soapAction="http://tempuri.org/IGPService/Get_Ints" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Ints2">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Get_Ints2" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -259,6 +335,12 @@
         <soap12:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="Set_Bits2">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Set_Bits2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="Set_Data">
       <soap12:operation soapAction="http://tempuri.org/IGPService/Set_Data" style="document" />
       <wsdl:input>
@@ -271,6 +353,12 @@
         <soap12:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="Set_Datas2">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Set_Datas2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="Set_Int">
       <soap12:operation soapAction="http://tempuri.org/IGPService/Set_Int" style="document" />
       <wsdl:input>
@@ -279,6 +367,12 @@
     </wsdl:operation>
     <wsdl:operation name="Set_Ints">
       <soap12:operation soapAction="http://tempuri.org/IGPService/Set_Ints" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Set_Ints2">
+      <soap12:operation soapAction="http://tempuri.org/IGPService/Set_Ints2" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GPGO_MultiPLCs.GP_PLCs;
+using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs
 {
@@ -116,7 +118,9 @@ namespace GPGO_MultiPLCs
             //}
             //}
 
-            BsonSerializer.RegisterSerializer(typeof(DateTime), DateTimeSerializer.LocalInstance);
+            BsonSerializer.RegisterSerializer(typeof(DateTime),        DateTimeSerializer.LocalInstance);
+            BsonSerializer.RegisterSerializer(typeof((DataType, int)), new BsonDataLoc());
+            BsonSerializer.RegisterSerializer(typeof((BitType, int)),  new BsonBitLoc());
         }
     }
 }

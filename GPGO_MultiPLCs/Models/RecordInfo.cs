@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using GPGO_MultiPLCs.GP_PLCs;
 using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
@@ -89,7 +90,8 @@ namespace GPGO_MultiPLCs.Models
 
     public enum PCEventCode
     {
-        PC_Offline = 1
+        PC_Offline = -1,
+        段數切換
     }
 
     /// <summary>事件類型</summary>
@@ -133,7 +135,7 @@ namespace GPGO_MultiPLCs.Models
         public int StationNumber { get; set; }
 
         [LanguageTranslator("Tag", "標籤", "标签")]
-        public int TagCode { get; set; }
+        public string TagCode { get; set; }
 
         [LanguageTranslator("Type", "類型", "类型")]
         public EventType Type { get; set; }

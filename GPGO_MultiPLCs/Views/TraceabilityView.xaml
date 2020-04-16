@@ -325,11 +325,11 @@
                                 DataContext="{Binding BeginTime, Mode=OneWay}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="10"
+                                   FontSize="11"
                                    Text="{Binding Mode=OneWay, StringFormat=\{0:d\}}" />
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="10"
+                                   FontSize="11"
                                    Text="{Binding Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
                     </StackPanel>
                 </Border>
@@ -350,11 +350,11 @@
                                 DataContext="{Binding EndTime, Mode=OneWay}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="10"
+                                   FontSize="11"
                                    Text="{Binding Mode=OneWay, StringFormat=\{0:d\}}" />
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="10"
+                                   FontSize="11"
                                    Text="{Binding Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
                     </StackPanel>
                 </Border>

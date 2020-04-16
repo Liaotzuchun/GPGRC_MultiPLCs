@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using GPGO_MultiPLCs.GP_PLCs;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using User = GPGO_MultiPLCs.Models.User;
@@ -162,7 +163,7 @@ namespace GPGO_MultiPLCs
                                       StartTime     = st,
                                       AddedTime     = st + ttime,
                                       Description   = "第1段升溫",
-                                      TagCode       = 100,
+                                      TagCode       = $"{BitType.S}{100}",
                                       Type          = EventType.Normal,
                                       Value         = true
                                   };
@@ -180,7 +181,7 @@ namespace GPGO_MultiPLCs
                                               StartTime     = st,
                                               AddedTime     = st + ttime - TimeSpan.FromMilliseconds(1),
                                               Description   = "第1段升溫",
-                                              TagCode       = 100,
+                                              TagCode       = $"{BitType.S}{100}",
                                               Type          = EventType.Normal,
                                               Value         = false
                                           };
@@ -194,7 +195,7 @@ namespace GPGO_MultiPLCs
                                               StartTime     = st,
                                               AddedTime     = st + ttime,
                                               Description   = "第1段恆溫",
-                                              TagCode       = 101,
+                                              TagCode       = $"{BitType.S}{101}",
                                               Type          = EventType.Normal,
                                               Value         = true
                                           };
@@ -231,7 +232,7 @@ namespace GPGO_MultiPLCs
                                        StartTime     = st,
                                        AddedTime     = st + ttime - TimeSpan.FromSeconds(60),
                                        Description   = "第1段恆溫",
-                                       TagCode       = 100,
+                                       TagCode       = $"{BitType.S}{100}",
                                        Type          = EventType.Normal,
                                        Value         = false
                                    };
@@ -245,7 +246,7 @@ namespace GPGO_MultiPLCs
                                        StartTime     = st,
                                        AddedTime     = st + ttime - TimeSpan.FromSeconds(1),
                                        Description   = "程式結束",
-                                       TagCode       = 102,
+                                       TagCode       = $"{BitType.S}{102}",
                                        Type          = EventType.Trigger,
                                        Value         = true
                                    };
@@ -259,7 +260,7 @@ namespace GPGO_MultiPLCs
                                        StartTime     = st,
                                        AddedTime     = st + ttime,
                                        Description   = "自動停止",
-                                       TagCode       = 102,
+                                       TagCode       = $"{BitType.S}{102}",
                                        Type          = EventType.Trigger,
                                        Value         = true
                                    };
@@ -314,98 +315,95 @@ namespace GPGO_MultiPLCs
             TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("Product_Infos")), DialogVM);
             LogVM   = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("Event_Logs")), DialogVM);
 
-            var map = new PLC_DevicesMap(
-                                         //!PLC的M區位置
-                                         new Dictionary<SignalNames, int>
+            var map = new PLC_DevicesMap(new Dictionary<SignalNames, (BitType, int)>
                                          {
-                                             {SignalNames.PC_InUsed, 20},
-                                             {SignalNames.自動模式, 50},
-                                             {SignalNames.自動啟動, 51},
-                                             {SignalNames.自動停止, 52},
-                                             {SignalNames.手動模式, 60},
-                                             {SignalNames.降溫中, 208},
-                                             {SignalNames.程式結束, 209},
-                                             {SignalNames.加熱門未關, 250},
-                                             {SignalNames.緊急停止, 700},
-                                             {SignalNames.溫控器低溫異常, 701},
-                                             {SignalNames.電源反相, 702},
-                                             {SignalNames.OTP超溫異常, 703},
-                                             {SignalNames.循環風車過載, 704},
-                                             {SignalNames.冷卻進氣風車異常, 705},
-                                             {SignalNames.超溫警報, 710},
-                                             {SignalNames.停止後未開門, 715},
-                                             {SignalNames.循環風車INV異常, 718},
-                                             {SignalNames.充氮氣逾時, 721},
-                                             {SignalNames.門未關定位異常, 722},
-                                             {SignalNames.升恆溫逾時, 723}
+                                             {SignalNames.PC_InUsed, (BitType.M, 20)},
+                                             {SignalNames.自動模式, (BitType.M, 50)},
+                                             {SignalNames.自動啟動, (BitType.M, 51)},
+                                             {SignalNames.自動停止, (BitType.M, 52)},
+                                             {SignalNames.手動模式, (BitType.M, 60)},
+                                             {SignalNames.降溫中, (BitType.M, 208)},
+                                             {SignalNames.程式結束, (BitType.M, 209)},
+                                             {SignalNames.加熱門未關, (BitType.M, 250)},
+                                             {SignalNames.緊急停止, (BitType.M, 700)},
+                                             {SignalNames.溫控器低溫異常, (BitType.M, 701)},
+                                             {SignalNames.電源反相, (BitType.M, 702)},
+                                             {SignalNames.OTP超溫異常, (BitType.M, 703)},
+                                             {SignalNames.循環風車過載, (BitType.M, 704)},
+                                             {SignalNames.冷卻進氣風車異常, (BitType.M, 705)},
+                                             {SignalNames.超溫警報, (BitType.M, 710)},
+                                             {SignalNames.停止後未開門, (BitType.M, 715)},
+                                             {SignalNames.循環風車INV異常, (BitType.M, 718)},
+                                             {SignalNames.充氮氣逾時, (BitType.M, 721)},
+                                             {SignalNames.門未關定位異常, (BitType.M, 722)},
+                                             {SignalNames.升恆溫逾時, (BitType.M, 723)}
                                          },
-                                         //!PLC的D區位置
-                                         new Dictionary<DataNames, int>
+                                         new Dictionary<DataNames, (DataType, int)>
                                          {
-                                             {DataNames.溫控器溫度, 130},
-                                             {DataNames.片段剩餘時間, 132},
-                                             {DataNames.總剩餘時間, 134},
-                                             {DataNames.目前段數, 140},
-                                             {DataNames.爐內溫度_1, 380},
-                                             {DataNames.爐內溫度_2, 381},
-                                             {DataNames.爐內溫度_3, 382},
-                                             {DataNames.爐內溫度_4, 383},
-                                             {DataNames.爐內溫度_5, 384},
-                                             {DataNames.爐內溫度_6, 385},
-                                             {DataNames.爐內溫度_7, 386},
-                                             {DataNames.爐內溫度_8, 387}
+                                             {DataNames.溫控器溫度, (DataType.D, 130)},
+                                             {DataNames.片段剩餘時間, (DataType.D, 132)},
+                                             {DataNames.總剩餘時間, (DataType.D, 134)},
+                                             {DataNames.目前段數, (DataType.D, 140)},
+                                             {DataNames.爐內溫度_1, (DataType.D, 380)},
+                                             {DataNames.爐內溫度_2, (DataType.D, 381)},
+                                             {DataNames.爐內溫度_3, (DataType.D, 382)},
+                                             {DataNames.爐內溫度_4, (DataType.D, 383)},
+                                             {DataNames.爐內溫度_5, (DataType.D, 384)},
+                                             {DataNames.爐內溫度_6, (DataType.D, 385)},
+                                             {DataNames.爐內溫度_7, (DataType.D, 386)},
+                                             {DataNames.爐內溫度_8, (DataType.D, 387)}
                                          },
                                          //!PLC的配方參數位置
-                                         new Dictionary<DataNames, int>
+                                         new Dictionary<DataNames, (DataType, int)>
                                          {
-                                             {DataNames.目標溫度_1, 812},
-                                             {DataNames.升溫時間_1, 813},
-                                             {DataNames.恆溫溫度_1, 814},
-                                             {DataNames.恆溫時間_1, 815},
-                                             {DataNames.目標溫度_2, 816},
-                                             {DataNames.升溫時間_2, 817},
-                                             {DataNames.恆溫溫度_2, 818},
-                                             {DataNames.恆溫時間_2, 819},
-                                             {DataNames.目標溫度_3, 820},
-                                             {DataNames.升溫時間_3, 821},
-                                             {DataNames.恆溫溫度_3, 822},
-                                             {DataNames.恆溫時間_3, 823},
-                                             {DataNames.目標溫度_4, 824},
-                                             {DataNames.升溫時間_4, 825},
-                                             {DataNames.恆溫溫度_4, 826},
-                                             {DataNames.恆溫時間_4, 827},
-                                             {DataNames.目標溫度_5, 828},
-                                             {DataNames.升溫時間_5, 829},
-                                             {DataNames.恆溫溫度_5, 830},
-                                             {DataNames.恆溫時間_5, 831},
-                                             {DataNames.目標溫度_6, 832},
-                                             {DataNames.升溫時間_6, 833},
-                                             {DataNames.恆溫溫度_6, 834},
-                                             {DataNames.恆溫時間_6, 835},
-                                             {DataNames.目標溫度_7, 836},
-                                             {DataNames.升溫時間_7, 837},
-                                             {DataNames.恆溫溫度_7, 838},
-                                             {DataNames.恆溫時間_7, 839},
-                                             {DataNames.目標溫度_8, 840},
-                                             {DataNames.升溫時間_8, 841},
-                                             {DataNames.恆溫溫度_8, 842},
-                                             {DataNames.恆溫時間_8, 843},
-                                             {DataNames.降溫溫度, 845},
-                                             {DataNames.充氣時間, 847},
-                                             {DataNames.使用段數, 849},
-                                             {DataNames.配方名稱_01, 850},
-                                             {DataNames.配方名稱_02, 851},
-                                             {DataNames.配方名稱_03, 852},
-                                             {DataNames.配方名稱_04, 853},
-                                             {DataNames.配方名稱_05, 854},
-                                             {DataNames.配方名稱_06, 855},
-                                             {DataNames.配方名稱_07, 856},
-                                             {DataNames.配方名稱_08, 857},
-                                             {DataNames.配方名稱_09, 858},
-                                             {DataNames.配方名稱_10, 859},
-                                             {DataNames.配方名稱_11, 860},
-                                             {DataNames.配方名稱_12, 861},
-                                             {DataNames.配方名稱_13, 862}
+                                             {DataNames.目標溫度_1, (DataType.D, 812)},
+                                             {DataNames.升溫時間_1, (DataType.D, 813)},
+                                             {DataNames.恆溫溫度_1, (DataType.D, 814)},
+                                             {DataNames.恆溫時間_1, (DataType.D, 815)},
+                                             {DataNames.目標溫度_2, (DataType.D, 816)},
+                                             {DataNames.升溫時間_2, (DataType.D, 817)},
+                                             {DataNames.恆溫溫度_2, (DataType.D, 818)},
+                                             {DataNames.恆溫時間_2, (DataType.D, 819)},
+                                             {DataNames.目標溫度_3, (DataType.D, 820)},
+                                             {DataNames.升溫時間_3, (DataType.D, 821)},
+                                             {DataNames.恆溫溫度_3, (DataType.D, 822)},
+                                             {DataNames.恆溫時間_3, (DataType.D, 823)},
+                                             {DataNames.目標溫度_4, (DataType.D, 824)},
+                                             {DataNames.升溫時間_4, (DataType.D, 825)},
+                                             {DataNames.恆溫溫度_4, (DataType.D, 826)},
+                                             {DataNames.恆溫時間_4, (DataType.D, 827)},
+                                             {DataNames.目標溫度_5, (DataType.D, 828)},
+                                             {DataNames.升溫時間_5, (DataType.D, 829)},
+                                             {DataNames.恆溫溫度_5, (DataType.D, 830)},
+                                             {DataNames.恆溫時間_5, (DataType.D, 831)},
+                                             {DataNames.目標溫度_6, (DataType.D, 832)},
+                                             {DataNames.升溫時間_6, (DataType.D, 833)},
+                                             {DataNames.恆溫溫度_6, (DataType.D, 834)},
+                                             {DataNames.恆溫時間_6, (DataType.D, 835)},
+                                             {DataNames.目標溫度_7, (DataType.D, 836)},
+                                             {DataNames.升溫時間_7, (DataType.D, 837)},
+                                             {DataNames.恆溫溫度_7, (DataType.D, 838)},
+                                             {DataNames.恆溫時間_7, (DataType.D, 839)},
+                                             {DataNames.目標溫度_8, (DataType.D, 840)},
+                                             {DataNames.升溫時間_8, (DataType.D, 841)},
+                                             {DataNames.恆溫溫度_8, (DataType.D, 842)},
+                                             {DataNames.恆溫時間_8, (DataType.D, 843)},
+                                             {DataNames.降溫溫度, (DataType.D, 845)},
+                                             {DataNames.充氣時間, (DataType.D, 847)},
+                                             {DataNames.使用段數, (DataType.D, 849)},
+                                             {DataNames.配方名稱_01, (DataType.D, 850)},
+                                             {DataNames.配方名稱_02, (DataType.D, 851)},
+                                             {DataNames.配方名稱_03, (DataType.D, 852)},
+                                             {DataNames.配方名稱_04, (DataType.D, 853)},
+                                             {DataNames.配方名稱_05, (DataType.D, 854)},
+                                             {DataNames.配方名稱_06, (DataType.D, 855)},
+                                             {DataNames.配方名稱_07, (DataType.D, 856)},
+                                             {DataNames.配方名稱_08, (DataType.D, 857)},
+                                             {DataNames.配方名稱_09, (DataType.D, 858)},
+                                             {DataNames.配方名稱_10, (DataType.D, 859)},
+                                             {DataNames.配方名稱_11, (DataType.D, 860)},
+                                             {DataNames.配方名稱_12, (DataType.D, 861)},
+                                             {DataNames.配方名稱_13, (DataType.D, 862)}
                                          });
 
             TotalVM = new TotalView_ViewModel(Enumerable.Repeat(map, 20).ToArray(), DialogVM);
@@ -711,7 +709,7 @@ namespace GPGO_MultiPLCs
                                                            AddedTime     = e.time,
                                                            Type          = e.type,
                                                            Description   = e.note,
-                                                           TagCode       = e.tag,
+                                                           TagCode       = $"{e.tag.Item1}{e.tag.Item2}",
                                                            Value         = e.value
                                                        });
                                      };

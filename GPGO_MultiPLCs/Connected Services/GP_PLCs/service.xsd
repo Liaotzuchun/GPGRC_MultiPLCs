@@ -2,6 +2,7 @@
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" />
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/System" />
   <xs:element name="CheckSignal">
     <xs:complexType>
       <xs:sequence>
@@ -46,10 +47,25 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="Get_Bits2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="index" type="xs:int" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="devs" nillable="true" type="q5:ArrayOfValueTupleOfBitTypeintZpCBpbGt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Get_Bits2Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_Bits2Result" nillable="true" type="q6:ArrayOfKeyValueOfValueTupleOfBitTypeintZpCBpbGtbooleanRDHGY3MA" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="Get_Data">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q5:DataType" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q7:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
       </xs:sequence>
@@ -65,23 +81,38 @@
   <xs:element name="Get_Datas">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q6:DataType" />
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q8:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q7:ArrayOfint" />
+        <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q9:ArrayOfint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Get_DatasResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_DatasResult" nillable="true" type="q8:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_DatasResult" nillable="true" type="q10:ArrayOfKeyValueOfintshort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Get_Datas2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="index" type="xs:int" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="devs" nillable="true" type="q11:ArrayOfValueTupleOfDataTypeintZpCBpbGt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Get_Datas2Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_Datas2Result" nillable="true" type="q12:ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtshortRDHGY3MA" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Get_Int">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q9:DataType" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q13:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
       </xs:sequence>
@@ -97,23 +128,38 @@
   <xs:element name="Get_Ints">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q10:DataType" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q14:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q11:ArrayOfint" />
+        <xs:element xmlns:q15="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q15:ArrayOfint" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Get_IntsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_IntsResult" nillable="true" type="q12:ArrayOfKeyValueOfintint" />
+        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_IntsResult" nillable="true" type="q16:ArrayOfKeyValueOfintint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Get_Ints2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="index" type="xs:int" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="devs" nillable="true" type="q17:ArrayOfValueTupleOfDataTypeintZpCBpbGt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Get_Ints2Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Get_Ints2Result" nillable="true" type="q18:ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtintRDHGY3MA" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Get_String">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q13:DataType" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q19:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
         <xs:element minOccurs="0" name="length" type="xs:int" />
@@ -130,7 +176,7 @@
   <xs:element name="Set_Bit">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q14:BitType" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q20:BitType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
         <xs:element minOccurs="0" name="val" type="xs:boolean" />
@@ -140,16 +186,24 @@
   <xs:element name="Set_Bits">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q15:BitType" />
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q21:BitType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q16:ArrayOfKeyValueOfintboolean" />
+        <xs:element xmlns:q22="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q22:ArrayOfKeyValueOfintboolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Set_Bits2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="index" type="xs:int" />
+        <xs:element xmlns:q23="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q23:ArrayOfKeyValueOfValueTupleOfBitTypeintZpCBpbGtbooleanRDHGY3MA" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Set_Data">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q17:DataType" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q24:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
         <xs:element minOccurs="0" name="val" type="xs:short" />
@@ -159,16 +213,24 @@
   <xs:element name="Set_Datas">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q18:DataType" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q25:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q19="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q19:ArrayOfKeyValueOfintshort" />
+        <xs:element xmlns:q26="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q26:ArrayOfKeyValueOfintshort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Set_Datas2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="index" type="xs:int" />
+        <xs:element xmlns:q27="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q27:ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtshortRDHGY3MA" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Set_Int">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q20:DataType" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q28:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
         <xs:element minOccurs="0" name="val" type="xs:int" />
@@ -178,16 +240,24 @@
   <xs:element name="Set_Ints">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q21:DataType" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q29:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q22="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q22:ArrayOfKeyValueOfintint" />
+        <xs:element xmlns:q30="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q30:ArrayOfKeyValueOfintint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Set_Ints2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="index" type="xs:int" />
+        <xs:element xmlns:q31="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="devs" nillable="true" type="q31:ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtintRDHGY3MA" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Set_String">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q23:DataType" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="type" type="q32:DataType" />
         <xs:element minOccurs="0" name="index" type="xs:int" />
         <xs:element minOccurs="0" name="dev" type="xs:int" />
         <xs:element minOccurs="0" name="val" nillable="true" type="xs:string" />
@@ -198,14 +268,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list" nillable="true" type="q24:ArrayOfstring" />
+        <xs:element xmlns:q33="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list" nillable="true" type="q33:ArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SetReadLists">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list" nillable="true" type="q25:ArrayOfArrayOfstring" />
+        <xs:element xmlns:q34="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="list" nillable="true" type="q34:ArrayOfArrayOfstring" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -213,7 +283,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="index" type="xs:int" />
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="val" nillable="true" type="q26:PLC_Messages" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/MultiPLCs_Gate.ViewModels" minOccurs="0" name="val" nillable="true" type="q35:PLC_Messages" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

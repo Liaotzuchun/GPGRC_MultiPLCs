@@ -1,23 +1,24 @@
 ﻿using System.Collections.Generic;
+using GPGO_MultiPLCs.GP_PLCs;
 
 namespace GPGO_MultiPLCs.Models
 {
     public class PLC_DevicesMap
     {
-        public Dictionary<DataNames, int>   DataList;
-        public Dictionary<DataNames, int>   DataList_Ext;
-        public Dictionary<DataNames, int>   RecipeList;
-        public Dictionary<SignalNames, int> SignalList;
-        public Dictionary<SignalNames, int> SignalList_Ext;
+        public Dictionary<DataNames, (DataType, int)>   DataList;
+        public Dictionary<DataNames, (DataType, int)>   DataList_Ext;
+        public Dictionary<DataNames, (DataType, int)>   RecipeList;
+        public Dictionary<SignalNames, (BitType, int)> SignalList;
+        public Dictionary<SignalNames, (BitType, int)> SignalList_Ext;
 
-        public PLC_DevicesMap(Dictionary<SignalNames, int> _SignalList, Dictionary<DataNames, int> _DataList, Dictionary<DataNames, int> _RecipeList)
+        public PLC_DevicesMap(Dictionary<SignalNames, (BitType, int)> _SignalList, Dictionary<DataNames, (DataType, int)> _DataList, Dictionary<DataNames, (DataType, int)> _RecipeList)
         {
             SignalList = _SignalList;
             DataList   = _DataList;
             RecipeList = _RecipeList;
         }
 
-        public PLC_DevicesMap(Dictionary<SignalNames, int> _SignalList, Dictionary<DataNames, int> _DataList, Dictionary<DataNames, int> _RecipeList, Dictionary<SignalNames, int> _SignalList_Ext)
+        public PLC_DevicesMap(Dictionary<SignalNames, (BitType, int)> _SignalList, Dictionary<DataNames, (DataType, int)> _DataList, Dictionary<DataNames, (DataType, int)> _RecipeList, Dictionary<SignalNames, (BitType, int)> _SignalList_Ext)
         {
             SignalList     = _SignalList;
             DataList       = _DataList;
@@ -25,11 +26,11 @@ namespace GPGO_MultiPLCs.Models
             SignalList_Ext = _SignalList_Ext;
         }
 
-        public PLC_DevicesMap(Dictionary<SignalNames, int> _SignalList,
-                              Dictionary<DataNames, int> _DataList,
-                              Dictionary<DataNames, int> _RecipeList,
-                              Dictionary<SignalNames, int> _SignalList_Ext,
-                              Dictionary<DataNames, int> _DataList_Ext)
+        public PLC_DevicesMap(Dictionary<SignalNames, (BitType, int)> _SignalList,
+                              Dictionary<DataNames, (DataType, int)> _DataList,
+                              Dictionary<DataNames, (DataType, int)> _RecipeList,
+                              Dictionary<SignalNames, (BitType, int)> _SignalList_Ext,
+                              Dictionary<DataNames, (DataType, int)> _DataList_Ext)
         {
             SignalList     = _SignalList;
             DataList       = _DataList;

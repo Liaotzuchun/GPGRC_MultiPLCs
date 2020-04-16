@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
+using GPGO_MultiPLCs.GP_PLCs;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 
@@ -116,10 +117,10 @@ namespace GPGO_MultiPLCs.Models
                 NotifyPropertyChanged(nameof(Progress));
                 NotifyPropertyChanged(nameof(ProgressStatus));
 
-                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", (int)PCEventCode.PC_Offline, value));
+                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", (BitType.S, (int)PCEventCode.PC_Offline), value));
                 if (IsRecording)
                 {
-                    AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, DateTime.Now, "PLC Offline!", (int)PCEventCode.PC_Offline, value);
+                    AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, DateTime.Now, "PLC Offline!", (BitType.S, (int)PCEventCode.PC_Offline), value);
                     CTS?.Cancel();
                 }
             }
@@ -207,9 +208,9 @@ namespace GPGO_MultiPLCs.Models
 
         public event Action<string> CancelCheckIn;
 
-        public event Action<(EventType type, DateTime time, string note, int tag, bool value)> EventHappened;
+        public event Action<(EventType type, DateTime time, string note, (BitType, int) tag, bool value)> EventHappened;
 
-        public event Func<int[], ValueTask<Dictionary<int, short>>> GetPLCParameters;
+        public event Func<(DataType, int)[], ValueTask<Dictionary<(DataType, int), short>>> GetPLCParameters;
 
         public event Func<string, PLC_Recipe> GetRecipe;
 
@@ -221,7 +222,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
 
-        public event Func<Dictionary<int, short>, ValueTask> SetPLCParameters;
+        public event Func<Dictionary<(DataType, int), short>, ValueTask> SetPLCParameters;
 
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
@@ -231,7 +232,7 @@ namespace GPGO_MultiPLCs.Models
             Intput_Name = Selected_Name;
         }
 
-        public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, int tag, bool value)
+        public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, (BitType, int) tag, bool value)
         {
             OvenInfo.EventList.Add(new LogEvent
                                    {
@@ -239,7 +240,7 @@ namespace GPGO_MultiPLCs.Models
                                        StartTime   = start,
                                        AddedTime   = addtime,
                                        Description = note,
-                                       TagCode     = tag,
+                                       TagCode     = $"{tag.Item1}{tag.Item2}",
                                        Value       = value
                                    });
         }
@@ -266,18 +267,18 @@ namespace GPGO_MultiPLCs.Models
         /// <param name="map"></param>
         public void ResetMapList(PLC_DevicesMap map)
         {
-            M_Values.Clear();
-            D_Values.Clear();
+            Bit_Values.Clear();
+            Data_Values.Clear();
             Recipe_Values.Clear();
 
             foreach (var loc in map.SignalList)
             {
-                M_Values.Add(loc.Key, loc.Value, false);
+                Bit_Values.Add(loc.Key, loc.Value, false);
             }
 
             foreach (var loc in map.DataList)
             {
-                D_Values.Add(loc.Key, loc.Value, 0);
+                Data_Values.Add(loc.Key, loc.Value, 0);
             }
 
             foreach (var loc in map.RecipeList)
@@ -632,18 +633,18 @@ namespace GPGO_MultiPLCs.Models
                                             }
                                         };
 
-            M_Values      = new TwoKeyDictionary<SignalNames, int, bool>();
-            D_Values      = new TwoKeyDictionary<DataNames, int, short>();
-            Recipe_Values = new TwoKeyDictionary<DataNames, int, short>();
+            Bit_Values      = new TwoKeyDictionary<SignalNames, (BitType, int), bool>();
+            Data_Values      = new TwoKeyDictionary<DataNames, (DataType, int), short>();
+            Recipe_Values = new TwoKeyDictionary<DataNames, (DataType, int), short>();
 
             foreach (var loc in map.SignalList)
             {
-                M_Values.Add(loc.Key, loc.Value, false);
+                Bit_Values.Add(loc.Key, loc.Value, false);
             }
 
             foreach (var loc in map.DataList)
             {
-                D_Values.Add(loc.Key, loc.Value, 0);
+                Data_Values.Add(loc.Key, loc.Value, 0);
             }
 
             foreach (var loc in map.RecipeList)
@@ -744,7 +745,7 @@ namespace GPGO_MultiPLCs.Models
 
             #region 註冊PLC事件
 
-            M_Values.UpdatedEvent += async (key1, key2, value) =>
+            Bit_Values.UpdatedEvent += async (key1, key2, value) =>
                                      {
                                          NotifyPropertyChanged(M_Map[key1]);
                                          var nt = DateTime.Now;
@@ -769,11 +770,11 @@ namespace GPGO_MultiPLCs.Models
 
                                              //!讀取配方實際值，實際位置為寫入位置-100
                                              if (GetPLCParameters != null &&
-                                                 await GetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().Select(x => x.Key - 100).ToArray()) is Dictionary<int, short> recipe)
+                                                 await GetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().Select(x => (x.Key.Item1, x.Key.Item2 - 100)).ToArray()) is Dictionary<(DataType,int), short> recipe)
                                              {
                                                  foreach (var val in recipe)
                                                  {
-                                                     Recipe_Values[val.Key + 100] = val.Value;
+                                                     Recipe_Values[(val.Key.Item1, val.Key.Item2 + 100)] = val.Value;
                                                  }
                                              }
 
@@ -847,7 +848,7 @@ namespace GPGO_MultiPLCs.Models
                                          }
                                      };
 
-            D_Values.UpdatedEvent += (key1, key2, value) =>
+            Data_Values.UpdatedEvent += (key1, key2, value) =>
                                      {
                                          NotifyPropertyChanged(D_Map[key1]);
                                          var nt = DateTime.Now;
@@ -860,7 +861,7 @@ namespace GPGO_MultiPLCs.Models
                                                                  OvenInfo.StartTime,
                                                                  nt,
                                                                  CurrentSegment == 0 ? "準備中" : $"第{Math.Ceiling(CurrentSegment / 2.0):0}段{(CurrentSegment % 2 == 0 ? "恆溫" : "升溫")}",
-                                                                 0,
+                                                                 (BitType.S, (int)PCEventCode.段數切換),
                                                                  true);
                                              }
 

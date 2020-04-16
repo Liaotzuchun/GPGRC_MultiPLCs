@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
-             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:models1="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
+             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:LogView_ViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -312,11 +312,11 @@
                                 DataContext="{Binding BeginTime, Mode=OneWay}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="10"
+                                   FontSize="11"
                                    Text="{Binding Mode=OneWay, StringFormat=\{0:d\}}" />
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="10"
+                                   FontSize="11"
                                    Text="{Binding Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
                     </StackPanel>
                 </Border>
@@ -337,11 +337,11 @@
                                 DataContext="{Binding EndTime, Mode=OneWay}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="10"
+                                   FontSize="11"
                                    Text="{Binding Mode=OneWay, StringFormat=\{0:d\}}" />
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="10"
+                                   FontSize="11"
                                    Text="{Binding Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
                     </StackPanel>
                 </Border>
@@ -478,8 +478,7 @@
                             <DataTemplate DataType="models:LogEvent">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Margin="0,0,4,0"
-                                               Text="{Binding TagCode, Mode=OneWay, StringFormat={}({0})}"
-                                               Visibility="{Binding TagCode, Mode=OneWay, Converter={StaticResource CountVis}}" />
+                                               Text="{Binding TagCode, Mode=OneWay, StringFormat={}{0}}" />
                                     <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
                                                TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
@@ -491,18 +490,18 @@
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding ActualWidth, ConverterParameter=1, Converter={StaticResource AddValue}, ElementName=dc1, Mode=OneWay}"
-                                      MinWidth="60" />
+                                      MinWidth="80" />
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto"
-                                      MinWidth="60" />
+                                      MinWidth="80" />
                     <ColumnDefinition Width="Auto"
-                                      MinWidth="60" />
+                                      MinWidth="80" />
                     <ColumnDefinition Width="Auto"
-                                      MinWidth="60" />
+                                      MinWidth="80" />
                     <ColumnDefinition Width="Auto"
-                                      MinWidth="60" />
+                                      MinWidth="80" />
                     <ColumnDefinition Width="Auto"
-                                      MinWidth="60" />
+                                      MinWidth="80" />
                     <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -516,7 +515,8 @@
                                VerticalAlignment="Center"
                                Text="{DynamicResource 歷時}" />
                 </Border>
-                <Border Grid.Column="1"
+                <Border Grid.Row="0"
+                        Grid.Column="1"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
@@ -524,7 +524,8 @@
                                VerticalAlignment="Center"
                                Text="{DynamicResource 配方}" />
                 </Border>
-                <Border Grid.Column="2"
+                <Border Grid.Row="0"
+                        Grid.Column="2"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
@@ -532,7 +533,8 @@
                                VerticalAlignment="Center"
                                Text="{DynamicResource 工單}" />
                 </Border>
-                <Border Grid.Column="3"
+                <Border Grid.Row="0"
+                        Grid.Column="3"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
@@ -540,7 +542,8 @@
                                VerticalAlignment="Center"
                                Text="{DynamicResource 操作員}" />
                 </Border>
-                <Border Grid.Column="4"
+                <Border Grid.Row="0"
+                        Grid.Column="4"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
@@ -548,7 +551,8 @@
                                VerticalAlignment="Center"
                                Text="{DynamicResource 台車}" />
                 </Border>
-                <Border Grid.Column="5"
+                <Border Grid.Row="0"
+                        Grid.Column="5"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
@@ -556,7 +560,8 @@
                                VerticalAlignment="Center"
                                Text="{DynamicResource 數量}" />
                 </Border>
-                <Border Grid.Column="6"
+                <Border Grid.Row="0"
+                        Grid.Column="6"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,0,1">
@@ -565,6 +570,7 @@
                                Text="{DynamicResource 正反面}" />
                 </Border>
                 <Border Grid.Row="1"
+                        Grid.Column="0"
                         Background="{StaticResource LightColorBrush}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,1">
@@ -636,7 +642,8 @@
                                VerticalAlignment="Center"
                                Text="{Binding SelectedProcessInfo.Side, Mode=OneWay}" />
                 </Border>
-                <Button Grid.RowSpan="2"
+                <Button Grid.Row="0"
+                        Grid.RowSpan="2"
                         Grid.Column="7"
                         Command="{Binding GoCommand, Mode=OneWay}"
                         Content="{DynamicResource 詳情}"
@@ -740,8 +747,7 @@
                             <DataTemplate DataType="models:LogEvent">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Margin="0,0,4,0"
-                                               Text="{Binding TagCode, Mode=OneWay, StringFormat={}({0})}"
-                                               Visibility="{Binding TagCode, Mode=OneWay, Converter={StaticResource CountVis}}" />
+                                               Text="{Binding TagCode, Mode=OneWay, StringFormat={}{0}}" />
                                     <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
                                                TextTrimming="CharacterEllipsis" />
                                 </StackPanel>

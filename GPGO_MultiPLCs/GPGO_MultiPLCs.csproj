@@ -171,6 +171,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\BsobSerializers.cs" />
     <Compile Include="Models\GlobalSettings.cs" />
     <Compile Include="Models\NamesEnum.cs" />
     <Compile Include="Models\PLC_Data.cs" />
@@ -282,6 +283,12 @@
     <None Include="Connected Services\GP_PLCs\Arrays.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\GP_PLCs\GPGO_MultiPLCs.GP_PLCs.BitType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\GP_PLCs\GPGO_MultiPLCs.GP_PLCs.DataType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\GP_PLCs\MultiPLCs_Gate.ViewModels.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -290,6 +297,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\GP_PLCs\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\GP_PLCs\System.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
@@ -325,7 +335,6 @@
     <Resource Include="GP.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Helpers\" />
     <Folder Include="Views\Controls\" />
     <Folder Include="Views\Resources\" />
   </ItemGroup>

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/Arrays" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/System" />
   <xs:complexType name="ArrayOfint">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="int" type="xs:int" />
@@ -24,6 +25,24 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfKeyValueOfintboolean" nillable="true" type="tns:ArrayOfKeyValueOfintboolean" />
+  <xs:complexType name="ArrayOfKeyValueOfValueTupleOfBitTypeintZpCBpbGtbooleanRDHGY3MA">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="KeyValueOfValueTupleOfBitTypeintZpCBpbGtbooleanRDHGY3MA">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" name="Key" type="q1:ValueTupleOfBitTypeintZpCBpbGt" />
+            <xs:element name="Value" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfKeyValueOfValueTupleOfBitTypeintZpCBpbGtbooleanRDHGY3MA" nillable="true" type="tns:ArrayOfKeyValueOfValueTupleOfBitTypeintZpCBpbGtbooleanRDHGY3MA" />
   <xs:complexType name="ArrayOfKeyValueOfintshort">
     <xs:annotation>
       <xs:appinfo>
@@ -42,6 +61,24 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfKeyValueOfintshort" nillable="true" type="tns:ArrayOfKeyValueOfintshort" />
+  <xs:complexType name="ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtshortRDHGY3MA">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="KeyValueOfValueTupleOfDataTypeintZpCBpbGtshortRDHGY3MA">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/System" name="Key" type="q2:ValueTupleOfDataTypeintZpCBpbGt" />
+            <xs:element name="Value" type="xs:short" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtshortRDHGY3MA" nillable="true" type="tns:ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtshortRDHGY3MA" />
   <xs:complexType name="ArrayOfKeyValueOfintint">
     <xs:annotation>
       <xs:appinfo>
@@ -60,6 +97,24 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfKeyValueOfintint" nillable="true" type="tns:ArrayOfKeyValueOfintint" />
+  <xs:complexType name="ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtintRDHGY3MA">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsDictionary xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsDictionary>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="KeyValueOfValueTupleOfDataTypeintZpCBpbGtintRDHGY3MA">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System" name="Key" type="q3:ValueTupleOfDataTypeintZpCBpbGt" />
+            <xs:element name="Value" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtintRDHGY3MA" nillable="true" type="tns:ArrayOfKeyValueOfValueTupleOfDataTypeintZpCBpbGtintRDHGY3MA" />
   <xs:complexType name="ArrayOfstring">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string" />

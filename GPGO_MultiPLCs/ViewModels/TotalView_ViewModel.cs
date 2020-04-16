@@ -43,12 +43,17 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                               foreach (var D in args.Item2.D)
                                               {
-                                                  PLC_All[args.Item1].D_Values[D.Key] = D.Value;
+                                                  PLC_All[args.Item1].Data_Values[(DataType.D, D.Key)] = D.Value;
                                               }
 
                                               foreach (var M in args.Item2.M)
                                               {
-                                                  PLC_All[args.Item1].M_Values[M.Key] = M.Value;
+                                                  PLC_All[args.Item1].Bit_Values[(BitType.M, M.Key)] = M.Value;
+                                              }
+
+                                              foreach (var S in args.Item2.S)
+                                              {
+                                                  PLC_All[args.Item1].Bit_Values[(BitType.S, S.Key)] = S.Value;
                                               }
                                           }
                                       }
@@ -178,7 +183,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
 
-        public event Action<(int StationIndex, EventType type, DateTime time, string note, int tag, bool value)> EventHappened;
+        public event Action<(int StationIndex, EventType type, DateTime time, string note, (BitType, int) tag, bool value)> EventHappened;
 
         public event Func<(int StationIndex, string RecipeName), PLC_Recipe> GetRecipe;
 
@@ -312,7 +317,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && PLC_All[index].OnlineStatus)
             {
-                await PLC_Client.Set_DatasAsync(DataType.D, index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+                await PLC_Client.Set_Datas2Async(index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
 
                 return true;
             }
@@ -509,13 +514,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 CancelCheckIn?.Invoke((index, TrolleyCode));
                                             };
 
-                PLC_All[i].GetPLCParameters += async values => PLC_Client?.State == CommunicationState.Opened ? await PLC_Client.Get_DatasAsync(DataType.D, index, values) : null;
+                PLC_All[i].GetPLCParameters += async values => PLC_Client?.State == CommunicationState.Opened ? await PLC_Client.Get_Datas2Async(index, values) : null;
 
                 PLC_All[i].SetPLCParameters += async values =>
                                                {
                                                    if (PLC_Client?.State == CommunicationState.Opened)
                                                    {
-                                                       await PLC_Client.Set_DatasAsync(DataType.D, index, values);
+                                                       await PLC_Client.Set_Datas2Async(index, values);
                                                    }
                                                };
             }
@@ -526,8 +531,8 @@ namespace GPGO_MultiPLCs.ViewModels
             //!產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
             var namearray = plc_maps.Select(x =>
                                             {
-                                                var list1 = x.SignalList.Values.OrderBy(y => y).Select(y => BitType.M + y.ToString());
-                                                var list2 = x.DataList.Values.OrderBy(y => y).Select(y => DataType.D + y.ToString());
+                                                var list1 = x.SignalList.Values.OrderBy(y => y.Item1).ThenBy(y=>y.Item2).Select(y => $"{y.Item1}{y.Item2}");
+                                                var list2 = x.DataList.Values.OrderBy(y => y.Item1).ThenBy(y=>y.Item2).Select(y => $"{y.Item1}{y.Item2}");
 
                                                 return list1.Concat(list2).ToArray();
                                             })
@@ -544,7 +549,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     }
                                     else if (!Check() && Gate_Status)
                                     {
-                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", (int)PCEventCode.PC_Offline, true));
+                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", (BitType.S, (int)PCEventCode.PC_Offline), true));
 
                                         Gate_Status = false;
 
