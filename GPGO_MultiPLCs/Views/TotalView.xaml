@@ -1911,7 +1911,7 @@
                                                     <Binding Mode="OneWay"
                                                              Path="CirculatingFanOverload" />
                                                     <Binding Mode="OneWay"
-                                                             Path="CoolingFanAbnormal" />
+                                                             Path="CoolingFanException" />
                                                     <Binding Mode="OneWay"
                                                              Path="CirculatingFanInversion" />
                                                 </MultiBinding>

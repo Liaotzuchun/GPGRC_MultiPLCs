@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using GPGO_MultiPLCs.GP_PLCs;
 using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models

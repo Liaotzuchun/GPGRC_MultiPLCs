@@ -633,8 +633,8 @@ namespace GPGO_MultiPLCs.Models
                                             }
                                         };
 
-            Bit_Values      = new TwoKeyDictionary<SignalNames, (BitType, int), bool>();
-            Data_Values      = new TwoKeyDictionary<DataNames, (DataType, int), short>();
+            Bit_Values    = new TwoKeyDictionary<SignalNames, (BitType, int), bool>();
+            Data_Values   = new TwoKeyDictionary<DataNames, (DataType, int), short>();
             Recipe_Values = new TwoKeyDictionary<DataNames, (DataType, int), short>();
 
             foreach (var loc in map.SignalList)
@@ -654,225 +654,257 @@ namespace GPGO_MultiPLCs.Models
 
             #region 將PLC掃描值和ViewModel上的Property做map連結
 
-            var M_Map = new Dictionary<SignalNames, string>
-                        {
-                            {SignalNames.PC_InUsed, nameof(PC_InUsed)},
-                            {SignalNames.自動模式, nameof(AutoMode)},
-                            {SignalNames.自動啟動, nameof(AutoMode_Start)},
-                            {SignalNames.自動停止, nameof(AutoMode_Stop)},
-                            {SignalNames.手動模式, nameof(ManualMode)},
-                            {SignalNames.降溫中, nameof(IsCooling)},
-                            {SignalNames.程式結束, nameof(ProgramStop)},
-                            {SignalNames.加熱門未關, nameof(DoorNotClosed)},
-                            {SignalNames.緊急停止, nameof(EmergencyStop)},
-                            {SignalNames.溫控器低溫異常, nameof(LowTemperature)},
-                            {SignalNames.電源反相, nameof(PowerInversion)},
-                            {SignalNames.OTP超溫異常, nameof(OTP_TemperatureError)},
-                            {SignalNames.循環風車過載, nameof(CirculatingFanOverload)},
-                            {SignalNames.冷卻進氣風車異常, nameof(CoolingFanAbnormal)},
-                            {SignalNames.超溫警報, nameof(OverTemperatureAlarm)},
-                            {SignalNames.停止後未開門, nameof(DoorNotOpen)},
-                            {SignalNames.循環風車INV異常, nameof(CirculatingFanInversion)},
-                            {SignalNames.充氮氣逾時, nameof(InflatingTimeExceeded)},
-                            {SignalNames.門未關定位異常, nameof(DoorNotClosed_AbnormalPositioning)},
-                            {SignalNames.升恆溫逾時, nameof(HeatingTimeExceeded)}
-                        };
-            var D_Map = new Dictionary<DataNames, string>
-                        {
-                            {DataNames.溫控器溫度, nameof(ThermostatTemperature)},
-                            {DataNames.片段剩餘時間, nameof(Segment_RemainingTime)},
-                            {DataNames.總剩餘時間, nameof(Total_RemainingTime)},
-                            {DataNames.目前段數, nameof(CurrentSegment)},
-                            {DataNames.爐內溫度_1, nameof(OvenTemperature_1)},
-                            {DataNames.爐內溫度_2, nameof(OvenTemperature_2)},
-                            {DataNames.爐內溫度_3, nameof(OvenTemperature_3)},
-                            {DataNames.爐內溫度_4, nameof(OvenTemperature_4)},
-                            {DataNames.爐內溫度_5, nameof(OvenTemperature_5)},
-                            {DataNames.爐內溫度_6, nameof(OvenTemperature_6)},
-                            {DataNames.爐內溫度_7, nameof(OvenTemperature_7)},
-                            {DataNames.爐內溫度_8, nameof(OvenTemperature_8)},
-                            {DataNames.目標溫度_1, nameof(TargetTemperature_1)},
-                            {DataNames.升溫時間_1, nameof(HeatingTime_1)},
-                            {DataNames.恆溫溫度_1, nameof(ThermostaticTemperature_1)},
-                            {DataNames.恆溫時間_1, nameof(WarmingTime_1)},
-                            {DataNames.目標溫度_2, nameof(TargetTemperature_2)},
-                            {DataNames.升溫時間_2, nameof(HeatingTime_2)},
-                            {DataNames.恆溫溫度_2, nameof(ThermostaticTemperature_2)},
-                            {DataNames.恆溫時間_2, nameof(WarmingTime_2)},
-                            {DataNames.目標溫度_3, nameof(TargetTemperature_3)},
-                            {DataNames.升溫時間_3, nameof(HeatingTime_3)},
-                            {DataNames.恆溫溫度_3, nameof(ThermostaticTemperature_3)},
-                            {DataNames.恆溫時間_3, nameof(WarmingTime_3)},
-                            {DataNames.目標溫度_4, nameof(TargetTemperature_4)},
-                            {DataNames.升溫時間_4, nameof(HeatingTime_4)},
-                            {DataNames.恆溫溫度_4, nameof(ThermostaticTemperature_4)},
-                            {DataNames.恆溫時間_4, nameof(WarmingTime_4)},
-                            {DataNames.目標溫度_5, nameof(TargetTemperature_5)},
-                            {DataNames.升溫時間_5, nameof(HeatingTime_5)},
-                            {DataNames.恆溫溫度_5, nameof(ThermostaticTemperature_5)},
-                            {DataNames.恆溫時間_5, nameof(WarmingTime_5)},
-                            {DataNames.目標溫度_6, nameof(TargetTemperature_6)},
-                            {DataNames.升溫時間_6, nameof(HeatingTime_6)},
-                            {DataNames.恆溫溫度_6, nameof(ThermostaticTemperature_6)},
-                            {DataNames.恆溫時間_6, nameof(WarmingTime_6)},
-                            {DataNames.目標溫度_7, nameof(TargetTemperature_7)},
-                            {DataNames.升溫時間_7, nameof(HeatingTime_7)},
-                            {DataNames.恆溫溫度_7, nameof(ThermostaticTemperature_7)},
-                            {DataNames.恆溫時間_7, nameof(WarmingTime_7)},
-                            {DataNames.目標溫度_8, nameof(TargetTemperature_8)},
-                            {DataNames.升溫時間_8, nameof(HeatingTime_8)},
-                            {DataNames.恆溫溫度_8, nameof(ThermostaticTemperature_8)},
-                            {DataNames.恆溫時間_8, nameof(WarmingTime_8)},
-                            {DataNames.降溫溫度, nameof(CoolingTemperature)},
-                            {DataNames.充氣時間, nameof(InflatingTime)},
-                            {DataNames.使用段數, nameof(UsedSegmentCounts)},
-                            {DataNames.配方名稱_01, nameof(RecipeName)},
-                            {DataNames.配方名稱_02, nameof(RecipeName)},
-                            {DataNames.配方名稱_03, nameof(RecipeName)},
-                            {DataNames.配方名稱_04, nameof(RecipeName)},
-                            {DataNames.配方名稱_05, nameof(RecipeName)},
-                            {DataNames.配方名稱_06, nameof(RecipeName)},
-                            {DataNames.配方名稱_07, nameof(RecipeName)},
-                            {DataNames.配方名稱_08, nameof(RecipeName)},
-                            {DataNames.配方名稱_09, nameof(RecipeName)},
-                            {DataNames.配方名稱_10, nameof(RecipeName)},
-                            {DataNames.配方名稱_11, nameof(RecipeName)},
-                            {DataNames.配方名稱_12, nameof(RecipeName)},
-                            {DataNames.配方名稱_13, nameof(RecipeName)}
-                        };
+            var Bit_Map = new Dictionary<SignalNames, string>
+                          {
+                              {SignalNames.PC_InUsed, nameof(PC_InUsed)},
+                              {SignalNames.自動模式, nameof(AutoMode)},
+                              {SignalNames.自動啟動, nameof(AutoMode_Start)},
+                              {SignalNames.自動停止, nameof(AutoMode_Stop)},
+                              {SignalNames.手動模式, nameof(ManualMode)},
+                              {SignalNames.降溫中, nameof(IsCooling)},
+                              {SignalNames.程式結束, nameof(ProgramStop)},
+                              {SignalNames.加熱門未關, nameof(DoorNotClosed)},
+                              {SignalNames.緊急停止, nameof(EmergencyStop)},
+                              {SignalNames.溫控器低溫異常, nameof(LowTemperature)},
+                              {SignalNames.電源反相, nameof(PowerInversion)},
+                              {SignalNames.OTP超溫異常, nameof(OTP_TemperatureError)},
+                              {SignalNames.循環風車過載, nameof(CirculatingFanOverload)},
+                              {SignalNames.循環風車電流異常, nameof(CirculatingFanCurrentException)},
+                              {SignalNames.冷卻進氣風車異常, nameof(CoolingFanException)},
+                              {SignalNames.冷卻進氣風車電流異常, nameof(CoolingFanCurrentException)},
+                              {SignalNames.超溫警報, nameof(OverTemperatureAlarm)},
+                              {SignalNames.停止後未開門, nameof(DoorNotOpen)},
+                              {SignalNames.循環風車INV異常, nameof(CirculatingFanInversion)},
+                              {SignalNames.充氮氣逾時, nameof(InflatingTimeExceeded)},
+                              {SignalNames.門未關定位異常, nameof(DoorNotClosed_PositionException)},
+                              {SignalNames.升恆溫逾時, nameof(HeatingTimeExceeded)},
+                              {SignalNames.加熱分路跳脫, nameof(HeatingBranchException)},
+                              {SignalNames.溫控器異常, nameof(ThermostatException)},
+                              {SignalNames.通訊異常, nameof(CommunicationException)},
+                              {SignalNames.寫入溫度比對異常, nameof(TemperatureWriteError)}
+                          };
+            var Data_Map = new Dictionary<DataNames, string>
+                           {
+                               {DataNames.溫控器實際溫度, nameof(ThermostatTemperature)},
+                               {DataNames.溫控器設定溫度, nameof(ThermostatTemperatureSet)},
+                               {DataNames.片段剩餘時間, nameof(Segment_RemainingTime)},
+                               {DataNames.總剩餘時間, nameof(Total_RemainingTime)},
+                               {DataNames.目前段數, nameof(CurrentSegment)},
+                               {DataNames.爐內溫度_1, nameof(OvenTemperature_1)},
+                               {DataNames.爐內溫度_2, nameof(OvenTemperature_2)},
+                               {DataNames.爐內溫度_3, nameof(OvenTemperature_3)},
+                               {DataNames.爐內溫度_4, nameof(OvenTemperature_4)},
+                               {DataNames.爐內溫度_5, nameof(OvenTemperature_5)},
+                               {DataNames.爐內溫度_6, nameof(OvenTemperature_6)},
+                               {DataNames.爐內溫度_7, nameof(OvenTemperature_7)},
+                               {DataNames.爐內溫度_8, nameof(OvenTemperature_8)},
+                               {DataNames.目標溫度_1, nameof(TargetTemperature_1)},
+                               {DataNames.升溫時間_1, nameof(HeatingTime_1)},
+                               {DataNames.升溫警報_1, nameof(HeatingAlarm_1)},
+                               {DataNames.恆溫溫度_1, nameof(ThermostaticTemperature_1)},
+                               {DataNames.恆溫時間_1, nameof(WarmingTime_1)},
+                               {DataNames.恆溫警報_1, nameof(WarmingAlarm_1)},
+                               {DataNames.目標溫度_2, nameof(TargetTemperature_1)},
+                               {DataNames.升溫時間_2, nameof(HeatingTime_1)},
+                               {DataNames.升溫警報_2, nameof(HeatingAlarm_1)},
+                               {DataNames.恆溫溫度_2, nameof(ThermostaticTemperature_1)},
+                               {DataNames.恆溫時間_2, nameof(WarmingTime_1)},
+                               {DataNames.恆溫警報_2, nameof(WarmingAlarm_1)},
+                               {DataNames.目標溫度_3, nameof(TargetTemperature_1)},
+                               {DataNames.升溫時間_3, nameof(HeatingTime_1)},
+                               {DataNames.升溫警報_3, nameof(HeatingAlarm_1)},
+                               {DataNames.恆溫溫度_3, nameof(ThermostaticTemperature_1)},
+                               {DataNames.恆溫時間_3, nameof(WarmingTime_1)},
+                               {DataNames.恆溫警報_3, nameof(WarmingAlarm_1)},
+                               {DataNames.目標溫度_4, nameof(TargetTemperature_1)},
+                               {DataNames.升溫時間_4, nameof(HeatingTime_1)},
+                               {DataNames.升溫警報_4, nameof(HeatingAlarm_1)},
+                               {DataNames.恆溫溫度_4, nameof(ThermostaticTemperature_1)},
+                               {DataNames.恆溫時間_4, nameof(WarmingTime_1)},
+                               {DataNames.恆溫警報_4, nameof(WarmingAlarm_1)},
+                               {DataNames.目標溫度_5, nameof(TargetTemperature_1)},
+                               {DataNames.升溫時間_5, nameof(HeatingTime_1)},
+                               {DataNames.升溫警報_5, nameof(HeatingAlarm_1)},
+                               {DataNames.恆溫溫度_5, nameof(ThermostaticTemperature_1)},
+                               {DataNames.恆溫時間_5, nameof(WarmingTime_1)},
+                               {DataNames.恆溫警報_5, nameof(WarmingAlarm_1)},
+                               {DataNames.目標溫度_6, nameof(TargetTemperature_1)},
+                               {DataNames.升溫時間_6, nameof(HeatingTime_1)},
+                               {DataNames.升溫警報_6, nameof(HeatingAlarm_1)},
+                               {DataNames.恆溫溫度_6, nameof(ThermostaticTemperature_1)},
+                               {DataNames.恆溫時間_6, nameof(WarmingTime_1)},
+                               {DataNames.恆溫警報_6, nameof(WarmingAlarm_1)},
+                               {DataNames.目標溫度_7, nameof(TargetTemperature_1)},
+                               {DataNames.升溫時間_7, nameof(HeatingTime_1)},
+                               {DataNames.升溫警報_7, nameof(HeatingAlarm_1)},
+                               {DataNames.恆溫溫度_7, nameof(ThermostaticTemperature_1)},
+                               {DataNames.恆溫時間_7, nameof(WarmingTime_1)},
+                               {DataNames.恆溫警報_7, nameof(WarmingAlarm_1)},
+                               {DataNames.目標溫度_8, nameof(TargetTemperature_1)},
+                               {DataNames.升溫時間_8, nameof(HeatingTime_1)},
+                               {DataNames.升溫警報_8, nameof(HeatingAlarm_1)},
+                               {DataNames.恆溫溫度_8, nameof(ThermostaticTemperature_1)},
+                               {DataNames.恆溫時間_8, nameof(WarmingTime_1)},
+                               {DataNames.恆溫警報_8, nameof(WarmingAlarm_1)},
+                               {DataNames.降溫溫度, nameof(CoolingTemperature)},
+                               {DataNames.降溫時間, nameof(CoolingTime)},
+                               {DataNames.充氣時間, nameof(InflatingTime)},
+                               {DataNames.使用段數, nameof(UsedSegmentCounts)},
+                               {DataNames.程式結束警報時間, nameof(ProgramStopAlarmTime)},
+                               {DataNames.配方名稱_01, nameof(RecipeName)},
+                               {DataNames.配方名稱_02, nameof(RecipeName)},
+                               {DataNames.配方名稱_03, nameof(RecipeName)},
+                               {DataNames.配方名稱_04, nameof(RecipeName)},
+                               {DataNames.配方名稱_05, nameof(RecipeName)},
+                               {DataNames.配方名稱_06, nameof(RecipeName)},
+                               {DataNames.配方名稱_07, nameof(RecipeName)},
+                               {DataNames.配方名稱_08, nameof(RecipeName)},
+                               {DataNames.配方名稱_09, nameof(RecipeName)},
+                               {DataNames.配方名稱_10, nameof(RecipeName)},
+                               {DataNames.配方名稱_11, nameof(RecipeName)},
+                               {DataNames.配方名稱_12, nameof(RecipeName)},
+                               {DataNames.配方名稱_13, nameof(RecipeName)},
+                               {DataNames.配方名稱_14, nameof(RecipeName)},
+                               {DataNames.配方名稱_15, nameof(RecipeName)},
+                               {DataNames.配方名稱_16, nameof(RecipeName)},
+                               {DataNames.配方名稱_17, nameof(RecipeName)},
+                               {DataNames.配方名稱_18, nameof(RecipeName)},
+                               {DataNames.配方名稱_19, nameof(RecipeName)},
+                               {DataNames.配方名稱_20, nameof(RecipeName)}
+                           };
 
             #endregion 將PLC掃描值和ViewModel上的Property做map連結
 
             #region 註冊PLC事件
 
             Bit_Values.UpdatedEvent += async (key1, key2, value) =>
-                                     {
-                                         NotifyPropertyChanged(M_Map[key1]);
-                                         var nt = DateTime.Now;
+                                       {
+                                           NotifyPropertyChanged(Bit_Map[key1]);
+                                           var nt = DateTime.Now;
 
-                                         if (key1 == SignalNames.自動啟動)
-                                         {
-                                             EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
+                                           if (key1 == SignalNames.自動啟動)
+                                           {
+                                               EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
 
-                                             if (!value)
-                                             {
-                                                 return;
-                                             }
+                                               if (!value)
+                                               {
+                                                   return;
+                                               }
 
-                                             if (RecordingTask != null && IsRecording)
-                                             {
-                                                 CTS?.Cancel();
+                                               if (RecordingTask != null && IsRecording)
+                                               {
+                                                   CTS?.Cancel();
 
-                                                 await RecordingTask;
-                                             }
+                                                   await RecordingTask;
+                                               }
 
-                                             ResetStopTokenSource();
+                                               ResetStopTokenSource();
 
-                                             //!讀取配方實際值，實際位置為寫入位置-100
-                                             if (GetPLCParameters != null &&
-                                                 await GetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().Select(x => (x.Key.Item1, x.Key.Item2 - 100)).ToArray()) is Dictionary<(DataType,int), short> recipe)
-                                             {
-                                                 foreach (var val in recipe)
-                                                 {
-                                                     Recipe_Values[(val.Key.Item1, val.Key.Item2 + 100)] = val.Value;
-                                                 }
-                                             }
+                                               //todo 讀取配方實際值，實際位置為寫入位置-100(需確認)
+                                               if (GetPLCParameters != null &&
+                                                   await GetPLCParameters.Invoke(map.RecipeList.Where(x => x.Value.Item2 >= 0).Select(x => (x.Value.Item1, x.Value.Item2)).ToArray()) is Dictionary<(DataType, int), short> recipe)
+                                               {
+                                                   foreach (var val in recipe)
+                                                   {
+                                                       Recipe_Values[(val.Key.Item1, val.Key.Item2)] = val.Value;
+                                                   }
+                                               }
 
-                                             RecordingTask = StartRecoder(60000, CTS.Token);
-                                         }
-                                         else if (IsRecording)
-                                         {
-                                             if (key1 == SignalNames.程式結束)
-                                             {
-                                                 PassTag = true;
+                                               RecordingTask = StartRecoder(60000, CTS.Token);
+                                           }
+                                           else if (IsRecording)
+                                           {
+                                               if (key1 == SignalNames.程式結束)
+                                               {
+                                                   PassTag = true;
 
-                                                 EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
-                                                 AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                                   EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
+                                                   AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
 
-                                                 if (!value)
-                                                 {
-                                                     return;
-                                                 }
+                                                   if (!value)
+                                                   {
+                                                       return;
+                                                   }
 
-                                                 CTS?.Cancel();
-                                             }
-                                             else if (key1 == SignalNames.自動停止)
-                                             {
-                                                 EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
-                                                 AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                                   CTS?.Cancel();
+                                               }
+                                               else if (key1 == SignalNames.自動停止)
+                                               {
+                                                   EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
+                                                   AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
 
-                                                 if (!value)
-                                                 {
-                                                     return;
-                                                 }
+                                                   if (!value)
+                                                   {
+                                                       return;
+                                                   }
 
-                                                 CTS?.Cancel();
-                                             }
-                                             else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
-                                             {
-                                                 EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2, value));
-                                                 AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                                   CTS?.Cancel();
+                                               }
+                                               else if (key1 == SignalNames.緊急停止 || key1 == SignalNames.循環風車過載 || key1 == SignalNames.循環風車INV異常)
+                                               {
+                                                   EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2, value));
+                                                   AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
 
-                                                 if (!value)
-                                                 {
-                                                     return;
-                                                 }
+                                                   if (!value)
+                                                   {
+                                                       return;
+                                                   }
 
-                                                 CTS?.Cancel();
-                                             }
-                                             else if (key1 == SignalNames.降溫中)
-                                             {
-                                                 if (IsCooling)
-                                                 {
-                                                     PassTag = true;
-                                                 }
+                                                   CTS?.Cancel();
+                                               }
+                                               else if (key1 == SignalNames.降溫中)
+                                               {
+                                                   if (IsCooling)
+                                                   {
+                                                       PassTag = true;
+                                                   }
 
-                                                 EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
-                                                 AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
-                                                 NotifyPropertyChanged(nameof(Progress));
-                                                 NotifyPropertyChanged(nameof(ProgressStatus));
-                                             }
-                                             else if (key1 == SignalNames.電源反相 ||
-                                                      key1 == SignalNames.OTP超溫異常 ||
-                                                      key1 == SignalNames.充氮氣逾時 ||
-                                                      key1 == SignalNames.冷卻進氣風車異常 ||
-                                                      key1 == SignalNames.溫控器低溫異常 ||
-                                                      key1 == SignalNames.超溫警報 ||
-                                                      key1 == SignalNames.升恆溫逾時 ||
-                                                      key1 == SignalNames.加熱門未關 ||
-                                                      key1 == SignalNames.門未關定位異常)
-                                             {
-                                                 EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2, value));
-                                                 AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
-                                             }
-                                         }
-                                     };
+                                                   EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
+                                                   AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                                   NotifyPropertyChanged(nameof(Progress));
+                                                   NotifyPropertyChanged(nameof(ProgressStatus));
+                                               }
+                                               else if (key1 == SignalNames.電源反相 ||
+                                                        key1 == SignalNames.OTP超溫異常 ||
+                                                        key1 == SignalNames.充氮氣逾時 ||
+                                                        key1 == SignalNames.冷卻進氣風車異常 ||
+                                                        key1 == SignalNames.溫控器低溫異常 ||
+                                                        key1 == SignalNames.超溫警報 ||
+                                                        key1 == SignalNames.升恆溫逾時 ||
+                                                        key1 == SignalNames.加熱門未關 ||
+                                                        key1 == SignalNames.門未關定位異常)
+                                               {
+                                                   EventHappened?.Invoke((EventType.Alarm, nt, key1.ToString(), key2, value));
+                                                   AddProcessEvent(EventType.Alarm, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
+                                               }
+                                           }
+                                       };
 
             Data_Values.UpdatedEvent += (key1, key2, value) =>
-                                     {
-                                         NotifyPropertyChanged(D_Map[key1]);
-                                         var nt = DateTime.Now;
+                                        {
+                                            NotifyPropertyChanged(Data_Map[key1]);
+                                            var nt = DateTime.Now;
 
-                                         if (key1 == DataNames.目前段數)
-                                         {
-                                             if (IsRecording)
-                                             {
-                                                 AddProcessEvent(EventType.Normal,
-                                                                 OvenInfo.StartTime,
-                                                                 nt,
-                                                                 CurrentSegment == 0 ? "準備中" : $"第{Math.Ceiling(CurrentSegment / 2.0):0}段{(CurrentSegment % 2 == 0 ? "恆溫" : "升溫")}",
-                                                                 (BitType.S, (int)PCEventCode.段數切換),
-                                                                 true);
-                                             }
+                                            if (key1 == DataNames.目前段數)
+                                            {
+                                                if (IsRecording)
+                                                {
+                                                    AddProcessEvent(EventType.Normal,
+                                                                    OvenInfo.StartTime,
+                                                                    nt,
+                                                                    CurrentSegment == 0 ? "準備中" : $"第{Math.Ceiling(CurrentSegment / 2.0):0}段{(CurrentSegment % 2 == 0 ? "恆溫" : "升溫")}",
+                                                                    (BitType.S, (int)PCEventCode.段數切換),
+                                                                    true);
+                                                }
 
-                                             NotifyPropertyChanged(nameof(Progress));
-                                             NotifyPropertyChanged(nameof(ProgressStatus));
-                                         }
-                                     };
+                                                NotifyPropertyChanged(nameof(Progress));
+                                                NotifyPropertyChanged(nameof(ProgressStatus));
+                                            }
+                                        };
 
             Recipe_Values.UpdatedEvent += (key1, key2, value) =>
                                           {
-                                              NotifyPropertyChanged(D_Map[key1]);
+                                              NotifyPropertyChanged(Data_Map[key1]);
 
                                               if (key1.ToString().Contains("配方名稱"))
                                               {

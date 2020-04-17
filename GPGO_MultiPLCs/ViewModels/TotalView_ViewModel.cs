@@ -531,8 +531,8 @@ namespace GPGO_MultiPLCs.ViewModels
             //!產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
             var namearray = plc_maps.Select(x =>
                                             {
-                                                var list1 = x.SignalList.Values.OrderBy(y => y.Item1).ThenBy(y=>y.Item2).Select(y => $"{y.Item1}{y.Item2}");
-                                                var list2 = x.DataList.Values.OrderBy(y => y.Item1).ThenBy(y=>y.Item2).Select(y => $"{y.Item1}{y.Item2}");
+                                                var list1 = x.SignalList.Values.Where(y => y.Item2 >= 0).OrderBy(y => y.Item1).ThenBy(y => y.Item2).Select(y => $"{y.Item1}{y.Item2}");
+                                                var list2 = x.DataList.Values.Where(y => y.Item2 >= 0).OrderBy(y => y.Item1).ThenBy(y => y.Item2).Select(y => $"{y.Item1}{y.Item2}");
 
                                                 return list1.Concat(list2).ToArray();
                                             })
