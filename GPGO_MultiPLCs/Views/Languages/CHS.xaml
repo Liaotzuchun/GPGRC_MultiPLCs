@@ -49,11 +49,14 @@
     <sys:String x:Key="返回總覽">返回总览</sys:String>
     <sys:String x:Key="使用段數">使用段数</sys:String>
     <sys:String x:Key="降溫溫度">降温温度</sys:String>
+    <sys:String x:Key="降溫時間">降温时间</sys:String>
     <sys:String x:Key="充氣時間">充气时间</sys:String>
     <sys:String x:Key="目標溫度">目标温度</sys:String>
     <sys:String x:Key="升溫時間">升温时间</sys:String>
+    <sys:String x:Key="升溫警報">升溫警報</sys:String>
     <sys:String x:Key="恆溫溫度">恒温温度</sys:String>
     <sys:String x:Key="恆溫時間">恒温时间</sys:String>
+    <sys:String x:Key="恆溫警報">恒温警报</sys:String>
     <sys:String x:Key="溫控器溫度">温控器温度</sys:String>
     <sys:String x:Key="爐內溫度1">炉内温度1</sys:String>
     <sys:String x:Key="爐內溫度2">炉内温度2</sys:String>

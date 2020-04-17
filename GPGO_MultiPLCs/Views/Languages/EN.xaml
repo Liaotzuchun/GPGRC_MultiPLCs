@@ -49,11 +49,14 @@
     <sys:String x:Key="返回總覽">Back to Main</sys:String>
     <sys:String x:Key="使用段數">Segments</sys:String>
     <sys:String x:Key="降溫溫度">Cooling</sys:String>
+    <sys:String x:Key="降溫時間">Cooling Time</sys:String>
     <sys:String x:Key="充氣時間">Inflating</sys:String>
     <sys:String x:Key="目標溫度">Target</sys:String>
     <sys:String x:Key="升溫時間">Heating</sys:String>
+    <sys:String x:Key="升溫警報">Heating Alarm</sys:String>
     <sys:String x:Key="恆溫溫度">Static</sys:String>
     <sys:String x:Key="恆溫時間">Warning</sys:String>
+    <sys:String x:Key="恆溫警報">Warning Alarm</sys:String>
     <sys:String x:Key="溫控器溫度">Thermostat</sys:String>
     <sys:String x:Key="爐內溫度1">Sensor 1</sys:String>
     <sys:String x:Key="爐內溫度2">Sensor 2</sys:String>
