@@ -158,6 +158,17 @@ namespace GPGO_MultiPLCs.Models
                                                    WarmingTime_1, WarmingTime_2, WarmingTime_3, WarmingTime_4,
                                                    WarmingTime_5, WarmingTime_6, WarmingTime_7, WarmingTime_8
                                                };
+
+                                       var ha = new int[]
+                                                {
+                                                    HeatingAlarm_1, HeatingAlarm_2, HeatingAlarm_3, HeatingAlarm_4,
+                                                    HeatingAlarm_5, HeatingAlarm_6, HeatingAlarm_7, HeatingAlarm_8
+                                                };
+                                       var wa = new int[]
+                                                {
+                                                    WarmingAlarm_1, WarmingAlarm_2, WarmingAlarm_3, WarmingAlarm_4,
+                                                    WarmingAlarm_5, WarmingAlarm_6, WarmingAlarm_7, WarmingAlarm_8
+                                                };
                                        var t = new[]
                                                {
                                                    TargetTemperature_1, TargetTemperature_2, TargetTemperature_3, TargetTemperature_4,
@@ -168,16 +179,20 @@ namespace GPGO_MultiPLCs.Models
                                                    ThermostaticTemperature_1, ThermostaticTemperature_2, ThermostaticTemperature_3, ThermostaticTemperature_4,
                                                    ThermostaticTemperature_5, ThermostaticTemperature_6, ThermostaticTemperature_7, ThermostaticTemperature_8
                                                };
-                                       Array.Resize(ref h, UsedSegmentCounts);
-                                       Array.Resize(ref w, UsedSegmentCounts);
-                                       Array.Resize(ref t, UsedSegmentCounts);
-                                       Array.Resize(ref s, UsedSegmentCounts);
+                                       Array.Resize(ref h,  UsedSegmentCounts);
+                                       Array.Resize(ref w,  UsedSegmentCounts);
+                                       Array.Resize(ref ha, UsedSegmentCounts);
+                                       Array.Resize(ref wa, UsedSegmentCounts);
+                                       Array.Resize(ref t,  UsedSegmentCounts);
+                                       Array.Resize(ref s,  UsedSegmentCounts);
 
                                        //!結束生產，填入資料
                                        OvenInfo.EndTime                  = DateTime.Now;
                                        OvenInfo.RecipeName               = RecipeName;
                                        OvenInfo.HeatingTimes             = h.ToList();
                                        OvenInfo.WarmingTimes             = w.ToList();
+                                       OvenInfo.HeatingAlarms            = ha.ToList();
+                                       OvenInfo.WarmingAlarms            = wa.ToList();
                                        OvenInfo.TotalHeatingTime         = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
                                        OvenInfo.TargetOvenTemperatures   = t.ToList();
                                        OvenInfo.ThermostaticTemperatures = s.ToList();

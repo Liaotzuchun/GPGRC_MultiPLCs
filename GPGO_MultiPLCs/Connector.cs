@@ -133,6 +133,17 @@ namespace GPGO_MultiPLCs
                                     TotalVM.PLC_All[i].WarmingTime_1, TotalVM.PLC_All[i].WarmingTime_2, TotalVM.PLC_All[i].WarmingTime_3, TotalVM.PLC_All[i].WarmingTime_4,
                                     TotalVM.PLC_All[i].WarmingTime_5, TotalVM.PLC_All[i].WarmingTime_6, TotalVM.PLC_All[i].WarmingTime_7, TotalVM.PLC_All[i].WarmingTime_8
                                 };
+
+                        var ha = new int[]
+                                 {
+                                     TotalVM.PLC_All[i].HeatingAlarm_1, TotalVM.PLC_All[i].HeatingAlarm_2, TotalVM.PLC_All[i].HeatingAlarm_3, TotalVM.PLC_All[i].HeatingAlarm_4,
+                                     TotalVM.PLC_All[i].HeatingAlarm_5, TotalVM.PLC_All[i].HeatingAlarm_6, TotalVM.PLC_All[i].HeatingAlarm_7, TotalVM.PLC_All[i].HeatingAlarm_8
+                                 };
+                        var wa = new int[]
+                                 {
+                                     TotalVM.PLC_All[i].WarmingAlarm_1, TotalVM.PLC_All[i].WarmingAlarm_2, TotalVM.PLC_All[i].WarmingAlarm_3, TotalVM.PLC_All[i].WarmingAlarm_4,
+                                     TotalVM.PLC_All[i].WarmingAlarm_5, TotalVM.PLC_All[i].WarmingAlarm_6, TotalVM.PLC_All[i].WarmingAlarm_7, TotalVM.PLC_All[i].WarmingAlarm_8
+                                 };
                         var t = new[]
                                 {
                                     TotalVM.PLC_All[i].TargetTemperature_1, TotalVM.PLC_All[i].TargetTemperature_2, TotalVM.PLC_All[i].TargetTemperature_3, TotalVM.PLC_All[i].TargetTemperature_4,
@@ -143,14 +154,18 @@ namespace GPGO_MultiPLCs
                                     TotalVM.PLC_All[i].ThermostaticTemperature_1, TotalVM.PLC_All[i].ThermostaticTemperature_2, TotalVM.PLC_All[i].ThermostaticTemperature_3, TotalVM.PLC_All[i].ThermostaticTemperature_4,
                                     TotalVM.PLC_All[i].ThermostaticTemperature_5, TotalVM.PLC_All[i].ThermostaticTemperature_6, TotalVM.PLC_All[i].ThermostaticTemperature_7, TotalVM.PLC_All[i].ThermostaticTemperature_8
                                 };
-                        Array.Resize(ref h, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref w, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref t, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref s, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref h,  TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref w,  TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref ha, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref wa, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref t,  TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref s,  TotalVM.PLC_All[i].UsedSegmentCounts);
 
                         info.RecipeName               = TotalVM.PLC_All[i].RecipeName;
                         info.HeatingTimes             = h.ToList();
                         info.WarmingTimes             = w.ToList();
+                        info.HeatingAlarms            = ha.ToList();
+                        info.WarmingAlarms            = wa.ToList();
                         info.TargetOvenTemperatures   = t.ToList();
                         info.ThermostaticTemperatures = s.ToList();
 
@@ -584,7 +599,8 @@ namespace GPGO_MultiPLCs
             //!由台車code取得前端生產資訊
             TotalVM.WantFrontData += async e =>
                                      {
-                                         var path = $"{DataInputPath}\\{e.TrolleyCode}";
+                                         var (stationIndex, trolleyCode) = e;
+                                         var path = $"{DataInputPath}\\{trolleyCode}";
 
                                          if (Directory.Exists(path))
                                          {
@@ -606,7 +622,7 @@ namespace GPGO_MultiPLCs
                                                                                      int.TryParse(result["General2"].OnlyASCII(), out var number);
                                                                                      products.Add((result["General1"].OnlyASCII(), number, result["General7"].OnlyASCII()));
 
-                                                                                     var backname = $"{file.FullName}.bak{e.StationIndex}";
+                                                                                     var backname = $"{file.FullName}.bak{stationIndex}";
                                                                                      if (File.Exists(backname))
                                                                                      {
                                                                                          File.Delete(backname);
@@ -643,11 +659,12 @@ namespace GPGO_MultiPLCs
 
             TotalVM.CancelCheckIn += e =>
                                      {
-                                         var path = $"{DataInputPath}\\{e.TrolleyCode}";
+                                         var (stationIndex, trolleyCode) = e;
+                                         var path = $"{DataInputPath}\\{trolleyCode}";
 
                                          if (Directory.Exists(path))
                                          {
-                                             var tag   = $".bak{e.StationIndex}";
+                                             var tag   = $".bak{stationIndex}";
                                              var files = new DirectoryInfo(path).GetFiles($"*{tag}");
                                              foreach (var file in files)
                                              {
@@ -675,81 +692,83 @@ namespace GPGO_MultiPLCs
                                                                 outpath = DataOutputPath;
                                                             });
 
+                                         var (stationIndex, infos) = e;
                                          using (await lockobj.LockAsync())
                                          {
-                                             TraceVM.AddToDB(e.StationIndex, e.Infos);
+                                             TraceVM.AddToDB(stationIndex, infos);
 
                                              //!輸出嘉聯益資料
-                                             if (!string.IsNullOrEmpty(inpath) && !string.IsNullOrEmpty(outpath) && e.Infos.Any())
-                                             {
-                                                 if (!Directory.Exists(outpath))
-                                                 {
-                                                     try
-                                                     {
-                                                         Directory.CreateDirectory(outpath);
-                                                     }
-                                                     catch (Exception ex)
-                                                     {
-                                                         Log.Error(ex, "上傳資料夾不存在且無法創建");
-                                                     }
-                                                 }
+                                             //if (!string.IsNullOrEmpty(inpath) && !string.IsNullOrEmpty(outpath) && e.Infos.Any())
+                                             //{
+                                             //    if (!Directory.Exists(outpath))
+                                             //    {
+                                             //        try
+                                             //        {
+                                             //            Directory.CreateDirectory(outpath);
+                                             //        }
+                                             //        catch (Exception ex)
+                                             //        {
+                                             //            Log.Error(ex, "上傳資料夾不存在且無法創建");
+                                             //        }
+                                             //    }
 
-                                                 foreach (var info in e.Infos)
-                                                 {
-                                                     for (var i = 0; i < info.ProcessCount; i++)
-                                                     {
-                                                         var path = $"{outpath}\\{info.AssetNumber}_{DateTime.Now:yyyyMMddHHmmssfff}_{e.StationIndex + 1}_";
+                                             //    foreach (var info in e.Infos)
+                                             //    {
+                                             //        for (var i = 0; i < info.ProcessCount; i++)
+                                             //        {
+                                             //            var path = $"{outpath}\\{info.AssetNumber}_{DateTime.Now:yyyyMMddHHmmssfff}_{e.StationIndex + 1}_";
 
-                                                         var n = 1;
-                                                         while (File.Exists($"{path}{n}"))
-                                                         {
-                                                             n++;
-                                                         }
+                                             //            var n = 1;
+                                             //            while (File.Exists($"{path}{n}"))
+                                             //            {
+                                             //                n++;
+                                             //            }
 
-                                                         try
-                                                         {
-                                                             using (var outputFile = new StreamWriter($"{path}{n}.txt", false, Encoding.ASCII))
-                                                             {
-                                                                 await outputFile.WriteAsync(info.ToString(i));
-                                                             }
+                                             //            try
+                                             //            {
+                                             //                using (var outputFile = new StreamWriter($"{path}{n}.txt", false, Encoding.ASCII))
+                                             //                {
+                                             //                    await outputFile.WriteAsync(info.ToString(i));
+                                             //                }
 
-                                                             await Task.Delay(1);
-                                                             //!紀錄資料到指定輸出資料夾
-                                                         }
-                                                         catch (Exception ex)
-                                                         {
-                                                             Log.Error(ex, "資料輸出上傳失敗");
-                                                         }
-                                                     }
-                                                 }
+                                             //                await Task.Delay(1);
+                                             //                //!紀錄資料到指定輸出資料夾
+                                             //            }
+                                             //            catch (Exception ex)
+                                             //            {
+                                             //                Log.Error(ex, "資料輸出上傳失敗");
+                                             //            }
+                                             //        }
+                                             //    }
 
-                                                 var _path = $"{inpath}\\{e.Infos.First().TrolleyCode}";
+                                             //    var _path = $"{inpath}\\{e.Infos.First().TrolleyCode}";
 
-                                                 if (Directory.Exists(_path))
-                                                 {
-                                                     var tag   = $".bak{e.StationIndex}";
-                                                     var files = new DirectoryInfo(_path).GetFiles($"*{tag}");
-                                                     foreach (var file in files)
-                                                     {
-                                                         file.Delete();
-                                                     }
-                                                 }
-                                             }
+                                             //    if (Directory.Exists(_path))
+                                             //    {
+                                             //        var tag   = $".bak{e.StationIndex}";
+                                             //        var files = new DirectoryInfo(_path).GetFiles($"*{tag}");
+                                             //        foreach (var file in files)
+                                             //        {
+                                             //            file.Delete();
+                                             //        }
+                                             //    }
+                                             //}
                                          }
 
-                                         return await TraceVM.CheckProductions(e.StationIndex);
+                                         return await TraceVM.CheckProductions(stationIndex);
                                      };
 
             TotalVM.EventHappened += e =>
                                      {
+                                         var (stationIndex, type, time, note, tag, value) = e;
                                          LogVM.AddToDB(new LogEvent
                                                        {
-                                                           StationNumber = e.StationIndex + 1,
-                                                           AddedTime     = e.time,
-                                                           Type          = e.type,
-                                                           Description   = e.note,
-                                                           TagCode       = $"{e.tag.Item1}{e.tag.Item2}",
-                                                           Value         = e.value
+                                                           StationNumber = stationIndex + 1,
+                                                           AddedTime     = time,
+                                                           Type          = type,
+                                                           Description   = note,
+                                                           TagCode       = $"{tag.Item1}{tag.Item2}",
+                                                           Value         = value
                                                        });
                                      };
 

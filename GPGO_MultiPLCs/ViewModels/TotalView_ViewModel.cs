@@ -455,7 +455,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!烘烤流程結束時
                 PLC_All[i].RecordingFinished += async e =>
                                                 {
-                                                    if (!e.Pass)
+                                                    var (baseInfo, productInfo, pass) = e;
+                                                    if (!pass)
                                                     {
                                                         dialog?.Show(new Dictionary<Language, string>
                                                                      {
@@ -465,10 +466,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      },
                                                                      TimeSpan.FromSeconds(2));
                                                     }
-                                                    else if (e.productInfo.Count > 0)
+                                                    else if (productInfo.Count > 0)
                                                     {
                                                         //!寫入資料庫，上傳
-                                                        var infos = e.productInfo.Select(info => new ProcessInfo(e.baseInfo, info)).ToList();
+                                                        var infos = productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList();
 
                                                         if (AddRecordToDB != null && index < TotalProduction.Count)
                                                         {

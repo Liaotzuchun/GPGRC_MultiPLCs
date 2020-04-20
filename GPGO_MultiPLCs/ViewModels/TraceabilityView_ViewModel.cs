@@ -47,6 +47,12 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>基於工單的Filter</summary>
         public FilterGroup OrderFilter { get; }
 
+        /// <summary>基於料號的Filter</summary>
+        public FilterGroup PartNoFilter { get; }
+
+        /// <summary>基於批號的Filter</summary>
+        public FilterGroup BatchNoFilter { get; }
+
         /// <summary>基於PLC站號的Filter</summary>
         public FilterGroup OvenFilter { get; }
 
@@ -672,6 +678,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                       .Where(x => OvenFilter.Check(x.StationNumber) &&
                                                   RecipeFilter.Check(x.RecipeName) &&
                                                   OrderFilter.Check(x.OrderCode) &&
+                                                  PartNoFilter.Check(x.PartNumber) &&
+                                                  BatchNoFilter.Check(x.BatchNumber) &&
                                                   OpFilter.Check(x.OperatorID) &&
                                                   TrolleyFilter.Check(x.TrolleyCode) &&
                                                   SideFilter.Check(x.Side))
@@ -835,6 +843,8 @@ namespace GPGO_MultiPLCs.ViewModels
             OvenFilter    = new FilterGroup(UpdateAct);
             RecipeFilter  = new FilterGroup(UpdateAct);
             OrderFilter   = new FilterGroup(UpdateAct);
+            PartNoFilter  = new FilterGroup(UpdateAct);
+            BatchNoFilter = new FilterGroup(UpdateAct);
             OpFilter      = new FilterGroup(UpdateAct);
             TrolleyFilter = new FilterGroup(UpdateAct);
             SideFilter    = new FilterGroup(UpdateAct);
@@ -844,6 +854,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                   OvenFilter.Filter    = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   RecipeFilter.Filter  = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   OrderFilter.Filter   = e?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  PartNoFilter.Filter  = e?.Select(x => x.PartNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  BatchNoFilter.Filter = e?.Select(x => x.BatchNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   OpFilter.Filter      = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   TrolleyFilter.Filter = e?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   SideFilter.Filter    = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();

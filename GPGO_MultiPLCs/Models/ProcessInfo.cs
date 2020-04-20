@@ -21,6 +21,8 @@ namespace GPGO_MultiPLCs.Models
         public double ThermostaticTemp { get; set; }
         public double HeatingTime      { get; set; }
         public double WarmingTime      { get; set; }
+        public double HeatingAlarm     { get; set; }
+        public double WarmingAlarm     { get; set; }
     }
 
     /// <summary>機台資訊</summary>
@@ -34,7 +36,9 @@ namespace GPGO_MultiPLCs.Models
                                      TargetOvenTemp   = t,
                                      ThermostaticTemp = ThermostaticTemperatures[i],
                                      HeatingTime      = HeatingTimes[i],
-                                     WarmingTime      = WarmingTimes[i]
+                                     WarmingTime      = WarmingTimes[i],
+                                     HeatingAlarm     = HeatingAlarms[i],
+                                     WarmingAlarm     = WarmingAlarms[i]
                                  })
                .ToList();
 
@@ -142,6 +146,20 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        [LanguageTranslator("Heating Alarm", "加熱警報", "加热警报")]
+        public List<int> HeatingAlarms
+        {
+            get => Get<List<int>>();
+            set => Set(value);
+        }
+
+        [LanguageTranslator("Warming Alarm", "恆溫警報", "恒温警报")]
+        public List<int> WarmingAlarms
+        {
+            get => Get<List<int>>();
+            set => Set(value);
+        }
+
         /// <summary>總烘烤時間</summary>
         [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
         public int TotalHeatingTime
@@ -175,13 +193,13 @@ namespace GPGO_MultiPLCs.Models
         public CodeType     CodeType      { get; set; } = CodeType.Panel;
         public bool         FirstPanel    { get; set; } = false;
         public string       OrderCode     { get; set; }
-        public string PartNumber { get; set; }
-        public string BatchNumber { get; set; }
+        public string       PartNumber    { get; set; }
+        public string       BatchNumber   { get; set; }
         public List<string> PanelCodes    { get; set; } = new List<string>();
         public int          ProcessNumber { get; set; }
         public string       Side          { get; set; } = "A";
 
-        public ProductInfo(){}
+        public ProductInfo() {}
 
         /// <summary></summary>
         /// <param name="code">工單條碼</param>
@@ -220,6 +238,12 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Order", "工單", "工单")]
         public string OrderCode { get; set; }
 
+        [LanguageTranslator("Order", "料號", "料号")]
+        public string PartNumber { get; set; }
+
+        [LanguageTranslator("Order", "批號", "批号")]
+        public string BatchNumber { get; set; }
+
         public List<string> PanelCodes { get; set; } = new List<string>();
 
         /// <summary>製程序</summary>
@@ -242,11 +266,13 @@ namespace GPGO_MultiPLCs.Models
                 {GetType().GetProperty(nameof(StationNumber)).GetName(lng), StationNumber},
                 {GetType().GetProperty(nameof(RecipeName)).GetName(lng), RecipeName},
                 {GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
-                {GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
-                {GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
-                {GetType().GetProperty(nameof(TrolleyCode)).GetName(lng), TrolleyCode},
+                //{GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
+                {GetType().GetProperty(nameof(PartNumber)).GetName(lng), PartNumber},
+                {GetType().GetProperty(nameof(BatchNumber)).GetName(lng), BatchNumber},
+                //{GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
+                //{GetType().GetProperty(nameof(TrolleyCode)).GetName(lng), TrolleyCode},
                 {GetType().GetProperty(nameof(ProcessCount)).GetName(lng), ProcessCount},
-                {GetType().GetProperty(nameof(Side)).GetName(lng), Side},
+                //{GetType().GetProperty(nameof(Side)).GetName(lng), Side},
                 {GetType().GetProperty(nameof(StartTime)).GetName(lng), StartTime},
                 {GetType().GetProperty(nameof(EndTime)).GetName(lng), EndTime},
                 {GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng), "@"}

@@ -18,6 +18,8 @@
     <sys:String x:Key="台車">台車</sys:String>
     <sys:String x:Key="數量">數量</sys:String>
     <sys:String x:Key="工單">工單</sys:String>
+    <sys:String x:Key="料號">料號</sys:String>
+    <sys:String x:Key="批號">批號</sys:String>
     <sys:String x:Key="狀態">狀態</sys:String>
     <sys:String x:Key="離線">離線</sys:String>
     <sys:String x:Key="待命">待命</sys:String>

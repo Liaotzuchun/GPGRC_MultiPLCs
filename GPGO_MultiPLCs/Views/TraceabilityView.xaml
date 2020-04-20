@@ -48,6 +48,10 @@
                                 Data="{Binding RecipeFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="OrderFilterData"
                                 Data="{Binding OrderFilter, Mode=OneWay}" />
+        <views:FilterGroupProxy x:Key="PartNoFilterData"
+                                Data="{Binding PartNoFilter, Mode=OneWay}" />
+        <views:FilterGroupProxy x:Key="BatchNoFilterData"
+                                Data="{Binding BatchNoFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="OpFilterData"
                                 Data="{Binding OpFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="TrolleyFilterData"
@@ -803,6 +807,7 @@
                                                         <ColumnDefinition Width="70" />
                                                         <ColumnDefinition Width="70" />
                                                         <ColumnDefinition Width="70" />
+                                                        <ColumnDefinition Width="70" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                             BorderThickness="0,0,1,1" />
@@ -822,7 +827,7 @@
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="12"
-                                                                   Text="{DynamicResource 恆溫溫度}" />
+                                                                   Text="{DynamicResource 升溫時間}" />
                                                     </Border>
                                                     <Border Grid.Column="3"
                                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -831,7 +836,7 @@
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="12"
-                                                                   Text="{DynamicResource 升溫時間}" />
+                                                                   Text="{DynamicResource 升溫警報}" />
                                                     </Border>
                                                     <Border Grid.Column="4"
                                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -841,6 +846,15 @@
                                                                    VerticalAlignment="Center"
                                                                    FontSize="12"
                                                                    Text="{DynamicResource 恆溫時間}" />
+                                                    </Border>
+                                                    <Border Grid.Column="5"
+                                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                            BorderThickness="0,0,1,1">
+                                                        <TextBlock Margin="4"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   FontSize="12"
+                                                                   Text="{DynamicResource 恆溫警報}" />
                                                     </Border>
                                                 </Grid>
                                                 <ItemsControl x:Name="ItemsControl"
@@ -863,6 +877,7 @@
                                                             <Grid>
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="30" />
+                                                                    <ColumnDefinition Width="70" />
                                                                     <ColumnDefinition Width="70" />
                                                                     <ColumnDefinition Width="70" />
                                                                     <ColumnDefinition Width="70" />
@@ -894,8 +909,10 @@
                                                                     <TextBlock Margin="4"
                                                                                HorizontalAlignment="Center"
                                                                                VerticalAlignment="Center"
-                                                                               FontSize="12"
-                                                                               Text="{Binding ThermostaticTemp, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                                                               FontSize="12">
+                                                                        <Run Text="{Binding HeatingTime, Mode=OneWay}" />
+                                                                        <Run Text="{DynamicResource 分}" />
+                                                                    </TextBlock>
                                                                 </Border>
                                                                 <Border Grid.Column="3"
                                                                         Background="Transparent"
@@ -905,7 +922,7 @@
                                                                                HorizontalAlignment="Center"
                                                                                VerticalAlignment="Center"
                                                                                FontSize="12">
-                                                                        <Run Text="{Binding HeatingTime, Mode=OneWay}" />
+                                                                        <Run Text="{Binding HeatingAlarm, Mode=OneWay}" />
                                                                         <Run Text="{DynamicResource 分}" />
                                                                     </TextBlock>
                                                                 </Border>
@@ -918,6 +935,18 @@
                                                                                VerticalAlignment="Center"
                                                                                FontSize="12">
                                                                         <Run Text="{Binding WarmingTime, Mode=OneWay}" />
+                                                                        <Run Text="{DynamicResource 分}" />
+                                                                    </TextBlock>
+                                                                </Border>
+                                                                <Border Grid.Column="5"
+                                                                        Background="Transparent"
+                                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                        BorderThickness="0,0,1,1">
+                                                                    <TextBlock Margin="4"
+                                                                               HorizontalAlignment="Center"
+                                                                               VerticalAlignment="Center"
+                                                                               FontSize="12">
+                                                                        <Run Text="{Binding WarmingAlarm, Mode=OneWay}" />
                                                                         <Run Text="{DynamicResource 分}" />
                                                                     </TextBlock>
                                                                 </Border>
@@ -945,7 +974,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto"
+                <!--<DataGridTemplateColumn Width="Auto"
                                         MinWidth="80"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
@@ -959,8 +988,38 @@
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+                <DataGridTemplateColumn Width="Auto"
+                                        MinWidth="80"
+                                        HeaderStyle="{StaticResource ColumnFilterStyle}">
+                    <DataGridTemplateColumn.Header>
+                        <ContentControl Content="{StaticResource PartNoFilterData}"
+                                        Style="{StaticResource FilterStyle}"
+                                        Tag="{DynamicResource 料號}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="models:ProcessInfo">
+                            <TextBlock Text="{Binding PartNumber, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="Auto"
+                                        MinWidth="80"
+                                        HeaderStyle="{StaticResource ColumnFilterStyle}">
+                    <DataGridTemplateColumn.Header>
+                        <ContentControl Content="{StaticResource BatchNoFilterData}"
+                                        Style="{StaticResource FilterStyle}"
+                                        Tag="{DynamicResource 批號}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="models:ProcessInfo">
+                            <TextBlock Text="{Binding BatchNumber, Mode=OneWay}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTemplateColumn Width="Auto"
                                         MinWidth="80"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
@@ -974,8 +1033,8 @@
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto"
+                </DataGridTemplateColumn>-->
+                <!--<DataGridTemplateColumn Width="Auto"
                                         MinWidth="80"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
@@ -989,7 +1048,7 @@
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>-->
                 <DataGridTemplateColumn Width="Auto"
                                         MinWidth="40">
                     <DataGridTemplateColumn.Header>
@@ -1104,7 +1163,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto"
+                <!--<DataGridTemplateColumn Width="Auto"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
                         <ContentControl Content="{StaticResource SideFilterData}"
@@ -1116,7 +1175,7 @@
                             <TextBlock Text="{Binding Side, Mode=OneWay}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>-->
                 <DataGridTemplateColumn Width="Auto"
                                         MinWidth="60">
                     <DataGridTemplateColumn.Header>
