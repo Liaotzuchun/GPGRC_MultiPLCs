@@ -446,16 +446,177 @@ namespace GPGO_MultiPLCs.Models
                                                                Intput_Name = Selected_Name;
                                                            });
 
+            //! 投產
+            //CheckInCommand = new CommandWithResult<bool>(async o =>
+            //                                             {
+            //                                                 var para = (string)o;
+
+            //                                                 var (result1, input1) =
+            //                                                     await Dialog.CheckCondition(new Dictionary<Language, string>
+            //                                                                                 {
+            //                                                                                     {Language.TW, "輸入操作人員ID"},
+            //                                                                                     {Language.CHS, "输入操作人员ID"},
+            //                                                                                     {Language.EN, "Enter the Operator ID"}
+            //                                                                                 },
+            //                                                                                 new Dictionary<Language, string>
+            //                                                                                 {
+            //                                                                                     {Language.TW, para},
+            //                                                                                     {Language.CHS, para},
+            //                                                                                     {Language.EN, para}
+            //                                                                                 },
+            //                                                                                 true,
+            //                                                                                 x =>
+            //                                                                                 {
+            //                                                                                     var str = x.ToString().Trim();
+
+            //                                                                                     return (str.Length > 4 && str.Length < 10,
+            //                                                                                             new Dictionary<Language, string>
+            //                                                                                             {
+            //                                                                                                 {Language.TW, "字數錯誤，請重試！"},
+            //                                                                                                 {Language.CHS, "字数错误，请重试！"},
+            //                                                                                                 {Language.EN, "Input error, please try again!"}
+            //                                                                                             });
+            //                                                                                 });
+
+            //                                                 if (result1)
+            //                                                 {
+            //                                                     var (result2, input2) =
+            //                                                         await Dialog.CheckCondition(new Dictionary<Language, string>
+            //                                                                                     {
+            //                                                                                         {Language.TW, "輸入台車碼"},
+            //                                                                                         {Language.CHS, "输入台车码"},
+            //                                                                                         {Language.EN, "Enter the Trolley Code"}
+            //                                                                                     },
+            //                                                                                     new Dictionary<Language, string>
+            //                                                                                     {
+            //                                                                                         {Language.TW, para},
+            //                                                                                         {Language.CHS, para},
+            //                                                                                         {Language.EN, para}
+            //                                                                                     },
+            //                                                                                     true,
+            //                                                                                     x =>
+            //                                                                                     {
+            //                                                                                         var str = x.ToString().Trim();
+
+            //                                                                                         return (str.Length > 4 && str.Length < 15,
+            //                                                                                                 new Dictionary<Language, string>
+            //                                                                                                 {
+            //                                                                                                     {Language.TW, "字數錯誤，請重試！"},
+            //                                                                                                     {Language.CHS, "字数错误，请重试！"},
+            //                                                                                                     {Language.EN, "Input error, please try again!"}
+            //                                                                                                 });
+            //                                                                                     });
+
+            //                                                     if (result2 && WantFrontData != null)
+            //                                                     {
+            //                                                         OvenInfo.OperatorID  = input1.ToString();
+            //                                                         OvenInfo.TrolleyCode = input2.ToString();
+
+            //                                                         //! 取得上位資訊(料號、總量、投產量)
+            //                                                         var panels = await WantFrontData.Invoke(OvenInfo.TrolleyCode);
+            //                                                         if (panels == null || panels.Count == 0)
+            //                                                         {
+            //                                                             Dialog.Show(new Dictionary<Language, string>
+            //                                                                         {
+            //                                                                             {Language.TW, "查無資料！"},
+            //                                                                             {Language.CHS, "查无资料！"},
+            //                                                                             {Language.EN, "No data found!"}
+            //                                                                         },
+            //                                                                         DialogMsgType.Alarm);
+
+            //                                                             return false;
+            //                                                         }
+
+            //                                                         var (result3, intput3) =
+            //                                                             await Dialog.CheckCondition(new Dictionary<Language, string>
+            //                                                                                         {
+            //                                                                                             {Language.TW, "輸入製程序"},
+            //                                                                                             {Language.CHS, "输入制程序"},
+            //                                                                                             {Language.EN, "Enter the process number"}
+            //                                                                                         },
+            //                                                                                         new Dictionary<Language, string>
+            //                                                                                         {
+            //                                                                                             {Language.TW, para},
+            //                                                                                             {Language.CHS, para},
+            //                                                                                             {Language.EN, para}
+            //                                                                                         },
+            //                                                                                         true,
+            //                                                                                         x =>
+            //                                                                                         {
+            //                                                                                             var str = x.ToString().Trim();
+
+            //                                                                                             return (str.Length > 0 && str.Length <= 4 && str.All(char.IsDigit),
+            //                                                                                                     new Dictionary<Language, string>
+            //                                                                                                     {
+            //                                                                                                         {Language.TW, "字數錯誤或非整數，請重試！"},
+            //                                                                                                         {Language.CHS, "字数错误或非整数，请重试！"},
+            //                                                                                                         {Language.EN, "Input error, please try again!"}
+            //                                                                                                     });
+            //                                                                                         });
+
+            //                                                         if (!result3 || WantFrontData == null)
+            //                                                         {
+            //                                                             return false;
+            //                                                         }
+
+            //                                                         Ext_Info.Clear();
+
+            //                                                         if (int.TryParse(intput3.ToString(), out var num))
+            //                                                         {
+            //                                                             foreach (var panel in panels)
+            //                                                             {
+            //                                                                 panel.ProcessNumber = num;
+            //                                                                 Ext_Info.Add(panel);
+            //                                                             }
+            //                                                         }
+            //                                                         else
+            //                                                         {
+            //                                                             foreach (var panel in panels)
+            //                                                             {
+            //                                                                 Ext_Info.Add(panel);
+            //                                                             }
+            //                                                         }
+
+            //                                                         if (!PC_InUsed &&
+            //                                                             !await Dialog.Show(new Dictionary<Language, string>
+            //                                                                                {
+            //                                                                                    {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎？"},
+            //                                                                                    {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗？"},
+            //                                                                                    {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"}
+            //                                                                                },
+            //                                                                                true))
+            //                                                         {
+            //                                                             return false;
+            //                                                         }
+
+            //                                                         if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
+            //                                                         {
+            //                                                             recipe.CopyToObj(this);
+
+            //                                                             if (SetPLCParameters != null)
+            //                                                             {
+            //                                                                 await SetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
+            //                                                             }
+            //                                                         }
+
+            //                                                         return true;
+            //                                                     }
+            //                                                 }
+
+            //                                                 return false;
+            //                                             });
+
+
             CheckInCommand = new CommandWithResult<bool>(async o =>
                                                          {
                                                              var para = (string)o;
 
-                                                             var (result1, input1) =
+                                                             var (result1, partNo) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
-                                                                                                 {Language.TW, "輸入操作人員ID"},
-                                                                                                 {Language.CHS, "输入操作人员ID"},
-                                                                                                 {Language.EN, "Enter the Operator ID"}
+                                                                                                 {Language.TW, "輸入料號"},
+                                                                                                 {Language.CHS, "输入料号"},
+                                                                                                 {Language.EN, "Enter the Part Number"}
                                                                                              },
                                                                                              new Dictionary<Language, string>
                                                                                              {
@@ -468,7 +629,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                              {
                                                                                                  var str = x.ToString().Trim();
 
-                                                                                                 return (str.Length > 4 && str.Length < 10,
+                                                                                                 return (str.Length > 4 && str.Length < 15,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
                                                                                                              {Language.TW, "字數錯誤，請重試！"},
@@ -477,132 +638,112 @@ namespace GPGO_MultiPLCs.Models
                                                                                                          });
                                                                                              });
 
-                                                             if (result1)
+                                                             if (!result1)
                                                              {
-                                                                 var (result2, input2) =
-                                                                     await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                                 {
-                                                                                                     {Language.TW, "輸入台車碼"},
-                                                                                                     {Language.CHS, "输入台车码"},
-                                                                                                     {Language.EN, "Enter the Trolley Code"}
-                                                                                                 },
-                                                                                                 new Dictionary<Language, string>
-                                                                                                 {
-                                                                                                     {Language.TW, para},
-                                                                                                     {Language.CHS, para},
-                                                                                                     {Language.EN, para}
-                                                                                                 },
-                                                                                                 true,
-                                                                                                 x =>
-                                                                                                 {
-                                                                                                     var str = x.ToString().Trim();
+                                                                 return false;
+                                                             }
 
-                                                                                                     return (str.Length > 4 && str.Length < 15,
-                                                                                                             new Dictionary<Language, string>
-                                                                                                             {
-                                                                                                                 {Language.TW, "字數錯誤，請重試！"},
-                                                                                                                 {Language.CHS, "字数错误，请重试！"},
-                                                                                                                 {Language.EN, "Input error, please try again!"}
-                                                                                                             });
-                                                                                                 });
+                                                             var (result2, batchNo) =
+                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 {Language.TW, "輸入批號"},
+                                                                                                 {Language.CHS, "输入批号"},
+                                                                                                 {Language.EN, "Enter the Batch Number"}
+                                                                                             },
+                                                                                             new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 {Language.TW, para},
+                                                                                                 {Language.CHS, para},
+                                                                                                 {Language.EN, para}
+                                                                                             },
+                                                                                             true,
+                                                                                             x =>
+                                                                                             {
+                                                                                                 var str = x.ToString().Trim();
 
-                                                                 if (result2 && WantFrontData != null)
+                                                                                                 return (str.Length > 4 && str.Length < 15,
+                                                                                                         new Dictionary<Language, string>
+                                                                                                         {
+                                                                                                             {Language.TW, "字數錯誤，請重試！"},
+                                                                                                             {Language.CHS, "字数错误，请重试！"},
+                                                                                                             {Language.EN, "Input error, please try again!"}
+                                                                                                         });
+                                                                                             });
+
+                                                             if (!result2)
+                                                             {
+                                                                 return false;
+                                                             }
+
+                                                             var counts = 0;
+                                                             var (result4, input4) =
+                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 {Language.TW, "輸入數量"},
+                                                                                                 {Language.CHS, "数量"},
+                                                                                                 {Language.EN, "Enter the Counts"}
+                                                                                             },
+                                                                                             new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 {Language.TW, para},
+                                                                                                 {Language.CHS, para},
+                                                                                                 {Language.EN, para}
+                                                                                             },
+                                                                                             true,
+                                                                                             x =>
+                                                                                             {
+                                                                                                 var str = x.ToString().Trim();
+
+                                                                                                 return (int.TryParse(str, out counts),
+                                                                                                         new Dictionary<Language, string>
+                                                                                                         {
+                                                                                                             {Language.TW, "字數錯誤，請重試！"},
+                                                                                                             {Language.CHS, "字数错误，请重试！"},
+                                                                                                             {Language.EN, "Input error, please try again!"}
+                                                                                                         });
+                                                                                             });
+
+                                                             if (!result4)
+                                                             {
+                                                                 return false;
+                                                             }
+
+                                                             //todo 此案沒有操作人員和台車id
+
+                                                             Ext_Info.Clear();
+
+                                                             for (var i = 0; i < counts; i++)
+                                                             {
+                                                                 Ext_Info.Add(new ProductInfo
+                                                                              {
+                                                                                  PartNumber  = partNo.ToString().Trim(),
+                                                                                  BatchNumber = batchNo.ToString().Trim()
+                                                                              });
+                                                             }
+
+                                                             if (!PC_InUsed &&
+                                                                 !await Dialog.Show(new Dictionary<Language, string>
+                                                                                    {
+                                                                                        {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎？"},
+                                                                                        {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗？"},
+                                                                                        {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"}
+                                                                                    },
+                                                                                    true))
+                                                             {
+                                                                 return false;
+                                                             }
+
+                                                             if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
+                                                             {
+                                                                 recipe.CopyToObj(this);
+
+                                                                 if (SetPLCParameters != null)
                                                                  {
-                                                                     OvenInfo.OperatorID  = input1.ToString();
-                                                                     OvenInfo.TrolleyCode = input2.ToString();
-
-                                                                     //! 取得上位資訊(料號、總量、投產量)
-                                                                     var panels = await WantFrontData.Invoke(OvenInfo.TrolleyCode);
-                                                                     if (panels == null || panels.Count == 0)
-                                                                     {
-                                                                         Dialog.Show(new Dictionary<Language, string>
-                                                                                     {
-                                                                                         {Language.TW, "查無資料！"},
-                                                                                         {Language.CHS, "查无资料！"},
-                                                                                         {Language.EN, "No data found!"}
-                                                                                     },
-                                                                                     DialogMsgType.Alarm);
-
-                                                                         return false;
-                                                                     }
-
-                                                                     var (result3, intput3) =
-                                                                         await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                                     {
-                                                                                                         {Language.TW, "輸入製程序"},
-                                                                                                         {Language.CHS, "输入制程序"},
-                                                                                                         {Language.EN, "Enter the process number"}
-                                                                                                     },
-                                                                                                     new Dictionary<Language, string>
-                                                                                                     {
-                                                                                                         {Language.TW, para},
-                                                                                                         {Language.CHS, para},
-                                                                                                         {Language.EN, para}
-                                                                                                     },
-                                                                                                     true,
-                                                                                                     x =>
-                                                                                                     {
-                                                                                                         var str = x.ToString().Trim();
-
-                                                                                                         return (str.Length > 0 && str.Length <= 4 && str.All(char.IsDigit),
-                                                                                                                 new Dictionary<Language, string>
-                                                                                                                 {
-                                                                                                                     {Language.TW, "字數錯誤或非整數，請重試！"},
-                                                                                                                     {Language.CHS, "字数错误或非整数，请重试！"},
-                                                                                                                     {Language.EN, "Input error, please try again!"}
-                                                                                                                 });
-                                                                                                     });
-
-                                                                     if (!result3 || WantFrontData == null)
-                                                                     {
-                                                                         return false;
-                                                                     }
-
-                                                                     Ext_Info.Clear();
-
-                                                                     if (int.TryParse(intput3.ToString(), out var num))
-                                                                     {
-                                                                         foreach (var panel in panels)
-                                                                         {
-                                                                             panel.ProcessNumber = num;
-                                                                             Ext_Info.Add(panel);
-                                                                         }
-                                                                     }
-                                                                     else
-                                                                     {
-                                                                         foreach (var panel in panels)
-                                                                         {
-                                                                             Ext_Info.Add(panel);
-                                                                         }
-                                                                     }
-
-                                                                     if (!PC_InUsed &&
-                                                                         !await Dialog.Show(new Dictionary<Language, string>
-                                                                                            {
-                                                                                                {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎？"},
-                                                                                                {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗？"},
-                                                                                                {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"}
-                                                                                            },
-                                                                                            true))
-                                                                     {
-                                                                         return false;
-                                                                     }
-
-                                                                     if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
-                                                                     {
-                                                                         recipe.CopyToObj(this);
-
-                                                                         if (SetPLCParameters != null)
-                                                                         {
-                                                                             await SetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
-                                                                         }
-                                                                     }
-
-                                                                     return true;
+                                                                     await SetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
                                                                  }
                                                              }
 
-                                                             return false;
+                                                             return true;
                                                          });
 
             CancelCheckInCommand = new RelayCommand(async e =>

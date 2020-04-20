@@ -175,9 +175,13 @@ namespace GPGO_MultiPLCs.Models
         public CodeType     CodeType      { get; set; } = CodeType.Panel;
         public bool         FirstPanel    { get; set; } = false;
         public string       OrderCode     { get; set; }
+        public string PartNumber { get; set; }
+        public string BatchNumber { get; set; }
         public List<string> PanelCodes    { get; set; } = new List<string>();
         public int          ProcessNumber { get; set; }
         public string       Side          { get; set; } = "A";
+
+        public ProductInfo(){}
 
         /// <summary></summary>
         /// <param name="code">工單條碼</param>
