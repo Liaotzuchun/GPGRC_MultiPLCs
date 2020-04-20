@@ -618,6 +618,10 @@ namespace GPGO_MultiPLCs.Models
 
         #region 機台狀態
 
+        public bool Buzzer => Bit_Values[SignalNames.蜂鳴器];
+        public bool GreenLight => Bit_Values[SignalNames.綠燈];
+        public bool YellowLight => Bit_Values[SignalNames.黃燈];
+        public bool RedLight => Bit_Values[SignalNames.紅燈];
         public bool   IsCooling                => Bit_Values[SignalNames.降溫中];
         public bool   ManualMode               => Bit_Values[SignalNames.手動模式];
         public bool   AutoMode                 => Bit_Values[SignalNames.自動模式];

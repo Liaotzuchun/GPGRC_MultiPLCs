@@ -1538,7 +1538,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{DynamicResource 剩餘}" />
+                                                   Text="{DynamicResource 燈號}" />
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="3"
@@ -1644,6 +1644,8 @@
                                                              Path="CoolingFanException" />
                                                     <Binding Mode="OneWay"
                                                              Path="CirculatingFanInversion" />
+                                                    <Binding Mode="OneWay"
+                                                             Path="CirculatingFanCurrentException" />
                                                 </MultiBinding>
                                             </CheckBox.IsChecked>
                                         </CheckBox>
@@ -1683,11 +1685,30 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center">
-                                            <Run Text="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=\{0:D\}}" />
-                                            <Run Text="{DynamicResource 分}" />
-                                        </TextBlock>
+                                        <views:UniformStackPanel Margin="2"
+                                                                 Orientation="Horizontal">
+                                            <Border Margin="2"
+                                                    Background="{DynamicResource OKBrush}"
+                                                    BorderBrush="{DynamicResource OKBorderBrush}"
+                                                    BorderThickness="1">
+                                                <Border Background="#CCFFFFFF"
+                                                        Visibility="{Binding GreenLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                                            </Border>
+                                            <Border Margin="2"
+                                                    Background="Gold"
+                                                    BorderBrush="Goldenrod"
+                                                    BorderThickness="1">
+                                                <Border Background="#CCFFFFFF"
+                                                        Visibility="{Binding YellowLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                                            </Border>
+                                            <Border Margin="2"
+                                                    Background="{DynamicResource ErrorBrush}"
+                                                    BorderBrush="{DynamicResource ErrorBorderBrush}"
+                                                    BorderThickness="1">
+                                                <Border Background="#CCFFFFFF"
+                                                        Visibility="{Binding RedLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                                            </Border>
+                                        </views:UniformStackPanel>
                                     </Border>
                                 </Grid>
                             </GroupBox>

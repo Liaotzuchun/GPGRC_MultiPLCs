@@ -34,6 +34,10 @@
         自動啟動,
         PC_InUsed,
         PLC_InUsed,
+        蜂鳴器,
+        綠燈,
+        黃燈,
+        紅燈,
 
         //! PC->PLC
         PC_HeartBeat

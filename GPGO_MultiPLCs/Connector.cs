@@ -345,7 +345,11 @@ namespace GPGO_MultiPLCs
                                              {SignalNames.循環風車INV異常, (BitType.M, GetInt())},
                                              {SignalNames.充氮氣逾時, (BitType.M, GetInt())},
                                              {SignalNames.門未關定位異常, (BitType.M, GetInt())},
-                                             {SignalNames.升恆溫逾時, (BitType.M, GetInt())}
+                                             {SignalNames.升恆溫逾時, (BitType.M, GetInt())},
+                                             {SignalNames.蜂鳴器, (BitType.Y, 0)},
+                                             {SignalNames.綠燈, (BitType.Y, 1)},
+                                             {SignalNames.黃燈, (BitType.Y, 2)},
+                                             {SignalNames.紅燈, (BitType.Y, 3)}
                                          },
                                          new Dictionary<DataNames, (DataType, int)>
                                          {
@@ -353,7 +357,7 @@ namespace GPGO_MultiPLCs
                                              {DataNames.溫控器設定溫度, (DataType.D, 65)},
                                              {DataNames.片段剩餘時間, (DataType.D, GetInt())},
                                              {DataNames.總剩餘時間, (DataType.D, GetInt())},
-                                             {DataNames.目前段數, (DataType.D, 140)},
+                                             {DataNames.目前段數, (DataType.D, 22)},
                                              {DataNames.爐內溫度_1, (DataType.D, GetInt())},
                                              {DataNames.爐內溫度_2, (DataType.D, GetInt())},
                                              {DataNames.爐內溫度_3, (DataType.D, GetInt())},

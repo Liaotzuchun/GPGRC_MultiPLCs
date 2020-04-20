@@ -656,6 +656,10 @@ namespace GPGO_MultiPLCs.Models
 
             var Bit_Map = new Dictionary<SignalNames, string>
                           {
+                              {SignalNames.蜂鳴器, nameof(Buzzer)},
+                              {SignalNames.綠燈, nameof(GreenLight)},
+                              {SignalNames.黃燈, nameof(YellowLight)},
+                              {SignalNames.紅燈, nameof(RedLight)},
                               {SignalNames.PC_InUsed, nameof(PC_InUsed)},
                               {SignalNames.自動模式, nameof(AutoMode)},
                               {SignalNames.自動啟動, nameof(AutoMode_Start)},

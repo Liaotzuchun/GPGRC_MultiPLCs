@@ -55,6 +55,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                               {
                                                   PLC_All[args.Item1].Bit_Values[(BitType.S, S.Key)] = S.Value;
                                               }
+
+                                              foreach (var Y in args.Item2.Y)
+                                              {
+                                                  PLC_All[args.Item1].Bit_Values[(BitType.Y, Y.Key)] = Y.Value;
+                                              }
                                           }
                                       }
                                       catch (Exception)
