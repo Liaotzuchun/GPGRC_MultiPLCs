@@ -46,6 +46,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   PLC_All[args.Item1].Data_Values[(DataType.D, D.Key)] = D.Value;
                                               }
 
+                                              foreach (var W in args.Item2.W)
+                                              {
+                                                  PLC_All[args.Item1].Data_Values[(DataType.W, W.Key)] = W.Value;
+                                              }
+
+                                              foreach (var B in args.Item2.B)
+                                              {
+                                                  PLC_All[args.Item1].Bit_Values[(BitType.B, B.Key)] = B.Value;
+                                              }
+
                                               foreach (var M in args.Item2.M)
                                               {
                                                   PLC_All[args.Item1].Bit_Values[(BitType.M, M.Key)] = M.Value;
@@ -54,6 +64,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                               foreach (var S in args.Item2.S)
                                               {
                                                   PLC_All[args.Item1].Bit_Values[(BitType.S, S.Key)] = S.Value;
+                                              }
+
+                                              foreach (var X in args.Item2.X)
+                                              {
+                                                  PLC_All[args.Item1].Bit_Values[(BitType.X, X.Key)] = X.Value;
                                               }
 
                                               foreach (var Y in args.Item2.Y)
