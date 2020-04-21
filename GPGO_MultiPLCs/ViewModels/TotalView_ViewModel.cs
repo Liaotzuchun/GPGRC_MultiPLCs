@@ -211,6 +211,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Func<(int StationIndex, string TrolleyCode), ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
+        public event Func<User> GetUser;
+
         /// <summary>讀取財產編號</summary>
         public void LoadAssetNumbers()
         {
@@ -544,6 +546,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                        await PLC_Client.Set_Datas2Async(index, values);
                                                    }
                                                };
+
+                PLC_All[i].GetUser += () => GetUser?.Invoke();
             }
 
             LoadMachineCodes();

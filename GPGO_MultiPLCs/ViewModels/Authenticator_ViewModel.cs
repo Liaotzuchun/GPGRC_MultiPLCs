@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using User = GPGO_MultiPLCs.Models.User;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -29,7 +28,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                    {
                                        Name     = "GP",
                                        Password = "23555277",
-                                       Level    = User.UserLevel.S
+                                       Level    = UserLevel.Super
                                    };
 
         /// <summary>最低權限帳號，訪客</summary>
@@ -37,11 +36,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                       {
                                           Name     = "Guest",
                                           Password = "",
-                                          Level    = User.UserLevel.Guest
+                                          Level    = UserLevel.Guest
                                       };
 
         /// <summary>所有權限階級</summary>
-        private readonly User.UserLevel[] Levels = {User.UserLevel.S, User.UserLevel.Administrator, User.UserLevel.Manager, User.UserLevel.Operator};
+        private readonly UserLevel[] Levels = {UserLevel.Super, UserLevel.Administrator, UserLevel.Manager, UserLevel.Operator};
 
         /// <summary>所有使用者列表</summary>
         private readonly Users UserList;
@@ -50,7 +49,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand AddUser { get; }
 
         /// <summary>新增帳號可選擇指定的權限階級</summary>
-        public IEnumerable<User.UserLevel> EditLevels => Levels.Where(x => x < NowUser.Level);
+        public IEnumerable<UserLevel> EditLevels => Levels.Where(x => x < NowUser.Level);
 
         /// <summary>當登入視窗關閉時</summary>
         public RelayCommand ExitLog { get; }
@@ -90,9 +89,9 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>設定使用者權限(管理使用者時)</summary>
-        public User.UserLevel EditLevel
+        public UserLevel EditLevel
         {
-            get => Get<User.UserLevel>();
+            get => Get<UserLevel>();
             set
             {
                 Set(value);
@@ -163,9 +162,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 if (value == null)
                 {
-                    Set("",                      nameof(EditName));
-                    Set("",                      nameof(EditPassword));
-                    Set(User.UserLevel.Operator, nameof(EditLevel));
+                    Set("",                 nameof(EditName));
+                    Set("",                 nameof(EditPassword));
+                    Set(UserLevel.Operator, nameof(EditLevel));
                 }
                 else
                 {
@@ -221,7 +220,7 @@ namespace GPGO_MultiPLCs.ViewModels
             UserList.Load(false);
             UserList.RegisterChanged();
 
-            NowUser = UserList.List.Where(x => x.Level < User.UserLevel.Manager && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
+            NowUser = UserList.List.Where(x => x.Level < UserLevel.Manager && x.LastLoginTime.Ticks != 0).OrderByDescending(x => x.LastLoginTime).FirstOrDefault() ?? Guest;
 
             Settings = new GlobalSettings();
             Settings.Load(false);

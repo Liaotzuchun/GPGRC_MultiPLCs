@@ -14,7 +14,6 @@ using System.Windows.Threading;
 using GPGO_MultiPLCs.GP_PLCs;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
-using User = GPGO_MultiPLCs.Models.User;
 
 namespace GPGO_MultiPLCs
 {
@@ -494,7 +493,7 @@ namespace GPGO_MultiPLCs
                                                              {Language.EN, "Still processing,\ncannot terminate the program."}
                                                          });
                                        }
-                                       else if (User.Level > User.UserLevel.Operator)
+                                       else if (User.Level > UserLevel.Operator)
                                        {
                                            var user = User.Copy();
                                            var result = await DialogVM.CheckCondition(new Dictionary<Language, string>
@@ -657,26 +656,30 @@ namespace GPGO_MultiPLCs
                                          return null;
                                      };
 
+            TotalVM.GetUser += () => User;
+
             TotalVM.CancelCheckIn += e =>
                                      {
                                          var (stationIndex, trolleyCode) = e;
                                          var path = $"{DataInputPath}\\{trolleyCode}";
 
-                                         if (Directory.Exists(path))
+                                         if (!Directory.Exists(path))
                                          {
-                                             var tag   = $".bak{stationIndex}";
-                                             var files = new DirectoryInfo(path).GetFiles($"*{tag}");
-                                             foreach (var file in files)
+                                             return;
+                                         }
+
+                                         var tag   = $".bak{stationIndex}";
+                                         var files = new DirectoryInfo(path).GetFiles($"*{tag}");
+                                         foreach (var file in files)
+                                         {
+                                             var sourcename = file.FullName.TrimEnd(tag.ToCharArray());
+
+                                             if (File.Exists(sourcename))
                                              {
-                                                 var sourcename = file.FullName.TrimEnd(tag.ToCharArray());
-
-                                                 if (File.Exists(sourcename))
-                                                 {
-                                                     File.Delete(sourcename);
-                                                 }
-
-                                                 file.MoveTo(sourcename);
+                                                 File.Delete(sourcename);
                                              }
+
+                                             file.MoveTo(sourcename);
                                          }
                                      };
 
@@ -800,9 +803,10 @@ namespace GPGO_MultiPLCs
                                                                       } while (!TraceVM.Standby);
                                                                   });
 
-                                      TraceVM.SearchResult = e.info;
-                                      TraceVM.SearchEvent  = e._event;
-                                      TraceVM.Date1        = e.info.AddedTime.Date;
+                                      var (info, logEvent) = e;
+                                      TraceVM.SearchResult = info;
+                                      TraceVM.SearchEvent  = logEvent;
+                                      TraceVM.Date1        = info.AddedTime.Date;
                                   };
 
             //MakeTestData(20);

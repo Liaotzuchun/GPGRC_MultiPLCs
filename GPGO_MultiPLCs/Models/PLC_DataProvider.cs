@@ -241,6 +241,8 @@ namespace GPGO_MultiPLCs.Models
 
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
+        public event Func<User> GetUser;
+
         public void SetSelectedRecipeName(string name)
         {
             Set(name, nameof(Selected_Name));
@@ -723,7 +725,10 @@ namespace GPGO_MultiPLCs.Models
                                                                  return false;
                                                              }
 
-                                                             //todo 此案沒有操作人員和台車id
+                                                             if (GetUser != null)
+                                                             {
+                                                                 OvenInfo.OperatorID = GetUser().Name;
+                                                             }
 
                                                              Ext_Info.Clear();
 

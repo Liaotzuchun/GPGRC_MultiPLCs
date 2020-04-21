@@ -180,7 +180,6 @@
     <Compile Include="Models\ProcessInfo.cs" />
     <Compile Include="Models\PLC_DataProvider.cs" />
     <Compile Include="Models\RecordInfo.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\Authenticator_ViewModel.cs" />
     <Compile Include="ViewModels\GlobalDialog_ViewModel.cs" />
     <Compile Include="ViewModels\LogView_ViewModel.cs" />
