@@ -164,7 +164,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [JsonIgnore]
+        [JsonIgnore] //匯出時檔名已是名稱，此處用JsonIgnore是用來做配方比較需忽略此項
         [OrderIndex(0)]
         [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
         public override string RecipeName { get; set; }
