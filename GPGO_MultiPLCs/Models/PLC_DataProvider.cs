@@ -626,8 +626,6 @@ namespace GPGO_MultiPLCs.Models
 
             CheckInCommand = new CommandWithResult<bool>(async o =>
                                                          {
-                                                             var para = (string)o;
-
                                                              var (result1, partNo) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
@@ -637,9 +635,9 @@ namespace GPGO_MultiPLCs.Models
                                                                                              },
                                                                                              new Dictionary<Language, string>
                                                                                              {
-                                                                                                 {Language.TW, para},
-                                                                                                 {Language.CHS, para},
-                                                                                                 {Language.EN, para}
+                                                                                                 {Language.TW, "5 ~ 14個英數字"},
+                                                                                                 {Language.CHS, "5 ~ 14个英数字"},
+                                                                                                 {Language.EN, "5 ~ 14 alphanumerics"}
                                                                                              },
                                                                                              true,
                                                                                              x =>
@@ -649,9 +647,9 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  return (str.Length > 4 && str.Length < 15,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
-                                                                                                             {Language.TW, "字數錯誤，請重試！"},
-                                                                                                             {Language.CHS, "字数错误，请重试！"},
-                                                                                                             {Language.EN, "Input error, please try again!"}
+                                                                                                             {Language.TW, "字數錯誤！"},
+                                                                                                             {Language.CHS, "字数错误！"},
+                                                                                                             {Language.EN, "Input error!"}
                                                                                                          });
                                                                                              });
 
@@ -669,9 +667,9 @@ namespace GPGO_MultiPLCs.Models
                                                                                              },
                                                                                              new Dictionary<Language, string>
                                                                                              {
-                                                                                                 {Language.TW, para},
-                                                                                                 {Language.CHS, para},
-                                                                                                 {Language.EN, para}
+                                                                                                 {Language.TW, "5 ~ 14個英數字"},
+                                                                                                 {Language.CHS, "5 ~ 14个英数字"},
+                                                                                                 {Language.EN, "5 ~ 14 alphanumerics"}
                                                                                              },
                                                                                              true,
                                                                                              x =>
@@ -681,9 +679,9 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  return (str.Length > 4 && str.Length < 15,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
-                                                                                                             {Language.TW, "字數錯誤，請重試！"},
-                                                                                                             {Language.CHS, "字数错误，请重试！"},
-                                                                                                             {Language.EN, "Input error, please try again!"}
+                                                                                                             {Language.TW, "字數錯誤！"},
+                                                                                                             {Language.CHS, "字数错误！"},
+                                                                                                             {Language.EN, "Input error!"}
                                                                                                          });
                                                                                              });
 
@@ -697,26 +695,26 @@ namespace GPGO_MultiPLCs.Models
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
                                                                                                  {Language.TW, "輸入數量"},
-                                                                                                 {Language.CHS, "数量"},
-                                                                                                 {Language.EN, "Enter the Counts"}
+                                                                                                 {Language.CHS, "输入数量"},
+                                                                                                 {Language.EN, "Enter the quantity"}
                                                                                              },
                                                                                              new Dictionary<Language, string>
                                                                                              {
-                                                                                                 {Language.TW, para},
-                                                                                                 {Language.CHS, para},
-                                                                                                 {Language.EN, para}
+                                                                                                 {Language.TW, "1 ~ 100"},
+                                                                                                 {Language.CHS, "1 ~ 100"},
+                                                                                                 {Language.EN, "1 ~ 100"}
                                                                                              },
                                                                                              true,
                                                                                              x =>
                                                                                              {
                                                                                                  var str = x.ToString().Trim();
 
-                                                                                                 return (int.TryParse(str, out counts),
+                                                                                                 return (int.TryParse(str, out counts) && counts > 0 && counts <= 100,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
-                                                                                                             {Language.TW, "字數錯誤，請重試！"},
-                                                                                                             {Language.CHS, "字数错误，请重试！"},
-                                                                                                             {Language.EN, "Input error, please try again!"}
+                                                                                                             {Language.TW, "數量錯誤！"},
+                                                                                                             {Language.CHS, "数量错误！"},
+                                                                                                             {Language.EN, "Wrong quantity!"}
                                                                                                          });
                                                                                              });
 
