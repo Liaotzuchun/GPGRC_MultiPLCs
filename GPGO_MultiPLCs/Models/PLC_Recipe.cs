@@ -80,7 +80,7 @@ namespace GPGO_MultiPLCs.Models
         [JsonIgnore] public short Time_Min => 1;
 
         [JsonIgnore]
-        [LanguageTranslator("Used Stations", "使用站點", "使用站点")]
+        [LanguageTranslator("Used Stations", "使用站點", "使用站点")] //todo 改用dictionary
         public IList<bool> Used_Stations
         {
             get => Get<IList<bool>>();

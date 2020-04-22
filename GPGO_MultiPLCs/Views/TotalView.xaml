@@ -97,7 +97,7 @@
                              SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <views:UniformGridWithOrientation x:Name="UniformGridWithOrientation">
+                                <views:UniformGridWithOrientation x:Name="UniformGridWithOrientation" Orientation="Horizontal">
                                     <views:UniformGridWithOrientation.Columns>
                                         <MultiBinding Converter="{StaticResource IfElse}">
                                             <Binding Converter="{StaticResource IsLessThanValue}"
@@ -153,7 +153,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Border Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                                            MaxWidth="100"
+                                            MaxWidth="60"
                                             Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border x:Name="StatusBorder"
                                             Grid.Column="0"
@@ -186,7 +186,7 @@
                                                  FontSize="14">
                                             <Grid TextElement.Foreground="{StaticResource BaseForeground}">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="52" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
@@ -268,9 +268,9 @@
                                                  Height="0">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="52" />
                                                     <ColumnDefinition />
-                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="52" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
@@ -525,7 +525,7 @@
                                                   Grid.Row="0"
                                                   Grid.Column="2"
                                                   Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                                                  MaxWidth="100"
+                                                  MaxWidth="60"
                                                   Content="{DynamicResource 投產}"
                                                   FontSize="20"
                                                   IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">

@@ -558,7 +558,7 @@ namespace GPGO_MultiPLCs
                                              for (var i = 0; i < TotalVM.PLC_All.Count; i++)
                                              {
                                                  var j      = i;
-                                                 var recipe = list.Find(x => x.Used_Stations[j]);
+                                                 var recipe = list.Find(x => j < x.Used_Stations.Count && x.Used_Stations[j]);
                                                  if (recipe != null)
                                                  {
                                                      if (!await TotalVM.SetRecipe(i, recipe, true))
