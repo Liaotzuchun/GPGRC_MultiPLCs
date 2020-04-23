@@ -58,7 +58,7 @@ namespace GPGO_MultiPLCs
         private static void OvenCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var count = (int)e.NewValue;
-            ((Connector)sender).TotalVM.TotalProduction_ViewCount = count;
+            ((Connector)sender).TotalVM.OvenCount = count;
         }
 
         public int OvenCount

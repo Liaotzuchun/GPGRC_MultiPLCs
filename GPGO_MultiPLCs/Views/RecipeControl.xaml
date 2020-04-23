@@ -2271,9 +2271,22 @@
                                     </ItemsControl.Template>
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <views:UniformGridWithOrientation Columns="{Binding Settings.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
-                                                                              Orientation="Vertical"
-                                                                              Rows="2" />
+                                            <views:UniformGridWithOrientation Orientation="Vertical"
+                                                                              Rows="2">
+                                                <views:UniformGridWithOrientation.Columns>
+                                                    <MultiBinding Converter="{StaticResource GetMinInt}">
+                                                        <Binding Converter="{StaticResource RatioValueINT}"
+                                                                 ConverterParameter="0.5"
+                                                                 Mode="OneWay"
+                                                                 Path="Settings.OvenCount"
+                                                                 Source="{StaticResource AuthenticatorViewModel}" />
+                                                        <Binding Converter="{StaticResource RatioValue}"
+                                                                 ConverterParameter="0.5"
+                                                                 Mode="OneWay"
+                                                                 Path="Used_Stations.Count" />
+                                                    </MultiBinding>
+                                                </views:UniformGridWithOrientation.Columns>
+                                            </views:UniformGridWithOrientation>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>

@@ -91,20 +91,20 @@
                     </Grid.ColumnDefinitions>
                     <ListBox Margin="3"
                              AlternationCount="2147483647"
-                             ItemsSource="{Binding PLC_All, Mode=OneTime}"
+                             ItemsSource="{Binding PLC_All_View, Mode=OneWay}"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
                              SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <views:UniformGridWithOrientation x:Name="UniformGridWithOrientation" Orientation="Horizontal">
+                                <views:UniformGridWithOrientation x:Name="UniformGridWithOrientation"
+                                                                  Orientation="Horizontal">
                                     <views:UniformGridWithOrientation.Columns>
                                         <MultiBinding Converter="{StaticResource IfElse}">
                                             <Binding Converter="{StaticResource IsLessThanValue}"
                                                      ConverterParameter="10"
                                                      Mode="OneWay"
-                                                     Path="Settings.OvenCount"
-                                                     Source="{StaticResource AuthenticatorViewModel}" />
+                                                     Path="OvenCount" />
                                             <Binding>
                                                 <Binding.Source>
                                                     <system:Int32>1</system:Int32>
@@ -117,16 +117,6 @@
                                             </Binding>
                                         </MultiBinding>
                                     </views:UniformGridWithOrientation.Columns>
-                                    <views:UniformGridWithOrientation.Rows>
-                                        <MultiBinding Converter="{StaticResource DivideInts}">
-                                            <Binding Mode="OneWay"
-                                                     Path="Settings.OvenCount"
-                                                     Source="{StaticResource AuthenticatorViewModel}" />
-                                            <Binding ElementName="UniformGridWithOrientation"
-                                                     Mode="OneWay"
-                                                     Path="Columns" />
-                                        </MultiBinding>
-                                    </views:UniformGridWithOrientation.Rows>
                                 </views:UniformGridWithOrientation>
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
@@ -2057,7 +2047,7 @@
                                  HorizontalContentAlignment="Center"
                                  VerticalContentAlignment="Center"
                                  AlternationCount="2147483647"
-                                 ItemsSource="{Binding PLC_All, Mode=OneTime}"
+                                 ItemsSource="{Binding PLC_All_View, Mode=OneWay}"
                                  SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                             <ListBox.Template>
                                 <ControlTemplate>
@@ -2066,7 +2056,7 @@
                             </ListBox.Template>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <views:UniformGridWithOrientation Columns="{Binding Settings.OvenCount, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
+                                    <views:UniformGridWithOrientation Columns="{Binding OvenCount, Converter={StaticResource RatioValueINT}, ConverterParameter=0.5, Mode=OneWay}"
                                                                       Orientation="Vertical"
                                                                       Rows="2" />
                                 </ItemsPanelTemplate>

@@ -133,6 +133,8 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>所有PLC</summary>
         public IList<PLC_DataProvider> PLC_All { get; }
 
+        public IEnumerable<PLC_DataProvider> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount);
+
         /// <summary>檢視詳細資訊的PLC</summary>
         public PLC_DataProvider PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
 
@@ -140,6 +142,17 @@ namespace GPGO_MultiPLCs.ViewModels
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
 
         public int TotalProductionCount => TotalProduction_View?.Sum(x => x.Value) ?? 0;
+
+        public int OvenCount
+        {
+            get => Get<int>();
+            set
+            {
+                Set(value);
+                NotifyPropertyChanged(nameof(PLC_All_View));
+                NotifyPropertyChanged(nameof(TotalProduction_View));
+            }
+        }
 
         /// <summary>PLC Gate連線狀態</summary>
         public bool Gate_Status
@@ -163,25 +176,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public IEnumerable<KeyValuePair<int, int>> TotalProduction_View
-        {
-            get => Get<IEnumerable<KeyValuePair<int, int>>>();
-            set
-            {
-                Set(value);
-                NotifyPropertyChanged(nameof(TotalProductionCount));
-            }
-        }
-
-        public int TotalProduction_ViewCount
-        {
-            get => Get<int>();
-            set
-            {
-                Set(value);
-                TotalProduction_View = TotalProduction.Take(value);
-            }
-        }
+        public IEnumerable<KeyValuePair<int, int>> TotalProduction_View => OvenCount > TotalProduction.Count ? TotalProduction : TotalProduction.Take(OvenCount);
 
         /// <summary>PLC詳細資訊檢視index</summary>
         public int ViewIndex
@@ -423,6 +418,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public TotalView_ViewModel(IReadOnlyCollection<PLC_DevicesMap> plc_maps, IDialogService dialog)
         {
+            OvenCount = plc_maps.Count;
             ViewIndex = -1;
             var PLC_Count = plc_maps.Count;
             site = new InstanceContext(this);
@@ -438,7 +434,7 @@ namespace GPGO_MultiPLCs.ViewModels
             //!當各PLC產量變更時更新總量顯示
             TotalProduction.CollectionChanged += (obj, args) =>
                                                  {
-                                                     TotalProduction_ViewCount = TotalProduction_ViewCount;
+                                                     NotifyPropertyChanged(nameof(TotalProduction_View));
                                                  };
 
             //!註冊PLC事件需引發的動作
