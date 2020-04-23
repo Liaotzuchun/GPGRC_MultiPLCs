@@ -89,7 +89,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="224" />
                     </Grid.ColumnDefinitions>
-                    <ListBox Margin="3"
+                    <ListBox Margin="0,3,3,0"
                              AlternationCount="2147483647"
                              ItemsSource="{Binding PLC_All_View, Mode=OneWay}"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
