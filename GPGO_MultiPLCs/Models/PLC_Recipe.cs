@@ -67,7 +67,7 @@ namespace GPGO_MultiPLCs.Models
             TargetTemperature_8.ToString("0.0") == other.TargetTemperature_8.ToString("0.0") &&
             UsedSegmentCounts == other.UsedSegmentCounts;
 
-        [JsonIgnore] public short SegmentCounts_Max => 8;
+        [JsonIgnore] public short SegmentCounts_Max => 6;
 
         [JsonIgnore] public short SegmentCounts_Min => 1;
 
@@ -1297,7 +1297,7 @@ namespace GPGO_MultiPLCs.Models
             TargetTemperature_6       = 200;
             TargetTemperature_7       = 200;
             TargetTemperature_8       = 200;
-            UsedSegmentCounts         = 8;
+            UsedSegmentCounts         = SegmentCounts_Max;
             Used_Stations             = new bool[20];
         }
 

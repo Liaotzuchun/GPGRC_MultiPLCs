@@ -17,7 +17,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="1.2*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <GroupBox Margin="0,0,4,0"
@@ -2197,8 +2197,9 @@
                       AlternationCount="2147483647"
                       AutoGenerateColumns="False"
                       BorderThickness="0"
+                      ColumnWidth="Auto"
                       EnableRowVirtualization="False"
-                      HorizontalScrollBarVisibility="Disabled"
+                      HorizontalScrollBarVisibility="Auto"
                       ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
                       RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                       SelectedCellsChanged="DataGrid_SelectedCellsChanged"
@@ -2209,7 +2210,8 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn Width="*"
+                                            MinWidth="120">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 配方}" />
                         </DataGridTemplateColumn.Header>
@@ -2223,8 +2225,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
-                                            MinWidth="60">
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 修改者}" />
                         </DataGridTemplateColumn.Header>
@@ -2236,13 +2237,13 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn MinWidth="90">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 更新時間}" />
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:PLC_Recipe">
-                                <StackPanel>
+                                <StackPanel TextElement.FontSize="11">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                Text="{Binding Updated, Mode=OneWay, StringFormat={}{0:yyyy/MM/dd}}" />
@@ -2253,7 +2254,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 使用站點}" />
                         </DataGridTemplateColumn.Header>
@@ -2295,12 +2296,14 @@
                                                     Background="Transparent"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="1,1,0,0">
-                                                <TextBlock x:Name="TextBlock"
-                                                           Margin="3"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="12"
-                                                           Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
+                                                <Viewbox StretchDirection="DownOnly">
+                                                    <TextBlock x:Name="TextBlock"
+                                                               Margin="3"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="12"
+                                                               Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
+                                                </Viewbox>
                                             </Border>
                                             <DataTemplate.Triggers>
                                                 <DataTrigger Binding="{Binding Mode=OneWay}"

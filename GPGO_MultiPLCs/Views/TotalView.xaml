@@ -143,7 +143,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Border Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                                            MaxWidth="60"
+                                            MaxWidth="70"
                                             Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border x:Name="StatusBorder"
                                             Grid.Column="0"
@@ -515,7 +515,7 @@
                                                   Grid.Row="0"
                                                   Grid.Column="2"
                                                   Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                                                  MaxWidth="60"
+                                                  MaxWidth="70"
                                                   Content="{DynamicResource 投產}"
                                                   FontSize="20"
                                                   IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
