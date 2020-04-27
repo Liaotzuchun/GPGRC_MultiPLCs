@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace GPGO_MultiPLCs
+namespace GPGO_MultiPLCs.Views
 {
     /// <summary>MainWindow.xaml 的互動邏輯</summary>
     public partial class MainWindow
