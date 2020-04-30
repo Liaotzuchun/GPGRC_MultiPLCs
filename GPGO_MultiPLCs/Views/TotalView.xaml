@@ -668,7 +668,8 @@
                                       PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                       PlotAreaBorderThickness="1,1,1,0"
                                       PlotMargins="40,-10,0,20"
-                                      TextColor="{Binding Color, Source={StaticResource BaseForeground}}">
+                                      TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                      TextOptions.TextRenderingMode="ClearType">
                                 <oxy:Plot.Axes>
                                     <oxy:LinearAxis AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                                     AxislineStyle="Solid"
@@ -1842,7 +1843,8 @@
                                           PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                           PlotAreaBorderThickness="0,1,1,0"
                                           PlotMargins="40,10,0,35"
-                                          TextColor="{Binding Color, Source={StaticResource BaseForeground}}">
+                                          TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                                          TextOptions.TextRenderingMode="ClearType">
                                     <oxy:Plot.Axes>
                                         <oxy:TimeSpanAxis Title="{DynamicResource 時間}"
                                                           AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
