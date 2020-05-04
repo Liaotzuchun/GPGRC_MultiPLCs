@@ -55,7 +55,7 @@
                 <views:ScreenKeyboard UILanguage="{Binding Language, Source={StaticResource Connector}, Mode=OneWay}" />
                 <local:Authenticator x:Name="Authenticator"
                                      DataContext="{StaticResource AuthenticatorViewModel}" />
-                <local:GlobalDialog x:Name="GlobalDialog"
+                <views:GlobalDialog x:Name="GlobalDialog"
                                     DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}"
                                     IsVisibleChanged="GlobalDialog_IsVisibleChanged" />
             </Grid>
