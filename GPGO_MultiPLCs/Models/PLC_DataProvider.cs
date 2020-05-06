@@ -730,6 +730,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                              Ext_Info.Clear();
 
+                                                             //todo 需視情況調整為每片一筆資料還是每批一筆
                                                              for (var i = 0; i < counts; i++)
                                                              {
                                                                  Ext_Info.Add(new ProductInfo

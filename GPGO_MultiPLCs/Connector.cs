@@ -686,14 +686,7 @@ namespace GPGO_MultiPLCs
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
             TotalVM.AddRecordToDB += async e =>
                                      {
-                                         var inpath  = "";
-                                         var outpath = "";
-
-                                         Dispatcher?.Invoke(() =>
-                                                            {
-                                                                inpath  = DataInputPath;
-                                                                outpath = DataOutputPath;
-                                                            });
+                                         var (inpath, outpath) = await Dispatcher.InvokeAsync(() => (DataInputPath, DataOutputPath));
 
                                          var (stationIndex, infos) = e;
                                          using (await lockobj.LockAsync())
