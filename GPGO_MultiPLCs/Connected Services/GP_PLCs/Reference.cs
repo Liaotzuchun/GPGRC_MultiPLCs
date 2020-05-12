@@ -202,16 +202,16 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         System.Threading.Tasks.Task InitialAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Bit", ReplyAction="http://tempuri.org/IGPService/Get_BitResponse")]
-        bool Get_Bit(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int dev);
+        bool Get_Bit(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int dev);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Bit", ReplyAction="http://tempuri.org/IGPService/Get_BitResponse")]
-        System.Threading.Tasks.Task<bool> Get_BitAsync(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int dev);
+        System.Threading.Tasks.Task<bool> Get_BitAsync(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int dev);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Bits", ReplyAction="http://tempuri.org/IGPService/Get_BitsResponse")]
-        System.Collections.Generic.Dictionary<int, bool> Get_Bits(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int[] devs);
+        System.Collections.Generic.Dictionary<int, bool> Get_Bits(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Bits", ReplyAction="http://tempuri.org/IGPService/Get_BitsResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, bool>> Get_BitsAsync(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int[] devs);
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, bool>> Get_BitsAsync(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Bits2", ReplyAction="http://tempuri.org/IGPService/Get_Bits2Response")]
         System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>, bool> Get_Bits2(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>[] devs);
@@ -220,16 +220,16 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>, bool>> Get_Bits2Async(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Data", ReplyAction="http://tempuri.org/IGPService/Get_DataResponse")]
-        short Get_Data(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev);
+        short Get_Data(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Data", ReplyAction="http://tempuri.org/IGPService/Get_DataResponse")]
-        System.Threading.Tasks.Task<short> Get_DataAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev);
+        System.Threading.Tasks.Task<short> Get_DataAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Datas", ReplyAction="http://tempuri.org/IGPService/Get_DatasResponse")]
-        System.Collections.Generic.Dictionary<int, short> Get_Datas(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int[] devs);
+        System.Collections.Generic.Dictionary<int, short> Get_Datas(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Datas", ReplyAction="http://tempuri.org/IGPService/Get_DatasResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, short>> Get_DatasAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int[] devs);
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, short>> Get_DatasAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Datas2", ReplyAction="http://tempuri.org/IGPService/Get_Datas2Response")]
         System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, short> Get_Datas2(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>[] devs);
@@ -238,16 +238,16 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, short>> Get_Datas2Async(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Int", ReplyAction="http://tempuri.org/IGPService/Get_IntResponse")]
-        int Get_Int(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev);
+        int Get_Int(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Int", ReplyAction="http://tempuri.org/IGPService/Get_IntResponse")]
-        System.Threading.Tasks.Task<int> Get_IntAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev);
+        System.Threading.Tasks.Task<int> Get_IntAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Ints", ReplyAction="http://tempuri.org/IGPService/Get_IntsResponse")]
-        System.Collections.Generic.Dictionary<int, int> Get_Ints(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int[] devs);
+        System.Collections.Generic.Dictionary<int, int> Get_Ints(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Ints", ReplyAction="http://tempuri.org/IGPService/Get_IntsResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, int>> Get_IntsAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int[] devs);
+        System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, int>> Get_IntsAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_Ints2", ReplyAction="http://tempuri.org/IGPService/Get_Ints2Response")]
         System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, int> Get_Ints2(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>[] devs);
@@ -256,22 +256,22 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, int>> Get_Ints2Async(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>[] devs);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_String", ReplyAction="http://tempuri.org/IGPService/Get_StringResponse")]
-        string Get_String(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, int length);
+        string Get_String(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, int length);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGPService/Get_String", ReplyAction="http://tempuri.org/IGPService/Get_StringResponse")]
-        System.Threading.Tasks.Task<string> Get_StringAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, int length);
+        System.Threading.Tasks.Task<string> Get_StringAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, int length);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Bit")]
-        void Set_Bit(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int dev, bool val);
+        void Set_Bit(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int dev, bool val);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Bit")]
-        System.Threading.Tasks.Task Set_BitAsync(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int dev, bool val);
+        System.Threading.Tasks.Task Set_BitAsync(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int dev, bool val);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Bits")]
-        void Set_Bits(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, System.Collections.Generic.Dictionary<int, bool> devs);
+        void Set_Bits(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, System.Collections.Generic.Dictionary<int, bool> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Bits")]
-        System.Threading.Tasks.Task Set_BitsAsync(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, System.Collections.Generic.Dictionary<int, bool> devs);
+        System.Threading.Tasks.Task Set_BitsAsync(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, System.Collections.Generic.Dictionary<int, bool> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Bits2")]
         void Set_Bits2(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>, bool> devs);
@@ -280,16 +280,16 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         System.Threading.Tasks.Task Set_Bits2Async(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>, bool> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Data")]
-        void Set_Data(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, short val);
+        void Set_Data(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, short val);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Data")]
-        System.Threading.Tasks.Task Set_DataAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, short val);
+        System.Threading.Tasks.Task Set_DataAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, short val);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Datas")]
-        void Set_Datas(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, short> devs);
+        void Set_Datas(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, System.Collections.Generic.Dictionary<int, short> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Datas")]
-        System.Threading.Tasks.Task Set_DatasAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, short> devs);
+        System.Threading.Tasks.Task Set_DatasAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, System.Collections.Generic.Dictionary<int, short> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Datas2")]
         void Set_Datas2(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, short> devs);
@@ -298,16 +298,16 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         System.Threading.Tasks.Task Set_Datas2Async(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, short> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Int")]
-        void Set_Int(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, int val);
+        void Set_Int(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, int val);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Int")]
-        System.Threading.Tasks.Task Set_IntAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, int val);
+        System.Threading.Tasks.Task Set_IntAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, int val);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Ints")]
-        void Set_Ints(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, int> devs);
+        void Set_Ints(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, System.Collections.Generic.Dictionary<int, int> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Ints")]
-        System.Threading.Tasks.Task Set_IntsAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, int> devs);
+        System.Threading.Tasks.Task Set_IntsAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, System.Collections.Generic.Dictionary<int, int> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_Ints2")]
         void Set_Ints2(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, int> devs);
@@ -316,10 +316,10 @@ namespace GPGO_MultiPLCs.GP_PLCs {
         System.Threading.Tasks.Task Set_Ints2Async(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, int> devs);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_String")]
-        void Set_String(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, string val);
+        void Set_String(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, string val);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/Set_String")]
-        System.Threading.Tasks.Task Set_StringAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, string val);
+        System.Threading.Tasks.Task Set_StringAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, string val);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGPService/SetReadList")]
         void SetReadList(int index, string[] list);
@@ -388,20 +388,20 @@ namespace GPGO_MultiPLCs.GP_PLCs {
             return base.Channel.InitialAsync();
         }
         
-        public bool Get_Bit(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int dev) {
-            return base.Channel.Get_Bit(type, index, dev);
+        public bool Get_Bit(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int dev) {
+            return base.Channel.Get_Bit(index, type, dev);
         }
         
-        public System.Threading.Tasks.Task<bool> Get_BitAsync(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int dev) {
-            return base.Channel.Get_BitAsync(type, index, dev);
+        public System.Threading.Tasks.Task<bool> Get_BitAsync(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int dev) {
+            return base.Channel.Get_BitAsync(index, type, dev);
         }
         
-        public System.Collections.Generic.Dictionary<int, bool> Get_Bits(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int[] devs) {
-            return base.Channel.Get_Bits(type, index, devs);
+        public System.Collections.Generic.Dictionary<int, bool> Get_Bits(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int[] devs) {
+            return base.Channel.Get_Bits(index, type, devs);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, bool>> Get_BitsAsync(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int[] devs) {
-            return base.Channel.Get_BitsAsync(type, index, devs);
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, bool>> Get_BitsAsync(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int[] devs) {
+            return base.Channel.Get_BitsAsync(index, type, devs);
         }
         
         public System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>, bool> Get_Bits2(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>[] devs) {
@@ -412,20 +412,20 @@ namespace GPGO_MultiPLCs.GP_PLCs {
             return base.Channel.Get_Bits2Async(index, devs);
         }
         
-        public short Get_Data(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev) {
-            return base.Channel.Get_Data(type, index, dev);
+        public short Get_Data(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev) {
+            return base.Channel.Get_Data(index, type, dev);
         }
         
-        public System.Threading.Tasks.Task<short> Get_DataAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev) {
-            return base.Channel.Get_DataAsync(type, index, dev);
+        public System.Threading.Tasks.Task<short> Get_DataAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev) {
+            return base.Channel.Get_DataAsync(index, type, dev);
         }
         
-        public System.Collections.Generic.Dictionary<int, short> Get_Datas(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int[] devs) {
-            return base.Channel.Get_Datas(type, index, devs);
+        public System.Collections.Generic.Dictionary<int, short> Get_Datas(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int[] devs) {
+            return base.Channel.Get_Datas(index, type, devs);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, short>> Get_DatasAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int[] devs) {
-            return base.Channel.Get_DatasAsync(type, index, devs);
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, short>> Get_DatasAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int[] devs) {
+            return base.Channel.Get_DatasAsync(index, type, devs);
         }
         
         public System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, short> Get_Datas2(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>[] devs) {
@@ -436,20 +436,20 @@ namespace GPGO_MultiPLCs.GP_PLCs {
             return base.Channel.Get_Datas2Async(index, devs);
         }
         
-        public int Get_Int(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev) {
-            return base.Channel.Get_Int(type, index, dev);
+        public int Get_Int(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev) {
+            return base.Channel.Get_Int(index, type, dev);
         }
         
-        public System.Threading.Tasks.Task<int> Get_IntAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev) {
-            return base.Channel.Get_IntAsync(type, index, dev);
+        public System.Threading.Tasks.Task<int> Get_IntAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev) {
+            return base.Channel.Get_IntAsync(index, type, dev);
         }
         
-        public System.Collections.Generic.Dictionary<int, int> Get_Ints(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int[] devs) {
-            return base.Channel.Get_Ints(type, index, devs);
+        public System.Collections.Generic.Dictionary<int, int> Get_Ints(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int[] devs) {
+            return base.Channel.Get_Ints(index, type, devs);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, int>> Get_IntsAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int[] devs) {
-            return base.Channel.Get_IntsAsync(type, index, devs);
+        public System.Threading.Tasks.Task<System.Collections.Generic.Dictionary<int, int>> Get_IntsAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int[] devs) {
+            return base.Channel.Get_IntsAsync(index, type, devs);
         }
         
         public System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, int> Get_Ints2(int index, System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>[] devs) {
@@ -460,28 +460,28 @@ namespace GPGO_MultiPLCs.GP_PLCs {
             return base.Channel.Get_Ints2Async(index, devs);
         }
         
-        public string Get_String(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, int length) {
-            return base.Channel.Get_String(type, index, dev, length);
+        public string Get_String(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, int length) {
+            return base.Channel.Get_String(index, type, dev, length);
         }
         
-        public System.Threading.Tasks.Task<string> Get_StringAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, int length) {
-            return base.Channel.Get_StringAsync(type, index, dev, length);
+        public System.Threading.Tasks.Task<string> Get_StringAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, int length) {
+            return base.Channel.Get_StringAsync(index, type, dev, length);
         }
         
-        public void Set_Bit(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int dev, bool val) {
-            base.Channel.Set_Bit(type, index, dev, val);
+        public void Set_Bit(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int dev, bool val) {
+            base.Channel.Set_Bit(index, type, dev, val);
         }
         
-        public System.Threading.Tasks.Task Set_BitAsync(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, int dev, bool val) {
-            return base.Channel.Set_BitAsync(type, index, dev, val);
+        public System.Threading.Tasks.Task Set_BitAsync(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, int dev, bool val) {
+            return base.Channel.Set_BitAsync(index, type, dev, val);
         }
         
-        public void Set_Bits(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, System.Collections.Generic.Dictionary<int, bool> devs) {
-            base.Channel.Set_Bits(type, index, devs);
+        public void Set_Bits(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, System.Collections.Generic.Dictionary<int, bool> devs) {
+            base.Channel.Set_Bits(index, type, devs);
         }
         
-        public System.Threading.Tasks.Task Set_BitsAsync(GPGO_MultiPLCs.GP_PLCs.BitType type, int index, System.Collections.Generic.Dictionary<int, bool> devs) {
-            return base.Channel.Set_BitsAsync(type, index, devs);
+        public System.Threading.Tasks.Task Set_BitsAsync(int index, GPGO_MultiPLCs.GP_PLCs.BitType type, System.Collections.Generic.Dictionary<int, bool> devs) {
+            return base.Channel.Set_BitsAsync(index, type, devs);
         }
         
         public void Set_Bits2(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.BitType, int>, bool> devs) {
@@ -492,20 +492,20 @@ namespace GPGO_MultiPLCs.GP_PLCs {
             return base.Channel.Set_Bits2Async(index, devs);
         }
         
-        public void Set_Data(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, short val) {
-            base.Channel.Set_Data(type, index, dev, val);
+        public void Set_Data(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, short val) {
+            base.Channel.Set_Data(index, type, dev, val);
         }
         
-        public System.Threading.Tasks.Task Set_DataAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, short val) {
-            return base.Channel.Set_DataAsync(type, index, dev, val);
+        public System.Threading.Tasks.Task Set_DataAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, short val) {
+            return base.Channel.Set_DataAsync(index, type, dev, val);
         }
         
-        public void Set_Datas(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, short> devs) {
-            base.Channel.Set_Datas(type, index, devs);
+        public void Set_Datas(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, System.Collections.Generic.Dictionary<int, short> devs) {
+            base.Channel.Set_Datas(index, type, devs);
         }
         
-        public System.Threading.Tasks.Task Set_DatasAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, short> devs) {
-            return base.Channel.Set_DatasAsync(type, index, devs);
+        public System.Threading.Tasks.Task Set_DatasAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, System.Collections.Generic.Dictionary<int, short> devs) {
+            return base.Channel.Set_DatasAsync(index, type, devs);
         }
         
         public void Set_Datas2(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, short> devs) {
@@ -516,20 +516,20 @@ namespace GPGO_MultiPLCs.GP_PLCs {
             return base.Channel.Set_Datas2Async(index, devs);
         }
         
-        public void Set_Int(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, int val) {
-            base.Channel.Set_Int(type, index, dev, val);
+        public void Set_Int(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, int val) {
+            base.Channel.Set_Int(index, type, dev, val);
         }
         
-        public System.Threading.Tasks.Task Set_IntAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, int val) {
-            return base.Channel.Set_IntAsync(type, index, dev, val);
+        public System.Threading.Tasks.Task Set_IntAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, int val) {
+            return base.Channel.Set_IntAsync(index, type, dev, val);
         }
         
-        public void Set_Ints(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, int> devs) {
-            base.Channel.Set_Ints(type, index, devs);
+        public void Set_Ints(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, System.Collections.Generic.Dictionary<int, int> devs) {
+            base.Channel.Set_Ints(index, type, devs);
         }
         
-        public System.Threading.Tasks.Task Set_IntsAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, System.Collections.Generic.Dictionary<int, int> devs) {
-            return base.Channel.Set_IntsAsync(type, index, devs);
+        public System.Threading.Tasks.Task Set_IntsAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, System.Collections.Generic.Dictionary<int, int> devs) {
+            return base.Channel.Set_IntsAsync(index, type, devs);
         }
         
         public void Set_Ints2(int index, System.Collections.Generic.Dictionary<System.ValueTuple<GPGO_MultiPLCs.GP_PLCs.DataType, int>, int> devs) {
@@ -540,12 +540,12 @@ namespace GPGO_MultiPLCs.GP_PLCs {
             return base.Channel.Set_Ints2Async(index, devs);
         }
         
-        public void Set_String(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, string val) {
-            base.Channel.Set_String(type, index, dev, val);
+        public void Set_String(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, string val) {
+            base.Channel.Set_String(index, type, dev, val);
         }
         
-        public System.Threading.Tasks.Task Set_StringAsync(GPGO_MultiPLCs.GP_PLCs.DataType type, int index, int dev, string val) {
-            return base.Channel.Set_StringAsync(type, index, dev, val);
+        public System.Threading.Tasks.Task Set_StringAsync(int index, GPGO_MultiPLCs.GP_PLCs.DataType type, int dev, string val) {
+            return base.Channel.Set_StringAsync(index, type, dev, val);
         }
         
         public void SetReadList(int index, string[] list) {
