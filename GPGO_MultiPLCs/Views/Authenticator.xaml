@@ -6,7 +6,6 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
@@ -114,7 +113,7 @@
                 </Border>
             </Border>
             <Rectangle Grid.Row="1"
-                       Grid.RowSpan="3">
+                       Grid.RowSpan="7">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
                         <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
@@ -352,7 +351,7 @@
                                     <TextBlock Text="{DynamicResource 帳號}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="models:User">
+                                    <DataTemplate DataType="gpmodels:User">
                                         <TextBlock Text="{Binding Name, Mode=OneWay}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </DataTemplate>
@@ -363,7 +362,7 @@
                                     <TextBlock Text="{DynamicResource 密碼}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="models:User">
+                                    <DataTemplate DataType="gpmodels:User">
                                         <TextBlock Text="{Binding Password, Mode=OneWay}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </DataTemplate>
@@ -374,7 +373,7 @@
                                     <TextBlock Text="{DynamicResource 層級}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="models:User">
+                                    <DataTemplate DataType="gpmodels:User">
                                         <TextBlock Text="{Binding Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -384,7 +383,7 @@
                                     <TextBlock Text="{DynamicResource 上次登入}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="models:User">
+                                    <DataTemplate DataType="gpmodels:User">
                                         <TextBlock Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -394,7 +393,7 @@
                                     <TextBlock Text="{DynamicResource 創建時間}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="models:User">
+                                    <DataTemplate DataType="gpmodels:User">
                                         <TextBlock Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
