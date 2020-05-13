@@ -1230,7 +1230,7 @@
                     </ListBox.ItemsPanel>
                     <TextBlock Text="{DynamicResource 日期時間}" />
                     <TextBlock Text="{DynamicResource 設備}" />
-                    <TextBlock Text="{DynamicResource 工單}" />
+                    <TextBlock Text="{DynamicResource 料號}" />
                 </ListBox>
                 <Border Grid.Column="2"
                         Background="{StaticResource WindowBackgroundBrush6}"

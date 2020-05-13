@@ -626,6 +626,38 @@ namespace GPGO_MultiPLCs.Models
 
             CheckInCommand = new CommandWithResult<bool>(async o =>
                                                          {
+                                                             var (result0, opId) =
+                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 {Language.TW, "輸入人員ID"},
+                                                                                                 {Language.CHS, "输入人员ID"},
+                                                                                                 {Language.EN, "Enter the Operator's Id"}
+                                                                                             },
+                                                                                             new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 {Language.TW, "5 ~ 14個英數字"},
+                                                                                                 {Language.CHS, "5 ~ 14个英数字"},
+                                                                                                 {Language.EN, "5 ~ 14 alphanumerics"}
+                                                                                             },
+                                                                                             true,
+                                                                                             x =>
+                                                                                             {
+                                                                                                 var str = x.ToString().Trim();
+
+                                                                                                 return (str.Length > 4 && str.Length < 15,
+                                                                                                         new Dictionary<Language, string>
+                                                                                                         {
+                                                                                                             {Language.TW, "字數錯誤！"},
+                                                                                                             {Language.CHS, "字数错误！"},
+                                                                                                             {Language.EN, "Input error!"}
+                                                                                                         });
+                                                                                             });
+
+                                                             if (!result0)
+                                                             {
+                                                                 return false;
+                                                             }
+
                                                              var (result1, partNo) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
@@ -723,11 +755,11 @@ namespace GPGO_MultiPLCs.Models
                                                                  return false;
                                                              }
 
-                                                             if (GetUser != null)
-                                                             {
-                                                                 OvenInfo.OperatorID = GetUser().Name;
-                                                             }
-
+                                                             //if (GetUser != null)
+                                                             //{
+                                                             //    OvenInfo.OperatorID = GetUser().Name;
+                                                             //}
+                                                             OvenInfo.OperatorID = opId.ToString().Trim();
                                                              Ext_Info.Clear();
 
                                                              //todo 需視情況調整為每片一筆資料還是每批一筆

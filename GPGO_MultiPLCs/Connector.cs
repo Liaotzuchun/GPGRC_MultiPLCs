@@ -99,7 +99,7 @@ namespace GPGO_MultiPLCs
             _Testdatalock = new AsyncAutoResetEvent();
             await _Testdatalock.WaitAsync();
 
-            var order_code = new[]
+            var partnum = new[]
                              {
                                  "ooxx", "abc", "zzz", "qoo",
                                  "boom", "xxx", "wunmao"
@@ -293,14 +293,14 @@ namespace GPGO_MultiPLCs
                         for (var p = 0; p <= n; p++)
                         {
                             var _info = info.Copy();
-                            var index = rn.Next(0, order_code.Length);
+                            var index = rn.Next(0, partnum.Length);
                             while (temp.Contains(index))
                             {
-                                index = rn.Next(0, order_code.Length);
+                                index = rn.Next(0, partnum.Length);
                             }
 
                             temp.Add(index);
-                            _info.OrderCode = order_code[index];
+                            _info.PartNumber = partnum[index];
 
                             var count = rn.Next(10, 20);
                             for (var m = 0; m < count; m++)
@@ -803,6 +803,10 @@ namespace GPGO_MultiPLCs
                                   };
 
             //MakeTestData(20);
+
+            var a = "123456789123456789";
+            var b = a.ASCIItoShorts();
+            Console.WriteLine(b);
         }
     }
 }

@@ -382,14 +382,14 @@
                                                                     <DataGrid.Columns>
                                                                         <DataGridTemplateColumn Width="Auto">
                                                                             <DataGridTemplateColumn.Header>
-                                                                                <TextBlock Text="{DynamicResource 工單}" />
+                                                                                <TextBlock Text="{DynamicResource 料號}" />
                                                                             </DataGridTemplateColumn.Header>
                                                                             <DataGridTemplateColumn.CellTemplate>
                                                                                 <DataTemplate DataType="models:ProductInfo">
                                                                                     <TextBlock Margin="4"
                                                                                                HorizontalAlignment="Center"
                                                                                                VerticalAlignment="Center"
-                                                                                               Text="{Binding OrderCode, Mode=OneWay}"
+                                                                                               Text="{Binding PartNumber, Mode=OneWay}"
                                                                                                TextTrimming="CharacterEllipsis" />
                                                                                 </DataTemplate>
                                                                             </DataGridTemplateColumn.CellTemplate>

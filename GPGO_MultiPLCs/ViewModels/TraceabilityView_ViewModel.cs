@@ -561,7 +561,7 @@ namespace GPGO_MultiPLCs.ViewModels
             if (ViewResults?.Count > 0)
             {
                 var ByDate  = date2 - date1 > TimeSpan.FromDays(1);
-                var result2 = ViewResults.GroupBy(x => (ChartMode)Mode == ChartMode.ByOrder ? x.StationNumber.ToString("00") : x.OrderCode).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                var result2 = ViewResults.GroupBy(x => (ChartMode)Mode == ChartMode.ByOrder ? x.StationNumber.ToString("00") : x.PartNumber).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
 
                 var NoLayer2   = result2.Length > 20 && (ChartMode)Mode == ChartMode.ByOrder;
                 var categories = new List<string>();
@@ -575,7 +575,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                       if ((ChartMode)Mode == ChartMode.ByOrder)
                                                       {
-                                                          return x.OrderCode;
+                                                          return x.PartNumber;
                                                       }
 
                                                       return ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00";
@@ -614,7 +614,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
-                    ResultView.LegendTitle     = (ChartMode)Mode == ChartMode.ByOrder ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.OrderCode);
+                    ResultView.LegendTitle     = (ChartMode)Mode == ChartMode.ByOrder ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.PartNumber);
 
                     var color_step_2 = 0.9 / result2.Length;
 
@@ -646,7 +646,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                      if ((ChartMode)Mode == ChartMode.ByOrder)
                                                      {
-                                                         return x.OrderCode == categories[j];
+                                                         return x.PartNumber == categories[j];
                                                      }
 
                                                      if (ByDate)
@@ -698,9 +698,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                            {
                                                var (result, input) = await dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                 {
-                                                                                                    {Language.TW, "請輸入欲搜尋之PanelCode："},
-                                                                                                    {Language.CHS, "请输入欲搜寻之PanelCode："},
-                                                                                                    {Language.EN, "Please enter the PanelCode you want to find："}
+                                                                                                    {Language.TW, "請輸入欲搜尋之料號："},
+                                                                                                    {Language.CHS, "请输入欲搜寻之料号："},
+                                                                                                    {Language.EN, "Please enter the PartNumber you want to find："}
                                                                                                 },
                                                                                                 new Dictionary<Language, string>
                                                                                                 {
@@ -713,7 +713,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                {
                                                    Standby = false;
 
-                                                   SearchResult = await DataCollection.FindOneAsync(x => x.PanelCodes.Contains(input));
+                                                   SearchResult = await DataCollection.FindOneAsync(x => x.PartNumber.Equals(input.ToString(), StringComparison.OrdinalIgnoreCase));
 
                                                    Standby = true;
 
@@ -812,7 +812,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              PlotAreaBorderColor     = bordercolor,
                              PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
-                             LegendTitle             = nameof(ProcessInfo.OrderCode),
+                             LegendTitle             = nameof(ProcessInfo.PartNumber),
                              LegendTitleColor        = fontcolor,
                              LegendTextColor         = fontcolor,
                              LegendBorder            = bordercolor,
