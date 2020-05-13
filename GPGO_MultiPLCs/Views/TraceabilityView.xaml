@@ -579,7 +579,7 @@
                                                 TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
                             </oxy:Plot.Axes>
                             <oxy:Plot.Series>
-                                <oxy:LineSeries Title="{DynamicResource 爐內溫度8}"
+                                <!--<oxy:LineSeries Title="{DynamicResource 爐內溫度8}"
                                                 DataFieldX="Time"
                                                 DataFieldY="OvenTemperatures_8"
                                                 ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
@@ -658,7 +658,7 @@
                                                 MarkerSize="3"
                                                 MarkerType="None"
                                                 StrokeThickness="2"
-                                                Color="DarkOrange" />
+                                                Color="DarkOrange" />-->
                                 <oxy:LineSeries Title="{DynamicResource 溫控器溫度}"
                                                 DataFieldX="Time"
                                                 DataFieldY="ThermostatTemperature"

@@ -1269,7 +1269,7 @@
                                       Margin="2,4,0,4"
                                       Header="{DynamicResource 設備狀態}"
                                       IsHitTestVisible="False">
-                                <Grid ClipToBounds="True">
+                                <Grid ClipToBounds="True" Background="{StaticResource LightColorBrush}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="*" />
@@ -1297,7 +1297,7 @@
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 溫控器溫度}" />
                                     </Border>
-                                    <Border Grid.Row="1"
+                                    <!--<Border Grid.Row="1"
                                             Grid.Column="0"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1368,7 +1368,7 @@
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 爐內溫度8}" />
-                                    </Border>
+                                    </Border>-->
                                     <Border Grid.Row="0"
                                             Grid.Column="1"
                                             Background="{StaticResource LightColorBrush}"
@@ -1378,7 +1378,7 @@
                                                    VerticalAlignment="Center"
                                                    Text="{Binding ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                                     </Border>
-                                    <Border Grid.Row="1"
+                                    <!--<Border Grid.Row="1"
                                             Grid.Column="1"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1449,7 +1449,7 @@
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{Binding OvenTemperature_8, Mode=OneWay, StringFormat=\{0:D\} °C}" />
-                                    </Border>
+                                    </Border>-->
                                     <Border Grid.Row="0"
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
@@ -1463,7 +1463,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="1,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 生產結束}" />
@@ -1472,7 +1472,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="1,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 緊急停止}" />
@@ -1481,7 +1481,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="1,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 溫度異常}" />
@@ -1490,7 +1490,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="1,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 風車異常}" />
@@ -1499,7 +1499,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="1,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 充氣逾時}" />
@@ -1508,7 +1508,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="1,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 升恆溫逾時}" />
@@ -1517,7 +1517,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="1,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 狀態}" />
@@ -1526,7 +1526,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="1,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 燈號}" />
@@ -1892,7 +1892,7 @@
                                                         TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
                                     </oxy:Plot.Axes>
                                     <oxy:Plot.Series>
-                                        <oxy:LineSeries Title="{DynamicResource 爐內溫度8}"
+                                        <!--<oxy:LineSeries Title="{DynamicResource 爐內溫度8}"
                                                         DataFieldX="Time"
                                                         DataFieldY="OvenTemperatures_8"
                                                         ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
@@ -1971,7 +1971,7 @@
                                                         MarkerSize="3"
                                                         MarkerType="None"
                                                         StrokeThickness="2"
-                                                        Color="DarkOrange" />
+                                                        Color="DarkOrange" />-->
                                         <oxy:LineSeries Title="{DynamicResource 溫控器溫度}"
                                                         DataFieldX="Time"
                                                         DataFieldY="ThermostatTemperature"
