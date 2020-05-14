@@ -1020,7 +1020,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <!--<DataGridTemplateColumn Width="Auto"
+                <DataGridTemplateColumn Width="Auto"
                                         MinWidth="80"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
@@ -1034,7 +1034,7 @@
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
+                </DataGridTemplateColumn>
                 <!--<DataGridTemplateColumn Width="Auto"
                                         MinWidth="80"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
