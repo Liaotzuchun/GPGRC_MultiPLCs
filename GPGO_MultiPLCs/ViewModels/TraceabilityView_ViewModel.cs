@@ -22,10 +22,12 @@ namespace GPGO_MultiPLCs.ViewModels
     {
         public enum ChartMode
         {
-            ByDateTime,
-            ByPLC,
-            ByOrder,
-            Pie
+            ByDateTime = 0,
+            ByPLC = 1,
+            //ByOrder = 2,
+            ByBatch = 2,
+            ByPart = 3,
+            Pie = 4
         }
 
         private readonly OxyColor     bgcolor     = OxyColor.FromRgb(240, 255, 235);
@@ -561,24 +563,28 @@ namespace GPGO_MultiPLCs.ViewModels
             if (ViewResults?.Count > 0)
             {
                 var ByDate  = date2 - date1 > TimeSpan.FromDays(1);
-                var result2 = ViewResults.GroupBy(x => (ChartMode)Mode == ChartMode.ByOrder ? x.StationNumber.ToString("00") : x.PartNumber).OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                var result2 = ViewResults
+                             .GroupBy(x => Mode >= (int)ChartMode.ByBatch ?
+                                               x.StationNumber.ToString("00") :
+                                               x.PartNumber)
+                             .OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
 
-                var NoLayer2   = result2.Length > 20 && (ChartMode)Mode == ChartMode.ByOrder;
+                var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByBatch;
                 var categories = new List<string>();
 
                 var result1 = ViewResults.GroupBy(x =>
                                                   {
-                                                      if ((ChartMode)Mode == ChartMode.ByPLC)
+                                                      switch ((ChartMode)Mode)
                                                       {
-                                                          return x.StationNumber.ToString("00");
+                                                          case ChartMode.ByPLC:
+                                                              return x.StationNumber.ToString("00");
+                                                          case ChartMode.ByBatch:
+                                                              return x.BatchNumber;
+                                                          case ChartMode.ByPart:
+                                                              return x.PartNumber;
+                                                          default:
+                                                              return ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00";
                                                       }
-
-                                                      if ((ChartMode)Mode == ChartMode.ByOrder)
-                                                      {
-                                                          return x.PartNumber;
-                                                      }
-
-                                                      return ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00";
                                                   })
                                          .OrderBy(x => x.Key)
                                          .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
@@ -614,7 +620,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
-                    ResultView.LegendTitle     = (ChartMode)Mode == ChartMode.ByOrder ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.PartNumber);
+                    ResultView.LegendTitle     = Mode >= (int)ChartMode.ByBatch ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.PartNumber);
 
                     var color_step_2 = 0.9 / result2.Length;
 
@@ -639,14 +645,14 @@ namespace GPGO_MultiPLCs.ViewModels
                         {
                             var val = info.Where(x =>
                                                  {
-                                                     if ((ChartMode)Mode == ChartMode.ByPLC)
+                                                     switch ((ChartMode)Mode)
                                                      {
-                                                         return x.StationNumber.ToString("00") == categories[j];
-                                                     }
-
-                                                     if ((ChartMode)Mode == ChartMode.ByOrder)
-                                                     {
-                                                         return x.PartNumber == categories[j];
+                                                         case ChartMode.ByPLC:
+                                                             return x.StationNumber.ToString("00") == categories[j];
+                                                         case ChartMode.ByBatch:
+                                                             return x.BatchNumber == categories[j];
+                                                         case ChartMode.ByPart:
+                                                             return x.PartNumber == categories[j];
                                                      }
 
                                                      if (ByDate)

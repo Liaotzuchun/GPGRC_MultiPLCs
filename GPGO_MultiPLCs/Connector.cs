@@ -104,6 +104,12 @@ namespace GPGO_MultiPLCs
                                  "ooxx", "abc", "zzz", "qoo",
                                  "boom", "xxx", "wunmao"
                              };
+
+            var batchnum = new[]
+                          {
+                              "111", "222", "333", "444",
+                              "555", "666", "777"
+                          };
             var time = DateTime.Now;
 
             for (var j = 1; j <= new DateTime(time.Year, time.Month, 1).AddMonths(1).AddDays(-1).Day; j++)
@@ -301,6 +307,7 @@ namespace GPGO_MultiPLCs
 
                             temp.Add(index);
                             _info.PartNumber = partnum[index];
+                            _info.BatchNumber = batchnum[index];
 
                             var count = rn.Next(10, 20);
                             for (var m = 0; m < count; m++)
@@ -803,10 +810,6 @@ namespace GPGO_MultiPLCs
                                   };
 
             //MakeTestData(20);
-
-            var a = "123456789123456789";
-            var b = a.ASCIItoShorts();
-            Console.WriteLine(b);
         }
     }
 }

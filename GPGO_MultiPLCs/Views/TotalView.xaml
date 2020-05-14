@@ -646,7 +646,7 @@
                                     <Run Text="{DynamicResource 本日產量}" />
                                     <Run Text=": " />
                                     <Run Text="{Binding TotalProductionCount, Mode=OneWay}" />
-                                    <Run Text="panels" />
+                                    <Run Text="{DynamicResource 片}" />
                                 </TextBlock>
                             </Border>
                             <oxy:Plot Grid.Row="1"
@@ -1495,7 +1495,7 @@
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 風車異常}" />
                                     </Border>
-                                    <Border Grid.Row="5"
+                                    <!--<Border Grid.Row="5"
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1503,12 +1503,12 @@
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 充氣逾時}" />
-                                    </Border>
+                                    </Border>-->
                                     <Border Grid.Row="6"
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="1,0,1,1">
+                                            BorderThickness="1,1,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 升恆溫逾時}" />
@@ -1641,7 +1641,7 @@
                                             </CheckBox.IsChecked>
                                         </CheckBox>
                                     </Border>
-                                    <Border Grid.Row="5"
+                                    <!--<Border Grid.Row="5"
                                             Grid.Column="3"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1651,12 +1651,12 @@
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   IsChecked="{Binding InflatingTimeExceeded, Mode=OneWay}"
                                                   Style="{StaticResource SignalView}" />
-                                    </Border>
+                                    </Border>-->
                                     <Border Grid.Row="6"
                                             Grid.Column="3"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,0,1">
+                                            BorderThickness="0,1,0,1">
                                         <CheckBox Background="{StaticResource ErrorBrush}"
                                                   BorderBrush="{StaticResource ErrorBorderBrush}"
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"

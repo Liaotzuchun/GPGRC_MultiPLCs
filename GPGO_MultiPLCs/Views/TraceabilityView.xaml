@@ -1211,8 +1211,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="110" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="150" />
                 </Grid.ColumnDefinitions>
                 <ListBox Grid.Column="1"
                          FontSize="16"
@@ -1225,11 +1225,12 @@
                     </ListBox.Template>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Rows="1" />
+                            <views:UniformStackPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                     <TextBlock Text="{DynamicResource 日期時間}" />
                     <TextBlock Text="{DynamicResource 設備}" />
+                    <TextBlock Text="{DynamicResource 批號}" />
                     <TextBlock Text="{DynamicResource 料號}" />
                 </ListBox>
                 <Border Grid.Column="2"
@@ -1246,8 +1247,10 @@
                         BorderThickness="0,0,0,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="16"
-                               Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\} panels}" />
+                               FontSize="16">
+                        <Run Text="{Binding ProduceTotalCount, Mode=OneWay, StringFormat=\{0:D\}}" />
+                        <Run Text="{DynamicResource 片}" />
+                    </TextBlock>
                 </Border>
             </Grid>
             <Border Grid.Row="1"

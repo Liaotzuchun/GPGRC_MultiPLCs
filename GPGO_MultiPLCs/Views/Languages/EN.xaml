@@ -157,4 +157,5 @@
     <sys:String x:Key="改名">Rename</sys:String>
     <sys:String x:Key="蜂鳴器">Buzzer</sys:String>
     <sys:String x:Key="燈號">Lights</sys:String>
+    <sys:String x:Key="片">Panels</sys:String>
 </ResourceDictionary>

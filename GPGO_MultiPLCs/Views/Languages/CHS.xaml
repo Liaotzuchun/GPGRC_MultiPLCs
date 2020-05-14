@@ -157,4 +157,5 @@
     <sys:String x:Key="改名">改名</sys:String>
     <sys:String x:Key="蜂鳴器">蜂鸣器</sys:String>
     <sys:String x:Key="燈號">灯号</sys:String>
+    <sys:String x:Key="片">片</sys:String>
 </ResourceDictionary>
