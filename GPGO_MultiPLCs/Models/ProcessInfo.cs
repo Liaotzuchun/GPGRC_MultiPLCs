@@ -241,6 +241,7 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Order", "料號", "料号")]
         public string PartNumber { get; set; }
 
+        //todo 實作混批混料
         [LanguageTranslator("Order", "批號", "批号")]
         public string BatchNumber { get; set; }
 
