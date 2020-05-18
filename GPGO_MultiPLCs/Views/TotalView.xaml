@@ -396,14 +396,14 @@
                                                                         </DataGridTemplateColumn>
                                                                         <DataGridTemplateColumn>
                                                                             <DataGridTemplateColumn.Header>
-                                                                                <TextBlock Text="{DynamicResource 製程序}" />
+                                                                                <TextBlock Text="{DynamicResource 批號}" />
                                                                             </DataGridTemplateColumn.Header>
                                                                             <DataGridTemplateColumn.CellTemplate>
                                                                                 <DataTemplate DataType="models:ProductInfo">
                                                                                     <TextBlock Margin="4"
                                                                                                HorizontalAlignment="Center"
                                                                                                VerticalAlignment="Center"
-                                                                                               Text="{Binding ProcessNumber, Mode=OneWay, StringFormat=\{0:D3\}}"
+                                                                                               Text="{Binding BatchNumber, Mode=OneWay}"
                                                                                                TextTrimming="CharacterEllipsis" />
                                                                                 </DataTemplate>
                                                                             </DataGridTemplateColumn.CellTemplate>
@@ -452,7 +452,7 @@
                                                                                             </ItemsControl.Template>
                                                                                             <ItemsControl.ItemsPanel>
                                                                                                 <ItemsPanelTemplate>
-                                                                                                    <views:UniformGridWithOrientation Margin="0,-1,0,0"
+                                                                                                    <views:UniformGridWithOrientation Margin="0,0,0,-1"
                                                                                                                                       Orientation="Vertical"
                                                                                                                                       Rows="10" />
                                                                                                 </ItemsPanelTemplate>
@@ -466,7 +466,7 @@
                                                                                                             <ColumnDefinition />
                                                                                                         </Grid.ColumnDefinitions>
                                                                                                         <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                                BorderThickness="0,1,1,0">
+                                                                                                                BorderThickness="0,0,1,1">
                                                                                                             <TextBlock HorizontalAlignment="Center"
                                                                                                                        VerticalAlignment="Center"
                                                                                                                        FontSize="12"
@@ -475,7 +475,7 @@
                                                                                                         <Border Grid.Column="1"
                                                                                                                 Background="Transparent"
                                                                                                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                                BorderThickness="0,1,1,0">
+                                                                                                                BorderThickness="0,0,1,1">
                                                                                                             <TextBlock Margin="4,0"
                                                                                                                        HorizontalAlignment="Center"
                                                                                                                        VerticalAlignment="Center"
