@@ -307,7 +307,7 @@ namespace GPGO_MultiPLCs
 
                             temp.Add(index);
                             _info.PartNumber = partnum[index];
-                            _info.BatchNumber = batchnum[index];
+                            _info.BatchNumber = batchnum[rn.Next(0, batchnum.Length)];
 
                             var count = rn.Next(10, 20);
                             for (var m = 1; m <= count; m++)

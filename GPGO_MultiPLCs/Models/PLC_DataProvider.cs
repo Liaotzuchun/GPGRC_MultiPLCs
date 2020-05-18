@@ -759,12 +759,13 @@ namespace GPGO_MultiPLCs.Models
                                                                      return false;
                                                                  }
 
+                                                                 batches[batchNo.ToString().Trim()] = counts;
                                                              } while (await dialog.Show(new Dictionary<Language, string>
                                                                                         {
                                                                                             {Language.TW, "是否要繼續新增批號？"},
                                                                                             {Language.CHS, "是否要继续新增批号？"},
                                                                                             {Language.EN, "Continue to add batch number?"}
-                                                                                        }, DialogMsgType.Normal, true));
+                                                                                        }, batches, true));
 
                                                              OvenInfo.OperatorID = opId.ToString().Trim();
                                                              Ext_Info.Clear();
