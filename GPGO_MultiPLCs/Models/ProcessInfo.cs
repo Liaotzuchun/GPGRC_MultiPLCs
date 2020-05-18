@@ -188,13 +188,13 @@ namespace GPGO_MultiPLCs.Models
     }
 
     /// <summary>材料生產資訊</summary>
-    public class ProductInfo
+    public class ProductInfo //!這是一個批號的資料
     {
         public CodeType     CodeType      { get; set; } = CodeType.Panel;
         public bool         FirstPanel    { get; set; } = false;
         public string       OrderCode     { get; set; }
         public string       PartNumber    { get; set; }
-        public string       BatchNumber   { get; set; }
+        public string BatchNumber       { get; set; }
         public List<string> PanelCodes    { get; set; } = new List<string>();
         public int          ProcessNumber { get; set; }
         public string       Side          { get; set; } = "A";
@@ -241,7 +241,6 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Order", "料號", "料号")]
         public string PartNumber { get; set; }
 
-        //todo 實作混批混料
         [LanguageTranslator("Order", "批號", "批号")]
         public string BatchNumber { get; set; }
 

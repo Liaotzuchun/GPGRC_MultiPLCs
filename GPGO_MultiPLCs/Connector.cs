@@ -310,9 +310,9 @@ namespace GPGO_MultiPLCs
                             _info.BatchNumber = batchnum[index];
 
                             var count = rn.Next(10, 20);
-                            for (var m = 0; m < count; m++)
+                            for (var m = 1; m <= count; m++)
                             {
-                                _info.PanelCodes.Add(new object().GetHashCode().ToString());
+                                _info.PanelCodes.Add($"{_info.PartNumber}-{_info.BatchNumber}-{m}");
                             }
 
                             infos.Add(_info);

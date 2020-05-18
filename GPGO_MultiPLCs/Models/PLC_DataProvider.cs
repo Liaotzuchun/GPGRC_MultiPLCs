@@ -690,86 +690,98 @@ namespace GPGO_MultiPLCs.Models
                                                                  return false;
                                                              }
 
-                                                             var (result2, batchNo) =
-                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 {Language.TW, "輸入批號"},
-                                                                                                 {Language.CHS, "输入批号"},
-                                                                                                 {Language.EN, "Enter the Batch Number"}
-                                                                                             },
-                                                                                             new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 {Language.TW, "5 ~ 14個英數字"},
-                                                                                                 {Language.CHS, "5 ~ 14个英数字"},
-                                                                                                 {Language.EN, "5 ~ 14 alphanumerics"}
-                                                                                             },
-                                                                                             true,
-                                                                                             x =>
-                                                                                             {
-                                                                                                 var str = x.ToString().Trim();
+                                                             var batches = new Dictionary<string, int>();
 
-                                                                                                 return (str.Length > 4 && str.Length < 15,
-                                                                                                         new Dictionary<Language, string>
-                                                                                                         {
-                                                                                                             {Language.TW, "字數錯誤！"},
-                                                                                                             {Language.CHS, "字数错误！"},
-                                                                                                             {Language.EN, "Input error!"}
-                                                                                                         });
-                                                                                             });
-
-                                                             if (!result2)
+                                                             do
                                                              {
-                                                                 return false;
-                                                             }
+                                                                 var (result2, batchNo) =
+                                                                     await Dialog.CheckCondition(new Dictionary<Language, string>
+                                                                                                 {
+                                                                                                     {Language.TW, "輸入批號"},
+                                                                                                     {Language.CHS, "输入批号"},
+                                                                                                     {Language.EN, "Enter the Batch Number"}
+                                                                                                 },
+                                                                                                 new Dictionary<Language, string>
+                                                                                                 {
+                                                                                                     {Language.TW, "5 ~ 14個英數字"},
+                                                                                                     {Language.CHS, "5 ~ 14个英数字"},
+                                                                                                     {Language.EN, "5 ~ 14 alphanumerics"}
+                                                                                                 },
+                                                                                                 true,
+                                                                                                 x =>
+                                                                                                 {
+                                                                                                     var str = x.ToString().Trim();
 
-                                                             var counts = 0;
-                                                             var (result4, input4) =
-                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 {Language.TW, "輸入數量"},
-                                                                                                 {Language.CHS, "输入数量"},
-                                                                                                 {Language.EN, "Enter the quantity"}
-                                                                                             },
-                                                                                             new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 {Language.TW, "1 ~ 100"},
-                                                                                                 {Language.CHS, "1 ~ 100"},
-                                                                                                 {Language.EN, "1 ~ 100"}
-                                                                                             },
-                                                                                             true,
-                                                                                             x =>
-                                                                                             {
-                                                                                                 var str = x.ToString().Trim();
+                                                                                                     return (str.Length > 4 && str.Length < 15,
+                                                                                                             new Dictionary<Language, string>
+                                                                                                             {
+                                                                                                                 {Language.TW, "字數錯誤！"},
+                                                                                                                 {Language.CHS, "字数错误！"},
+                                                                                                                 {Language.EN, "Input error!"}
+                                                                                                             });
+                                                                                                 });
 
-                                                                                                 return (int.TryParse(str, out counts) && counts > 0 && counts <= 100,
-                                                                                                         new Dictionary<Language, string>
-                                                                                                         {
-                                                                                                             {Language.TW, "數量錯誤！"},
-                                                                                                             {Language.CHS, "数量错误！"},
-                                                                                                             {Language.EN, "Wrong quantity!"}
-                                                                                                         });
-                                                                                             });
+                                                                 if (!result2)
+                                                                 {
+                                                                     return false;
+                                                                 }
 
-                                                             if (!result4)
-                                                             {
-                                                                 return false;
-                                                             }
+                                                                 var counts = 0;
+                                                                 var (result4, input4) =
+                                                                     await Dialog.CheckCondition(new Dictionary<Language, string>
+                                                                                                 {
+                                                                                                     {Language.TW, "輸入數量"},
+                                                                                                     {Language.CHS, "输入数量"},
+                                                                                                     {Language.EN, "Enter the quantity"}
+                                                                                                 },
+                                                                                                 new Dictionary<Language, string>
+                                                                                                 {
+                                                                                                     {Language.TW, "1 ~ 100"},
+                                                                                                     {Language.CHS, "1 ~ 100"},
+                                                                                                     {Language.EN, "1 ~ 100"}
+                                                                                                 },
+                                                                                                 true,
+                                                                                                 x =>
+                                                                                                 {
+                                                                                                     var str = x.ToString().Trim();
 
-                                                             //if (GetUser != null)
-                                                             //{
-                                                             //    OvenInfo.OperatorID = GetUser().Name;
-                                                             //}
+                                                                                                     return (int.TryParse(str, out counts) && counts > 0 && counts <= 100,
+                                                                                                             new Dictionary<Language, string>
+                                                                                                             {
+                                                                                                                 {Language.TW, "數量錯誤！"},
+                                                                                                                 {Language.CHS, "数量错误！"},
+                                                                                                                 {Language.EN, "Wrong quantity!"}
+                                                                                                             });
+                                                                                                 });
+
+                                                                 if (!result4)
+                                                                 {
+                                                                     return false;
+                                                                 }
+
+                                                             } while (await dialog.Show(new Dictionary<Language, string>
+                                                                                        {
+                                                                                            {Language.TW, "是否要繼續新增批號？"},
+                                                                                            {Language.CHS, "是否要继续新增批号？"},
+                                                                                            {Language.EN, "Continue to add batch number?"}
+                                                                                        }, DialogMsgType.Normal, true));
+
                                                              OvenInfo.OperatorID = opId.ToString().Trim();
                                                              Ext_Info.Clear();
 
-                                                             //todo 需視情況調整為每片一筆資料還是每批一筆
-                                                             for (var i = 0; i < counts; i++)
+                                                             foreach (var batch in batches)
                                                              {
-                                                                 Ext_Info.Add(new ProductInfo
-                                                                              {
-                                                                                  PartNumber  = partNo.ToString().Trim(),
-                                                                                  BatchNumber = batchNo.ToString().Trim()
-                                                                              });
+                                                                 var info = new ProductInfo
+                                                                            {
+                                                                                PartNumber  = partNo.ToString().Trim(),
+                                                                                BatchNumber = batch.Key.Trim()
+                                                                            };
+                                                                 for (var i = 1; i <= batch.Value; i++)
+                                                                 {
+                                                                     info.PanelCodes.Add($"{info.PartNumber}-{info.BatchNumber}-{i}");
+                                                                 }
+
+                                                                 Ext_Info.Add(info);
                                                              }
 
                                                              if (!PC_InUsed &&
