@@ -1216,13 +1216,13 @@ namespace GPGO_MultiPLCs.Models
                 TargetTemperature_8       = TargetTemperature_8,
                 UsedSegmentCounts         = UsedSegmentCounts,
                 Used_Stations             = Used_Stations,
-                Editor                    = user
+                Editor                    = user,
+                EditorLevel               = level
             };
 
         public override void CopyValue(string user, UserLevel level, PLC_Recipe recipe)
         {
             Updated                   = DateTime.Now;
-            RecipeName                = recipe.RecipeName;
             ThermostaticTemperature_1 = recipe.ThermostaticTemperature_1;
             ThermostaticTemperature_2 = recipe.ThermostaticTemperature_2;
             ThermostaticTemperature_3 = recipe.ThermostaticTemperature_3;
@@ -1259,6 +1259,7 @@ namespace GPGO_MultiPLCs.Models
             TargetTemperature_8       = recipe.TargetTemperature_8;
             UsedSegmentCounts         = recipe.UsedSegmentCounts;
             Editor                    = user;
+            EditorLevel               = level;
         }
 
         public PLC_Recipe(string name, string user, UserLevel level) : base(name, user, level)
