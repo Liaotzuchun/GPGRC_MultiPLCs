@@ -84,7 +84,7 @@
                         BorderThickness="0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
-                            <i:InvokeCommandAction Command="{Binding ExitLog, Mode=OneTime}"
+                            <i:InvokeCommandAction Command="{Binding ExitLogin, Mode=OneTime}"
                                                    CommandParameter="{Binding ElementName=Password, Mode=OneWay}" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseEnter">
@@ -301,7 +301,7 @@
                         Grid.RowSpan="3"
                         Grid.Column="2"
                         Content="{DynamicResource 修改}"
-                        IsEnabled="{Binding Update_Enable, Mode=OneWay}">
+                        IsEnabled="{Binding UpdateEnable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding UpdateUser, Mode=OneTime}" />
@@ -312,7 +312,7 @@
                         Grid.RowSpan="3"
                         Grid.Column="3"
                         Content="{DynamicResource 新增}"
-                        IsEnabled="{Binding Add_Enable, Mode=OneWay}">
+                        IsEnabled="{Binding AddEnable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding AddUser, Mode=OneTime}" />
@@ -323,7 +323,7 @@
                         Grid.RowSpan="3"
                         Grid.Column="4"
                         Content="{DynamicResource 刪除}"
-                        IsEnabled="{Binding Remove_Enable, Mode=OneWay}">
+                        IsEnabled="{Binding RemoveEnable, Mode=OneWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding RemoveUser, Mode=OneTime}" />

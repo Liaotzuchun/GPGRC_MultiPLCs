@@ -46,18 +46,18 @@
                                 Data="{Binding OvenFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="RecipeFilterData"
                                 Data="{Binding RecipeFilter, Mode=OneWay}" />
-        <views:FilterGroupProxy x:Key="OrderFilterData"
-                                Data="{Binding OrderFilter, Mode=OneWay}" />
+        <!--<views:FilterGroupProxy x:Key="OrderFilterData"
+                                Data="{Binding OrderFilter, Mode=OneWay}" />-->
         <views:FilterGroupProxy x:Key="PartNoFilterData"
                                 Data="{Binding PartNoFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="BatchNoFilterData"
                                 Data="{Binding BatchNoFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="OpFilterData"
                                 Data="{Binding OpFilter, Mode=OneWay}" />
-        <views:FilterGroupProxy x:Key="TrolleyFilterData"
+        <!--<views:FilterGroupProxy x:Key="TrolleyFilterData"
                                 Data="{Binding TrolleyFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="SideFilterData"
-                                Data="{Binding SideFilter, Mode=OneWay}" />
+                                Data="{Binding SideFilter, Mode=OneWay}" />-->
         <DataTemplate x:Key="EqualFilterTemplate"
                       DataType="gpmodels:EqualFilter">
             <MenuItem Header="{Binding Value, Mode=OneWay}"

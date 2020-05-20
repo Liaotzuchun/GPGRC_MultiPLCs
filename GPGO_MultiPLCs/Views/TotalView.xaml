@@ -589,7 +589,7 @@
                             </Grid.ColumnDefinitions>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PreviewMouseDown">
-                                    <i:InvokeCommandAction Command="{Binding StartLog, Source={StaticResource AuthenticatorViewModel}, Mode=OneTime}" />
+                                    <i:InvokeCommandAction Command="{Binding StartLogin, Source={StaticResource AuthenticatorViewModel}, Mode=OneTime}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <Border Background="{StaticResource LightColorBrush}"
