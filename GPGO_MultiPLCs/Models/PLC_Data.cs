@@ -61,480 +61,480 @@ namespace GPGO_MultiPLCs.Models
 
         public double TargetTemperature_1
         {
-            get => Recipe_Values[DataNames.目標溫度_1] * 0.1;
+            get => Recipe_Values[DataNames.目標溫度_1];
             set
             {
-                Recipe_Values[DataNames.目標溫度_1] = (short)(value * 10);
+                Recipe_Values[DataNames.目標溫度_1] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double TargetTemperature_2
         {
-            get => Recipe_Values[DataNames.目標溫度_2] * 0.1;
+            get => Recipe_Values[DataNames.目標溫度_2];
             set
             {
-                Recipe_Values[DataNames.目標溫度_2] = (short)(value * 10);
+                Recipe_Values[DataNames.目標溫度_2] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double TargetTemperature_3
         {
-            get => Recipe_Values[DataNames.目標溫度_3] * 0.1;
+            get => Recipe_Values[DataNames.目標溫度_3];
             set
             {
-                Recipe_Values[DataNames.目標溫度_3] = (short)(value * 10);
+                Recipe_Values[DataNames.目標溫度_3] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double TargetTemperature_4
         {
-            get => Recipe_Values[DataNames.目標溫度_4] * 0.1;
+            get => Recipe_Values[DataNames.目標溫度_4];
             set
             {
-                Recipe_Values[DataNames.目標溫度_4] = (short)(value * 10);
+                Recipe_Values[DataNames.目標溫度_4] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double TargetTemperature_5
         {
-            get => Recipe_Values[DataNames.目標溫度_5] * 0.1;
+            get => Recipe_Values[DataNames.目標溫度_5];
             set
             {
-                Recipe_Values[DataNames.目標溫度_5] = (short)(value * 10);
+                Recipe_Values[DataNames.目標溫度_5] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double TargetTemperature_6
         {
-            get => Recipe_Values[DataNames.目標溫度_6] * 0.1;
+            get => Recipe_Values[DataNames.目標溫度_6];
             set
             {
-                Recipe_Values[DataNames.目標溫度_6] = (short)(value * 10);
+                Recipe_Values[DataNames.目標溫度_6] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double TargetTemperature_7
         {
-            get => Recipe_Values[DataNames.目標溫度_7] * 0.1;
+            get => Recipe_Values[DataNames.目標溫度_7];
             set
             {
-                Recipe_Values[DataNames.目標溫度_7] = (short)(value * 10);
+                Recipe_Values[DataNames.目標溫度_7] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double TargetTemperature_8
         {
-            get => Recipe_Values[DataNames.目標溫度_8] * 0.1;
+            get => Recipe_Values[DataNames.目標溫度_8];
             set
             {
-                Recipe_Values[DataNames.目標溫度_8] = (short)(value * 10);
+                Recipe_Values[DataNames.目標溫度_8] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double ThermostaticTemperature_1
         {
-            get => Recipe_Values[DataNames.恆溫溫度_1] * 0.1;
+            get => Recipe_Values[DataNames.恆溫溫度_1];
             set
             {
-                Recipe_Values[DataNames.恆溫溫度_1] = (short)(value * 10);
+                Recipe_Values[DataNames.恆溫溫度_1] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double ThermostaticTemperature_2
         {
-            get => Recipe_Values[DataNames.恆溫溫度_2] * 0.1;
+            get => Recipe_Values[DataNames.恆溫溫度_2];
             set
             {
-                Recipe_Values[DataNames.恆溫溫度_2] = (short)(value * 10);
+                Recipe_Values[DataNames.恆溫溫度_2] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double ThermostaticTemperature_3
         {
-            get => Recipe_Values[DataNames.恆溫溫度_3] * 0.1;
+            get => Recipe_Values[DataNames.恆溫溫度_3];
             set
             {
-                Recipe_Values[DataNames.恆溫溫度_3] = (short)(value * 10);
+                Recipe_Values[DataNames.恆溫溫度_3] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double ThermostaticTemperature_4
         {
-            get => Recipe_Values[DataNames.恆溫溫度_4] * 0.1;
+            get => Recipe_Values[DataNames.恆溫溫度_4];
             set
             {
-                Recipe_Values[DataNames.恆溫溫度_4] = (short)(value * 10);
+                Recipe_Values[DataNames.恆溫溫度_4] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double ThermostaticTemperature_5
         {
-            get => Recipe_Values[DataNames.恆溫溫度_5] * 0.1;
+            get => Recipe_Values[DataNames.恆溫溫度_5];
             set
             {
-                Recipe_Values[DataNames.恆溫溫度_5] = (short)(value * 10);
+                Recipe_Values[DataNames.恆溫溫度_5] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double ThermostaticTemperature_6
         {
-            get => Recipe_Values[DataNames.恆溫溫度_6] * 0.1;
+            get => Recipe_Values[DataNames.恆溫溫度_6];
             set
             {
-                Recipe_Values[DataNames.恆溫溫度_6] = (short)(value * 10);
+                Recipe_Values[DataNames.恆溫溫度_6] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double ThermostaticTemperature_7
         {
-            get => Recipe_Values[DataNames.恆溫溫度_7] * 0.1;
+            get => Recipe_Values[DataNames.恆溫溫度_7];
             set
             {
-                Recipe_Values[DataNames.恆溫溫度_7] = (short)(value * 10);
+                Recipe_Values[DataNames.恆溫溫度_7] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
         public double ThermostaticTemperature_8
         {
-            get => Recipe_Values[DataNames.恆溫溫度_8] * 0.1;
+            get => Recipe_Values[DataNames.恆溫溫度_8];
             set
             {
-                Recipe_Values[DataNames.恆溫溫度_8] = (short)(value * 10);
+                Recipe_Values[DataNames.恆溫溫度_8] = (short)value;
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingTime_1
+        public double HeatingTime_1
         {
-            get => Recipe_Values[DataNames.升溫時間_1];
+            get => Recipe_Values[DataNames.升溫時間_1] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫時間_1] = value;
+                Recipe_Values[DataNames.升溫時間_1] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingTime_2
+        public double HeatingTime_2
         {
-            get => Recipe_Values[DataNames.升溫時間_2];
+            get => Recipe_Values[DataNames.升溫時間_2] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫時間_2] = value;
+                Recipe_Values[DataNames.升溫時間_2] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingTime_3
+        public double HeatingTime_3
         {
-            get => Recipe_Values[DataNames.升溫時間_3];
+            get => Recipe_Values[DataNames.升溫時間_3] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫時間_3] = value;
+                Recipe_Values[DataNames.升溫時間_3] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingTime_4
+        public double HeatingTime_4
         {
-            get => Recipe_Values[DataNames.升溫時間_4];
+            get => Recipe_Values[DataNames.升溫時間_4] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫時間_4] = value;
+                Recipe_Values[DataNames.升溫時間_4] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingTime_5
+        public double HeatingTime_5
         {
-            get => Recipe_Values[DataNames.升溫時間_5];
+            get => Recipe_Values[DataNames.升溫時間_5] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫時間_5] = value;
+                Recipe_Values[DataNames.升溫時間_5] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingTime_6
+        public double HeatingTime_6
         {
-            get => Recipe_Values[DataNames.升溫時間_6];
+            get => Recipe_Values[DataNames.升溫時間_6] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫時間_6] = value;
+                Recipe_Values[DataNames.升溫時間_6] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingTime_7
+        public double HeatingTime_7
         {
-            get => Recipe_Values[DataNames.升溫時間_7];
+            get => Recipe_Values[DataNames.升溫時間_7] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫時間_7] = value;
+                Recipe_Values[DataNames.升溫時間_7] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingTime_8
+        public double HeatingTime_8
         {
-            get => Recipe_Values[DataNames.升溫時間_8];
+            get => Recipe_Values[DataNames.升溫時間_8] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫時間_8] = value;
+                Recipe_Values[DataNames.升溫時間_8] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingAlarm_1
+        public double HeatingAlarm_1
         {
-            get => Recipe_Values[DataNames.升溫警報_1];
+            get => Recipe_Values[DataNames.升溫警報_1] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫警報_1] = value;
+                Recipe_Values[DataNames.升溫警報_1] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingAlarm_2
+        public double HeatingAlarm_2
         {
-            get => Recipe_Values[DataNames.升溫警報_2];
+            get => Recipe_Values[DataNames.升溫警報_2] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫警報_2] = value;
+                Recipe_Values[DataNames.升溫警報_2] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingAlarm_3
+        public double HeatingAlarm_3
         {
-            get => Recipe_Values[DataNames.升溫警報_3];
+            get => Recipe_Values[DataNames.升溫警報_3] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫警報_3] = value;
+                Recipe_Values[DataNames.升溫警報_3] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingAlarm_4
+        public double HeatingAlarm_4
         {
-            get => Recipe_Values[DataNames.升溫警報_4];
+            get => Recipe_Values[DataNames.升溫警報_4] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫警報_4] = value;
+                Recipe_Values[DataNames.升溫警報_4] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingAlarm_5
+        public double HeatingAlarm_5
         {
-            get => Recipe_Values[DataNames.升溫警報_5];
+            get => Recipe_Values[DataNames.升溫警報_5] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫警報_5] = value;
+                Recipe_Values[DataNames.升溫警報_5] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingAlarm_6
+        public double HeatingAlarm_6
         {
-            get => Recipe_Values[DataNames.升溫警報_6];
+            get => Recipe_Values[DataNames.升溫警報_6] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫警報_6] = value;
+                Recipe_Values[DataNames.升溫警報_6] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingAlarm_7
+        public double HeatingAlarm_7
         {
-            get => Recipe_Values[DataNames.升溫警報_7];
+            get => Recipe_Values[DataNames.升溫警報_7] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫警報_7] = value;
+                Recipe_Values[DataNames.升溫警報_7] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short HeatingAlarm_8
+        public double HeatingAlarm_8
         {
-            get => Recipe_Values[DataNames.升溫警報_8];
+            get => Recipe_Values[DataNames.升溫警報_8] * 0.1;
             set
             {
-                Recipe_Values[DataNames.升溫警報_8] = value;
+                Recipe_Values[DataNames.升溫警報_8] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingTime_1
+        public double WarmingTime_1
         {
-            get => Recipe_Values[DataNames.恆溫時間_1];
+            get => Recipe_Values[DataNames.恆溫時間_1] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫時間_1] = value;
+                Recipe_Values[DataNames.恆溫時間_1] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingTime_2
+        public double WarmingTime_2
         {
-            get => Recipe_Values[DataNames.恆溫時間_2];
+            get => Recipe_Values[DataNames.恆溫時間_2] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫時間_2] = value;
+                Recipe_Values[DataNames.恆溫時間_2] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingTime_3
+        public double WarmingTime_3
         {
-            get => Recipe_Values[DataNames.恆溫時間_3];
+            get => Recipe_Values[DataNames.恆溫時間_3] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫時間_3] = value;
+                Recipe_Values[DataNames.恆溫時間_3] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingTime_4
+        public double WarmingTime_4
         {
-            get => Recipe_Values[DataNames.恆溫時間_4];
+            get => Recipe_Values[DataNames.恆溫時間_4] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫時間_4] = value;
+                Recipe_Values[DataNames.恆溫時間_4] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingTime_5
+        public double WarmingTime_5
         {
-            get => Recipe_Values[DataNames.恆溫時間_5];
+            get => Recipe_Values[DataNames.恆溫時間_5] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫時間_5] = value;
+                Recipe_Values[DataNames.恆溫時間_5] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingTime_6
+        public double WarmingTime_6
         {
-            get => Recipe_Values[DataNames.恆溫時間_6];
+            get => Recipe_Values[DataNames.恆溫時間_6] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫時間_6] = value;
+                Recipe_Values[DataNames.恆溫時間_6] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingTime_7
+        public double WarmingTime_7
         {
-            get => Recipe_Values[DataNames.恆溫時間_7];
+            get => Recipe_Values[DataNames.恆溫時間_7] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫時間_7] = value;
+                Recipe_Values[DataNames.恆溫時間_7] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingTime_8
+        public double WarmingTime_8
         {
-            get => Recipe_Values[DataNames.恆溫時間_8];
+            get => Recipe_Values[DataNames.恆溫時間_8] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫時間_8] = value;
+                Recipe_Values[DataNames.恆溫時間_8] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingAlarm_1
+        public double WarmingAlarm_1
         {
-            get => Recipe_Values[DataNames.恆溫警報_1];
+            get => Recipe_Values[DataNames.恆溫警報_1] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫警報_1] = value;
+                Recipe_Values[DataNames.恆溫警報_1] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingAlarm_2
+        public double WarmingAlarm_2
         {
-            get => Recipe_Values[DataNames.恆溫警報_2];
+            get => Recipe_Values[DataNames.恆溫警報_2] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫警報_2] = value;
+                Recipe_Values[DataNames.恆溫警報_2] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingAlarm_3
+        public double WarmingAlarm_3
         {
-            get => Recipe_Values[DataNames.恆溫警報_3];
+            get => Recipe_Values[DataNames.恆溫警報_3] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫警報_3] = value;
+                Recipe_Values[DataNames.恆溫警報_3] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingAlarm_4
+        public double WarmingAlarm_4
         {
-            get => Recipe_Values[DataNames.恆溫警報_4];
+            get => Recipe_Values[DataNames.恆溫警報_4] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫警報_4] = value;
+                Recipe_Values[DataNames.恆溫警報_4] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingAlarm_5
+        public double WarmingAlarm_5
         {
-            get => Recipe_Values[DataNames.恆溫警報_5];
+            get => Recipe_Values[DataNames.恆溫警報_5] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫警報_5] = value;
+                Recipe_Values[DataNames.恆溫警報_5] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingAlarm_6
+        public double WarmingAlarm_6
         {
-            get => Recipe_Values[DataNames.恆溫警報_6];
+            get => Recipe_Values[DataNames.恆溫警報_6] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫警報_6] = value;
+                Recipe_Values[DataNames.恆溫警報_6] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingAlarm_7
+        public double WarmingAlarm_7
         {
-            get => Recipe_Values[DataNames.恆溫警報_7];
+            get => Recipe_Values[DataNames.恆溫警報_7] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫警報_7] = value;
+                Recipe_Values[DataNames.恆溫警報_7] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
 
-        public short WarmingAlarm_8
+        public double WarmingAlarm_8
         {
-            get => Recipe_Values[DataNames.恆溫警報_8];
+            get => Recipe_Values[DataNames.恆溫警報_8] * 0.1;
             set
             {
-                Recipe_Values[DataNames.恆溫警報_8] = value;
+                Recipe_Values[DataNames.恆溫警報_8] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
@@ -549,12 +549,12 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short CoolingTime
+        public double CoolingTime
         {
-            get => Recipe_Values[DataNames.降溫時間];
+            get => Recipe_Values[DataNames.降溫時間] * 0.1;
             set
             {
-                Recipe_Values[DataNames.降溫時間] = value;
+                Recipe_Values[DataNames.降溫時間] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
@@ -569,12 +569,12 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short ProgramStopAlarmTime
+        public double ProgramStopAlarmTime
         {
-            get => Recipe_Values[DataNames.程式結束警報時間];
+            get => Recipe_Values[DataNames.程式結束警報時間] * 0.1;
             set
             {
-                Recipe_Values[DataNames.程式結束警報時間] = value;
+                Recipe_Values[DataNames.程式結束警報時間] = (short)(value * 10);
                 NotifyPropertyChanged();
             }
         }
@@ -618,18 +618,18 @@ namespace GPGO_MultiPLCs.Models
 
         #region 機台狀態
 
-        public bool Buzzer => Bit_Values[SignalNames.蜂鳴器];
-        public bool GreenLight => Bit_Values[SignalNames.綠燈];
-        public bool YellowLight => Bit_Values[SignalNames.黃燈];
-        public bool RedLight => Bit_Values[SignalNames.紅燈];
+        public bool   Buzzer                   => Bit_Values[SignalNames.蜂鳴器];
+        public bool   GreenLight               => Bit_Values[SignalNames.綠燈];
+        public bool   YellowLight              => Bit_Values[SignalNames.黃燈];
+        public bool   RedLight                 => Bit_Values[SignalNames.紅燈];
         public bool   IsCooling                => Bit_Values[SignalNames.降溫中];
         public bool   ManualMode               => Bit_Values[SignalNames.手動模式];
         public bool   AutoMode                 => Bit_Values[SignalNames.自動模式];
         public bool   AutoMode_Stop            => Bit_Values[SignalNames.自動停止];
         public bool   AutoMode_Start           => Bit_Values[SignalNames.自動啟動];
         public bool   PC_InUsed                => Bit_Values[SignalNames.PC_InUsed];
-        public double ThermostatTemperature    => Data_Values[DataNames.溫控器實際溫度] * 0.1;
-        public double ThermostatTemperatureSet => Data_Values[DataNames.溫控器設定溫度] * 0.1;
+        public double ThermostatTemperature    => Data_Values[DataNames.溫控器實際溫度];
+        public double ThermostatTemperatureSet => Data_Values[DataNames.溫控器設定溫度];
         public short  OvenTemperature_1        => Data_Values[DataNames.爐內溫度_1];
         public short  OvenTemperature_2        => Data_Values[DataNames.爐內溫度_2];
         public short  OvenTemperature_3        => Data_Values[DataNames.爐內溫度_3];

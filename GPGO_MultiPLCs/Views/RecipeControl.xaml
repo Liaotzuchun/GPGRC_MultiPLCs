@@ -2266,7 +2266,7 @@
                                         <ControlTemplate>
                                             <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,0,1,1">
-                                                <ItemsPresenter Margin="0,0,1,0" />
+                                                <ItemsPresenter/>
                                             </Border>
                                         </ControlTemplate>
                                     </ItemsControl.Template>

@@ -128,23 +128,23 @@ namespace GPGO_MultiPLCs
                                        TrolleyCode = rn.Next(1, 10000).ToString("00000"),
                                        OperatorID  = rn.Next(1, 10).ToString("000")
                                    };
-                        var h = new int[]
+                        var h = new []
                                 {
                                     TotalVM.PLC_All[i].HeatingTime_1, TotalVM.PLC_All[i].HeatingTime_2, TotalVM.PLC_All[i].HeatingTime_3, TotalVM.PLC_All[i].HeatingTime_4,
                                     TotalVM.PLC_All[i].HeatingTime_5, TotalVM.PLC_All[i].HeatingTime_6, TotalVM.PLC_All[i].HeatingTime_7, TotalVM.PLC_All[i].HeatingTime_8
                                 };
-                        var w = new int[]
+                        var w = new []
                                 {
                                     TotalVM.PLC_All[i].WarmingTime_1, TotalVM.PLC_All[i].WarmingTime_2, TotalVM.PLC_All[i].WarmingTime_3, TotalVM.PLC_All[i].WarmingTime_4,
                                     TotalVM.PLC_All[i].WarmingTime_5, TotalVM.PLC_All[i].WarmingTime_6, TotalVM.PLC_All[i].WarmingTime_7, TotalVM.PLC_All[i].WarmingTime_8
                                 };
 
-                        var ha = new int[]
+                        var ha = new []
                                  {
                                      TotalVM.PLC_All[i].HeatingAlarm_1, TotalVM.PLC_All[i].HeatingAlarm_2, TotalVM.PLC_All[i].HeatingAlarm_3, TotalVM.PLC_All[i].HeatingAlarm_4,
                                      TotalVM.PLC_All[i].HeatingAlarm_5, TotalVM.PLC_All[i].HeatingAlarm_6, TotalVM.PLC_All[i].HeatingAlarm_7, TotalVM.PLC_All[i].HeatingAlarm_8
                                  };
-                        var wa = new int[]
+                        var wa = new []
                                  {
                                      TotalVM.PLC_All[i].WarmingAlarm_1, TotalVM.PLC_All[i].WarmingAlarm_2, TotalVM.PLC_All[i].WarmingAlarm_3, TotalVM.PLC_All[i].WarmingAlarm_4,
                                      TotalVM.PLC_All[i].WarmingAlarm_5, TotalVM.PLC_All[i].WarmingAlarm_6, TotalVM.PLC_All[i].WarmingAlarm_7, TotalVM.PLC_All[i].WarmingAlarm_8

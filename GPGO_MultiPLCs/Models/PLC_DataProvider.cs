@@ -148,23 +148,23 @@ namespace GPGO_MultiPLCs.Models
 
                                        x.Dispose();
 
-                                       var h = new int[]
+                                       var h = new[]
                                                {
                                                    HeatingTime_1, HeatingTime_2, HeatingTime_3, HeatingTime_4,
                                                    HeatingTime_5, HeatingTime_6, HeatingTime_7, HeatingTime_8
                                                };
-                                       var w = new int[]
+                                       var w = new[]
                                                {
                                                    WarmingTime_1, WarmingTime_2, WarmingTime_3, WarmingTime_4,
                                                    WarmingTime_5, WarmingTime_6, WarmingTime_7, WarmingTime_8
                                                };
 
-                                       var ha = new int[]
+                                       var ha = new[]
                                                 {
                                                     HeatingAlarm_1, HeatingAlarm_2, HeatingAlarm_3, HeatingAlarm_4,
                                                     HeatingAlarm_5, HeatingAlarm_6, HeatingAlarm_7, HeatingAlarm_8
                                                 };
-                                       var wa = new int[]
+                                       var wa = new[]
                                                 {
                                                     WarmingAlarm_1, WarmingAlarm_2, WarmingAlarm_3, WarmingAlarm_4,
                                                     WarmingAlarm_5, WarmingAlarm_6, WarmingAlarm_7, WarmingAlarm_8
@@ -179,12 +179,12 @@ namespace GPGO_MultiPLCs.Models
                                                    ThermostaticTemperature_1, ThermostaticTemperature_2, ThermostaticTemperature_3, ThermostaticTemperature_4,
                                                    ThermostaticTemperature_5, ThermostaticTemperature_6, ThermostaticTemperature_7, ThermostaticTemperature_8
                                                };
-                                       Array.Resize(ref h,  UsedSegmentCounts);
-                                       Array.Resize(ref w,  UsedSegmentCounts);
+                                       Array.Resize(ref h, UsedSegmentCounts);
+                                       Array.Resize(ref w, UsedSegmentCounts);
                                        Array.Resize(ref ha, UsedSegmentCounts);
                                        Array.Resize(ref wa, UsedSegmentCounts);
-                                       Array.Resize(ref t,  UsedSegmentCounts);
-                                       Array.Resize(ref s,  UsedSegmentCounts);
+                                       Array.Resize(ref t, UsedSegmentCounts);
+                                       Array.Resize(ref s, UsedSegmentCounts);
 
                                        //!結束生產，填入資料
                                        OvenInfo.EndTime                  = DateTime.Now;
@@ -356,16 +356,16 @@ namespace GPGO_MultiPLCs.Models
 
             await OneScheduler.StartNew(() =>
                                         {
-                                            var n                      = TimeSpan.Zero;
+                                            var n = TimeSpan.Zero;
                                             var _ThermostatTemperature = ThermostatTemperature;
-                                            var _OvenTemperature_1     = OvenTemperature_1;
-                                            var _OvenTemperature_2     = OvenTemperature_2;
-                                            var _OvenTemperature_3     = OvenTemperature_3;
-                                            var _OvenTemperature_4     = OvenTemperature_4;
-                                            var _OvenTemperature_5     = OvenTemperature_5;
-                                            var _OvenTemperature_6     = OvenTemperature_6;
-                                            var _OvenTemperature_7     = OvenTemperature_7;
-                                            var _OvenTemperature_8     = OvenTemperature_8;
+                                            var _OvenTemperature_1 = OvenTemperature_1;
+                                            var _OvenTemperature_2 = OvenTemperature_2;
+                                            var _OvenTemperature_3 = OvenTemperature_3;
+                                            var _OvenTemperature_4 = OvenTemperature_4;
+                                            var _OvenTemperature_5 = OvenTemperature_5;
+                                            var _OvenTemperature_6 = OvenTemperature_6;
+                                            var _OvenTemperature_7 = OvenTemperature_7;
+                                            var _OvenTemperature_8 = OvenTemperature_8;
 
                                             while (!ct.IsCancellationRequested)
                                             {

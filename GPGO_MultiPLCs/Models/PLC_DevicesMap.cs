@@ -5,9 +5,9 @@ namespace GPGO_MultiPLCs.Models
 {
     public class PLC_DevicesMap
     {
-        public Dictionary<DataNames, (DataType, int)>   DataList;
-        public Dictionary<DataNames, (DataType, int)>   DataList_Ext;
-        public Dictionary<DataNames, (DataType, int)>   RecipeList;
+        public Dictionary<DataNames, (DataType, int)>  DataList;
+        public Dictionary<DataNames, (DataType, int)>  DataList_Ext;
+        public Dictionary<DataNames, (DataType, int)>  RecipeList;
         public Dictionary<SignalNames, (BitType, int)> SignalList;
         public Dictionary<SignalNames, (BitType, int)> SignalList_Ext;
 

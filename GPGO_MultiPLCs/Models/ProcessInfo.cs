@@ -132,39 +132,39 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>加熱時間(升溫至目標溫度)</summary>
         [LanguageTranslator("Heating Time", "加熱時間", "加热时间")]
-        public List<int> HeatingTimes
+        public List<double> HeatingTimes
         {
-            get => Get<List<int>>();
+            get => Get<List<double>>();
             set => Set(value);
         }
 
         /// <summary>恆溫時間</summary>
         [LanguageTranslator("Warming Time", "恆溫時間", "恒温时间")]
-        public List<int> WarmingTimes
+        public List<double> WarmingTimes
         {
-            get => Get<List<int>>();
+            get => Get<List<double>>();
             set => Set(value);
         }
 
         [LanguageTranslator("Heating Alarm", "加熱警報", "加热警报")]
-        public List<int> HeatingAlarms
+        public List<double> HeatingAlarms
         {
-            get => Get<List<int>>();
+            get => Get<List<double>>();
             set => Set(value);
         }
 
         [LanguageTranslator("Warming Alarm", "恆溫警報", "恒温警报")]
-        public List<int> WarmingAlarms
+        public List<double> WarmingAlarms
         {
-            get => Get<List<int>>();
+            get => Get<List<double>>();
             set => Set(value);
         }
 
         /// <summary>總烘烤時間</summary>
         [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
-        public int TotalHeatingTime
+        public double TotalHeatingTime
         {
-            get => Get<int>();
+            get => Get<double>();
             set => Set(value);
         }
 
@@ -194,7 +194,7 @@ namespace GPGO_MultiPLCs.Models
         public bool         FirstPanel    { get; set; } = false;
         public string       OrderCode     { get; set; }
         public string       PartNumber    { get; set; }
-        public string BatchNumber       { get; set; }
+        public string       BatchNumber   { get; set; }
         public List<string> PanelCodes    { get; set; } = new List<string>();
         public int          ProcessNumber { get; set; }
         public string       Side          { get; set; } = "A";

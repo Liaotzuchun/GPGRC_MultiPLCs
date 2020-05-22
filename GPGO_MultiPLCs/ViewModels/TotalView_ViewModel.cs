@@ -1,5 +1,7 @@
 ﻿using GPGO_MultiPLCs.GP_PLCs;
 using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,8 +10,6 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -107,6 +107,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                   },
                                   (index, val));
         }
+
+        private IDialogService Dialog;
 
         /// <summary>財產編號儲存位置</summary>
         private const string AssetNumbersPath = "AssetNumbers.json";
@@ -332,6 +334,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
             recipe.CopyToObj(PLC_All[index]);
 
+            //if (!PLC_All[index].PC_InUsed)
+            //{
+            //    return false;
+            //}
+
             if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && PLC_All[index].OnlineStatus)
             {
                 await PLC_Client.Set_Datas2Async(index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
@@ -418,6 +425,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public TotalView_ViewModel(IReadOnlyCollection<PLC_DevicesMap> plc_maps, IDialogService dialog)
         {
+            Dialog    = dialog;
             OvenCount = plc_maps.Count;
             ViewIndex = -1;
             var PLC_Count = plc_maps.Count;
@@ -537,6 +545,21 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].SetPLCParameters += async values =>
                                                {
+                                                   values = values.Where(x => x.Key.Item2 >= 0).ToDictionary(y => y.Key, y => y.Value);
+
+                                                   if (!PLC_All[index].PC_InUsed)
+                                                   {
+                                                       await dialog.Show(new Dictionary<Language, string>
+                                                                         {
+                                                                             {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方"},
+                                                                             {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方"},
+                                                                             {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely."}
+                                                                         },
+                                                                         false);
+
+                                                       return;
+                                                   }
+
                                                    if (PLC_Client?.State == CommunicationState.Opened)
                                                    {
                                                        await PLC_Client.Set_Datas2Async(index, values);

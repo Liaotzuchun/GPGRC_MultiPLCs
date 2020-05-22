@@ -256,7 +256,7 @@
                                         </TabItem>
                                         <TabItem Width="0"
                                                  Height="0">
-                                            <Grid>
+                                            <Grid TextElement.Foreground="{StaticResource BaseForeground}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="52" />
                                                     <ColumnDefinition />
@@ -267,7 +267,8 @@
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
-                                                <Border Background="{StaticResource WindowBackgroundBrush6}"
+                                                <Border Grid.RowSpan="2"
+                                                        Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                         BorderThickness="0,0,1,0">
                                                     <TextBlock HorizontalAlignment="Center"
@@ -275,6 +276,7 @@
                                                                Text="{DynamicResource 操作員}" />
                                                 </Border>
                                                 <Border Grid.Row="0"
+                                                        Grid.RowSpan="2"
                                                         Grid.Column="1"
                                                         Background="{StaticResource LightColorBrush}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -283,7 +285,7 @@
                                                                VerticalAlignment="Center"
                                                                Text="{Binding OvenInfo.OperatorID, Mode=OneWay}" />
                                                 </Border>
-                                                <Border Grid.Row="1"
+                                                <!--<Border Grid.Row="1"
                                                         Grid.Column="0"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -291,8 +293,8 @@
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                Text="{DynamicResource 台車}" />
-                                                </Border>
-                                                <Border Grid.Row="1"
+                                                </Border>-->
+                                                <!--<Border Grid.Row="1"
                                                         Grid.Column="1"
                                                         Background="{StaticResource LightColorBrush}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -300,7 +302,7 @@
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                Text="{Binding OvenInfo.TrolleyCode, Mode=OneWay}" />
-                                                </Border>
+                                                </Border>-->
                                                 <Border x:Name="Border1"
                                                         Grid.Row="0"
                                                         Grid.Column="2"
@@ -319,7 +321,7 @@
                                                     <ContentControl Content="{Binding Mode=OneWay}"
                                                                     ContentTemplate="{StaticResource ProgressDataTemplate}" />
                                                 </Border>
-                                                <Border Grid.Row="1"
+                                                <!--<Border Grid.Row="1"
                                                         Grid.Column="0"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -327,7 +329,7 @@
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                Text="{DynamicResource 台車}" />
-                                                </Border>
+                                                </Border>-->
                                                 <Border Grid.Row="1"
                                                         Grid.Column="2"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
@@ -361,7 +363,7 @@
                                                                Focusable="False"
                                                                IsHitTestVisible="False"
                                                                IsOpen="{Binding IsChecked, ElementName=ToggleButton, Mode=OneWay}"
-                                                               Placement="Center"
+                                                               Placement="Bottom"
                                                                PopupAnimation="Fade">
                                                             <Border x:Name="Border"
                                                                     Background="Transparent">
@@ -1269,7 +1271,8 @@
                                       Margin="2,4,0,4"
                                       Header="{DynamicResource 設備狀態}"
                                       IsHitTestVisible="False">
-                                <Grid ClipToBounds="True" Background="{StaticResource LightColorBrush}">
+                                <Grid Background="{StaticResource LightColorBrush}"
+                                      ClipToBounds="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="*" />
