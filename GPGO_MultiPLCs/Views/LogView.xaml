@@ -631,7 +631,7 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.ProcessCount, Mode=OneWay}" />
+                               Text="{Binding SelectedProcessInfo.Quantity, Mode=OneWay}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="6"

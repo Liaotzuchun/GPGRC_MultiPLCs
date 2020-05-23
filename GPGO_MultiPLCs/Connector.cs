@@ -19,7 +19,7 @@ namespace GPGO_MultiPLCs
 {
     public sealed class Connector : DependencyObject, IDisposable
     {
-        public static readonly DependencyProperty OvenCountProperty     = DependencyProperty.Register(nameof(OvenCount),     typeof(int),    typeof(Connector), new PropertyMetadata(0,  OvenCountChanged));
+        public static readonly DependencyProperty OvenCountProperty     = DependencyProperty.Register(nameof(OvenCount), typeof(int), typeof(Connector), new PropertyMetadata(0, OvenCountChanged));
         public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
 
         public string DataInputPath
@@ -100,16 +100,16 @@ namespace GPGO_MultiPLCs
             await _Testdatalock.WaitAsync();
 
             var partnum = new[]
-                             {
-                                 "ooxx", "abc", "zzz", "qoo",
-                                 "boom", "xxx", "wunmao"
-                             };
+                          {
+                              "ooxx", "abc", "zzz", "qoo",
+                              "boom", "xxx", "wunmao"
+                          };
 
             var batchnum = new[]
-                          {
-                              "111", "222", "333", "444",
-                              "555", "666", "777"
-                          };
+                           {
+                               "111", "222", "333", "444",
+                               "555", "666", "777"
+                           };
             var time = DateTime.Now;
 
             for (var j = 1; j <= new DateTime(time.Year, time.Month, 1).AddMonths(1).AddDays(-1).Day; j++)
@@ -128,23 +128,23 @@ namespace GPGO_MultiPLCs
                                        TrolleyCode = rn.Next(1, 10000).ToString("00000"),
                                        OperatorID  = rn.Next(1, 10).ToString("000")
                                    };
-                        var h = new []
+                        var h = new[]
                                 {
                                     TotalVM.PLC_All[i].HeatingTime_1, TotalVM.PLC_All[i].HeatingTime_2, TotalVM.PLC_All[i].HeatingTime_3, TotalVM.PLC_All[i].HeatingTime_4,
                                     TotalVM.PLC_All[i].HeatingTime_5, TotalVM.PLC_All[i].HeatingTime_6, TotalVM.PLC_All[i].HeatingTime_7, TotalVM.PLC_All[i].HeatingTime_8
                                 };
-                        var w = new []
+                        var w = new[]
                                 {
                                     TotalVM.PLC_All[i].WarmingTime_1, TotalVM.PLC_All[i].WarmingTime_2, TotalVM.PLC_All[i].WarmingTime_3, TotalVM.PLC_All[i].WarmingTime_4,
                                     TotalVM.PLC_All[i].WarmingTime_5, TotalVM.PLC_All[i].WarmingTime_6, TotalVM.PLC_All[i].WarmingTime_7, TotalVM.PLC_All[i].WarmingTime_8
                                 };
 
-                        var ha = new []
+                        var ha = new[]
                                  {
                                      TotalVM.PLC_All[i].HeatingAlarm_1, TotalVM.PLC_All[i].HeatingAlarm_2, TotalVM.PLC_All[i].HeatingAlarm_3, TotalVM.PLC_All[i].HeatingAlarm_4,
                                      TotalVM.PLC_All[i].HeatingAlarm_5, TotalVM.PLC_All[i].HeatingAlarm_6, TotalVM.PLC_All[i].HeatingAlarm_7, TotalVM.PLC_All[i].HeatingAlarm_8
                                  };
-                        var wa = new []
+                        var wa = new[]
                                  {
                                      TotalVM.PLC_All[i].WarmingAlarm_1, TotalVM.PLC_All[i].WarmingAlarm_2, TotalVM.PLC_All[i].WarmingAlarm_3, TotalVM.PLC_All[i].WarmingAlarm_4,
                                      TotalVM.PLC_All[i].WarmingAlarm_5, TotalVM.PLC_All[i].WarmingAlarm_6, TotalVM.PLC_All[i].WarmingAlarm_7, TotalVM.PLC_All[i].WarmingAlarm_8
@@ -159,14 +159,14 @@ namespace GPGO_MultiPLCs
                                     TotalVM.PLC_All[i].ThermostaticTemperature_1, TotalVM.PLC_All[i].ThermostaticTemperature_2, TotalVM.PLC_All[i].ThermostaticTemperature_3, TotalVM.PLC_All[i].ThermostaticTemperature_4,
                                     TotalVM.PLC_All[i].ThermostaticTemperature_5, TotalVM.PLC_All[i].ThermostaticTemperature_6, TotalVM.PLC_All[i].ThermostaticTemperature_7, TotalVM.PLC_All[i].ThermostaticTemperature_8
                                 };
-                        Array.Resize(ref h,  TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref w,  TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref h, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref w, TotalVM.PLC_All[i].UsedSegmentCounts);
                         Array.Resize(ref ha, TotalVM.PLC_All[i].UsedSegmentCounts);
                         Array.Resize(ref wa, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref t,  TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref s,  TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref t, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref s, TotalVM.PLC_All[i].UsedSegmentCounts);
 
-                        info.RecipeName               = TotalVM.PLC_All[i].RecipeName;
+                        info.Recipe = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language);
                         info.HeatingTimes             = h.ToList();
                         info.WarmingTimes             = w.ToList();
                         info.HeatingAlarms            = ha.ToList();
@@ -175,7 +175,7 @@ namespace GPGO_MultiPLCs
                         info.ThermostaticTemperatures = s.ToList();
 
                         var ttime = new TimeSpan(0, 0, 1);
-                        var cc    = 0;
+                        var cc = 0;
 
                         var _ev = new LogEvent
                                   {
@@ -294,8 +294,8 @@ namespace GPGO_MultiPLCs
                         st = info.EndTime + TimeSpan.FromMinutes(10);
 
                         var infos = new List<ProcessInfo>();
-                        var temp  = new List<int>();
-                        var n     = rn.Next(0, 1);
+                        var temp = new List<int>();
+                        var n = rn.Next(0, 1);
                         for (var p = 0; p <= n; p++)
                         {
                             var _info = info.Copy();
@@ -306,7 +306,7 @@ namespace GPGO_MultiPLCs
                             }
 
                             temp.Add(index);
-                            _info.PartNumber = partnum[index];
+                            _info.PartNumber  = partnum[index];
                             _info.BatchNumber = batchnum[rn.Next(0, batchnum.Length)];
 
                             var count = rn.Next(10, 20);
@@ -564,7 +564,7 @@ namespace GPGO_MultiPLCs
 
                                              for (var i = 0; i < TotalVM.PLC_All.Count; i++)
                                              {
-                                                 var j      = i;
+                                                 var j = i;
                                                  var recipe = list.Find(x => j < x.Used_Stations.Count && x.Used_Stations[j]);
                                                  if (recipe != null)
                                                  {
@@ -675,7 +675,7 @@ namespace GPGO_MultiPLCs
                                              return;
                                          }
 
-                                         var tag   = $".bak{stationIndex}";
+                                         var tag = $".bak{stationIndex}";
                                          var files = new DirectoryInfo(path).GetFiles($"*{tag}");
                                          foreach (var file in files)
                                          {
@@ -693,7 +693,7 @@ namespace GPGO_MultiPLCs
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
             TotalVM.AddRecordToDB += async e =>
                                      {
-                                         var (inpath, outpath) = await Dispatcher.InvokeAsync(() => (DataInputPath, DataOutputPath));
+                                         //var (inpath, outpath) = await Dispatcher.InvokeAsync(() => (DataInputPath, DataOutputPath));
 
                                          var (stationIndex, infos) = e;
                                          using (await lockobj.LockAsync())
@@ -717,7 +717,7 @@ namespace GPGO_MultiPLCs
 
                                              //    foreach (var info in e.Infos)
                                              //    {
-                                             //        for (var i = 0; i < info.ProcessCount; i++)
+                                             //        for (var i = 0; i < info.Quantity; i++)
                                              //        {
                                              //            var path = $"{outpath}\\{info.AssetNumber}_{DateTime.Now:yyyyMMddHHmmssfff}_{e.StationIndex + 1}_";
 
@@ -791,12 +791,11 @@ namespace GPGO_MultiPLCs
 
             LogVM.GoDetailView += async e =>
                                   {
+                                      TraceVM.Standby = false; //!強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
                                       MainVM.ViewIndex = 2;
 
                                       await Task.Factory.StartNew(() =>
                                                                   {
-                                                                      //Thread.Sleep(300);
-
                                                                       do
                                                                       {
                                                                           Thread.Sleep(30);

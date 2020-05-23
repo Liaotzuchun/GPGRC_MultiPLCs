@@ -23,11 +23,12 @@ namespace GPGO_MultiPLCs.ViewModels
         public enum ChartMode
         {
             ByDateTime = 0,
-            ByPLC = 1,
+            ByPLC      = 1,
+
             //ByOrder = 2,
             ByBatch = 2,
-            ByPart = 3,
-            Pie = 4
+            ByPart  = 3,
+            Pie     = 4
         }
 
         private readonly OxyColor     bgcolor     = OxyColor.FromRgb(240, 255, 235);
@@ -59,7 +60,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public FilterGroup OvenFilter { get; }
 
         /// <summary>總量統計</summary>
-        public int ProduceTotalCount => ViewResults?.Count > 0 ? ViewResults.Sum(x => x.ProcessCount) : 0;
+        public int ProduceTotalCount => ViewResults?.Count > 0 ? ViewResults.Sum(x => x.Quantity) : 0;
 
         /// <summary>基於配方的Filter</summary>
         public FilterGroup RecipeFilter { get; }
@@ -173,11 +174,11 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                var date1  = DateTime.Today.Date;
-                var date2  = date1.AddDays(1);
+                var date1 = DateTime.Today.Date;
+                var date2 = date1.AddDays(1);
                 var result = await DataCollection.FindAsync(x => x.StationNumber == index + 1 && x.AddedTime >= date1 && x.AddedTime < date2);
 
-                return result.Sum(x => x.ProcessCount);
+                return result.Sum(x => x.Quantity);
             }
             catch (Exception ex)
             {
@@ -217,8 +218,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 }
 
                                                 var created = DateTime.Now;
-                                                var x       = ViewResults.Count / 500;     //!檔案數
-                                                var y       = ViewResults.Count - 500 * x; //!剩餘數
+                                                var x = ViewResults.Count / 500;     //!檔案數
+                                                var y = ViewResults.Count - 500 * x; //!剩餘數
 
                                                 if (x > 0 && y <= 100)
                                                 {
@@ -233,20 +234,17 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              x,
                                                              index =>
                                                              {
-                                                                 var fi    = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff(}{index + 1}).xlsm");
+                                                                 var fi = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff(}{index + 1}).xlsm");
                                                                  var datas = ViewResults.GetRange(500 * index, index == x - 1 ? y : 500);
-                                                                 var n     = datas.Count;
-                                                                 var xlwb  = new ExcelPackage();
+                                                                 var n = datas.Count;
+                                                                 var xlwb = new ExcelPackage();
                                                                  xlwb.Workbook.CreateVBAProject();
                                                                  var wsht = xlwb.Workbook.Worksheets.Add($"{n}{(n <= 1 ? " result" : " results")}");
                                                                  wsht.View.ShowGridLines = false;
                                                                  wsht.View.FreezePanes(4, 1);
-                                                                 wsht.Row(1).Height                   = 225;
-                                                                 wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                                                 wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
-                                                                 wsht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                                                                 wsht.Row(1).Height = 225;
 
-                                                                 var keys      = datas[0].ToDic(Language).Keys.ToArray();
+                                                                 var keys = datas[0].ToDic(Language).Keys.ToArray();
                                                                  var max_count = 0;
 
                                                                  for (var i = 0; i < keys.Length; i++)
@@ -256,12 +254,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      wsht.Cells[3, i + 1].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
                                                                  }
 
-                                                                 wsht.Cells[3, 1, 3, keys.Length].AutoFilter = true;
+                                                                 wsht.Cells[3, 1, 3, keys.Length - 1].AutoFilter = true;
 
                                                                  for (var i = 0; i < n; i++)
                                                                  {
                                                                      var values = datas[i].ToDic(Language).Values.ToArray();
-                                                                     var temps  = datas[i].RecordTemperatures.ToArray();
+                                                                     var temps = datas[i].RecordTemperatures.ToArray();
 
                                                                      if (temps.Length > max_count)
                                                                      {
@@ -287,30 +285,28 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      }
 
                                                                      var sheet_name = $"Records {i + 1}";
-                                                                     wsht.Cells[i + 4, values.Length].Formula = $"HYPERLINK(\"#'{sheet_name}'!$A$4\",\"@\")";
-                                                                     wsht.Cells[i + 4, values.Length].Style.Font.Color.SetColor(Color.Blue);
-                                                                     wsht.Cells[i + 4, values.Length].Style.Font.UnderLine = false;
+                                                                     wsht.Cells[i + 4, values.Length - 2].Formula = $"HYPERLINK(\"#'{sheet_name}'!$A$4\",\"@\")";
+                                                                     wsht.Cells[i + 4, values.Length - 2].Style.Font.Color.SetColor(Color.Blue);
+                                                                     wsht.Cells[i + 4, values.Length - 2].Style.Font.UnderLine = false;
 
                                                                      var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
                                                                      record_sht.View.ShowGridLines = false;
                                                                      record_sht.View.FreezePanes(4, 1);
-                                                                     record_sht.Row(1).Height                   = 225;
-                                                                     record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                                                     record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
-                                                                     record_sht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                                                                     record_sht.Cells[2, 1].Formula                   = $"HYPERLINK(\"#'{wsht.Name}'!$A${i + 4}\",\"<<<<<<Back\")";
+                                                                     record_sht.Row(1).Height = 225;
+
+                                                                     record_sht.Cells[2, 1].Formula = $"HYPERLINK(\"#'{wsht.Name}'!$A${i + 4}\",\"<<<<<<Back\")";
                                                                      record_sht.Cells[2, 1].Style.Font.Color.SetColor(Color.Blue);
                                                                      record_sht.Cells[2, 1].Style.Font.UnderLine          = false;
                                                                      record_sht.Cells[3, 1].Value                         = nameof(RecordTemperatures.Time);
                                                                      record_sht.Cells[3, 2].Value                         = nameof(RecordTemperatures.ThermostatTemperature);
-                                                                     record_sht.Cells[3, 3].Value                         = nameof(RecordTemperatures.OvenTemperatures_1);
-                                                                     record_sht.Cells[3, 4].Value                         = nameof(RecordTemperatures.OvenTemperatures_2);
-                                                                     record_sht.Cells[3, 5].Value                         = nameof(RecordTemperatures.OvenTemperatures_3);
-                                                                     record_sht.Cells[3, 6].Value                         = nameof(RecordTemperatures.OvenTemperatures_4);
-                                                                     record_sht.Cells[3, 7].Value                         = nameof(RecordTemperatures.OvenTemperatures_5);
-                                                                     record_sht.Cells[3, 8].Value                         = nameof(RecordTemperatures.OvenTemperatures_6);
-                                                                     record_sht.Cells[3, 9].Value                         = nameof(RecordTemperatures.OvenTemperatures_7);
-                                                                     record_sht.Cells[3, 10].Value                        = nameof(RecordTemperatures.OvenTemperatures_8);
+                                                                     //record_sht.Cells[3, 3].Value                         = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                                     //record_sht.Cells[3, 4].Value                         = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                                     //record_sht.Cells[3, 5].Value                         = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                                     //record_sht.Cells[3, 6].Value                         = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                                     //record_sht.Cells[3, 7].Value                         = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                                     //record_sht.Cells[3, 8].Value                         = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                                     //record_sht.Cells[3, 9].Value                         = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                                     //record_sht.Cells[3, 10].Value                        = nameof(RecordTemperatures.OvenTemperatures_8);
                                                                      record_sht.Cells[3, 1, 3, 10].Style.Fill.PatternType = ExcelFillStyle.Solid;
                                                                      record_sht.Cells[3, 1, 3, 10].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
 
@@ -319,14 +315,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                          record_sht.Cells[4 + j, 1].Value                     = temps[j].Time;
                                                                          record_sht.Cells[4 + j, 1].Style.Numberformat.Format = "[h]:mm:ss";
                                                                          record_sht.Cells[4 + j, 2].Value                     = temps[j].ThermostatTemperature;
-                                                                         record_sht.Cells[4 + j, 3].Value                     = temps[j].OvenTemperatures_1;
-                                                                         record_sht.Cells[4 + j, 4].Value                     = temps[j].OvenTemperatures_2;
-                                                                         record_sht.Cells[4 + j, 5].Value                     = temps[j].OvenTemperatures_3;
-                                                                         record_sht.Cells[4 + j, 6].Value                     = temps[j].OvenTemperatures_4;
-                                                                         record_sht.Cells[4 + j, 7].Value                     = temps[j].OvenTemperatures_5;
-                                                                         record_sht.Cells[4 + j, 8].Value                     = temps[j].OvenTemperatures_6;
-                                                                         record_sht.Cells[4 + j, 9].Value                     = temps[j].OvenTemperatures_7;
-                                                                         record_sht.Cells[4 + j, 10].Value                    = temps[j].OvenTemperatures_8;
+                                                                         //record_sht.Cells[4 + j, 3].Value                     = temps[j].OvenTemperatures_1;
+                                                                         //record_sht.Cells[4 + j, 4].Value                     = temps[j].OvenTemperatures_2;
+                                                                         //record_sht.Cells[4 + j, 5].Value                     = temps[j].OvenTemperatures_3;
+                                                                         //record_sht.Cells[4 + j, 6].Value                     = temps[j].OvenTemperatures_4;
+                                                                         //record_sht.Cells[4 + j, 7].Value                     = temps[j].OvenTemperatures_5;
+                                                                         //record_sht.Cells[4 + j, 8].Value                     = temps[j].OvenTemperatures_6;
+                                                                         //record_sht.Cells[4 + j, 9].Value                     = temps[j].OvenTemperatures_7;
+                                                                         //record_sht.Cells[4 + j, 10].Value                    = temps[j].OvenTemperatures_8;
                                                                      }
 
                                                                      record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
@@ -360,33 +356,32 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      var record_chart = (ExcelLineChart)record_sht.Drawings.AddChart("", eChartType.Line);
                                                                      record_chart.SetSize(970, 300);
                                                                      var record_s1 = record_chart.Series.Add(record_sht.Cells[4, 2, temps.Length + 3, 2], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     var record_s2 = record_chart.Series.Add(record_sht.Cells[4, 3, temps.Length + 3, 3], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     var record_s3 = record_chart.Series.Add(record_sht.Cells[4, 4, temps.Length + 3, 4], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     var record_s4 = record_chart.Series.Add(record_sht.Cells[4, 5, temps.Length + 3, 5], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     var record_s5 = record_chart.Series.Add(record_sht.Cells[4, 6, temps.Length + 3, 6], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     var record_s6 = record_chart.Series.Add(record_sht.Cells[4, 7, temps.Length + 3, 7], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     var record_s7 = record_chart.Series.Add(record_sht.Cells[4, 8, temps.Length + 3, 8], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     var record_s8 = record_chart.Series.Add(record_sht.Cells[4, 9, temps.Length + 3, 9], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     var record_s9 = record_chart.Series.Add(record_sht.Cells[4, 10, temps.Length + 3, 10],
-                                                                                                             record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                                     //var record_s2 = record_chart.Series.Add(record_sht.Cells[4, 3, temps.Length + 3, 3], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                                     //var record_s3 = record_chart.Series.Add(record_sht.Cells[4, 4, temps.Length + 3, 4], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                                     //var record_s4 = record_chart.Series.Add(record_sht.Cells[4, 5, temps.Length + 3, 5], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                                     //var record_s5 = record_chart.Series.Add(record_sht.Cells[4, 6, temps.Length + 3, 6], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                                     //var record_s6 = record_chart.Series.Add(record_sht.Cells[4, 7, temps.Length + 3, 7], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                                     //var record_s7 = record_chart.Series.Add(record_sht.Cells[4, 8, temps.Length + 3, 8], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                                     //var record_s8 = record_chart.Series.Add(record_sht.Cells[4, 9, temps.Length + 3, 9], record_sht.Cells[4, 1, temps.Length + 3, 1]);
+                                                                     //var record_s9 = record_chart.Series.Add(record_sht.Cells[4, 10, temps.Length + 3, 10], record_sht.Cells[4, 1, temps.Length + 3, 1]);
                                                                      record_s1.Header            = nameof(RecordTemperatures.ThermostatTemperature);
-                                                                     record_s2.Header            = nameof(RecordTemperatures.OvenTemperatures_1);
-                                                                     record_s3.Header            = nameof(RecordTemperatures.OvenTemperatures_2);
-                                                                     record_s4.Header            = nameof(RecordTemperatures.OvenTemperatures_3);
-                                                                     record_s5.Header            = nameof(RecordTemperatures.OvenTemperatures_4);
-                                                                     record_s6.Header            = nameof(RecordTemperatures.OvenTemperatures_5);
-                                                                     record_s7.Header            = nameof(RecordTemperatures.OvenTemperatures_6);
-                                                                     record_s8.Header            = nameof(RecordTemperatures.OvenTemperatures_7);
-                                                                     record_s9.Header            = nameof(RecordTemperatures.OvenTemperatures_8);
+                                                                     //record_s2.Header            = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                                     //record_s3.Header            = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                                     //record_s4.Header            = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                                     //record_s5.Header            = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                                     //record_s6.Header            = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                                     //record_s7.Header            = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                                     //record_s8.Header            = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                                     //record_s9.Header            = nameof(RecordTemperatures.OvenTemperatures_8);
                                                                      record_s1.Border.Fill.Color = Color.Red;
-                                                                     record_s2.Border.Fill.Color = Color.DarkOrange;
-                                                                     record_s3.Border.Fill.Color = Color.Gold;
-                                                                     record_s4.Border.Fill.Color = Color.Lime;
-                                                                     record_s5.Border.Fill.Color = Color.DodgerBlue;
-                                                                     record_s6.Border.Fill.Color = Color.DarkOrchid;
-                                                                     record_s7.Border.Fill.Color = Color.Magenta;
-                                                                     record_s8.Border.Fill.Color = Color.Brown;
-                                                                     record_s9.Border.Fill.Color = Color.BurlyWood;
+                                                                     //record_s2.Border.Fill.Color = Color.DarkOrange;
+                                                                     //record_s3.Border.Fill.Color = Color.Gold;
+                                                                     //record_s4.Border.Fill.Color = Color.Lime;
+                                                                     //record_s5.Border.Fill.Color = Color.DodgerBlue;
+                                                                     //record_s6.Border.Fill.Color = Color.DarkOrchid;
+                                                                     //record_s7.Border.Fill.Color = Color.Magenta;
+                                                                     //record_s8.Border.Fill.Color = Color.Brown;
+                                                                     //record_s9.Border.Fill.Color = Color.BurlyWood;
 
                                                                      record_chart.XAxis.Title.Text = "Timespan (H:M:S)";
                                                                      record_chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
@@ -403,6 +398,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      record_chart.RoundedCorners    = false;
                                                                      record_chart.Border.Fill.Color = Color.Black;
                                                                      record_chart.SetPosition(0, 0, 0, 0);
+
+                                                                     record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                                     record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
+                                                                     record_sht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                                                                  }
 
                                                                  wsht.Cells[3, 1, n + 3, keys.Length].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
@@ -410,6 +409,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  wsht.Cells[3, 1, n + 3, keys.Length].Style.Border.Right.Style  = ExcelBorderStyle.Thin;
                                                                  wsht.Cells[3, 1, n + 3, keys.Length].Style.Border.Top.Style    = ExcelBorderStyle.Thin;
                                                                  wsht.Cells[3, 1, n + 3, keys.Length].AutoFitColumns();
+
+                                                                 wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                                                 wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
+                                                                 wsht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                                                                 wsht.Column(keys.Length).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                                                                  for (var i = 1; i <= keys.Length; i++)
                                                                  {
                                                                      wsht.Column(i).Width += 2;
@@ -460,33 +464,33 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                                  var chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
                                                                  chart.SetSize(970, 300);
-                                                                 var s1 = chart.Series.Add(data_sht.Cells[1, 2, max_count, 2],   data_sht.Cells[1, 1, max_count, 1]);
-                                                                 var s2 = chart.Series.Add(data_sht.Cells[1, 3, max_count, 3],   data_sht.Cells[1, 1, max_count, 1]);
-                                                                 var s3 = chart.Series.Add(data_sht.Cells[1, 4, max_count, 4],   data_sht.Cells[1, 1, max_count, 1]);
-                                                                 var s4 = chart.Series.Add(data_sht.Cells[1, 5, max_count, 5],   data_sht.Cells[1, 1, max_count, 1]);
-                                                                 var s5 = chart.Series.Add(data_sht.Cells[1, 6, max_count, 6],   data_sht.Cells[1, 1, max_count, 1]);
-                                                                 var s6 = chart.Series.Add(data_sht.Cells[1, 7, max_count, 7],   data_sht.Cells[1, 1, max_count, 1]);
-                                                                 var s7 = chart.Series.Add(data_sht.Cells[1, 8, max_count, 8],   data_sht.Cells[1, 1, max_count, 1]);
-                                                                 var s8 = chart.Series.Add(data_sht.Cells[1, 9, max_count, 9],   data_sht.Cells[1, 1, max_count, 1]);
-                                                                 var s9 = chart.Series.Add(data_sht.Cells[1, 10, max_count, 10], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 var s1 = chart.Series.Add(data_sht.Cells[1, 2, max_count, 2], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 //var s2 = chart.Series.Add(data_sht.Cells[1, 3, max_count, 3], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 //var s3 = chart.Series.Add(data_sht.Cells[1, 4, max_count, 4], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 //var s4 = chart.Series.Add(data_sht.Cells[1, 5, max_count, 5], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 //var s5 = chart.Series.Add(data_sht.Cells[1, 6, max_count, 6], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 //var s6 = chart.Series.Add(data_sht.Cells[1, 7, max_count, 7], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 //var s7 = chart.Series.Add(data_sht.Cells[1, 8, max_count, 8], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 //var s8 = chart.Series.Add(data_sht.Cells[1, 9, max_count, 9], data_sht.Cells[1, 1, max_count, 1]);
+                                                                 //var s9 = chart.Series.Add(data_sht.Cells[1, 10, max_count, 10], data_sht.Cells[1, 1, max_count, 1]);
                                                                  s1.Header            = nameof(RecordTemperatures.ThermostatTemperature);
-                                                                 s2.Header            = nameof(RecordTemperatures.OvenTemperatures_1);
-                                                                 s3.Header            = nameof(RecordTemperatures.OvenTemperatures_2);
-                                                                 s4.Header            = nameof(RecordTemperatures.OvenTemperatures_3);
-                                                                 s5.Header            = nameof(RecordTemperatures.OvenTemperatures_4);
-                                                                 s6.Header            = nameof(RecordTemperatures.OvenTemperatures_5);
-                                                                 s7.Header            = nameof(RecordTemperatures.OvenTemperatures_6);
-                                                                 s8.Header            = nameof(RecordTemperatures.OvenTemperatures_7);
-                                                                 s9.Header            = nameof(RecordTemperatures.OvenTemperatures_8);
+                                                                 //s2.Header            = nameof(RecordTemperatures.OvenTemperatures_1);
+                                                                 //s3.Header            = nameof(RecordTemperatures.OvenTemperatures_2);
+                                                                 //s4.Header            = nameof(RecordTemperatures.OvenTemperatures_3);
+                                                                 //s5.Header            = nameof(RecordTemperatures.OvenTemperatures_4);
+                                                                 //s6.Header            = nameof(RecordTemperatures.OvenTemperatures_5);
+                                                                 //s7.Header            = nameof(RecordTemperatures.OvenTemperatures_6);
+                                                                 //s8.Header            = nameof(RecordTemperatures.OvenTemperatures_7);
+                                                                 //s9.Header            = nameof(RecordTemperatures.OvenTemperatures_8);
                                                                  s1.Border.Fill.Color = Color.Red;
-                                                                 s2.Border.Fill.Color = Color.DarkOrange;
-                                                                 s3.Border.Fill.Color = Color.Gold;
-                                                                 s4.Border.Fill.Color = Color.Lime;
-                                                                 s5.Border.Fill.Color = Color.DodgerBlue;
-                                                                 s6.Border.Fill.Color = Color.DarkOrchid;
-                                                                 s7.Border.Fill.Color = Color.Magenta;
-                                                                 s8.Border.Fill.Color = Color.Brown;
-                                                                 s9.Border.Fill.Color = Color.BurlyWood;
+                                                                 //s2.Border.Fill.Color = Color.DarkOrange;
+                                                                 //s3.Border.Fill.Color = Color.Gold;
+                                                                 //s4.Border.Fill.Color = Color.Lime;
+                                                                 //s5.Border.Fill.Color = Color.DodgerBlue;
+                                                                 //s6.Border.Fill.Color = Color.DarkOrchid;
+                                                                 //s7.Border.Fill.Color = Color.Magenta;
+                                                                 //s8.Border.Fill.Color = Color.Brown;
+                                                                 //s9.Border.Fill.Color = Color.BurlyWood;
 
                                                                  chart.XAxis.Title.Text = "Timespan (H:M:S)";
                                                                  chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
@@ -504,16 +508,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  chart.Border.Fill.Color = Color.Black;
                                                                  chart.SetPosition(0, 0, 0, 0);
 
-                                                                 foreach (var sheet in xlwb.Workbook.Worksheets)
-                                                                 {
-                                                                     sheet.Protection.IsProtected              = true;
-                                                                     sheet.Protection.AllowAutoFilter          = true;
-                                                                     sheet.Protection.AllowSelectLockedCells   = true;
-                                                                     sheet.Protection.AllowSelectUnlockedCells = true;
-                                                                     sheet.Protection.AllowSort                = true;
-                                                                     sheet.Protection.SetPassword("23555277");
-                                                                     sheet.Cells[1, 1].Style.Locked = false;
-                                                                 }
+                                                                 //foreach (var sheet in xlwb.Workbook.Worksheets)
+                                                                 //{
+                                                                 //    sheet.Protection.IsProtected              = true;
+                                                                 //    sheet.Protection.AllowAutoFilter          = true;
+                                                                 //    sheet.Protection.AllowSelectLockedCells   = true;
+                                                                 //    sheet.Protection.AllowSelectUnlockedCells = true;
+                                                                 //    sheet.Protection.AllowSort                = true;
+                                                                 //    sheet.Protection.SetPassword("23555277");
+                                                                 //    sheet.Cells[1, 1].Style.Locked = false;
+                                                                 //}
 
                                                                  xlwb.Workbook.Properties.Author   = "Luo Wunmao";
                                                                  xlwb.Workbook.Properties.Company  = "Group Up Industrial Co., Ltd.";
@@ -562,14 +566,14 @@ namespace GPGO_MultiPLCs.ViewModels
 
             if (ViewResults?.Count > 0)
             {
-                var ByDate  = date2 - date1 > TimeSpan.FromDays(1);
+                var ByDate = date2 - date1 > TimeSpan.FromDays(1);
                 var result2 = ViewResults
                              .GroupBy(x => Mode >= (int)ChartMode.ByBatch ?
                                                x.StationNumber.ToString("00") :
                                                x.PartNumber)
                              .OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
 
-                var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByBatch;
+                var NoLayer2 = result2.Length > 20 && Mode >= (int)ChartMode.ByBatch;
                 var categories = new List<string>();
 
                 var result1 = ViewResults.GroupBy(x =>
@@ -587,7 +591,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                       }
                                                   })
                                          .OrderBy(x => x.Key)
-                                         .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
+                                         .Select(x => (x.Key, x.Sum(y => y.Quantity)))
                                          .ToArray();
 
                 categoryAxis1.FontSize = result1.Length > 20 ? 9 : 12;
@@ -662,7 +666,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                      return $"{x.AddedTime.Hour:00}:00" == categories[j];
                                                  })
-                                          .Sum(x => x.ProcessCount);
+                                          .Sum(x => x.Quantity);
                             if (val > 0)
                             {
                                 ccs.Items.Add(new ColumnItem(val, j));
@@ -703,17 +707,17 @@ namespace GPGO_MultiPLCs.ViewModels
             FindCommand = new RelayCommand(async o =>
                                            {
                                                var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
-                                                                                                {
-                                                                                                    {Language.TW, "請輸入欲搜尋之料號："},
-                                                                                                    {Language.CHS, "请输入欲搜寻之料号："},
-                                                                                                    {Language.EN, "Please enter the PartNumber you want to find："}
-                                                                                                },
-                                                                                                new Dictionary<Language, string>
-                                                                                                {
-                                                                                                    {Language.TW, "搜尋"},
-                                                                                                    {Language.CHS, "搜寻"},
-                                                                                                    {Language.EN, "Find"}
-                                                                                                });
+                                                                                                  {
+                                                                                                      {Language.TW, "請輸入欲搜尋之料號："},
+                                                                                                      {Language.CHS, "请输入欲搜寻之料号："},
+                                                                                                      {Language.EN, "Please enter the PartNumber you want to find："}
+                                                                                                  },
+                                                                                                  new Dictionary<Language, string>
+                                                                                                  {
+                                                                                                      {Language.TW, "搜尋"},
+                                                                                                      {Language.CHS, "搜寻"},
+                                                                                                      {Language.EN, "Find"}
+                                                                                                  });
 
                                                var (result2, input2) = await dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                   {
@@ -826,7 +830,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              DefaultFont             = "Microsoft JhengHei",
                              PlotAreaBackground      = bgcolor,
                              PlotAreaBorderColor     = bordercolor,
-                             PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
+                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
                              LegendTitle             = nameof(ProcessInfo.PartNumber),
                              LegendTitleColor        = fontcolor,
@@ -878,11 +882,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   TodayProductionUpdated?.Invoke(e?.Where(x => x.AddedTime.Day == DateTime.Today.Day)
                                                                    .GroupBy(x => x.StationNumber - 1)
-                                                                   .Select(x => (x.Key, x.Sum(y => y.ProcessCount)))
+                                                                   .Select(x => (x.Key, x.Sum(y => y.Quantity)))
                                                                    .ToList());
 
-                                  UpdateViewResult();
-                                  UpdateChart(Date1, Date2);
+                                  UpdateAct();
 
                                   if (SearchResult != null && ViewResults?.Count > 0)
                                   {

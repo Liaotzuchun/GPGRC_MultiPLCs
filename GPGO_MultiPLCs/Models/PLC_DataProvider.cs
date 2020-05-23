@@ -53,7 +53,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>紀錄的資訊</summary>
         public BaseInfo OvenInfo { get; }
 
-        public int ProcessCounts => Ext_Info.Sum(x => x.PanelCodes.Count);
+        public int Quantity => Ext_Info.Sum(x => x.PanelCodes.Count);
 
         /// <summary>生產進度</summary>
         public double Progress
@@ -188,7 +188,7 @@ namespace GPGO_MultiPLCs.Models
 
                                        //!結束生產，填入資料
                                        OvenInfo.EndTime                  = DateTime.Now;
-                                       OvenInfo.RecipeName               = RecipeName;
+                                       OvenInfo.Recipe                   = this.ObjCopy<PLC_Recipe>().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
                                        OvenInfo.HeatingTimes             = h.ToList();
                                        OvenInfo.WarmingTimes             = w.ToList();
                                        OvenInfo.HeatingAlarms            = ha.ToList();
@@ -234,6 +234,8 @@ namespace GPGO_MultiPLCs.Models
         public event Action RecipeKeyInError;
 
         public event Action<string> RecipeUsed;
+
+        public event Func<Language> GetLanguage;
 
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
 
@@ -1129,7 +1131,7 @@ namespace GPGO_MultiPLCs.Models
 
             Ext_Info.CollectionChanged += (s, e) =>
                                           {
-                                              NotifyPropertyChanged(nameof(ProcessCounts));
+                                              NotifyPropertyChanged(nameof(Quantity));
                                           };
 
             #endregion 註冊PLC事件

@@ -129,6 +129,8 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>wcf連線client</summary>
         private GPServiceClient PLC_Client;
 
+        public Language Language = Language.TW;
+
         /// <summary>回到總覽頁</summary>
         public RelayCommand BackCommand { get; }
 
@@ -451,6 +453,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 TotalProduction.Add(i, 0);
                 PLC_All[i] = new PLC_DataProvider(plc_maps.ElementAt(i), dialog);
                 var index = i;
+
+                PLC_All[i].GetLanguage += () => Language;
 
                 //!PLC讀取配方內容時
                 PLC_All[i].GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke((index, recipeName));

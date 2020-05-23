@@ -173,6 +173,7 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
         public override string RecipeName { get; set; }
 
+        [GPIgnore]
         [JsonIgnore]
         [OrderIndex(1)]
         [LanguageTranslator("Updated Time", "更新時間", "更新时间")]
@@ -184,7 +185,13 @@ namespace GPGO_MultiPLCs.Models
         public override string Editor { get; set; }
 
         [GPIgnore]
+        [JsonIgnore]
         [OrderIndex(3)]
+        [LanguageTranslator("Editor Level", "權限", "权限")]
+        public override UserLevel EditorLevel { get; set; }
+
+        [GPIgnore]
+        [OrderIndex(4)]
         [LanguageTranslator("Inflating Time", "充氣時間", "充气时间")]
         public short InflatingTime
         {
@@ -204,7 +211,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(4)]
+        [OrderIndex(5)]
         [LanguageTranslator("Target Temp. 1", "目標溫度 1", "目标温度 1")]
         public double TargetTemperature_1
         {
@@ -224,7 +231,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(5)]
+        [OrderIndex(6)]
         [LanguageTranslator("Target Temp. 2", "目標溫度 2", "目标温度 2")]
         public double TargetTemperature_2
         {
@@ -244,7 +251,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(6)]
+        [OrderIndex(7)]
         [LanguageTranslator("Target Temp. 3", "目標溫度 3", "目标温度 3")]
         public double TargetTemperature_3
         {
@@ -264,7 +271,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(7)]
+        [OrderIndex(8)]
         [LanguageTranslator("Target Temp. 4", "目標溫度 4", "目标温度 4")]
         public double TargetTemperature_4
         {
@@ -284,7 +291,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(8)]
+        [OrderIndex(9)]
         [LanguageTranslator("Target Temp. 5", "目標溫度 5", "目标温度 5")]
         public double TargetTemperature_5
         {
@@ -304,7 +311,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(9)]
+        [OrderIndex(10)]
         [LanguageTranslator("Target Temp. 6", "目標溫度 6", "目标温度 6")]
         public double TargetTemperature_6
         {
@@ -325,7 +332,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(10)]
+        [OrderIndex(11)]
         [LanguageTranslator("Target Temp. 7", "目標溫度 7", "目标温度 7")]
         public double TargetTemperature_7
         {
@@ -346,7 +353,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(11)]
+        [OrderIndex(12)]
         [LanguageTranslator("Target Temp. 8", "目標溫度 8", "目标温度 8")]
         public double TargetTemperature_8
         {
@@ -366,7 +373,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(12)]
+        [OrderIndex(13)]
         [LanguageTranslator("Heating Time 1", "升溫時間 1", "升温时间 1")]
         public short HeatingTime_1
         {
@@ -386,7 +393,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(13)]
+        [OrderIndex(14)]
         [LanguageTranslator("Heating Time 2", "升溫時間 2", "升温时间 2")]
         public short HeatingTime_2
         {
@@ -406,7 +413,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(14)]
+        [OrderIndex(15)]
         [LanguageTranslator("Heating Time 3", "升溫時間 3", "升温时间 3")]
         public short HeatingTime_3
         {
@@ -426,7 +433,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(15)]
+        [OrderIndex(16)]
         [LanguageTranslator("Heating Time 4", "升溫時間 4", "升温时间 4")]
         public short HeatingTime_4
         {
@@ -446,7 +453,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(16)]
+        [OrderIndex(17)]
         [LanguageTranslator("Heating Time 5", "升溫時間 5", "升温时间 5")]
         public short HeatingTime_5
         {
@@ -466,7 +473,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(17)]
+        [OrderIndex(18)]
         [LanguageTranslator("Heating Time 6", "升溫時間 6", "升温时间 6")]
         public short HeatingTime_6
         {
@@ -487,7 +494,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(18)]
+        [OrderIndex(19)]
         [LanguageTranslator("Heating Time 7", "升溫時間 7", "升温时间 7")]
         public short HeatingTime_7
         {
@@ -508,7 +515,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(19)]
+        [OrderIndex(20)]
         [LanguageTranslator("Heating Time 8", "升溫時間 8", "升温时间 8")]
         public short HeatingTime_8
         {
@@ -528,7 +535,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(12)]
+        [OrderIndex(21)]
         [LanguageTranslator("Heating Alarm 1", "升溫警報 1", "升温警报 1")]
         public short HeatingAlarm_1
         {
@@ -548,7 +555,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(13)]
+        [OrderIndex(22)]
         [LanguageTranslator("Heating Alarm 2", "升溫警報 2", "升温警报 2")]
         public short HeatingAlarm_2
         {
@@ -568,7 +575,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(14)]
+        [OrderIndex(23)]
         [LanguageTranslator("Heating Alarm 3", "升溫警報 3", "升温警报 3")]
         public short HeatingAlarm_3
         {
@@ -588,7 +595,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(15)]
+        [OrderIndex(24)]
         [LanguageTranslator("Heating Alarm 4", "升溫警報 4", "升温警报 4")]
         public short HeatingAlarm_4
         {
@@ -608,7 +615,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(16)]
+        [OrderIndex(25)]
         [LanguageTranslator("Heating Alarm 5", "升溫警報 5", "升温警报 5")]
         public short HeatingAlarm_5
         {
@@ -628,7 +635,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(17)]
+        [OrderIndex(26)]
         [LanguageTranslator("Heating Alarm 6", "升溫警報 6", "升温警报 6")]
         public short HeatingAlarm_6
         {
@@ -649,7 +656,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(18)]
+        [OrderIndex(27)]
         [LanguageTranslator("Heating Alarm 7", "升溫警報 7", "升温警报 7")]
         public short HeatingAlarm_7
         {
@@ -670,7 +677,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(19)]
+        [OrderIndex(28)]
         [LanguageTranslator("Heating Alarm 8", "升溫警報 8", "升温警报 8")]
         public short HeatingAlarm_8
         {
@@ -691,7 +698,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(20)]
+        [OrderIndex(29)]
         [LanguageTranslator("Thermostatic Temp. 1", "恆溫溫度 1", "恒温温度 1")]
         public double ThermostaticTemperature_1
         {
@@ -712,7 +719,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(21)]
+        [OrderIndex(30)]
         [LanguageTranslator("Thermostatic Temp. 2", "恆溫溫度 2", "恒温温度 2")]
         public double ThermostaticTemperature_2
         {
@@ -733,7 +740,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(22)]
+        [OrderIndex(31)]
         [LanguageTranslator("Thermostatic Temp. 3", "恆溫溫度 3", "恒温温度 3")]
         public double ThermostaticTemperature_3
         {
@@ -754,7 +761,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(23)]
+        [OrderIndex(32)]
         [LanguageTranslator("Thermostatic Temp. 4", "恆溫溫度 4", "恒温温度 4")]
         public double ThermostaticTemperature_4
         {
@@ -775,7 +782,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(24)]
+        [OrderIndex(33)]
         [LanguageTranslator("Thermostatic Temp. 5", "恆溫溫度 5", "恒温温度 5")]
         public double ThermostaticTemperature_5
         {
@@ -796,7 +803,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(25)]
+        [OrderIndex(34)]
         [LanguageTranslator("Thermostatic Temp. 6", "恆溫溫度 6", "恒温温度 6")]
         public double ThermostaticTemperature_6
         {
@@ -817,7 +824,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(26)]
+        [OrderIndex(35)]
         [LanguageTranslator("Thermostatic Temp. 7", "恆溫溫度 7", "恒温温度 7")]
         public double ThermostaticTemperature_7
         {
@@ -838,7 +845,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(27)]
+        [OrderIndex(36)]
         [LanguageTranslator("Thermostatic Temp. 8", "恆溫溫度 8", "恒温温度 8")]
         public double ThermostaticTemperature_8
         {
@@ -858,7 +865,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(28)]
+        [OrderIndex(37)]
         [LanguageTranslator("Warning Time 1", "恆溫時間 1", "恒温时间 1")]
         public short WarmingTime_1
         {
@@ -878,7 +885,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(29)]
+        [OrderIndex(38)]
         [LanguageTranslator("Warning Time 2", "恆溫時間 2", "恒温时间 2")]
         public short WarmingTime_2
         {
@@ -898,7 +905,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(30)]
+        [OrderIndex(39)]
         [LanguageTranslator("Warning Time 3", "恆溫時間 3", "恒温时间 3")]
         public short WarmingTime_3
         {
@@ -918,7 +925,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(31)]
+        [OrderIndex(40)]
         [LanguageTranslator("Warning Time 4", "恆溫時間 4", "恒温时间 4")]
         public short WarmingTime_4
         {
@@ -938,7 +945,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(32)]
+        [OrderIndex(41)]
         [LanguageTranslator("Warning Time 5", "恆溫時間 5", "恒温时间 5")]
         public short WarmingTime_5
         {
@@ -958,7 +965,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(33)]
+        [OrderIndex(42)]
         [LanguageTranslator("Warning Time 6", "恆溫時間 6", "恒温时间 6")]
         public short WarmingTime_6
         {
@@ -979,7 +986,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(34)]
+        [OrderIndex(43)]
         [LanguageTranslator("Warning Time 7", "恆溫時間 7", "恒温时间 7")]
         public short WarmingTime_7
         {
@@ -1000,7 +1007,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(35)]
+        [OrderIndex(44)]
         [LanguageTranslator("Warning Time 8", "恆溫時間 8", "恒温时间 8")]
         public short WarmingTime_8
         {
@@ -1020,7 +1027,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(28)]
+        [OrderIndex(45)]
         [LanguageTranslator("Warming Alarm 1", "恆溫警報 1", "恒温警报 1")]
         public short WarmingAlarm_1
         {
@@ -1040,7 +1047,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(29)]
+        [OrderIndex(46)]
         [LanguageTranslator("Warming Alarm 2", "恆溫警報 2", "恒温警报 2")]
         public short WarmingAlarm_2
         {
@@ -1060,7 +1067,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(30)]
+        [OrderIndex(47)]
         [LanguageTranslator("Warming Alarm 3", "恆溫警報 3", "恒温警报 3")]
         public short WarmingAlarm_3
         {
@@ -1080,7 +1087,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(31)]
+        [OrderIndex(48)]
         [LanguageTranslator("Warming Alarm 4", "恆溫警報 4", "恒温警报 4")]
         public short WarmingAlarm_4
         {
@@ -1100,7 +1107,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(32)]
+        [OrderIndex(49)]
         [LanguageTranslator("Warming Alarm 5", "恆溫警報 5", "恒温警报 5")]
         public short WarmingAlarm_5
         {
@@ -1120,7 +1127,7 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [OrderIndex(33)]
+        [OrderIndex(50)]
         [LanguageTranslator("Warming Alarm 6", "恆溫警報 6", "恒温警报 6")]
         public short WarmingAlarm_6
         {
@@ -1141,7 +1148,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(34)]
+        [OrderIndex(51)]
         [LanguageTranslator("Warming Alarm 7", "恆溫警報 7", "恒温警报 7")]
         public short WarmingAlarm_7
         {
@@ -1162,7 +1169,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [GPIgnore]
-        [OrderIndex(35)]
+        [OrderIndex(52)]
         [LanguageTranslator("Warming Alarm 8", "恆溫警報 8", "恒温警报 8")]
         public short WarmingAlarm_8
         {

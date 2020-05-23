@@ -1,10 +1,12 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using GPMVVM.Models;
 using GPMVVM.Helpers;
+using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -15,33 +17,10 @@ namespace GPGO_MultiPLCs.Models
         JobNo
     }
 
-    public struct RecipeValues
-    {
-        public double TargetOvenTemp   { get; set; }
-        public double ThermostaticTemp { get; set; }
-        public double HeatingTime      { get; set; }
-        public double WarmingTime      { get; set; }
-        public double HeatingAlarm     { get; set; }
-        public double WarmingAlarm     { get; set; }
-    }
-
     /// <summary>機台資訊</summary>
     [BsonIgnoreExtraElements]
     public class BaseInfo : ObservableObject
     {
-        public List<RecipeValues> RecipeValues =>
-            TargetOvenTemperatures
-               .Select((t, i) => new RecipeValues
-                                 {
-                                     TargetOvenTemp   = t,
-                                     ThermostaticTemp = ThermostaticTemperatures[i],
-                                     HeatingTime      = HeatingTimes[i],
-                                     WarmingTime      = WarmingTimes[i],
-                                     HeatingAlarm     = HeatingAlarms[i],
-                                     WarmingAlarm     = WarmingAlarms[i]
-                                 })
-               .ToList();
-
         /// <summary>財產編號</summary>
         [LanguageTranslator("Asset No.", "財產編號", "财产编号")]
         public string AssetNumber
@@ -67,10 +46,14 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>配方名</summary>
+        [LanguageTranslator("Recipe Name", "配方名", "配方名")]
+        public string RecipeName => Recipe?.First().Value.ToString();
+
+        /// <summary>配方名</summary>
         [LanguageTranslator("Recipe", "配方", "配方")]
-        public string RecipeName
+        public Dictionary<string, object> Recipe
         {
-            get => Get<string>();
+            get => Get<Dictionary<string, object>>();
             set => Set(value);
         }
 
@@ -224,7 +207,7 @@ namespace GPGO_MultiPLCs.Models
     {
         /// <summary>單一製程序材料數量</summary>
         [LanguageTranslator("Quantity", "數量", "数量")]
-        public int ProcessCount => PanelCodes.Count;
+        public int Quantity => PanelCodes.Count;
 
         /// <summary>條碼類型</summary>
         [LanguageTranslator("Code Type", "條碼類型", "条码类型")]
@@ -264,18 +247,19 @@ namespace GPGO_MultiPLCs.Models
             {
                 {GetType().GetProperty(nameof(AddedTime)).GetName(lng), AddedTime},
                 {GetType().GetProperty(nameof(StationNumber)).GetName(lng), StationNumber},
-                {GetType().GetProperty(nameof(RecipeName)).GetName(lng), RecipeName},
                 //{GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
                 //{GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
                 {GetType().GetProperty(nameof(PartNumber)).GetName(lng), PartNumber},
                 {GetType().GetProperty(nameof(BatchNumber)).GetName(lng), BatchNumber},
                 {GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
                 //{GetType().GetProperty(nameof(TrolleyCode)).GetName(lng), TrolleyCode},
-                {GetType().GetProperty(nameof(ProcessCount)).GetName(lng), ProcessCount},
+                {GetType().GetProperty(nameof(Quantity)).GetName(lng), Quantity},
                 //{GetType().GetProperty(nameof(Side)).GetName(lng), Side},
                 {GetType().GetProperty(nameof(StartTime)).GetName(lng), StartTime},
                 {GetType().GetProperty(nameof(EndTime)).GetName(lng), EndTime},
-                {GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng), "@"}
+                {GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng), "@"},
+                {GetType().GetProperty(nameof(RecipeName)).GetName(lng), RecipeName},
+                {GetType().GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.Indented)}
             };
 
         /// <summary>輸出客戶指定之文字字串</summary>
@@ -302,7 +286,7 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("General9=");
             stb.AppendLine((index + 1).ToString());
             stb.Append("General10=");
-            stb.AppendLine(ProcessCount.ToString());
+            stb.AppendLine(Quantity.ToString());
             stb.Append("General11=");
             stb.AppendLine(OperatorID);
             stb.Append("General12=");
@@ -318,11 +302,11 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("Machine2=");
             stb.AppendLine(string.Join(",", TargetOvenTemperatures.Select(x => ((int)Math.Round(x, MidpointRounding.AwayFromZero)).ToString())));
             stb.Append("Machine3=");
-            stb.AppendLine(string.Join(",", WarmingTimes.Select(x => x.ToString())));
+            stb.AppendLine(string.Join(",", WarmingTimes.Select(x => x.ToString(CultureInfo.InvariantCulture))));
             stb.Append("Machine4=");
-            stb.AppendLine(string.Join(",", HeatingTimes.Select(x => x.ToString())));
+            stb.AppendLine(string.Join(",", HeatingTimes.Select(x => x.ToString(CultureInfo.InvariantCulture))));
             stb.Append("Machine5=");
-            stb.AppendLine(TotalHeatingTime.ToString());
+            stb.AppendLine(TotalHeatingTime.ToString(CultureInfo.InvariantCulture));
             stb.Append("Machine6=");
             stb.AppendLine(AlarmListString());
 
