@@ -58,6 +58,7 @@ namespace GPGO_MultiPLCs.Models
             HeatingAlarm_7 == other.HeatingAlarm_7 &&
             HeatingAlarm_8 == other.HeatingAlarm_8 &&
             InflatingTime == other.InflatingTime &&
+            ProgramStopAlarmTime == other.ProgramStopAlarmTime &&
             TargetTemperature_1.ToString("0.0") == other.TargetTemperature_1.ToString("0.0") &&
             TargetTemperature_2.ToString("0.0") == other.TargetTemperature_2.ToString("0.0") &&
             TargetTemperature_3.ToString("0.0") == other.TargetTemperature_3.ToString("0.0") &&
@@ -1229,6 +1230,7 @@ namespace GPGO_MultiPLCs.Models
                 HeatingAlarm_7            = HeatingAlarm_7,
                 HeatingAlarm_8            = HeatingAlarm_8,
                 InflatingTime             = InflatingTime,
+                ProgramStopAlarmTime      = ProgramStopAlarmTime,
                 TargetTemperature_1       = TargetTemperature_1,
                 TargetTemperature_2       = TargetTemperature_2,
                 TargetTemperature_3       = TargetTemperature_3,
@@ -1273,6 +1275,7 @@ namespace GPGO_MultiPLCs.Models
             HeatingTime_7             = recipe.HeatingTime_7;
             HeatingTime_8             = recipe.HeatingTime_8;
             InflatingTime             = recipe.InflatingTime;
+            ProgramStopAlarmTime      = recipe.ProgramStopAlarmTime;
             TargetTemperature_1       = recipe.TargetTemperature_1;
             TargetTemperature_2       = recipe.TargetTemperature_2;
             TargetTemperature_3       = recipe.TargetTemperature_3;
@@ -1315,6 +1318,7 @@ namespace GPGO_MultiPLCs.Models
             HeatingTime_7             = 10;
             HeatingTime_8             = 10;
             InflatingTime             = 10;
+            ProgramStopAlarmTime      = 10;
             TargetTemperature_1       = 200;
             TargetTemperature_2       = 200;
             TargetTemperature_3       = 200;

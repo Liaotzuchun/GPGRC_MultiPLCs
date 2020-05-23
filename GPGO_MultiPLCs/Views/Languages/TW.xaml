@@ -159,4 +159,5 @@
     <sys:String x:Key="蜂鳴器">蜂鳴器</sys:String>
     <sys:String x:Key="燈號">燈號</sys:String>
     <sys:String x:Key="片">片</sys:String>
+    <sys:String x:Key="程式結束警報">程式結束警報</sys:String>
 </ResourceDictionary>

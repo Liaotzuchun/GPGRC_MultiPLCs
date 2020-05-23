@@ -764,8 +764,14 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <GroupBox Margin="0,4,2,4"
-                                      Header="{DynamicResource 配方參數}"
                                       IsHitTestVisible="False">
+                                <GroupBox.Header>
+                                    <TextBlock Foreground="{DynamicResource GlyphBrush}">
+                                        <Run Text="{DynamicResource 配方}" />
+                                        <Run Text=":" />
+                                        <Run Text="{Binding RecipeName, Mode=OneWay}" />
+                                    </TextBlock>
+                                </GroupBox.Header>
                                 <Grid ClipToBounds="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80" />
@@ -790,10 +796,9 @@
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
-                                        <TextBlock Margin="4,0"
-                                                   HorizontalAlignment="Center"
+                                        <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{DynamicResource 配方}" />
+                                                   Text="{DynamicResource 使用段數}" />
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="1"
@@ -802,8 +807,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding RecipeName, Mode=OneWay}"
-                                                   TextTrimming="CharacterEllipsis" />
+                                                   Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="2"
@@ -812,7 +816,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{DynamicResource 使用段數}" />
+                                                   Text="{DynamicResource 降溫時間}" />
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="3"
@@ -820,8 +824,10 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
+                                                   VerticalAlignment="Center">
+                                            <Run Text="{Binding CoolingTime, Mode=OneWay}" />
+                                            <Run Text="{DynamicResource 分}" />
+                                        </TextBlock>
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="4"
@@ -830,7 +836,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{DynamicResource 降溫時間}" />
+                                                   Text="{DynamicResource 程式結束警報}" />
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="5"
@@ -839,7 +845,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding CoolingTime, Mode=OneWay}" />
+                                            <Run Text="{Binding ProgramStopAlarmTime, Mode=OneWay}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>

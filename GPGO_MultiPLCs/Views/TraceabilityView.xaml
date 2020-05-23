@@ -379,7 +379,8 @@
                                Text="{Binding ViewResults.Count, Mode=OneWay}" />
                 </Border>
             </Grid>
-            <Button Grid.Column="5">
+            <Button Grid.Row="0"
+                    Grid.Column="5">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction Command="{Binding FindCommand, Mode=OneTime}" />

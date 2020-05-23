@@ -702,7 +702,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             FindCommand = new RelayCommand(async o =>
                                            {
-                                               var (result, input) = await dialog.ShowWithInput(new Dictionary<Language, string>
+                                               var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                 {
                                                                                                     {Language.TW, "請輸入欲搜尋之料號："},
                                                                                                     {Language.CHS, "请输入欲搜寻之料号："},
@@ -715,26 +715,36 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                     {Language.EN, "Find"}
                                                                                                 });
 
-                                               if (result)
+                                               var (result2, input2) = await dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                                                  {
+                                                                                                      {Language.TW, "請輸入欲搜尋之批號："},
+                                                                                                      {Language.CHS, "请输入欲搜寻之批号："},
+                                                                                                      {Language.EN, "Please enter the BatchNumber you want to find："}
+                                                                                                  },
+                                                                                                  new Dictionary<Language, string>
+                                                                                                  {
+                                                                                                      {Language.TW, "搜尋"},
+                                                                                                      {Language.CHS, "搜寻"},
+                                                                                                      {Language.EN, "Find"}
+                                                                                                  });
+
+                                               Standby = false;
+
+                                               SearchResult = await DataCollection.FindOneAsync(x => (!result1 || x.PartNumber.Contains(input1.ToString())) && (!result2 || x.BatchNumber.Contains(input2.ToString())));
+
+                                               Standby = true;
+
+                                               if (SearchResult == null)
                                                {
-                                                   Standby = false;
-
-                                                   SearchResult = await DataCollection.FindOneAsync(x => x.PartNumber.Equals(input.ToString(), StringComparison.OrdinalIgnoreCase));
-
-                                                   Standby = true;
-
-                                                   if (SearchResult == null)
-                                                   {
-                                                       SearchResult = new ProcessInfo
-                                                                      {
-                                                                          StationNumber = -1
-                                                                      };
-                                                       Date1 = Date1;
-                                                   }
-                                                   else
-                                                   {
-                                                       Date1 = SearchResult.AddedTime.Date;
-                                                   }
+                                                   SearchResult = new ProcessInfo
+                                                                  {
+                                                                      StationNumber = -1
+                                                                  };
+                                                   Date1 = Date1;
+                                               }
+                                               else
+                                               {
+                                                   Date1 = SearchResult.AddedTime.Date;
                                                }
                                            });
 

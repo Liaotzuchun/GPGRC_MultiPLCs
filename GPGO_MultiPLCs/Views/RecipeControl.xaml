@@ -20,9 +20,9 @@
             <ColumnDefinition Width="1.2*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <GroupBox Margin="0,0,4,0"
-                  Background="{StaticResource WindowBackgroundBrush3}"
-                  IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+        <Grid Margin="0,0,4,0"
+              Background="{StaticResource LightColorBrush}"
+              IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
             <TabControl x:Name="TC"
                         views:TabControl.EnableSliding="True">
                 <TabItem Height="44"
@@ -43,6 +43,7 @@
                             <ColumnDefinition Width="54" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
@@ -1047,7 +1048,7 @@
                                 Grid.Column="3"
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="0,1,0,0">
+                                BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center">
                                 <Run Text="{DynamicResource 恆溫警報}" />
@@ -1058,7 +1059,7 @@
                                 Grid.Column="3"
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="0,1,0,0">
+                                BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center">
                                 <Run Text="{DynamicResource 恆溫警報}" />
@@ -1069,7 +1070,7 @@
                                 Grid.Column="3"
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="0,1,0,0">
+                                BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center">
                                 <Run Text="{DynamicResource 恆溫警報}" />
@@ -1080,7 +1081,7 @@
                                 Grid.Column="3"
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="0,1,0,0">
+                                BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center">
                                 <Run Text="{DynamicResource 恆溫警報}" />
@@ -1091,7 +1092,7 @@
                                 Grid.Column="3"
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="0,1,0,0">
+                                BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center">
                                 <Run Text="{DynamicResource 恆溫警報}" />
@@ -1102,12 +1103,23 @@
                                 Grid.Column="3"
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="0,1,0,0">
+                                BorderThickness="1,1,0,0">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center">
                                 <Run Text="{DynamicResource 恆溫警報}" />
                                 <Run Text="6" />
                             </TextBlock>
+                        </Border>
+                        <Border Grid.Row="19"
+                                Grid.Column="2"
+                                Grid.ColumnSpan="2"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,0">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Text="{DynamicResource 程式結束警報}" />
                         </Border>
                         <Border Grid.Row="13"
                                 Grid.Column="4"
@@ -1211,6 +1223,22 @@
                                     TickFrequency="1"
                                     Value="{Binding WarmingAlarm_6, Mode=TwoWay}" />
                         </Border>
+                        <Border Grid.Row="19"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,0">
+                            <Slider Margin="4,0"
+                                    VerticalAlignment="Center"
+                                    IsSelectionRangeEnabled="True"
+                                    IsSnapToTickEnabled="True"
+                                    LargeChange="1"
+                                    Maximum="{Binding Time_Max, Mode=OneWay}"
+                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    SmallChange="1"
+                                    TickFrequency="1"
+                                    Value="{Binding ProgramStopAlarmTime, Mode=TwoWay}" />
+                        </Border>
                         <views:NumericTextBox Grid.Row="13"
                                               Grid.Column="5"
                                               Background="{StaticResource LightColorBrush}"
@@ -1271,6 +1299,22 @@
                                               Min="{Binding Time_Min, Mode=OneWay}"
                                               Text="{Binding WarmingAlarm_6, Mode=TwoWay}"
                                               Unit="{DynamicResource 分}" />
+                        <views:NumericTextBox Grid.Row="19"
+                                              Grid.Column="5"
+                                              Background="{StaticResource LightColorBrush}"
+                                              BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                              BorderThickness="1,1,0,0"
+                                              IntOnly="True"
+                                              Max="{Binding Time_Max, Mode=OneWay}"
+                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Text="{Binding ProgramStopAlarmTime, Mode=TwoWay}"
+                                              Unit="{DynamicResource 分}" />
+                        <Border Grid.Row="19"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,0" />
                     </Grid>
                 </TabItem>
                 <TabItem Height="44"
@@ -1356,12 +1400,13 @@
                               DataContext="{Binding SelectedHistory, Mode=OneWay}"
                               IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="80" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="80" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
@@ -1947,7 +1992,7 @@
                                     Grid.Column="2"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,0,0">
+                                    BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
                                     <Run Text="{DynamicResource 恆溫警報}" />
@@ -1958,7 +2003,7 @@
                                     Grid.Column="2"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,0,0">
+                                    BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
                                     <Run Text="{DynamicResource 恆溫警報}" />
@@ -1969,7 +2014,7 @@
                                     Grid.Column="2"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,0,0">
+                                    BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
                                     <Run Text="{DynamicResource 恆溫警報}" />
@@ -1980,7 +2025,7 @@
                                     Grid.Column="2"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,0,0">
+                                    BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
                                     <Run Text="{DynamicResource 恆溫警報}" />
@@ -1991,7 +2036,7 @@
                                     Grid.Column="2"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,0,0">
+                                    BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
                                     <Run Text="{DynamicResource 恆溫警報}" />
@@ -2002,12 +2047,21 @@
                                     Grid.Column="2"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,0,0">
+                                    BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
                                     <Run Text="{DynamicResource 恆溫警報}" />
                                     <Run Text="6" />
                                 </TextBlock>
+                            </Border>
+                            <Border Grid.Row="19"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 程式結束警報}" />
                             </Border>
                             <Border Grid.Row="13"
                                     Grid.Column="3"
@@ -2075,11 +2129,26 @@
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
+                            <Border Grid.Row="19"
+                                    Grid.Column="3"
+                                    Background="{StaticResource LightColorBrush}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding ProgramStopAlarmTime, Mode=OneWay}" />
+                            </Border>
+                            <Border Grid.Row="19"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,0" />
                         </Grid>
                     </Grid>
                 </TabItem>
             </TabControl>
-        </GroupBox>
+        </Grid>
         <Grid Grid.Column="1"
               IsEnabled="{Binding Standby, Mode=OneWay}">
             <Grid.RowDefinitions>
@@ -2266,7 +2335,7 @@
                                         <ControlTemplate>
                                             <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                     BorderThickness="0,0,1,1">
-                                                <ItemsPresenter/>
+                                                <ItemsPresenter />
                                             </Border>
                                         </ControlTemplate>
                                     </ItemsControl.Template>
