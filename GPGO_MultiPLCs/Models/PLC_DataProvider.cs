@@ -721,7 +721,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                              });
                                                                                                  });
 
-                                                                 if (!result2)
+                                                                 if (!result2 && batches.Count == 0)
                                                                  {
                                                                      return false;
                                                                  }
@@ -754,7 +754,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                              });
                                                                                                  });
 
-                                                                 if (!result4)
+                                                                 if (!result4 && batches.Count == 0)
                                                                  {
                                                                      return false;
                                                                  }
