@@ -289,6 +289,7 @@ namespace GPGO_MultiPLCs
                         info.EventList.Add(ev_3);
 
                         info.EndTime          = info.StartTime + ttime;
+                        info.IsFinished = new Random().NextDouble() > 0.5;
                         info.TotalHeatingTime = (info.EndTime - info.StartTime).Minutes;
 
                         st = info.EndTime + TimeSpan.FromMinutes(10);

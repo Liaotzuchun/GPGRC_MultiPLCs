@@ -32,8 +32,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
 
-        private bool PassTag;
-
         /// <summary>取消投產</summary>
         public RelayCommand CancelCheckInCommand { get; }
 
@@ -199,7 +197,7 @@ namespace GPGO_MultiPLCs.Models
 
                                        if (RecordingFinished != null)
                                        {
-                                           await RecordingFinished.Invoke((OvenInfo.Copy(), Ext_Info.ToArray(), PassTag));
+                                           await RecordingFinished.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
                                        }
 
                                        //!需在引發紀錄完成後才觸發取消投產
@@ -237,7 +235,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Func<Language> GetLanguage;
 
-        public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo, bool Pass), ValueTask> RecordingFinished;
+        public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo), ValueTask> RecordingFinished;
 
         public event Func<Dictionary<(DataType, int), short>, ValueTask> SetPLCParameters;
 
@@ -309,8 +307,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>重設CancellationTokenSource狀態</summary>
         public void ResetStopTokenSource()
         {
-            PassTag = false;
-
             CTS?.Dispose();
 
             CTS = new CancellationTokenSource();
@@ -353,8 +349,10 @@ namespace GPGO_MultiPLCs.Models
         /// <returns></returns>
         public async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            OvenInfo.StartTime = DateTime.Now;
+            OvenInfo.IsFinished = false;
+            OvenInfo.EventList.Clear();
             OvenInfo.RecordTemperatures.Clear();
+            OvenInfo.StartTime = DateTime.Now;
 
             await OneScheduler.StartNew(() =>
                                         {
@@ -1027,7 +1025,7 @@ namespace GPGO_MultiPLCs.Models
                                            {
                                                if (key1 == SignalNames.程式結束)
                                                {
-                                                   PassTag = true;
+                                                   OvenInfo.IsFinished = true;
 
                                                    EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));
                                                    AddProcessEvent(EventType.Trigger, OvenInfo.StartTime, nt, key1.ToString(), key2, value);
@@ -1067,7 +1065,7 @@ namespace GPGO_MultiPLCs.Models
                                                {
                                                    if (IsCooling)
                                                    {
-                                                       PassTag = true;
+                                                       OvenInfo.IsFinished = true;
                                                    }
 
                                                    EventHappened?.Invoke((EventType.Trigger, nt, key1.ToString(), key2, value));

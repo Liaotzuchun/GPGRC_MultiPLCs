@@ -159,4 +159,5 @@
     <sys:String x:Key="燈號">Lights</sys:String>
     <sys:String x:Key="片">Panels</sys:String>
     <sys:String x:Key="程式結束警報">Stopped Alarm</sys:String>
+    <sys:String x:Key="完成烘烤">Finished</sys:String>
 </ResourceDictionary>

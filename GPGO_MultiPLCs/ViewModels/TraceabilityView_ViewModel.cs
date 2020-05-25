@@ -60,7 +60,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public FilterGroup OvenFilter { get; }
 
         /// <summary>總量統計</summary>
-        public int ProduceTotalCount => ViewResults?.Count > 0 ? ViewResults.Sum(x => x.Quantity) : 0;
+        public int ProduceTotalCount => ViewResults?.Count > 0 ? ViewResults.Where(x => x.IsFinished).Sum(x => x.Quantity) : 0;
 
         /// <summary>基於配方的Filter</summary>
         public FilterGroup RecipeFilter { get; }
@@ -174,11 +174,11 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                var date1 = DateTime.Today.Date;
-                var date2 = date1.AddDays(1);
+                var date1  = DateTime.Today.Date;
+                var date2  = date1.AddDays(1);
                 var result = await DataCollection.FindAsync(x => x.StationNumber == index + 1 && x.AddedTime >= date1 && x.AddedTime < date2);
 
-                return result.Sum(x => x.Quantity);
+                return result.Where(x => x.IsFinished).Sum(x => x.Quantity);
             }
             catch (Exception ex)
             {
@@ -218,8 +218,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 }
 
                                                 var created = DateTime.Now;
-                                                var x = ViewResults.Count / 500;     //!檔案數
-                                                var y = ViewResults.Count - 500 * x; //!剩餘數
+                                                var x       = ViewResults.Count / 500;     //!檔案數
+                                                var y       = ViewResults.Count - 500 * x; //!剩餘數
 
                                                 if (x > 0 && y <= 100)
                                                 {
@@ -234,17 +234,17 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              x,
                                                              index =>
                                                              {
-                                                                 var fi = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff(}{index + 1}).xlsm");
+                                                                 var fi    = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff(}{index + 1}).xlsm");
                                                                  var datas = ViewResults.GetRange(500 * index, index == x - 1 ? y : 500);
-                                                                 var n = datas.Count;
-                                                                 var xlwb = new ExcelPackage();
+                                                                 var n     = datas.Count;
+                                                                 var xlwb  = new ExcelPackage();
                                                                  xlwb.Workbook.CreateVBAProject();
                                                                  var wsht = xlwb.Workbook.Worksheets.Add($"{n}{(n <= 1 ? " result" : " results")}");
                                                                  wsht.View.ShowGridLines = false;
                                                                  wsht.View.FreezePanes(4, 1);
                                                                  wsht.Row(1).Height = 225;
 
-                                                                 var keys = datas[0].ToDic(Language).Keys.ToArray();
+                                                                 var keys      = datas[0].ToDic(Language).Keys.ToArray();
                                                                  var max_count = 0;
 
                                                                  for (var i = 0; i < keys.Length; i++)
@@ -259,7 +259,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  for (var i = 0; i < n; i++)
                                                                  {
                                                                      var values = datas[i].ToDic(Language).Values.ToArray();
-                                                                     var temps = datas[i].RecordTemperatures.ToArray();
+                                                                     var temps  = datas[i].RecordTemperatures.ToArray();
 
                                                                      if (temps.Length > max_count)
                                                                      {
@@ -296,9 +296,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                                      record_sht.Cells[2, 1].Formula = $"HYPERLINK(\"#'{wsht.Name}'!$A${i + 4}\",\"<<<<<<Back\")";
                                                                      record_sht.Cells[2, 1].Style.Font.Color.SetColor(Color.Blue);
-                                                                     record_sht.Cells[2, 1].Style.Font.UnderLine          = false;
-                                                                     record_sht.Cells[3, 1].Value                         = nameof(RecordTemperatures.Time);
-                                                                     record_sht.Cells[3, 2].Value                         = nameof(RecordTemperatures.ThermostatTemperature);
+                                                                     record_sht.Cells[2, 1].Style.Font.UnderLine = false;
+                                                                     record_sht.Cells[3, 1].Value                = nameof(RecordTemperatures.Time);
+                                                                     record_sht.Cells[3, 2].Value                = nameof(RecordTemperatures.ThermostatTemperature);
                                                                      //record_sht.Cells[3, 3].Value                         = nameof(RecordTemperatures.OvenTemperatures_1);
                                                                      //record_sht.Cells[3, 4].Value                         = nameof(RecordTemperatures.OvenTemperatures_2);
                                                                      //record_sht.Cells[3, 5].Value                         = nameof(RecordTemperatures.OvenTemperatures_3);
@@ -364,7 +364,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      //var record_s7 = record_chart.Series.Add(record_sht.Cells[4, 8, temps.Length + 3, 8], record_sht.Cells[4, 1, temps.Length + 3, 1]);
                                                                      //var record_s8 = record_chart.Series.Add(record_sht.Cells[4, 9, temps.Length + 3, 9], record_sht.Cells[4, 1, temps.Length + 3, 1]);
                                                                      //var record_s9 = record_chart.Series.Add(record_sht.Cells[4, 10, temps.Length + 3, 10], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     record_s1.Header            = nameof(RecordTemperatures.ThermostatTemperature);
+                                                                     record_s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
                                                                      //record_s2.Header            = nameof(RecordTemperatures.OvenTemperatures_1);
                                                                      //record_s3.Header            = nameof(RecordTemperatures.OvenTemperatures_2);
                                                                      //record_s4.Header            = nameof(RecordTemperatures.OvenTemperatures_3);
@@ -412,7 +412,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                                  wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                                  wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
-                                                                 wsht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                                                                 wsht.Cells[2, 1].Style.HorizontalAlignment         = ExcelHorizontalAlignment.Left;
                                                                  wsht.Column(keys.Length).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                                                                  for (var i = 1; i <= keys.Length; i++)
                                                                  {
@@ -473,7 +473,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  //var s7 = chart.Series.Add(data_sht.Cells[1, 8, max_count, 8], data_sht.Cells[1, 1, max_count, 1]);
                                                                  //var s8 = chart.Series.Add(data_sht.Cells[1, 9, max_count, 9], data_sht.Cells[1, 1, max_count, 1]);
                                                                  //var s9 = chart.Series.Add(data_sht.Cells[1, 10, max_count, 10], data_sht.Cells[1, 1, max_count, 1]);
-                                                                 s1.Header            = nameof(RecordTemperatures.ThermostatTemperature);
+                                                                 s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
                                                                  //s2.Header            = nameof(RecordTemperatures.OvenTemperatures_1);
                                                                  //s3.Header            = nameof(RecordTemperatures.OvenTemperatures_2);
                                                                  //s4.Header            = nameof(RecordTemperatures.OvenTemperatures_3);
@@ -566,33 +566,35 @@ namespace GPGO_MultiPLCs.ViewModels
 
             if (ViewResults?.Count > 0)
             {
+                var finishedResults = ViewResults.Where(x => x.IsFinished).ToList();
+
                 var ByDate = date2 - date1 > TimeSpan.FromDays(1);
-                var result2 = ViewResults
+                var result2 = finishedResults
                              .GroupBy(x => Mode >= (int)ChartMode.ByBatch ?
                                                x.StationNumber.ToString("00") :
                                                x.PartNumber)
                              .OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
 
-                var NoLayer2 = result2.Length > 20 && Mode >= (int)ChartMode.ByBatch;
+                var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByBatch;
                 var categories = new List<string>();
 
-                var result1 = ViewResults.GroupBy(x =>
-                                                  {
-                                                      switch ((ChartMode)Mode)
+                var result1 = finishedResults.GroupBy(x =>
                                                       {
-                                                          case ChartMode.ByPLC:
-                                                              return x.StationNumber.ToString("00");
-                                                          case ChartMode.ByBatch:
-                                                              return x.BatchNumber;
-                                                          case ChartMode.ByPart:
-                                                              return x.PartNumber;
-                                                          default:
-                                                              return ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00";
-                                                      }
-                                                  })
-                                         .OrderBy(x => x.Key)
-                                         .Select(x => (x.Key, x.Sum(y => y.Quantity)))
-                                         .ToArray();
+                                                          switch ((ChartMode)Mode)
+                                                          {
+                                                              case ChartMode.ByPLC:
+                                                                  return x.StationNumber.ToString("00");
+                                                              case ChartMode.ByBatch:
+                                                                  return x.BatchNumber;
+                                                              case ChartMode.ByPart:
+                                                                  return x.PartNumber;
+                                                              default:
+                                                                  return ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00";
+                                                          }
+                                                      })
+                                             .OrderBy(x => x.Key)
+                                             .Select(x => (x.Key, x.Sum(y => y.Quantity)))
+                                             .ToArray();
 
                 categoryAxis1.FontSize = result1.Length > 20 ? 9 : 12;
 
@@ -830,7 +832,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              DefaultFont             = "Microsoft JhengHei",
                              PlotAreaBackground      = bgcolor,
                              PlotAreaBorderColor     = bordercolor,
-                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
+                             PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
                              LegendTitle             = nameof(ProcessInfo.PartNumber),
                              LegendTitleColor        = fontcolor,

@@ -731,6 +731,17 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="Auto"
+                                        MinWidth="30">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="{DynamicResource 完成烘烤}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="models:ProcessInfo">
+                            <TextBlock Text="{Binding IsFinished, Mode=OneWay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="Auto"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
                         <ContentControl Content="{StaticResource OvenFilterData}"
@@ -1084,6 +1095,27 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Background" Value="{DynamicResource LightColorBrush}" />
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
+                                     Value="False">
+                            <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource DarkBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource GlyphBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource PressedBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource GlyphBrush}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
         </DataGrid>
         <Grid Grid.Row="2"
               Margin="0,4,0,0">

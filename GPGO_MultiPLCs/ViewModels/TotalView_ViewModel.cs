@@ -155,6 +155,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 Set(value);
                 NotifyPropertyChanged(nameof(PLC_All_View));
                 NotifyPropertyChanged(nameof(TotalProduction_View));
+                NotifyPropertyChanged(nameof(TotalProductionCount));
             }
         }
 
@@ -445,6 +446,7 @@ namespace GPGO_MultiPLCs.ViewModels
             TotalProduction.CollectionChanged += (obj, args) =>
                                                  {
                                                      NotifyPropertyChanged(nameof(TotalProduction_View));
+                                                     NotifyPropertyChanged(nameof(TotalProductionCount));
                                                  };
 
             //!註冊PLC事件需引發的動作
@@ -465,8 +467,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!烘烤流程結束時
                 PLC_All[i].RecordingFinished += async e =>
                                                 {
-                                                    var (baseInfo, productInfo, pass) = e;
-                                                    if (!pass)
+                                                    var (baseInfo, productInfo) = e;
+                                                    if (!baseInfo.IsFinished)
                                                     {
                                                         dialog?.Show(new Dictionary<Language, string>
                                                                      {
@@ -476,7 +478,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      },
                                                                      TimeSpan.FromSeconds(2));
                                                     }
-                                                    else if (productInfo.Count > 0)
+
+                                                    if (productInfo.Count > 0)
                                                     {
                                                         //!寫入資料庫，上傳
                                                         var infos = productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList();

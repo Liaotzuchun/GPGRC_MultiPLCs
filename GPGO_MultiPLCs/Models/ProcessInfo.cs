@@ -81,6 +81,14 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>完成烘烤</summary>
+        [LanguageTranslator("Finished", "完成烘烤", "完成烘烤")]
+        public bool IsFinished
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
         /// <summary>紀錄溫度</summary>
         [LanguageTranslator("Temps", "溫度紀錄", "温度纪录")]
         public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
@@ -161,6 +169,7 @@ namespace GPGO_MultiPLCs.Models
             EndTime     = new DateTime();
             OperatorID  = "";
             TrolleyCode = "";
+            IsFinished = false;
         }
 
         public BaseInfo()
@@ -246,6 +255,7 @@ namespace GPGO_MultiPLCs.Models
             new Dictionary<string, object>
             {
                 {GetType().GetProperty(nameof(AddedTime)).GetName(lng), AddedTime},
+                {GetType().GetProperty(nameof(IsFinished)).GetName(lng), IsFinished},
                 {GetType().GetProperty(nameof(StationNumber)).GetName(lng), StationNumber},
                 //{GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
                 //{GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},

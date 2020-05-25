@@ -159,4 +159,5 @@
     <sys:String x:Key="燈號">灯号</sys:String>
     <sys:String x:Key="片">片</sys:String>
     <sys:String x:Key="程式結束警報">程序结束警报</sys:String>
+    <sys:String x:Key="完成烘烤">完成烘烤</sys:String>
 </ResourceDictionary>
