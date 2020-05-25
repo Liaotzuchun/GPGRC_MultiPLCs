@@ -167,6 +167,7 @@
                           Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button x:Name="Today"
+                        Grid.Row="0"
                         Grid.Column="1"
                         Content="{DynamicResource 本日}">
                     <i:Interaction.Triggers>
@@ -176,6 +177,7 @@
                     </i:Interaction.Triggers>
                 </Button>
                 <Button x:Name="AddDay"
+                        Grid.Row="0"
                         Grid.Column="2"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <i:Interaction.Triggers>
@@ -187,7 +189,8 @@
                           Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button x:Name="SubWeek"
-                        Grid.Row="1">
+                        Grid.Row="1"
+                        Grid.Column="0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SubWeekCommand, Mode=OneTime}" />
@@ -218,7 +221,8 @@
                           Fill="{StaticResource GlyphBrush}" />
                 </Button>
                 <Button x:Name="SubMonth"
-                        Grid.Row="2">
+                        Grid.Row="2"
+                        Grid.Column="0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SubMonthCommand, Mode=OneTime}" />
@@ -249,7 +253,8 @@
                           Fill="{StaticResource GlyphBrush}" />
                 </Button>
             </Grid>
-            <Border Grid.Column="1"
+            <Border Grid.Row="0"
+                    Grid.Column="1"
                     Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,0,1">
@@ -258,6 +263,7 @@
                            Text="{DynamicResource 開始日期}" />
             </Border>
             <DatePicker x:Name="dp1"
+                        Grid.Row="0"
                         Grid.Column="2"
                         BorderThickness="1,0,0,1"
                         IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
@@ -279,18 +285,21 @@
                         IsHitTestVisible="{Binding IsEnabled, RelativeSource={RelativeSource Self}}"
                         SelectedDate="{Binding Date2, Mode=TwoWay}"
                         SelectedDateFormat="Long" />
-            <Border Grid.RowSpan="2"
+            <Border Grid.Row="0"
+                    Grid.RowSpan="2"
                     Grid.Column="3"
                     Background="{StaticResource OKBrush}"
                     BorderBrush="{StaticResource OKBorderBrush}"
                     BorderThickness="1" />
-            <Border Grid.RowSpan="2"
+            <Border Grid.Row="0"
+                    Grid.RowSpan="2"
                     Grid.Column="3"
                     Background="{StaticResource WorkingBrush}"
                     BorderBrush="{StaticResource WorkingBorderBrush}"
                     BorderThickness="1"
                     Visibility="{Binding Standby, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-            <Border Grid.Column="4"
+            <Border Grid.Row="0"
+                    Grid.Column="4"
                     Background="{StaticResource LightColorBrush}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,0,1">
@@ -566,7 +575,7 @@
                                                 IsZoomEnabled="False"
                                                 MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                                 MajorGridlineStyle="Dot"
-                                                MajorStep="50"
+                                                MajorStep="25"
                                                 MajorTickSize="0"
                                                 MaximumPadding="0.2"
                                                 Minimum="0"
@@ -737,7 +746,23 @@
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock Text="{Binding IsFinished, Mode=OneWay}" />
+                            <TextBlock x:Name="TextBlock"
+                                       FontFamily="Segoe MDL2 Assets"
+                                       FontSize="16"
+                                       FontWeight="Bold">
+                            </TextBlock>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
+                                             Value="True">
+                                    <Setter TargetName="TextBlock" Property="Text" Value="&#xE8FB;" />
+                                    <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource OKBrush}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
+                                             Value="False">
+                                    <Setter TargetName="TextBlock" Property="Text" Value="&#xE711;" />
+                                    <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -812,7 +837,7 @@
                                                 <ItemsControl.Template>
                                                     <ControlTemplate>
                                                         <Grid MinWidth="300"
-                                                              MaxHeight="400"
+                                                              MaxHeight="240"
                                                               Background="{DynamicResource WindowBackgroundBrush2}"
                                                               TextElement.Foreground="{DynamicResource BaseForeground}">
                                                             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -1102,7 +1127,7 @@
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
                                      Value="False">
-                            <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
+                            <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush6}" />
                             <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
                         </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">

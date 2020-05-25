@@ -71,10 +71,11 @@
     <sys:String x:Key="設備模式">Mode</sys:String>
     <sys:String x:Key="生產結束">Stop</sys:String>
     <sys:String x:Key="緊急停止">Emergency</sys:String>
-    <sys:String x:Key="溫度異常">Temp Er</sys:String>
-    <sys:String x:Key="風車異常">Fan Er</sys:String>
-    <sys:String x:Key="充氣逾時">Inf Tout</sys:String>
-    <sys:String x:Key="升恆溫逾時">H/W Tout</sys:String>
+    <sys:String x:Key="溫度異常">Temp Err</sys:String>
+    <sys:String x:Key="風車異常">Fan Err</sys:String>
+    <sys:String x:Key="充氣逾時">Inf Timeout</sys:String>
+    <sys:String x:Key="超溫警報">OverTemperature Alarm</sys:String>
+    <sys:String x:Key="升恆溫逾時">H/W Timeout</sys:String>
     <sys:String x:Key="手動">Manual</sys:String>
     <sys:String x:Key="自動">Auto</sys:String>
     <sys:String x:Key="分">min</sys:String>

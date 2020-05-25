@@ -74,6 +74,7 @@
     <sys:String x:Key="溫度異常">温度异常</sys:String>
     <sys:String x:Key="風車異常">风车异常</sys:String>
     <sys:String x:Key="充氣逾時">充气逾时</sys:String>
+    <sys:String x:Key="超溫警報">超温警报</sys:String>
     <sys:String x:Key="升恆溫逾時">升恒温逾时</sys:String>
     <sys:String x:Key="手動">手动</sys:String>
     <sys:String x:Key="自動">自动</sys:String>
