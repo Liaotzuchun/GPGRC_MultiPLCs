@@ -559,12 +559,12 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public short InflatingTime
+        public double InflatingTime
         {
             get => Recipe_Values[DataNames.充氣時間];
             set
             {
-                Recipe_Values[DataNames.充氣時間] = value;
+                Recipe_Values[DataNames.充氣時間] = (short)value;
                 NotifyPropertyChanged();
             }
         }
