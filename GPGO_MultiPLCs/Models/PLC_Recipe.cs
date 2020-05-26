@@ -228,6 +228,7 @@ namespace GPGO_MultiPLCs.Models
                 }
 
                 Set(value);
+                TargetTemperature_2 = TargetTemperature_2;
             }
         }
 
@@ -242,12 +243,13 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Temperature_Max;
                 }
-                else if (value < Temperature_Min)
+                else if (value < TargetTemperature_1)
                 {
-                    value = Temperature_Min;
+                    value = TargetTemperature_1;
                 }
 
                 Set(value);
+                TargetTemperature_3 = TargetTemperature_3;
             }
         }
 
@@ -262,12 +264,13 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Temperature_Max;
                 }
-                else if (value < Temperature_Min)
+                else if (value < TargetTemperature_2)
                 {
-                    value = Temperature_Min;
+                    value = TargetTemperature_2;
                 }
 
                 Set(value);
+                TargetTemperature_4 = TargetTemperature_4;
             }
         }
 
@@ -282,12 +285,13 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Temperature_Max;
                 }
-                else if (value < Temperature_Min)
+                else if (value < TargetTemperature_3)
                 {
-                    value = Temperature_Min;
+                    value = TargetTemperature_3;
                 }
 
                 Set(value);
+                TargetTemperature_5 = TargetTemperature_5;
             }
         }
 
@@ -302,12 +306,13 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Temperature_Max;
                 }
-                else if (value < Temperature_Min)
+                else if (value < TargetTemperature_4)
                 {
-                    value = Temperature_Min;
+                    value = TargetTemperature_4;
                 }
 
                 Set(value);
+                TargetTemperature_6 = TargetTemperature_6;
             }
         }
 
@@ -322,16 +327,16 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Temperature_Max;
                 }
-                else if (value < Temperature_Min)
+                else if (value < TargetTemperature_5)
                 {
-                    value = Temperature_Min;
+                    value = TargetTemperature_5;
                 }
 
                 Set(value);
+                TargetTemperature_7 = TargetTemperature_7;
             }
         }
 
-        [GPIgnore]
         [OrderIndex(11)]
         [LanguageTranslator("Target Temp. 7", "目標溫度 7", "目标温度 7")]
         public double TargetTemperature_7
@@ -343,16 +348,16 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Temperature_Max;
                 }
-                else if (value < Temperature_Min)
+                else if (value < TargetTemperature_6)
                 {
-                    value = Temperature_Min;
+                    value = TargetTemperature_6;
                 }
 
                 Set(value);
+                TargetTemperature_8 = TargetTemperature_8;
             }
         }
 
-        [GPIgnore]
         [OrderIndex(12)]
         [LanguageTranslator("Target Temp. 8", "目標溫度 8", "目标温度 8")]
         public double TargetTemperature_8
@@ -364,9 +369,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Temperature_Max;
                 }
-                else if (value < Temperature_Min)
+                else if (value < TargetTemperature_7)
                 {
-                    value = Temperature_Min;
+                    value = TargetTemperature_7;
                 }
 
                 Set(value);
