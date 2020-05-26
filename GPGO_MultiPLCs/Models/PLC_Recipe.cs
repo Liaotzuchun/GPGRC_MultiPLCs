@@ -1074,9 +1074,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < WarmingTime_1 + 0.1)
+                else if (value < WarmingTime_2 + 0.1)
                 {
-                    value = WarmingTime_1 + 0.1;
+                    value = WarmingTime_2 + 0.1;
                 }
 
                 Set(value);
@@ -1094,9 +1094,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < WarmingTime_1 + 0.1)
+                else if (value < WarmingTime_3 + 0.1)
                 {
-                    value = WarmingTime_1 + 0.1;
+                    value = WarmingTime_3 + 0.1;
                 }
 
                 Set(value);
@@ -1114,9 +1114,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < WarmingTime_1 + 0.1)
+                else if (value < WarmingTime_4 + 0.1)
                 {
-                    value = WarmingTime_1 + 0.1;
+                    value = WarmingTime_4 + 0.1;
                 }
 
                 Set(value);
@@ -1134,9 +1134,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < WarmingTime_1 + 0.1)
+                else if (value < WarmingTime_5 + 0.1)
                 {
-                    value = WarmingTime_1 + 0.1;
+                    value = WarmingTime_5 + 0.1;
                 }
 
                 Set(value);
@@ -1154,9 +1154,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < WarmingTime_1 + 0.1)
+                else if (value < WarmingTime_6 + 0.1)
                 {
-                    value = WarmingTime_1 + 0.1;
+                    value = WarmingTime_6 + 0.1;
                 }
 
                 Set(value);
@@ -1175,9 +1175,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < WarmingTime_1 + 0.1)
+                else if (value < WarmingTime_7 + 0.1)
                 {
-                    value = WarmingTime_1 + 0.1;
+                    value = WarmingTime_7 + 0.1;
                 }
 
                 Set(value);
@@ -1196,9 +1196,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < WarmingTime_1 + 0.1)
+                else if (value < WarmingTime_8 + 0.1)
                 {
-                    value = WarmingTime_1 + 0.1;
+                    value = WarmingTime_8 + 0.1;
                 }
 
                 Set(value);
