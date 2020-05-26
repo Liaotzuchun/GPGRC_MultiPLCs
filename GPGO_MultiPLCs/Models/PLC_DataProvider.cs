@@ -721,9 +721,14 @@ namespace GPGO_MultiPLCs.Models
                                                                                                              });
                                                                                                  });
 
-                                                                 if (!result2 && batches.Count == 0)
+                                                                 if (!result2)
                                                                  {
-                                                                     return false;
+                                                                     if (batches.Count == 0)
+                                                                     {
+                                                                         return false;
+                                                                     }
+
+                                                                     continue;
                                                                  }
 
                                                                  var counts = 0;
