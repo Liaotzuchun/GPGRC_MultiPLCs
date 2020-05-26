@@ -734,6 +734,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                       {Language.EN, "Find"}
                                                                                                   });
 
+                                               if ((!result1 && !result2) || (input1.ToString() == string.Empty && input2.ToString() == string.Empty)) return;
+
                                                Standby = false;
 
                                                SearchResult = await DataCollection.FindOneAsync(x => (!result1 || x.PartNumber.Contains(input1.ToString())) && (!result2 || x.BatchNumber.Contains(input2.ToString())));
@@ -889,9 +891,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   UpdateAct();
 
-                                  if (SearchResult != null && ViewResults?.Count > 0)
+                                  if (SearchResult != null)
                                   {
-                                      SelectedIndex = ViewResults.FindIndex(x => x.StationNumber == SearchResult.StationNumber && x.AddedTime == SearchResult.AddedTime);
+                                      SelectedIndex = ViewResults?.Count > 0 ? ViewResults.FindIndex(x => x.StationNumber == SearchResult.StationNumber && x.AddedTime == SearchResult.AddedTime) : -1;
                                       SearchResult  = null;
 
                                       if (SelectedIndex == -1)
