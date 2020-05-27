@@ -734,7 +734,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                       {Language.EN, "Find"}
                                                                                                   });
 
-                                               if ((!result1 && !result2) || (input1.ToString() == string.Empty && input2.ToString() == string.Empty)) return;
+                                               if (!result1 && !result2 || string.IsNullOrEmpty(input1.ToString()) && string.IsNullOrEmpty(input2.ToString())) return;
 
                                                Standby = false;
 
@@ -748,7 +748,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                   {
                                                                       StationNumber = -1
                                                                   };
-                                                   Date1 = Date1;
+
+                                                   UpdateResults(Date1, Date2);
                                                }
                                                else
                                                {

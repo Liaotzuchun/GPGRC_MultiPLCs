@@ -183,23 +183,24 @@
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
-                                                <Border Background="{StaticResource WindowBackgroundBrush6}"
+                                                <!--<Border Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                         BorderThickness="0,0,1,0">
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                Text="{DynamicResource 財產編號}" />
-                                                </Border>
-                                                <Border Grid.Row="1"
+                                                </Border>-->
+                                                <Border Grid.Row="0"
+                                                        Grid.RowSpan="2"
                                                         Grid.Column="0"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                        BorderThickness="0,1,1,0">
+                                                        BorderThickness="0,0,1,0">
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                Text="{DynamicResource 配方}" />
                                                 </Border>
-                                                <UniformGrid Grid.Row="0"
+                                                <!--<UniformGrid Grid.Row="0"
                                                              Grid.Column="1"
                                                              Rows="1">
                                                     <TextBox BorderThickness="0"
@@ -213,10 +214,12 @@
                                                              IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                              Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}"
                                                              Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
-                                                </UniformGrid>
-                                                <ComboBox Grid.Row="1"
+                                                </UniformGrid>-->
+                                                <ComboBox Grid.Row="0"
+                                                          Grid.RowSpan="2"
                                                           Grid.Column="1"
-                                                          BorderThickness="0,1,0,0"
+                                                          BorderThickness="0,0,0,0"
+                                                          FontSize="16"
                                                           GotKeyboardFocus="CB_GotKeyboardFocus"
                                                           IsEditable="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                                                           IsHitTestVisible="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -267,8 +270,7 @@
                                                     <RowDefinition />
                                                     <RowDefinition />
                                                 </Grid.RowDefinitions>
-                                                <Border Grid.RowSpan="2"
-                                                        Background="{StaticResource WindowBackgroundBrush6}"
+                                                <Border Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                         BorderThickness="0,0,1,0">
                                                     <TextBlock HorizontalAlignment="Center"
@@ -276,7 +278,6 @@
                                                                Text="{DynamicResource 操作員}" />
                                                 </Border>
                                                 <Border Grid.Row="0"
-                                                        Grid.RowSpan="2"
                                                         Grid.Column="1"
                                                         Background="{StaticResource LightColorBrush}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -284,6 +285,122 @@
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                Text="{Binding OvenInfo.OperatorID, Mode=OneWay}" />
+                                                </Border>
+                                                <Border Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Background="{StaticResource WindowBackgroundBrush6}"
+                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                        BorderThickness="0,1,1,0">
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Text="{DynamicResource 配方}" />
+                                                </Border>
+                                                <Border Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Background="{StaticResource LightColorBrush}"
+                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                        BorderThickness="0,1,1,0">
+                                                    <Grid>
+                                                        <ToggleButton x:Name="ToggleButton0"
+                                                                      Padding="8,0"
+                                                                      Content="{Binding RecipeName, Mode=OneWay}"
+                                                                      Foreground="{DynamicResource BaseForeground}"
+                                                                      Style="{StaticResource ArrowToggle}">
+                                                        </ToggleButton>
+                                                        <Popup AllowsTransparency="True"
+                                                               Focusable="False"
+                                                               IsHitTestVisible="False"
+                                                               IsOpen="{Binding IsChecked, ElementName=ToggleButton0, Mode=OneWay}"
+                                                               Placement="Center"
+                                                               PopupAnimation="Fade">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseLeave">
+                                                                    <views:SetPropertyAction PropertyName="IsChecked"
+                                                                                             TargetObject="{Binding ElementName=ToggleButton0, Mode=OneTime}">
+                                                                        <views:SetPropertyAction.PropertyValue>
+                                                                            <system:Boolean>False</system:Boolean>
+                                                                        </views:SetPropertyAction.PropertyValue>
+                                                                    </views:SetPropertyAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unloaded">
+                                                                    <views:SetPropertyAction PropertyName="IsChecked"
+                                                                                             TargetObject="{Binding ElementName=ToggleButton0, Mode=OneTime}">
+                                                                        <views:SetPropertyAction.PropertyValue>
+                                                                            <system:Boolean>False</system:Boolean>
+                                                                        </views:SetPropertyAction.PropertyValue>
+                                                                    </views:SetPropertyAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <Border x:Name="Border0"
+                                                                    Background="Transparent">
+                                                                <Border Margin="15,10,15,15"
+                                                                        Background="{StaticResource LightColorBrush}"
+                                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                        BorderThickness="1,1,0,0">
+                                                                    <Border.Effect>
+                                                                        <DropShadowEffect BlurRadius="15"
+                                                                                          Direction="270"
+                                                                                          Opacity="0.25" />
+                                                                    </Border.Effect>
+                                                                    <ItemsControl ItemsSource="{Binding OvenInfo.Recipe, Mode=OneWay}">
+                                                                        <ItemsControl.Template>
+                                                                            <ControlTemplate>
+                                                                                <Grid MinWidth="300"
+                                                                                      MaxHeight="240"
+                                                                                      Background="{DynamicResource WindowBackgroundBrush2}"
+                                                                                      TextElement.Foreground="{DynamicResource BaseForeground}">
+                                                                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                                                        <ItemsPresenter />
+                                                                                    </ScrollViewer>
+                                                                                </Grid>
+                                                                            </ControlTemplate>
+                                                                        </ItemsControl.Template>
+                                                                        <ItemsControl.ItemsPanel>
+                                                                            <ItemsPanelTemplate>
+                                                                                <StackPanel Margin="0,0,0,-1"
+                                                                                            Orientation="Vertical" />
+                                                                            </ItemsPanelTemplate>
+                                                                        </ItemsControl.ItemsPanel>
+                                                                        <ItemsControl.ItemTemplate>
+                                                                            <DataTemplate>
+                                                                                <Grid Background="{DynamicResource LightColorBrush}">
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition Width="*" />
+                                                                                        <ColumnDefinition Width="*" />
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <Border BorderBrush="{DynamicResource WindowBackgroundBrush4}"
+                                                                                            BorderThickness="0,0,1,1">
+                                                                                        <TextBlock Margin="4"
+                                                                                                   HorizontalAlignment="Center"
+                                                                                                   Text="{Binding Key, Mode=OneWay}" />
+                                                                                    </Border>
+                                                                                    <Border Grid.Column="1"
+                                                                                            BorderBrush="{DynamicResource WindowBackgroundBrush4}"
+                                                                                            BorderThickness="0,0,0,1">
+                                                                                        <TextBlock Margin="4"
+                                                                                                   HorizontalAlignment="Center"
+                                                                                                   Text="{Binding Value, Mode=OneWay}" />
+                                                                                    </Border>
+                                                                                </Grid>
+                                                                            </DataTemplate>
+                                                                        </ItemsControl.ItemTemplate>
+                                                                    </ItemsControl>
+                                                                </Border>
+                                                            </Border>
+                                                            <Popup.VerticalOffset>
+                                                                <MultiBinding Converter="{StaticResource SumValues}">
+                                                                    <Binding Converter="{StaticResource RatioValue}"
+                                                                             ConverterParameter="0.5"
+                                                                             ElementName="Border0"
+                                                                             Path="ActualHeight" />
+                                                                    <Binding Converter="{StaticResource RatioValue}"
+                                                                             ConverterParameter="0.5"
+                                                                             ElementName="ToggleButton0"
+                                                                             Path="ActualHeight" />
+                                                                </MultiBinding>
+                                                            </Popup.VerticalOffset>
+                                                        </Popup>
+                                                    </Grid>
                                                 </Border>
                                                 <!--<Border Grid.Row="1"
                                                         Grid.Column="0"
@@ -428,85 +545,17 @@
                                                                             </DataGridTemplateColumn.CellStyle>
                                                                             <DataGridTemplateColumn.CellTemplate>
                                                                                 <DataTemplate DataType="models:ProductInfo">
-                                                                                    <Grid>
-                                                                                        <Grid.RowDefinitions>
-                                                                                            <RowDefinition Height="Auto" />
-                                                                                            <RowDefinition Height="Auto" />
-                                                                                        </Grid.RowDefinitions>
-                                                                                        <Border Padding="4"
-                                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                BorderThickness="0,0,0,1">
-                                                                                            <TextBlock HorizontalAlignment="Center"
-                                                                                                       Text="{Binding PanelCodes.Count, Mode=OneWay}" />
-                                                                                        </Border>
-                                                                                        <ItemsControl x:Name="ItemsControl"
-                                                                                                      Grid.Row="1"
-                                                                                                      AlternationCount="2147483647"
-                                                                                                      ItemsSource="{Binding PanelCodes, Mode=OneWay}">
-                                                                                            <ItemsControl.Template>
-                                                                                                <ControlTemplate>
-                                                                                                    <Border Background="{StaticResource LightColorBrush}"
-                                                                                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                            BorderThickness="0">
-                                                                                                        <ItemsPresenter />
-                                                                                                    </Border>
-                                                                                                </ControlTemplate>
-                                                                                            </ItemsControl.Template>
-                                                                                            <ItemsControl.ItemsPanel>
-                                                                                                <ItemsPanelTemplate>
-                                                                                                    <views:UniformGridWithOrientation Margin="0,0,0,-1"
-                                                                                                                                      Orientation="Vertical"
-                                                                                                                                      Rows="10" />
-                                                                                                </ItemsPanelTemplate>
-                                                                                            </ItemsControl.ItemsPanel>
-                                                                                            <ItemsControl.ItemTemplate>
-                                                                                                <DataTemplate>
-                                                                                                    <Grid MinHeight="20"
-                                                                                                          TextElement.Foreground="{StaticResource BaseForeground}">
-                                                                                                        <Grid.ColumnDefinitions>
-                                                                                                            <ColumnDefinition Width="30" />
-                                                                                                            <ColumnDefinition />
-                                                                                                        </Grid.ColumnDefinitions>
-                                                                                                        <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                                BorderThickness="0,0,1,1">
-                                                                                                            <TextBlock HorizontalAlignment="Center"
-                                                                                                                       VerticalAlignment="Center"
-                                                                                                                       FontSize="12"
-                                                                                                                       Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
-                                                                                                        </Border>
-                                                                                                        <Border Grid.Column="1"
-                                                                                                                Background="Transparent"
-                                                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                                                                BorderThickness="0,0,1,1">
-                                                                                                            <TextBlock Margin="4,0"
-                                                                                                                       HorizontalAlignment="Center"
-                                                                                                                       VerticalAlignment="Center"
-                                                                                                                       FontSize="12"
-                                                                                                                       Text="{Binding Mode=OneWay}" />
-                                                                                                        </Border>
-                                                                                                    </Grid>
-                                                                                                </DataTemplate>
-                                                                                            </ItemsControl.ItemTemplate>
-                                                                                        </ItemsControl>
-                                                                                    </Grid>
+                                                                                    <TextBlock Margin="4"
+                                                                                               HorizontalAlignment="Center"
+                                                                                               VerticalAlignment="Center"
+                                                                                               Text="{Binding PanelCodes.Count, Mode=OneWay}"
+                                                                                               TextTrimming="CharacterEllipsis" />
                                                                                 </DataTemplate>
                                                                             </DataGridTemplateColumn.CellTemplate>
                                                                         </DataGridTemplateColumn>
                                                                     </DataGrid.Columns>
                                                                 </DataGrid>
                                                             </Border>
-                                                            <Popup.VerticalOffset>
-                                                                <MultiBinding Converter="{StaticResource SumValues}">
-                                                                    <Binding Converter="{StaticResource RatioValue}"
-                                                                             ConverterParameter="0.5"
-                                                                             ElementName="Border"
-                                                                             Path="ActualHeight" />
-                                                                    <Binding Converter="{StaticResource RatioValue}"
-                                                                             ConverterParameter="0.5"
-                                                                             ElementName="ToggleButton"
-                                                                             Path="ActualHeight" />
-                                                                </MultiBinding>
-                                                            </Popup.VerticalOffset>
                                                         </Popup>
                                                     </Grid>
                                                 </Border>

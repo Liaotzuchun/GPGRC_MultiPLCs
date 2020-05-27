@@ -808,6 +808,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                                  if (SetPLCParameters != null)
                                                                  {
+                                                                     OvenInfo.Recipe = this.ObjCopy<PLC_Recipe>().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
                                                                      await SetPLCParameters.Invoke(Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
                                                                  }
                                                              }
