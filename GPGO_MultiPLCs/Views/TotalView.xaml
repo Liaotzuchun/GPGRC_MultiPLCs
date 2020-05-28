@@ -305,13 +305,12 @@
                                                                       Padding="8,0"
                                                                       Content="{Binding RecipeName, Mode=OneWay}"
                                                                       Foreground="{DynamicResource BaseForeground}"
-                                                                      Style="{StaticResource ArrowToggle}">
-                                                        </ToggleButton>
+                                                                      Style="{StaticResource ArrowToggle}" />
                                                         <Popup AllowsTransparency="True"
                                                                Focusable="False"
                                                                IsHitTestVisible="False"
                                                                IsOpen="{Binding IsChecked, ElementName=ToggleButton0, Mode=OneWay}"
-                                                               Placement="Center"
+                                                               Placement="Bottom"
                                                                PopupAnimation="Fade">
                                                             <i:Interaction.Triggers>
                                                                 <i:EventTrigger EventName="MouseLeave">
@@ -342,52 +341,518 @@
                                                                                           Direction="270"
                                                                                           Opacity="0.25" />
                                                                     </Border.Effect>
-                                                                    <ItemsControl ItemsSource="{Binding OvenInfo.Recipe, Mode=OneWay}">
-                                                                        <ItemsControl.Template>
-                                                                            <ControlTemplate>
-                                                                                <Grid MinWidth="300"
-                                                                                      MaxHeight="240"
-                                                                                      Background="{DynamicResource WindowBackgroundBrush2}"
-                                                                                      TextElement.Foreground="{DynamicResource BaseForeground}">
-                                                                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                                                                        <ItemsPresenter />
-                                                                                    </ScrollViewer>
-                                                                                </Grid>
-                                                                            </ControlTemplate>
-                                                                        </ItemsControl.Template>
-                                                                        <ItemsControl.ItemsPanel>
-                                                                            <ItemsPanelTemplate>
-                                                                                <StackPanel Margin="0,0,0,-1"
-                                                                                            Orientation="Vertical" />
-                                                                            </ItemsPanelTemplate>
-                                                                        </ItemsControl.ItemsPanel>
-                                                                        <ItemsControl.ItemTemplate>
-                                                                            <DataTemplate>
-                                                                                <Grid Background="{DynamicResource LightColorBrush}">
-                                                                                    <Grid.ColumnDefinitions>
-                                                                                        <ColumnDefinition Width="*" />
-                                                                                        <ColumnDefinition Width="*" />
-                                                                                    </Grid.ColumnDefinitions>
-                                                                                    <Border BorderBrush="{DynamicResource WindowBackgroundBrush4}"
-                                                                                            BorderThickness="0,0,1,1">
-                                                                                        <TextBlock Margin="4"
-                                                                                                   HorizontalAlignment="Center"
-                                                                                                   Text="{Binding Key, Mode=OneWay}" />
-                                                                                    </Border>
-                                                                                    <Border Grid.Column="1"
-                                                                                            BorderBrush="{DynamicResource WindowBackgroundBrush4}"
-                                                                                            BorderThickness="0,0,0,1">
-                                                                                        <TextBlock Margin="4"
-                                                                                                   HorizontalAlignment="Center"
-                                                                                                   Text="{Binding Value, Mode=OneWay}" />
-                                                                                    </Border>
-                                                                                </Grid>
-                                                                            </DataTemplate>
-                                                                        </ItemsControl.ItemTemplate>
-                                                                    </ItemsControl>
+                                                                    <Grid ClipToBounds="True"
+                                                                          TextElement.FontSize="12">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition />
+                                                                            <ColumnDefinition />
+                                                                            <ColumnDefinition />
+                                                                            <ColumnDefinition />
+                                                                            <ColumnDefinition />
+                                                                            <ColumnDefinition />
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="*" />
+                                                                            <RowDefinition Height="*" />
+                                                                            <RowDefinition Height="*" />
+                                                                            <RowDefinition Height="*" />
+                                                                            <RowDefinition Height="*" />
+                                                                            <RowDefinition Height="*" />
+                                                                            <RowDefinition Height="*" />
+                                                                            <RowDefinition Height="*" />
+                                                                        </Grid.RowDefinitions>
+                                                                        <Border Grid.Row="0"
+                                                                                Grid.Column="0"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock Margin="4"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{DynamicResource 使用段數}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="0"
+                                                                                Grid.Column="1"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="0"
+                                                                                Grid.Column="2"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock Margin="4"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{DynamicResource 降溫時間}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="0"
+                                                                                Grid.Column="3"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="0"
+                                                                                Grid.Column="4"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock Margin="4"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{DynamicResource 程式結束警報}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="0"
+                                                                                Grid.Column="5"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding ProgramStopAlarmTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="1"
+                                                                                Grid.Column="0"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1" />
+                                                                        <Border Grid.Row="1"
+                                                                                Grid.Column="1"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock Margin="4"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{DynamicResource 目標溫度}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="1"
+                                                                                Grid.Column="2"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock Margin="4"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{DynamicResource 升溫時間}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="1"
+                                                                                Grid.Column="3"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock Margin="4"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{DynamicResource 升溫警報}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="1"
+                                                                                Grid.Column="4"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock Margin="4"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{DynamicResource 恆溫時間}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="1"
+                                                                                Grid.Column="5"
+                                                                                Background="{StaticResource WindowBackgroundBrush6}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock Margin="4"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{DynamicResource 恆溫警報}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="2"
+                                                                                Grid.Column="0"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="1" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="3"
+                                                                                Grid.Column="0"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="2" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="4"
+                                                                                Grid.Column="0"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="3" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="5"
+                                                                                Grid.Column="0"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="4" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="6"
+                                                                                Grid.Column="0"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="5" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="7"
+                                                                                Grid.Column="0"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="6" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="2"
+                                                                                Grid.Column="1"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="3"
+                                                                                Grid.Column="1"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="4"
+                                                                                Grid.Column="1"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="5"
+                                                                                Grid.Column="1"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="6"
+                                                                                Grid.Column="1"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="7"
+                                                                                Grid.Column="1"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                                        </Border>
+                                                                        <Border Grid.Row="2"
+                                                                                Grid.Column="2"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="3"
+                                                                                Grid.Column="2"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="4"
+                                                                                Grid.Column="2"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="5"
+                                                                                Grid.Column="2"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="6"
+                                                                                Grid.Column="2"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="7"
+                                                                                Grid.Column="2"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="2"
+                                                                                Grid.Column="3"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="3"
+                                                                                Grid.Column="3"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="4"
+                                                                                Grid.Column="3"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="5"
+                                                                                Grid.Column="3"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="6"
+                                                                                Grid.Column="3"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="7"
+                                                                                Grid.Column="3"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding HeatingAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="2"
+                                                                                Grid.Column="4"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="3"
+                                                                                Grid.Column="4"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="4"
+                                                                                Grid.Column="4"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="5"
+                                                                                Grid.Column="4"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="6"
+                                                                                Grid.Column="4"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="7"
+                                                                                Grid.Column="4"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="2"
+                                                                                Grid.Column="5"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="3"
+                                                                                Grid.Column="5"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="4"
+                                                                                Grid.Column="5"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="5"
+                                                                                Grid.Column="5"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="6"
+                                                                                Grid.Column="5"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                        <Border Grid.Row="7"
+                                                                                Grid.Column="5"
+                                                                                Background="{StaticResource LightColorBrush}"
+                                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                                BorderThickness="0,0,1,1">
+                                                                            <TextBlock HorizontalAlignment="Center"
+                                                                                       VerticalAlignment="Center">
+                                                                                <Run Text="{Binding WarmingAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                                                <Run Text="{DynamicResource 分}" />
+                                                                            </TextBlock>
+                                                                        </Border>
+                                                                    </Grid>
                                                                 </Border>
                                                             </Border>
-                                                            <Popup.VerticalOffset>
+                                                            <!--<Popup.VerticalOffset>
                                                                 <MultiBinding Converter="{StaticResource SumValues}">
                                                                     <Binding Converter="{StaticResource RatioValue}"
                                                                              ConverterParameter="0.5"
@@ -398,7 +863,7 @@
                                                                              ElementName="ToggleButton0"
                                                                              Path="ActualHeight" />
                                                                 </MultiBinding>
-                                                            </Popup.VerticalOffset>
+                                                            </Popup.VerticalOffset>-->
                                                         </Popup>
                                                     </Grid>
                                                 </Border>
@@ -891,7 +1356,7 @@
                                             Grid.Column="5"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
                                             <Run Text="{Binding ProgramStopAlarmTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
@@ -943,7 +1408,7 @@
                                             Grid.Column="5"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 恆溫警報}" />
@@ -997,7 +1462,7 @@
                                             Grid.Column="0"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="6" />
@@ -1051,7 +1516,7 @@
                                             Grid.Column="1"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
@@ -1115,7 +1580,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
@@ -1181,7 +1646,7 @@
                                             Grid.Column="3"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
                                             <Run Text="{Binding HeatingAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
@@ -1247,7 +1712,7 @@
                                             Grid.Column="4"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
@@ -1313,7 +1778,7 @@
                                             Grid.Column="5"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,0,1">
+                                            BorderThickness="0,0,0,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
                                             <Run Text="{Binding WarmingAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
@@ -1350,7 +1815,7 @@
                                             Grid.Column="0"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,1,0">
                                         <TextBlock x:Name="Text0"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
@@ -1433,7 +1898,7 @@
                                             Grid.Column="1"
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{Binding ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
@@ -1595,7 +2060,7 @@
                                             Grid.Column="2"
                                             Background="{StaticResource WindowBackgroundBrush6}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
+                                            BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 燈號}" />
@@ -1960,6 +2425,7 @@
                                                         MajorGridlineStyle="Dot"
                                                         MajorStep="25"
                                                         MajorTickSize="0"
+                                                        Maximum="250"
                                                         MaximumPadding="0.2"
                                                         Minimum="0"
                                                         MinimumPadding="0"
