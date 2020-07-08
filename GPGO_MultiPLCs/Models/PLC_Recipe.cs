@@ -73,7 +73,7 @@ namespace GPGO_MultiPLCs.Models
 
         [JsonIgnore] public short SegmentCounts_Min => 1;
 
-        [JsonIgnore] public double Temperature_Max => 200.0;
+        [JsonIgnore] public double Temperature_Max => 250.0;
 
         [JsonIgnore] public double Temperature_Min => 30.0;
 
