@@ -367,7 +367,7 @@ namespace GPGO_MultiPLCs
                                              {SignalNames.循環風車INV異常, (BitType.M, GetInt())},
                                              {SignalNames.充氮氣逾時, (BitType.M, GetInt())},
                                              {SignalNames.門未關定位異常, (BitType.M, GetInt())},
-                                             {SignalNames.升恆溫逾時, (BitType.M, GetInt())},
+                                             {SignalNames.升恆溫逾時, (BitType.M, 240)},
                                              {SignalNames.蜂鳴器, (BitType.Y, 0)},
                                              {SignalNames.綠燈, (BitType.Y, 1)},
                                              {SignalNames.黃燈, (BitType.Y, 2)},
