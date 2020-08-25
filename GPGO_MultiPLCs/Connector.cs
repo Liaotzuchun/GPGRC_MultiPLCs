@@ -467,7 +467,7 @@ namespace GPGO_MultiPLCs
                                              {DataNames.配方名稱_20, (DataType.D, GetInt())}
                                          });
 
-            TotalVM = new TotalView_ViewModel(Enumerable.Repeat(map, 2).ToArray(), DialogVM);
+            TotalVM = new TotalView_ViewModel(Enumerable.Repeat(map, 1).ToArray(), DialogVM);
 
             //!當回到主頁時，也將生產總覽回到總覽頁
             MainVM.IndexChangedEvent += i =>

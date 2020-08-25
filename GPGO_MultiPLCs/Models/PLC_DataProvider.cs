@@ -427,10 +427,8 @@ namespace GPGO_MultiPLCs.Models
                                         ct);
         }
 
-        public PLC_DataProvider(int index, PLC_DevicesMap map, IDialogService dialog)
+        public PLC_DataProvider(PLC_DevicesMap map, IDialogService dialog)
         {
-            var secsgem = new SECSThread(index);
-
             Dialog = dialog;
 
             CheckRecipeCommand_KeyIn = new RelayCommand(e =>

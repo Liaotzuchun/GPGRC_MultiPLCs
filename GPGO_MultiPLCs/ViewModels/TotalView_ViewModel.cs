@@ -429,6 +429,9 @@ namespace GPGO_MultiPLCs.ViewModels
         public TotalView_ViewModel(IReadOnlyCollection<PLC_DevicesMap> plc_maps, IDialogService dialog)
         {
             Dialog    = dialog;
+
+            var secsgem = new SECSThread(0);
+
             OvenCount = plc_maps.Count;
             ViewIndex = -1;
             var PLC_Count = plc_maps.Count;
@@ -453,7 +456,7 @@ namespace GPGO_MultiPLCs.ViewModels
             for (var i = 0; i < PLC_Count; i++)
             {
                 TotalProduction.Add(i, 0);
-                PLC_All[i] = new PLC_DataProvider(i, plc_maps.ElementAt(i), dialog);
+                PLC_All[i] = new PLC_DataProvider(plc_maps.ElementAt(i), dialog);
                 var index = i;
 
                 PLC_All[i].GetLanguage += () => Language;

@@ -57,7 +57,7 @@ namespace GPGO_MultiPLCs.Models
             HeatingAlarm_6.ToString("0.0") == other.HeatingAlarm_6.ToString("0.0") &&
             HeatingAlarm_7.ToString("0.0") == other.HeatingAlarm_7.ToString("0.0") &&
             HeatingAlarm_8.ToString("0.0") == other.HeatingAlarm_8.ToString("0.0") &&
-            InflatingTime == other.InflatingTime &&
+            InflatingTime.ToString("0.0") == other.InflatingTime.ToString("0.0") &&
             ProgramStopAlarmTime.ToString("0.0") == other.ProgramStopAlarmTime.ToString("0.0") &&
             TargetTemperature_1.ToString("0.0") == other.TargetTemperature_1.ToString("0.0") &&
             TargetTemperature_2.ToString("0.0") == other.TargetTemperature_2.ToString("0.0") &&
