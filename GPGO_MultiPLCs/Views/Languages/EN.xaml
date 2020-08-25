@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <sys:String x:Key="GEMCongig">GEMCongig</sys:String>
+    <sys:String x:Key="GEMData">GEMData</sys:String>
     <sys:String x:Key="生產頁面">Main</sys:String>
     <sys:String x:Key="配方管理">Recipes</sys:String>
     <sys:String x:Key="生產履歷">Records</sys:String>

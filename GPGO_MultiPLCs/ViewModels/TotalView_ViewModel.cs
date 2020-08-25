@@ -453,7 +453,7 @@ namespace GPGO_MultiPLCs.ViewModels
             for (var i = 0; i < PLC_Count; i++)
             {
                 TotalProduction.Add(i, 0);
-                PLC_All[i] = new PLC_DataProvider(plc_maps.ElementAt(i), dialog);
+                PLC_All[i] = new PLC_DataProvider(i, plc_maps.ElementAt(i), dialog);
                 var index = i;
 
                 PLC_All[i].GetLanguage += () => Language;

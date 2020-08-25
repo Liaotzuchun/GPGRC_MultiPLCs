@@ -7,6 +7,8 @@
         xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
+        xmlns:GPSECS="clr-namespace:GP_SECS_GEM;assembly=GP_SECS_GEM"
+        xmlns:GPSECSUI="clr-namespace:GP_SECS_GEM.UIControl;assembly=GP_SECS_GEM"
         x:Name="Main"
         MinWidth="800"
         MinHeight="600"
@@ -78,6 +80,8 @@
                 <TextBlock Text="{DynamicResource 配方管理}" />
                 <TextBlock Text="{DynamicResource 生產履歷}" />
                 <TextBlock Text="{DynamicResource 事件履歷}" />
+                <TextBlock Text="{DynamicResource GEMCongig}" />
+                <TextBlock Text="{DynamicResource GEMData}" />
             </ListBox>
         </Grid>
         <Border Grid.Column="1"
@@ -106,6 +110,27 @@
                      Height="0">
                 <local:LogView Margin="0,4,0,0"
                                DataContext="{Binding LogVM, Source={StaticResource Connector}, Mode=OneWay}" />
+            </TabItem>
+            <TabItem Width="0" Height="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <GPSECSUI:SECSParameterView DataContext="{Binding SECSParameterSet}" LanguagesControl="EN">
+                        <!--<GPSECSUI:SECSParameterView.DataContext>
+                                <GPSECS:SECSParameterSet />
+                            </GPSECSUI:SECSParameterView.DataContext>-->
+                    </GPSECSUI:SECSParameterView>
+                    <GPSECSUI:GemSetView Grid.Column="1" DataContext="{Binding SECS_GEM.GemSetViewModel}" />
+                </Grid>
+            </TabItem>
+            <TabItem Width="0" Height="0">
+                <GPSECSUI:MutiEqpView>
+                    <GPSECSUI:MutiEqpView.DataContext>
+                        <GPSECS:MutiEqpViewModel />
+                    </GPSECSUI:MutiEqpView.DataContext>
+                </GPSECSUI:MutiEqpView>
             </TabItem>
         </TabControl>
     </Grid>
