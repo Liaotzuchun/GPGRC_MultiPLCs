@@ -80,8 +80,8 @@
                 <TextBlock Text="{DynamicResource 配方管理}" />
                 <TextBlock Text="{DynamicResource 生產履歷}" />
                 <TextBlock Text="{DynamicResource 事件履歷}" />
-                <TextBlock Text="{DynamicResource GEMCongig}" />
-                <TextBlock Text="{DynamicResource GEMData}" />
+                <!--<TextBlock Text="{DynamicResource GEMCongig}" />
+                <TextBlock Text="{DynamicResource GEMData}" />-->
             </ListBox>
         </Grid>
         <Border Grid.Column="1"
@@ -111,20 +111,20 @@
                 <local:LogView Margin="0,4,0,0"
                                DataContext="{Binding LogVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
-            <TabItem Width="0" Height="0">
+            <!--<TabItem Width="0" Height="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <GPSECSUI:SECSParameterView DataContext="{Binding SECSParameterSet}" LanguagesControl="EN">
-                        <!--<GPSECSUI:SECSParameterView.DataContext>
+                        --><!--<GPSECSUI:SECSParameterView.DataContext>
                                 <GPSECS:SECSParameterSet />
-                            </GPSECSUI:SECSParameterView.DataContext>-->
+                            </GPSECSUI:SECSParameterView.DataContext>--><!--
                     </GPSECSUI:SECSParameterView>
                     <GPSECSUI:GemSetView Grid.Column="1" DataContext="{Binding SECS_GEM.GemSetViewModel}" />
                 </Grid>
-            </TabItem>
+            </TabItem>-->
             <TabItem Width="0" Height="0">
                 <GPSECSUI:MutiEqpView>
                     <GPSECSUI:MutiEqpView.DataContext>

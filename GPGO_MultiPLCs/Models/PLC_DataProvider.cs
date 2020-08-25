@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
-using GP_SECS_GEM;
 using GPGO_MultiPLCs.GP_PLCs;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
-using QSACTIVEXLib;
-using Serilog;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -134,28 +130,6 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        /// <summary> GPSECS服務設定檔案</summary>
-        public SECSParameterSet SECSParameterSet
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// SECS可轉發的清單列表
-        /// </summary>
-        private EqpBase EqpBase;
-        /// <summary> GPSECS服務</summary>
-        private GOSECS _SECS_GEM;
-        /// <summary> GPSECS服務</summary>
-        public GOSECS SECS_GEM
-        {
-            private set { _SECS_GEM = value; }
-            get
-            {
-                return _SECS_GEM;
-            }
-        }
-
         /// <summary>用來紀錄的任務，可追蹤狀態</summary>
         public Task RecordingTask
         {
@@ -203,12 +177,12 @@ namespace GPGO_MultiPLCs.Models
                                                    ThermostaticTemperature_1, ThermostaticTemperature_2, ThermostaticTemperature_3, ThermostaticTemperature_4,
                                                    ThermostaticTemperature_5, ThermostaticTemperature_6, ThermostaticTemperature_7, ThermostaticTemperature_8
                                                };
-                                       Array.Resize(ref h, UsedSegmentCounts);
-                                       Array.Resize(ref w, UsedSegmentCounts);
+                                       Array.Resize(ref h,  UsedSegmentCounts);
+                                       Array.Resize(ref w,  UsedSegmentCounts);
                                        Array.Resize(ref ha, UsedSegmentCounts);
                                        Array.Resize(ref wa, UsedSegmentCounts);
-                                       Array.Resize(ref t, UsedSegmentCounts);
-                                       Array.Resize(ref s, UsedSegmentCounts);
+                                       Array.Resize(ref t,  UsedSegmentCounts);
+                                       Array.Resize(ref s,  UsedSegmentCounts);
 
                                        //!結束生產，填入資料
                                        OvenInfo.EndTime                  = DateTime.Now;
@@ -382,16 +356,16 @@ namespace GPGO_MultiPLCs.Models
 
             await OneScheduler.StartNew(() =>
                                         {
-                                            var n = TimeSpan.Zero;
+                                            var n                      = TimeSpan.Zero;
                                             var _ThermostatTemperature = ThermostatTemperature;
-                                            var _OvenTemperature_1 = OvenTemperature_1;
-                                            var _OvenTemperature_2 = OvenTemperature_2;
-                                            var _OvenTemperature_3 = OvenTemperature_3;
-                                            var _OvenTemperature_4 = OvenTemperature_4;
-                                            var _OvenTemperature_5 = OvenTemperature_5;
-                                            var _OvenTemperature_6 = OvenTemperature_6;
-                                            var _OvenTemperature_7 = OvenTemperature_7;
-                                            var _OvenTemperature_8 = OvenTemperature_8;
+                                            var _OvenTemperature_1     = OvenTemperature_1;
+                                            var _OvenTemperature_2     = OvenTemperature_2;
+                                            var _OvenTemperature_3     = OvenTemperature_3;
+                                            var _OvenTemperature_4     = OvenTemperature_4;
+                                            var _OvenTemperature_5     = OvenTemperature_5;
+                                            var _OvenTemperature_6     = OvenTemperature_6;
+                                            var _OvenTemperature_7     = OvenTemperature_7;
+                                            var _OvenTemperature_8     = OvenTemperature_8;
 
                                             while (!ct.IsCancellationRequested)
                                             {
@@ -455,46 +429,7 @@ namespace GPGO_MultiPLCs.Models
 
         public PLC_DataProvider(int index, PLC_DevicesMap map, IDialogService dialog)
         {
-            Dialog                                           = dialog;
-            SECSParameterSet                                 = new SECSParameterSet();
-            SECSParameterSet.SECSParameter.HSMS_Connect_Mode = HSMS_COMM_MODE.HSMS_PASSIVE_MODE;
-            SECSParameterSet.SECSParameter.LDeviceID         = index;                                                       //todo:每台烤箱要有 Device Id
-            SECSParameterSet.SECSParameter.NLocalPort        = Convert.ToInt32($"600{index}");                              //todo:每台烤箱要有 Device Id
-            SECSParameterSet.SECSParameter.NRemotePort       = Convert.ToInt32($"600{index}");                              //todo:每台烤箱要有 Device Id
-            SECSParameterSet.SECSParameter.FilePath          = $"C:\\ITRIinit\\{SECSParameterSet.SECSParameter.LDeviceID}"; //設定檔存放位置
-            SECSParameterSet.SECSParameter.MDLN              = "GP_GO";
-            var v = Assembly.GetExecutingAssembly().GetName().Version;
-            SECSParameterSet.SECSParameter.SOFTREV =  $"{v.Major}.{v.Minor}.{v.Build}";
-            SECS_GEM                               =  new GOSECS(SECSParameterSet.SECSParameter);
-            SECS_GEM.TerminalMessageEvent          += (e, s) => { };   //todo:收到Stream 10
-            SECS_GEM.ECChangeEvent                 += (e, s) => { };   //todo:收到修改EC設備參數要求，
-            SECS_GEM.ECChangeEndEvent              += (e, s) => { };   //todo:收到修改EC設備參數要求 
-            SECS_GEM.InsertPPEvent                 += (e, s) => false; //todo:收到新增或修改配方指令
-            SECS_GEM.DeletePPEvent                 += (e, s) => { };   //todo:收到刪除配方指令
-            //S2F41
-            SECS_GEM.STARTLOTCommand += r => { };//todo:開始Lot
-            SECS_GEM.PP_SELECTCommand += r => { };//todo:設定配方
-            SECS_GEM.STARTCommand += r => { };//todo:開始
-            SECS_GEM.STOPCommand += r => { };//todo:結束
-            SECS_GEM.LOTMANAGEMENTCommand += r => { };//todo:開啟Lot管理
-            SECS_GEM.RetrieveLotDataCommand += r => { };//todo:查詢歷史資料
-
-
-            EqpBase = SECSTool.GetEqpbase($"{index}");//todo:取得該設備DVID等資料設定檔(也許同Device ID設定檔案)
-            //SECS_GEM.GemDVDataUpdateNew("","");
-            SECS_GEM.GemSVDataUpdateNew(EqpBase.EqpSVViewModel, "PLCProgramVersion", "0001");
-            //var ALID = EqpBase.EqpAlarmViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
-            //SECS_GEM.AxQGWrapper.AlarmReportSend(Convert.ToInt32(ALID), 255);
-            SECS_GEM.AxQGWrapper.AlarmReportSend(1, 1);
-            try
-            {
-                var ECID = EqpBase.EqpECViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
-                SECS_GEM.AxQGWrapper.EventReportSend(Convert.ToInt32(ECID));
-            }
-            catch (Exception e)
-            {
-                Log.Logger.Warning($"EventSent{"AlarmSet"}Error", e);
-            };
+            var secsgem = new SECSThread(index);
 
             Dialog = dialog;
 
