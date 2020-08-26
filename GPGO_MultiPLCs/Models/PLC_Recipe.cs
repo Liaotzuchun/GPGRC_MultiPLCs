@@ -112,18 +112,18 @@ namespace GPGO_MultiPLCs.Models
 
         [GPIgnore]
         [LanguageTranslator("Cooling Temp.", "降溫溫度", "降温温度")]
-        public short CoolingTemperature
+        public double CoolingTemperature
         {
-            get => Get<short>();
+            get => Get<double>();
             set
             {
                 if (value > Temperature_Max)
                 {
-                    value = (short)Temperature_Max;
+                    value = Temperature_Max;
                 }
                 else if (value < Temperature_Min)
                 {
-                    value = (short)Temperature_Min;
+                    value = Temperature_Min;
                 }
 
                 Set(value);
@@ -559,9 +559,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < HeatingTime_1 + 1)
+                else if (value < HeatingTime_1 + 0.1)
                 {
-                    value = HeatingTime_1 + 1;
+                    value = HeatingTime_1 + 0.1;
                 }
 
                 Set(value);
@@ -579,9 +579,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < HeatingTime_2 + 1)
+                else if (value < HeatingTime_2 + 0.1)
                 {
-                    value = HeatingTime_2 + 1;
+                    value = HeatingTime_2 + 0.1;
                 }
 
                 Set(value);
@@ -599,9 +599,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < HeatingTime_3 + 1)
+                else if (value < HeatingTime_3 + 0.1)
                 {
-                    value = HeatingTime_3 + 1;
+                    value = HeatingTime_3 + 0.1;
                 }
 
                 Set(value);
@@ -619,9 +619,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < HeatingTime_4 + 1)
+                else if (value < HeatingTime_4 + 0.1)
                 {
-                    value = HeatingTime_4 + 1;
+                    value = HeatingTime_4 + 0.1;
                 }
 
                 Set(value);
@@ -639,9 +639,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < HeatingTime_5 + 1)
+                else if (value < HeatingTime_5 + 0.1)
                 {
-                    value = HeatingTime_5 + 1;
+                    value = HeatingTime_5 + 0.1;
                 }
 
                 Set(value);
@@ -659,9 +659,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < HeatingTime_6 + 1)
+                else if (value < HeatingTime_6 + 0.1)
                 {
-                    value = HeatingTime_6 + 1;
+                    value = HeatingTime_6 + 0.1;
                 }
 
                 Set(value);
@@ -680,9 +680,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < HeatingTime_7 + 1)
+                else if (value < HeatingTime_7 + 0.1)
                 {
-                    value = HeatingTime_7 + 1;
+                    value = HeatingTime_7 + 0.1;
                 }
 
                 Set(value);
@@ -701,9 +701,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < HeatingTime_8 + 1)
+                else if (value < HeatingTime_8 + 0.1)
                 {
-                    value = HeatingTime_8 + 1;
+                    value = HeatingTime_8 + 0.1;
                 }
 
                 Set(value);

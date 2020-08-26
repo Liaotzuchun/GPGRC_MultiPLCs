@@ -115,6 +115,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>心跳信號位置</summary>
         private const int Check_Dev = 21;
+        /// <summary>心跳信號位置</summary>
+        private const int Start_Dev = 600;
+        /// <summary>心跳信號位置</summary>
+        private const int Stop_Dev = 601;
 
         /// <summary>設備碼儲存位置</summary>
         private const string MachineCodesPath = "MachineCodes.json";
@@ -212,6 +216,9 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<(int StationIndex, string TrolleyCode), ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public event Func<User> GetUser;
+
+        public event Func<PLC_Recipe, bool> UpsertRecipe;
+        public event Action<string> DeleteRecipe;
 
         /// <summary>讀取財產編號</summary>
         public void LoadAssetNumbers()
@@ -430,8 +437,6 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Dialog    = dialog;
 
-            var secsgem = new SECSThread(0);
-
             OvenCount = plc_maps.Count;
             ViewIndex = -1;
             var PLC_Count = plc_maps.Count;
@@ -451,6 +456,59 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      NotifyPropertyChanged(nameof(TotalProduction_View));
                                                      NotifyPropertyChanged(nameof(TotalProductionCount));
                                                  };
+
+            var secsGem = new SECSThread(0);
+            secsGem.TerminalMessage += message =>
+                                       {
+                                           dialog?.Show(new Dictionary<Language, string>
+                                                        {
+                                                            {Language.TW, message},
+                                                            {Language.CHS, message},
+                                                            {Language.EN, message}
+                                                        }, false, TimeSpan.MaxValue);
+                                       };
+
+            secsGem.ECChange += (index, ecid, value) =>
+                                {
+                                    switch (ecid)
+                                    {
+                                        case "EqpName":
+
+                                            break;
+                                        case "ReAlarmInterval":
+
+                                            break;
+                                    }
+                                };
+
+            secsGem.UpsertRecipe += recipe =>
+                                    {
+                                        UpsertRecipe?.Invoke(recipe);
+
+                                        return true;
+                                    };
+
+            secsGem.DeleteRecipe += recipeName =>
+                                    {
+                                        DeleteRecipe?.Invoke(recipeName);
+                                    };
+
+            secsGem.Start += async index =>
+                             {
+                                 //todo 執行自動啟動
+                                 await PLC_Client.Set_BitAsync(index, BitType.M, Start_Dev, true);
+                             };
+
+            secsGem.Stop += async index =>
+                            {
+                                //todo 執行自動停止
+                                await PLC_Client.Set_BitAsync(index, BitType.M, Stop_Dev, true);
+                            };
+
+            secsGem.AddLOT += (index, o) =>
+                              {
+                                  //todo 投產
+                              };
 
             //!註冊PLC事件需引發的動作
             for (var i = 0; i < PLC_Count; i++)

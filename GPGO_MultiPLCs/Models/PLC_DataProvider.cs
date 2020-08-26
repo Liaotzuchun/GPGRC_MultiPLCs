@@ -124,6 +124,12 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public bool AllowStart
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
         public ICollection<string> Recipe_Names
         {
             get => Get<ICollection<string>>();
