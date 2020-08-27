@@ -1,13 +1,13 @@
-﻿using System;
+﻿using GPMVVM.Helpers;
+using GPMVVM.Models;
+using GPMVVM.PLCService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
-using GPGO_MultiPLCs.GP_PLCs;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -27,7 +27,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         private readonly IDialogService Dialog;
-        private readonly TaskFactory    OneScheduler = new TaskFactory(new StaTaskScheduler(1));
+        private readonly TaskFactory OneScheduler = new TaskFactory(new StaTaskScheduler(1));
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
@@ -124,12 +124,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public bool AllowStart
-        {
-            get => Get<bool>();
-            set => Set(value);
-        }
-
         public ICollection<string> Recipe_Names
         {
             get => Get<ICollection<string>>();
@@ -183,22 +177,22 @@ namespace GPGO_MultiPLCs.Models
                                                    ThermostaticTemperature_1, ThermostaticTemperature_2, ThermostaticTemperature_3, ThermostaticTemperature_4,
                                                    ThermostaticTemperature_5, ThermostaticTemperature_6, ThermostaticTemperature_7, ThermostaticTemperature_8
                                                };
-                                       Array.Resize(ref h,  UsedSegmentCounts);
-                                       Array.Resize(ref w,  UsedSegmentCounts);
+                                       Array.Resize(ref h, UsedSegmentCounts);
+                                       Array.Resize(ref w, UsedSegmentCounts);
                                        Array.Resize(ref ha, UsedSegmentCounts);
                                        Array.Resize(ref wa, UsedSegmentCounts);
-                                       Array.Resize(ref t,  UsedSegmentCounts);
-                                       Array.Resize(ref s,  UsedSegmentCounts);
+                                       Array.Resize(ref t, UsedSegmentCounts);
+                                       Array.Resize(ref s, UsedSegmentCounts);
 
                                        //!結束生產，填入資料
-                                       OvenInfo.EndTime                  = DateTime.Now;
-                                       OvenInfo.Recipe                   = this.ObjCopy<PLC_Recipe>().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
-                                       OvenInfo.HeatingTimes             = h.ToList();
-                                       OvenInfo.WarmingTimes             = w.ToList();
-                                       OvenInfo.HeatingAlarms            = ha.ToList();
-                                       OvenInfo.WarmingAlarms            = wa.ToList();
-                                       OvenInfo.TotalHeatingTime         = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
-                                       OvenInfo.TargetOvenTemperatures   = t.ToList();
+                                       OvenInfo.EndTime = DateTime.Now;
+                                       OvenInfo.Recipe = this.ObjCopy<PLC_Recipe>().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                       OvenInfo.HeatingTimes = h.ToList();
+                                       OvenInfo.WarmingTimes = w.ToList();
+                                       OvenInfo.HeatingAlarms = ha.ToList();
+                                       OvenInfo.WarmingAlarms = wa.ToList();
+                                       OvenInfo.TotalHeatingTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
+                                       OvenInfo.TargetOvenTemperatures = t.ToList();
                                        OvenInfo.ThermostaticTemperatures = s.ToList();
 
                                        if (RecordingFinished != null)
@@ -245,6 +239,8 @@ namespace GPGO_MultiPLCs.Models
 
         public event Func<Dictionary<(DataType, int), short>, ValueTask> SetPLCParameters;
 
+        public event Func<(BitType, int), bool, ValueTask> SetPLCSignal;
+
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public event Func<User> GetUser;
@@ -258,32 +254,32 @@ namespace GPGO_MultiPLCs.Models
         public void AddProcessEvent(EventType type, DateTime start, DateTime addtime, string note, (BitType, int) tag, bool value)
         {
             OvenInfo.EventList.Add(new LogEvent
-                                   {
-                                       Type        = type,
-                                       StartTime   = start,
-                                       AddedTime   = addtime,
-                                       Description = note,
-                                       TagCode     = $"{tag.Item1}{tag.Item2}",
-                                       Value       = value
-                                   });
+            {
+                Type = type,
+                StartTime = start,
+                AddedTime = addtime,
+                Description = note,
+                TagCode = $"{tag.Item1}{tag.Item2}",
+                Value = value
+            });
         }
 
         public void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
             OvenInfo.RecordTemperatures.Add(new RecordTemperatures
-                                            {
-                                                StartTime             = start,
-                                                AddedTime             = addtime,
-                                                ThermostatTemperature = t0,
-                                                OvenTemperatures_1    = t1,
-                                                OvenTemperatures_2    = t2,
-                                                OvenTemperatures_3    = t3,
-                                                OvenTemperatures_4    = t4,
-                                                OvenTemperatures_5    = t5,
-                                                OvenTemperatures_6    = t6,
-                                                OvenTemperatures_7    = t7,
-                                                OvenTemperatures_8    = t8
-                                            });
+            {
+                StartTime = start,
+                AddedTime = addtime,
+                ThermostatTemperature = t0,
+                OvenTemperatures_1 = t1,
+                OvenTemperatures_2 = t2,
+                OvenTemperatures_3 = t3,
+                OvenTemperatures_4 = t4,
+                OvenTemperatures_5 = t5,
+                OvenTemperatures_6 = t6,
+                OvenTemperatures_7 = t7,
+                OvenTemperatures_8 = t8
+            });
         }
 
         /// <summary>重設PLC資料對應列表</summary>
@@ -362,28 +358,28 @@ namespace GPGO_MultiPLCs.Models
 
             await OneScheduler.StartNew(() =>
                                         {
-                                            var n                      = TimeSpan.Zero;
+                                            var n = TimeSpan.Zero;
                                             var _ThermostatTemperature = ThermostatTemperature;
-                                            var _OvenTemperature_1     = OvenTemperature_1;
-                                            var _OvenTemperature_2     = OvenTemperature_2;
-                                            var _OvenTemperature_3     = OvenTemperature_3;
-                                            var _OvenTemperature_4     = OvenTemperature_4;
-                                            var _OvenTemperature_5     = OvenTemperature_5;
-                                            var _OvenTemperature_6     = OvenTemperature_6;
-                                            var _OvenTemperature_7     = OvenTemperature_7;
-                                            var _OvenTemperature_8     = OvenTemperature_8;
+                                            var _OvenTemperature_1 = OvenTemperature_1;
+                                            var _OvenTemperature_2 = OvenTemperature_2;
+                                            var _OvenTemperature_3 = OvenTemperature_3;
+                                            var _OvenTemperature_4 = OvenTemperature_4;
+                                            var _OvenTemperature_5 = OvenTemperature_5;
+                                            var _OvenTemperature_6 = OvenTemperature_6;
+                                            var _OvenTemperature_7 = OvenTemperature_7;
+                                            var _OvenTemperature_8 = OvenTemperature_8;
 
                                             while (!ct.IsCancellationRequested)
                                             {
                                                 _ThermostatTemperature = ThermostatTemperature <= 0 ? _ThermostatTemperature : ThermostatTemperature;
-                                                _OvenTemperature_1     = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
-                                                _OvenTemperature_2     = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
-                                                _OvenTemperature_3     = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
-                                                _OvenTemperature_4     = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
-                                                _OvenTemperature_5     = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
-                                                _OvenTemperature_6     = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
-                                                _OvenTemperature_7     = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
-                                                _OvenTemperature_8     = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+                                                _OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
+                                                _OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
+                                                _OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
+                                                _OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
+                                                _OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
+                                                _OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
+                                                _OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
+                                                _OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
 
                                                 if (DateTime.Now - OvenInfo.StartTime >= n)
                                                 {
@@ -784,10 +780,10 @@ namespace GPGO_MultiPLCs.Models
                                                              foreach (var batch in batches)
                                                              {
                                                                  var info = new ProductInfo
-                                                                            {
-                                                                                PartNumber  = partNo.ToString().Trim(),
-                                                                                BatchNumber = batch.Key.Trim()
-                                                                            };
+                                                                 {
+                                                                     PartNumber = partNo.ToString().Trim(),
+                                                                     BatchNumber = batch.Key.Trim()
+                                                                 };
                                                                  for (var i = 1; i <= batch.Value; i++)
                                                                  {
                                                                      info.PanelCodes.Add($"{info.PartNumber}-{info.BatchNumber}-{i}");
@@ -850,9 +846,10 @@ namespace GPGO_MultiPLCs.Models
                                             }
                                         };
 
-            Bit_Values    = new TwoKeyDictionary<SignalNames, (BitType, int), bool>();
-            Data_Values   = new TwoKeyDictionary<DataNames, (DataType, int), short>();
+            Bit_Values = new TwoKeyDictionary<SignalNames, (BitType, int), bool>();
+            Data_Values = new TwoKeyDictionary<DataNames, (DataType, int), short>();
             Recipe_Values = new TwoKeyDictionary<DataNames, (DataType, int), short>();
+            PCtoPLCBits = new TwoKeyDictionary<SignalNames, (BitType, int), bool>();
 
             foreach (var loc in map.SignalList)
             {
@@ -869,10 +866,20 @@ namespace GPGO_MultiPLCs.Models
                 Recipe_Values.Add(loc.Key, loc.Value, 0);
             }
 
+            foreach (var loc in map.SignalList_Ext)
+            {
+                PCtoPLCBits.Add(loc.Key, loc.Value, false);
+            }
+
             #region 將PLC掃描值和ViewModel上的Property做map連結
 
             var Bit_Map = new Dictionary<SignalNames, string>
                           {
+                              {SignalNames.允許啟動, nameof(AllowStart)},
+                              {SignalNames.允許停止, nameof(AllowStop)},
+                              {SignalNames.執行啟動, nameof(Start)},
+                              {SignalNames.執行停止, nameof(Stop)},
+                              {SignalNames.PC_HeartBeat, nameof(Check)},
                               {SignalNames.蜂鳴器, nameof(Buzzer)},
                               {SignalNames.綠燈, nameof(GreenLight)},
                               {SignalNames.黃燈, nameof(YellowLight)},
@@ -991,7 +998,27 @@ namespace GPGO_MultiPLCs.Models
                                {DataNames.配方名稱_17, nameof(RecipeName)},
                                {DataNames.配方名稱_18, nameof(RecipeName)},
                                {DataNames.配方名稱_19, nameof(RecipeName)},
-                               {DataNames.配方名稱_20, nameof(RecipeName)}
+                               {DataNames.配方名稱_20, nameof(RecipeName)},
+                               {DataNames.RackID_01, nameof(RackID)},
+                               {DataNames.RackID_02, nameof(RackID)},
+                               {DataNames.RackID_03, nameof(RackID)},
+                               {DataNames.RackID_04, nameof(RackID)},
+                               {DataNames.RackID_05, nameof(RackID)},
+                               {DataNames.RackID_06, nameof(RackID)},
+                               {DataNames.RackID_07, nameof(RackID)},
+                               {DataNames.RackID_08, nameof(RackID)},
+                               {DataNames.RackID_09, nameof(RackID)},
+                               {DataNames.RackID_10, nameof(RackID)},
+                               {DataNames.RackID_11, nameof(RackID)},
+                               {DataNames.RackID_12, nameof(RackID)},
+                               {DataNames.RackID_13, nameof(RackID)},
+                               {DataNames.RackID_14, nameof(RackID)},
+                               {DataNames.RackID_15, nameof(RackID)},
+                               {DataNames.RackID_16, nameof(RackID)},
+                               {DataNames.RackID_17, nameof(RackID)},
+                               {DataNames.RackID_18, nameof(RackID)},
+                               {DataNames.RackID_19, nameof(RackID)},
+                               {DataNames.RackID_20, nameof(RackID)}
                            };
 
             #endregion 將PLC掃描值和ViewModel上的Property做map連結
@@ -1138,6 +1165,10 @@ namespace GPGO_MultiPLCs.Models
                                                   NotifyPropertyChanged(nameof(ProgressStatus));
                                               }
                                           };
+
+            PCtoPLCBits.UpdatedEvent += (key1, key2, value) =>
+                                        {
+                                        };
 
             Ext_Info.CollectionChanged += (s, e) =>
                                           {

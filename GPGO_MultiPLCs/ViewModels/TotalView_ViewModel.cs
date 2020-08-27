@@ -1,7 +1,7 @@
-﻿using GPGO_MultiPLCs.GP_PLCs;
-using GPGO_MultiPLCs.Models;
+﻿using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
+using GPMVVM.PLCService;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -406,7 +406,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 return PLC_Client.State == CommunicationState.Opened;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
@@ -435,7 +435,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public TotalView_ViewModel(IReadOnlyCollection<PLC_DevicesMap> plc_maps, IDialogService dialog)
         {
-            Dialog    = dialog;
+            Dialog = dialog;
 
             OvenCount = plc_maps.Count;
             ViewIndex = -1;
@@ -447,7 +447,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                Index = o is int i ? i : 0;
                                            });
 
-            PLC_All         = new PLC_DataProvider[PLC_Count];
+            PLC_All = new PLC_DataProvider[PLC_Count];
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
 
             //!當各PLC產量變更時更新總量顯示

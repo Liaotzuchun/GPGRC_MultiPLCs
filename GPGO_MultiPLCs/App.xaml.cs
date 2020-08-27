@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using GPMVVM.Helpers;
+using GPMVVM.PLCService;
+using Microsoft.Win32;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Serilog;
@@ -9,8 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using GPGO_MultiPLCs.GP_PLCs;
-using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs
 {
@@ -48,7 +48,7 @@ namespace GPGO_MultiPLCs
         public App()
         {
             var temp = Process.GetProcesses();
-            var mp   = Process.GetCurrentProcess();
+            var mp = Process.GetCurrentProcess();
             temp.Where(p => p.ProcessName.ToLower().Contains(mp.ProcessName.ToLower()) && p.Id != mp.Id).ToList().ForEach(p => p.Kill());
 
             Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt", rollingInterval: RollingInterval.Day, shared: true, encoding: Encoding.UTF8).CreateLogger();
@@ -90,14 +90,14 @@ namespace GPGO_MultiPLCs
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
                 {
                     var process = new Process
-                                  {
-                                      StartInfo = new ProcessStartInfo
-                                                  {
-                                                      FileName    = path,
-                                                      Arguments   = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all",
-                                                      WindowStyle = ProcessWindowStyle.Hidden
-                                                  }
-                                  };
+                    {
+                        StartInfo = new ProcessStartInfo
+                        {
+                            FileName = path,
+                            Arguments = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all",
+                            WindowStyle = ProcessWindowStyle.Hidden
+                        }
+                    };
                     process.Start();
                 }
             }
@@ -118,9 +118,9 @@ namespace GPGO_MultiPLCs
             //}
             //}
 
-            BsonSerializer.RegisterSerializer(typeof(DateTime),        DateTimeSerializer.LocalInstance);
+            BsonSerializer.RegisterSerializer(typeof(DateTime), DateTimeSerializer.LocalInstance);
             BsonSerializer.RegisterSerializer(typeof((DataType, int)), new BsonDataLoc());
-            BsonSerializer.RegisterSerializer(typeof((BitType, int)),  new BsonBitLoc());
+            BsonSerializer.RegisterSerializer(typeof((BitType, int)), new BsonBitLoc());
         }
     }
 }

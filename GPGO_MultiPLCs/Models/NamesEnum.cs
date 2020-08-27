@@ -38,9 +38,13 @@
         綠燈,
         黃燈,
         紅燈,
+        允許啟動,
+        允許停止,
 
         //! PC->PLC
-        PC_HeartBeat
+        PC_HeartBeat,
+        執行啟動,
+        執行停止
     }
 
     /// <summary>PLC資料</summary>
@@ -60,6 +64,26 @@
         片段剩餘時間,
         總剩餘時間,
         目前段數,
+        RackID_01,
+        RackID_02,
+        RackID_03,
+        RackID_04,
+        RackID_05,
+        RackID_06,
+        RackID_07,
+        RackID_08,
+        RackID_09,
+        RackID_10,
+        RackID_11,
+        RackID_12,
+        RackID_13,
+        RackID_14,
+        RackID_15,
+        RackID_16,
+        RackID_17,
+        RackID_18,
+        RackID_19,
+        RackID_20,
 
         //! PC->PLC
         配方名稱_01,

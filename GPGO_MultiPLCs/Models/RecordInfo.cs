@@ -1,4 +1,4 @@
-﻿using GPMVVM.Helpers;
+﻿using GPMVVM.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Globalization;
@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models
 {
