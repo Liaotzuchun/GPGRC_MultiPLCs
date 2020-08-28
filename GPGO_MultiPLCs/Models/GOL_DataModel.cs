@@ -6,6 +6,31 @@ namespace GPGO_MultiPLCs.Models
     [PLCObject]
     public class GOL_DataModel : DataProvider
     {
+        #region PC=>PLC
+
+        [PLCBit(BitType.M, 200, LogType.Trigger)]
+        public bool Start
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBit(BitType.M, 201, LogType.Trigger)]
+        public bool Stop
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBit(BitType.M, 21, LogType.Trigger)]
+        public bool Check
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        #endregion
+
         #region 配方
 
         /// <summary>
@@ -732,6 +757,26 @@ namespace GPGO_MultiPLCs.Models
         #region 機台狀態
 
         /// <summary>
+        /// 允許啟動
+        /// </summary>
+        [PLCBit(BitType.M, 100, LogType.Status)]
+        public bool AllowStart
+        {
+            get => GetPLC<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 允許停止
+        /// </summary>
+        [PLCBit(BitType.M, 101, LogType.Status)]
+        public bool AllowStop
+        {
+            get => GetPLC<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
         /// 蜂鳴器
         /// </summary>
         [PLCBit(BitType.Y, 0, LogType.Status)]
@@ -946,6 +991,13 @@ namespace GPGO_MultiPLCs.Models
         {
             get => GetPLC<double>();
             set => SetPLC(value);
+        }
+
+        [PLCData(DataType.D, 880, 40, LogType.Status)]
+        public string RackID
+        {
+            get => GetPLC<string>();
+            set => Set(value);
         }
 
         #endregion

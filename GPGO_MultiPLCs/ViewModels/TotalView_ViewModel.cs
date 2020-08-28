@@ -14,7 +14,7 @@ using System.Threading.Tasks.Schedulers;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>所有烤箱的生產總覽</summary>
-    public sealed class TotalView_ViewModel : ObservableObject, IGPServiceCallback, IDisposable
+    public sealed class TotalView_ViewModel : ObservableObject, IGPServiceCallback, IGate, IDisposable
     {
         public void Dispose()
         {
@@ -32,57 +32,53 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">更新值集合</param>
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
-            OneScheduler.StartNew(e =>
-                                  {
-                                      var args = (ValueTuple<int, PLC_Messages>)e;
-                                      try
-                                      {
-                                          if (args.Item1 < PLC_All.Count && args.Item1 > -1)
-                                          {
-                                              //! short data先，bit bool後
+            if (val == null)
+            {
+                return;
+            }
 
-                                              foreach (var D in args.Item2.D)
-                                              {
-                                                  PLC_All[args.Item1].Data_Values[(DataType.D, D.Key)] = D.Value;
-                                              }
+            try
+            {
+                if (index <= -1)
+                {
+                    return;
+                }
 
-                                              foreach (var W in args.Item2.W)
-                                              {
-                                                  PLC_All[args.Item1].Data_Values[(DataType.W, W.Key)] = W.Value;
-                                              }
+                //! short data先，bit bool後
 
-                                              foreach (var B in args.Item2.B)
-                                              {
-                                                  PLC_All[args.Item1].Bit_Values[(BitType.B, B.Key)] = B.Value;
-                                              }
+                PLC_All[index].DataValues[val.D.Select(D => (DataType.D, D.Key)).ToList()] = val.D.Select(D => D.Value).ToList();
 
-                                              foreach (var M in args.Item2.M)
-                                              {
-                                                  PLC_All[args.Item1].Bit_Values[(BitType.M, M.Key)] = M.Value;
-                                              }
+                PLC_All[index].DataValues[val.W.Select(W => (DataType.W, W.Key)).ToList()] = val.W.Select(W => W.Value).ToList();
 
-                                              foreach (var S in args.Item2.S)
-                                              {
-                                                  PLC_All[args.Item1].Bit_Values[(BitType.S, S.Key)] = S.Value;
-                                              }
+                foreach (var M in val.M)
+                {
+                    PLC_All[index].BitValues[(BitType.M, M.Key)] = M.Value;
+                }
 
-                                              foreach (var X in args.Item2.X)
-                                              {
-                                                  PLC_All[args.Item1].Bit_Values[(BitType.X, X.Key)] = X.Value;
-                                              }
+                foreach (var B in val.B)
+                {
+                    PLC_All[index].BitValues[(BitType.B, B.Key)] = B.Value;
+                }
 
-                                              foreach (var Y in args.Item2.Y)
-                                              {
-                                                  PLC_All[args.Item1].Bit_Values[(BitType.Y, Y.Key)] = Y.Value;
-                                              }
-                                          }
-                                      }
-                                      catch (Exception)
-                                      {
-                                          // ignored
-                                      }
-                                  },
-                                  (index, val));
+                foreach (var S in val.S)
+                {
+                    PLC_All[index].BitValues[(BitType.S, S.Key)] = S.Value;
+                }
+
+                foreach (var X in val.X)
+                {
+                    PLC_All[index].BitValues[(BitType.X, X.Key)] = X.Value;
+                }
+
+                foreach (var Y in val.Y)
+                {
+                    PLC_All[index].BitValues[(BitType.Y, Y.Key)] = Y.Value;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         /// <summary>PLC連線狀態</summary>
@@ -107,6 +103,112 @@ namespace GPGO_MultiPLCs.ViewModels
                                   },
                                   (index, val));
         }
+
+        #region 設定PLC指定位置值
+
+        public async Task SetBit(int index, BitType type, int dev, bool val)
+        {
+            try
+            {
+                if (PLC_Client?.State != CommunicationState.Opened)
+                {
+                    return;
+                }
+
+                await (PLC_Client?.Set_BitAsync(index, type, dev, val)).ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        public async Task SetBits(int index, BitType type, Dictionary<int, bool> devs)
+        {
+            try
+            {
+                if (PLC_Client?.State != CommunicationState.Opened)
+                {
+                    return;
+                }
+
+                await (PLC_Client?.Set_BitsAsync(index, type, devs)).ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        public async Task SetData(int index, DataType type, int dev, short val)
+        {
+            try
+            {
+                if (PLC_Client?.State != CommunicationState.Opened)
+                {
+                    return;
+                }
+
+                await (PLC_Client?.Set_DataAsync(index, type, dev, val)).ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        public async Task SetDatas(int index, DataType type, Dictionary<int, short> devs)
+        {
+            try
+            {
+                if (PLC_Client?.State != CommunicationState.Opened)
+                {
+                    return;
+                }
+
+                await (PLC_Client?.Set_DatasAsync(index, type, devs)).ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        public async Task SetInt(int index, DataType type, int dev, int val)
+        {
+            try
+            {
+                if (PLC_Client?.State != CommunicationState.Opened)
+                {
+                    return;
+                }
+
+                await (PLC_Client?.Set_IntAsync(index, type, dev, val)).ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        public async Task SetInts(int index, DataType type, Dictionary<int, int> devs)
+        {
+            try
+            {
+                if (PLC_Client?.State != CommunicationState.Opened)
+                {
+                    return;
+                }
+
+                await (PLC_Client?.Set_IntsAsync(index, type, devs)).ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        #endregion
 
         private IDialogService Dialog;
 
@@ -327,9 +429,8 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>將配方寫入PLC</summary>
         /// <param name="index">PLC序號</param>
         /// <param name="recipe">配方</param>
-        /// <param name="SetToPLC">是否寫入PLC</param>
         /// <returns>是否成功寫入PLC</returns>
-        public async Task<bool> SetRecipe(int index, PLC_Recipe recipe, bool SetToPLC)
+        public async Task<bool> SetRecipe(int index, PLC_Recipe recipe)
         {
             if (recipe == null)
             {
@@ -344,19 +445,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             recipe.CopyToObj(PLC_All[index]);
 
-            //if (!PLC_All[index].PC_InUsed)
-            //{
-            //    return false;
-            //}
-
-            if (SetToPLC && PLC_Client?.State == CommunicationState.Opened && PLC_All[index].OnlineStatus)
-            {
-                await PLC_Client.Set_Datas2Async(index, PLC_All[index].Recipe_Values.GetKeyValuePairsOfKey2().ToDictionary(x => x.Key, x => x.Value));
-
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
         /// <summary>設定使用的PLC配方(透過配方名)</summary>
@@ -406,7 +495,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 return PLC_Client.State == CommunicationState.Opened;
             }
-            catch(Exception ex)
+            catch
             {
                 return false;
             }
@@ -433,21 +522,20 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public TotalView_ViewModel(IReadOnlyCollection<PLC_DevicesMap> plc_maps, IDialogService dialog)
+        public TotalView_ViewModel(int count, IDialogService dialog)
         {
             Dialog = dialog;
 
-            OvenCount = plc_maps.Count;
+            OvenCount = count;
             ViewIndex = -1;
-            var PLC_Count = plc_maps.Count;
-            site = new InstanceContext(this);
+            site      = new InstanceContext(this);
 
             BackCommand = new RelayCommand(o =>
                                            {
                                                Index = o is int i ? i : 0;
                                            });
 
-            PLC_All = new PLC_DataProvider[PLC_Count];
+            PLC_All = new PLC_DataProvider[OvenCount];
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
 
             //!當各PLC產量變更時更新總量顯示
@@ -511,11 +599,27 @@ namespace GPGO_MultiPLCs.ViewModels
                               };
 
             //!註冊PLC事件需引發的動作
-            for (var i = 0; i < PLC_Count; i++)
+            for (var i = 0; i < OvenCount; i++)
             {
                 TotalProduction.Add(i, 0);
-                PLC_All[i] = new PLC_DataProvider(plc_maps.ElementAt(i), dialog);
+                PLC_All[i] = new PLC_DataProvider(dialog);
                 var index = i;
+
+                PLC_All[i].SetBit += async (type, dev, val) => await SetBit(index, type, dev, val);
+
+                PLC_All[i].SetData += async (type, dev, val) => await SetData(index, type, dev, val);
+
+                PLC_All[i].SetDatas += async (type, vals) => await SetDatas(index, type, vals);
+
+                PLC_All[i].ValueChanged += (LogType, data) =>
+                                           {
+
+                                           };
+
+                PLC_All[i].TracedDataChanged += data =>
+                                                {
+
+                                                };
 
                 PLC_All[i].GetLanguage += () => Language;
 
@@ -609,52 +713,17 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 CancelCheckIn?.Invoke((index, TrolleyCode));
                                             };
 
-                PLC_All[i].GetPLCParameters += async values => PLC_Client?.State == CommunicationState.Opened ? await PLC_Client.Get_Datas2Async(index, values) : null;
-
-                PLC_All[i].SetPLCParameters += async values =>
-                                               {
-                                                   values = values.Where(x => x.Key.Item2 >= 0).ToDictionary(y => y.Key, y => y.Value);
-
-                                                   if (!PLC_All[index].PC_InUsed)
-                                                   {
-                                                       await dialog.Show(new Dictionary<Language, string>
-                                                                         {
-                                                                             {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方"},
-                                                                             {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方"},
-                                                                             {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely."}
-                                                                         },
-                                                                         false);
-
-                                                       return;
-                                                   }
-
-                                                   if (PLC_Client?.State == CommunicationState.Opened)
-                                                   {
-                                                       await PLC_Client.Set_Datas2Async(index, values);
-                                                   }
-                                               };
-
                 PLC_All[i].GetUser += () => GetUser?.Invoke();
             }
 
             LoadMachineCodes();
             LoadAssetNumbers();
 
-            //!產生PLC位置訂閱列表，M、D為10進制位置，B、X、Y、W為16進制
-            var namearray = plc_maps.Select(x =>
-                                            {
-                                                var list1 = x.SignalList.Values.Where(y => y.Item2 >= 0).OrderBy(y => y.Item1).ThenBy(y => y.Item2).Select(y => $"{y.Item1}{y.Item2}");
-                                                var list2 = x.DataList.Values.Where(y => y.Item2 >= 0).OrderBy(y => y.Item1).ThenBy(y => y.Item2).Select(y => $"{y.Item1}{y.Item2}");
-
-                                                return list1.Concat(list2).ToArray();
-                                            })
-                                    .ToArray();
-
             Checker = new Timer(o =>
                                 {
                                     if (!Gate_Status)
                                     {
-                                        if (Connect() && Initial() && SetReadLists(namearray)) //!連線並發送訂閱列表
+                                        if (Connect() && Initial() && SetReadLists(PLC_All.Select(x => x.GetNameArray()).ToArray())) //!連線並發送訂閱列表
                                         {
                                             Gate_Status = true;
                                         }
