@@ -73,8 +73,8 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToExcelCommand { get; }
 
-        /// <summary>基於台車的Filter</summary>
-        public FilterGroup TrolleyFilter { get; }
+        /// <summary>基於板架的Filter</summary>
+        public FilterGroup RackFilter { get; }
 
         public int EventIndex
         {
@@ -693,7 +693,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   PartNoFilter.Check(x.PartNumber) &&
                                                   BatchNoFilter.Check(x.BatchNumber) &&
                                                   OpFilter.Check(x.OperatorID) &&
-                                                  TrolleyFilter.Check(x.TrolleyCode) &&
+                                                  RackFilter.Check(x.RackID) &&
                                                   SideFilter.Check(x.Side))
                                       .OrderByDescending(x => x.AddedTime)
                                       .ToList() :
@@ -871,7 +871,7 @@ namespace GPGO_MultiPLCs.ViewModels
             PartNoFilter  = new FilterGroup(UpdateAct);
             BatchNoFilter = new FilterGroup(UpdateAct);
             OpFilter      = new FilterGroup(UpdateAct);
-            TrolleyFilter = new FilterGroup(UpdateAct);
+            RackFilter = new FilterGroup(UpdateAct);
             SideFilter    = new FilterGroup(UpdateAct);
 
             ResultsChanged += e =>
@@ -882,7 +882,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   PartNoFilter.Filter  = e?.Select(x => x.PartNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   BatchNoFilter.Filter = e?.Select(x => x.BatchNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   OpFilter.Filter      = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  TrolleyFilter.Filter = e?.Select(x => x.TrolleyCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  RackFilter.Filter = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   SideFilter.Filter    = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
 
                                   TodayProductionUpdated?.Invoke(e?.Where(x => x.AddedTime.Day == DateTime.Today.Day)

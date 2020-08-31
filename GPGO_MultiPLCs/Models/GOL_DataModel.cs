@@ -987,9 +987,9 @@ namespace GPGO_MultiPLCs.Models
         /// 目前段數
         /// </summary>
         [PLCData(DataType.D, 22, LogType.Status)]
-        public double CurrentSegment
+        public int CurrentSegment
         {
-            get => GetPLC<double>();
+            get => GetPLC<int>();
             set => SetPLC(value);
         }
 

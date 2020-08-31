@@ -603,8 +603,8 @@ namespace GPGO_MultiPLCs.Models
                                                                                         }, batches, true));
 
                                                              OvenInfo.OperatorID = opId.ToString().Trim();
-                                                             Ext_Info.Clear();
 
+                                                             Ext_Info.Clear();
                                                              foreach (var batch in batches)
                                                              {
                                                                  var info = new ProductInfo
@@ -650,7 +650,7 @@ namespace GPGO_MultiPLCs.Models
                                                             await RecordingTask;
                                                         }
 
-                                                        CancelCheckIn?.Invoke(OvenInfo.TrolleyCode);
+                                                        CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                         OvenInfo.Clear();
                                                         Ext_Info.Clear();
                                                     });

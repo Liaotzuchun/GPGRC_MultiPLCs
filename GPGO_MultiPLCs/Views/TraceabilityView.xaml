@@ -54,8 +54,8 @@
                                 Data="{Binding BatchNoFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="OpFilterData"
                                 Data="{Binding OpFilter, Mode=OneWay}" />
-        <!--<views:FilterGroupProxy x:Key="TrolleyFilterData"
-                                Data="{Binding TrolleyFilter, Mode=OneWay}" />
+        <!--<views:FilterGroupProxy x:Key="RackFilterData"
+                                Data="{Binding RackFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="SideFilterData"
                                 Data="{Binding SideFilter, Mode=OneWay}" />-->
         <DataTemplate x:Key="EqualFilterTemplate"
@@ -959,13 +959,13 @@
                                         MinWidth="80"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
-                        <ContentControl Content="{StaticResource TrolleyFilterData}"
+                        <ContentControl Content="{StaticResource RackFilterData}"
                                         Style="{StaticResource FilterStyle}"
-                                        Tag="{DynamicResource 台車}" />
+                                        Tag="{DynamicResource 板架}" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock Text="{Binding TrolleyCode, Mode=OneWay}"
+                            <TextBlock Text="{Binding RackID, Mode=OneWay}"
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

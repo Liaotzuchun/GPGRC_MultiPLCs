@@ -549,7 +549,7 @@
                         BorderThickness="0,1,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{DynamicResource 台車}" />
+                               Text="{DynamicResource 板架}" />
                 </Border>
                 <Border Grid.Row="0"
                         Grid.Column="5"
@@ -622,7 +622,7 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.TrolleyCode, Mode=OneWay}" />
+                               Text="{Binding SelectedProcessInfo.RackID, Mode=OneWay}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="5"

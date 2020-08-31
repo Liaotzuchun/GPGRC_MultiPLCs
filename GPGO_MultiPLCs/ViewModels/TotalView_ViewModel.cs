@@ -337,7 +337,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
 
-        public event Action<(int StationIndex, string TrolleyCode)> CancelCheckIn;
+        public event Action<(int StationIndex, string RackID)> CancelCheckIn;
 
         public event Action<(int StationIndex, EventType type, DateTime time, string note, (BitType, int) tag, bool value)> EventHappened;
 
@@ -345,12 +345,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, string RecipeName)> RecipeUsed;
 
-        public event Func<(int StationIndex, string TrolleyCode), ValueTask<ICollection<ProductInfo>>> WantFrontData;
+        public event Func<(int StationIndex, string RackID), ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public event Func<User> GetUser;
 
         public event Func<PLC_Recipe, bool> UpsertRecipe;
-        public event Action<string> DeleteRecipe;
+        public event Action<string>         DeleteRecipe;
 
         /// <summary>讀取財產編號</summary>
         public void LoadAssetNumbers()
@@ -462,7 +462,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <returns>是否成功寫入PLC</returns>
         public bool SetRecipe(int index, PLC_Recipe recipe)
         {
-            if (recipe == null || PLC_All[index].IsRecording)
+            if (recipe == null || PLC_All[index].IsRecording || PLC_All[index].PC_InUsed)
             {
                 return false;
             }
@@ -539,7 +539,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                Index = o is int i ? i : 0;
                                            });
 
-            PLC_All = new PLC_DataProvider[OvenCount];
+            PLC_All         = new PLC_DataProvider[OvenCount];
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
 
             //!當各PLC產量變更時更新總量顯示
@@ -617,12 +617,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].ValueChanged += (LogType, data) =>
                                            {
-
                                            };
 
                 PLC_All[i].TracedDataChanged += data =>
                                                 {
-
                                                 };
 
                 PLC_All[i].GetLanguage += () => Language;
@@ -648,28 +646,28 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      TimeSpan.FromSeconds(2));
                                                     }
 
-                                                    if (productInfo.Count > 0)
+
+                                                    if (AddRecordToDB != null && index < TotalProduction.Count)
                                                     {
-                                                        //!寫入資料庫，上傳
-                                                        var infos = productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList();
-
-                                                        if (AddRecordToDB != null && index < TotalProduction.Count)
-                                                        {
-                                                            TotalProduction[index] = await AddRecordToDB.Invoke((index, infos));
-                                                        }
-
-                                                        //!完成上傳後，清空生產資訊
-                                                        dialog?.Show(new Dictionary<Language, string>
-                                                                     {
-                                                                         {Language.TW, $"第{index + 1}站已完成烘烤！"},
-                                                                         {Language.CHS, $"第{index + 1}站已完成烘烤！"},
-                                                                         {Language.EN, $"Oven No{index + 1}has been finished!"}
-                                                                     },
-                                                                     TimeSpan.FromSeconds(2));
+                                                        TotalProduction[index] = await AddRecordToDB.Invoke((index, productInfo.Count > 0 ?
+                                                                                                                        productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList() :
+                                                                                                                        new List<ProcessInfo>
+                                                                                                                        {
+                                                                                                                            new ProcessInfo(baseInfo, new ProductInfo())
+                                                                                                                        }));
                                                     }
+
+                                                    //!完成上傳後，清空生產資訊
+                                                    dialog?.Show(new Dictionary<Language, string>
+                                                                 {
+                                                                     {Language.TW, $"第{index + 1}站已完成烘烤！"},
+                                                                     {Language.CHS, $"第{index + 1}站已完成烘烤！"},
+                                                                     {Language.EN, $"Oven No{index + 1}has been finished!"}
+                                                                 },
+                                                                 TimeSpan.FromSeconds(2));
                                                 };
 
-                //!由台車code取得前端生產資訊
+                //!由板架code取得前端生產資訊
                 PLC_All[i].WantFrontData += async e =>
                                             {
                                                 if (WantFrontData != null)
@@ -712,9 +710,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                             };
 
                 //!取消投產
-                PLC_All[i].CancelCheckIn += TrolleyCode =>
+                PLC_All[i].CancelCheckIn += RackID =>
                                             {
-                                                CancelCheckIn?.Invoke((index, TrolleyCode));
+                                                CancelCheckIn?.Invoke((index, RackID));
                                             };
 
                 PLC_All[i].GetUser += () => GetUser?.Invoke();

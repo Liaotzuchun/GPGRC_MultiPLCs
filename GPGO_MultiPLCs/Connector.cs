@@ -125,7 +125,7 @@ namespace GPGO_MultiPLCs
                         var info = new ProcessInfo
                         {
                             StartTime = st,
-                            TrolleyCode = rn.Next(1, 10000).ToString("00000"),
+                            RackID = rn.Next(1, 10000).ToString("00000"),
                             OperatorID = rn.Next(1, 10).ToString("000")
                         };
                         var h = new[]
@@ -473,11 +473,11 @@ namespace GPGO_MultiPLCs
             //!設定配方被該站使用
             TotalVM.RecipeUsed += e => RecipeVM.SetUsed(e.StationIndex, e.RecipeName);
 
-            //!由台車code取得前端生產資訊
+            //!由板架code取得前端生產資訊
             TotalVM.WantFrontData += async e =>
                                      {
-                                         var (stationIndex, trolleyCode) = e;
-                                         var path = $"{DataInputPath}\\{trolleyCode}";
+                                         var (stationIndex, RackID) = e;
+                                         var path = $"{DataInputPath}\\{RackID}";
 
                                          if (Directory.Exists(path))
                                          {
@@ -528,7 +528,7 @@ namespace GPGO_MultiPLCs
                                          }
                                          catch (Exception ex)
                                          {
-                                             Log.Error(ex, "台車資料夾不存在且無法創建");
+                                             Log.Error(ex, "板架資料夾不存在且無法創建");
                                          }
 
                                          return null;
@@ -538,8 +538,8 @@ namespace GPGO_MultiPLCs
 
             TotalVM.CancelCheckIn += e =>
                                      {
-                                         var (stationIndex, trolleyCode) = e;
-                                         var path = $"{DataInputPath}\\{trolleyCode}";
+                                         var (stationIndex, RackID) = e;
+                                         var path = $"{DataInputPath}\\{RackID}";
 
                                          if (!Directory.Exists(path))
                                          {
@@ -615,7 +615,7 @@ namespace GPGO_MultiPLCs
                                              //        }
                                              //    }
 
-                                             //    var _path = $"{inpath}\\{e.Infos.First().TrolleyCode}";
+                                             //    var _path = $"{inpath}\\{e.Infos.First().RackID}";
 
                                              //    if (Directory.Exists(_path))
                                              //    {

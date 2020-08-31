@@ -57,9 +57,9 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        /// <summary>台車編號</summary>
-        [LanguageTranslator("Trolley", "台車", "台车")]
-        public string TrolleyCode
+        /// <summary>板架編號</summary>
+        [LanguageTranslator("RackID", "板架", "台车")]
+        public string RackID
         {
             get => Get<string>();
             set => Set(value);
@@ -168,7 +168,7 @@ namespace GPGO_MultiPLCs.Models
             StartTime   = new DateTime();
             EndTime     = new DateTime();
             OperatorID  = "";
-            TrolleyCode = "";
+            RackID = "";
             IsFinished = false;
         }
 
@@ -262,7 +262,7 @@ namespace GPGO_MultiPLCs.Models
                 {GetType().GetProperty(nameof(PartNumber)).GetName(lng), PartNumber},
                 {GetType().GetProperty(nameof(BatchNumber)).GetName(lng), BatchNumber},
                 {GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
-                //{GetType().GetProperty(nameof(TrolleyCode)).GetName(lng), TrolleyCode},
+                //{GetType().GetProperty(nameof(RackID)).GetName(lng), RackID},
                 {GetType().GetProperty(nameof(Quantity)).GetName(lng), Quantity},
                 //{GetType().GetProperty(nameof(Side)).GetName(lng), Side},
                 {GetType().GetProperty(nameof(StartTime)).GetName(lng), StartTime},
@@ -308,7 +308,7 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("General15=");
             stb.AppendLine(FirstPanel ? "Y" : "N");
             stb.Append("Machine1=");
-            stb.AppendLine(TrolleyCode);
+            stb.AppendLine(RackID);
             stb.Append("Machine2=");
             stb.AppendLine(string.Join(",", TargetOvenTemperatures.Select(x => ((int)Math.Round(x, MidpointRounding.AwayFromZero)).ToString())));
             stb.Append("Machine3=");

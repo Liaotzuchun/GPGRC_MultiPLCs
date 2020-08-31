@@ -874,7 +874,7 @@
                                                         BorderThickness="0,1,1,0">
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               Text="{DynamicResource 台車}" />
+                                                               Text="{DynamicResource 板架}" />
                                                 </Border>-->
                                                 <!--<Border Grid.Row="1"
                                                         Grid.Column="1"
@@ -883,7 +883,7 @@
                                                         BorderThickness="0,1,1,0">
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               Text="{Binding OvenInfo.TrolleyCode, Mode=OneWay}" />
+                                                               Text="{Binding OvenInfo.RackID, Mode=OneWay}" />
                                                 </Border>-->
                                                 <Border x:Name="Border1"
                                                         Grid.Row="0"
@@ -910,7 +910,7 @@
                                                         BorderThickness="0,1,1,0">
                                                     <TextBlock HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               Text="{DynamicResource 台車}" />
+                                                               Text="{DynamicResource 板架}" />
                                                 </Border>-->
                                                 <Border Grid.Row="1"
                                                         Grid.Column="2"
