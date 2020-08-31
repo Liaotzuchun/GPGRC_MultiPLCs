@@ -110,16 +110,20 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client?.State != CommunicationState.Opened)
+                if (Gate_Status)
                 {
-                    return;
-                }
+                    if (PLC_Client?.State != CommunicationState.Opened)
+                    {
+                        Gate_Status = false;
+                        return;
+                    }
 
-                await (PLC_Client?.Set_BitAsync(index, type, dev, val)).ConfigureAwait(false);
+                    await (PLC_Client?.Set_BitAsync(index, type, dev, val)).ConfigureAwait(false);
+                }
             }
             catch
             {
-                // ignored
+                Gate_Status = false;
             }
         }
 
@@ -127,16 +131,20 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client?.State != CommunicationState.Opened)
+                if (Gate_Status)
                 {
-                    return;
-                }
+                    if (PLC_Client?.State != CommunicationState.Opened)
+                    {
+                        Gate_Status = false;
+                        return;
+                    }
 
-                await (PLC_Client?.Set_BitsAsync(index, type, devs)).ConfigureAwait(false);
+                    await (PLC_Client?.Set_BitsAsync(index, type, devs)).ConfigureAwait(false);
+                }
             }
             catch
             {
-                // ignored
+                Gate_Status = false;
             }
         }
 
@@ -144,16 +152,20 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client?.State != CommunicationState.Opened)
+                if (Gate_Status)
                 {
-                    return;
-                }
+                    if (PLC_Client?.State != CommunicationState.Opened)
+                    {
+                        Gate_Status = false;
+                        return;
+                    }
 
-                await (PLC_Client?.Set_DataAsync(index, type, dev, val)).ConfigureAwait(false);
+                    await (PLC_Client?.Set_DataAsync(index, type, dev, val)).ConfigureAwait(false);
+                }
             }
             catch
             {
-                // ignored
+                Gate_Status = false;
             }
         }
 
@@ -161,16 +173,20 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client?.State != CommunicationState.Opened)
+                if (Gate_Status)
                 {
-                    return;
-                }
+                    if (PLC_Client?.State != CommunicationState.Opened)
+                    {
+                        Gate_Status = false;
+                        return;
+                    }
 
-                await (PLC_Client?.Set_DatasAsync(index, type, devs)).ConfigureAwait(false);
+                    await (PLC_Client?.Set_DatasAsync(index, type, devs)).ConfigureAwait(false);
+                }
             }
             catch
             {
-                // ignored
+                Gate_Status = false;
             }
         }
 
@@ -178,16 +194,20 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client?.State != CommunicationState.Opened)
+                if (Gate_Status)
                 {
-                    return;
-                }
+                    if (PLC_Client?.State != CommunicationState.Opened)
+                    {
+                        Gate_Status = false;
+                        return;
+                    }
 
-                await (PLC_Client?.Set_IntAsync(index, type, dev, val)).ConfigureAwait(false);
+                    await (PLC_Client?.Set_IntAsync(index, type, dev, val)).ConfigureAwait(false);
+                }
             }
             catch
             {
-                // ignored
+                Gate_Status = false;
             }
         }
 
@@ -195,16 +215,20 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             try
             {
-                if (PLC_Client?.State != CommunicationState.Opened)
+                if (Gate_Status)
                 {
-                    return;
-                }
+                    if (PLC_Client?.State != CommunicationState.Opened)
+                    {
+                        Gate_Status = false;
+                        return;
+                    }
 
-                await (PLC_Client?.Set_IntsAsync(index, type, devs)).ConfigureAwait(false);
+                    await (PLC_Client?.Set_IntsAsync(index, type, devs)).ConfigureAwait(false);
+                }
             }
             catch
             {
-                // ignored
+                Gate_Status = false;
             }
         }
 
@@ -214,13 +238,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>財產編號儲存位置</summary>
         private const string AssetNumbersPath = "AssetNumbers.json";
-
-        /// <summary>心跳信號位置</summary>
-        private const int Check_Dev = 21;
-        /// <summary>心跳信號位置</summary>
-        private const int Start_Dev = 600;
-        /// <summary>心跳信號位置</summary>
-        private const int Stop_Dev = 601;
 
         /// <summary>設備碼儲存位置</summary>
         private const string MachineCodesPath = "MachineCodes.json";
@@ -269,7 +286,20 @@ namespace GPGO_MultiPLCs.ViewModels
         public bool Gate_Status
         {
             get => Get<bool>();
-            set => Set(value);
+            set
+            {
+                if (Gate_Status && !value)
+                {
+                    EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", (BitType.S, (int)PCEventCode.PC_Offline), true));
+
+                    foreach (var plc in PLC_All)
+                    {
+                        plc.OnlineStatus = false;
+                    }
+                }
+
+                Set(value);
+            }
         }
 
         /// <summary>烤箱總覽和詳細資訊檢視頁面切換index</summary>
@@ -430,19 +460,14 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="index">PLC序號</param>
         /// <param name="recipe">配方</param>
         /// <returns>是否成功寫入PLC</returns>
-        public async Task<bool> SetRecipe(int index, PLC_Recipe recipe)
+        public bool SetRecipe(int index, PLC_Recipe recipe)
         {
-            if (recipe == null)
+            if (recipe == null || PLC_All[index].IsRecording)
             {
                 return false;
             }
 
-            if (PLC_All[index].IsRecording)
-            {
-                PLC_All[index].SetSelectedRecipeName(recipe.RecipeName);
-                return false;
-            }
-
+            PLC_All[index].SetSelectedRecipeName(recipe.RecipeName);
             recipe.CopyToObj(PLC_All[index]);
 
             return true;
@@ -455,27 +480,6 @@ namespace GPGO_MultiPLCs.ViewModels
             foreach (var plc in PLC_All)
             {
                 plc.Recipe_Names = names;
-            }
-        }
-
-        /// <summary>發送PC和PLC間的檢查信號</summary>
-        /// <returns></returns>
-        private bool Check()
-        {
-            try
-            {
-                if (PLC_Client?.State != CommunicationState.Opened)
-                {
-                    return false;
-                }
-
-                PLC_Client.CheckSignal(Check_Dev);
-
-                return true;
-            }
-            catch
-            {
-                return false;
             }
         }
 
@@ -581,16 +585,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                         DeleteRecipe?.Invoke(recipeName);
                                     };
 
-            secsGem.Start += async index =>
+            secsGem.Start += index =>
                              {
                                  //todo 執行自動啟動
-                                 await PLC_Client.Set_BitAsync(index, BitType.M, Start_Dev, true);
+                                 PLC_All[index].Start = true;
                              };
 
-            secsGem.Stop += async index =>
+            secsGem.Stop += index =>
                             {
                                 //todo 執行自動停止
-                                await PLC_Client.Set_BitAsync(index, BitType.M, Stop_Dev, true);
+                                PLC_All[index].Stop = true;
                             };
 
             secsGem.AddLOT += (index, o) =>
@@ -728,16 +732,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                             Gate_Status = true;
                                         }
                                     }
-                                    else if (!Check() && Gate_Status)
+
+                                    foreach (var plc in PLC_All)
                                     {
-                                        EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", (BitType.S, (int)PCEventCode.PC_Offline), true));
-
-                                        Gate_Status = false;
-
-                                        foreach (var plc in PLC_All)
-                                        {
-                                            plc.OnlineStatus = false;
-                                        }
+                                        plc.Check = !plc.Check;
                                     }
 
                                     Checker.Change(150, Timeout.Infinite);

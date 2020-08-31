@@ -425,9 +425,9 @@ namespace GPGO_MultiPLCs
                                    };
 
             //!當配方列表更新時，依據使用站別發佈配方
-            RecipeVM.ListUpdatedEvent += async e =>
+            RecipeVM.ListUpdatedEvent += e =>
                                          {
-                                             var (list, tip) = e;
+                                             var (list, showtip) = e;
 
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
@@ -439,14 +439,14 @@ namespace GPGO_MultiPLCs
                                                  var recipe = list.Find(x => j < x.Used_Stations.Count && x.Used_Stations[j]);
                                                  if (recipe != null)
                                                  {
-                                                     if (!await TotalVM.SetRecipe(i, recipe))
+                                                     if (!TotalVM.SetRecipe(i, recipe))
                                                      {
                                                          l.Add(i + 1);
                                                      }
                                                  }
                                              }
 
-                                             if (tip && l.Any())
+                                             if (showtip && l.Any())
                                              {
                                                  var str = string.Join(", ", l);
 
