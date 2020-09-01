@@ -32,53 +32,58 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="val">更新值集合</param>
         void IGPServiceCallback.Messages_Send(int index, PLC_Messages val)
         {
-            if (val == null)
-            {
-                return;
-            }
+            OneScheduler.StartNew(e =>
+                                  {
+                                      var (i, v) = ((int, PLC_Messages))e;
 
-            try
-            {
-                if (index <= -1)
-                {
-                    return;
-                }
+                                      if (v == null)
+                                      {
+                                          return;
+                                      }
 
-                //! short data先，bit bool後
+                                      try
+                                      {
+                                          if (i <= -1)
+                                          {
+                                              return;
+                                          }
 
-                PLC_All[index].DataValues[val.D.Select(D => (DataType.D, D.Key)).ToList()] = val.D.Select(D => D.Value).ToList();
+                                          //! short data先，bit bool後
 
-                PLC_All[index].DataValues[val.W.Select(W => (DataType.W, W.Key)).ToList()] = val.W.Select(W => W.Value).ToList();
+                                          PLC_All[i].DataValues[v.D.Select(D => (DataType.D, D.Key)).ToList()] = v.D.Select(D => D.Value).ToList();
 
-                foreach (var M in val.M)
-                {
-                    PLC_All[index].BitValues[(BitType.M, M.Key)] = M.Value;
-                }
+                                          PLC_All[i].DataValues[v.W.Select(W => (DataType.W, W.Key)).ToList()] = v.W.Select(W => W.Value).ToList();
 
-                foreach (var B in val.B)
-                {
-                    PLC_All[index].BitValues[(BitType.B, B.Key)] = B.Value;
-                }
+                                          foreach (var M in v.M)
+                                          {
+                                              PLC_All[i].BitValues[(BitType.M, M.Key)] = M.Value;
+                                          }
 
-                foreach (var S in val.S)
-                {
-                    PLC_All[index].BitValues[(BitType.S, S.Key)] = S.Value;
-                }
+                                          foreach (var B in v.B)
+                                          {
+                                              PLC_All[i].BitValues[(BitType.B, B.Key)] = B.Value;
+                                          }
 
-                foreach (var X in val.X)
-                {
-                    PLC_All[index].BitValues[(BitType.X, X.Key)] = X.Value;
-                }
+                                          foreach (var S in v.S)
+                                          {
+                                              PLC_All[i].BitValues[(BitType.S, S.Key)] = S.Value;
+                                          }
 
-                foreach (var Y in val.Y)
-                {
-                    PLC_All[index].BitValues[(BitType.Y, Y.Key)] = Y.Value;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
+                                          foreach (var X in v.X)
+                                          {
+                                              PLC_All[i].BitValues[(BitType.X, X.Key)] = X.Value;
+                                          }
+
+                                          foreach (var Y in v.Y)
+                                          {
+                                              PLC_All[i].BitValues[(BitType.Y, Y.Key)] = Y.Value;
+                                          }
+                                      }
+                                      catch
+                                      {
+                                          // ignored
+                                      }
+                                  }, (index, val));
         }
 
         /// <summary>PLC連線狀態</summary>
@@ -88,12 +93,12 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             OneScheduler.StartNew(e =>
                                   {
-                                      var args = (ValueTuple<int, bool>)e;
+                                      var (i, v) = ((int, bool))e;
                                       try
                                       {
-                                          if (args.Item1 < PLC_All.Count && args.Item1 > -1 && PLC_All[args.Item1].OnlineStatus != args.Item2)
+                                          if (i < PLC_All.Count && i > -1 && PLC_All[i].OnlineStatus != v)
                                           {
-                                              PLC_All[args.Item1].OnlineStatus = args.Item2;
+                                              PLC_All[i].OnlineStatus = v;
                                           }
                                       }
                                       catch (Exception)
@@ -462,7 +467,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <returns>是否成功寫入PLC</returns>
         public bool SetRecipe(int index, PLC_Recipe recipe)
         {
-            if (recipe == null || PLC_All[index].IsRecording || PLC_All[index].PC_InUsed)
+            if (recipe == null || PLC_All[index].IsExecuting || PLC_All[index].PC_InUsed)
             {
                 return false;
             }
@@ -539,7 +544,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                Index = o is int i ? i : 0;
                                            });
 
-            PLC_All         = new PLC_DataProvider[OvenCount];
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
 
             //!當各PLC產量變更時更新總量顯示
@@ -587,14 +591,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.Start += index =>
                              {
-                                 //todo 執行自動啟動
-                                 PLC_All[index].Start = true;
+                                 PLC_All[index].RemoteCommandStart = true;
                              };
 
             secsGem.Stop += index =>
                             {
-                                //todo 執行自動停止
-                                PLC_All[index].Stop = true;
+                                PLC_All[index].RemoteCommandStop = true;
                             };
 
             secsGem.AddLOT += (index, o) =>
@@ -602,6 +604,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   //todo 投產
                               };
 
+            PLC_All = new PLC_DataProvider[OvenCount];
             //!註冊PLC事件需引發的動作
             for (var i = 0; i < OvenCount; i++)
             {
@@ -632,7 +635,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i].RecipeUsed += recipeName => RecipeUsed?.Invoke((index, recipeName));
 
                 //!烘烤流程結束時
-                PLC_All[i].RecordingFinished += async e =>
+                PLC_All[i].ExecutingFinished += async e =>
                                                 {
                                                     var (baseInfo, productInfo) = e;
                                                     if (!baseInfo.IsFinished)

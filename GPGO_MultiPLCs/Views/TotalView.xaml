@@ -151,7 +151,7 @@
                                             Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     <Border Grid.Column="0"
                                             Background="{StaticResource WorkingBrush}"
-                                            Visibility="{Binding IsRecording, Mode=OneWay, Converter={StaticResource BoolVis}}" />
+                                            Visibility="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     <TextBlock x:Name="TextBlock"
                                                Grid.Column="0"
                                                HorizontalAlignment="Center"
@@ -168,7 +168,7 @@
                                                          Mode="OneWay"
                                                          Path="IsChecked" />
                                                 <Binding Mode="OneWay"
-                                                         Path="IsRecording" />
+                                                         Path="IsExecuting" />
                                             </MultiBinding>
                                         </TabControl.SelectedIndex>
                                         <TabItem Width="0"
@@ -1039,7 +1039,7 @@
                                             <MultiBinding Converter="{StaticResource MultiAllTrue}">
                                                 <Binding Converter="{StaticResource BoolNot}"
                                                          Mode="OneWay"
-                                                         Path="IsRecording" />
+                                                         Path="IsExecuting" />
                                                 <Binding Converter="{StaticResource IsMoreThanValue}"
                                                          ConverterParameter="1"
                                                          Mode="OneWay"
@@ -1073,7 +1073,7 @@
                                                  Value="True">
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsRecording, Mode=OneWay}">
+                                    <DataTrigger Binding="{Binding IsExecuting, Mode=OneWay}">
                                         <Setter TargetName="ActiveToggle" Property="Content" Value="{Binding Progress, StringFormat=\{0:P\}, Mode=OneWay}" />
                                         <Setter TargetName="ActiveToggle" Property="IsEnabled" Value="False" />
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
@@ -2745,7 +2745,7 @@
                                                    Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     </Grid>
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding IsRecording, Mode=OneWay}"
+                                        <DataTrigger Binding="{Binding IsExecuting, Mode=OneWay}"
                                                      Value="True">
                                             <Setter TargetName="TextBlock" Property="Text" Value="{Binding Total_RemainingTime, Mode=OneWay, StringFormat=-\{0:D\} m}" />
                                         </DataTrigger>

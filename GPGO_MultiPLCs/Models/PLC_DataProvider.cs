@@ -23,7 +23,8 @@ namespace GPGO_MultiPLCs.Models
             準備中,
             升溫,
             恆溫,
-            降溫
+            降溫,
+            錯誤
         }
 
         private readonly IDialogService Dialog;
@@ -46,7 +47,7 @@ namespace GPGO_MultiPLCs.Models
         public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new ObservableConcurrentCollection<ProductInfo>();
 
         /// <summary>取得是否正在紀錄溫度</summary>
-        public new bool IsRecording => RecordingTask?.Status == TaskStatus.Running || RecordingTask?.Status == TaskStatus.WaitingForActivation || RecordingTask?.Status == TaskStatus.WaitingToRun;
+        public bool IsExecuting => ExecutingTask?.Status == TaskStatus.Running || ExecutingTask?.Status == TaskStatus.WaitingForActivation || ExecutingTask?.Status == TaskStatus.WaitingToRun;
 
         /// <summary>紀錄的資訊</summary>
         public BaseInfo OvenInfo { get; }
@@ -54,11 +55,11 @@ namespace GPGO_MultiPLCs.Models
         public int Quantity => Ext_Info.Sum(x => x.PanelCodes.Count);
 
         /// <summary>生產進度</summary>
-        public double Progress
+        public double Progress //todo 欣興待改
         {
             get
             {
-                if (!OnlineStatus || !IsRecording)
+                if (!OnlineStatus || !IsExecuting)
                 {
                     return 0.0;
                 }
@@ -75,7 +76,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>進度狀態</summary>
-        public Status ProgressStatus
+        public Status ProgressStatus //todo 欣興待改
         {
             get
             {
@@ -84,7 +85,12 @@ namespace GPGO_MultiPLCs.Models
                     return Status.離線;
                 }
 
-                if (!IsRecording)
+                if (EmergencyStop)
+                {
+                    return Status.錯誤;
+                }
+
+                if (!IsExecuting)
                 {
                     return Status.待命中;
                 }
@@ -116,7 +122,7 @@ namespace GPGO_MultiPLCs.Models
                 NotifyPropertyChanged(nameof(ProgressStatus));
 
                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", (BitType.S, (int)PCEventCode.PC_Offline), value));
-                if (IsRecording)
+                if (IsExecuting)
                 {
                     AddProcessEvent((EventType.Alarm, DateTime.Now, "PLC Offline!", (BitType.S, (int)PCEventCode.PC_Offline), value));
                     CTS?.Cancel();
@@ -131,7 +137,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>用來紀錄的任務，可追蹤狀態</summary>
-        public Task RecordingTask
+        public Task ExecutingTask
         {
             get => Get<Task>();
             set
@@ -140,7 +146,7 @@ namespace GPGO_MultiPLCs.Models
 
                 value.ContinueWith(async x =>
                                    {
-                                       NotifyPropertyChanged(nameof(IsRecording));
+                                       NotifyPropertyChanged(nameof(IsExecuting));
                                        NotifyPropertyChanged(nameof(Progress));
                                        NotifyPropertyChanged(nameof(ProgressStatus));
 
@@ -195,16 +201,16 @@ namespace GPGO_MultiPLCs.Models
                                        OvenInfo.TargetOvenTemperatures   = t.ToList();
                                        OvenInfo.ThermostaticTemperatures = s.ToList();
 
-                                       if (RecordingFinished != null)
+                                       if (ExecutingFinished != null)
                                        {
-                                           await RecordingFinished.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
+                                           await ExecutingFinished.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
                                        }
 
                                        //!需在引發紀錄完成後才觸發取消投產
                                        CheckInCommand.Result = false;
                                    });
 
-                NotifyPropertyChanged(nameof(IsRecording));
+                NotifyPropertyChanged(nameof(IsExecuting));
                 NotifyPropertyChanged(nameof(Progress));
                 NotifyPropertyChanged(nameof(ProgressStatus));
             }
@@ -233,7 +239,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Func<Language> GetLanguage;
 
-        public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo), ValueTask> RecordingFinished;
+        public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo), ValueTask> ExecutingFinished;
 
         public event Func<(BitType, int), bool, ValueTask> SetPLCSignal;
 
@@ -405,16 +411,16 @@ namespace GPGO_MultiPLCs.Models
             await StopPP();
 
             ResetStopTokenSource();
-            RecordingTask = StartRecoder(60000, CTS.Token);
+            ExecutingTask = StartRecoder(60000, CTS.Token);
         }
 
         public async Task StopPP()
         {
-            if (RecordingTask != null && IsRecording)
+            if (ExecutingTask != null && IsExecuting)
             {
                 CTS?.Cancel();
 
-                await RecordingTask;
+                await ExecutingTask;
             }
         }
 
@@ -643,11 +649,11 @@ namespace GPGO_MultiPLCs.Models
 
             CancelCheckInCommand = new RelayCommand(async e =>
                                                     {
-                                                        if (RecordingTask != null && IsRecording)
+                                                        if (ExecutingTask != null && IsExecuting)
                                                         {
                                                             CTS?.Cancel();
 
-                                                            await RecordingTask;
+                                                            await ExecutingTask;
                                                         }
 
                                                         CancelCheckIn?.Invoke(OvenInfo.RackID);
@@ -722,6 +728,9 @@ namespace GPGO_MultiPLCs.Models
                                         }
                                         else if (data.Name == nameof(IsCooling))
                                         {
+                                            EventHappened?.Invoke(eventval);
+                                            AddProcessEvent(eventval);
+
                                             if (IsCooling)
                                             {
                                                 OvenInfo.IsFinished = true;
@@ -736,7 +745,7 @@ namespace GPGO_MultiPLCs.Models
                                     }
                                     else if (data.Name == nameof(CurrentSegment))
                                     {
-                                        if (IsRecording)
+                                        if (IsExecuting)
                                         {
                                             AddProcessEvent((EventType.Normal,
                                                             nowtime,
@@ -761,6 +770,9 @@ namespace GPGO_MultiPLCs.Models
                                     if (data.Name == nameof(EmergencyStop))
                                     {
                                         await StopPP();
+
+                                        NotifyPropertyChanged(nameof(Progress));
+                                        NotifyPropertyChanged(nameof(ProgressStatus));
                                     }
 
                                     EventHappened?.Invoke(eventval);
@@ -778,7 +790,23 @@ namespace GPGO_MultiPLCs.Models
                                 }
                                 else if (LogType == LogType.Trigger)
                                 {
-                                 //todo   
+                                    if (data.Value is bool value)
+                                    {
+                                        var eventval = (EventType.Trigger, nowtime, data.Name, ((BitType)data.TypeEnum, data.Subscriptions.First()), value);
+
+                                        if (data.Name == nameof(RemoteCommandStart))
+                                        {
+                                            EventHappened?.Invoke(eventval);
+
+                                            //todo
+                                        }
+                                        else if (data.Name == nameof(RemoteCommandStop))
+                                        {
+                                            EventHappened?.Invoke(eventval);
+
+                                            //todo
+                                        }
+                                    }   
                                 }
                             };
 

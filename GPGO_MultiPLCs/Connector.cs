@@ -362,7 +362,7 @@ namespace GPGO_MultiPLCs
             //!當OP試圖關閉程式時，進行狀態和權限檢查
             MainVM.CheckClosing += async () =>
                                    {
-                                       if (TotalVM.PLC_All.Any(plc => plc.IsRecording))
+                                       if (TotalVM.PLC_All.Any(plc => plc.IsExecuting))
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
