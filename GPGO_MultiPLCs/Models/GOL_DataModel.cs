@@ -8,25 +8,21 @@ namespace GPGO_MultiPLCs.Models
     {
         #region PC=>PLC
 
-        [PLCData(DataType.D, 12020, LogType.Trigger)]
-        public int PCtoPLC
-        {
-            get => GetPLC<int>();
-            set => SetPLC(value);
-        }
-
+        [PLCBitData(DataType.D, 12020, 0, LogType.Trigger)]
         public bool RemoteCommandStart
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
+        [PLCBitData(DataType.D, 12020, 1, LogType.Trigger)]
         public bool RemoteCommandStop
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
+        [PLCBit(BitType.M, 21, LogType.None)]
         public bool Check
         {
             get => GetPLC<bool>();
@@ -565,7 +561,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 程式結束
         /// </summary>
-        [PLCBit(BitType.M, 209, LogType.Alarm)]
+        [PLCBitData(DataType.D, 12002, 1, LogType.Alarm)]
         public bool ProgramStop
         {
             get => GetPLC<bool>();
@@ -575,7 +571,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 加熱門未關
         /// </summary>
-        [PLCBit(BitType.M, 250, LogType.Alarm)]
         public bool DoorNotClosed
         {
             get => GetPLC<bool>();
@@ -585,7 +580,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 緊急停止
         /// </summary>
-        [PLCBit(BitType.M, 700, LogType.Alarm)]
         public bool EmergencyStop
         {
             get => GetPLC<bool>();
@@ -604,7 +598,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 電源反相
         /// </summary>
-        [PLCBit(BitType.M, 702, LogType.Alarm)]
         public bool PowerInversion
         {
             get => GetPLC<bool>();
@@ -614,7 +607,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// OTP超溫異常
         /// </summary>
-        [PLCBit(BitType.M, 703, LogType.Alarm)]
         public bool OTP_TemperatureError
         {
             get => GetPLC<bool>();
@@ -624,7 +616,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 循環風車過載
         /// </summary>
-        [PLCBit(BitType.M, 704, LogType.Alarm)]
         public bool CirculatingFanOverload
         {
             get => GetPLC<bool>();
@@ -634,7 +625,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 冷卻進氣風車異常
         /// </summary>
-        [PLCBit(BitType.M, 701, LogType.Alarm)]
         public bool CoolingFanException
         {
             get => GetPLC<bool>();
@@ -644,7 +634,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 冷卻進氣風車電流異常
         /// </summary>
-        [PLCBit(BitType.M, 705, LogType.Alarm)]
         public bool CoolingFanCurrentException
         {
             get => GetPLC<bool>();
@@ -654,7 +643,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 超溫警報
         /// </summary>
-        [PLCBit(BitType.M, 302, LogType.Alarm)]
         public bool OverTemperatureAlarm
         {
             get => GetPLC<bool>();
@@ -664,7 +652,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 停止後未開門
         /// </summary>
-        [PLCBit(BitType.M, 714, LogType.Alarm)]
         public bool DoorNotOpen
         {
             get => GetPLC<bool>();
@@ -683,7 +670,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 循環風車電流異常
         /// </summary>
-        [PLCBit(BitType.M, 707, LogType.Alarm)]
         public bool CirculatingFanCurrentException
         {
             get => GetPLC<bool>();
@@ -720,7 +706,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 加熱分路跳脫
         /// </summary>
-        [PLCBit(BitType.M, 706, LogType.Alarm)]
         public bool HeatingBranchException
         {
             get => GetPLC<bool>();
@@ -730,7 +715,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 溫控器異常
         /// </summary>
-        [PLCBit(BitType.M, 708, LogType.Alarm)]
         public bool ThermostatException
         {
             get => GetPLC<bool>();
@@ -740,7 +724,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 通訊異常
         /// </summary>
-        [PLCBit(BitType.M, 709, LogType.Alarm)]
         public bool CommunicationException
         {
             get => GetPLC<bool>();
@@ -750,7 +733,6 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 寫入溫度比對異常
         /// </summary>
-        [PLCBit(BitType.M, 710, LogType.Alarm)]
         public bool TemperatureWriteError
         {
             get => GetPLC<bool>();
@@ -764,10 +746,11 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 允許啟動
         /// </summary>
+        [PLCBitData(DataType.D, 12010, 1, LogType.Status)]
         public bool AllowStart
         {
             get => GetPLC<bool>();
-            set => Set(value);
+            set => SetPLC(value);
         }
 
         /// <summary>
@@ -776,7 +759,7 @@ namespace GPGO_MultiPLCs.Models
         public bool AllowStop
         {
             get => GetPLC<bool>();
-            set => Set(value);
+            set => SetPLC(value);
         }
 
         /// <summary>
@@ -818,6 +801,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 降溫中
         /// </summary>
+        [PLCBitData(DataType.D, 12011, 15, LogType.Status)]
         public bool IsCooling
         {
             get => GetPLC<bool>();
@@ -827,6 +811,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 手動模式
         /// </summary>
+        [PLCBitData(DataType.D, 12010, 9, LogType.Status)]
         public bool ManualMode
         {
             get => GetPLC<bool>();
@@ -845,6 +830,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 自動停止
         /// </summary>
+        [PLCBitData(DataType.D, 12010, 2, LogType.Status)]
         public bool AutoMode_Stop
         {
             get => GetPLC<bool>();
@@ -860,6 +846,7 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
+        [PLCBitData(DataType.D, 12010, 8, LogType.Status)]
         public bool PC_InUsed
         {
             get => GetPLC<bool>();
@@ -993,37 +980,7 @@ namespace GPGO_MultiPLCs.Models
         public string RackID
         {
             get => GetPLC<string>();
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// 機台狀態
-        /// </summary>
-        [PLCData(DataType.D, 11043, LogType.Status)]
-        public int EquipmentStatus
-        {
-            get => GetPLC<int>();
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// 控制狀態
-        /// </summary>
-        [PLCData(DataType.D, 12010, LogType.Status)]
-        public int ControlStatus
-        {
-            get => GetPLC<int>();
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// 程式狀態
-        /// </summary>
-        [PLCData(DataType.D, 12011, LogType.Status)]
-        public int ProgramStatus
-        {
-            get => GetPLC<int>();
-            set => Set(value);
+            set => SetPLC(value);
         }
 
         #endregion
