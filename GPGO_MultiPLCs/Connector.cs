@@ -641,7 +641,7 @@ namespace GPGO_MultiPLCs
                                              AddedTime = time,
                                              Type = type,
                                              Description = note,
-                                             TagCode = $"{tag.Item1}{tag.Item2}",
+                                             TagCode = tag,
                                              Value = value
                                          });
                                      };

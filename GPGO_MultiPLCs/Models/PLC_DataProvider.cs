@@ -19,12 +19,13 @@ namespace GPGO_MultiPLCs.Models
         public enum Status
         {
             離線 = -1,
-            待命中,
+            未知,
+            運轉中 = 1,
+            待命 = 2,
             準備中,
-            升溫,
-            恆溫,
-            降溫,
-            錯誤
+            維修 = 8,
+            停止 = 16,
+            錯誤 = 4
         }
 
         private readonly IDialogService Dialog;
@@ -55,7 +56,7 @@ namespace GPGO_MultiPLCs.Models
         public int Quantity => Ext_Info.Sum(x => x.PanelCodes.Count);
 
         /// <summary>生產進度</summary>
-        public double Progress //todo 欣興待改
+        public double Progress
         {
             get
             {
@@ -64,7 +65,7 @@ namespace GPGO_MultiPLCs.Models
                     return 0.0;
                 }
 
-                var val = (double)CurrentSegment / UsedSegmentCounts / 2;
+                var val = (double)CurrentSegment / UsedSegmentCounts;
 
                 if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
                 {
@@ -76,7 +77,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>進度狀態</summary>
-        public Status ProgressStatus //todo 欣興待改
+        public Status ProgressStatus
         {
             get
             {
@@ -85,22 +86,12 @@ namespace GPGO_MultiPLCs.Models
                     return Status.離線;
                 }
 
-                if (EmergencyStop)
+                if (Enum.IsDefined(typeof(Status), EquipmentStatus))
                 {
-                    return Status.錯誤;
+                    return (Status)EquipmentStatus;
                 }
 
-                if (!IsExecuting)
-                {
-                    return Status.待命中;
-                }
-
-                if (IsCooling)
-                {
-                    return Status.降溫;
-                }
-
-                return CurrentSegment % 2 == 0 ? CurrentSegment == 0 ? Status.準備中 : Status.恆溫 : Status.升溫;
+                return Status.未知;
             }
         }
 
@@ -112,19 +103,17 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>PLC連線狀態</summary>
-        public new bool OnlineStatus
+        public bool OnlineStatus
         {
             get => Get<bool>();
             set
             {
                 Set(value);
-                NotifyPropertyChanged(nameof(Progress));
-                NotifyPropertyChanged(nameof(ProgressStatus));
 
-                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", (BitType.S, (int)PCEventCode.PC_Offline), value));
+                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", string.Empty, value));
                 if (IsExecuting)
                 {
-                    AddProcessEvent((EventType.Alarm, DateTime.Now, "PLC Offline!", (BitType.S, (int)PCEventCode.PC_Offline), value));
+                    AddProcessEvent((EventType.Alarm, DateTime.Now, "PLC Offline!", string.Empty, value));
                     CTS?.Cancel();
                 }
             }
@@ -147,8 +136,6 @@ namespace GPGO_MultiPLCs.Models
                 value.ContinueWith(async x =>
                                    {
                                        NotifyPropertyChanged(nameof(IsExecuting));
-                                       NotifyPropertyChanged(nameof(Progress));
-                                       NotifyPropertyChanged(nameof(ProgressStatus));
 
                                        x.Dispose();
 
@@ -211,8 +198,6 @@ namespace GPGO_MultiPLCs.Models
                                    });
 
                 NotifyPropertyChanged(nameof(IsExecuting));
-                NotifyPropertyChanged(nameof(Progress));
-                NotifyPropertyChanged(nameof(ProgressStatus));
             }
         }
 
@@ -227,7 +212,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Action<string> CancelCheckIn;
 
-        public event Action<(EventType type, DateTime time, string note, (BitType, int) tag, bool value)> EventHappened;
+        public event Action<(EventType type, DateTime time, string note, string tag, object value)> EventHappened;
 
         public event Func<string, PLC_Recipe> GetRecipe;
 
@@ -253,16 +238,17 @@ namespace GPGO_MultiPLCs.Models
             Intput_Name = Selected_Name;
         }
 
-        public void AddProcessEvent((EventType type, DateTime addtime, string note, (BitType, int) tag, bool value) e)
+        public void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) e)
         {
+            var (type, addtime, note, tag, value) = e;
             OvenInfo.EventList.Add(new LogEvent
                                    {
-                                       Type        = e.type,
+                                       Type        = type,
                                        StartTime   = OvenInfo.StartTime,
-                                       AddedTime   = e.addtime,
-                                       Description = e.note,
-                                       TagCode     = $"{e.tag.Item1}{e.tag.Item2}",
-                                       Value       = e.value
+                                       AddedTime   = addtime,
+                                       Description = note,
+                                       TagCode     = tag,
+                                       Value       = value
                                    });
         }
 
@@ -683,14 +669,17 @@ namespace GPGO_MultiPLCs.Models
 
                                 if (LogType == LogType.Status)
                                 {
+                                    var eventval = (EventType.StatusChanged, nowtime, data.Name, $"{(DataType)data.TypeEnum}{data.Subscriptions.First()}", data.Value);
+                                    EventHappened?.Invoke(eventval);
+                                    if (IsExecuting)
+                                    {
+                                        AddProcessEvent(eventval);
+                                    }
+
                                     if (data.Value is bool value)
                                     {
-                                        var eventval = (EventType.Trigger, nowtime, data.Name, ((BitType)data.TypeEnum, data.Subscriptions.First()), value);
-
                                         if (data.Name == nameof(AutoMode_Start))
                                         {
-                                            EventHappened?.Invoke(eventval);
-
                                             if (!value)
                                             {
                                                 return;
@@ -702,11 +691,6 @@ namespace GPGO_MultiPLCs.Models
                                         }
                                         else if (data.Name == nameof(ProgramStop))
                                         {
-                                            OvenInfo.IsFinished = true;
-
-                                            EventHappened?.Invoke(eventval);
-                                            AddProcessEvent(eventval);
-
                                             if (!value)
                                             {
                                                 return;
@@ -716,8 +700,7 @@ namespace GPGO_MultiPLCs.Models
                                         }
                                         else if (data.Name == nameof(AutoMode_Stop))
                                         {
-                                            EventHappened?.Invoke(eventval);
-                                            AddProcessEvent(eventval);
+                                            OvenInfo.IsFinished = true;
 
                                             if (!value)
                                             {
@@ -726,57 +709,29 @@ namespace GPGO_MultiPLCs.Models
 
                                             await StopPP();
                                         }
-                                        else if (data.Name == nameof(IsCooling))
-                                        {
-                                            EventHappened?.Invoke(eventval);
-                                            AddProcessEvent(eventval);
-
-                                            if (IsCooling)
-                                            {
-                                                OvenInfo.IsFinished = true;
-                                            }
-
-                                            EventHappened?.Invoke(eventval);
-                                            AddProcessEvent(eventval);
-
-                                            NotifyPropertyChanged(nameof(Progress));
-                                            NotifyPropertyChanged(nameof(ProgressStatus));
-                                        }
                                     }
                                     else if (data.Name == nameof(CurrentSegment))
                                     {
-                                        if (IsExecuting)
-                                        {
-                                            AddProcessEvent((EventType.Normal,
-                                                            nowtime,
-                                                            CurrentSegment == 0 ? "準備中" : $"第{Math.Ceiling(CurrentSegment / 2.0):0}段{(CurrentSegment % 2 == 0 ? "恆溫" : "升溫")}",
-                                                            (BitType.S, data.Subscriptions.First()),
-                                                            true));
-                                        }
-
                                         NotifyPropertyChanged(nameof(Progress));
+                                    }
+                                    else if (data.Name == nameof(EquipmentStatus))
+                                    {
                                         NotifyPropertyChanged(nameof(ProgressStatus));
                                     }
                                 }
                                 else if (LogType == LogType.Alarm)
                                 {
-                                    if (!(data.Value is bool value))
+                                    var eventval = (EventType.Alarm, nowtime, data.Name, $"{(BitType)data.TypeEnum}{data.Subscriptions.First()}", data.Value);
+                                    EventHappened?.Invoke(eventval);
+                                    if (IsExecuting)
                                     {
-                                        return;
+                                        AddProcessEvent(eventval);
                                     }
 
-                                    var eventval = (EventType.Alarm, nowtime, data.Name, ((BitType)data.TypeEnum, data.Subscriptions.First()), value);
-
-                                    if (data.Name == nameof(EmergencyStop))
+                                    if (data.Value is bool val && val && data.Name == nameof(EmergencyStop))
                                     {
                                         await StopPP();
-
-                                        NotifyPropertyChanged(nameof(Progress));
-                                        NotifyPropertyChanged(nameof(ProgressStatus));
                                     }
-
-                                    EventHappened?.Invoke(eventval);
-                                    AddProcessEvent(eventval);
                                 }
                                 else if (LogType == LogType.Recipe)
                                 {
@@ -785,14 +740,12 @@ namespace GPGO_MultiPLCs.Models
                                         NotifyPropertyChanged(nameof(Progress));
                                         NotifyPropertyChanged(nameof(ProgressStatus));
                                     }
-
-                                    //todo 配方變動時要log
                                 }
                                 else if (LogType == LogType.Trigger)
                                 {
                                     if (data.Value is bool value)
                                     {
-                                        var eventval = (EventType.Trigger, nowtime, data.Name, ((BitType)data.TypeEnum, data.Subscriptions.First()), value);
+                                        var eventval = (EventType.Trigger, nowtime, data.Name, $"{(BitType)data.TypeEnum}{data.Subscriptions.First()}", value);
 
                                         if (data.Name == nameof(RemoteCommandStart))
                                         {

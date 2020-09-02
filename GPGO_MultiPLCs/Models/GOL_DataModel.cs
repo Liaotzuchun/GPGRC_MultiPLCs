@@ -22,6 +22,13 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
+        [PLCBitData(DataType.D, 11067, 1, LogType.Trigger)]
+        public bool RemoteCommandSelectPP
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
         [PLCBit(BitType.M, 21, LogType.None)]
         public bool Check
         {
@@ -762,10 +769,15 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
-        /// <summary>
-        /// 蜂鳴器
-        /// </summary>
-        public bool Buzzer
+        [PLCBitData(DataType.D, 12010, 3, LogType.Status)]
+        public bool AutoMode_Start
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBitData(DataType.D, 12010, 2, LogType.Status)]
+        public bool AutoMode_Stop
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -799,6 +811,26 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
+        /// 升溫中
+        /// </summary>
+        [PLCBitData(DataType.D, 12011, 3, LogType.Status)]
+        public bool IsHeating
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫中
+        /// </summary>
+        [PLCBitData(DataType.D, 12011, 4, LogType.Status)]
+        public bool IsWarming
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
         /// 降溫中
         /// </summary>
         [PLCBitData(DataType.D, 12011, 15, LogType.Status)]
@@ -812,7 +844,7 @@ namespace GPGO_MultiPLCs.Models
         /// 手動模式
         /// </summary>
         [PLCBitData(DataType.D, 12010, 9, LogType.Status)]
-        public bool ManualMode
+        public bool LocalMode
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -821,32 +853,14 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 自動模式
         /// </summary>
-        public bool AutoMode
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
-        /// <summary>
-        /// 自動停止
-        /// </summary>
-        [PLCBitData(DataType.D, 12010, 2, LogType.Status)]
-        public bool AutoMode_Stop
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
-        /// <summary>
-        /// 自動啟動
-        /// </summary>
-        public bool AutoMode_Start
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
         [PLCBitData(DataType.D, 12010, 8, LogType.Status)]
+        public bool RemoteMode
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBitData(DataType.D, 12010, 7, LogType.Status)]
         public bool PC_InUsed
         {
             get => GetPLC<bool>();
@@ -946,24 +960,6 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 片段剩餘時間
-        /// </summary>
-        public double Segment_RemainingTime
-        {
-            get => GetPLC<double>();
-            set => SetPLC(value);
-        }
-
-        /// <summary>
-        /// 總剩餘時間
-        /// </summary>
-        public double Total_RemainingTime
-        {
-            get => GetPLC<double>();
-            set => SetPLC(value);
-        }
-
-        /// <summary>
         /// 目前段數
         /// </summary>
         [PLCData(DataType.D, 11479, LogType.Status)]
@@ -978,6 +974,20 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         [PLCData(DataType.D, 11100, 40, LogType.Status)]
         public string RackID
+        {
+            get => GetPLC<string>();
+            set => SetPLC(value);
+        }
+
+        [PLCData(DataType.D, 11043, LogType.Status)]
+        public int EquipmentStatus
+        {
+            get => GetPLC<int>();
+            set => SetPLC(value);
+        }
+
+        [PLCData(DataType.D, 11045, 40, LogType.Status)]
+        public string EquipmentName
         {
             get => GetPLC<string>();
             set => SetPLC(value);

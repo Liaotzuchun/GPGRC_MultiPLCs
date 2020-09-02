@@ -96,6 +96,7 @@ namespace GPGO_MultiPLCs.Models
     public enum EventType
     {
         Normal,   //一般事件
+        StatusChanged, //狀態變化
         Trigger,  //觸發事件
         Operator, //OP操作事件
         Alarm     //警報事件
@@ -139,6 +140,6 @@ namespace GPGO_MultiPLCs.Models
         public EventType Type { get; set; }
 
         [LanguageTranslator("Value", "值", "值")]
-        public bool Value { get; set; }
+        public object Value { get; set; }
     }
 }

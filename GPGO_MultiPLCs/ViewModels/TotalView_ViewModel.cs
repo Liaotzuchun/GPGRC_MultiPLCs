@@ -295,7 +295,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 if (Gate_Status && !value)
                 {
-                    EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", (BitType.S, (int)PCEventCode.PC_Offline), true));
+                    EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
 
                     foreach (var plc in PLC_All)
                     {
@@ -344,7 +344,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public event Action<(int StationIndex, string RackID)> CancelCheckIn;
 
-        public event Action<(int StationIndex, EventType type, DateTime time, string note, (BitType, int) tag, bool value)> EventHappened;
+        public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
 
         public event Func<(int StationIndex, string RecipeName), PLC_Recipe> GetRecipe;
 
