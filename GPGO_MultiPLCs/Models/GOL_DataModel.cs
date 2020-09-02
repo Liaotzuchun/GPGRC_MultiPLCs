@@ -587,6 +587,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 緊急停止
         /// </summary>
+        [PLCBitData(DataType.D, 12000, 0, LogType.Alarm)]
         public bool EmergencyStop
         {
             get => GetPLC<bool>();
@@ -769,20 +770,6 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
-        [PLCBitData(DataType.D, 12010, 3, LogType.Status)]
-        public bool AutoMode_Start
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
-        [PLCBitData(DataType.D, 12010, 2, LogType.Status)]
-        public bool AutoMode_Stop
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
         /// <summary>
         /// 綠燈
         /// </summary>
@@ -840,21 +827,29 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
-        /// <summary>
-        /// 手動模式
-        /// </summary>
-        [PLCBitData(DataType.D, 12010, 9, LogType.Status)]
-        public bool LocalMode
+        [PLCBitData(DataType.D, 12010, 3, LogType.Status)]
+        public bool AutoMode
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
-        /// <summary>
-        /// 自動模式
-        /// </summary>
-        [PLCBitData(DataType.D, 12010, 8, LogType.Status)]
-        public bool RemoteMode
+        [PLCBitData(DataType.D, 12010, 4, LogType.Status)]
+        public bool ManualMode
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBitData(DataType.D, 12010, 5, LogType.Status)]
+        public bool AutoMode_Start
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBitData(DataType.D, 12010, 6, LogType.Status)]
+        public bool AutoMode_Stop
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -862,6 +857,20 @@ namespace GPGO_MultiPLCs.Models
 
         [PLCBitData(DataType.D, 12010, 7, LogType.Status)]
         public bool PC_InUsed
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBitData(DataType.D, 12010, 8, LogType.Status)]
+        public bool RemoteMode
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBitData(DataType.D, 12010, 9, LogType.Status)]
+        public bool LocalMode
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
