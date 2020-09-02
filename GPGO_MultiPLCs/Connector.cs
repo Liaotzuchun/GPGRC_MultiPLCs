@@ -337,7 +337,7 @@ namespace GPGO_MultiPLCs
             TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("Product_Infos")), DialogVM);
             LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("Event_Logs")), DialogVM);
 
-            TotalVM = new TotalView_ViewModel(2, DialogVM);
+            TotalVM = new TotalView_ViewModel(20, DialogVM);
 
             //!當回到主頁時，也將生產總覽回到總覽頁
             MainVM.IndexChangedEvent += i =>

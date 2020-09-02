@@ -533,8 +533,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public TotalView_ViewModel(int count, IDialogService dialog)
         {
-            Dialog = dialog;
-
+            Dialog    = dialog;
+            PLC_All   = new PLC_DataProvider[20];
             OvenCount = count;
             ViewIndex = -1;
             site      = new InstanceContext(this);
@@ -604,9 +604,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                   //todo 投產
                               };
 
-            PLC_All = new PLC_DataProvider[OvenCount];
             //!註冊PLC事件需引發的動作
-            for (var i = 0; i < OvenCount; i++)
+            for (var i = 0; i < 20; i++)
             {
                 TotalProduction.Add(i, 0);
                 PLC_All[i] = new PLC_DataProvider(dialog);
