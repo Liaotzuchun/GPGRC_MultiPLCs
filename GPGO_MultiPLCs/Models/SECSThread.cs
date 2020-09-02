@@ -95,18 +95,46 @@ namespace GPGO_MultiPLCs.Models
                                 //S2F41
                                 secsGem.STARTLOTCommand += r =>
                                                            {
+
                                                            };
 
                                 secsGem.PP_SELECTCommand += r =>
                                                             {
+                                                                if (r.RemoteCommandParameter.Count < 2)
+                                                                {
+                                                                    return;
+                                                                }
+
+                                                                if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
+                                                                {
+                                                                    SetRecipe?.Invoke(i, r.RemoteCommandParameter[1].CPVAL.ToString());
+                                                                }
                                                             };
 
                                 secsGem.STARTCommand += r =>
                                                         {
+                                                            if (r.RemoteCommandParameter.Count < 1)
+                                                            {
+                                                                return;
+                                                            }
+
+                                                            if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
+                                                            {
+                                                                Start?.Invoke(i);
+                                                            }
                                                         };
 
                                 secsGem.STOPCommand += r =>
                                                        {
+                                                           if (r.RemoteCommandParameter.Count < 1)
+                                                           {
+                                                               return;
+                                                           }
+
+                                                           if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
+                                                           {
+                                                               Stop?.Invoke(i);
+                                                           }
                                                        };
 
                                 secsGem.LOTMANAGEMENTCommand += r =>
