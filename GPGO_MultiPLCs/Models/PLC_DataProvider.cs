@@ -205,7 +205,7 @@ namespace GPGO_MultiPLCs.Models
         public string Selected_Name
         {
             get => Get<string>();
-            set => SetRecipe(value);
+            set => SetRecipe(value, true);
         }
 
         public event Action<string> AssetNumberChanged;
@@ -284,28 +284,29 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
-        /// <summary>
-        /// 自資料庫取得配方
-        /// </summary>
-        /// <param name="recipeName"></param>
-        public async void SetRecipe(string recipeName)
+        public async void SetRecipe(string recipeName, bool check)
         {
+            RemoteCommandSelectPP = false;
+
             if (GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe)
             {
-                if (await Dialog.Show(new Dictionary<Language, string>
-                                      {
-                                          {Language.TW, "請確認配方內容："},
-                                          {Language.CHS, "请确认配方内容："},
-                                          {Language.EN, "Please confirm this recipe:"}
-                                      }, recipe, true))
+                if (check && !await Dialog.Show(new Dictionary<Language, string>
+                                                {
+                                                    {Language.TW, "請確認配方內容："},
+                                                    {Language.CHS, "请确认配方内容："},
+                                                    {Language.EN, "Please confirm this recipe:"}
+                                                }, recipe, true))
                 {
-                    RecipeUsed?.Invoke(recipeName);
-                    recipe.CopyToObj(this);
+                    return;
                 }
 
+                RecipeUsed?.Invoke(recipeName);
+                recipe.CopyToObj(this);
                 Set(recipeName, nameof(Selected_Name));
                 Intput_Name = Selected_Name;
             }
+
+            RemoteCommandSelectPP = true;
         }
 
         /// <summary>開始記錄</summary>
@@ -432,7 +433,7 @@ namespace GPGO_MultiPLCs.Models
                                                             }
                                                             else if (Recipe_Names.Contains(Intput_Name))
                                                             {
-                                                                SetRecipe(Intput_Name);
+                                                                SetRecipe(Intput_Name, true);
                                                             }
                                                             else
                                                             {
@@ -612,22 +613,30 @@ namespace GPGO_MultiPLCs.Models
                                                                  Ext_Info.Add(info);
                                                              }
 
-                                                             if (!PC_InUsed &&
-                                                                 !await Dialog.Show(new Dictionary<Language, string>
-                                                                                    {
-                                                                                        {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法遠端設定配方\n確定投產嗎？"},
-                                                                                        {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法远程设定配方\n确定投产吗？"},
-                                                                                        {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe remotely.\nAre you sure to execute?"}
-                                                                                    },
-                                                                                    true))
+                                                             if (!PC_InUsed)
                                                              {
-                                                                 return false;
+                                                                 if (!await Dialog.Show(new Dictionary<Language, string>
+                                                                                        {
+                                                                                            {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法由PC設定配方\n確定投產嗎？"},
+                                                                                            {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法由PC设定配方\n确定投产吗？"},
+                                                                                            {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe by PC.\nAre you sure to execute?"}
+                                                                                        },
+                                                                                        true))
+                                                                 {
+                                                                     return false;
+                                                                 }
                                                              }
-
-                                                             if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
+                                                             else
                                                              {
-                                                                 recipe.CopyToObj(this);
-                                                                 OvenInfo.Recipe = this.ObjCopy<PLC_Recipe>().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                                                 RemoteCommandSelectPP = false;
+
+                                                                 if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
+                                                                 {
+                                                                     recipe.CopyToObj(this);
+                                                                     OvenInfo.Recipe = this.ObjCopy<PLC_Recipe>().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                                                 }
+
+                                                                 RemoteCommandSelectPP = true;
                                                              }
 
                                                              return true;
@@ -717,6 +726,20 @@ namespace GPGO_MultiPLCs.Models
                                     else if (data.Name == nameof(EquipmentStatus))
                                     {
                                         NotifyPropertyChanged(nameof(ProgressStatus));
+
+                                        if (EquipmentStatus == (int)Status.錯誤)
+                                        {
+                                            await StopPP();
+                                        }
+                                    }
+                                }
+                                else if (LogType == LogType.Alert)
+                                {
+                                    var eventval = (EventType.Alert, nowtime, data.Name, $"{(BitType)data.TypeEnum}{data.Subscriptions.First()}", data.Value);
+                                    EventHappened?.Invoke(eventval);
+                                    if (IsExecuting)
+                                    {
+                                        AddProcessEvent(eventval);
                                     }
                                 }
                                 else if (LogType == LogType.Alarm)
@@ -727,19 +750,9 @@ namespace GPGO_MultiPLCs.Models
                                     {
                                         AddProcessEvent(eventval);
                                     }
-
-                                    if (data.Value is bool val && val && data.Name == nameof(EmergencyStop))
-                                    {
-                                        await StopPP();
-                                    }
                                 }
                                 else if (LogType == LogType.Recipe)
                                 {
-                                    if (data.Name == nameof(UsedSegmentCounts))
-                                    {
-                                        NotifyPropertyChanged(nameof(Progress));
-                                        NotifyPropertyChanged(nameof(ProgressStatus));
-                                    }
                                 }
                                 else if (LogType == LogType.Trigger)
                                 {
@@ -754,6 +767,12 @@ namespace GPGO_MultiPLCs.Models
                                             //todo
                                         }
                                         else if (data.Name == nameof(RemoteCommandStop))
+                                        {
+                                            EventHappened?.Invoke(eventval);
+
+                                            //todo
+                                        }
+                                        else if (data.Name == nameof(RemoteCommandSelectPP))
                                         {
                                             EventHappened?.Invoke(eventval);
 

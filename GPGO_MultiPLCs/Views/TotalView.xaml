@@ -41,35 +41,28 @@
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 離線}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
-                             Value="0">
+                             Value="2">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 待命}" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
-                             Value="1">
-                    <Setter TargetName="Progress" Property="Background" Value="{StaticResource LightColorBrush}" />
-                    <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                    <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
-                    <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 準備中}" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
-                             Value="2">
+                <DataTrigger Binding="{Binding IsHeating, Mode=OneWay}"
+                             Value="True">
                     <Setter TargetName="Progress" Property="Background" Value="Yellow" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource EnergyBorderBrush}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
-                             Value="3">
+                <DataTrigger Binding="{Binding IsWarming, Mode=OneWay}"
+                             Value="True">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                     <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 恆溫中}" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
-                             Value="4">
+                <DataTrigger Binding="{Binding IsCooling, Mode=OneWay}"
+                             Value="True">
                     <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
                     <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
                     <Setter TargetName="ProgressString" Property="Foreground" Value="Blue" />
@@ -1354,7 +1347,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{DynamicResource 程式結束警報}" />
+                                                   Text="{DynamicResource 降溫溫度}" />
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="5"
@@ -1362,10 +1355,8 @@
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center">
-                                            <Run Text="{Binding ProgramStopAlarmTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
-                                            <Run Text="{DynamicResource 分}" />
-                                        </TextBlock>
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="0"
@@ -2074,7 +2065,7 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <!--<TabControl views:TabControl.EnableSliding="True"
+                                        <TabControl views:TabControl.EnableSliding="True"
                                                     SelectedIndex="{Binding AutoMode, Mode=OneWay}">
                                             <TabItem Width="0"
                                                      Height="0">
@@ -2111,7 +2102,7 @@
                                                             Visibility="{Binding AutoMode_Start, Converter={StaticResource BoolVis}, Mode=OneWay}" />
                                                 </Grid>
                                             </TabItem>
-                                        </TabControl>-->
+                                        </TabControl>
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="3"

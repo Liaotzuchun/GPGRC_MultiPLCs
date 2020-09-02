@@ -578,6 +578,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 加熱門未關
         /// </summary>
+        [PLCBitData(DataType.D, 12002, 2, LogType.Alert)]
         public bool DoorNotClosed
         {
             get => GetPLC<bool>();
@@ -597,6 +598,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 溫控器低溫異常
         /// </summary>
+        [PLCBitData(DataType.D, 12000, 1, LogType.Alert)]
         public bool LowTemperature
         {
             get => GetPLC<bool>();
@@ -604,9 +606,10 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 電源反相
+        /// 電源相位異常
         /// </summary>
-        public bool PowerInversion
+        [PLCBitData(DataType.D, 12000, 2, LogType.Alarm)]
+        public bool PowerPhaseError
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -615,6 +618,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// OTP超溫異常
         /// </summary>
+        [PLCBitData(DataType.D, 12000, 3, LogType.Alarm)]
         public bool OTP_TemperatureError
         {
             get => GetPLC<bool>();
@@ -622,9 +626,10 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 循環風車過載
+        /// 循環風車電流異常
         /// </summary>
-        public bool CirculatingFanOverload
+        [PLCBitData(DataType.D, 12000, 4, LogType.Alarm)]
+        public bool CirculatingFanCurrentError
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -633,16 +638,29 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 冷卻進氣風車異常
         /// </summary>
-        public bool CoolingFanException
+        [PLCBitData(DataType.D, 12000, 5, LogType.Alert)]
+        public bool CoolingFanError
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
-        /// <summary>
-        /// 冷卻進氣風車電流異常
-        /// </summary>
-        public bool CoolingFanCurrentException
+        [PLCBitData(DataType.D, 12000, 6, LogType.Alarm)]
+        public bool ThermostatSignalError
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBitData(DataType.D, 12000, 7, LogType.Alarm)]
+        public bool DoorOpeningLimit
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        [PLCBitData(DataType.D, 12000, 8, LogType.Alarm)]
+        public bool DoorClosingLimit
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -651,6 +669,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 超溫警報
         /// </summary>
+        [PLCBitData(DataType.D, 12000, 10, LogType.Alarm)]
         public bool OverTemperatureAlarm
         {
             get => GetPLC<bool>();
@@ -660,6 +679,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 停止後未開門
         /// </summary>
+        [PLCBitData(DataType.D, 12000, 15, LogType.Alert)]
         public bool DoorNotOpen
         {
             get => GetPLC<bool>();
@@ -667,18 +687,10 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 循環風車INV異常
+        /// 循環風車變頻器異常
         /// </summary>
-        public bool CirculatingFanInversion
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
-        /// <summary>
-        /// 循環風車電流異常
-        /// </summary>
-        public bool CirculatingFanCurrentException
+        [PLCBitData(DataType.D, 12001, 2, LogType.Alarm)]
+        public bool CirculatingFanInverterError
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -687,6 +699,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 充氮氣逾時
         /// </summary>
+        [PLCBitData(DataType.D, 12001, 5, LogType.Alert)]
         public bool InflatingTimeExceeded
         {
             get => GetPLC<bool>();
@@ -696,7 +709,8 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 門未關定位異常
         /// </summary>
-        public bool DoorNotClosed_PositionException
+        [PLCBitData(DataType.D, 12001, 6, LogType.Alert)]
+        public bool DoorNotClosedPositionException
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -705,6 +719,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升恆溫逾時
         /// </summary>
+        [PLCBitData(DataType.D, 12001, 7, LogType.Alarm)]
         public bool HeatingTimeExceeded
         {
             get => GetPLC<bool>();
@@ -714,34 +729,8 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 加熱分路跳脫
         /// </summary>
+        [PLCBitData(DataType.D, 12001, 8, LogType.Alarm)]
         public bool HeatingBranchException
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
-        /// <summary>
-        /// 溫控器異常
-        /// </summary>
-        public bool ThermostatException
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
-        /// <summary>
-        /// 通訊異常
-        /// </summary>
-        public bool CommunicationException
-        {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
-        }
-
-        /// <summary>
-        /// 寫入溫度比對異常
-        /// </summary>
-        public bool TemperatureWriteError
         {
             get => GetPLC<bool>();
             set => SetPLC(value);

@@ -102,9 +102,11 @@
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="1,1,0,0">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="{DynamicResource 降溫時間}" />
+                            <Viewbox StretchDirection="DownOnly" Margin="4,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 程式結束警報}" />
+                            </Viewbox>
                         </Border>
                         <Border Grid.Row="0"
                                 Grid.Column="4"
@@ -117,10 +119,10 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="0.1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="1"
                                     SmallChange="0.1"
                                     TickFrequency="0.1"
-                                    Value="{Binding CoolingTime, Mode=TwoWay}" />
+                                    Value="{Binding ProgramStopAlarmTime, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="0"
                                               Grid.Column="5"
@@ -128,8 +130,8 @@
                                               BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding CoolingTime, Mode=TwoWay, StringFormat=\{0:F1\}}"
+                                              Min="1"
+                                              Text="{Binding ProgramStopAlarmTime, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="1"
                                 Grid.Column="0"
@@ -1097,17 +1099,6 @@
                                 <Run Text="6" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="19"
-                                Grid.Column="2"
-                                Grid.ColumnSpan="2"
-                                Background="{StaticResource WindowBackgroundBrush6}"
-                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,1,0,0">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="12"
-                                       Text="{DynamicResource 程式結束警報}" />
-                        </Border>
                         <Border Grid.Row="13"
                                 Grid.Column="4"
                                 Background="{StaticResource LightColorBrush}"
@@ -1210,22 +1201,6 @@
                                     TickFrequency="0.1"
                                     Value="{Binding WarmingAlarm_6, Mode=TwoWay}" />
                         </Border>
-                        <Border Grid.Row="19"
-                                Grid.Column="4"
-                                Background="{StaticResource LightColorBrush}"
-                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,1,0,0">
-                            <Slider Margin="4,0"
-                                    VerticalAlignment="Center"
-                                    IsSelectionRangeEnabled="True"
-                                    IsSnapToTickEnabled="True"
-                                    LargeChange="0.1"
-                                    Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="1"
-                                    SmallChange="0.1"
-                                    TickFrequency="0.1"
-                                    Value="{Binding ProgramStopAlarmTime, Mode=TwoWay}" />
-                        </Border>
                         <views:NumericTextBox Grid.Row="13"
                                               Grid.Column="5"
                                               Background="{StaticResource LightColorBrush}"
@@ -1280,21 +1255,77 @@
                                               Min="{Binding Time_Min, Mode=OneWay}"
                                               Text="{Binding WarmingAlarm_6, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="{DynamicResource 分}" />
+                        <Border Grid.Row="19"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,0">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Text="{DynamicResource 降溫溫度}" />
+                        </Border>
+                        <Border Grid.Row="19"
+                                Grid.Column="1"
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,0">
+                            <Slider Margin="4,0"
+                                    VerticalAlignment="Center"
+                                    IsSelectionRangeEnabled="True"
+                                    IsSnapToTickEnabled="True"
+                                    LargeChange="0.1"
+                                    Maximum="{Binding Temperature_Max, Mode=OneWay}"
+                                    Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                                    SmallChange="0.1"
+                                    TickFrequency="0.1"
+                                    Value="{Binding CoolingTemperature, Mode=TwoWay}" />
+                        </Border>
+                        <views:NumericTextBox Grid.Row="19"
+                                              Grid.Column="2"
+                                              Background="{StaticResource LightColorBrush}"
+                                              BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                              BorderThickness="1,1,0,0"
+                                              IntOnly="True"
+                                              Max="{Binding Temperature_Max, Mode=OneWay}"
+                                              Min="{Binding Temperature_Min, Mode=OneWay}"
+                                              Text="{Binding CoolingTemperature, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Unit="°C" />
+                        <Border Grid.Row="19"
+                                Grid.Column="3"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,0">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Text="{DynamicResource 降溫時間}" />
+                        </Border>
+                        <Border Grid.Row="19"
+                                Grid.Column="4"
+                                Background="{StaticResource LightColorBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,0">
+                            <Slider Margin="4,0"
+                                    VerticalAlignment="Center"
+                                    IsSelectionRangeEnabled="True"
+                                    IsSnapToTickEnabled="True"
+                                    LargeChange="0.1"
+                                    Maximum="{Binding Time_Max, Mode=OneWay}"
+                                    Minimum="1"
+                                    SmallChange="0.1"
+                                    TickFrequency="0.1"
+                                    Value="{Binding CoolingTime, Mode=TwoWay}" />
+                        </Border>
                         <views:NumericTextBox Grid.Row="19"
                                               Grid.Column="5"
                                               Background="{StaticResource LightColorBrush}"
                                               BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="1"
-                                              Text="{Binding ProgramStopAlarmTime, Mode=TwoWay, StringFormat=\{0:F1\}}"
+                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Text="{Binding CoolingTime, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="{DynamicResource 分}" />
-                        <Border Grid.Row="19"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Background="{StaticResource WindowBackgroundBrush6}"
-                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,1,0,0" />
                     </Grid>
                 </TabItem>
                 <TabItem Height="44"
@@ -1430,9 +1461,11 @@
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 降溫時間}" />
+                                <Viewbox StretchDirection="DownOnly" Margin="4,0">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Text="{DynamicResource 程式結束警報}" />
+                                </Viewbox>
                             </Border>
                             <Border Grid.Row="0"
                                     Grid.Column="3"
@@ -1441,7 +1474,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                    <Run Text="{Binding ProgramStopAlarmTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2034,15 +2067,6 @@
                                     <Run Text="6" />
                                 </TextBlock>
                             </Border>
-                            <Border Grid.Row="19"
-                                    Grid.Column="2"
-                                    Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,0">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 程式結束警報}" />
-                            </Border>
                             <Border Grid.Row="13"
                                     Grid.Column="3"
                                     Background="{StaticResource LightColorBrush}"
@@ -2110,22 +2134,43 @@
                                 </TextBlock>
                             </Border>
                             <Border Grid.Row="19"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 降溫溫度}" />
+                            </Border>
+                            <Border Grid.Row="19"
+                                    Grid.Column="1"
+                                    Background="{StaticResource LightColorBrush}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                            </Border>
+                            <Border Grid.Row="19"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush6}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 降溫時間}" />
+                            </Border>
+                            <Border Grid.Row="19"
                                     Grid.Column="3"
                                     Background="{StaticResource LightColorBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding ProgramStopAlarmTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                    <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
-                            <Border Grid.Row="19"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,0" />
                         </Grid>
                     </Grid>
                 </TabItem>

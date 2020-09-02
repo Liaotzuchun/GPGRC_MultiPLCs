@@ -599,6 +599,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                 PLC_All[index].RemoteCommandStop = true;
                             };
 
+            secsGem.SetRecipe += (index, name) =>
+                                 {
+                                     PLC_All[index].SetRecipe(name, false);
+                                 };
+
             secsGem.AddLOT += (index, o) =>
                               {
                                   //todo 投產
