@@ -469,7 +469,7 @@
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Width="60">
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="{DynamicResource 歷時}" />
+                                        <TextBlock Text="{DynamicResource 時間}" />
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:LogEvent">
