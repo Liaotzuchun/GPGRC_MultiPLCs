@@ -762,6 +762,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 綠燈
         /// </summary>
+        [PLCBitData(DataType.D, 12010, 14, LogType.Status)]
         public bool GreenLight
         {
             get => GetPLC<bool>();
@@ -771,6 +772,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 黃燈
         /// </summary>
+        [PLCBitData(DataType.D, 12010, 13, LogType.Status)]
         public bool YellowLight
         {
             get => GetPLC<bool>();
@@ -780,6 +782,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 紅燈
         /// </summary>
+        [PLCBitData(DataType.D, 12010, 12, LogType.Status)]
         public bool RedLight
         {
             get => GetPLC<bool>();
@@ -809,35 +812,35 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 降溫中
         /// </summary>
-        [PLCBitData(DataType.D, 12011, 15, LogType.Status)]
+        [PLCBitData(DataType.D, 12011, 5, LogType.Status)]
         public bool IsCooling
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
-        [PLCBitData(DataType.D, 12010, 3, LogType.Status)]
+        [PLCBitData(DataType.D, 12010, 4, LogType.Status)]
         public bool AutoMode
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
-        [PLCBitData(DataType.D, 12010, 4, LogType.Status)]
+        [PLCBitData(DataType.D, 12010, 3, LogType.Status)]
         public bool ManualMode
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
-        [PLCBitData(DataType.D, 12010, 5, LogType.Status)]
+        [PLCBitData(DataType.D, 12010, 6, LogType.Status)]
         public bool AutoMode_Start
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
-        [PLCBitData(DataType.D, 12010, 6, LogType.Status)]
+        [PLCBitData(DataType.D, 12010, 5, LogType.Status)]
         public bool AutoMode_Stop
         {
             get => GetPLC<bool>();
@@ -868,7 +871,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 溫控器實際溫度
         /// </summary>
-        [PLCData(DataType.D, 11124, LogType.Status)]
+        [PLCData(DataType.D, 11124, 0.1, LogType.Status)]
         public double ThermostatTemperature
         {
             get => GetPLC<double>();
@@ -878,7 +881,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 溫控器設定溫度
         /// </summary>
-        [PLCData(DataType.D, 11125, LogType.Status)]
+        [PLCData(DataType.D, 11125, 0.1, LogType.Status)]
         public double ThermostatTemperatureSet
         {
             get => GetPLC<double>();

@@ -65,7 +65,12 @@ namespace GPGO_MultiPLCs.Models
                     return 0.0;
                 }
 
-                var val = (double)CurrentSegment / UsedSegmentCounts;
+                if (IsCooling) return 1.0;
+
+                var d = 1 / (UsedSegmentCounts + 1) / 2;
+                var val = (double)CurrentSegment / (UsedSegmentCounts + 1);
+
+                if (IsWarming) val += d;
 
                 if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
                 {
@@ -719,7 +724,10 @@ namespace GPGO_MultiPLCs.Models
                                             await StopPP();
                                         }
                                     }
-                                    else if (data.Name == nameof(CurrentSegment))
+                                    else if (data.Name == nameof(CurrentSegment) ||
+                                             data.Name == nameof(IsHeating) || 
+                                             data.Name == nameof(IsWarming) || 
+                                             data.Name == nameof(IsCooling))
                                     {
                                         NotifyPropertyChanged(nameof(Progress));
                                     }
