@@ -563,6 +563,531 @@ namespace GPGO_MultiPLCs.Models
 
         #endregion
 
+        #region 配方運作值
+
+        /// <summary>
+        /// 配方名
+        /// </summary>
+        [PLCData(DataType.D, 11400, 40, LogType.None)]
+        public string PV_RecipeName
+        {
+            get => GetPLC<string>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 降溫溫度
+        /// </summary>
+        [PLCData(DataType.D, 11472, 0.1, LogType.None)]
+        public double PV_CoolingTemperature
+        {
+            get => GetPLC<short>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 降溫時間
+        /// </summary>
+        [PLCData(DataType.D, 11471, LogType.None)]
+        public double PV_CoolingTime
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 充氣時間
+        /// </summary>
+        public double PV_InflatingTime
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 程式結束警報時間
+        /// </summary>
+        [PLCData(DataType.D, 11473, LogType.None)]
+        public double PV_ProgramStopAlarmTime
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 使用段數
+        /// </summary>
+        [PLCData(DataType.D, 11470, LogType.None)]
+        public short PV_UsedSegmentCounts
+        {
+            get => GetPLC<short>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 目標溫度1
+        /// </summary>
+        [PLCData(DataType.D, 11420, 0.1, LogType.None)]
+        public double PV_TargetTemperature_1
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 目標溫度2
+        /// </summary>
+        [PLCData(DataType.D, 11421, 0.1, LogType.None)]
+        public double PV_TargetTemperature_2
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 目標溫度3
+        /// </summary>
+        [PLCData(DataType.D, 11422, 0.1, LogType.None)]
+        public double PV_TargetTemperature_3
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 目標溫度4
+        /// </summary>
+        [PLCData(DataType.D, 11423, 0.1, LogType.None)]
+        public double PV_TargetTemperature_4
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 目標溫度5
+        /// </summary>
+        [PLCData(DataType.D, 11424, 0.1, LogType.None)]
+        public double PV_TargetTemperature_5
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 目標溫度6
+        /// </summary>
+        [PLCData(DataType.D, 11425, 0.1, LogType.None)]
+        public double PV_TargetTemperature_6
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 目標溫度7
+        /// </summary>
+        public double PV_TargetTemperature_7
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 目標溫度8
+        /// </summary>
+        public double PV_TargetTemperature_8
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫溫度1
+        /// </summary>
+        public double PV_ThermostaticTemperature_1
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫溫度2
+        /// </summary>
+        public double PV_ThermostaticTemperature_2
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫溫度3
+        /// </summary>
+        public double PV_ThermostaticTemperature_3
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫溫度4
+        /// </summary>
+        public double PV_ThermostaticTemperature_4
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫溫度5
+        /// </summary>
+        public double PV_ThermostaticTemperature_5
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫溫度6
+        /// </summary>
+        public double PV_ThermostaticTemperature_6
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫溫度7
+        /// </summary>
+        public double PV_ThermostaticTemperature_7
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫溫度8
+        /// </summary>
+        public double PV_ThermostaticTemperature_8
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫時間1
+        /// </summary>
+        [PLCData(DataType.D, 11460, LogType.None)]
+        public double PV_HeatingTime_1
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫時間2
+        /// </summary>
+        [PLCData(DataType.D, 11461, LogType.None)]
+        public double PV_HeatingTime_2
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫時間3
+        /// </summary>
+        [PLCData(DataType.D, 11462, LogType.None)]
+        public double PV_HeatingTime_3
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫時間4
+        /// </summary>
+        [PLCData(DataType.D, 11463, LogType.None)]
+        public double PV_HeatingTime_4
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫時間5
+        /// </summary>
+        [PLCData(DataType.D, 11464, LogType.None)]
+        public double PV_HeatingTime_5
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫時間6
+        /// </summary>
+        [PLCData(DataType.D, 11465, LogType.None)]
+        public double PV_HeatingTime_6
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫時間7
+        /// </summary>
+        public double PV_HeatingTime_7
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫時間8
+        /// </summary>
+        public double PV_HeatingTime_8
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫警報時間1
+        /// </summary>
+        [PLCData(DataType.D, 11440, LogType.None)]
+        public double PV_HeatingAlarm_1
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫警報時間2
+        /// </summary>
+        [PLCData(DataType.D, 11441, LogType.None)]
+        public double PV_HeatingAlarm_2
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫警報時間3
+        /// </summary>
+        [PLCData(DataType.D, 11442, LogType.None)]
+        public double PV_HeatingAlarm_3
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫警報時間4
+        /// </summary>
+        [PLCData(DataType.D, 11443, LogType.None)]
+        public double PV_HeatingAlarm_4
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫警報時間5
+        /// </summary>
+        [PLCData(DataType.D, 11444, LogType.None)]
+        public double PV_HeatingAlarm_5
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫警報時間6
+        /// </summary>
+        [PLCData(DataType.D, 11445, LogType.None)]
+        public double PV_HeatingAlarm_6
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫警報時間7
+        /// </summary>
+        public double PV_HeatingAlarm_7
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 升溫警報時間8
+        /// </summary>
+        public double PV_HeatingAlarm_8
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫時間1
+        /// </summary>
+        [PLCData(DataType.D, 11430, LogType.None)]
+        public double PV_WarmingTime_1
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫時間2
+        /// </summary>
+        [PLCData(DataType.D, 11431, LogType.None)]
+        public double PV_WarmingTime_2
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫時間3
+        /// </summary>
+        [PLCData(DataType.D, 11432, LogType.None)]
+        public double PV_WarmingTime_3
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫時間4
+        /// </summary>
+        [PLCData(DataType.D, 11433, LogType.None)]
+        public double PV_WarmingTime_4
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫時間5
+        /// </summary>
+        [PLCData(DataType.D, 11434, LogType.None)]
+        public double PV_WarmingTime_5
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫時間6
+        /// </summary>
+        [PLCData(DataType.D, 11435, LogType.None)]
+        public double PV_WarmingTime_6
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫時間7
+        /// </summary>
+        public double PV_WarmingTime_7
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫時間8
+        /// </summary>
+        public double PV_WarmingTime_8
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫警報時間1
+        /// </summary>
+        [PLCData(DataType.D, 11450, LogType.None)]
+        public double PV_WarmingAlarm_1
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫警報時間2
+        /// </summary>
+        [PLCData(DataType.D, 11451, LogType.None)]
+        public double PV_WarmingAlarm_2
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫警報時間3
+        /// </summary>
+        [PLCData(DataType.D, 11452, LogType.None)]
+        public double PV_WarmingAlarm_3
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫警報時間4
+        /// </summary>
+        [PLCData(DataType.D, 11453, LogType.None)]
+        public double PV_WarmingAlarm_4
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫警報時間5
+        /// </summary>
+        [PLCData(DataType.D, 11454, LogType.None)]
+        public double PV_WarmingAlarm_5
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫警報時間6
+        /// </summary>
+        [PLCData(DataType.D, 11455, LogType.None)]
+        public double PV_WarmingAlarm_6
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫警報時間7
+        /// </summary>
+        public double PV_WarmingAlarm_7
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        /// <summary>
+        /// 恆溫警報時間8
+        /// </summary>
+        public double PV_WarmingAlarm_8
+        {
+            get => GetPLC<double>();
+            set => SetPLC(value);
+        }
+
+        #endregion
+
         #region 警報
 
         /// <summary>
@@ -847,7 +1372,7 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
-        [PLCBitData(DataType.D, 12010, 7, LogType.Status)]
+        [PLCBitData(DataType.D, 12010, 10, LogType.Status)]
         public bool PC_InUsed
         {
             get => GetPLC<bool>();

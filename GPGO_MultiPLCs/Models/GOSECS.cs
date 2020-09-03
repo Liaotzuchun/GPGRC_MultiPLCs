@@ -34,22 +34,22 @@ namespace GPGO_MultiPLCs.Models
             switch (RemoteCommand.RCMD)
             {
                 case "STARTLOT":
-                    STARTLOTCommand?.Invoke(RemoteCommand);
+                    HCACK = STARTLOTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "PP_SELECT":
-                    PP_SELECTCommand?.Invoke(RemoteCommand);
+                    HCACK = PP_SELECTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "START":
-                    STARTCommand?.Invoke(RemoteCommand);
+                    HCACK = STARTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "STOP":
-                    STOPCommand?.Invoke(RemoteCommand);
+                    HCACK = STOPCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "LOTMANAGEMENT":
-                    LOTMANAGEMENTCommand?.Invoke(RemoteCommand);
+                    HCACK = LOTMANAGEMENTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "RETRIEVELOTDATA":
-                    RetrieveLotDataCommand?.Invoke(RemoteCommand);
+                    HCACK = RetrieveLotDataCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 default:
                     HCACK = HCACKValule.CmdNotExist;
@@ -694,12 +694,12 @@ namespace GPGO_MultiPLCs.Models
 
         #region "RemoteCommand"
 
-        public event Action<RemoteCommand> STARTLOTCommand;
-        public event Action<RemoteCommand> PP_SELECTCommand;
-        public event Action<RemoteCommand> STARTCommand;
-        public event Action<RemoteCommand> STOPCommand;
-        public event Action<RemoteCommand> RetrieveLotDataCommand;
-        public event Action<RemoteCommand> LOTMANAGEMENTCommand;
+        public event Func<RemoteCommand, HCACKValule> STARTLOTCommand;
+        public event Func<RemoteCommand, HCACKValule> PP_SELECTCommand;
+        public event Func<RemoteCommand, HCACKValule> STARTCommand;
+        public event Func<RemoteCommand, HCACKValule> STOPCommand;
+        public event Func<RemoteCommand, HCACKValule> RetrieveLotDataCommand;
+        public event Func<RemoteCommand, HCACKValule> LOTMANAGEMENTCommand;
 
         #endregion "RemoteCommand"
     }

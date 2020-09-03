@@ -21,7 +21,7 @@ namespace GPGO_MultiPLCs.Models
             離線 = -1,
             未知,
             運轉中 = 1,
-            待命 = 2,
+            待命  = 2,
             準備中,
             維修 = 8,
             停止 = 16,
@@ -65,12 +65,18 @@ namespace GPGO_MultiPLCs.Models
                     return 0.0;
                 }
 
-                if (IsCooling) return 1.0;
+                if (IsCooling)
+                {
+                    return 1.0;
+                }
 
-                var d = 1 / (UsedSegmentCounts + 1) / 2;
+                var d   = 1 / (UsedSegmentCounts + 1) / 2;
                 var val = (double)CurrentSegment / (UsedSegmentCounts + 1);
 
-                if (IsWarming) val += d;
+                if (IsWarming)
+                {
+                    val += d;
+                }
 
                 if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
                 {
@@ -184,7 +190,7 @@ namespace GPGO_MultiPLCs.Models
 
                                        //!結束生產，填入資料
                                        OvenInfo.EndTime                  = DateTime.Now;
-                                       OvenInfo.Recipe                   = this.ObjCopy<PLC_Recipe>().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                       OvenInfo.Recipe                   = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
                                        OvenInfo.HeatingTimes             = h.ToList();
                                        OvenInfo.WarmingTimes             = w.ToList();
                                        OvenInfo.HeatingAlarms            = ha.ToList();
@@ -236,6 +242,40 @@ namespace GPGO_MultiPLCs.Models
         public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
 
         public event Func<User> GetUser;
+
+        public PLC_Recipe GetRecipePV() =>
+            new PLC_Recipe
+            {
+                WarmingTime_1        = PV_WarmingTime_1,
+                WarmingTime_2        = PV_WarmingTime_2,
+                WarmingTime_3        = PV_WarmingTime_3,
+                WarmingTime_4        = PV_WarmingTime_4,
+                WarmingTime_5        = PV_WarmingTime_5,
+                WarmingTime_6        = PV_WarmingTime_6,
+                WarmingTime_7        = PV_WarmingTime_7,
+                WarmingTime_8        = PV_WarmingTime_8,
+                CoolingTime          = PV_CoolingTime,
+                CoolingTemperature   = PV_CoolingTemperature,
+                HeatingTime_1        = PV_HeatingTime_1,
+                HeatingTime_2        = PV_HeatingTime_2,
+                HeatingTime_3        = PV_HeatingTime_3,
+                HeatingTime_4        = PV_HeatingTime_4,
+                HeatingTime_5        = PV_HeatingTime_5,
+                HeatingTime_6        = PV_HeatingTime_6,
+                HeatingTime_7        = PV_HeatingTime_7,
+                HeatingTime_8        = PV_HeatingTime_8,
+                InflatingTime        = PV_InflatingTime,
+                ProgramStopAlarmTime = PV_ProgramStopAlarmTime,
+                TargetTemperature_1  = PV_TargetTemperature_1,
+                TargetTemperature_2  = PV_TargetTemperature_2,
+                TargetTemperature_3  = PV_TargetTemperature_3,
+                TargetTemperature_4  = PV_TargetTemperature_4,
+                TargetTemperature_5  = PV_TargetTemperature_5,
+                TargetTemperature_6  = PV_TargetTemperature_6,
+                TargetTemperature_7  = PV_TargetTemperature_7,
+                TargetTemperature_8  = PV_TargetTemperature_8,
+                UsedSegmentCounts    = PV_UsedSegmentCounts,
+            };
 
         public void SetSelectedRecipeName(string name)
         {
@@ -638,7 +678,7 @@ namespace GPGO_MultiPLCs.Models
                                                                  if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
                                                                  {
                                                                      recipe.CopyToObj(this);
-                                                                     OvenInfo.Recipe = this.ObjCopy<PLC_Recipe>().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                                                     //OvenInfo.Recipe = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
                                                                  }
 
                                                                  RemoteCommandSelectPP = true;
@@ -725,8 +765,8 @@ namespace GPGO_MultiPLCs.Models
                                         }
                                     }
                                     else if (data.Name == nameof(CurrentSegment) ||
-                                             data.Name == nameof(IsHeating) || 
-                                             data.Name == nameof(IsWarming) || 
+                                             data.Name == nameof(IsHeating) ||
+                                             data.Name == nameof(IsWarming) ||
                                              data.Name == nameof(IsCooling))
                                     {
                                         NotifyPropertyChanged(nameof(Progress));
@@ -786,7 +826,7 @@ namespace GPGO_MultiPLCs.Models
 
                                             //todo
                                         }
-                                    }   
+                                    }
                                 }
                             };
 

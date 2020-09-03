@@ -10,6 +10,7 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
+using GP_SECS_GEM;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -592,21 +593,29 @@ namespace GPGO_MultiPLCs.ViewModels
             secsGem.Start += index =>
                              {
                                  PLC_All[index].RemoteCommandStart = true;
+
+                                 return HCACKValule.Acknowledge;
                              };
 
             secsGem.Stop += index =>
                             {
                                 PLC_All[index].RemoteCommandStop = true;
+
+                                return HCACKValule.Acknowledge;
                             };
 
             secsGem.SetRecipe += (index, name) =>
                                  {
                                      PLC_All[index].SetRecipe(name, false);
+
+                                     return HCACKValule.Acknowledge;
                                  };
 
             secsGem.AddLOT += (index, o) =>
                               {
                                   //todo 投產
+
+                                  return HCACKValule.CantPerform;
                               };
 
             //!註冊PLC事件需引發的動作

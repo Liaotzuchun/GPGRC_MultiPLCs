@@ -15,15 +15,15 @@ namespace GPGO_MultiPLCs.Models
         private GOSECS secsGem;
         private EqpBase eqpBase;
 
-        public event Action<string> TerminalMessage;
-        public event Action<int, string, object> ECChange;
-        public event Func<PLC_Recipe, bool> UpsertRecipe;
-        public event Action<string> DeleteRecipe;
-        public event Action<int, string> SetRecipe;
-        public event Action<int> Start;
-        public event Action<int> Stop;
-        public event Action<int, object> AddLOT;
-        public event Func<int, string, ValueTask<object>> GetLOTInfo;
+        public event Action<string>                                    TerminalMessage;
+        public event Action<int, string, object>                       ECChange;
+        public event Func<PLC_Recipe, bool>                            UpsertRecipe;
+        public event Action<string>                                    DeleteRecipe;
+        public event Func<int, string, HCACKValule>                    SetRecipe;
+        public event Func<int, HCACKValule>                            Start;
+        public event Func<int, HCACKValule>                            Stop;
+        public event Func<int, object, HCACKValule>                    AddLOT;
+        public event Func<int, string, ValueTask<object>, HCACKValule> GetLOTInfo;
 
         public readonly Thread thread;
         public Dispatcher dp;
@@ -93,57 +93,56 @@ namespace GPGO_MultiPLCs.Models
                                                              DeleteRecipe?.Invoke(recipeName);
                                                          };
                                 //S2F41
-                                secsGem.STARTLOTCommand += r =>
-                                                           {
-
-                                                           };
+                                secsGem.STARTLOTCommand += r => HCACKValule.CantPerform; //todo
 
                                 secsGem.PP_SELECTCommand += r =>
                                                             {
                                                                 if (r.RemoteCommandParameter.Count < 2)
                                                                 {
-                                                                    return;
+                                                                    return HCACKValule.ParameterInvalid;
                                                                 }
 
                                                                 if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
                                                                 {
-                                                                    SetRecipe?.Invoke(i, r.RemoteCommandParameter[1].CPVAL.ToString());
+                                                                    return SetRecipe?.Invoke(i, r.RemoteCommandParameter[1].CPVAL.ToString()) ?? HCACKValule.CantPerform;
                                                                 }
+
+                                                                return HCACKValule.CantPerform;
                                                             };
 
                                 secsGem.STARTCommand += r =>
                                                         {
                                                             if (r.RemoteCommandParameter.Count < 1)
                                                             {
-                                                                return;
+                                                                return HCACKValule.ParameterInvalid;
                                                             }
 
                                                             if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
                                                             {
-                                                                Start?.Invoke(i);
+                                                                return Start?.Invoke(i) ?? HCACKValule.CantPerform;
                                                             }
+
+                                                            return HCACKValule.CantPerform;
                                                         };
 
                                 secsGem.STOPCommand += r =>
                                                        {
                                                            if (r.RemoteCommandParameter.Count < 1)
                                                            {
-                                                               return;
+                                                               return HCACKValule.ParameterInvalid;
                                                            }
 
                                                            if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
                                                            {
-                                                               Stop?.Invoke(i);
+                                                               return Stop?.Invoke(i) ?? HCACKValule.CantPerform;
                                                            }
+
+                                                           return HCACKValule.CantPerform;
                                                        };
 
-                                secsGem.LOTMANAGEMENTCommand += r =>
-                                                                {
-                                                                };
+                                secsGem.LOTMANAGEMENTCommand += r => HCACKValule.CantPerform; //todo
 
-                                secsGem.RetrieveLotDataCommand += r =>
-                                                                  {
-                                                                  };
+                                secsGem.RetrieveLotDataCommand += r => HCACKValule.CantPerform; //todo
 
                                 eqpBase = SECSTool.GetEqpbase($"{index}");
                                 //SECS_GEM.GemDVDataUpdateNew("","");

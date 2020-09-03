@@ -1280,7 +1280,7 @@
                                     <TextBlock Foreground="{DynamicResource GlyphBrush}">
                                         <Run Text="{DynamicResource 配方}" />
                                         <Run Text=":" />
-                                        <Run Text="{Binding RecipeName, Mode=OneWay}" />
+                                        <Run Text="{Binding PV_RecipeName, Mode=OneWay}" />
                                     </TextBlock>
                                 </GroupBox.Header>
                                 <Grid ClipToBounds="True">
@@ -1318,7 +1318,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
+                                                   Text="{Binding PV_UsedSegmentCounts, Mode=OneWay}" />
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="2"
@@ -1336,7 +1336,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_CoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1356,7 +1356,7 @@
                                             BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                   Text="{Binding PV_CoolingTemperature, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="0"
@@ -1469,7 +1469,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                   Text="{Binding PV_TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
                                     </Border>
                                     <Border Grid.Row="3"
                                             Grid.Column="1"
@@ -1478,7 +1478,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                   Text="{Binding PV_TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
                                     </Border>
                                     <Border Grid.Row="4"
                                             Grid.Column="1"
@@ -1487,7 +1487,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                   Text="{Binding PV_TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
                                     </Border>
                                     <Border Grid.Row="5"
                                             Grid.Column="1"
@@ -1496,7 +1496,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                   Text="{Binding PV_TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
                                     </Border>
                                     <Border Grid.Row="6"
                                             Grid.Column="1"
@@ -1505,7 +1505,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                   Text="{Binding PV_TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
                                     </Border>
                                     <Border Grid.Row="7"
                                             Grid.Column="1"
@@ -1514,7 +1514,7 @@
                                             BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                                   Text="{Binding PV_TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
                                     </Border>
                                     <Border Grid.Row="2"
                                             Grid.Column="2"
@@ -1523,7 +1523,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1534,7 +1534,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1545,7 +1545,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1556,7 +1556,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1567,7 +1567,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1578,7 +1578,7 @@
                                             BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1589,7 +1589,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1600,7 +1600,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1611,7 +1611,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1622,7 +1622,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1633,7 +1633,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1644,7 +1644,7 @@
                                             BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding HeatingAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_HeatingAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1655,7 +1655,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1666,7 +1666,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1677,7 +1677,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1688,7 +1688,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1699,7 +1699,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1710,7 +1710,7 @@
                                             BorderThickness="0,0,1,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1721,7 +1721,7 @@
                                             BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1732,7 +1732,7 @@
                                             BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1743,7 +1743,7 @@
                                             BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1754,7 +1754,7 @@
                                             BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1765,7 +1765,7 @@
                                             BorderThickness="0,0,0,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
@@ -1776,7 +1776,7 @@
                                             BorderThickness="0,0,0,0">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center">
-                                            <Run Text="{Binding WarmingAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                            <Run Text="{Binding PV_WarmingAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Border>
