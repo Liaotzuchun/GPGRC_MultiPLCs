@@ -25,6 +25,8 @@
     <sys:String x:Key="狀態">狀態</sys:String>
     <sys:String x:Key="離線">離線</sys:String>
     <sys:String x:Key="待命">待命</sys:String>
+    <sys:String x:Key="維修">維修</sys:String>
+    <sys:String x:Key="停止">停止</sys:String>
     <sys:String x:Key="準備中">準備中</sys:String>
     <sys:String x:Key="升溫中">升溫中</sys:String>
     <sys:String x:Key="恆溫中">恆溫中</sys:String>
@@ -78,6 +80,7 @@
     <sys:String x:Key="風車異常">風車異常</sys:String>
     <sys:String x:Key="充氣逾時">充氣逾時</sys:String>
     <sys:String x:Key="超溫警報">超溫警報</sys:String>
+    <sys:String x:Key="低溫警報">低溫警報</sys:String>
     <sys:String x:Key="升恆溫逾時">升恆溫逾時</sys:String>
     <sys:String x:Key="手動">手動</sys:String>
     <sys:String x:Key="自動">自動</sys:String>
@@ -164,4 +167,5 @@
     <sys:String x:Key="片">片</sys:String>
     <sys:String x:Key="程式結束警報">程式結束警報</sys:String>
     <sys:String x:Key="完成烘烤">完成烘烤</sys:String>
+    <sys:String x:Key="電動門">電動門</sys:String>
 </ResourceDictionary>

@@ -24,6 +24,8 @@
     <sys:String x:Key="狀態">Status</sys:String>
     <sys:String x:Key="離線">Off line</sys:String>
     <sys:String x:Key="待命">Stand by</sys:String>
+    <sys:String x:Key="維修">Maintained</sys:String>
+    <sys:String x:Key="停止">Stopped</sys:String>
     <sys:String x:Key="準備中">Ready to go</sys:String>
     <sys:String x:Key="升溫中">Heating</sys:String>
     <sys:String x:Key="恆溫中">Warming</sys:String>
@@ -76,7 +78,8 @@
     <sys:String x:Key="溫度異常">Temp Err</sys:String>
     <sys:String x:Key="風車異常">Fan Err</sys:String>
     <sys:String x:Key="充氣逾時">Inf Timeout</sys:String>
-    <sys:String x:Key="超溫警報">OverTemperature Alarm</sys:String>
+    <sys:String x:Key="超溫警報">OverTemp. Alarm</sys:String>
+    <sys:String x:Key="低溫警報">LowTemp. Alarm</sys:String>
     <sys:String x:Key="升恆溫逾時">H/W Timeout</sys:String>
     <sys:String x:Key="手動">Manual</sys:String>
     <sys:String x:Key="自動">Auto</sys:String>
@@ -163,4 +166,5 @@
     <sys:String x:Key="片">Panels</sys:String>
     <sys:String x:Key="程式結束警報">Stopped Alarm</sys:String>
     <sys:String x:Key="完成烘烤">Finished</sys:String>
+    <sys:String x:Key="電動門">Door</sys:String>
 </ResourceDictionary>
