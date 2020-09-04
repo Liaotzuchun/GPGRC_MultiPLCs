@@ -56,7 +56,7 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11272, 0.1, LogType.Recipe)]
         public double CoolingTemperature
         {
-            get => GetPLC<short>();
+            get => GetPLC<double>();
             set => SetPLC(value);
         }
 
@@ -581,7 +581,7 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11472, 0.1, LogType.None)]
         public double PV_CoolingTemperature
         {
-            get => GetPLC<short>();
+            get => GetPLC<double>();
             set => SetPLC(value);
         }
 
