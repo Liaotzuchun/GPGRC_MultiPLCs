@@ -719,22 +719,24 @@ namespace GPGO_MultiPLCs.Models
 
             ValueChanged += async (LogType, data) =>
                             {
+                                var (name, value, oldvalue, type, Subscriptions, SubPosition) = data;
+
                                 var nowtime = DateTime.Now;
 
                                 if (LogType == LogType.Status)
                                 {
-                                    var eventval = (EventType.StatusChanged, nowtime, data.Name, $"{(DataType)data.TypeEnum}{data.Subscriptions.First()}", data.Value);
+                                    var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type}{data.Subscriptions.First()}", value);
                                     EventHappened?.Invoke(eventval);
                                     if (IsExecuting)
                                     {
                                         AddProcessEvent(eventval);
                                     }
 
-                                    if (data.Value is bool value)
+                                    if (value is bool val)
                                     {
-                                        if (data.Name == nameof(AutoMode_Start))
+                                        if (name == nameof(AutoMode_Start))
                                         {
-                                            if (!value)
+                                            if (!val)
                                             {
                                                 return;
                                             }
@@ -743,20 +745,20 @@ namespace GPGO_MultiPLCs.Models
 
                                             await StartPP();
                                         }
-                                        else if (data.Name == nameof(ProgramStop))
+                                        else if (name == nameof(ProgramStop))
                                         {
-                                            if (!value)
+                                            if (!val)
                                             {
                                                 return;
                                             }
 
                                             await StopPP();
                                         }
-                                        else if (data.Name == nameof(AutoMode_Stop))
+                                        else if (name == nameof(AutoMode_Stop))
                                         {
                                             OvenInfo.IsFinished = true;
 
-                                            if (!value)
+                                            if (!val)
                                             {
                                                 return;
                                             }
@@ -764,14 +766,14 @@ namespace GPGO_MultiPLCs.Models
                                             await StopPP();
                                         }
                                     }
-                                    else if (data.Name == nameof(CurrentSegment) ||
-                                             data.Name == nameof(IsHeating) ||
-                                             data.Name == nameof(IsWarming) ||
-                                             data.Name == nameof(IsCooling))
+                                    else if (name == nameof(CurrentSegment) ||
+                                             name == nameof(IsHeating) ||
+                                             name == nameof(IsWarming) ||
+                                             name == nameof(IsCooling))
                                     {
                                         NotifyPropertyChanged(nameof(Progress));
                                     }
-                                    else if (data.Name == nameof(EquipmentStatus))
+                                    else if (name == nameof(EquipmentStatus))
                                     {
                                         NotifyPropertyChanged(nameof(ProgressStatus));
 
@@ -783,7 +785,7 @@ namespace GPGO_MultiPLCs.Models
                                 }
                                 else if (LogType == LogType.Alert)
                                 {
-                                    var eventval = (EventType.Alert, nowtime, data.Name, $"{(BitType)data.TypeEnum}{data.Subscriptions.First()}", data.Value);
+                                    var eventval = (EventType.Alert, nowtime, name, $"{(BitType)type}{data.Subscriptions.First()}", value);
                                     EventHappened?.Invoke(eventval);
                                     if (IsExecuting)
                                     {
@@ -792,7 +794,7 @@ namespace GPGO_MultiPLCs.Models
                                 }
                                 else if (LogType == LogType.Alarm)
                                 {
-                                    var eventval = (EventType.Alarm, nowtime, data.Name, $"{(BitType)data.TypeEnum}{data.Subscriptions.First()}", data.Value);
+                                    var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type}{data.Subscriptions.First()}", value);
                                     EventHappened?.Invoke(eventval);
                                     if (IsExecuting)
                                     {
@@ -804,23 +806,23 @@ namespace GPGO_MultiPLCs.Models
                                 }
                                 else if (LogType == LogType.Trigger)
                                 {
-                                    if (data.Value is bool value)
+                                    if (value is bool val)
                                     {
-                                        var eventval = (EventType.Trigger, nowtime, data.Name, $"{(BitType)data.TypeEnum}{data.Subscriptions.First()}", value);
+                                        var eventval = (EventType.Trigger, nowtime, name, $"{(BitType)type}{data.Subscriptions.First()}", val);
 
-                                        if (data.Name == nameof(RemoteCommandStart))
+                                        if (name == nameof(RemoteCommandStart))
                                         {
                                             EventHappened?.Invoke(eventval);
 
                                             //todo
                                         }
-                                        else if (data.Name == nameof(RemoteCommandStop))
+                                        else if (name == nameof(RemoteCommandStop))
                                         {
                                             EventHappened?.Invoke(eventval);
 
                                             //todo
                                         }
-                                        else if (data.Name == nameof(RemoteCommandSelectPP))
+                                        else if (name == nameof(RemoteCommandSelectPP))
                                         {
                                             EventHappened?.Invoke(eventval);
 
