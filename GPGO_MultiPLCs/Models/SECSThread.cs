@@ -36,6 +36,14 @@ namespace GPGO_MultiPLCs.Models
                             });
         }
 
+        public void UpdateDV(string name, object value)
+        {
+            dp?.InvokeAsync(() =>
+                            {
+                                secsGem.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
+                            });
+        }
+
         public SECSThread(int index)
         {
             var deviceIndex = index;
