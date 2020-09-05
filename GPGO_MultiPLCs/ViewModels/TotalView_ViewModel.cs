@@ -757,6 +757,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                 null,
                                 0,
                                 Timeout.Infinite);
+
+            PLC_All[0].DataValues[(DataType.D, 11470)] = 6;
+            PLC_All[0].DataValues[(DataType.D, 11420)] = 500;
+            PLC_All[0].DataValues[(DataType.D, 11421)] = 700;
+            PLC_All[0].DataValues[(DataType.D, 11422)] = 900;
+            PLC_All[0].DataValues[(DataType.D, 11423)] = 1100;
+            PLC_All[0].DataValues[(DataType.D, 11424)] = 1300;
+            PLC_All[0].DataValues[(DataType.D, 11425)] = 1500;
         }
     }
 }

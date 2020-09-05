@@ -5,13 +5,13 @@ using System.Windows.Data;
 
 namespace GPGO_MultiPLCs.Views
 {
-    public class ListTakeCount : IMultiValueConverter
+    public class DoublesTakeCount : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values.Length > 1 && int.TryParse(values.First().ToString(), out var count) && count > 0)
             {
-                return values.Skip(1).Take(count).Cast<double>().ToArray();
+                return values.Skip(1).Take(count).Cast<double>().ToList();
             }
 
             return null;

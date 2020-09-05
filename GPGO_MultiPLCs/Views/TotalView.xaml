@@ -19,7 +19,7 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <local:ListTakeCount x:Key="ListTakeCount" />
+        <local:DoublesTakeCount x:Key="DoublesTakeCount" />
         <models:EventTypeToColor x:Key="EventTypeToColor" />
         <DataTemplate x:Key="ProgressDataTemplate"
                       DataType="models:PLC_DataProvider">
@@ -1848,12 +1848,12 @@
                                                 Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource RatioValue}, ConverterParameter=0.6, Mode=OneWay}"
                                                 Background="Transparent"
                                                 Columns="1">
-                                        <views:LevelsProgressBar Maximum="300"
+                                        <views:LevelsProgressBar Maximum="260"
                                                                  Minimum="0"
                                                                  Unit="°C"
                                                                  Value="{Binding ThermostatTemperature, Mode=OneWay}">
                                             <views:LevelsProgressBar.Steps>
-                                                <MultiBinding Converter="{StaticResource ListTakeCount}">
+                                                <MultiBinding Converter="{StaticResource DoublesTakeCount}">
                                                     <Binding Mode="OneWay"
                                                              Path="PV_UsedSegmentCounts" />
                                                     <Binding Mode="OneWay"
