@@ -542,7 +542,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             BackCommand = new RelayCommand(o =>
                                            {
-                                               Index = o is int i ? i : 0;
+                                               Index = int.TryParse(o.ToString(), out var i) ? i : 0;
                                            });
 
             TotalProduction = new ObservableConcurrentDictionary<int, int>();

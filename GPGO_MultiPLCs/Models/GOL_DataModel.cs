@@ -22,7 +22,7 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
-        [PLCBitData(DataType.D, 11067, 1, LogType.Trigger)]
+        [PLCBitData(DataType.D, 11067, 0, LogType.Trigger)]
         public bool RemoteCommandSelectPP
         {
             get => GetPLC<bool>();
