@@ -9,9 +9,9 @@ namespace GPGO_MultiPLCs.Views
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.First() is int count)
+            if (values.Length > 1 && int.TryParse(values.First().ToString(), out var count) && count > 0)
             {
-                return values.Skip(1).Take(count).ToList();
+                return values.Skip(1).Take(count).Cast<double>().ToArray();
             }
 
             return null;

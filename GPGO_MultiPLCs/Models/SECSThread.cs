@@ -59,7 +59,7 @@ namespace GPGO_MultiPLCs.Models
                 IsBackground = true
             };
 
-            thread.SetApartmentState(ApartmentState.MTA);
+            thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             tcs.Task.Wait();
 

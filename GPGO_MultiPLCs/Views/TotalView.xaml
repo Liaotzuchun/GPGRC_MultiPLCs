@@ -259,10 +259,9 @@
                                                             <Binding Converter="{StaticResource BoolNot}"
                                                                      Mode="OneWay"
                                                                      Path="RemoteMode" />
-                                                            <Binding Converter="{StaticResource IsEqualValue}"
-                                                                     ConverterParameter="2"
+                                                            <Binding Converter="{StaticResource BoolNot}"
                                                                      Mode="OneWay"
-                                                                     Path="EquipmentStatus" />
+                                                                     Path="IsExecuting" />
                                                             <Binding Mode="OneWay"
                                                                      Path="OnlineStatus" />
                                                         </MultiBinding>
@@ -1293,7 +1292,7 @@
                         </Grid.RowDefinitions>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="1.6*" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <GroupBox Margin="0,4,2,4"
@@ -1817,8 +1816,8 @@
                                       ClipToBounds="True">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="0" />
-                                        <ColumnDefinition Width="200" />
-                                        <ColumnDefinition Width="74" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
@@ -1843,83 +1842,12 @@
                                                    VerticalAlignment="Center"
                                                    Text="{DynamicResource 溫控器溫度}" />
                                     </Border>
-                                    <!--<Border Grid.Row="1"
-                                            Grid.Column="0"
-                                            Background="{StaticResource WindowBackgroundBrush6}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{DynamicResource 爐內溫度1}" />
-                                    </Border>
-                                    <Border Grid.Row="2"
-                                            Grid.Column="0"
-                                            Background="{StaticResource WindowBackgroundBrush6}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{DynamicResource 爐內溫度2}" />
-                                    </Border>
-                                    <Border Grid.Row="3"
-                                            Grid.Column="0"
-                                            Background="{StaticResource WindowBackgroundBrush6}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{DynamicResource 爐內溫度3}" />
-                                    </Border>
-                                    <Border Grid.Row="4"
-                                            Grid.Column="0"
-                                            Background="{StaticResource WindowBackgroundBrush6}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{DynamicResource 爐內溫度4}" />
-                                    </Border>
-                                    <Border Grid.Row="5"
-                                            Grid.Column="0"
-                                            Background="{StaticResource WindowBackgroundBrush6}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{DynamicResource 爐內溫度5}" />
-                                    </Border>
-                                    <Border Grid.Row="6"
-                                            Grid.Column="0"
-                                            Background="{StaticResource WindowBackgroundBrush6}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{DynamicResource 爐內溫度6}" />
-                                    </Border>
-                                    <Border Grid.Row="7"
-                                            Grid.Column="0"
-                                            Background="{StaticResource WindowBackgroundBrush6}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{DynamicResource 爐內溫度7}" />
-                                    </Border>
-                                    <Border Grid.Row="8"
-                                            Grid.Column="0"
-                                            Background="{StaticResource WindowBackgroundBrush6}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,0">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Text="{DynamicResource 爐內溫度8}" />
-                                    </Border>-->
-                                    <StackPanel Grid.Row="0"
+                                    <UniformGrid Grid.Row="0"
                                                 Grid.RowSpan="9"
                                                 Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                Orientation="Vertical">
+                                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource RatioValue}, ConverterParameter=0.6, Mode=OneWay}"
+                                                Background="Transparent"
+                                                Columns="1">
                                         <views:LevelsProgressBar Maximum="300"
                                                                  Minimum="0"
                                                                  Unit="°C"
@@ -1946,7 +1874,7 @@
                                         <views:RangeProgressBar Margin="16,0,16,16"
                                                                 Unit="%"
                                                                 Value="{Binding Progress, Mode=OneWay}" />
-                                    </StackPanel>
+                                    </UniformGrid>
                                     <!--<Border Grid.Row="1"
                                             Grid.Column="1"
                                             Background="{StaticResource LightColorBrush}"
@@ -2157,7 +2085,8 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <CheckBox Background="Cyan"
+                                        <CheckBox Width="60"
+                                                  Background="Cyan"
                                                   BorderBrush="{StaticResource PressedBrush}"
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   IsChecked="{Binding ProgramStop, Mode=OneWay}"
@@ -2168,7 +2097,8 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <CheckBox Background="{StaticResource ErrorBrush}"
+                                        <CheckBox Width="60"
+                                                  Background="{StaticResource ErrorBrush}"
                                                   BorderBrush="{StaticResource ErrorBorderBrush}"
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   IsChecked="{Binding EmergencyStop, Mode=OneWay}"
@@ -2179,7 +2109,8 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <CheckBox Background="{StaticResource ErrorBrush}"
+                                        <CheckBox Width="60"
+                                                  Background="{StaticResource ErrorBrush}"
                                                   BorderBrush="{StaticResource ErrorBorderBrush}"
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   Style="{StaticResource SignalView}">
@@ -2200,7 +2131,8 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <CheckBox Background="{StaticResource ErrorBrush}"
+                                        <CheckBox Width="60"
+                                                  Background="{StaticResource ErrorBrush}"
                                                   BorderBrush="{StaticResource ErrorBorderBrush}"
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   Style="{StaticResource SignalView}">
@@ -2232,7 +2164,8 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <CheckBox Background="{StaticResource ErrorBrush}"
+                                        <CheckBox Width="60"
+                                                  Background="{StaticResource ErrorBrush}"
                                                   BorderBrush="{StaticResource ErrorBorderBrush}"
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   IsChecked="{Binding OverTemperatureAlarm, Mode=OneWay}"
@@ -2243,7 +2176,8 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <CheckBox Background="{StaticResource ErrorBrush}"
+                                        <CheckBox Width="60"
+                                                  Background="{StaticResource ErrorBrush}"
                                                   BorderBrush="{StaticResource ErrorBorderBrush}"
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   IsChecked="{Binding LowTemperature, Mode=OneWay}"
@@ -2254,7 +2188,8 @@
                                             Background="{StaticResource LightColorBrush}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                             BorderThickness="0,0,0,1">
-                                        <CheckBox Background="{StaticResource ErrorBrush}"
+                                        <CheckBox Width="60"
+                                                  Background="{StaticResource ErrorBrush}"
                                                   BorderBrush="{StaticResource ErrorBorderBrush}"
                                                   Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
                                                   IsChecked="{Binding HeatingTimeExceeded, Mode=OneWay}"
