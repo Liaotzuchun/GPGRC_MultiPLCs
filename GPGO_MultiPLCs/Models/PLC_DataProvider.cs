@@ -658,7 +658,7 @@ namespace GPGO_MultiPLCs.Models
                                                                  Ext_Info.Add(info);
                                                              }
 
-                                                             if (!PC_InUsed)
+                                                             if (!PC_InUse)
                                                              {
                                                                  if (!await Dialog.Show(new Dictionary<Language, string>
                                                                                         {

@@ -341,6 +341,18 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public bool SECS_ONLINE
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        public bool SECS_REMOTE
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
         public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
 
         public event Action<(int StationIndex, string RackID)> CancelCheckIn;
@@ -468,7 +480,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <returns>是否成功寫入PLC</returns>
         public bool SetRecipe(int index, PLC_Recipe recipe)
         {
-            if (recipe == null || PLC_All[index].IsExecuting || PLC_All[index].PC_InUsed)
+            if (recipe == null || PLC_All[index].IsExecuting || PLC_All[index].PC_InUse)
             {
                 return false;
             }

@@ -167,4 +167,5 @@
     <sys:String x:Key="程式結束警報">Stopped Alarm</sys:String>
     <sys:String x:Key="完成烘烤">Finished</sys:String>
     <sys:String x:Key="電動門">Door</sys:String>
+    <sys:String x:Key="電腦使用">PC in use</sys:String>
 </ResourceDictionary>

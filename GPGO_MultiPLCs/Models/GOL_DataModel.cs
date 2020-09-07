@@ -1373,7 +1373,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [PLCBitData(DataType.D, 12010, 10, LogType.Status)]
-        public bool PC_InUsed
+        public bool PC_InUse
         {
             get => GetPLC<bool>();
             set => SetPLC(value);

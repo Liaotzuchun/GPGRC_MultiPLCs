@@ -168,4 +168,5 @@
     <sys:String x:Key="程式結束警報">程式結束警報</sys:String>
     <sys:String x:Key="完成烘烤">完成烘烤</sys:String>
     <sys:String x:Key="電動門">電動門</sys:String>
+    <sys:String x:Key="電腦使用">電腦使用</sys:String>
 </ResourceDictionary>
