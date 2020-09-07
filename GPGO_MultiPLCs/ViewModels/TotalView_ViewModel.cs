@@ -240,7 +240,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         #endregion
 
-        private IDialogService Dialog;
+        private          IDialogService Dialog;
+        private readonly SECSThread     secsGem;
 
         /// <summary>財產編號儲存位置</summary>
         private const string AssetNumbersPath = "AssetNumbers.json";
@@ -341,16 +342,87 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public bool SECS_ENABLE
+        {
+            get => Get<bool>();
+            set
+            {
+                Set(value);
+
+                async void action()
+                {
+                    if (!await secsGem.Enable(value))
+                    {
+                        Dialog?.Show(new Dictionary<Language, string>
+                                    {
+                                        {Language.TW, "無法啟用連線"},
+                                        {Language.CHS, "无法启用联机"},
+                                        {Language.EN, "Unable to enable connection"}
+                                    });
+
+                        Set(!value, nameof(SECS_ENABLE));
+                    }
+                }
+                action();
+            }
+        }
+
         public bool SECS_ONLINE
         {
             get => Get<bool>();
-            set => Set(value);
+            set
+            {
+                if (!SECS_ENABLE)
+                {
+                    return;
+                }
+
+                Set(value);
+
+                async void action()
+                {
+                    if (!await secsGem.Online(value))
+                    {
+                        Set(!value, nameof(SECS_ONLINE));
+                    }
+                }
+                action();
+            }
         }
 
         public bool SECS_REMOTE
         {
             get => Get<bool>();
-            set => Set(value);
+            set
+            {
+                if (!SECS_ENABLE || !SECS_ONLINE)
+                {
+                    return;
+                }
+
+                Set(value);
+
+                foreach (var plc in PLC_All)
+                {
+                    plc.RemoteMode = value;
+                    plc.LocalMode  = !plc.RemoteMode;
+                }
+
+                async void action()
+                {
+                    if (!await secsGem.Remote(value))
+                    {
+                        Set(!value, nameof(SECS_REMOTE));
+
+                        foreach (var plc in PLC_All)
+                        {
+                            plc.RemoteMode = !value;
+                            plc.LocalMode  = !plc.RemoteMode;
+                        }
+                    }
+                }
+                action();
+            }
         }
 
         public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
@@ -566,7 +638,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      NotifyPropertyChanged(nameof(TotalProductionCount));
                                                  };
 
-            var secsGem = new SECSThread(0);
+            secsGem = new SECSThread(0);
             secsGem.TerminalMessage += message =>
                                        {
                                            dialog?.Show(new Dictionary<Language, string>
@@ -629,6 +701,11 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   return HCACKValule.CantPerform;
                               };
+
+            secsGem.ONLINE_Changed += online =>
+                                      {
+                                          SECS_ONLINE = online;
+                                      };
 
             //!註冊PLC事件需引發的動作
             for (var i = 0; i < 20; i++)

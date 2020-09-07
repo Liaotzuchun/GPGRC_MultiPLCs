@@ -285,6 +285,8 @@ namespace GPGO_MultiPLCs.Models
 
         public void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) e)
         {
+            if (!IsExecuting) return;
+
             var (type, addtime, note, tag, value) = e;
             OvenInfo.EventList.Add(new LogEvent
                                    {
@@ -299,6 +301,8 @@ namespace GPGO_MultiPLCs.Models
 
         public void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
+            if (!IsExecuting) return;
+
             OvenInfo.RecordTemperatures.Add(new RecordTemperatures
                                             {
                                                 StartTime             = start,
@@ -364,6 +368,7 @@ namespace GPGO_MultiPLCs.Models
             OvenInfo.EventList.Clear();
             OvenInfo.RecordTemperatures.Clear();
             OvenInfo.StartTime = DateTime.Now;
+            OvenInfo.EndTime = new DateTime();
 
             await OneScheduler.StartNew(() =>
                                         {
@@ -752,17 +757,17 @@ namespace GPGO_MultiPLCs.Models
                                                 return;
                                             }
 
+                                            //OvenInfo.IsFinished = true;
                                             await StopPP();
                                         }
                                         else if (name == nameof(AutoMode_Stop))
                                         {
-                                            OvenInfo.IsFinished = true;
-
                                             if (!val)
                                             {
                                                 return;
                                             }
 
+                                            OvenInfo.IsFinished = true;
                                             await StopPP();
                                         }
                                     }

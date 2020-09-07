@@ -12,7 +12,7 @@ namespace GPGO_MultiPLCs.Models
 {
     public class SECSThread
     {
-        private GOSECS secsGem;
+        private GOSECS  secsGem;
         private EqpBase eqpBase;
 
         public event Action<string>                                    TerminalMessage;
@@ -24,9 +24,10 @@ namespace GPGO_MultiPLCs.Models
         public event Func<int, HCACKValule>                            Stop;
         public event Func<int, object, HCACKValule>                    AddLOT;
         public event Func<int, string, ValueTask<object>, HCACKValule> GetLOTInfo;
+        public event Action<bool>                                      ONLINE_Changed;
 
-        public readonly Thread thread;
-        public Dispatcher dp;
+        public readonly Thread     thread;
+        public          Dispatcher dp;
 
         public void UpdateSV(string name, object value)
         {
@@ -44,6 +45,87 @@ namespace GPGO_MultiPLCs.Models
                             });
         }
 
+        public async Task<bool> Enable(bool val)
+        {
+            if (dp == null)
+            {
+                return false;
+            }
+
+            var result = false;
+            await dp.InvokeAsync(() =>
+                                 {
+                                     if (secsGem == null)
+                                     {
+                                         return;
+                                     }
+
+                                     if (val && secsGem.AxQGWrapper.EnableComm() == 1)
+                                     {
+                                         result = true;
+                                     }
+                                     else if (!val && secsGem.AxQGWrapper.DisableComm() == 1)
+                                     {
+                                         result = true;
+                                     }
+                                 });
+            return result;
+        }
+
+        public async Task<bool> Online(bool val)
+        {
+            if (dp == null)
+            {
+                return false;
+            }
+
+            var result = false;
+            await dp.InvokeAsync(() =>
+                                 {
+                                     if (secsGem == null)
+                                     {
+                                         return;
+                                     }
+
+                                     if (val && secsGem.AxQGWrapper.OnLineRequest() == 1)
+                                     {
+                                         result = true;
+                                     }
+                                     else if (!val && secsGem.AxQGWrapper.OffLine() == 1)
+                                     {
+                                         result = true;
+                                     }
+                                 });
+            return result;
+        }
+
+        public async Task<bool> Remote(bool val)
+        {
+            if (dp == null)
+            {
+                return false;
+            }
+
+            var result = false;
+            await dp.InvokeAsync(() =>
+                                 {
+                                     if (secsGem == null)
+                                     {
+                                         return;
+                                     }
+
+                                     if (val && secsGem.AxQGWrapper.OnLineRemote() == 1)
+                                     {
+                                         result = true;
+                                     }
+                                     else if (!val && secsGem.AxQGWrapper.OnLineLocal() == 1)
+                                     {
+                                         result = true;
+                                     }
+                                 });
+            return result;
+        }
+
         public SECSThread(int index)
         {
             var deviceIndex = index;
@@ -55,9 +137,9 @@ namespace GPGO_MultiPLCs.Models
                                     tcs.SetResult(true);
                                     Dispatcher.Run();
                                 })
-            {
-                IsBackground = true
-            };
+                     {
+                         IsBackground = true
+                     };
 
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
@@ -67,14 +149,14 @@ namespace GPGO_MultiPLCs.Models
                             {
                                 var secsParameterSet = new SECSParameterSet();
                                 secsParameterSet.SECSParameter.HSMS_Connect_Mode = (int)HSMS_COMM_MODE.HSMS_PASSIVE_MODE;
-                                secsParameterSet.SECSParameter.LDeviceID = deviceIndex;                          //todo:每台烤箱要有 Device Id
-                                secsParameterSet.SECSParameter.NLocalPort = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
-                                secsParameterSet.SECSParameter.NRemotePort = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
-                                secsParameterSet.SECSParameter.FilePath = $"C:\\ITRIinit\\{deviceIndex}";       //設定檔存放位置
-                                secsParameterSet.SECSParameter.MDLN = "GP_GO";
+                                secsParameterSet.SECSParameter.LDeviceID         = deviceIndex;                          //todo:每台烤箱要有 Device Id
+                                secsParameterSet.SECSParameter.NLocalPort        = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
+                                secsParameterSet.SECSParameter.NRemotePort       = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
+                                secsParameterSet.SECSParameter.FilePath          = $"C:\\ITRIinit\\{deviceIndex}";       //設定檔存放位置
+                                secsParameterSet.SECSParameter.MDLN              = "GP_GO";
                                 var v = Assembly.GetExecutingAssembly().GetName().Version;
                                 secsParameterSet.SECSParameter.SOFTREV = $"{v.Major}.{v.Minor}.{v.Build}";
-                                secsGem = new GOSECS(secsParameterSet.SECSParameter);
+                                secsGem                                = new GOSECS(secsParameterSet.SECSParameter);
 
                                 secsGem.TerminalMessageEvent += message =>
                                                                 {
@@ -167,6 +249,18 @@ namespace GPGO_MultiPLCs.Models
                                 {
                                     Log.Logger.Warning("EventSentAlarmSetError", e);
                                 }
+
+                                secsGem.SECSCommunicationControlViewModel.PropertyChanged += (s, e) =>
+                                                                                             {
+                                                                                                 var vm = (SECSCommunicationControlViewModel)s;
+
+                                                                                                 switch (e.PropertyName)
+                                                                                                 {
+                                                                                                     case nameof(GP_GEM.SECSCommunicationControlViewModel.IsOnLine):
+                                                                                                         ONLINE_Changed?.Invoke(vm.IsOnLine);
+                                                                                                         break;
+                                                                                                 }
+                                                                                             };
                             });
         }
     }
