@@ -731,14 +731,15 @@ namespace GPGO_MultiPLCs.Models
                                 if (LogType == LogType.Status)
                                 {
                                     var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type}{data.Subscriptions.First()}", value);
-                                    EventHappened?.Invoke(eventval);
-                                    if (IsExecuting)
-                                    {
-                                        AddProcessEvent(eventval);
-                                    }
 
                                     if (value is bool val)
                                     {
+                                        EventHappened?.Invoke(eventval);
+                                        if (IsExecuting)
+                                        {
+                                            AddProcessEvent(eventval);
+                                        }
+
                                         if (name == nameof(AutoMode_Start))
                                         {
                                             if (!val)
@@ -776,10 +777,22 @@ namespace GPGO_MultiPLCs.Models
                                              name == nameof(IsWarming) ||
                                              name == nameof(IsCooling))
                                     {
+                                        EventHappened?.Invoke(eventval);
+                                        if (IsExecuting)
+                                        {
+                                            AddProcessEvent(eventval);
+                                        }
+
                                         NotifyPropertyChanged(nameof(Progress));
                                     }
                                     else if (name == nameof(EquipmentStatus))
                                     {
+                                        EventHappened?.Invoke(eventval);
+                                        if (IsExecuting)
+                                        {
+                                            AddProcessEvent(eventval);
+                                        }
+
                                         NotifyPropertyChanged(nameof(ProgressStatus));
 
                                         if (EquipmentStatus == (int)Status.錯誤)

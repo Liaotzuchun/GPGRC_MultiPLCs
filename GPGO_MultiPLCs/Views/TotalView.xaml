@@ -1347,7 +1347,7 @@
                     <Grid DataContext="{Binding PLC_In_Focused, Mode=OneWay}">
                         <Grid.RowDefinitions>
                             <RowDefinition />
-                            <RowDefinition Height="290" />
+                            <RowDefinition Height="300" />
                         </Grid.RowDefinitions>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -1848,24 +1848,18 @@
                                                    Text="{DynamicResource 設備狀態}" />
                                         <views:UniformStackPanel Orientation="Horizontal">
                                             <Border Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay}"
-                                                    Background="{DynamicResource OKBrush}"
-                                                    BorderBrush="{DynamicResource OKBorderBrush}"
-                                                    BorderThickness="1">
-                                                <Border Background="#CCFFFFFF"
+                                                    Background="{DynamicResource OKBrush}">
+                                                <Border Background="#99000000"
                                                         Visibility="{Binding GreenLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                                             </Border>
                                             <Border Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay}"
-                                                    Background="Gold"
-                                                    BorderBrush="Goldenrod"
-                                                    BorderThickness="1">
-                                                <Border Background="#CCFFFFFF"
+                                                    Background="Gold">
+                                                <Border Background="#99000000"
                                                         Visibility="{Binding YellowLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                                             </Border>
                                             <Border Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay}"
-                                                    Background="{DynamicResource ErrorBrush}"
-                                                    BorderBrush="{DynamicResource ErrorBorderBrush}"
-                                                    BorderThickness="1">
-                                                <Border Background="#CCFFFFFF"
+                                                    Background="{DynamicResource ErrorBrush}">
+                                                <Border Background="#99000000"
                                                         Visibility="{Binding RedLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                                             </Border>
                                         </views:UniformStackPanel>
@@ -1910,7 +1904,7 @@
                                         <views:LevelsProgressBar Maximum="260"
                                                                  Minimum="0"
                                                                  Unit="°C"
-                                                                 Value="{Binding ThermostatTemperature, Mode=OneWay}">
+                                                                 Value="260">
                                             <views:LevelsProgressBar.Steps>
                                                 <MultiBinding Converter="{StaticResource DoublesTakeCount}">
                                                     <Binding Mode="OneWay"
@@ -1932,7 +1926,7 @@
                                         </views:LevelsProgressBar>
                                         <views:RangeProgressBar Margin="16,0,16,16"
                                                                 Unit="%"
-                                                                Value="{Binding Progress, Mode=OneWay}" />
+                                                                Value="{Binding Progress, Mode=OneWay, Converter={StaticResource RatioValue}, ConverterParameter=100}" />
                                     </UniformGrid>
                                     <!--<Border Grid.Row="1"
                                             Grid.Column="1"
@@ -2423,7 +2417,7 @@
                                           PlotAreaBackground="{StaticResource LightColorBrush}"
                                           PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                           PlotAreaBorderThickness="0,1,1,0"
-                                          PlotMargins="40,10,0,35"
+                                          PlotMargins="40,11,0,35"
                                           TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                           TextOptions.TextRenderingMode="ClearType">
                                     <oxy:Plot.Axes>
@@ -2438,7 +2432,7 @@
                                                           MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                                           MajorGridlineStyle="Dot"
                                                           MajorTickSize="0"
-                                                          MaximumPadding="0"
+                                                          MaximumPadding="0.2"
                                                           Minimum="0"
                                                           MinimumPadding="0"
                                                           MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
@@ -2459,12 +2453,9 @@
                                                         IsZoomEnabled="False"
                                                         MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                                         MajorGridlineStyle="Dot"
-                                                        MajorStep="25"
                                                         MajorTickSize="0"
-                                                        Maximum="250"
                                                         MaximumPadding="0.2"
-                                                        Minimum="0"
-                                                        MinimumPadding="0"
+                                                        MinimumPadding="0.2"
                                                         MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                                         MinorGridlineStyle="None"
                                                         MinorTickSize="0"
