@@ -204,6 +204,9 @@ namespace GPGO_MultiPLCs.Models
                                            await ExecutingFinished.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
                                        }
 
+                                       OvenInfo.Clear();
+                                       Ext_Info.Clear();
+
                                        //!需在引發紀錄完成後才觸發取消投產
                                        CheckInCommand.Result = false;
                                    });
@@ -216,8 +219,10 @@ namespace GPGO_MultiPLCs.Models
         public string Selected_Name
         {
             get => Get<string>();
-            set => SetRecipe(value, true);
+            set => SetRecipe(value, true).Wait();
         }
+
+        public event Action<string> InvokeSECSEvent;
 
         public event Action<string> AssetNumberChanged;
 
@@ -333,29 +338,33 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
-        public async void SetRecipe(string recipeName, bool check)
+        public async Task<bool> SetRecipe(string recipeName, bool check)
         {
-            RemoteCommandSelectPP = false;
-
-            if (GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe)
+            if (!(GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe))
             {
-                if (check && !await Dialog.Show(new Dictionary<Language, string>
-                                                {
-                                                    {Language.TW, "請確認配方內容："},
-                                                    {Language.CHS, "请确认配方内容："},
-                                                    {Language.EN, "Please confirm this recipe:"}
-                                                }, recipe, true))
-                {
-                    return;
-                }
-
-                RecipeUsed?.Invoke(recipeName);
-                recipe.CopyToObj(this);
-                Set(recipeName, nameof(Selected_Name));
-                Intput_Name = Selected_Name;
+                return false;
             }
 
+            RemoteCommandSelectPP = false;
+
+            if (check && !await Dialog.Show(new Dictionary<Language, string>
+                                            {
+                                                {Language.TW, "請確認配方內容："},
+                                                {Language.CHS, "请确认配方内容："},
+                                                {Language.EN, "Please confirm this recipe:"}
+                                            }, recipe, true))
+            {
+                return false;
+            }
+
+            RecipeUsed?.Invoke(recipeName);
+            recipe.CopyToObj(this);
+            Set(recipeName, nameof(Selected_Name));
+            Intput_Name = Selected_Name;
+
             RemoteCommandSelectPP = true;
+
+            return true;
         }
 
         /// <summary>開始記錄</summary>
@@ -364,9 +373,7 @@ namespace GPGO_MultiPLCs.Models
         /// <returns></returns>
         private async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
-            OvenInfo.IsFinished = false;
-            OvenInfo.EventList.Clear();
-            OvenInfo.RecordTemperatures.Clear();
+            OvenInfo.Clear();
             OvenInfo.StartTime = DateTime.Now;
             OvenInfo.EndTime = new DateTime();
 
@@ -461,11 +468,27 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
+        public void AddLOT(string partNo, string batchNo, IEnumerable<string> panels)
+        {
+            var info = new ProductInfo
+                       {
+                           PartNumber  = partNo.Trim(),
+                           BatchNumber = batchNo.Trim()
+                       };
+
+            foreach (var panel in panels)
+            {
+                info.PanelCodes.Add(panel);
+            }
+
+            Ext_Info.Add(info);
+        }
+
         public PLC_DataProvider(IDialogService dialog)
         {
             Dialog = dialog;
 
-            CheckRecipeCommand_KeyIn = new RelayCommand(e =>
+            CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
                                                         {
                                                             if (((KeyEventArgs)e).Key != Key.Enter || Selected_Name == null)
                                                             {
@@ -483,7 +506,7 @@ namespace GPGO_MultiPLCs.Models
                                                             }
                                                             else if (Recipe_Names.Contains(Intput_Name))
                                                             {
-                                                                SetRecipe(Intput_Name, true);
+                                                                await SetRecipe(Intput_Name, true);
                                                             }
                                                             else
                                                             {
@@ -799,6 +822,10 @@ namespace GPGO_MultiPLCs.Models
                                         {
                                             await StopPP();
                                         }
+                                    }
+                                    else if(name == nameof(RackIDLoaded))
+                                    {
+                                        InvokeSECSEvent?.Invoke(nameof(RackIDLoaded));
                                     }
                                 }
                                 else if (LogType == LogType.Alert)

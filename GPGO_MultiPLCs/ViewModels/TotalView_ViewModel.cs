@@ -240,7 +240,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         #endregion
 
-        private          IDialogService Dialog;
+        private readonly IDialogService Dialog;
         private readonly SECSThread     secsGem;
 
         /// <summary>財產編號儲存位置</summary>
@@ -688,12 +688,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 return HCACKValule.Acknowledge;
                             };
 
-            secsGem.SetRecipe += (index, name) =>
-                                 {
-                                     PLC_All[index].SetRecipe(name, false);
-
-                                     return HCACKValule.Acknowledge;
-                                 };
+            secsGem.SetRecipe += (index, name) => PLC_All[index].SetRecipe(name, false).Result ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
 
             secsGem.AddLOT += (index, o) =>
                               {
@@ -821,6 +816,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                             };
 
                 PLC_All[i].GetUser += () => GetUser?.Invoke();
+
+                PLC_All[i].InvokeSECSEvent += name =>
+                                              {
+                                                  secsGem.InvokeEvent(name);
+                                              };
             }
 
             LoadMachineCodes();

@@ -1265,6 +1265,13 @@ namespace GPGO_MultiPLCs.Models
 
         #region 機台狀態
 
+        [PLCBitData(DataType.D, 12010, 0, LogType.Status)]
+        public bool RackIDLoaded
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
         /// <summary>
         /// 允許啟動
         /// </summary>

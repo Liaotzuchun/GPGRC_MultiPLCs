@@ -2574,8 +2574,7 @@
                                                     <Binding Converter="{views:StringToResource}"
                                                              Mode="OneWay"
                                                              Path="(models:LogEvent.Description)" />
-                                                    <Binding Converter="{StaticResource BoolOnOff}"
-                                                             Mode="OneWay"
+                                                    <Binding Mode="OneWay"
                                                              Path="(models:LogEvent.Value)" />
                                                 </MultiBinding>
                                             </oxy:LineAnnotation.Text>

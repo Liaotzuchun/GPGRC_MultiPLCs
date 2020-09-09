@@ -698,8 +698,7 @@
                                             <Binding Converter="{views:StringToResource}"
                                                      Mode="OneWay"
                                                      Path="(models:LogEvent.Description)" />
-                                            <Binding Converter="{StaticResource BoolOnOff}"
-                                                     Mode="OneWay"
+                                            <Binding Mode="OneWay"
                                                      Path="(models:LogEvent.Value)" />
                                         </MultiBinding>
                                     </oxy:LineAnnotation.Text>
@@ -749,18 +748,17 @@
                             <TextBlock x:Name="TextBlock"
                                        FontFamily="Segoe MDL2 Assets"
                                        FontSize="16"
-                                       FontWeight="Bold">
-                            </TextBlock>
+                                       FontWeight="Bold" />
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
                                              Value="True">
-                                    <Setter TargetName="TextBlock" Property="Text" Value="&#xE8FB;" />
                                     <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource OKBrush}" />
+                                    <Setter TargetName="TextBlock" Property="Text" Value="&#xE8FB;" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
                                              Value="False">
-                                    <Setter TargetName="TextBlock" Property="Text" Value="&#xE711;" />
                                     <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                    <Setter TargetName="TextBlock" Property="Text" Value="&#xE711;" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>

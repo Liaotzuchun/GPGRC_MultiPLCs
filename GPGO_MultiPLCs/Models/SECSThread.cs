@@ -45,6 +45,26 @@ namespace GPGO_MultiPLCs.Models
                             });
         }
 
+        public void InvokeEvent(string name)
+        {
+            dp?.InvokeAsync(() =>
+                            {
+                                try
+                                {
+                                    var ID = eqpBase.EqpEventViewModel.DataCollection.First(o => o.Name.Equals(name)).ID;
+
+                                    if (int.TryParse(ID, out var ECID))
+                                    {
+                                        secsGem.AxQGWrapper.EventReportSend(ECID);
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Log.Logger.Warning("EventSentAlarmSetError", e);
+                                }
+                            });
+        }
+
         public async Task<bool> Enable(bool val)
         {
             if (dp == null)
@@ -242,7 +262,7 @@ namespace GPGO_MultiPLCs.Models
                                 secsGem.AxQGWrapper.AlarmReportSend(1, 1);
                                 try
                                 {
-                                    var ECID = eqpBase.EqpECViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
+                                    var ECID = eqpBase.EqpEventViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
                                     secsGem.AxQGWrapper.EventReportSend(Convert.ToInt32(ECID));
                                 }
                                 catch (Exception e)
