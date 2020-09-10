@@ -290,7 +290,10 @@ namespace GPGO_MultiPLCs.Models
 
         public void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) e)
         {
-            if (!IsExecuting) return;
+            if (!IsExecuting)
+            {
+                return;
+            }
 
             var (type, addtime, note, tag, value) = e;
             OvenInfo.EventList.Add(new LogEvent
@@ -306,7 +309,10 @@ namespace GPGO_MultiPLCs.Models
 
         public void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
-            if (!IsExecuting) return;
+            if (!IsExecuting)
+            {
+                return;
+            }
 
             OvenInfo.RecordTemperatures.Add(new RecordTemperatures
                                             {
@@ -375,7 +381,7 @@ namespace GPGO_MultiPLCs.Models
         {
             OvenInfo.Clear();
             OvenInfo.StartTime = DateTime.Now;
-            OvenInfo.EndTime = new DateTime();
+            OvenInfo.EndTime   = new DateTime();
 
             await OneScheduler.StartNew(() =>
                                         {
@@ -468,12 +474,12 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public void AddLOT(string partNo, string batchNo, IEnumerable<string> panels)
+        public void AddLOT(string partNo, string lotid, IEnumerable<string> panels)
         {
             var info = new ProductInfo
                        {
-                           PartNumber  = partNo.Trim(),
-                           BatchNumber = batchNo.Trim()
+                           PartNumber = partNo.Trim(),
+                           LotID      = lotid.Trim()
                        };
 
             foreach (var panel in panels)
@@ -586,16 +592,16 @@ namespace GPGO_MultiPLCs.Models
                                                                  return false;
                                                              }
 
-                                                             var batches = new Dictionary<string, int>();
+                                                             var lots = new Dictionary<string, int>();
 
                                                              do
                                                              {
-                                                                 var (result2, batchNo) =
+                                                                 var (result2, lotID) =
                                                                      await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                                  {
                                                                                                      {Language.TW, "輸入批號"},
                                                                                                      {Language.CHS, "输入批号"},
-                                                                                                     {Language.EN, "Enter the Batch Number"}
+                                                                                                     {Language.EN, "Enter the LotID"}
                                                                                                  },
                                                                                                  new Dictionary<Language, string>
                                                                                                  {
@@ -619,7 +625,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                                  if (!result2)
                                                                  {
-                                                                     if (batches.Count == 0)
+                                                                     if (lots.Count == 0)
                                                                      {
                                                                          return false;
                                                                      }
@@ -655,32 +661,32 @@ namespace GPGO_MultiPLCs.Models
                                                                                                              });
                                                                                                  });
 
-                                                                 if (!result4 && batches.Count == 0)
+                                                                 if (!result4 && lots.Count == 0)
                                                                  {
                                                                      return false;
                                                                  }
 
-                                                                 batches[batchNo.ToString().Trim()] = counts;
+                                                                 lots[lotID.ToString().Trim()] = counts;
                                                              } while (await dialog.Show(new Dictionary<Language, string>
                                                                                         {
                                                                                             {Language.TW, "是否要繼續新增批號？"},
                                                                                             {Language.CHS, "是否要继续新增批号？"},
-                                                                                            {Language.EN, "Continue to add batch number?"}
-                                                                                        }, batches, true));
+                                                                                            {Language.EN, "Continue to add LotID?"}
+                                                                                        }, lots, true));
 
                                                              OvenInfo.OperatorID = opId.ToString().Trim();
 
                                                              Ext_Info.Clear();
-                                                             foreach (var batch in batches)
+                                                             foreach (var lot in lots)
                                                              {
                                                                  var info = new ProductInfo
                                                                             {
-                                                                                PartNumber  = partNo.ToString().Trim(),
-                                                                                BatchNumber = batch.Key.Trim()
+                                                                                PartNumber = partNo.ToString().Trim(),
+                                                                                LotID      = lot.Key.Trim()
                                                                             };
-                                                                 for (var i = 1; i <= batch.Value; i++)
+                                                                 for (var i = 1; i <= lot.Value; i++)
                                                                  {
-                                                                     info.PanelCodes.Add($"{info.PartNumber}-{info.BatchNumber}-{i}");
+                                                                     info.PanelCodes.Add($"{info.PartNumber}-{info.LotID}-{i}");
                                                                  }
 
                                                                  Ext_Info.Add(info);
@@ -823,7 +829,7 @@ namespace GPGO_MultiPLCs.Models
                                             await StopPP();
                                         }
                                     }
-                                    else if(name == nameof(RackIDLoaded))
+                                    else if (name == nameof(RackIDLoaded))
                                     {
                                         InvokeSECSEvent?.Invoke(nameof(RackIDLoaded));
                                     }

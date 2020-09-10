@@ -165,10 +165,10 @@ namespace GPGO_MultiPLCs.Models
             EventList.Clear();
             RecordTemperatures.Clear();
 
-            StartTime   = new DateTime();
-            EndTime     = new DateTime();
-            OperatorID  = "";
-            RackID = "";
+            StartTime  = new DateTime();
+            EndTime    = new DateTime();
+            OperatorID = "";
+            RackID     = "";
             IsFinished = false;
         }
 
@@ -186,7 +186,7 @@ namespace GPGO_MultiPLCs.Models
         public bool         FirstPanel    { get; set; } = false;
         public string       OrderCode     { get; set; }
         public string       PartNumber    { get; set; }
-        public string       BatchNumber   { get; set; }
+        public string       LotID         { get; set; }
         public List<string> PanelCodes    { get; set; } = new List<string>();
         public int          ProcessNumber { get; set; }
         public string       Side          { get; set; } = "A";
@@ -230,11 +230,11 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Order", "工單", "工单")]
         public string OrderCode { get; set; }
 
-        [LanguageTranslator("Order", "料號", "料号")]
+        [LanguageTranslator("PartNo.", "料號", "料号")]
         public string PartNumber { get; set; }
 
-        [LanguageTranslator("Order", "批號", "批号")]
-        public string BatchNumber { get; set; }
+        [LanguageTranslator("LotID", "批號", "批号")]
+        public string LotID { get; set; }
 
         public List<string> PanelCodes { get; set; } = new List<string>();
 
@@ -260,7 +260,7 @@ namespace GPGO_MultiPLCs.Models
                 //{GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
                 //{GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
                 {GetType().GetProperty(nameof(PartNumber)).GetName(lng), PartNumber},
-                {GetType().GetProperty(nameof(BatchNumber)).GetName(lng), BatchNumber},
+                {GetType().GetProperty(nameof(LotID)).GetName(lng), LotID},
                 {GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
                 //{GetType().GetProperty(nameof(RackID)).GetName(lng), RackID},
                 {GetType().GetProperty(nameof(Quantity)).GetName(lng), Quantity},

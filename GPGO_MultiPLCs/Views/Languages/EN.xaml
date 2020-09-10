@@ -19,8 +19,8 @@
     <sys:String x:Key="板架">RackID</sys:String>
     <sys:String x:Key="數量">Quantity</sys:String>
     <sys:String x:Key="工單">Order</sys:String>
-    <sys:String x:Key="料號">Part</sys:String>
-    <sys:String x:Key="批號">Batch</sys:String>
+    <sys:String x:Key="料號">PartNo.</sys:String>
+    <sys:String x:Key="批號">LotID</sys:String>
     <sys:String x:Key="狀態">Status</sys:String>
     <sys:String x:Key="離線">Off line</sys:String>
     <sys:String x:Key="待命">Stand by</sys:String>

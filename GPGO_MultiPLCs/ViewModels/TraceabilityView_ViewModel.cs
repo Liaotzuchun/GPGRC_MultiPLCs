@@ -26,9 +26,9 @@ namespace GPGO_MultiPLCs.ViewModels
             ByPLC      = 1,
 
             //ByOrder = 2,
-            ByBatch = 2,
-            ByPart  = 3,
-            Pie     = 4
+            ByLot  = 2,
+            ByPart = 3,
+            Pie    = 4
         }
 
         private readonly OxyColor     bgcolor     = OxyColor.FromRgb(240, 255, 235);
@@ -54,7 +54,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public FilterGroup PartNoFilter { get; }
 
         /// <summary>基於批號的Filter</summary>
-        public FilterGroup BatchNoFilter { get; }
+        public FilterGroup LotIDFilter { get; }
 
         /// <summary>基於PLC站號的Filter</summary>
         public FilterGroup OvenFilter { get; }
@@ -570,12 +570,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 var ByDate = date2 - date1 > TimeSpan.FromDays(1);
                 var result2 = finishedResults
-                             .GroupBy(x => Mode >= (int)ChartMode.ByBatch ?
+                             .GroupBy(x => Mode >= (int)ChartMode.ByLot ?
                                                x.StationNumber.ToString("00") :
                                                x.PartNumber)
                              .OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
 
-                var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByBatch;
+                var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByLot;
                 var categories = new List<string>();
 
                 var result1 = finishedResults.GroupBy(x =>
@@ -584,8 +584,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                           {
                                                               case ChartMode.ByPLC:
                                                                   return x.StationNumber.ToString("00");
-                                                              case ChartMode.ByBatch:
-                                                                  return x.BatchNumber;
+                                                              case ChartMode.ByLot:
+                                                                  return x.LotID;
                                                               case ChartMode.ByPart:
                                                                   return x.PartNumber;
                                                               default:
@@ -626,7 +626,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
-                    ResultView.LegendTitle     = Mode >= (int)ChartMode.ByBatch ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.PartNumber);
+                    ResultView.LegendTitle     = Mode >= (int)ChartMode.ByLot ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.PartNumber);
 
                     var color_step_2 = 0.9 / result2.Length;
 
@@ -655,8 +655,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                      {
                                                          case ChartMode.ByPLC:
                                                              return x.StationNumber.ToString("00") == categories[j];
-                                                         case ChartMode.ByBatch:
-                                                             return x.BatchNumber == categories[j];
+                                                         case ChartMode.ByLot:
+                                                             return x.LotID == categories[j];
                                                          case ChartMode.ByPart:
                                                              return x.PartNumber == categories[j];
                                                      }
@@ -691,7 +691,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   RecipeFilter.Check(x.RecipeName) &&
                                                   OrderFilter.Check(x.OrderCode) &&
                                                   PartNoFilter.Check(x.PartNumber) &&
-                                                  BatchNoFilter.Check(x.BatchNumber) &&
+                                                  LotIDFilter.Check(x.LotID) &&
                                                   OpFilter.Check(x.OperatorID) &&
                                                   RackFilter.Check(x.RackID) &&
                                                   SideFilter.Check(x.Side))
@@ -725,7 +725,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                   {
                                                                                                       {Language.TW, "請輸入欲搜尋之批號："},
                                                                                                       {Language.CHS, "请输入欲搜寻之批号："},
-                                                                                                      {Language.EN, "Please enter the BatchNumber you want to find："}
+                                                                                                      {Language.EN, "Please enter the LotID you want to find："}
                                                                                                   },
                                                                                                   new Dictionary<Language, string>
                                                                                                   {
@@ -734,11 +734,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                       {Language.EN, "Find"}
                                                                                                   });
 
-                                               if (!result1 && !result2 || string.IsNullOrEmpty(input1.ToString()) && string.IsNullOrEmpty(input2.ToString())) return;
+                                               if (!result1 && !result2 || string.IsNullOrEmpty(input1.ToString()) && string.IsNullOrEmpty(input2.ToString()))
+                                               {
+                                                   return;
+                                               }
 
                                                Standby = false;
 
-                                               SearchResult = await DataCollection.FindOneAsync(x => (!result1 || x.PartNumber.Contains(input1.ToString())) && (!result2 || x.BatchNumber.Contains(input2.ToString())));
+                                               SearchResult = await DataCollection.FindOneAsync(x => (!result1 || x.PartNumber.Contains(input1.ToString())) && (!result2 || x.LotID.Contains(input2.ToString())));
 
                                                Standby = true;
 
@@ -869,21 +872,21 @@ namespace GPGO_MultiPLCs.ViewModels
             RecipeFilter  = new FilterGroup(UpdateAct);
             OrderFilter   = new FilterGroup(UpdateAct);
             PartNoFilter  = new FilterGroup(UpdateAct);
-            BatchNoFilter = new FilterGroup(UpdateAct);
+            LotIDFilter   = new FilterGroup(UpdateAct);
             OpFilter      = new FilterGroup(UpdateAct);
-            RackFilter = new FilterGroup(UpdateAct);
+            RackFilter    = new FilterGroup(UpdateAct);
             SideFilter    = new FilterGroup(UpdateAct);
 
             ResultsChanged += e =>
                               {
-                                  OvenFilter.Filter    = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  RecipeFilter.Filter  = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  OrderFilter.Filter   = e?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  PartNoFilter.Filter  = e?.Select(x => x.PartNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  BatchNoFilter.Filter = e?.Select(x => x.BatchNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  OpFilter.Filter      = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  RackFilter.Filter = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  SideFilter.Filter    = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  OvenFilter.Filter   = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  RecipeFilter.Filter = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  OrderFilter.Filter  = e?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  PartNoFilter.Filter = e?.Select(x => x.PartNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  LotIDFilter.Filter  = e?.Select(x => x.LotID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  OpFilter.Filter     = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  RackFilter.Filter   = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  SideFilter.Filter   = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
 
                                   TodayProductionUpdated?.Invoke(e?.Where(x => x.AddedTime.Day == DateTime.Today.Day)
                                                                    .GroupBy(x => x.StationNumber - 1)

@@ -19,7 +19,7 @@ namespace GPGO_MultiPLCs
 {
     public sealed class Connector : DependencyObject, IDisposable
     {
-        public static readonly DependencyProperty OvenCountProperty = DependencyProperty.Register(nameof(OvenCount), typeof(int), typeof(Connector), new PropertyMetadata(0, OvenCountChanged));
+        public static readonly DependencyProperty OvenCountProperty     = DependencyProperty.Register(nameof(OvenCount),     typeof(int),    typeof(Connector), new PropertyMetadata(0,  OvenCountChanged));
         public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
 
         public string DataInputPath
@@ -45,8 +45,8 @@ namespace GPGO_MultiPLCs
         {
             var lng = (Language)Enum.Parse(typeof(Language), e.NewValue.ToString());
             ((Connector)sender).DialogVM.Language = lng;
-            ((Connector)sender).TraceVM.Language = lng;
-            ((Connector)sender).LogVM.Language = lng;
+            ((Connector)sender).TraceVM.Language  = lng;
+            ((Connector)sender).LogVM.Language    = lng;
         }
 
         public Language Language
@@ -85,12 +85,12 @@ namespace GPGO_MultiPLCs
 
         private AsyncAutoResetEvent _Testdatalock;
 
-        public GlobalDialog_ViewModel DialogVM { get; }
-        public LogView_ViewModel LogVM { get; }
-        public MainWindow_ViewModel MainVM { get; }
-        public RecipeControl_ViewModel RecipeVM { get; }
-        public TotalView_ViewModel TotalVM { get; }
-        public TraceabilityView_ViewModel TraceVM { get; }
+        public GlobalDialog_ViewModel     DialogVM { get; }
+        public LogView_ViewModel          LogVM    { get; }
+        public MainWindow_ViewModel       MainVM   { get; }
+        public RecipeControl_ViewModel    RecipeVM { get; }
+        public TotalView_ViewModel        TotalVM  { get; }
+        public TraceabilityView_ViewModel TraceVM  { get; }
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
@@ -105,11 +105,11 @@ namespace GPGO_MultiPLCs
                               "boom", "xxx", "wunmao"
                           };
 
-            var batchnum = new[]
-                           {
-                               "111", "222", "333", "444",
-                               "555", "666", "777"
-                           };
+            var lotid = new[]
+                        {
+                            "111", "222", "333", "444",
+                            "555", "666", "777"
+                        };
             var time = DateTime.Now;
 
             for (var j = 1; j <= new DateTime(time.Year, time.Month, 1).AddMonths(1).AddDays(-1).Day; j++)
@@ -123,11 +123,11 @@ namespace GPGO_MultiPLCs
                     for (var k = 0; k < 8; k++)
                     {
                         var info = new ProcessInfo
-                        {
-                            StartTime = st,
-                            RackID = rn.Next(1, 10000).ToString("00000"),
-                            OperatorID = rn.Next(1, 10).ToString("000")
-                        };
+                                   {
+                                       StartTime  = st,
+                                       RackID     = rn.Next(1, 10000).ToString("00000"),
+                                       OperatorID = rn.Next(1, 10).ToString("000")
+                                   };
                         var h = new[]
                                 {
                                     TotalVM.PLC_All[i].HeatingTime_1, TotalVM.PLC_All[i].HeatingTime_2, TotalVM.PLC_All[i].HeatingTime_3, TotalVM.PLC_All[i].HeatingTime_4,
@@ -159,34 +159,34 @@ namespace GPGO_MultiPLCs
                                     TotalVM.PLC_All[i].ThermostaticTemperature_1, TotalVM.PLC_All[i].ThermostaticTemperature_2, TotalVM.PLC_All[i].ThermostaticTemperature_3, TotalVM.PLC_All[i].ThermostaticTemperature_4,
                                     TotalVM.PLC_All[i].ThermostaticTemperature_5, TotalVM.PLC_All[i].ThermostaticTemperature_6, TotalVM.PLC_All[i].ThermostaticTemperature_7, TotalVM.PLC_All[i].ThermostaticTemperature_8
                                 };
-                        Array.Resize(ref h, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref w, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref h,  TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref w,  TotalVM.PLC_All[i].UsedSegmentCounts);
                         Array.Resize(ref ha, TotalVM.PLC_All[i].UsedSegmentCounts);
                         Array.Resize(ref wa, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref t, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref s, TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref t,  TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref s,  TotalVM.PLC_All[i].UsedSegmentCounts);
 
-                        info.Recipe = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language);
-                        info.HeatingTimes = h.ToList();
-                        info.WarmingTimes = w.ToList();
-                        info.HeatingAlarms = ha.ToList();
-                        info.WarmingAlarms = wa.ToList();
-                        info.TargetOvenTemperatures = t.ToList();
+                        info.Recipe                   = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language);
+                        info.HeatingTimes             = h.ToList();
+                        info.WarmingTimes             = w.ToList();
+                        info.HeatingAlarms            = ha.ToList();
+                        info.WarmingAlarms            = wa.ToList();
+                        info.TargetOvenTemperatures   = t.ToList();
                         info.ThermostaticTemperatures = s.ToList();
 
                         var ttime = new TimeSpan(0, 0, 1);
-                        var cc = 0;
+                        var cc    = 0;
 
                         var _ev = new LogEvent
-                        {
-                            StationNumber = i + 1,
-                            StartTime = st,
-                            AddedTime = st + ttime,
-                            Description = "第1段升溫",
-                            TagCode = $"{BitType.S}{100}",
-                            Type = EventType.Normal,
-                            Value = true
-                        };
+                                  {
+                                      StationNumber = i + 1,
+                                      StartTime     = st,
+                                      AddedTime     = st + ttime,
+                                      Description   = "第1段升溫",
+                                      TagCode       = $"{BitType.S}{100}",
+                                      Type          = EventType.Normal,
+                                      Value         = true
+                                  };
 
                         LogVM.AddToDB(_ev);
                         info.EventList.Add(_ev);
@@ -196,29 +196,29 @@ namespace GPGO_MultiPLCs
                             if (m == 60)
                             {
                                 var ev1 = new LogEvent
-                                {
-                                    StationNumber = i + 1,
-                                    StartTime = st,
-                                    AddedTime = st + ttime - TimeSpan.FromMilliseconds(1),
-                                    Description = "第1段升溫",
-                                    TagCode = $"{BitType.S}{100}",
-                                    Type = EventType.Normal,
-                                    Value = false
-                                };
+                                          {
+                                              StationNumber = i + 1,
+                                              StartTime     = st,
+                                              AddedTime     = st + ttime - TimeSpan.FromMilliseconds(1),
+                                              Description   = "第1段升溫",
+                                              TagCode       = $"{BitType.S}{100}",
+                                              Type          = EventType.Normal,
+                                              Value         = false
+                                          };
 
                                 LogVM.AddToDB(ev1);
                                 info.EventList.Add(ev1);
 
                                 var ev2 = new LogEvent
-                                {
-                                    StationNumber = i + 1,
-                                    StartTime = st,
-                                    AddedTime = st + ttime,
-                                    Description = "第1段恆溫",
-                                    TagCode = $"{BitType.S}{101}",
-                                    Type = EventType.Normal,
-                                    Value = true
-                                };
+                                          {
+                                              StationNumber = i + 1,
+                                              StartTime     = st,
+                                              AddedTime     = st + ttime,
+                                              Description   = "第1段恆溫",
+                                              TagCode       = $"{BitType.S}{101}",
+                                              Type          = EventType.Normal,
+                                              Value         = true
+                                          };
 
                                 LogVM.AddToDB(ev2);
                                 info.EventList.Add(ev2);
@@ -226,19 +226,19 @@ namespace GPGO_MultiPLCs
 
                             var tempt = 30 * (1 + 5 * 1 / (1 + Math.Exp(-0.12 * cc + 3)));
                             var vals = new RecordTemperatures
-                            {
-                                StartTime = st,
-                                AddedTime = st + ttime,
-                                ThermostatTemperature = tempt,
-                                OvenTemperatures_1 = tempt + rn.Next(-5, 5),
-                                OvenTemperatures_2 = tempt + rn.Next(-5, 5),
-                                OvenTemperatures_3 = tempt + rn.Next(-5, 5),
-                                OvenTemperatures_4 = tempt + rn.Next(-5, 5),
-                                OvenTemperatures_5 = tempt + rn.Next(-5, 5),
-                                OvenTemperatures_6 = tempt + rn.Next(-5, 5),
-                                OvenTemperatures_7 = tempt + rn.Next(-5, 5),
-                                OvenTemperatures_8 = tempt + rn.Next(-5, 5)
-                            };
+                                       {
+                                           StartTime             = st,
+                                           AddedTime             = st + ttime,
+                                           ThermostatTemperature = tempt,
+                                           OvenTemperatures_1    = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_2    = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_3    = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_4    = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_5    = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_6    = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_7    = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_8    = tempt + rn.Next(-5, 5)
+                                       };
 
                             cc += 1;
                             info.RecordTemperatures.Add(vals);
@@ -247,56 +247,56 @@ namespace GPGO_MultiPLCs
                         }
 
                         var ev_1 = new LogEvent
-                        {
-                            StationNumber = i + 1,
-                            StartTime = st,
-                            AddedTime = st + ttime - TimeSpan.FromSeconds(60),
-                            Description = "第1段恆溫",
-                            TagCode = $"{BitType.S}{100}",
-                            Type = EventType.Normal,
-                            Value = false
-                        };
+                                   {
+                                       StationNumber = i + 1,
+                                       StartTime     = st,
+                                       AddedTime     = st + ttime - TimeSpan.FromSeconds(60),
+                                       Description   = "第1段恆溫",
+                                       TagCode       = $"{BitType.S}{100}",
+                                       Type          = EventType.Normal,
+                                       Value         = false
+                                   };
 
                         LogVM.AddToDB(ev_1);
                         info.EventList.Add(ev_1);
 
                         var ev_2 = new LogEvent
-                        {
-                            StationNumber = i + 1,
-                            StartTime = st,
-                            AddedTime = st + ttime - TimeSpan.FromSeconds(1),
-                            Description = "程式結束",
-                            TagCode = $"{BitType.S}{102}",
-                            Type = EventType.Trigger,
-                            Value = true
-                        };
+                                   {
+                                       StationNumber = i + 1,
+                                       StartTime     = st,
+                                       AddedTime     = st + ttime - TimeSpan.FromSeconds(1),
+                                       Description   = "程式結束",
+                                       TagCode       = $"{BitType.S}{102}",
+                                       Type          = EventType.Trigger,
+                                       Value         = true
+                                   };
 
                         LogVM.AddToDB(ev_2);
                         info.EventList.Add(ev_2);
 
                         var ev_3 = new LogEvent
-                        {
-                            StationNumber = i + 1,
-                            StartTime = st,
-                            AddedTime = st + ttime,
-                            Description = "自動停止",
-                            TagCode = $"{BitType.S}{102}",
-                            Type = EventType.Trigger,
-                            Value = true
-                        };
+                                   {
+                                       StationNumber = i + 1,
+                                       StartTime     = st,
+                                       AddedTime     = st + ttime,
+                                       Description   = "自動停止",
+                                       TagCode       = $"{BitType.S}{102}",
+                                       Type          = EventType.Trigger,
+                                       Value         = true
+                                   };
 
                         LogVM.AddToDB(ev_3);
                         info.EventList.Add(ev_3);
 
-                        info.EndTime = info.StartTime + ttime;
-                        info.IsFinished = new Random().NextDouble() > 0.5;
+                        info.EndTime          = info.StartTime + ttime;
+                        info.IsFinished       = new Random().NextDouble() > 0.5;
                         info.TotalHeatingTime = (info.EndTime - info.StartTime).Minutes;
 
                         st = info.EndTime + TimeSpan.FromMinutes(10);
 
                         var infos = new List<ProcessInfo>();
-                        var temp = new List<int>();
-                        var n = rn.Next(0, 1);
+                        var temp  = new List<int>();
+                        var n     = rn.Next(0, 1);
                         for (var p = 0; p <= n; p++)
                         {
                             var _info = info.Copy();
@@ -308,12 +308,12 @@ namespace GPGO_MultiPLCs
 
                             temp.Add(index);
                             _info.PartNumber = partnum[index];
-                            _info.BatchNumber = batchnum[rn.Next(0, batchnum.Length)];
+                            _info.LotID      = lotid[rn.Next(0, lotid.Length)];
 
                             var count = rn.Next(10, 20);
                             for (var m = 1; m <= count; m++)
                             {
-                                _info.PanelCodes.Add($"{_info.PartNumber}-{_info.BatchNumber}-{m}");
+                                _info.PanelCodes.Add($"{_info.PartNumber}-{_info.LotID}-{m}");
                             }
 
                             infos.Add(_info);
@@ -330,12 +330,12 @@ namespace GPGO_MultiPLCs
             var db = new MongoClient("mongodb://localhost:27017").GetDatabase("GP");
 
             DialogVM = new GlobalDialog_ViewModel();
-            MainVM = new MainWindow_ViewModel();
+            MainVM   = new MainWindow_ViewModel();
             RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")),
                                                    new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("Old_PLC_Recipes")),
                                                    DialogVM);
             TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("ProductInfos")), DialogVM);
-            LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
+            LogVM   = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
 
             TotalVM = new TotalView_ViewModel(20, DialogVM);
 
@@ -403,13 +403,13 @@ namespace GPGO_MultiPLCs
                                                sb.Append(user.Level.ToString());
                                                sb.Append(", App ShutDown.");
                                                LogVM.AddToDB(new LogEvent
-                                               {
-                                                   AddedTime = DateTime.Now,
-                                                   StationNumber = 0,
-                                                   Type = EventType.Operator,
-                                                   Description = sb.ToString(),
-                                                   Value = true
-                                               });
+                                                             {
+                                                                 AddedTime     = DateTime.Now,
+                                                                 StationNumber = 0,
+                                                                 Type          = EventType.Operator,
+                                                                 Description   = sb.ToString(),
+                                                                 Value         = true
+                                                             });
                                                Application.Current.Shutdown(23555277);
                                            }
                                        }
@@ -435,7 +435,7 @@ namespace GPGO_MultiPLCs
 
                                              for (var i = 0; i < TotalVM.PLC_All.Count; i++)
                                              {
-                                                 var j = i;
+                                                 var j      = i;
                                                  var recipe = list.Find(x => j < x.Used_Stations.Count && x.Used_Stations[j]);
                                                  if (recipe != null)
                                                  {
@@ -491,7 +491,7 @@ namespace GPGO_MultiPLCs
                                                                                  try
                                                                                  {
                                                                                      var str = File.ReadAllText(file.FullName, Encoding.ASCII);
-                                                                                     var result = str.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
+                                                                                     var result = str.Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.None)
                                                                                                      .Where(x => x.StartsWith("General") && x.Contains("="))
                                                                                                      .Select(x => x.Split('='))
                                                                                                      .ToDictionary(x => x[0], x => x[1]);
@@ -516,9 +516,9 @@ namespace GPGO_MultiPLCs
 
                                              return products.GroupBy(x => x.ordercode)
                                                             .Select(x => new ProductInfo(x.Key, x.First().number)
-                                                            {
-                                                                PanelCodes = x.Select(y => y.panelcode).ToList()
-                                                            })
+                                                                         {
+                                                                             PanelCodes = x.Select(y => y.panelcode).ToList()
+                                                                         })
                                                             .ToList();
                                          }
 
@@ -546,7 +546,7 @@ namespace GPGO_MultiPLCs
                                              return;
                                          }
 
-                                         var tag = $".bak{stationIndex}";
+                                         var tag   = $".bak{stationIndex}";
                                          var files = new DirectoryInfo(path).GetFiles($"*{tag}");
                                          foreach (var file in files)
                                          {
@@ -636,14 +636,14 @@ namespace GPGO_MultiPLCs
                                      {
                                          var (stationIndex, type, time, note, tag, value) = e;
                                          LogVM.AddToDB(new LogEvent
-                                         {
-                                             StationNumber = stationIndex + 1,
-                                             AddedTime = time,
-                                             Type = type,
-                                             Description = note,
-                                             TagCode = tag,
-                                             Value = value
-                                         });
+                                                       {
+                                                           StationNumber = stationIndex + 1,
+                                                           AddedTime     = time,
+                                                           Type          = type,
+                                                           Description   = note,
+                                                           TagCode       = tag,
+                                                           Value         = value
+                                                       });
                                      };
 
             //!更新每日產量
@@ -662,7 +662,7 @@ namespace GPGO_MultiPLCs
 
             LogVM.GoDetailView += async e =>
                                   {
-                                      TraceVM.Standby = false; //!強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
+                                      TraceVM.Standby  = false; //!強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
                                       MainVM.ViewIndex = 2;
 
                                       await Task.Factory.StartNew(() =>
@@ -675,8 +675,8 @@ namespace GPGO_MultiPLCs
 
                                       var (info, logEvent) = e;
                                       TraceVM.SearchResult = info;
-                                      TraceVM.SearchEvent = logEvent;
-                                      TraceVM.Date1 = info.AddedTime.Date;
+                                      TraceVM.SearchEvent  = logEvent;
+                                      TraceVM.Date1        = info.AddedTime.Date;
                                   };
 
             //MakeTestData(20);
