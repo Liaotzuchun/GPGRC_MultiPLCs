@@ -1144,7 +1144,7 @@ namespace GPGO_MultiPLCs.Models
         /// OTP超溫異常
         /// </summary>
         [PLCBitData(DataType.D, 12000, 3, LogType.Alarm)]
-        public bool OTP_TemperatureError
+        public bool OTPTemperatureError
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
@@ -1256,6 +1256,36 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         [PLCBitData(DataType.D, 12001, 8, LogType.Alarm)]
         public bool HeatingBranchException
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        public bool PLCBatteryLow
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        public bool ELBtrip
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        public bool ServoDriverBatteryVoltLow
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        public bool ServoDriverError
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
+        public bool RasterError
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
