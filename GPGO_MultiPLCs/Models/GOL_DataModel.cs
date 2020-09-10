@@ -1261,30 +1261,35 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
+        [PLCBitData(DataType.D, 12001, 10, LogType.Alarm)]
         public bool PLCBatteryLow
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
+        [PLCBitData(DataType.D, 12001, 11, LogType.Alarm)]
         public bool ELBtrip
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
+        [PLCBitData(DataType.D, 12001, 12, LogType.Alarm)]
         public bool ServoDriverBatteryVoltLow
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
+        [PLCBitData(DataType.D, 12001, 15, LogType.Alarm)]
         public bool ServoDriverError
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
 
+        [PLCBitData(DataType.D, 12002, 0, LogType.Alarm)]
         public bool RasterError
         {
             get => GetPLC<bool>();
