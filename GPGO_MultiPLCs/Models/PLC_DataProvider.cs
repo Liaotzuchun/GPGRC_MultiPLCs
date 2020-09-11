@@ -152,34 +152,34 @@ namespace GPGO_MultiPLCs.Models
 
                                        var h = new[]
                                                {
-                                                   HeatingTime_1, HeatingTime_2, HeatingTime_3, HeatingTime_4,
-                                                   HeatingTime_5, HeatingTime_6, HeatingTime_7, HeatingTime_8
+                                                   RampTime_1, RampTime_2, RampTime_3, RampTime_4,
+                                                   RampTime_5, RampTime_6, RampTime_7, RampTime_8
                                                };
                                        var w = new[]
                                                {
-                                                   WarmingTime_1, WarmingTime_2, WarmingTime_3, WarmingTime_4,
-                                                   WarmingTime_5, WarmingTime_6, WarmingTime_7, WarmingTime_8
+                                                   DwellTime_1, DwellTime_2, DwellTime_3, DwellTime_4,
+                                                   DwellTime_5, DwellTime_6, DwellTime_7, DwellTime_8
                                                };
 
                                        var ha = new[]
                                                 {
-                                                    HeatingAlarm_1, HeatingAlarm_2, HeatingAlarm_3, HeatingAlarm_4,
-                                                    HeatingAlarm_5, HeatingAlarm_6, HeatingAlarm_7, HeatingAlarm_8
+                                                    RampAlarm_1, RampAlarm_2, RampAlarm_3, RampAlarm_4,
+                                                    RampAlarm_5, RampAlarm_6, RampAlarm_7, RampAlarm_8
                                                 };
                                        var wa = new[]
                                                 {
-                                                    WarmingAlarm_1, WarmingAlarm_2, WarmingAlarm_3, WarmingAlarm_4,
-                                                    WarmingAlarm_5, WarmingAlarm_6, WarmingAlarm_7, WarmingAlarm_8
+                                                    DwellAlarm_1, DwellAlarm_2, DwellAlarm_3, DwellAlarm_4,
+                                                    DwellAlarm_5, DwellAlarm_6, DwellAlarm_7, DwellAlarm_8
                                                 };
                                        var t = new[]
                                                {
-                                                   TargetTemperature_1, TargetTemperature_2, TargetTemperature_3, TargetTemperature_4,
-                                                   TargetTemperature_5, TargetTemperature_6, TargetTemperature_7, TargetTemperature_8
+                                                   TemperatureSetpoint_1, TemperatureSetpoint_2, TemperatureSetpoint_3, TemperatureSetpoint_4,
+                                                   TemperatureSetpoint_5, TemperatureSetpoint_6, TemperatureSetpoint_7, TemperatureSetpoint_8
                                                };
                                        var s = new[]
                                                {
-                                                   ThermostaticTemperature_1, ThermostaticTemperature_2, ThermostaticTemperature_3, ThermostaticTemperature_4,
-                                                   ThermostaticTemperature_5, ThermostaticTemperature_6, ThermostaticTemperature_7, ThermostaticTemperature_8
+                                                   DwellTemperature_1, DwellTemperature_2, DwellTemperature_3, DwellTemperature_4,
+                                                   DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
                                                };
                                        Array.Resize(ref h,  UsedSegmentCounts);
                                        Array.Resize(ref w,  UsedSegmentCounts);
@@ -191,13 +191,13 @@ namespace GPGO_MultiPLCs.Models
                                        //!結束生產，填入資料
                                        OvenInfo.EndTime                  = DateTime.Now;
                                        OvenInfo.Recipe                   = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
-                                       OvenInfo.HeatingTimes             = h.ToList();
-                                       OvenInfo.WarmingTimes             = w.ToList();
-                                       OvenInfo.HeatingAlarms            = ha.ToList();
-                                       OvenInfo.WarmingAlarms            = wa.ToList();
-                                       OvenInfo.TotalHeatingTime         = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
+                                       OvenInfo.RampTimes             = h.ToList();
+                                       OvenInfo.DwellTimes             = w.ToList();
+                                       OvenInfo.RampAlarms            = ha.ToList();
+                                       OvenInfo.DwellAlarms            = wa.ToList();
+                                       OvenInfo.TotalRampTime         = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
                                        OvenInfo.TargetOvenTemperatures   = t.ToList();
-                                       OvenInfo.ThermostaticTemperatures = s.ToList();
+                                       OvenInfo.DwellTemperatures = s.ToList();
 
                                        if (ExecutingFinished != null)
                                        {
@@ -222,7 +222,8 @@ namespace GPGO_MultiPLCs.Models
             set => SetRecipe(value, true).Wait();
         }
 
-        public event Action<string> InvokeSECSEvent;
+        public event Action<string>         InvokeSECSEvent;
+        public event Action<string, object> SV_Changed;
 
         public event Action<string> AssetNumberChanged;
 
@@ -251,34 +252,34 @@ namespace GPGO_MultiPLCs.Models
         public PLC_Recipe GetRecipePV() =>
             new PLC_Recipe
             {
-                WarmingTime_1        = PV_WarmingTime_1,
-                WarmingTime_2        = PV_WarmingTime_2,
-                WarmingTime_3        = PV_WarmingTime_3,
-                WarmingTime_4        = PV_WarmingTime_4,
-                WarmingTime_5        = PV_WarmingTime_5,
-                WarmingTime_6        = PV_WarmingTime_6,
-                WarmingTime_7        = PV_WarmingTime_7,
-                WarmingTime_8        = PV_WarmingTime_8,
+                DwellTime_1        = PV_DwellTime_1,
+                DwellTime_2        = PV_DwellTime_2,
+                DwellTime_3        = PV_DwellTime_3,
+                DwellTime_4        = PV_DwellTime_4,
+                DwellTime_5        = PV_DwellTime_5,
+                DwellTime_6        = PV_DwellTime_6,
+                DwellTime_7        = PV_DwellTime_7,
+                DwellTime_8        = PV_DwellTime_8,
                 CoolingTime          = PV_CoolingTime,
                 CoolingTemperature   = PV_CoolingTemperature,
-                HeatingTime_1        = PV_HeatingTime_1,
-                HeatingTime_2        = PV_HeatingTime_2,
-                HeatingTime_3        = PV_HeatingTime_3,
-                HeatingTime_4        = PV_HeatingTime_4,
-                HeatingTime_5        = PV_HeatingTime_5,
-                HeatingTime_6        = PV_HeatingTime_6,
-                HeatingTime_7        = PV_HeatingTime_7,
-                HeatingTime_8        = PV_HeatingTime_8,
+                RampTime_1        = PV_RampTime_1,
+                RampTime_2        = PV_RampTime_2,
+                RampTime_3        = PV_RampTime_3,
+                RampTime_4        = PV_RampTime_4,
+                RampTime_5        = PV_RampTime_5,
+                RampTime_6        = PV_RampTime_6,
+                RampTime_7        = PV_RampTime_7,
+                RampTime_8        = PV_RampTime_8,
                 InflatingTime        = PV_InflatingTime,
                 ProgramStopAlarmTime = PV_ProgramStopAlarmTime,
-                TargetTemperature_1  = PV_TargetTemperature_1,
-                TargetTemperature_2  = PV_TargetTemperature_2,
-                TargetTemperature_3  = PV_TargetTemperature_3,
-                TargetTemperature_4  = PV_TargetTemperature_4,
-                TargetTemperature_5  = PV_TargetTemperature_5,
-                TargetTemperature_6  = PV_TargetTemperature_6,
-                TargetTemperature_7  = PV_TargetTemperature_7,
-                TargetTemperature_8  = PV_TargetTemperature_8,
+                TemperatureSetpoint_1  = PV_TemperatureSetpoint_1,
+                TemperatureSetpoint_2  = PV_TemperatureSetpoint_2,
+                TemperatureSetpoint_3  = PV_TemperatureSetpoint_3,
+                TemperatureSetpoint_4  = PV_TemperatureSetpoint_4,
+                TemperatureSetpoint_5  = PV_TemperatureSetpoint_5,
+                TemperatureSetpoint_6  = PV_TemperatureSetpoint_6,
+                TemperatureSetpoint_7  = PV_TemperatureSetpoint_7,
+                TemperatureSetpoint_8  = PV_TemperatureSetpoint_8,
                 UsedSegmentCounts    = PV_UsedSegmentCounts,
             };
 
@@ -757,6 +758,8 @@ namespace GPGO_MultiPLCs.Models
 
                                 var nowtime = DateTime.Now;
 
+                                SV_Changed?.Invoke(name, value);
+
                                 if (LogType == LogType.Status)
                                 {
                                     var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type}{data.Subscriptions.First()}", value);
@@ -802,7 +805,7 @@ namespace GPGO_MultiPLCs.Models
                                         }
                                     }
                                     else if (name == nameof(CurrentSegment) ||
-                                             name == nameof(IsHeating) ||
+                                             name == nameof(IsRamp) ||
                                              name == nameof(IsWarming) ||
                                              name == nameof(IsCooling))
                                     {

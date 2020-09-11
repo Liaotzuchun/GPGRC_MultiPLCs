@@ -106,7 +106,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>目標溫度</summary>
-        [LanguageTranslator("Target Temp.", "目標溫度", "目标温度")]
+        [LanguageTranslator("Temp. SP", "目標溫度", "目标温度")]
         public List<double> TargetOvenTemperatures
         {
             get => Get<List<double>>();
@@ -114,16 +114,16 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>恆溫溫度</summary>
-        [LanguageTranslator("Thermostatic Temp.", "恆溫溫度", "恒温温度")]
-        public List<double> ThermostaticTemperatures
+        [LanguageTranslator("Dwell Temp.", "恆溫溫度", "恒温温度")]
+        public List<double> DwellTemperatures
         {
             get => Get<List<double>>();
             set => Set(value);
         }
 
         /// <summary>加熱時間(升溫至目標溫度)</summary>
-        [LanguageTranslator("Heating Time", "加熱時間", "加热时间")]
-        public List<double> HeatingTimes
+        [LanguageTranslator("Ramp Time", "加熱時間", "加热时间")]
+        public List<double> RampTimes
         {
             get => Get<List<double>>();
             set => Set(value);
@@ -131,21 +131,21 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>恆溫時間</summary>
         [LanguageTranslator("Warming Time", "恆溫時間", "恒温时间")]
-        public List<double> WarmingTimes
+        public List<double> DwellTimes
         {
             get => Get<List<double>>();
             set => Set(value);
         }
 
-        [LanguageTranslator("Heating Alarm", "加熱警報", "加热警报")]
-        public List<double> HeatingAlarms
+        [LanguageTranslator("Ramp Alarm", "加熱警報", "加热警报")]
+        public List<double> RampAlarms
         {
             get => Get<List<double>>();
             set => Set(value);
         }
 
         [LanguageTranslator("Warming Alarm", "恆溫警報", "恒温警报")]
-        public List<double> WarmingAlarms
+        public List<double> DwellAlarms
         {
             get => Get<List<double>>();
             set => Set(value);
@@ -153,7 +153,7 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>總烘烤時間</summary>
         [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
-        public double TotalHeatingTime
+        public double TotalRampTime
         {
             get => Get<double>();
             set => Set(value);
@@ -312,11 +312,11 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("Machine2=");
             stb.AppendLine(string.Join(",", TargetOvenTemperatures.Select(x => ((int)Math.Round(x, MidpointRounding.AwayFromZero)).ToString())));
             stb.Append("Machine3=");
-            stb.AppendLine(string.Join(",", WarmingTimes.Select(x => x.ToString(CultureInfo.InvariantCulture))));
+            stb.AppendLine(string.Join(",", DwellTimes.Select(x => x.ToString(CultureInfo.InvariantCulture))));
             stb.Append("Machine4=");
-            stb.AppendLine(string.Join(",", HeatingTimes.Select(x => x.ToString(CultureInfo.InvariantCulture))));
+            stb.AppendLine(string.Join(",", RampTimes.Select(x => x.ToString(CultureInfo.InvariantCulture))));
             stb.Append("Machine5=");
-            stb.AppendLine(TotalHeatingTime.ToString(CultureInfo.InvariantCulture));
+            stb.AppendLine(TotalRampTime.ToString(CultureInfo.InvariantCulture));
             stb.Append("Machine6=");
             stb.AppendLine(AlarmListString());
 

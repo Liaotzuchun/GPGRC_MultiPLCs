@@ -162,7 +162,7 @@
                                     Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                     SmallChange="0.1"
                                     TickFrequency="0.1"
-                                    Value="{Binding TargetTemperature_1, Mode=TwoWay}" />
+                                    Value="{Binding TemperatureSetpoint_1, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="1"
                                               Grid.Column="5"
@@ -171,7 +171,7 @@
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Temperature_Max, Mode=OneWay}"
                                               Min="{Binding Temperature_Min, Mode=OneWay}"
-                                              Text="{Binding TargetTemperature_1, Mode=TwoWay, StringFormat=\{0:F1\}}"
+                                              Text="{Binding TemperatureSetpoint_1, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="°C" />
                         <Border Grid.Row="2"
                                 Grid.Column="0"
@@ -200,7 +200,7 @@
                                     Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                     SmallChange="0.1"
                                     TickFrequency="0.1"
-                                    Value="{Binding TargetTemperature_2, Mode=TwoWay}" />
+                                    Value="{Binding TemperatureSetpoint_2, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="2"
                                               Grid.Column="5"
@@ -209,7 +209,7 @@
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Temperature_Max, Mode=OneWay}"
                                               Min="{Binding Temperature_Min, Mode=OneWay}"
-                                              Text="{Binding TargetTemperature_2, Mode=TwoWay, StringFormat=\{0:F1\}}"
+                                              Text="{Binding TemperatureSetpoint_2, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="°C" />
                         <Border Grid.Row="3"
                                 Grid.Column="0"
@@ -238,7 +238,7 @@
                                     Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                     SmallChange="0.1"
                                     TickFrequency="0.1"
-                                    Value="{Binding TargetTemperature_3, Mode=TwoWay}" />
+                                    Value="{Binding TemperatureSetpoint_3, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="3"
                                               Grid.Column="5"
@@ -247,7 +247,7 @@
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Temperature_Max, Mode=OneWay}"
                                               Min="{Binding Temperature_Min, Mode=OneWay}"
-                                              Text="{Binding TargetTemperature_3, Mode=TwoWay, StringFormat=\{0:F1\}}"
+                                              Text="{Binding TemperatureSetpoint_3, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="°C" />
                         <Border Grid.Row="4"
                                 Grid.Column="0"
@@ -276,7 +276,7 @@
                                     Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                     SmallChange="0.1"
                                     TickFrequency="0.1"
-                                    Value="{Binding TargetTemperature_4, Mode=TwoWay}" />
+                                    Value="{Binding TemperatureSetpoint_4, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="4"
                                               Grid.Column="5"
@@ -285,7 +285,7 @@
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Temperature_Max, Mode=OneWay}"
                                               Min="{Binding Temperature_Min, Mode=OneWay}"
-                                              Text="{Binding TargetTemperature_4, Mode=TwoWay, StringFormat=\{0:F1\}}"
+                                              Text="{Binding TemperatureSetpoint_4, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="°C" />
                         <Border Grid.Row="5"
                                 Grid.Column="0"
@@ -314,7 +314,7 @@
                                     Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                     SmallChange="0.1"
                                     TickFrequency="0.1"
-                                    Value="{Binding TargetTemperature_5, Mode=TwoWay}" />
+                                    Value="{Binding TemperatureSetpoint_5, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="5"
                                               Grid.Column="5"
@@ -323,7 +323,7 @@
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Temperature_Max, Mode=OneWay}"
                                               Min="{Binding Temperature_Min, Mode=OneWay}"
-                                              Text="{Binding TargetTemperature_5, Mode=TwoWay, StringFormat=\{0:F1\}}"
+                                              Text="{Binding TemperatureSetpoint_5, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="°C" />
                         <Border Grid.Row="6"
                                 Grid.Column="0"
@@ -352,7 +352,7 @@
                                     Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                     SmallChange="0.1"
                                     TickFrequency="0.1"
-                                    Value="{Binding TargetTemperature_6, Mode=TwoWay}" />
+                                    Value="{Binding TemperatureSetpoint_6, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="6"
                                               Grid.Column="5"
@@ -361,7 +361,7 @@
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Temperature_Max, Mode=OneWay}"
                                               Min="{Binding Temperature_Min, Mode=OneWay}"
-                                              Text="{Binding TargetTemperature_6, Mode=TwoWay, StringFormat=\{0:F1\}}"
+                                              Text="{Binding TemperatureSetpoint_6, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="°C" />
                         <Border Grid.Row="7"
                                 Grid.Column="0"
@@ -444,7 +444,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingTime_1, Mode=TwoWay}" />
+                                    Value="{Binding RampTime_1, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="8"
                                 Grid.Column="1"
@@ -461,7 +461,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingTime_2, Mode=TwoWay}" />
+                                    Value="{Binding RampTime_2, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="9"
                                 Grid.Column="1"
@@ -478,7 +478,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingTime_3, Mode=TwoWay}" />
+                                    Value="{Binding RampTime_3, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="10"
                                 Grid.Column="1"
@@ -495,7 +495,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingTime_4, Mode=TwoWay}" />
+                                    Value="{Binding RampTime_4, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="11"
                                 Grid.Column="1"
@@ -512,7 +512,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingTime_5, Mode=TwoWay}" />
+                                    Value="{Binding RampTime_5, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="12"
                                 Grid.Column="1"
@@ -529,7 +529,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingTime_6, Mode=TwoWay}" />
+                                    Value="{Binding RampTime_6, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="7"
                                               Grid.Column="2"
@@ -539,7 +539,7 @@
                                               IntOnly="True"
                                               Max="60"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingTime_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampTime_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="8"
                                               Grid.Column="2"
@@ -549,7 +549,7 @@
                                               IntOnly="True"
                                               Max="60"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingTime_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampTime_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="9"
                                               Grid.Column="2"
@@ -559,7 +559,7 @@
                                               IntOnly="True"
                                               Max="60"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingTime_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampTime_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="10"
                                               Grid.Column="2"
@@ -569,7 +569,7 @@
                                               IntOnly="True"
                                               Max="60"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingTime_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampTime_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="11"
                                               Grid.Column="2"
@@ -579,7 +579,7 @@
                                               IntOnly="True"
                                               Max="60"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingTime_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampTime_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="12"
                                               Grid.Column="2"
@@ -589,7 +589,7 @@
                                               IntOnly="True"
                                               Max="60"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingTime_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampTime_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="7"
                                 Grid.Column="3"
@@ -672,7 +672,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingAlarm_1, Mode=TwoWay}" />
+                                    Value="{Binding RampAlarm_1, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="8"
                                 Grid.Column="4"
@@ -689,7 +689,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingAlarm_2, Mode=TwoWay}" />
+                                    Value="{Binding RampAlarm_2, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="9"
                                 Grid.Column="4"
@@ -706,7 +706,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingAlarm_3, Mode=TwoWay}" />
+                                    Value="{Binding RampAlarm_3, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="10"
                                 Grid.Column="4"
@@ -723,7 +723,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingAlarm_4, Mode=TwoWay}" />
+                                    Value="{Binding RampAlarm_4, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="11"
                                 Grid.Column="4"
@@ -740,7 +740,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingAlarm_5, Mode=TwoWay}" />
+                                    Value="{Binding RampAlarm_5, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="12"
                                 Grid.Column="4"
@@ -757,7 +757,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding HeatingAlarm_6, Mode=TwoWay}" />
+                                    Value="{Binding RampAlarm_6, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="7"
                                               Grid.Column="5"
@@ -767,7 +767,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingAlarm_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampAlarm_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="8"
                                               Grid.Column="5"
@@ -777,7 +777,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingAlarm_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampAlarm_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="9"
                                               Grid.Column="5"
@@ -787,7 +787,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingAlarm_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampAlarm_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="10"
                                               Grid.Column="5"
@@ -797,7 +797,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingAlarm_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampAlarm_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="11"
                                               Grid.Column="5"
@@ -807,7 +807,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingAlarm_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampAlarm_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="12"
                                               Grid.Column="5"
@@ -817,7 +817,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding HeatingAlarm_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding RampAlarm_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="13"
                                 Grid.Column="0"
@@ -900,7 +900,7 @@
                                     Minimum="0"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingTime_1, Mode=TwoWay}" />
+                                    Value="{Binding DwellTime_1, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="14"
                                 Grid.Column="1"
@@ -917,7 +917,7 @@
                                     Minimum="0"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingTime_2, Mode=TwoWay}" />
+                                    Value="{Binding DwellTime_2, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="15"
                                 Grid.Column="1"
@@ -934,7 +934,7 @@
                                     Minimum="0"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingTime_3, Mode=TwoWay}" />
+                                    Value="{Binding DwellTime_3, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="16"
                                 Grid.Column="1"
@@ -951,7 +951,7 @@
                                     Minimum="0"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingTime_4, Mode=TwoWay}" />
+                                    Value="{Binding DwellTime_4, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="17"
                                 Grid.Column="1"
@@ -968,7 +968,7 @@
                                     Minimum="0"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingTime_5, Mode=TwoWay}" />
+                                    Value="{Binding DwellTime_5, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="18"
                                 Grid.Column="1"
@@ -985,7 +985,7 @@
                                     Minimum="0"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingTime_6, Mode=TwoWay}" />
+                                    Value="{Binding DwellTime_6, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="13"
                                               Grid.Column="2"
@@ -995,7 +995,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="0"
-                                              Text="{Binding WarmingTime_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellTime_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="14"
                                               Grid.Column="2"
@@ -1005,7 +1005,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="0"
-                                              Text="{Binding WarmingTime_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellTime_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="15"
                                               Grid.Column="2"
@@ -1015,7 +1015,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="0"
-                                              Text="{Binding WarmingTime_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellTime_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="16"
                                               Grid.Column="2"
@@ -1025,7 +1025,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="0"
-                                              Text="{Binding WarmingTime_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellTime_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="17"
                                               Grid.Column="2"
@@ -1035,7 +1035,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="0"
-                                              Text="{Binding WarmingTime_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellTime_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="18"
                                               Grid.Column="2"
@@ -1045,7 +1045,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="0"
-                                              Text="{Binding WarmingTime_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellTime_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="13"
                                 Grid.Column="3"
@@ -1128,7 +1128,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingAlarm_1, Mode=TwoWay}" />
+                                    Value="{Binding DwellAlarm_1, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="14"
                                 Grid.Column="4"
@@ -1145,7 +1145,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingAlarm_2, Mode=TwoWay}" />
+                                    Value="{Binding DwellAlarm_2, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="15"
                                 Grid.Column="4"
@@ -1162,7 +1162,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingAlarm_3, Mode=TwoWay}" />
+                                    Value="{Binding DwellAlarm_3, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="16"
                                 Grid.Column="4"
@@ -1179,7 +1179,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingAlarm_4, Mode=TwoWay}" />
+                                    Value="{Binding DwellAlarm_4, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="17"
                                 Grid.Column="4"
@@ -1196,7 +1196,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingAlarm_5, Mode=TwoWay}" />
+                                    Value="{Binding DwellAlarm_5, Mode=TwoWay}" />
                         </Border>
                         <Border Grid.Row="18"
                                 Grid.Column="4"
@@ -1213,7 +1213,7 @@
                                     Minimum="{Binding Time_Min, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding WarmingAlarm_6, Mode=TwoWay}" />
+                                    Value="{Binding DwellAlarm_6, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="13"
                                               Grid.Column="5"
@@ -1223,7 +1223,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding WarmingAlarm_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellAlarm_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="14"
                                               Grid.Column="5"
@@ -1233,7 +1233,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding WarmingAlarm_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellAlarm_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="15"
                                               Grid.Column="5"
@@ -1243,7 +1243,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding WarmingAlarm_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellAlarm_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="16"
                                               Grid.Column="5"
@@ -1253,7 +1253,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding WarmingAlarm_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellAlarm_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="17"
                                               Grid.Column="5"
@@ -1263,7 +1263,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding WarmingAlarm_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellAlarm_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="18"
                                               Grid.Column="5"
@@ -1273,7 +1273,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="{Binding Time_Min, Mode=OneWay}"
-                                              Text="{Binding WarmingAlarm_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding DwellAlarm_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="19"
                                 Grid.Column="0"
@@ -1517,7 +1517,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Text="{Binding TargetTemperature_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                           Text="{Binding TemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
                             <Border Grid.Row="2"
                                     Grid.Column="0"
@@ -1537,7 +1537,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Text="{Binding TargetTemperature_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                           Text="{Binding TemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
                             <Border Grid.Row="3"
                                     Grid.Column="0"
@@ -1557,7 +1557,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Text="{Binding TargetTemperature_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                           Text="{Binding TemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
                             <Border Grid.Row="4"
                                     Grid.Column="0"
@@ -1577,7 +1577,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Text="{Binding TargetTemperature_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                           Text="{Binding TemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
                             <Border Grid.Row="5"
                                     Grid.Column="0"
@@ -1597,7 +1597,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Text="{Binding TargetTemperature_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                           Text="{Binding TemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
                             <Border Grid.Row="6"
                                     Grid.Column="0"
@@ -1617,7 +1617,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Text="{Binding TargetTemperature_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                           Text="{Binding TemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
                             <Border Grid.Row="1"
                                     Grid.RowSpan="6"
@@ -1699,7 +1699,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1710,7 +1710,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1721,7 +1721,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1732,7 +1732,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1743,7 +1743,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1754,7 +1754,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1831,7 +1831,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1842,7 +1842,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1853,7 +1853,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1864,7 +1864,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1875,7 +1875,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1886,7 +1886,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding HeatingAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding RampAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1963,7 +1963,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1974,7 +1974,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1985,7 +1985,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -1996,7 +1996,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2007,7 +2007,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2018,7 +2018,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2095,7 +2095,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2106,7 +2106,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2117,7 +2117,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2128,7 +2128,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2139,7 +2139,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>
@@ -2150,7 +2150,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding WarmingAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>

@@ -45,22 +45,24 @@ namespace GPGO_MultiPLCs.Models
                             });
         }
 
+        public void UpdateEC(string name, object value)
+        {
+            dp?.InvokeAsync(() =>
+                            {
+                                if (eqpBase.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpECClass ec && int.TryParse(ec.ID, out var ECID))
+                                {
+                                    secsGem.AxQGWrapper.UpdateEC(ECID, value);
+                                }
+                            });
+        }
+
         public void InvokeEvent(string name)
         {
             dp?.InvokeAsync(() =>
                             {
-                                try
+                                if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
                                 {
-                                    var ID = eqpBase.EqpEventViewModel.DataCollection.First(o => o.Name.Equals(name)).ID;
-
-                                    if (int.TryParse(ID, out var ECID))
-                                    {
-                                        secsGem.AxQGWrapper.EventReportSend(ECID);
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.Logger.Warning("EventSentAlarmSetError", e);
+                                    secsGem.AxQGWrapper.EventReportSend(CEID);
                                 }
                             });
         }
@@ -260,14 +262,10 @@ namespace GPGO_MultiPLCs.Models
                                 //var ALID = EqpBase.EqpAlarmViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
                                 //SECS_GEM.AxQGWrapper.AlarmReportSend(Convert.ToInt32(ALID), 255);
                                 secsGem.AxQGWrapper.AlarmReportSend(1, 1);
-                                try
+
+                                if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals("AlarmSet")) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
                                 {
-                                    var ECID = eqpBase.EqpEventViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
-                                    secsGem.AxQGWrapper.EventReportSend(Convert.ToInt32(ECID));
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.Logger.Warning("EventSentAlarmSetError", e);
+                                    secsGem.AxQGWrapper.EventReportSend(CEID);
                                 }
 
                                 secsGem.SECSCommunicationControlViewModel.PropertyChanged += (s, e) =>

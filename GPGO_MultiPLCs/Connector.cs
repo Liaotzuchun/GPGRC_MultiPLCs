@@ -130,34 +130,34 @@ namespace GPGO_MultiPLCs
                                    };
                         var h = new[]
                                 {
-                                    TotalVM.PLC_All[i].HeatingTime_1, TotalVM.PLC_All[i].HeatingTime_2, TotalVM.PLC_All[i].HeatingTime_3, TotalVM.PLC_All[i].HeatingTime_4,
-                                    TotalVM.PLC_All[i].HeatingTime_5, TotalVM.PLC_All[i].HeatingTime_6, TotalVM.PLC_All[i].HeatingTime_7, TotalVM.PLC_All[i].HeatingTime_8
+                                    TotalVM.PLC_All[i].RampTime_1, TotalVM.PLC_All[i].RampTime_2, TotalVM.PLC_All[i].RampTime_3, TotalVM.PLC_All[i].RampTime_4,
+                                    TotalVM.PLC_All[i].RampTime_5, TotalVM.PLC_All[i].RampTime_6, TotalVM.PLC_All[i].RampTime_7, TotalVM.PLC_All[i].RampTime_8
                                 };
                         var w = new[]
                                 {
-                                    TotalVM.PLC_All[i].WarmingTime_1, TotalVM.PLC_All[i].WarmingTime_2, TotalVM.PLC_All[i].WarmingTime_3, TotalVM.PLC_All[i].WarmingTime_4,
-                                    TotalVM.PLC_All[i].WarmingTime_5, TotalVM.PLC_All[i].WarmingTime_6, TotalVM.PLC_All[i].WarmingTime_7, TotalVM.PLC_All[i].WarmingTime_8
+                                    TotalVM.PLC_All[i].DwellTime_1, TotalVM.PLC_All[i].DwellTime_2, TotalVM.PLC_All[i].DwellTime_3, TotalVM.PLC_All[i].DwellTime_4,
+                                    TotalVM.PLC_All[i].DwellTime_5, TotalVM.PLC_All[i].DwellTime_6, TotalVM.PLC_All[i].DwellTime_7, TotalVM.PLC_All[i].DwellTime_8
                                 };
 
                         var ha = new[]
                                  {
-                                     TotalVM.PLC_All[i].HeatingAlarm_1, TotalVM.PLC_All[i].HeatingAlarm_2, TotalVM.PLC_All[i].HeatingAlarm_3, TotalVM.PLC_All[i].HeatingAlarm_4,
-                                     TotalVM.PLC_All[i].HeatingAlarm_5, TotalVM.PLC_All[i].HeatingAlarm_6, TotalVM.PLC_All[i].HeatingAlarm_7, TotalVM.PLC_All[i].HeatingAlarm_8
+                                     TotalVM.PLC_All[i].RampAlarm_1, TotalVM.PLC_All[i].RampAlarm_2, TotalVM.PLC_All[i].RampAlarm_3, TotalVM.PLC_All[i].RampAlarm_4,
+                                     TotalVM.PLC_All[i].RampAlarm_5, TotalVM.PLC_All[i].RampAlarm_6, TotalVM.PLC_All[i].RampAlarm_7, TotalVM.PLC_All[i].RampAlarm_8
                                  };
                         var wa = new[]
                                  {
-                                     TotalVM.PLC_All[i].WarmingAlarm_1, TotalVM.PLC_All[i].WarmingAlarm_2, TotalVM.PLC_All[i].WarmingAlarm_3, TotalVM.PLC_All[i].WarmingAlarm_4,
-                                     TotalVM.PLC_All[i].WarmingAlarm_5, TotalVM.PLC_All[i].WarmingAlarm_6, TotalVM.PLC_All[i].WarmingAlarm_7, TotalVM.PLC_All[i].WarmingAlarm_8
+                                     TotalVM.PLC_All[i].DwellAlarm_1, TotalVM.PLC_All[i].DwellAlarm_2, TotalVM.PLC_All[i].DwellAlarm_3, TotalVM.PLC_All[i].DwellAlarm_4,
+                                     TotalVM.PLC_All[i].DwellAlarm_5, TotalVM.PLC_All[i].DwellAlarm_6, TotalVM.PLC_All[i].DwellAlarm_7, TotalVM.PLC_All[i].DwellAlarm_8
                                  };
                         var t = new[]
                                 {
-                                    TotalVM.PLC_All[i].TargetTemperature_1, TotalVM.PLC_All[i].TargetTemperature_2, TotalVM.PLC_All[i].TargetTemperature_3, TotalVM.PLC_All[i].TargetTemperature_4,
-                                    TotalVM.PLC_All[i].TargetTemperature_5, TotalVM.PLC_All[i].TargetTemperature_6, TotalVM.PLC_All[i].TargetTemperature_7, TotalVM.PLC_All[i].TargetTemperature_8
+                                    TotalVM.PLC_All[i].TemperatureSetpoint_1, TotalVM.PLC_All[i].TemperatureSetpoint_2, TotalVM.PLC_All[i].TemperatureSetpoint_3, TotalVM.PLC_All[i].TemperatureSetpoint_4,
+                                    TotalVM.PLC_All[i].TemperatureSetpoint_5, TotalVM.PLC_All[i].TemperatureSetpoint_6, TotalVM.PLC_All[i].TemperatureSetpoint_7, TotalVM.PLC_All[i].TemperatureSetpoint_8
                                 };
                         var s = new[]
                                 {
-                                    TotalVM.PLC_All[i].ThermostaticTemperature_1, TotalVM.PLC_All[i].ThermostaticTemperature_2, TotalVM.PLC_All[i].ThermostaticTemperature_3, TotalVM.PLC_All[i].ThermostaticTemperature_4,
-                                    TotalVM.PLC_All[i].ThermostaticTemperature_5, TotalVM.PLC_All[i].ThermostaticTemperature_6, TotalVM.PLC_All[i].ThermostaticTemperature_7, TotalVM.PLC_All[i].ThermostaticTemperature_8
+                                    TotalVM.PLC_All[i].DwellTemperature_1, TotalVM.PLC_All[i].DwellTemperature_2, TotalVM.PLC_All[i].DwellTemperature_3, TotalVM.PLC_All[i].DwellTemperature_4,
+                                    TotalVM.PLC_All[i].DwellTemperature_5, TotalVM.PLC_All[i].DwellTemperature_6, TotalVM.PLC_All[i].DwellTemperature_7, TotalVM.PLC_All[i].DwellTemperature_8
                                 };
                         Array.Resize(ref h,  TotalVM.PLC_All[i].UsedSegmentCounts);
                         Array.Resize(ref w,  TotalVM.PLC_All[i].UsedSegmentCounts);
@@ -167,12 +167,12 @@ namespace GPGO_MultiPLCs
                         Array.Resize(ref s,  TotalVM.PLC_All[i].UsedSegmentCounts);
 
                         info.Recipe                   = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language);
-                        info.HeatingTimes             = h.ToList();
-                        info.WarmingTimes             = w.ToList();
-                        info.HeatingAlarms            = ha.ToList();
-                        info.WarmingAlarms            = wa.ToList();
+                        info.RampTimes             = h.ToList();
+                        info.DwellTimes             = w.ToList();
+                        info.RampAlarms            = ha.ToList();
+                        info.DwellAlarms            = wa.ToList();
                         info.TargetOvenTemperatures   = t.ToList();
-                        info.ThermostaticTemperatures = s.ToList();
+                        info.DwellTemperatures = s.ToList();
 
                         var ttime = new TimeSpan(0, 0, 1);
                         var cc    = 0;
@@ -290,7 +290,7 @@ namespace GPGO_MultiPLCs
 
                         info.EndTime          = info.StartTime + ttime;
                         info.IsFinished       = new Random().NextDouble() > 0.5;
-                        info.TotalHeatingTime = (info.EndTime - info.StartTime).Minutes;
+                        info.TotalRampTime = (info.EndTime - info.StartTime).Minutes;
 
                         st = info.EndTime + TimeSpan.FromMinutes(10);
 
