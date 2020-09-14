@@ -83,7 +83,7 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Started", "開始時間", "开始时间")]
         public DateTime StartTime { get; set; }
 
-        public double ThermostatTemperature { get; set; }
+        public double PV_ThermostatTemperature { get; set; }
     }
 
     public enum PCEventCode

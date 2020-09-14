@@ -57,7 +57,7 @@ namespace GPGO_MultiPLCs.Models
             RampAlarm_7.ToString("0.0") == other.RampAlarm_7.ToString("0.0") &&
             RampAlarm_8.ToString("0.0") == other.RampAlarm_8.ToString("0.0") &&
             InflatingTime.ToString("0.0") == other.InflatingTime.ToString("0.0") &&
-            ProgramStopAlarmTime.ToString("0.0") == other.ProgramStopAlarmTime.ToString("0.0") &&
+            ProgramEndWarningTime.ToString("0.0") == other.ProgramEndWarningTime.ToString("0.0") &&
             TemperatureSetpoint_1.ToString("0.0") == other.TemperatureSetpoint_1.ToString("0.0") &&
             TemperatureSetpoint_2.ToString("0.0") == other.TemperatureSetpoint_2.ToString("0.0") &&
             TemperatureSetpoint_3.ToString("0.0") == other.TemperatureSetpoint_3.ToString("0.0") &&
@@ -66,11 +66,11 @@ namespace GPGO_MultiPLCs.Models
             TemperatureSetpoint_6.ToString("0.0") == other.TemperatureSetpoint_6.ToString("0.0") &&
             TemperatureSetpoint_7.ToString("0.0") == other.TemperatureSetpoint_7.ToString("0.0") &&
             TemperatureSetpoint_8.ToString("0.0") == other.TemperatureSetpoint_8.ToString("0.0") &&
-            UsedSegmentCounts == other.UsedSegmentCounts;
+            StepCounts == other.StepCounts;
 
-        [JsonIgnore] public short SegmentCounts_Max => 6;
+        [JsonIgnore] public short StepCounts_Max => 6;
 
-        [JsonIgnore] public short SegmentCounts_Min => 1;
+        [JsonIgnore] public short StepCounts_Min => 1;
 
         [JsonIgnore] public double Temperature_Max => 250.0;
 
@@ -90,19 +90,19 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(2)]
-        [LanguageTranslator("Used Segment Counts", "使用段數", "使用段数")]
-        public short UsedSegmentCounts
+        [LanguageTranslator("Used Step Counts", "使用段數", "使用段数")]
+        public short StepCounts
         {
             get => Get<short>();
             set
             {
-                if (value > SegmentCounts_Max)
+                if (value > StepCounts_Max)
                 {
-                    value = SegmentCounts_Max;
+                    value = StepCounts_Max;
                 }
-                else if (value < SegmentCounts_Min)
+                else if (value < StepCounts_Min)
                 {
-                    value = SegmentCounts_Min;
+                    value = StepCounts_Min;
                 }
 
                 Set(value);
@@ -148,8 +148,8 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [LanguageTranslator("ProgramStopAlarmTime", "程式結束警報時間", "程序结束警报时间")]
-        public double ProgramStopAlarmTime
+        [LanguageTranslator("ProgramEndWarningTime", "程式結束警報時間", "程序结束警报时间")]
+        public double ProgramEndWarningTime
         {
             get => Get<double>();
             set
@@ -1257,7 +1257,7 @@ namespace GPGO_MultiPLCs.Models
                 RampAlarm_7            = RampAlarm_7,
                 RampAlarm_8            = RampAlarm_8,
                 InflatingTime             = InflatingTime,
-                ProgramStopAlarmTime      = ProgramStopAlarmTime,
+                ProgramEndWarningTime      = ProgramEndWarningTime,
                 TemperatureSetpoint_1       = TemperatureSetpoint_1,
                 TemperatureSetpoint_2       = TemperatureSetpoint_2,
                 TemperatureSetpoint_3       = TemperatureSetpoint_3,
@@ -1266,7 +1266,7 @@ namespace GPGO_MultiPLCs.Models
                 TemperatureSetpoint_6       = TemperatureSetpoint_6,
                 TemperatureSetpoint_7       = TemperatureSetpoint_7,
                 TemperatureSetpoint_8       = TemperatureSetpoint_8,
-                UsedSegmentCounts         = UsedSegmentCounts,
+                StepCounts         = StepCounts,
                 Used_Stations             = Used_Stations,
                 Editor                    = user,
                 EditorLevel               = level
@@ -1302,7 +1302,7 @@ namespace GPGO_MultiPLCs.Models
             RampTime_7             = recipe.RampTime_7;
             RampTime_8             = recipe.RampTime_8;
             InflatingTime             = recipe.InflatingTime;
-            ProgramStopAlarmTime      = recipe.ProgramStopAlarmTime;
+            ProgramEndWarningTime      = recipe.ProgramEndWarningTime;
             TemperatureSetpoint_1       = recipe.TemperatureSetpoint_1;
             TemperatureSetpoint_2       = recipe.TemperatureSetpoint_2;
             TemperatureSetpoint_3       = recipe.TemperatureSetpoint_3;
@@ -1311,7 +1311,7 @@ namespace GPGO_MultiPLCs.Models
             TemperatureSetpoint_6       = recipe.TemperatureSetpoint_6;
             TemperatureSetpoint_7       = recipe.TemperatureSetpoint_7;
             TemperatureSetpoint_8       = recipe.TemperatureSetpoint_8;
-            UsedSegmentCounts         = recipe.UsedSegmentCounts;
+            StepCounts         = recipe.StepCounts;
             Editor                    = user;
             EditorLevel               = level;
         }
@@ -1345,7 +1345,7 @@ namespace GPGO_MultiPLCs.Models
             RampTime_7             = 10;
             RampTime_8             = 10;
             InflatingTime             = 10;
-            ProgramStopAlarmTime      = 10;
+            ProgramEndWarningTime      = 10;
             TemperatureSetpoint_1       = 200;
             TemperatureSetpoint_2       = 200;
             TemperatureSetpoint_3       = 200;
@@ -1354,7 +1354,7 @@ namespace GPGO_MultiPLCs.Models
             TemperatureSetpoint_6       = 200;
             TemperatureSetpoint_7       = 200;
             TemperatureSetpoint_8       = 200;
-            UsedSegmentCounts         = SegmentCounts_Max;
+            StepCounts         = StepCounts_Max;
             Used_Stations             = new bool[20];
         }
 

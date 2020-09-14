@@ -79,7 +79,7 @@ namespace GPGO_MultiPLCs.Models
                             case "StepCount":
                                 if (short.TryParse(nv.Value, out var n))
                                 {
-                                    recipe.UsedSegmentCounts = n;
+                                    recipe.StepCounts = n;
                                 }
 
                                 break;
@@ -310,7 +310,7 @@ namespace GPGO_MultiPLCs.Models
                             case "ProgramEndWarningTimeSV":
                                 if (double.TryParse(nv.Value, out var ps))
                                 {
-                                    recipe.ProgramStopAlarmTime = ps;
+                                    recipe.ProgramEndWarningTime = ps;
                                 }
 
                                 break;
@@ -345,7 +345,7 @@ namespace GPGO_MultiPLCs.Models
                             case "StepCount":
                                 if (short.TryParse(nv.Value, out var n))
                                 {
-                                    recipe.UsedSegmentCounts = n;
+                                    recipe.StepCounts = n;
                                 }
 
                                 break;
@@ -576,7 +576,7 @@ namespace GPGO_MultiPLCs.Models
                             case "ProgramEndWarningTimeSV":
                                 if (double.TryParse(nv.Value, out var ps))
                                 {
-                                    recipe.ProgramStopAlarmTime = ps;
+                                    recipe.ProgramEndWarningTime = ps;
                                 }
 
                                 break;

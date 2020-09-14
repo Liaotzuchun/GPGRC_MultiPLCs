@@ -398,7 +398,7 @@
                                                                                 BorderThickness="0,0,1,1">
                                                                             <TextBlock HorizontalAlignment="Center"
                                                                                        VerticalAlignment="Center"
-                                                                                       Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
+                                                                                       Text="{Binding StepCounts, Mode=OneWay}" />
                                                                         </Border>
                                                                         <Border Grid.Row="0"
                                                                                 Grid.Column="2"
@@ -438,7 +438,7 @@
                                                                                 BorderThickness="0,0,1,1">
                                                                             <TextBlock HorizontalAlignment="Center"
                                                                                        VerticalAlignment="Center">
-                                                                                <Run Text="{Binding ProgramStopAlarmTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                                                <Run Text="{Binding ProgramEndWarningTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                                                                 <Run Text="{DynamicResource 分}" />
                                                                             </TextBlock>
                                                                         </Border>
@@ -1398,7 +1398,7 @@
                                             BorderThickness="0,0,1,1">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding PV_UsedSegmentCounts, Mode=OneWay}" />
+                                                   Text="{Binding PV_StepCounts, Mode=OneWay}" />
                                     </Border>
                                     <Border Grid.Row="0"
                                             Grid.Column="2"
@@ -1494,7 +1494,7 @@
                                             Grid.ColumnSpan="6"
                                             Background="{StaticResource DisabledBackgroundBrush}" />
                                     <Border Grid.Row="2"
-                                            Grid.RowSpan="{Binding PV_UsedSegmentCounts, Mode=OneWay}"
+                                            Grid.RowSpan="{Binding PV_StepCounts, Mode=OneWay}"
                                             Grid.Column="0"
                                             Grid.ColumnSpan="6"
                                             Background="{StaticResource LightColorBrush}" />
@@ -1908,7 +1908,7 @@
                                             <views:LevelsProgressBar.Steps>
                                                 <MultiBinding Converter="{StaticResource DoublesTakeCount}">
                                                     <Binding Mode="OneWay"
-                                                             Path="PV_UsedSegmentCounts" />
+                                                             Path="PV_StepCounts" />
                                                     <Binding Mode="OneWay"
                                                              Path="PV_TemperatureSetpoint_1" />
                                                     <Binding Mode="OneWay"
@@ -2547,7 +2547,7 @@
                                                         Color="DarkOrange" />-->
                                         <oxy:LineSeries Title="{DynamicResource 溫控器溫度}"
                                                         DataFieldX="Time"
-                                                        DataFieldY="ThermostatTemperature"
+                                                        DataFieldY="PV_ThermostatTemperature"
                                                         ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
                                                         LineStyle="Solid"
                                                         MarkerFill="Red"

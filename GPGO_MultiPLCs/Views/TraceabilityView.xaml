@@ -671,7 +671,7 @@
                                                 Color="DarkOrange" />-->
                                 <oxy:LineSeries Title="{DynamicResource 溫控器溫度}"
                                                 DataFieldX="Time"
-                                                DataFieldY="ThermostatTemperature"
+                                                DataFieldY="PV_ThermostatTemperature"
                                                 ItemsSource="{Binding RecordTemperatures, Mode=OneWay}"
                                                 LineStyle="Solid"
                                                 MarkerFill="Red"

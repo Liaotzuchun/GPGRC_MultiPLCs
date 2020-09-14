@@ -83,7 +83,7 @@ namespace GPGO_MultiPLCs.Models
         /// 程式結束警報時間
         /// </summary>
         [PLCData(DataType.D, 11273, LogType.Recipe)]
-        public double ProgramStopAlarmTime
+        public double ProgramEndWarningTime
         {
             get => GetPLC<double>();
             set => SetPLC(value);
@@ -93,7 +93,7 @@ namespace GPGO_MultiPLCs.Models
         /// 使用段數
         /// </summary>
         [PLCData(DataType.D, 11270, LogType.Recipe)]
-        public short UsedSegmentCounts
+        public short StepCounts
         {
             get => GetPLC<short>();
             set => SetPLC(value);
@@ -608,7 +608,7 @@ namespace GPGO_MultiPLCs.Models
         /// 程式結束警報時間
         /// </summary>
         [PLCData(DataType.D, 11473, LogType.None)]
-        public double PV_ProgramStopAlarmTime
+        public double PV_ProgramEndWarningTime
         {
             get => GetPLC<double>();
             set => SetPLC(value);
@@ -618,7 +618,7 @@ namespace GPGO_MultiPLCs.Models
         /// 使用段數
         /// </summary>
         [PLCData(DataType.D, 11470, LogType.None)]
-        public short PV_UsedSegmentCounts
+        public short PV_StepCounts
         {
             get => GetPLC<short>();
             set => SetPLC(value);
@@ -1439,7 +1439,7 @@ namespace GPGO_MultiPLCs.Models
         /// 溫控器實際溫度
         /// </summary>
         [PLCData(DataType.D, 11124, 0.1, LogType.Status)]
-        public double ThermostatTemperature
+        public double PV_ThermostatTemperature
         {
             get => GetPLC<double>();
             set => SetPLC(value);
@@ -1449,7 +1449,7 @@ namespace GPGO_MultiPLCs.Models
         /// 溫控器設定溫度
         /// </summary>
         [PLCData(DataType.D, 11125, 0.1, LogType.Status)]
-        public double ThermostatTemperatureSet
+        public double SV_ThermostatTemperature
         {
             get => GetPLC<double>();
             set => SetPLC(value);
@@ -1531,7 +1531,7 @@ namespace GPGO_MultiPLCs.Models
         /// 目前段數
         /// </summary>
         [PLCData(DataType.D, 11479, LogType.Status)]
-        public int CurrentSegment
+        public int CurrentStep
         {
             get => GetPLC<int>();
             set => SetPLC(value);

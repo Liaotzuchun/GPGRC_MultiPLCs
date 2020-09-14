@@ -83,10 +83,10 @@
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
-                                    Maximum="{Binding SegmentCounts_Max, Mode=OneWay}"
-                                    Minimum="{Binding SegmentCounts_Min, Mode=OneWay}"
+                                    Maximum="{Binding StepCounts_Max, Mode=OneWay}"
+                                    Minimum="{Binding StepCounts_Min, Mode=OneWay}"
                                     SmallChange="1"
-                                    Value="{Binding UsedSegmentCounts, Mode=TwoWay}" />
+                                    Value="{Binding StepCounts, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="0"
                                               Grid.Column="2"
@@ -94,9 +94,9 @@
                                               BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
-                                              Max="{Binding SegmentCounts_Max, Mode=OneWay}"
-                                              Min="{Binding SegmentCounts_Min, Mode=OneWay}"
-                                              Text="{Binding UsedSegmentCounts, Mode=TwoWay}" />
+                                              Max="{Binding StepCounts_Max, Mode=OneWay}"
+                                              Min="{Binding StepCounts_Min, Mode=OneWay}"
+                                              Text="{Binding StepCounts, Mode=TwoWay}" />
                         <Border Grid.Row="0"
                                 Grid.Column="3"
                                 Background="{StaticResource WindowBackgroundBrush6}"
@@ -123,7 +123,7 @@
                                     Minimum="1"
                                     SmallChange="1"
                                     TickFrequency="1"
-                                    Value="{Binding ProgramStopAlarmTime, Mode=TwoWay}" />
+                                    Value="{Binding ProgramEndWarningTime, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="0"
                                               Grid.Column="5"
@@ -133,7 +133,7 @@
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
                                               Min="1"
-                                              Text="{Binding ProgramStopAlarmTime, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding ProgramEndWarningTime, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="1"
                                 Grid.Column="0"
@@ -154,7 +154,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="0.1"
@@ -192,7 +192,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="0.1"
@@ -230,7 +230,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="0.1"
@@ -268,7 +268,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="0.1"
@@ -306,7 +306,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="0.1"
@@ -344,7 +344,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="0.1"
@@ -436,7 +436,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -453,7 +453,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -470,7 +470,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -487,7 +487,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -504,7 +504,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -521,7 +521,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -664,7 +664,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -681,7 +681,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -698,7 +698,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -715,7 +715,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -732,7 +732,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -749,7 +749,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -892,7 +892,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -909,7 +909,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -926,7 +926,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -943,7 +943,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -960,7 +960,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -977,7 +977,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -1120,7 +1120,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -1137,7 +1137,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -1154,7 +1154,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -1171,7 +1171,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -1188,7 +1188,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -1205,7 +1205,7 @@
                                 BorderThickness="1,1,0,0">
                             <Slider Margin="4,0"
                                     VerticalAlignment="Center"
-                                    IsEnabled="{Binding UsedSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
+                                    IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
@@ -1474,7 +1474,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Text="{Binding UsedSegmentCounts, Mode=OneWay}" />
+                                           Text="{Binding StepCounts, Mode=OneWay}" />
                             </Border>
                             <Border Grid.Row="0"
                                     Grid.Column="2"
@@ -1495,7 +1495,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center">
-                                    <Run Text="{Binding ProgramStopAlarmTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                    <Run Text="{Binding ProgramEndWarningTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
                                     <Run Text="{DynamicResource 分}" />
                                 </TextBlock>
                             </Border>

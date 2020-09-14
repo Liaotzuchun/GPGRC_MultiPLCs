@@ -298,7 +298,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      record_sht.Cells[2, 1].Style.Font.Color.SetColor(Color.Blue);
                                                                      record_sht.Cells[2, 1].Style.Font.UnderLine = false;
                                                                      record_sht.Cells[3, 1].Value                = nameof(RecordTemperatures.Time);
-                                                                     record_sht.Cells[3, 2].Value                = nameof(RecordTemperatures.ThermostatTemperature);
+                                                                     record_sht.Cells[3, 2].Value                = nameof(RecordTemperatures.PV_ThermostatTemperature);
                                                                      //record_sht.Cells[3, 3].Value                         = nameof(RecordTemperatures.OvenTemperatures_1);
                                                                      //record_sht.Cells[3, 4].Value                         = nameof(RecordTemperatures.OvenTemperatures_2);
                                                                      //record_sht.Cells[3, 5].Value                         = nameof(RecordTemperatures.OvenTemperatures_3);
@@ -314,7 +314,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      {
                                                                          record_sht.Cells[4 + j, 1].Value                     = temps[j].Time;
                                                                          record_sht.Cells[4 + j, 1].Style.Numberformat.Format = "[h]:mm:ss";
-                                                                         record_sht.Cells[4 + j, 2].Value                     = temps[j].ThermostatTemperature;
+                                                                         record_sht.Cells[4 + j, 2].Value                     = temps[j].PV_ThermostatTemperature;
                                                                          //record_sht.Cells[4 + j, 3].Value                     = temps[j].OvenTemperatures_1;
                                                                          //record_sht.Cells[4 + j, 4].Value                     = temps[j].OvenTemperatures_2;
                                                                          //record_sht.Cells[4 + j, 5].Value                     = temps[j].OvenTemperatures_3;
@@ -364,7 +364,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      //var record_s7 = record_chart.Series.Add(record_sht.Cells[4, 8, temps.Length + 3, 8], record_sht.Cells[4, 1, temps.Length + 3, 1]);
                                                                      //var record_s8 = record_chart.Series.Add(record_sht.Cells[4, 9, temps.Length + 3, 9], record_sht.Cells[4, 1, temps.Length + 3, 1]);
                                                                      //var record_s9 = record_chart.Series.Add(record_sht.Cells[4, 10, temps.Length + 3, 10], record_sht.Cells[4, 1, temps.Length + 3, 1]);
-                                                                     record_s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
+                                                                     record_s1.Header = nameof(RecordTemperatures.PV_ThermostatTemperature);
                                                                      //record_s2.Header            = nameof(RecordTemperatures.OvenTemperatures_1);
                                                                      //record_s3.Header            = nameof(RecordTemperatures.OvenTemperatures_2);
                                                                      //record_s4.Header            = nameof(RecordTemperatures.OvenTemperatures_3);
@@ -473,7 +473,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  //var s7 = chart.Series.Add(data_sht.Cells[1, 8, max_count, 8], data_sht.Cells[1, 1, max_count, 1]);
                                                                  //var s8 = chart.Series.Add(data_sht.Cells[1, 9, max_count, 9], data_sht.Cells[1, 1, max_count, 1]);
                                                                  //var s9 = chart.Series.Add(data_sht.Cells[1, 10, max_count, 10], data_sht.Cells[1, 1, max_count, 1]);
-                                                                 s1.Header = nameof(RecordTemperatures.ThermostatTemperature);
+                                                                 s1.Header = nameof(RecordTemperatures.PV_ThermostatTemperature);
                                                                  //s2.Header            = nameof(RecordTemperatures.OvenTemperatures_1);
                                                                  //s3.Header            = nameof(RecordTemperatures.OvenTemperatures_2);
                                                                  //s4.Header            = nameof(RecordTemperatures.OvenTemperatures_3);

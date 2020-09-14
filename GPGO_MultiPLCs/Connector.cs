@@ -159,12 +159,12 @@ namespace GPGO_MultiPLCs
                                     TotalVM.PLC_All[i].DwellTemperature_1, TotalVM.PLC_All[i].DwellTemperature_2, TotalVM.PLC_All[i].DwellTemperature_3, TotalVM.PLC_All[i].DwellTemperature_4,
                                     TotalVM.PLC_All[i].DwellTemperature_5, TotalVM.PLC_All[i].DwellTemperature_6, TotalVM.PLC_All[i].DwellTemperature_7, TotalVM.PLC_All[i].DwellTemperature_8
                                 };
-                        Array.Resize(ref h,  TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref w,  TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref ha, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref wa, TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref t,  TotalVM.PLC_All[i].UsedSegmentCounts);
-                        Array.Resize(ref s,  TotalVM.PLC_All[i].UsedSegmentCounts);
+                        Array.Resize(ref h,  TotalVM.PLC_All[i].StepCounts);
+                        Array.Resize(ref w,  TotalVM.PLC_All[i].StepCounts);
+                        Array.Resize(ref ha, TotalVM.PLC_All[i].StepCounts);
+                        Array.Resize(ref wa, TotalVM.PLC_All[i].StepCounts);
+                        Array.Resize(ref t,  TotalVM.PLC_All[i].StepCounts);
+                        Array.Resize(ref s,  TotalVM.PLC_All[i].StepCounts);
 
                         info.Recipe                   = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language);
                         info.RampTimes             = h.ToList();
@@ -229,7 +229,7 @@ namespace GPGO_MultiPLCs
                                        {
                                            StartTime             = st,
                                            AddedTime             = st + ttime,
-                                           ThermostatTemperature = tempt,
+                                           PV_ThermostatTemperature = tempt,
                                            OvenTemperatures_1    = tempt + rn.Next(-5, 5),
                                            OvenTemperatures_2    = tempt + rn.Next(-5, 5),
                                            OvenTemperatures_3    = tempt + rn.Next(-5, 5),

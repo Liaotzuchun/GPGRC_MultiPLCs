@@ -70,8 +70,8 @@ namespace GPGO_MultiPLCs.Models
                     return 1.0;
                 }
 
-                var d   = 1 / (UsedSegmentCounts + 1) / 2;
-                var val = (double)CurrentSegment / (UsedSegmentCounts + 1);
+                var d   = 1 / (StepCounts + 1) / 2;
+                var val = (double)CurrentStep / (StepCounts + 1);
 
                 if (IsWarming)
                 {
@@ -181,12 +181,12 @@ namespace GPGO_MultiPLCs.Models
                                                    DwellTemperature_1, DwellTemperature_2, DwellTemperature_3, DwellTemperature_4,
                                                    DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
                                                };
-                                       Array.Resize(ref h,  UsedSegmentCounts);
-                                       Array.Resize(ref w,  UsedSegmentCounts);
-                                       Array.Resize(ref ha, UsedSegmentCounts);
-                                       Array.Resize(ref wa, UsedSegmentCounts);
-                                       Array.Resize(ref t,  UsedSegmentCounts);
-                                       Array.Resize(ref s,  UsedSegmentCounts);
+                                       Array.Resize(ref h,  StepCounts);
+                                       Array.Resize(ref w,  StepCounts);
+                                       Array.Resize(ref ha, StepCounts);
+                                       Array.Resize(ref wa, StepCounts);
+                                       Array.Resize(ref t,  StepCounts);
+                                       Array.Resize(ref s,  StepCounts);
 
                                        //!結束生產，填入資料
                                        OvenInfo.EndTime                  = DateTime.Now;
@@ -271,7 +271,7 @@ namespace GPGO_MultiPLCs.Models
                 RampTime_7        = PV_RampTime_7,
                 RampTime_8        = PV_RampTime_8,
                 InflatingTime        = PV_InflatingTime,
-                ProgramStopAlarmTime = PV_ProgramStopAlarmTime,
+                ProgramEndWarningTime = PV_ProgramEndWarningTime,
                 TemperatureSetpoint_1  = PV_TemperatureSetpoint_1,
                 TemperatureSetpoint_2  = PV_TemperatureSetpoint_2,
                 TemperatureSetpoint_3  = PV_TemperatureSetpoint_3,
@@ -280,7 +280,7 @@ namespace GPGO_MultiPLCs.Models
                 TemperatureSetpoint_6  = PV_TemperatureSetpoint_6,
                 TemperatureSetpoint_7  = PV_TemperatureSetpoint_7,
                 TemperatureSetpoint_8  = PV_TemperatureSetpoint_8,
-                UsedSegmentCounts    = PV_UsedSegmentCounts,
+                StepCounts    = PV_StepCounts,
             };
 
         public void SetSelectedRecipeName(string name)
@@ -319,7 +319,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 StartTime             = start,
                                                 AddedTime             = addtime,
-                                                ThermostatTemperature = t0,
+                                                PV_ThermostatTemperature = t0,
                                                 OvenTemperatures_1    = t1,
                                                 OvenTemperatures_2    = t2,
                                                 OvenTemperatures_3    = t3,
@@ -387,7 +387,7 @@ namespace GPGO_MultiPLCs.Models
             await OneScheduler.StartNew(() =>
                                         {
                                             var n                      = TimeSpan.Zero;
-                                            var _ThermostatTemperature = ThermostatTemperature;
+                                            var _ThermostatTemperature = PV_ThermostatTemperature;
                                             var _OvenTemperature_1     = OvenTemperature_1;
                                             var _OvenTemperature_2     = OvenTemperature_2;
                                             var _OvenTemperature_3     = OvenTemperature_3;
@@ -399,7 +399,7 @@ namespace GPGO_MultiPLCs.Models
 
                                             while (!ct.IsCancellationRequested)
                                             {
-                                                _ThermostatTemperature = ThermostatTemperature <= 0 ? _ThermostatTemperature : ThermostatTemperature;
+                                                _ThermostatTemperature = PV_ThermostatTemperature <= 0 ? _ThermostatTemperature : PV_ThermostatTemperature;
                                                 _OvenTemperature_1     = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
                                                 _OvenTemperature_2     = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
                                                 _OvenTemperature_3     = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
@@ -444,7 +444,7 @@ namespace GPGO_MultiPLCs.Models
 
                                             AddTemperatures(OvenInfo.StartTime,
                                                             DateTime.Now,
-                                                            ThermostatTemperature,
+                                                            PV_ThermostatTemperature,
                                                             OvenTemperature_1,
                                                             OvenTemperature_2,
                                                             OvenTemperature_3,
@@ -804,7 +804,7 @@ namespace GPGO_MultiPLCs.Models
                                             await StopPP();
                                         }
                                     }
-                                    else if (name == nameof(CurrentSegment) ||
+                                    else if (name == nameof(CurrentStep) ||
                                              name == nameof(IsRamp) ||
                                              name == nameof(IsWarming) ||
                                              name == nameof(IsCooling))
