@@ -822,9 +822,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   secsGem.InvokeEvent(name);
                                               };
 
+                var j = i + 1;
                 PLC_All[i].SV_Changed += (name, value) =>
                                          {
-                                             secsGem.UpdateSV(name, value);
+                                             //! 屬姓名_A、B、C...表示0、1、2...各站別屬性
+                                             secsGem.UpdateSV($"{name}_{j.GetExcelColumnName()}", value);
                                          };
             }
 
