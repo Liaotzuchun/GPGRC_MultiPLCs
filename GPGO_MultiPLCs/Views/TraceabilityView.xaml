@@ -48,8 +48,8 @@
                                 Data="{Binding RecipeFilter, Mode=OneWay}" />
         <!--<views:FilterGroupProxy x:Key="OrderFilterData"
                                 Data="{Binding OrderFilter, Mode=OneWay}" />-->
-        <views:FilterGroupProxy x:Key="PartNoFilterData"
-                                Data="{Binding PartNoFilter, Mode=OneWay}" />
+        <views:FilterGroupProxy x:Key="PartIDFilterData"
+                                Data="{Binding PartIDFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="LotIDFilterData"
                                 Data="{Binding LotIDFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="OpFilterData"
@@ -912,13 +912,13 @@
                                         MinWidth="80"
                                         HeaderStyle="{StaticResource ColumnFilterStyle}">
                     <DataGridTemplateColumn.Header>
-                        <ContentControl Content="{StaticResource PartNoFilterData}"
+                        <ContentControl Content="{StaticResource PartIDFilterData}"
                                         Style="{StaticResource FilterStyle}"
                                         Tag="{DynamicResource 料號}" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="models:ProcessInfo">
-                            <TextBlock Text="{Binding PartNumber, Mode=OneWay}"
+                            <TextBlock Text="{Binding PartID, Mode=OneWay}"
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

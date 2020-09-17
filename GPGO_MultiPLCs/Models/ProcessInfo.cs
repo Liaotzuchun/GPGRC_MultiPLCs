@@ -185,9 +185,9 @@ namespace GPGO_MultiPLCs.Models
         public CodeType     CodeType      { get; set; } = CodeType.Panel;
         public bool         FirstPanel    { get; set; } = false;
         public string       OrderCode     { get; set; }
-        public string       PartNumber    { get; set; }
+        public string       PartID    { get; set; }
         public string       LotID         { get; set; }
-        public List<string> PanelCodes    { get; set; } = new List<string>();
+        public List<string> PanelIDs    { get; set; } = new List<string>();
         public int          ProcessNumber { get; set; }
         public string       Side          { get; set; } = "A";
 
@@ -216,7 +216,7 @@ namespace GPGO_MultiPLCs.Models
     {
         /// <summary>單一製程序材料數量</summary>
         [LanguageTranslator("Quantity", "數量", "数量")]
-        public int Quantity => PanelCodes.Count;
+        public int Quantity => PanelIDs.Count;
 
         /// <summary>條碼類型</summary>
         [LanguageTranslator("Code Type", "條碼類型", "条码类型")]
@@ -230,13 +230,13 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("Order", "工單", "工单")]
         public string OrderCode { get; set; }
 
-        [LanguageTranslator("PartNo.", "料號", "料号")]
-        public string PartNumber { get; set; }
+        [LanguageTranslator("PartID", "料號", "料号")]
+        public string PartID { get; set; }
 
         [LanguageTranslator("LotID", "批號", "批号")]
         public string LotID { get; set; }
 
-        public List<string> PanelCodes { get; set; } = new List<string>();
+        public List<string> PanelIDs { get; set; } = new List<string>();
 
         /// <summary>製程序</summary>
         [LanguageTranslator("SN", "序號", "序号")]
@@ -259,7 +259,7 @@ namespace GPGO_MultiPLCs.Models
                 {GetType().GetProperty(nameof(StationNumber)).GetName(lng), StationNumber},
                 //{GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
                 //{GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
-                {GetType().GetProperty(nameof(PartNumber)).GetName(lng), PartNumber},
+                {GetType().GetProperty(nameof(PartID)).GetName(lng), PartID},
                 {GetType().GetProperty(nameof(LotID)).GetName(lng), LotID},
                 {GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
                 //{GetType().GetProperty(nameof(RackID)).GetName(lng), RackID},
@@ -290,7 +290,7 @@ namespace GPGO_MultiPLCs.Models
             stb.Append("General6=");
             stb.AppendLine(CodeType.ToString());
             stb.Append("General7=");
-            stb.AppendLine(PanelCodes.Count > index ? PanelCodes[index] : "");
+            stb.AppendLine(PanelIDs.Count > index ? PanelIDs[index] : "");
             stb.Append("General8=");
             stb.AppendLine(RecipeName);
             stb.Append("General9=");

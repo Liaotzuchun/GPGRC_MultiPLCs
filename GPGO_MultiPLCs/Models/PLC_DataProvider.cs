@@ -53,7 +53,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>紀錄的資訊</summary>
         public BaseInfo OvenInfo { get; }
 
-        public int Quantity => Ext_Info.Sum(x => x.PanelCodes.Count);
+        public int Quantity => Ext_Info.Sum(x => x.PanelIDs.Count);
 
         /// <summary>生產進度</summary>
         public double Progress
@@ -189,15 +189,15 @@ namespace GPGO_MultiPLCs.Models
                                        Array.Resize(ref s,  StepCounts);
 
                                        //!結束生產，填入資料
-                                       OvenInfo.EndTime                  = DateTime.Now;
-                                       OvenInfo.Recipe                   = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
-                                       OvenInfo.RampTimes             = h.ToList();
+                                       OvenInfo.EndTime                = DateTime.Now;
+                                       OvenInfo.Recipe                 = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                       OvenInfo.RampTimes              = h.ToList();
                                        OvenInfo.DwellTimes             = w.ToList();
-                                       OvenInfo.RampAlarms            = ha.ToList();
+                                       OvenInfo.RampAlarms             = ha.ToList();
                                        OvenInfo.DwellAlarms            = wa.ToList();
-                                       OvenInfo.TotalRampTime         = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
-                                       OvenInfo.TargetOvenTemperatures   = t.ToList();
-                                       OvenInfo.DwellTemperatures = s.ToList();
+                                       OvenInfo.TotalRampTime          = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
+                                       OvenInfo.TargetOvenTemperatures = t.ToList();
+                                       OvenInfo.DwellTemperatures      = s.ToList();
 
                                        if (ExecutingFinished != null)
                                        {
@@ -252,35 +252,35 @@ namespace GPGO_MultiPLCs.Models
         public PLC_Recipe GetRecipePV() =>
             new PLC_Recipe
             {
-                DwellTime_1        = PV_DwellTime_1,
-                DwellTime_2        = PV_DwellTime_2,
-                DwellTime_3        = PV_DwellTime_3,
-                DwellTime_4        = PV_DwellTime_4,
-                DwellTime_5        = PV_DwellTime_5,
-                DwellTime_6        = PV_DwellTime_6,
-                DwellTime_7        = PV_DwellTime_7,
-                DwellTime_8        = PV_DwellTime_8,
-                CoolingTime          = PV_CoolingTime,
-                CoolingTemperature   = PV_CoolingTemperature,
-                RampTime_1        = PV_RampTime_1,
-                RampTime_2        = PV_RampTime_2,
-                RampTime_3        = PV_RampTime_3,
-                RampTime_4        = PV_RampTime_4,
-                RampTime_5        = PV_RampTime_5,
-                RampTime_6        = PV_RampTime_6,
-                RampTime_7        = PV_RampTime_7,
-                RampTime_8        = PV_RampTime_8,
-                InflatingTime        = PV_InflatingTime,
+                DwellTime_1           = PV_DwellTime_1,
+                DwellTime_2           = PV_DwellTime_2,
+                DwellTime_3           = PV_DwellTime_3,
+                DwellTime_4           = PV_DwellTime_4,
+                DwellTime_5           = PV_DwellTime_5,
+                DwellTime_6           = PV_DwellTime_6,
+                DwellTime_7           = PV_DwellTime_7,
+                DwellTime_8           = PV_DwellTime_8,
+                CoolingTime           = PV_CoolingTime,
+                CoolingTemperature    = PV_CoolingTemperature,
+                RampTime_1            = PV_RampTime_1,
+                RampTime_2            = PV_RampTime_2,
+                RampTime_3            = PV_RampTime_3,
+                RampTime_4            = PV_RampTime_4,
+                RampTime_5            = PV_RampTime_5,
+                RampTime_6            = PV_RampTime_6,
+                RampTime_7            = PV_RampTime_7,
+                RampTime_8            = PV_RampTime_8,
+                InflatingTime         = PV_InflatingTime,
                 ProgramEndWarningTime = PV_ProgramEndWarningTime,
-                TemperatureSetpoint_1  = PV_TemperatureSetpoint_1,
-                TemperatureSetpoint_2  = PV_TemperatureSetpoint_2,
-                TemperatureSetpoint_3  = PV_TemperatureSetpoint_3,
-                TemperatureSetpoint_4  = PV_TemperatureSetpoint_4,
-                TemperatureSetpoint_5  = PV_TemperatureSetpoint_5,
-                TemperatureSetpoint_6  = PV_TemperatureSetpoint_6,
-                TemperatureSetpoint_7  = PV_TemperatureSetpoint_7,
-                TemperatureSetpoint_8  = PV_TemperatureSetpoint_8,
-                StepCounts    = PV_StepCounts,
+                TemperatureSetpoint_1 = PV_TemperatureSetpoint_1,
+                TemperatureSetpoint_2 = PV_TemperatureSetpoint_2,
+                TemperatureSetpoint_3 = PV_TemperatureSetpoint_3,
+                TemperatureSetpoint_4 = PV_TemperatureSetpoint_4,
+                TemperatureSetpoint_5 = PV_TemperatureSetpoint_5,
+                TemperatureSetpoint_6 = PV_TemperatureSetpoint_6,
+                TemperatureSetpoint_7 = PV_TemperatureSetpoint_7,
+                TemperatureSetpoint_8 = PV_TemperatureSetpoint_8,
+                StepCounts            = PV_StepCounts,
             };
 
         public void SetSelectedRecipeName(string name)
@@ -317,17 +317,17 @@ namespace GPGO_MultiPLCs.Models
 
             OvenInfo.RecordTemperatures.Add(new RecordTemperatures
                                             {
-                                                StartTime             = start,
-                                                AddedTime             = addtime,
+                                                StartTime                = start,
+                                                AddedTime                = addtime,
                                                 PV_ThermostatTemperature = t0,
-                                                OvenTemperatures_1    = t1,
-                                                OvenTemperatures_2    = t2,
-                                                OvenTemperatures_3    = t3,
-                                                OvenTemperatures_4    = t4,
-                                                OvenTemperatures_5    = t5,
-                                                OvenTemperatures_6    = t6,
-                                                OvenTemperatures_7    = t7,
-                                                OvenTemperatures_8    = t8
+                                                OvenTemperatures_1       = t1,
+                                                OvenTemperatures_2       = t2,
+                                                OvenTemperatures_3       = t3,
+                                                OvenTemperatures_4       = t4,
+                                                OvenTemperatures_5       = t5,
+                                                OvenTemperatures_6       = t6,
+                                                OvenTemperatures_7       = t7,
+                                                OvenTemperatures_8       = t8
                                             });
         }
 
@@ -475,17 +475,17 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public void AddLOT(string partNo, string lotid, IEnumerable<string> panels)
+        public void AddLOT(string PartID, string lotid, IEnumerable<string> panels)
         {
             var info = new ProductInfo
                        {
-                           PartNumber = partNo.Trim(),
-                           LotID      = lotid.Trim()
+                           PartID = PartID.Trim(),
+                           LotID  = lotid.Trim()
                        };
 
             foreach (var panel in panels)
             {
-                info.PanelCodes.Add(panel);
+                info.PanelIDs.Add(panel);
             }
 
             Ext_Info.Add(info);
@@ -561,7 +561,7 @@ namespace GPGO_MultiPLCs.Models
                                                                  return false;
                                                              }
 
-                                                             var (result1, partNo) =
+                                                             var (result1, PartID) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
                                                                                                  {Language.TW, "輸入料號"},
@@ -682,12 +682,12 @@ namespace GPGO_MultiPLCs.Models
                                                              {
                                                                  var info = new ProductInfo
                                                                             {
-                                                                                PartNumber = partNo.ToString().Trim(),
-                                                                                LotID      = lot.Key.Trim()
+                                                                                PartID = PartID.ToString().Trim(),
+                                                                                LotID  = lot.Key.Trim()
                                                                             };
                                                                  for (var i = 1; i <= lot.Value; i++)
                                                                  {
-                                                                     info.PanelCodes.Add($"{info.PartNumber}-{info.LotID}-{i}");
+                                                                     info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{i}");
                                                                  }
 
                                                                  Ext_Info.Add(info);

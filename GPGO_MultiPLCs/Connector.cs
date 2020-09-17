@@ -307,13 +307,13 @@ namespace GPGO_MultiPLCs
                             }
 
                             temp.Add(index);
-                            _info.PartNumber = partnum[index];
+                            _info.PartID = partnum[index];
                             _info.LotID      = lotid[rn.Next(0, lotid.Length)];
 
                             var count = rn.Next(10, 20);
                             for (var m = 1; m <= count; m++)
                             {
-                                _info.PanelCodes.Add($"{_info.PartNumber}-{_info.LotID}-{m}");
+                                _info.PanelIDs.Add($"{_info.PartID}-{_info.LotID}-{m}");
                             }
 
                             infos.Add(_info);
@@ -481,7 +481,7 @@ namespace GPGO_MultiPLCs
 
                                          if (Directory.Exists(path))
                                          {
-                                             var products = new List<(string ordercode, int number, string panelcode)>();
+                                             var products = new List<(string ordercode, int number, string PanelID)>();
 
                                              await Task.Factory.StartNew(() =>
                                                                          {
@@ -517,7 +517,7 @@ namespace GPGO_MultiPLCs
                                              return products.GroupBy(x => x.ordercode)
                                                             .Select(x => new ProductInfo(x.Key, x.First().number)
                                                                          {
-                                                                             PanelCodes = x.Select(y => y.panelcode).ToList()
+                                                                             PanelIDs = x.Select(y => y.PanelID).ToList()
                                                                          })
                                                             .ToList();
                                          }

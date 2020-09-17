@@ -826,7 +826,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i].SV_Changed += (name, value) =>
                                          {
                                              //! 屬姓名_A、B、C...表示0、1、2...各站別屬性
-                                             secsGem.UpdateSV($"{name}_{j.GetExcelColumnName()}", value);
+                                             secsGem.UpdateSV($"Oven{j}_{name}", value);
                                          };
             }
 

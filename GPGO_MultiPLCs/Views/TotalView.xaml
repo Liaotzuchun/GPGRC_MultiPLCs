@@ -993,7 +993,7 @@
                                                                                     <TextBlock Margin="4"
                                                                                                HorizontalAlignment="Center"
                                                                                                VerticalAlignment="Center"
-                                                                                               Text="{Binding PartNumber, Mode=OneWay}"
+                                                                                               Text="{Binding PartID, Mode=OneWay}"
                                                                                                TextTrimming="CharacterEllipsis" />
                                                                                 </DataTemplate>
                                                                             </DataGridTemplateColumn.CellTemplate>
@@ -1033,7 +1033,7 @@
                                                                                     <TextBlock Margin="4"
                                                                                                HorizontalAlignment="Center"
                                                                                                VerticalAlignment="Center"
-                                                                                               Text="{Binding PanelCodes.Count, Mode=OneWay}"
+                                                                                               Text="{Binding PanelIDs.Count, Mode=OneWay}"
                                                                                                TextTrimming="CharacterEllipsis" />
                                                                                 </DataTemplate>
                                                                             </DataGridTemplateColumn.CellTemplate>

@@ -51,7 +51,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public FilterGroup OrderFilter { get; }
 
         /// <summary>基於料號的Filter</summary>
-        public FilterGroup PartNoFilter { get; }
+        public FilterGroup PartIDFilter { get; }
 
         /// <summary>基於批號的Filter</summary>
         public FilterGroup LotIDFilter { get; }
@@ -572,7 +572,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 var result2 = finishedResults
                              .GroupBy(x => Mode >= (int)ChartMode.ByLot ?
                                                x.StationNumber.ToString("00") :
-                                               x.PartNumber)
+                                               x.PartID)
                              .OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
 
                 var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByLot;
@@ -587,7 +587,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                               case ChartMode.ByLot:
                                                                   return x.LotID;
                                                               case ChartMode.ByPart:
-                                                                  return x.PartNumber;
+                                                                  return x.PartID;
                                                               default:
                                                                   return ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00";
                                                           }
@@ -626,7 +626,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
-                    ResultView.LegendTitle     = Mode >= (int)ChartMode.ByLot ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.PartNumber);
+                    ResultView.LegendTitle     = Mode >= (int)ChartMode.ByLot ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.PartID);
 
                     var color_step_2 = 0.9 / result2.Length;
 
@@ -658,7 +658,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                          case ChartMode.ByLot:
                                                              return x.LotID == categories[j];
                                                          case ChartMode.ByPart:
-                                                             return x.PartNumber == categories[j];
+                                                             return x.PartID == categories[j];
                                                      }
 
                                                      if (ByDate)
@@ -690,7 +690,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                       .Where(x => OvenFilter.Check(x.StationNumber) &&
                                                   RecipeFilter.Check(x.RecipeName) &&
                                                   OrderFilter.Check(x.OrderCode) &&
-                                                  PartNoFilter.Check(x.PartNumber) &&
+                                                  PartIDFilter.Check(x.PartID) &&
                                                   LotIDFilter.Check(x.LotID) &&
                                                   OpFilter.Check(x.OperatorID) &&
                                                   RackFilter.Check(x.RackID) &&
@@ -712,7 +712,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                   {
                                                                                                       {Language.TW, "請輸入欲搜尋之料號："},
                                                                                                       {Language.CHS, "请输入欲搜寻之料号："},
-                                                                                                      {Language.EN, "Please enter the PartNumber you want to find："}
+                                                                                                      {Language.EN, "Please enter the PartID you want to find："}
                                                                                                   },
                                                                                                   new Dictionary<Language, string>
                                                                                                   {
@@ -741,7 +741,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                Standby = false;
 
-                                               SearchResult = await DataCollection.FindOneAsync(x => (!result1 || x.PartNumber.Contains(input1.ToString())) && (!result2 || x.LotID.Contains(input2.ToString())));
+                                               SearchResult = await DataCollection.FindOneAsync(x => (!result1 || x.PartID.Contains(input1.ToString())) && (!result2 || x.LotID.Contains(input2.ToString())));
 
                                                Standby = true;
 
@@ -840,7 +840,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              PlotAreaBorderColor     = bordercolor,
                              PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
-                             LegendTitle             = nameof(ProcessInfo.PartNumber),
+                             LegendTitle             = nameof(ProcessInfo.PartID),
                              LegendTitleColor        = fontcolor,
                              LegendTextColor         = fontcolor,
                              LegendBorder            = bordercolor,
@@ -871,7 +871,7 @@ namespace GPGO_MultiPLCs.ViewModels
             OvenFilter    = new FilterGroup(UpdateAct);
             RecipeFilter  = new FilterGroup(UpdateAct);
             OrderFilter   = new FilterGroup(UpdateAct);
-            PartNoFilter  = new FilterGroup(UpdateAct);
+            PartIDFilter  = new FilterGroup(UpdateAct);
             LotIDFilter   = new FilterGroup(UpdateAct);
             OpFilter      = new FilterGroup(UpdateAct);
             RackFilter    = new FilterGroup(UpdateAct);
@@ -882,7 +882,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   OvenFilter.Filter   = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   RecipeFilter.Filter = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   OrderFilter.Filter  = e?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                                  PartNoFilter.Filter = e?.Select(x => x.PartNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                                  PartIDFilter.Filter = e?.Select(x => x.PartID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   LotIDFilter.Filter  = e?.Select(x => x.LotID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   OpFilter.Filter     = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   RackFilter.Filter   = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
