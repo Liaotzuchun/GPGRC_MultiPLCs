@@ -429,6 +429,8 @@ namespace GPGO_MultiPLCs
                                          {
                                              var (list, showtip) = e;
 
+                                             //todo 配方更新至C:\ITRIinit\0\ProcessJob
+
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
                                              var l = new List<int>();
