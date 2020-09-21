@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using GP_SECS_GEM;
+using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -747,7 +748,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                     //! 更新ProcessData以供上報
                                                     //todo 修改成多項參數，不要用單一data
-                                                    secsGem?.UpdateDV($"Oven{j}_ProcessData", products);
+                                                    secsGem?.UpdateDV($"Oven{j}_ProcessData", JsonConvert.SerializeObject(products));
 
                                                     if (!baseInfo.IsFinished)
                                                     {
