@@ -746,6 +746,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                        };
 
                                                     //! 更新ProcessData以供上報
+                                                    //todo 修改成多項參數，不要用單一data
                                                     secsGem?.UpdateDV($"Oven{j}_ProcessData", products);
 
                                                     if (!baseInfo.IsFinished)
