@@ -832,9 +832,9 @@ namespace GPGO_MultiPLCs.Models
                                             await StopPP();
                                         }
                                     }
-                                    else if (name == nameof(RackIDLoaded))
+                                    else if (name == nameof(RackInput))
                                     {
-                                        InvokeSECSEvent?.Invoke(nameof(RackIDLoaded));
+                                        InvokeSECSEvent?.Invoke(nameof(RackInput));
                                     }
                                 }
                                 else if (LogType == LogType.Alert)

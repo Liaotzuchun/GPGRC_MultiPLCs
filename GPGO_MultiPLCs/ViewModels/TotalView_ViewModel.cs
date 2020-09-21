@@ -705,6 +705,8 @@ namespace GPGO_MultiPLCs.ViewModels
             //!註冊PLC事件需引發的動作
             for (var i = 0; i < 20; i++)
             {
+                var j = i + 1;
+
                 TotalProduction.Add(i, 0);
                 PLC_All[i] = new PLC_DataProvider(dialog);
                 var index = i;
@@ -819,10 +821,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].InvokeSECSEvent += name =>
                                               {
-                                                  secsGem.InvokeEvent(name);
+                                                  secsGem.InvokeEvent($"Oven{j}_{name}");
                                               };
 
-                var j = i + 1;
                 PLC_All[i].SV_Changed += (name, value) =>
                                          {
                                              //! 屬姓名_A、B、C...表示0、1、2...各站別屬性
