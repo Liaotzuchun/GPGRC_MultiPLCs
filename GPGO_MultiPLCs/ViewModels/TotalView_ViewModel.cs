@@ -737,8 +737,21 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i].ExecutingFinished += async e =>
                                                 {
                                                     var (baseInfo, productInfo) = e;
+
+                                                    var products = productInfo.Count > 0 ?
+                                                                       productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList() :
+                                                                       new List<ProcessInfo>
+                                                                       {
+                                                                           new ProcessInfo(baseInfo, new ProductInfo())
+                                                                       };
+
+                                                    //! 更新ProcessData以供上報
+                                                    secsGem?.UpdateDV($"Oven{j}_ProcessData", products);
+
                                                     if (!baseInfo.IsFinished)
                                                     {
+                                                        secsGem?.InvokeEvent($"Oven{j}_ProcessAborted");
+
                                                         dialog?.Show(new Dictionary<Language, string>
                                                                      {
                                                                          {Language.TW, $"第{index + 1}站已取消烘烤！"},
@@ -746,18 +759,16 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                          {Language.EN, $"Oven No{index + 1}has been canceled!"}
                                                                      },
                                                                      TimeSpan.FromSeconds(2));
-                                                    }
 
+                                                        return;
+                                                    }
 
                                                     if (AddRecordToDB != null && index < TotalProduction.Count)
                                                     {
-                                                        TotalProduction[index] = await AddRecordToDB.Invoke((index, productInfo.Count > 0 ?
-                                                                                                                        productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList() :
-                                                                                                                        new List<ProcessInfo>
-                                                                                                                        {
-                                                                                                                            new ProcessInfo(baseInfo, new ProductInfo())
-                                                                                                                        }));
+                                                        TotalProduction[index] = await AddRecordToDB.Invoke((index, products));
                                                     }
+
+                                                    secsGem?.InvokeEvent($"Oven{j}_ProcessComplete");
 
                                                     //!完成上傳後，清空生產資訊
                                                     dialog?.Show(new Dictionary<Language, string>
