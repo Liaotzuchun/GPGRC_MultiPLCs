@@ -430,6 +430,7 @@ namespace GPGO_MultiPLCs
                                              var (list, showtip) = e;
 
                                              //todo 配方更新至C:\ITRIinit\0\ProcessJob
+                                             //todo 引發GemProcessProgramChange並且更新兩個DV:GemPPChangeName、GemPPChangeStatus
 
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
