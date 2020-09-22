@@ -439,7 +439,6 @@ namespace GPGO_MultiPLCs
                                              {
                                                  var si = new StreamReaderIni();
                                                  var t  = si.AddIniSection("CCodeID1");
-                                                 t.AddElement(nameof(PLC_Recipe.RecipeName),            recipe.RecipeName);
                                                  t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.CoolingTemperature),    recipe.CoolingTemperature.ToString("0.0"));
