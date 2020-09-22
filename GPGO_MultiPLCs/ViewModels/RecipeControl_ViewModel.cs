@@ -43,7 +43,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public async Task<bool> Save(PLC_Recipe recipe)
+        public async Task<bool> Upsert(PLC_Recipe recipe)
         {
             Standby = false;
 

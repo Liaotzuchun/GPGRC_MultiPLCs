@@ -649,7 +649,7 @@ namespace GPGO_MultiPLCs
                                                        });
                                      };
 
-            TotalVM.UpsertRecipe += recipe => RecipeVM.Save(recipe).Result;
+            TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe).Result;
 
             TotalVM.DeleteRecipe += recipeName => RecipeVM.Delete(recipeName).Wait();
 
