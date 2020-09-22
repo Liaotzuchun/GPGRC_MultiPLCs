@@ -438,7 +438,8 @@ namespace GPGO_MultiPLCs
                                              foreach (var recipe in list)
                                              {
                                                  var si = new StreamReaderIni();
-                                                 var t  = si.AddIniSection("Icode1");
+                                                 var t  = si.AddIniSection("CCodeID1");
+                                                 t.AddElement(nameof(PLC_Recipe.RecipeName),            recipe.RecipeName);
                                                  t.AddElement(nameof(PLC_Recipe.DwellTemperature_1),    recipe.DwellTemperature_1.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.DwellTemperature_2),    recipe.DwellTemperature_2.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.DwellTemperature_3),    recipe.DwellTemperature_3.ToString("0.0"));
@@ -475,7 +476,7 @@ namespace GPGO_MultiPLCs
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_6), recipe.TemperatureSetpoint_6.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_7), recipe.TemperatureSetpoint_7.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_8), recipe.TemperatureSetpoint_8.ToString("0.0"));
-                                                 t.AddElement(nameof(PLC_Recipe.StepCounts),            recipe.StepCounts.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.StepCounts),            recipe.StepCounts.ToString());
                                                  si.EncodindIni($"C:\\ITRIinit\\0\\ProcessJob\\{recipe.RecipeName}.pjb");
                                              }
 
