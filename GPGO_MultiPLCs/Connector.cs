@@ -14,6 +14,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using GPCore;
+using AsyncAutoResetEvent = GPMVVM.Helpers.AsyncAutoResetEvent;
+using AsyncLock = GPMVVM.Helpers.AsyncLock;
 
 namespace GPGO_MultiPLCs
 {
@@ -166,13 +169,13 @@ namespace GPGO_MultiPLCs
                         Array.Resize(ref t,  TotalVM.PLC_All[i].StepCounts);
                         Array.Resize(ref s,  TotalVM.PLC_All[i].StepCounts);
 
-                        info.Recipe                   = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language);
-                        info.RampTimes             = h.ToList();
+                        info.Recipe                 = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language);
+                        info.RampTimes              = h.ToList();
                         info.DwellTimes             = w.ToList();
-                        info.RampAlarms            = ha.ToList();
+                        info.RampAlarms             = ha.ToList();
                         info.DwellAlarms            = wa.ToList();
-                        info.TargetOvenTemperatures   = t.ToList();
-                        info.DwellTemperatures = s.ToList();
+                        info.TargetOvenTemperatures = t.ToList();
+                        info.DwellTemperatures      = s.ToList();
 
                         var ttime = new TimeSpan(0, 0, 1);
                         var cc    = 0;
@@ -227,17 +230,17 @@ namespace GPGO_MultiPLCs
                             var tempt = 30 * (1 + 5 * 1 / (1 + Math.Exp(-0.12 * cc + 3)));
                             var vals = new RecordTemperatures
                                        {
-                                           StartTime             = st,
-                                           AddedTime             = st + ttime,
+                                           StartTime                = st,
+                                           AddedTime                = st + ttime,
                                            PV_ThermostatTemperature = tempt,
-                                           OvenTemperatures_1    = tempt + rn.Next(-5, 5),
-                                           OvenTemperatures_2    = tempt + rn.Next(-5, 5),
-                                           OvenTemperatures_3    = tempt + rn.Next(-5, 5),
-                                           OvenTemperatures_4    = tempt + rn.Next(-5, 5),
-                                           OvenTemperatures_5    = tempt + rn.Next(-5, 5),
-                                           OvenTemperatures_6    = tempt + rn.Next(-5, 5),
-                                           OvenTemperatures_7    = tempt + rn.Next(-5, 5),
-                                           OvenTemperatures_8    = tempt + rn.Next(-5, 5)
+                                           OvenTemperatures_1       = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_2       = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_3       = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_4       = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_5       = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_6       = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_7       = tempt + rn.Next(-5, 5),
+                                           OvenTemperatures_8       = tempt + rn.Next(-5, 5)
                                        };
 
                             cc += 1;
@@ -288,8 +291,8 @@ namespace GPGO_MultiPLCs
                         LogVM.AddToDB(ev_3);
                         info.EventList.Add(ev_3);
 
-                        info.EndTime          = info.StartTime + ttime;
-                        info.IsFinished       = new Random().NextDouble() > 0.5;
+                        info.EndTime       = info.StartTime + ttime;
+                        info.IsFinished    = new Random().NextDouble() > 0.5;
                         info.TotalRampTime = (info.EndTime - info.StartTime).Minutes;
 
                         st = info.EndTime + TimeSpan.FromMinutes(10);
@@ -308,7 +311,7 @@ namespace GPGO_MultiPLCs
 
                             temp.Add(index);
                             _info.PartID = partnum[index];
-                            _info.LotID      = lotid[rn.Next(0, lotid.Length)];
+                            _info.LotID  = lotid[rn.Next(0, lotid.Length)];
 
                             var count = rn.Next(10, 20);
                             for (var m = 1; m <= count; m++)
@@ -432,6 +435,50 @@ namespace GPGO_MultiPLCs
                                              //todo 配方更新至C:\ITRIinit\0\ProcessJob
                                              //todo 引發GemProcessProgramChange並且更新兩個DV:GemPPChangeName、GemPPChangeStatus
 
+                                             foreach (var recipe in list)
+                                             {
+                                                 var si = new StreamReaderIni();
+                                                 var t  = si.AddIniSection("Icode1");
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTemperature_1),    recipe.DwellTemperature_1.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTemperature_2),    recipe.DwellTemperature_2.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTemperature_3),    recipe.DwellTemperature_3.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTemperature_4),    recipe.DwellTemperature_4.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTemperature_5),    recipe.DwellTemperature_5.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTemperature_6),    recipe.DwellTemperature_6.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTemperature_7),    recipe.DwellTemperature_7.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTemperature_8),    recipe.DwellTemperature_8.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_1),           recipe.DwellTime_1.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_2),           recipe.DwellTime_2.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_3),           recipe.DwellTime_3.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_4),           recipe.DwellTime_4.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_5),           recipe.DwellTime_5.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_6),           recipe.DwellTime_6.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_7),           recipe.DwellTime_7.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_8),           recipe.DwellTime_8.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.CoolingTemperature),    recipe.CoolingTemperature.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_1),            recipe.RampTime_1.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_2),            recipe.RampTime_2.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_3),            recipe.RampTime_3.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_4),            recipe.RampTime_4.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_5),            recipe.RampTime_5.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_6),            recipe.RampTime_6.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_7),            recipe.RampTime_7.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_8),            recipe.RampTime_8.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.InflatingTime),         recipe.InflatingTime.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_1), recipe.TemperatureSetpoint_1.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_2), recipe.TemperatureSetpoint_2.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_3), recipe.TemperatureSetpoint_3.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_4), recipe.TemperatureSetpoint_4.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_5), recipe.TemperatureSetpoint_5.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_6), recipe.TemperatureSetpoint_6.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_7), recipe.TemperatureSetpoint_7.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_8), recipe.TemperatureSetpoint_8.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.StepCounts),            recipe.StepCounts.ToString("0.0"));
+                                                 si.EncodindIni($"C:\\ITRIinit\\0\\ProcessJob\\{recipe.RecipeName}.pjb");
+                                             }
+
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
                                              var l = new List<int>();
@@ -499,8 +546,8 @@ namespace GPGO_MultiPLCs
                                                                                                      .Select(x => x.Split('='))
                                                                                                      .ToDictionary(x => x[0], x => x[1]);
 
-                                                                                     int.TryParse(result["General2"].OnlyASCII(), out var number);
-                                                                                     products.Add((result["General1"].OnlyASCII(), number, result["General7"].OnlyASCII()));
+                                                                                     int.TryParse(Extensions.OnlyASCII(result["General2"]), out var number);
+                                                                                     products.Add((Extensions.OnlyASCII(result["General1"]), number, Extensions.OnlyASCII(result["General7"])));
 
                                                                                      var backname = $"{file.FullName}.bak{stationIndex}";
                                                                                      if (File.Exists(backname))
