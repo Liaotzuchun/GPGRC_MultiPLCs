@@ -649,9 +649,9 @@ namespace GPGO_MultiPLCs
                                                        });
                                      };
 
-            TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe).Result;
+            TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe);
 
-            TotalVM.DeleteRecipe += recipeName => RecipeVM.Delete(recipeName).Wait();
+            TotalVM.DeleteRecipe += recipeName => RecipeVM.Delete(recipeName);
 
             //!更新每日產量
             TraceVM.TodayProductionUpdated += datas =>

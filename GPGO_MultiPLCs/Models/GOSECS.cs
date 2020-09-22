@@ -70,7 +70,7 @@ namespace GPGO_MultiPLCs.Models
                 {
                     var A = new StreamReaderIni($"C:\\ITRIinit\\0\\ProcessJob\\{LastDownloadPPID}.pjb").Sections.First();
 
-                    var recipe = new PLC_Recipe(A.Key, "SECSGEM_HOST", UserLevel.Manager);
+                    var recipe = new PLC_Recipe(LastDownloadPPID, "SECSGEM-HOST", UserLevel.Manager);
 
                     foreach (var nv in A.Value.ItemElements)
                     {
@@ -336,7 +336,7 @@ namespace GPGO_MultiPLCs.Models
                 {
                     var A = new StreamReaderIni($"C:\\ITRIinit\\0\\ProcessJob\\{LastDownloadPPID}.pjb").Sections.First();
 
-                    var recipe = new PLC_Recipe(A.Key, "", UserLevel.Manager);
+                    var recipe = new PLC_Recipe(LastDownloadPPID, "SECSGEM-HOST", UserLevel.Manager);
 
                     foreach (var nv in A.Value.ItemElements)
                     {

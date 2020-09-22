@@ -43,24 +43,25 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public async Task<bool> Upsert(PLC_Recipe recipe)
+        public bool Upsert(PLC_Recipe recipe)
         {
             Standby = false;
 
             var result = false;
+            var name   = recipe.RecipeName;
 
             try
             {
-                var TempSet = await RecipeCollection.FindAsync(x => x.RecipeName.Equals(recipe.RecipeName));
+                var TempSet = RecipeCollection.Find(x => x.RecipeName.Equals(name));
 
                 if (TempSet.Any())
                 {
-                    await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(recipe.RecipeName), recipe);
-                    await RecipeCollection_History.AddAsync(TempSet[0]);
+                    RecipeCollection.Upsert(x => x.RecipeName.Equals(name), recipe);
+                    RecipeCollection_History.Add(TempSet[0]);
                 }
                 else
                 {
-                    await RecipeCollection.AddAsync(recipe);
+                    RecipeCollection.Add(recipe);
                 }
 
                 result = true;
@@ -70,14 +71,14 @@ namespace GPGO_MultiPLCs.ViewModels
                 Log.Error(ex, "");
             }
 
-            await RefreshList(true).ConfigureAwait(false);
+            RefreshList(true).ConfigureAwait(false);
 
             Standby = true;
 
             return result;
         }
 
-        public async Task<bool> Delete(string recipeName)
+        public bool Delete(string recipeName)
         {
             Standby = false;
 
@@ -85,8 +86,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(recipeName));
-                await RecipeCollection_History.DeleteAsync(x => x.RecipeName.Equals(recipeName));
+                RecipeCollection.DeleteOne(x => x.RecipeName.Equals(recipeName));
+                RecipeCollection_History.Delete(x => x.RecipeName.Equals(recipeName));
 
                 result = true;
             }
@@ -95,7 +96,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 Log.Error(ex, "");
             }
 
-            await RefreshList(true).ConfigureAwait(false);
+            RefreshList(true).ConfigureAwait(false);
 
             Standby = true;
 
