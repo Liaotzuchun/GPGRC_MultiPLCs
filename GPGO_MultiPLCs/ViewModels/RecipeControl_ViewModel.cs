@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 
@@ -40,6 +41,65 @@ namespace GPGO_MultiPLCs.ViewModels
                     Log.Error(ex, "配方資料庫更新使用站點資訊失敗");
                 }
             }
+        }
+
+        public async Task<bool> Save(PLC_Recipe recipe)
+        {
+            Standby = false;
+
+            var result = false;
+
+            try
+            {
+                var TempSet = await RecipeCollection.FindAsync(x => x.RecipeName.Equals(recipe.RecipeName));
+
+                if (TempSet.Any())
+                {
+                    await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(recipe.RecipeName), recipe);
+                    await RecipeCollection_History.AddAsync(TempSet[0]);
+                }
+                else
+                {
+                    await RecipeCollection.AddAsync(recipe);
+                }
+
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "");
+            }
+
+            await RefreshList(true).ConfigureAwait(false);
+
+            Standby = true;
+
+            return result;
+        }
+
+        public async Task<bool> Delete(string recipeName)
+        {
+            Standby = false;
+
+            var result = false;
+
+            try
+            {
+                await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(recipeName));
+                await RecipeCollection_History.DeleteAsync(x => x.RecipeName.Equals(recipeName));
+
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "");
+            }
+
+            await RefreshList(true).ConfigureAwait(false);
+
+            Standby = true;
+
+            return result;
         }
 
         public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDataBase<PLC_Recipe> db_history, IDialogService dialog) : base(db, db_history, dialog)
