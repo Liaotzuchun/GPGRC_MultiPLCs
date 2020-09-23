@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using QGACTIVEXLib;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -28,6 +29,8 @@ namespace GPGO_MultiPLCs.Models
 
         public readonly Thread     thread;
         public          Dispatcher dp;
+
+        public QGWrapper GemCore => secsGem?.AxQGWrapper;
 
         public void UpdateSV(string name, object value)
         {

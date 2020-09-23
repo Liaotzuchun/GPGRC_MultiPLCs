@@ -355,15 +355,16 @@ namespace GPGO_MultiPLCs.ViewModels
                     if (!await secsGem.Enable(value))
                     {
                         Dialog?.Show(new Dictionary<Language, string>
-                                    {
-                                        {Language.TW, "無法啟用連線"},
-                                        {Language.CHS, "无法启用联机"},
-                                        {Language.EN, "Unable to enable connection"}
-                                    });
+                                     {
+                                         {Language.TW, "無法啟用連線"},
+                                         {Language.CHS, "无法启用联机"},
+                                         {Language.EN, "Unable to enable connection"}
+                                     });
 
                         Set(!value, nameof(SECS_ENABLE));
                     }
                 }
+
                 action();
             }
         }
@@ -387,6 +388,7 @@ namespace GPGO_MultiPLCs.ViewModels
                         Set(!value, nameof(SECS_ONLINE));
                     }
                 }
+
                 action();
             }
         }
@@ -422,6 +424,7 @@ namespace GPGO_MultiPLCs.ViewModels
                         }
                     }
                 }
+
                 action();
             }
         }
@@ -640,14 +643,26 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  };
 
             secsGem = new SECSThread(0);
-            secsGem.TerminalMessage += message =>
+            secsGem.TerminalMessage += async message =>
                                        {
-                                           dialog?.Show(new Dictionary<Language, string>
-                                                        {
-                                                            {Language.TW, message},
-                                                            {Language.CHS, message},
-                                                            {Language.EN, message}
-                                                        }, false, TimeSpan.MaxValue);
+                                           if (dialog == null) return;
+
+                                           var (result, input) = await dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                                            {
+                                                                                                {Language.TW, message},
+                                                                                                {Language.CHS, message},
+                                                                                                {Language.EN, message}
+                                                                                            }, new Dictionary<Language, string>
+                                                                                               {
+                                                                                                   {Language.TW, "終端訊息"},
+                                                                                                   {Language.CHS, "终端讯息"},
+                                                                                                   {Language.EN, "TerminalMessage"}
+                                                                                               });
+
+                                           if (result)
+                                           {
+                                               secsGem.GemCore.SendTerminalMessage(input == null || input.ToString() == "" ? "Confirmed." : $"{input}");
+                                           }
                                        };
 
             secsGem.ECChange += (index, ecid, value) =>

@@ -68,262 +68,268 @@ namespace GPGO_MultiPLCs.Models
             {
                 if (RawData is byte[] Tmp && Tmp[2] == 0)
                 {
-                    var A = new StreamReaderIni($"C:\\ITRIinit\\0\\ProcessJob\\{LastDownloadPPID}.pjb").Sections.First();
+                    var s = new StreamReaderIni($"C:\\ITRIinit\\0\\ProcessJob\\{LastDownloadPPID}.pjb").Sections;
 
-                    var recipe = new PLC_Recipe(LastDownloadPPID, "SECSGEM-HOST", UserLevel.Manager);
-
-                    foreach (var nv in A.Value.ItemElements)
+                    if (s?.Count > 0)
                     {
-                        switch (nv.Key)
+                        var A = s.First();
+
+                        var recipe = new PLC_Recipe(LastDownloadPPID, "SECSGEM-HOST", UserLevel.Manager);
+
+                        foreach (var nv in A.Value.ItemElements)
                         {
-                            case "StepCount":
-                                if (short.TryParse(nv.Value, out var n))
-                                {
-                                    recipe.StepCounts = n;
-                                }
+                            switch (nv.Key)
+                            {
+                                case "StepCount":
+                                    if (short.TryParse(nv.Value, out var n))
+                                    {
+                                        recipe.StepCounts = n;
+                                    }
 
-                                break;
-                            case "TEMPERATURESV_STEP1":
-                                if (double.TryParse(nv.Value, out var tt1))
-                                {
-                                    recipe.TemperatureSetpoint_1 = tt1;
-                                }
+                                    break;
+                                case "TEMPERATURESV_STEP1":
+                                    if (double.TryParse(nv.Value, out var tt1))
+                                    {
+                                        recipe.TemperatureSetpoint_1 = tt1;
+                                    }
 
-                                break;
-                            case "RampTimeSV_STEP1":
-                                if (double.TryParse(nv.Value, out var rt1))
-                                {
-                                    recipe.RampTime_1 = rt1;
-                                }
+                                    break;
+                                case "RampTimeSV_STEP1":
+                                    if (double.TryParse(nv.Value, out var rt1))
+                                    {
+                                        recipe.RampTime_1 = rt1;
+                                    }
 
-                                break;
-                            case "RampTimeoutSV_STEP1":
-                                if (double.TryParse(nv.Value, out var rtt1))
-                                {
-                                    recipe.RampAlarm_1 = rtt1;
-                                }
+                                    break;
+                                case "RampTimeoutSV_STEP1":
+                                    if (double.TryParse(nv.Value, out var rtt1))
+                                    {
+                                        recipe.RampAlarm_1 = rtt1;
+                                    }
 
-                                break;
-                            case "DwellTimeSV_STEP1":
-                                if (double.TryParse(nv.Value, out var dt1))
-                                {
-                                    recipe.DwellTime_1 = dt1;
-                                }
+                                    break;
+                                case "DwellTimeSV_STEP1":
+                                    if (double.TryParse(nv.Value, out var dt1))
+                                    {
+                                        recipe.DwellTime_1 = dt1;
+                                    }
 
-                                break;
-                            case "DwellTimeoutSV_STEP1":
-                                if (double.TryParse(nv.Value, out var dtt1))
-                                {
-                                    recipe.DwellAlarm_1 = dtt1;
-                                }
+                                    break;
+                                case "DwellTimeoutSV_STEP1":
+                                    if (double.TryParse(nv.Value, out var dtt1))
+                                    {
+                                        recipe.DwellAlarm_1 = dtt1;
+                                    }
 
-                                break;
-                            case "TEMPERATURESV_STEP2":
-                                if (double.TryParse(nv.Value, out var tt2))
-                                {
-                                    recipe.TemperatureSetpoint_2 = tt2;
-                                }
+                                    break;
+                                case "TEMPERATURESV_STEP2":
+                                    if (double.TryParse(nv.Value, out var tt2))
+                                    {
+                                        recipe.TemperatureSetpoint_2 = tt2;
+                                    }
 
-                                break;
-                            case "RampTimeSV_STEP2":
-                                if (double.TryParse(nv.Value, out var rt2))
-                                {
-                                    recipe.RampTime_2 = rt2;
-                                }
+                                    break;
+                                case "RampTimeSV_STEP2":
+                                    if (double.TryParse(nv.Value, out var rt2))
+                                    {
+                                        recipe.RampTime_2 = rt2;
+                                    }
 
-                                break;
-                            case "RampTimeoutSV_STEP2":
-                                if (double.TryParse(nv.Value, out var rtt2))
-                                {
-                                    recipe.RampAlarm_2 = rtt2;
-                                }
+                                    break;
+                                case "RampTimeoutSV_STEP2":
+                                    if (double.TryParse(nv.Value, out var rtt2))
+                                    {
+                                        recipe.RampAlarm_2 = rtt2;
+                                    }
 
-                                break;
-                            case "DwellTimeSV_STEP2":
-                                if (double.TryParse(nv.Value, out var dt2))
-                                {
-                                    recipe.DwellTime_2 = dt2;
-                                }
+                                    break;
+                                case "DwellTimeSV_STEP2":
+                                    if (double.TryParse(nv.Value, out var dt2))
+                                    {
+                                        recipe.DwellTime_2 = dt2;
+                                    }
 
-                                break;
-                            case "DwellTimeoutSV_STEP2":
-                                if (double.TryParse(nv.Value, out var dtt2))
-                                {
-                                    recipe.DwellAlarm_2 = dtt2;
-                                }
+                                    break;
+                                case "DwellTimeoutSV_STEP2":
+                                    if (double.TryParse(nv.Value, out var dtt2))
+                                    {
+                                        recipe.DwellAlarm_2 = dtt2;
+                                    }
 
-                                break;
-                            case "TEMPERATURESV_STEP3":
-                                if (double.TryParse(nv.Value, out var tt3))
-                                {
-                                    recipe.TemperatureSetpoint_3 = tt3;
-                                }
+                                    break;
+                                case "TEMPERATURESV_STEP3":
+                                    if (double.TryParse(nv.Value, out var tt3))
+                                    {
+                                        recipe.TemperatureSetpoint_3 = tt3;
+                                    }
 
-                                break;
-                            case "RampTimeSV_STEP3":
-                                if (double.TryParse(nv.Value, out var rt3))
-                                {
-                                    recipe.RampTime_3 = rt3;
-                                }
+                                    break;
+                                case "RampTimeSV_STEP3":
+                                    if (double.TryParse(nv.Value, out var rt3))
+                                    {
+                                        recipe.RampTime_3 = rt3;
+                                    }
 
-                                break;
-                            case "RampTimeoutSV_STEP3":
-                                if (double.TryParse(nv.Value, out var rtt3))
-                                {
-                                    recipe.RampAlarm_3 = rtt3;
-                                }
+                                    break;
+                                case "RampTimeoutSV_STEP3":
+                                    if (double.TryParse(nv.Value, out var rtt3))
+                                    {
+                                        recipe.RampAlarm_3 = rtt3;
+                                    }
 
-                                break;
-                            case "DwellTimeSV_STEP3":
-                                if (double.TryParse(nv.Value, out var dt3))
-                                {
-                                    recipe.DwellTime_3 = dt3;
-                                }
+                                    break;
+                                case "DwellTimeSV_STEP3":
+                                    if (double.TryParse(nv.Value, out var dt3))
+                                    {
+                                        recipe.DwellTime_3 = dt3;
+                                    }
 
-                                break;
-                            case "DwellTimeoutSV_STEP3":
-                                if (double.TryParse(nv.Value, out var dtt3))
-                                {
-                                    recipe.DwellAlarm_3 = dtt3;
-                                }
+                                    break;
+                                case "DwellTimeoutSV_STEP3":
+                                    if (double.TryParse(nv.Value, out var dtt3))
+                                    {
+                                        recipe.DwellAlarm_3 = dtt3;
+                                    }
 
-                                break;
-                            case "TEMPERATURESV_STEP4":
-                                if (double.TryParse(nv.Value, out var tt4))
-                                {
-                                    recipe.TemperatureSetpoint_4 = tt4;
-                                }
+                                    break;
+                                case "TEMPERATURESV_STEP4":
+                                    if (double.TryParse(nv.Value, out var tt4))
+                                    {
+                                        recipe.TemperatureSetpoint_4 = tt4;
+                                    }
 
-                                break;
-                            case "RampTimeSV_STEP4":
-                                if (double.TryParse(nv.Value, out var rt4))
-                                {
-                                    recipe.RampTime_4 = rt4;
-                                }
+                                    break;
+                                case "RampTimeSV_STEP4":
+                                    if (double.TryParse(nv.Value, out var rt4))
+                                    {
+                                        recipe.RampTime_4 = rt4;
+                                    }
 
-                                break;
-                            case "RampTimeoutSV_STEP4":
-                                if (double.TryParse(nv.Value, out var rtt4))
-                                {
-                                    recipe.RampAlarm_4 = rtt4;
-                                }
+                                    break;
+                                case "RampTimeoutSV_STEP4":
+                                    if (double.TryParse(nv.Value, out var rtt4))
+                                    {
+                                        recipe.RampAlarm_4 = rtt4;
+                                    }
 
-                                break;
-                            case "DwellTimeSV_STEP4":
-                                if (double.TryParse(nv.Value, out var dt4))
-                                {
-                                    recipe.DwellTime_4 = dt4;
-                                }
+                                    break;
+                                case "DwellTimeSV_STEP4":
+                                    if (double.TryParse(nv.Value, out var dt4))
+                                    {
+                                        recipe.DwellTime_4 = dt4;
+                                    }
 
-                                break;
-                            case "DwellTimeoutSV_STEP4":
-                                if (double.TryParse(nv.Value, out var dtt4))
-                                {
-                                    recipe.DwellAlarm_4 = dtt4;
-                                }
+                                    break;
+                                case "DwellTimeoutSV_STEP4":
+                                    if (double.TryParse(nv.Value, out var dtt4))
+                                    {
+                                        recipe.DwellAlarm_4 = dtt4;
+                                    }
 
-                                break;
-                            case "TEMPERATURESV_STEP5":
-                                if (double.TryParse(nv.Value, out var tt5))
-                                {
-                                    recipe.TemperatureSetpoint_5 = tt5;
-                                }
+                                    break;
+                                case "TEMPERATURESV_STEP5":
+                                    if (double.TryParse(nv.Value, out var tt5))
+                                    {
+                                        recipe.TemperatureSetpoint_5 = tt5;
+                                    }
 
-                                break;
-                            case "RampTimeSV_STEP5":
-                                if (double.TryParse(nv.Value, out var rt5))
-                                {
-                                    recipe.RampTime_5 = rt5;
-                                }
+                                    break;
+                                case "RampTimeSV_STEP5":
+                                    if (double.TryParse(nv.Value, out var rt5))
+                                    {
+                                        recipe.RampTime_5 = rt5;
+                                    }
 
-                                break;
-                            case "RampTimeoutSV_STEP5":
-                                if (double.TryParse(nv.Value, out var rtt5))
-                                {
-                                    recipe.RampAlarm_5 = rtt5;
-                                }
+                                    break;
+                                case "RampTimeoutSV_STEP5":
+                                    if (double.TryParse(nv.Value, out var rtt5))
+                                    {
+                                        recipe.RampAlarm_5 = rtt5;
+                                    }
 
-                                break;
-                            case "DwellTimeSV_STEP5":
-                                if (double.TryParse(nv.Value, out var dt5))
-                                {
-                                    recipe.DwellTime_5 = dt5;
-                                }
+                                    break;
+                                case "DwellTimeSV_STEP5":
+                                    if (double.TryParse(nv.Value, out var dt5))
+                                    {
+                                        recipe.DwellTime_5 = dt5;
+                                    }
 
-                                break;
-                            case "DwellTimeoutSV_STEP5":
-                                if (double.TryParse(nv.Value, out var dtt5))
-                                {
-                                    recipe.DwellAlarm_5 = dtt5;
-                                }
+                                    break;
+                                case "DwellTimeoutSV_STEP5":
+                                    if (double.TryParse(nv.Value, out var dtt5))
+                                    {
+                                        recipe.DwellAlarm_5 = dtt5;
+                                    }
 
-                                break;
-                            case "TEMPERATURESV_STEP6":
-                                if (double.TryParse(nv.Value, out var tt6))
-                                {
-                                    recipe.TemperatureSetpoint_6 = tt6;
-                                }
+                                    break;
+                                case "TEMPERATURESV_STEP6":
+                                    if (double.TryParse(nv.Value, out var tt6))
+                                    {
+                                        recipe.TemperatureSetpoint_6 = tt6;
+                                    }
 
-                                break;
-                            case "RampTimeSV_STEP6":
-                                if (double.TryParse(nv.Value, out var rt6))
-                                {
-                                    recipe.RampTime_6 = rt6;
-                                }
+                                    break;
+                                case "RampTimeSV_STEP6":
+                                    if (double.TryParse(nv.Value, out var rt6))
+                                    {
+                                        recipe.RampTime_6 = rt6;
+                                    }
 
-                                break;
-                            case "RampTimeoutSV_STEP6":
-                                if (double.TryParse(nv.Value, out var rtt6))
-                                {
-                                    recipe.RampAlarm_6 = rtt6;
-                                }
+                                    break;
+                                case "RampTimeoutSV_STEP6":
+                                    if (double.TryParse(nv.Value, out var rtt6))
+                                    {
+                                        recipe.RampAlarm_6 = rtt6;
+                                    }
 
-                                break;
-                            case "DwellTimeSV_STEP6":
-                                if (double.TryParse(nv.Value, out var dt6))
-                                {
-                                    recipe.DwellTime_6 = dt6;
-                                }
+                                    break;
+                                case "DwellTimeSV_STEP6":
+                                    if (double.TryParse(nv.Value, out var dt6))
+                                    {
+                                        recipe.DwellTime_6 = dt6;
+                                    }
 
-                                break;
-                            case "DwellTimeoutSV_STEP6":
-                                if (double.TryParse(nv.Value, out var dtt6))
-                                {
-                                    recipe.DwellAlarm_6 = dtt6;
-                                }
+                                    break;
+                                case "DwellTimeoutSV_STEP6":
+                                    if (double.TryParse(nv.Value, out var dtt6))
+                                    {
+                                        recipe.DwellAlarm_6 = dtt6;
+                                    }
 
-                                break;
-                            case "CoolingTimeSV":
-                                if (double.TryParse(nv.Value, out var ct))
-                                {
-                                    recipe.CoolingTime = ct;
-                                }
+                                    break;
+                                case "CoolingTimeSV":
+                                    if (double.TryParse(nv.Value, out var ct))
+                                    {
+                                        recipe.CoolingTime = ct;
+                                    }
 
-                                break;
-                            case "CoolingTemperatureAlarmSV":
-                                if (double.TryParse(nv.Value, out var ctt))
-                                {
-                                    recipe.CoolingTemperature = ctt;
-                                }
+                                    break;
+                                case "CoolingTemperatureAlarmSV":
+                                    if (double.TryParse(nv.Value, out var ctt))
+                                    {
+                                        recipe.CoolingTemperature = ctt;
+                                    }
 
-                                break;
-                            case "ProgramEndWarningTimeSV":
-                                if (double.TryParse(nv.Value, out var ps))
-                                {
-                                    recipe.ProgramEndWarningTime = ps;
-                                }
+                                    break;
+                                case "ProgramEndWarningTimeSV":
+                                    if (double.TryParse(nv.Value, out var ps))
+                                    {
+                                        recipe.ProgramEndWarningTime = ps;
+                                    }
 
-                                break;
+                                    break;
+                            }
                         }
-                    }
 
-                    if (InsertPPEvent != null && !InsertPPEvent.Invoke(recipe))
-                    {
-                        Tmp[2] = 1;
-                    }
-                    else
-                    {
-                        Tmp[2] = 0;
+                        if (InsertPPEvent != null && !InsertPPEvent.Invoke(recipe))
+                        {
+                            Tmp[2] = 1;
+                            //todo
+                        }
+                        else
+                        {
+                            Tmp[2] = 0;
+                        }
                     }
                 }
 
