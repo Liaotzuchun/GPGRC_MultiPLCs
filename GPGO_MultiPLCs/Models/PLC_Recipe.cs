@@ -74,11 +74,11 @@ namespace GPGO_MultiPLCs.Models
 
         [JsonIgnore] public double Temperature_Max => 250.0;
 
-        [JsonIgnore] public double Temperature_Min => 30.0;
+        [JsonIgnore] public double Temperature_Min => 50.0;
 
-        [JsonIgnore] public double Time_Max => 200;
+        [JsonIgnore] public double Time_Max => 300;
 
-        [JsonIgnore] public double Time_Min => 5;
+        [JsonIgnore] public double Time_Min => 1;
 
         [GPIgnore]
         [JsonIgnore]
@@ -154,13 +154,13 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
-                if (value > Time_Max)
+                if (value > 100)
                 {
-                    value = Time_Max;
+                    value = 100;
                 }
-                else if (value < 1)
+                else if (value < 0)
                 {
-                    value = 1;
+                    value = 0;
                 }
 
                 Set(value);
@@ -558,9 +558,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < RampTime_1 + 0.1)
+                else if (value < RampTime_1)
                 {
-                    value = RampTime_1 + 0.1;
+                    value = RampTime_1;
                 }
 
                 Set(value);
@@ -578,9 +578,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < RampTime_2 + 0.1)
+                else if (value < RampTime_2)
                 {
-                    value = RampTime_2 + 0.1;
+                    value = RampTime_2;
                 }
 
                 Set(value);
@@ -598,9 +598,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < RampTime_3 + 0.1)
+                else if (value < RampTime_3)
                 {
-                    value = RampTime_3 + 0.1;
+                    value = RampTime_3;
                 }
 
                 Set(value);
@@ -618,9 +618,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < RampTime_4 + 0.1)
+                else if (value < RampTime_4)
                 {
-                    value = RampTime_4 + 0.1;
+                    value = RampTime_4;
                 }
 
                 Set(value);
@@ -638,9 +638,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < RampTime_5 + 0.1)
+                else if (value < RampTime_5)
                 {
-                    value = RampTime_5 + 0.1;
+                    value = RampTime_5;
                 }
 
                 Set(value);
@@ -658,9 +658,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < RampTime_6 + 0.1)
+                else if (value < RampTime_6)
                 {
-                    value = RampTime_6 + 0.1;
+                    value = RampTime_6;
                 }
 
                 Set(value);
@@ -679,9 +679,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < RampTime_7 + 0.1)
+                else if (value < RampTime_7)
                 {
-                    value = RampTime_7 + 0.1;
+                    value = RampTime_7;
                 }
 
                 Set(value);
@@ -700,9 +700,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < RampTime_8 + 0.1)
+                else if (value < RampTime_8)
                 {
-                    value = RampTime_8 + 0.1;
+                    value = RampTime_8;
                 }
 
                 Set(value);
@@ -888,9 +888,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < 0)
+                else if (value < Time_Min)
                 {
-                    value = 0;
+                    value = Time_Min;
                 }
 
                 Set(value);
@@ -909,9 +909,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < 0)
+                else if (value < Time_Min)
                 {
-                    value = 0;
+                    value = Time_Min;
                 }
 
                 Set(value);
@@ -930,9 +930,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < 0)
+                else if (value < Time_Min)
                 {
-                    value = 0;
+                    value = Time_Min;
                 }
 
                 Set(value);
@@ -951,9 +951,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < 0)
+                else if (value < Time_Min)
                 {
-                    value = 0;
+                    value = Time_Min;
                 }
 
                 Set(value);
@@ -972,9 +972,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < 0)
+                else if (value < Time_Min)
                 {
-                    value = 0;
+                    value = Time_Min;
                 }
 
                 Set(value);
@@ -993,9 +993,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < 0)
+                else if (value < Time_Min)
                 {
-                    value = 0;
+                    value = Time_Min;
                 }
 
                 Set(value);
@@ -1015,9 +1015,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < 0)
+                else if (value < Time_Min)
                 {
-                    value = 0;
+                    value = Time_Min;
                 }
 
                 Set(value);
@@ -1037,9 +1037,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < 0)
+                else if (value < Time_Min)
                 {
-                    value = 0;
+                    value = Time_Min;
                 }
 
                 Set(value);
@@ -1058,9 +1058,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < DwellTime_1 + 0.1)
+                else if (value < DwellTime_1)
                 {
-                    value = DwellTime_1 + 0.1;
+                    value = DwellTime_1;
                 }
 
                 Set(value);
@@ -1078,9 +1078,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < DwellTime_2 + 0.1)
+                else if (value < DwellTime_2)
                 {
-                    value = DwellTime_2 + 0.1;
+                    value = DwellTime_2;
                 }
 
                 Set(value);
@@ -1098,9 +1098,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < DwellTime_3 + 0.1)
+                else if (value < DwellTime_3)
                 {
-                    value = DwellTime_3 + 0.1;
+                    value = DwellTime_3;
                 }
 
                 Set(value);
@@ -1118,9 +1118,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < DwellTime_4 + 0.1)
+                else if (value < DwellTime_4)
                 {
-                    value = DwellTime_4 + 0.1;
+                    value = DwellTime_4;
                 }
 
                 Set(value);
@@ -1138,9 +1138,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < DwellTime_5 + 0.1)
+                else if (value < DwellTime_5)
                 {
-                    value = DwellTime_5 + 0.1;
+                    value = DwellTime_5;
                 }
 
                 Set(value);
@@ -1158,9 +1158,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < DwellTime_6 + 0.1)
+                else if (value < DwellTime_6)
                 {
-                    value = DwellTime_6 + 0.1;
+                    value = DwellTime_6;
                 }
 
                 Set(value);
@@ -1179,9 +1179,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < DwellTime_7 + 0.1)
+                else if (value < DwellTime_7)
                 {
-                    value = DwellTime_7 + 0.1;
+                    value = DwellTime_7;
                 }
 
                 Set(value);
@@ -1200,9 +1200,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Time_Max;
                 }
-                else if (value < DwellTime_8 + 0.1)
+                else if (value < DwellTime_8)
                 {
-                    value = DwellTime_8 + 0.1;
+                    value = DwellTime_8;
                 }
 
                 Set(value);
@@ -1368,14 +1368,14 @@ namespace GPGO_MultiPLCs.Models
             RampTime_6            = 10;
             RampTime_7            = 10;
             RampTime_8            = 10;
-            RampAlarm_1            = 10.1;
-            RampAlarm_2            = 10.1;
-            RampAlarm_3            = 10.1;
-            RampAlarm_4            = 10.1;
-            RampAlarm_5            = 10.1;
-            RampAlarm_6            = 10.1;
-            RampAlarm_7            = 10.1;
-            RampAlarm_8            = 10.1;
+            RampAlarm_1           = 10.1;
+            RampAlarm_2           = 10.1;
+            RampAlarm_3           = 10.1;
+            RampAlarm_4           = 10.1;
+            RampAlarm_5           = 10.1;
+            RampAlarm_6           = 10.1;
+            RampAlarm_7           = 10.1;
+            RampAlarm_8           = 10.1;
             InflatingTime         = 10;
             ProgramEndWarningTime = 10;
             TemperatureSetpoint_1 = 200;
