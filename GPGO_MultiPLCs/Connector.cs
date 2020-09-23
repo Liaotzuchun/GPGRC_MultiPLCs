@@ -435,6 +435,13 @@ namespace GPGO_MultiPLCs
                                              //todo 配方更新至C:\ITRIinit\0\ProcessJob
                                              //todo 引發GemProcessProgramChange並且更新兩個DV:GemPPChangeName、GemPPChangeStatus
 
+                                             var di = new DirectoryInfo("C:\\ITRIinit\\0\\ProcessJob");
+
+                                             foreach (var file in di.GetFiles())
+                                             {
+                                                 file.Delete();
+                                             }
+
                                              foreach (var recipe in list)
                                              {
                                                  var si = new StreamReaderIni();
