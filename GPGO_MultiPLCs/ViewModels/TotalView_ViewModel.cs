@@ -645,7 +645,10 @@ namespace GPGO_MultiPLCs.ViewModels
             secsGem = new SECSThread(0);
             secsGem.TerminalMessage += async message =>
                                        {
-                                           if (dialog == null) return;
+                                           if (dialog == null)
+                                           {
+                                               return;
+                                           }
 
                                            var (result, input) = await dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                             {
@@ -713,10 +716,25 @@ namespace GPGO_MultiPLCs.ViewModels
                                   return HCACKValule.CantPerform;
                               };
 
+            secsGem.CommEnable_Changed += e =>
+                                          {
+                                              Set(e, nameof(SECS_ENABLE));
+                                          };
+
             secsGem.ONLINE_Changed += online =>
                                       {
-                                          SECS_ONLINE = online;
+                                          Set(online, nameof(SECS_ONLINE));
                                       };
+
+            secsGem.GO_Local += () =>
+                                {
+                                    Set(false, nameof(SECS_REMOTE));
+                                };
+
+            secsGem.GO_Remote += () =>
+                                 {
+                                     Set(true, nameof(SECS_REMOTE));
+                                 };
 
             //!註冊PLC事件需引發的動作
             for (var i = 0; i < 20; i++)

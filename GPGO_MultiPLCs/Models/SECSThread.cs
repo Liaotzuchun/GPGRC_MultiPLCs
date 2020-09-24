@@ -26,6 +26,9 @@ namespace GPGO_MultiPLCs.Models
         public event Func<int, object, HCACKValule>                    AddLOT;
         public event Func<int, string, ValueTask<object>, HCACKValule> GetLOTInfo;
         public event Action<bool>                                      ONLINE_Changed;
+        public event Action<bool>                                      CommEnable_Changed;
+        public event Action                                      GO_Local;
+        public event Action                                      GO_Remote;
 
         public readonly Thread     thread;
         public          Dispatcher dp;
@@ -277,8 +280,25 @@ namespace GPGO_MultiPLCs.Models
 
                                                                                                  switch (e.PropertyName)
                                                                                                  {
+                                                                                                     case nameof(GP_GEM.SECSCommunicationControlViewModel.CommunicatioinState):
+                                                                                                         if (vm.CommunicatioinState == (int)COMM_STATE.NOT_COMMUNICATING || 
+                                                                                                             vm.CommunicatioinState == (int)COMM_STATE.DISABLE)
+                                                                                                         {
+                                                                                                             CommEnable_Changed?.Invoke(false);
+                                                                                                         }
+                                                                                                         else
+                                                                                                         {
+                                                                                                             CommEnable_Changed?.Invoke(true);
+                                                                                                         }
+                                                                                                         break;
                                                                                                      case nameof(GP_GEM.SECSCommunicationControlViewModel.IsOnLine):
                                                                                                          ONLINE_Changed?.Invoke(vm.IsOnLine);
+                                                                                                         break;
+                                                                                                     case nameof(GP_GEM.SECSCommunicationControlViewModel.IsRemote):
+                                                                                                         if(vm.IsRemote) GO_Remote?.Invoke();
+                                                                                                         break;
+                                                                                                     case nameof(GP_GEM.SECSCommunicationControlViewModel.IsLocal):
+                                                                                                         if (vm.IsLocal) GO_Local?.Invoke();
                                                                                                          break;
                                                                                                  }
                                                                                              };
