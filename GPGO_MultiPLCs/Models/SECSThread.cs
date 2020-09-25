@@ -1,7 +1,8 @@
 ﻿using GP_SECS_GEM;
 using QSACTIVEXLib;
-using Serilog;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -16,19 +17,19 @@ namespace GPGO_MultiPLCs.Models
         private GOSECS  secsGem;
         private EqpBase eqpBase;
 
-        public event Action<string>                                    TerminalMessage;
-        public event Action<int, string, object>                       ECChange;
-        public event Func<PLC_Recipe, bool>                            UpsertRecipe;
-        public event Action<string>                                    DeleteRecipe;
-        public event Func<int, string, HCACKValule>                    SetRecipe;
-        public event Func<int, HCACKValule>                            Start;
-        public event Func<int, HCACKValule>                            Stop;
-        public event Func<int, object, HCACKValule>                    AddLOT;
-        public event Func<int, string, ValueTask<object>, HCACKValule> GetLOTInfo;
-        public event Action<bool>                                      ONLINE_Changed;
-        public event Action<bool>                                      CommEnable_Changed;
-        public event Action                                      GO_Local;
-        public event Action                                      GO_Remote;
+        public event Action<string>                                                              TerminalMessage;
+        public event Action<int, string, object>                                                 ECChange;
+        public event Func<PLC_Recipe, bool>                                                      UpsertRecipe;
+        public event Action<string>                                                              DeleteRecipe;
+        public event Func<int, string, HCACKValule>                                              SetRecipe;
+        public event Func<int, HCACKValule>                                                      Start;
+        public event Func<int, HCACKValule>                                                      Stop;
+        public event Func<int, (string LotID, string PartID, IList<string> Panels), HCACKValule> AddLOT;
+        public event Func<int, string, ValueTask<object>, HCACKValule>                           GetLOTInfo;
+        public event Action<bool>                                                                ONLINE_Changed;
+        public event Action<bool>                                                                CommEnable_Changed;
+        public event Action                                                                      GO_Local;
+        public event Action                                                                      GO_Remote;
 
         public readonly Thread     thread;
         public          Dispatcher dp;
@@ -211,7 +212,26 @@ namespace GPGO_MultiPLCs.Models
                                                              DeleteRecipe?.Invoke(recipeName);
                                                          };
                                 //S2F41
-                                secsGem.STARTLOTCommand += r => HCACKValule.CantPerform; //todo
+                                secsGem.ADDLOTCommand += r =>
+                                                         {
+                                                             if (r.RemoteCommandParameter.Count < 4)
+                                                             {
+                                                                 return HCACKValule.ParameterInvalid;
+                                                             }
+
+                                                             if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] indexes && indexes.Length > 0 &&
+                                                                 r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot &&
+                                                                 r.RemoteCommandParameter[2].CPVAL.ObjectData is string part &&
+                                                                 r.RemoteCommandParameter[3].CPVAL is SECSMessageBranches Branches)
+                                                             {
+                                                                 var i      = indexes[0];
+                                                                 var panels = Branches.SECSMessageObjects.Select(x => x.ObjectData.ToString()).ToList();
+
+                                                                 return AddLOT?.Invoke(i, (lot, part, panels)) ?? HCACKValule.CantPerform;
+                                                             }
+
+                                                             return HCACKValule.CantPerform;
+                                                         };
 
                                 secsGem.PP_SELECTCommand += r =>
                                                             {
@@ -281,7 +301,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  switch (e.PropertyName)
                                                                                                  {
                                                                                                      case nameof(GP_GEM.SECSCommunicationControlViewModel.CommunicatioinState):
-                                                                                                         if (vm.CommunicatioinState == (int)COMM_STATE.NOT_COMMUNICATING || 
+                                                                                                         if (vm.CommunicatioinState == (int)COMM_STATE.NOT_COMMUNICATING ||
                                                                                                              vm.CommunicatioinState == (int)COMM_STATE.DISABLE)
                                                                                                          {
                                                                                                              CommEnable_Changed?.Invoke(false);
@@ -290,15 +310,24 @@ namespace GPGO_MultiPLCs.Models
                                                                                                          {
                                                                                                              CommEnable_Changed?.Invoke(true);
                                                                                                          }
+
                                                                                                          break;
                                                                                                      case nameof(GP_GEM.SECSCommunicationControlViewModel.IsOnLine):
                                                                                                          ONLINE_Changed?.Invoke(vm.IsOnLine);
                                                                                                          break;
                                                                                                      case nameof(GP_GEM.SECSCommunicationControlViewModel.IsRemote):
-                                                                                                         if(vm.IsRemote) GO_Remote?.Invoke();
+                                                                                                         if (vm.IsRemote)
+                                                                                                         {
+                                                                                                             GO_Remote?.Invoke();
+                                                                                                         }
+
                                                                                                          break;
                                                                                                      case nameof(GP_GEM.SECSCommunicationControlViewModel.IsLocal):
-                                                                                                         if (vm.IsLocal) GO_Local?.Invoke();
+                                                                                                         if (vm.IsLocal)
+                                                                                                         {
+                                                                                                             GO_Local?.Invoke();
+                                                                                                         }
+
                                                                                                          break;
                                                                                                  }
                                                                                              };

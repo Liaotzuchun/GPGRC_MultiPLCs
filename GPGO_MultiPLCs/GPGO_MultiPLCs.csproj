@@ -85,8 +85,8 @@
     <Reference Include="GPMVVM, Version=1.9.9.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GPMVVM.1.9.9.5\lib\net48\GPMVVM.dll</HintPath>
     </Reference>
-    <Reference Include="GP_SECS_GEM, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\GP_SECS_GEM.1.0.1\lib\net462\GP_SECS_GEM.dll</HintPath>
+    <Reference Include="GP_SECS_GEM, Version=1.0.2.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\GP_SECS_GEM.1.0.2\lib\net462\GP_SECS_GEM.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>

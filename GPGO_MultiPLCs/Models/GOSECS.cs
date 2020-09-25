@@ -33,8 +33,8 @@ namespace GPGO_MultiPLCs.Models
             var HCACK = HCACKValule.Acknowledge;
             switch (RemoteCommand.RCMD)
             {
-                case "STARTLOT":
-                    HCACK = STARTLOTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
+                case "ADDLOT":
+                    HCACK = ADDLOTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "PP_SELECT":
                     HCACK = PP_SELECTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
@@ -700,7 +700,7 @@ namespace GPGO_MultiPLCs.Models
 
         #region "RemoteCommand"
 
-        public event Func<RemoteCommand, HCACKValule> STARTLOTCommand;
+        public event Func<RemoteCommand, HCACKValule> ADDLOTCommand;
         public event Func<RemoteCommand, HCACKValule> PP_SELECTCommand;
         public event Func<RemoteCommand, HCACKValule> STARTCommand;
         public event Func<RemoteCommand, HCACKValule> STOPCommand;
