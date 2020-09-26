@@ -875,9 +875,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   secsGem.InvokeAlarm($"Oven{j}_{AlarmName}", val);
                                               };
 
+                var k = i;
                 PLC_All[i].SV_Changed += (name, value) =>
                                          {
                                              //! 屬姓名_A、B、C...表示0、1、2...各站別屬性
+                                             if (name == nameof(GOL_DataModel.EquipmentState))
+                                             {
+                                                 secsGem.UpdateSV($"Oven{j}_Previous{name}", PLC_All[k].EquipmentState);
+                                             }
+
                                              secsGem.UpdateSV($"Oven{j}_{name}", value);
                                          };
             }

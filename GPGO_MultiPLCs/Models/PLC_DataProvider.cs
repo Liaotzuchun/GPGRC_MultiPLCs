@@ -762,11 +762,11 @@ namespace GPGO_MultiPLCs.Models
 
                                 var nowtime = DateTime.Now;
 
-                                SV_Changed?.Invoke(name, value);
-
                                 if (LogType == LogType.Status)
                                 {
                                     var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type}{data.Subscriptions.First()}", value);
+
+                                    SV_Changed?.Invoke(name, value);
 
                                     if (value is bool val)
                                     {
