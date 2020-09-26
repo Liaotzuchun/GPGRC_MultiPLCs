@@ -711,6 +711,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.AddLOT += (index, o) =>
                               {
+                                  var (lotID, partID, panels) = o;
                                   //todo 投產
 
                                   return HCACKValule.CantPerform;
@@ -780,7 +781,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                        };
 
                                                     //! 更新ProcessData以供上報
-                                                    //todo 修改成多項參數，不要用單一data
                                                     secsGem?.UpdateDV($"Oven{j}_ProcessData", JsonConvert.SerializeObject(products));
 
                                                     if (!baseInfo.IsFinished)
@@ -865,9 +865,14 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].GetUser += () => GetUser?.Invoke();
 
-                PLC_All[i].InvokeSECSEvent += name =>
+                PLC_All[i].InvokeSECSEvent += EventName =>
                                               {
-                                                  secsGem.InvokeEvent($"Oven{j}_{name}");
+                                                  secsGem.InvokeEvent($"Oven{j}_{EventName}");
+                                              };
+
+                PLC_All[i].InvokeSECSAlarm += (AlarmName, val) =>
+                                              {
+                                                  secsGem.InvokeAlarm($"Oven{j}_{AlarmName}", val);
                                               };
 
                 PLC_All[i].SV_Changed += (name, value) =>

@@ -74,6 +74,17 @@ namespace GPGO_MultiPLCs.Models
                             });
         }
 
+        public void InvokeAlarm(string name, bool val)
+        {
+            dp?.InvokeAsync(() =>
+                            {
+                                if (eqpBase.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpAlarmClass ae && int.TryParse(ae.ID, out var ALID))
+                                {
+                                    secsGem.AxQGWrapper.AlarmReportSend(ALID, val ? 255 : 0);
+                                }
+                            });
+        }
+
         public async Task<bool> Enable(bool val)
         {
             if (dp == null)
@@ -277,8 +288,6 @@ namespace GPGO_MultiPLCs.Models
 
                                                            return HCACKValule.CantPerform;
                                                        };
-
-                                secsGem.LOTMANAGEMENTCommand += r => HCACKValule.CantPerform; //todo
 
                                 secsGem.RetrieveLotDataCommand += r => HCACKValule.CantPerform; //todo
 

@@ -45,9 +45,6 @@ namespace GPGO_MultiPLCs.Models
                 case "STOP":
                     HCACK = STOPCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
-                case "LOTMANAGEMENT":
-                    HCACK = LOTMANAGEMENTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
-                    break;
                 case "RETRIEVELOTDATA":
                     HCACK = RetrieveLotDataCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
@@ -705,7 +702,6 @@ namespace GPGO_MultiPLCs.Models
         public event Func<RemoteCommand, HCACKValule> STARTCommand;
         public event Func<RemoteCommand, HCACKValule> STOPCommand;
         public event Func<RemoteCommand, HCACKValule> RetrieveLotDataCommand;
-        public event Func<RemoteCommand, HCACKValule> LOTMANAGEMENTCommand;
 
         #endregion "RemoteCommand"
     }

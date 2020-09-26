@@ -1083,7 +1083,7 @@
                                     </ToggleButton>
                                 </Grid>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding EquipmentStatus, Mode=OneWay}"
+                                    <DataTrigger Binding="{Binding EquipmentState, Mode=OneWay}"
                                                  Value="2">
                                         <Setter TargetName="StatusBorder" Property="Background" Value="{StaticResource PressedBrush}" />
                                     </DataTrigger>

@@ -1329,7 +1329,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 綠燈
         /// </summary>
-        [PLCBitData(DataType.D, 12010, 14, LogType.Status)]
+        [PLCBitData(DataType.D, 12010, 14, LogType.None)]
         public bool GreenLight
         {
             get => GetPLC<bool>();
@@ -1339,7 +1339,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 黃燈
         /// </summary>
-        [PLCBitData(DataType.D, 12010, 13, LogType.Status)]
+        [PLCBitData(DataType.D, 12010, 13, LogType.None)]
         public bool YellowLight
         {
             get => GetPLC<bool>();
@@ -1349,7 +1349,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 紅燈
         /// </summary>
-        [PLCBitData(DataType.D, 12010, 12, LogType.Status)]
+        [PLCBitData(DataType.D, 12010, 12, LogType.None)]
         public bool RedLight
         {
             get => GetPLC<bool>();
@@ -1548,7 +1548,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [PLCData(DataType.D, 11043, LogType.Status)]
-        public int EquipmentStatus
+        public int EquipmentState
         {
             get => GetPLC<int>();
             set => SetPLC(value);

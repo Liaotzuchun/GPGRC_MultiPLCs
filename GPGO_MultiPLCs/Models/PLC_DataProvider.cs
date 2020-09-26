@@ -97,9 +97,9 @@ namespace GPGO_MultiPLCs.Models
                     return Status.離線;
                 }
 
-                if (Enum.IsDefined(typeof(Status), EquipmentStatus))
+                if (Enum.IsDefined(typeof(Status), EquipmentState))
                 {
-                    return (Status)EquipmentStatus;
+                    return (Status)EquipmentState;
                 }
 
                 return Status.未知;
@@ -127,6 +127,9 @@ namespace GPGO_MultiPLCs.Models
                     AddProcessEvent((EventType.Alarm, DateTime.Now, "PLC Offline!", string.Empty, value));
                     CTS?.Cancel();
                 }
+
+                SV_Changed?.Invoke(nameof(OnlineStatus), value);
+                InvokeSECSEvent?.Invoke("OnlineStatusChanged");
             }
         }
 
@@ -223,6 +226,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public event Action<string>         InvokeSECSEvent;
+        public event Action<string, bool>   InvokeSECSAlarm;
         public event Action<string, object> SV_Changed;
 
         public event Action<string> AssetNumberChanged;
@@ -779,6 +783,8 @@ namespace GPGO_MultiPLCs.Models
                                                 return;
                                             }
 
+                                            InvokeSECSEvent?.Invoke("ProcessStarted");
+
                                             await StopPP();
 
                                             await StartPP();
@@ -800,6 +806,8 @@ namespace GPGO_MultiPLCs.Models
                                                 return;
                                             }
 
+                                            InvokeSECSEvent?.Invoke("ProcessComplete");
+
                                             OvenInfo.IsFinished = true;
                                             await StopPP();
                                         }
@@ -817,8 +825,10 @@ namespace GPGO_MultiPLCs.Models
 
                                         NotifyPropertyChanged(nameof(Progress));
                                     }
-                                    else if (name == nameof(EquipmentStatus))
+                                    else if (name == nameof(EquipmentState))
                                     {
+                                        InvokeSECSEvent?.Invoke("EqpStatusChanged");
+
                                         EventHappened?.Invoke(eventval);
                                         if (IsExecuting)
                                         {
@@ -827,7 +837,7 @@ namespace GPGO_MultiPLCs.Models
 
                                         NotifyPropertyChanged(nameof(ProgressStatus));
 
-                                        if (EquipmentStatus == (int)Status.錯誤)
+                                        if (EquipmentState == (int)Status.錯誤)
                                         {
                                             await StopPP();
                                         }
@@ -845,6 +855,11 @@ namespace GPGO_MultiPLCs.Models
                                     {
                                         AddProcessEvent(eventval);
                                     }
+
+                                    if (value is bool boolval)
+                                    {
+                                        InvokeSECSAlarm?.Invoke(name, boolval);
+                                    }
                                 }
                                 else if (LogType == LogType.Alarm)
                                 {
@@ -854,9 +869,15 @@ namespace GPGO_MultiPLCs.Models
                                     {
                                         AddProcessEvent(eventval);
                                     }
+
+                                    if (value is bool boolval)
+                                    {
+                                        InvokeSECSAlarm?.Invoke(name, boolval);
+                                    }
                                 }
                                 else if (LogType == LogType.Recipe)
                                 {
+                                    InvokeSECSEvent?.Invoke("RecipeChanged");
                                 }
                                 else if (LogType == LogType.Trigger)
                                 {
@@ -867,20 +888,14 @@ namespace GPGO_MultiPLCs.Models
                                         if (name == nameof(RemoteCommandStart))
                                         {
                                             EventHappened?.Invoke(eventval);
-
-                                            //todo
                                         }
                                         else if (name == nameof(RemoteCommandStop))
                                         {
                                             EventHappened?.Invoke(eventval);
-
-                                            //todo
                                         }
                                         else if (name == nameof(RemoteCommandSelectPP))
                                         {
                                             EventHappened?.Invoke(eventval);
-
-                                            //todo
                                         }
                                     }
                                 }
