@@ -131,8 +131,8 @@
                                               BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
-                                              Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="1"
+                                              Max="100"
+                                              Min="0"
                                               Text="{Binding ProgramEndWarningTime, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="1"
@@ -669,7 +669,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding RampTime_1, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding RampAlarm_1, Mode=TwoWay}" />
@@ -686,7 +686,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding RampTime_2, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding RampAlarm_2, Mode=TwoWay}" />
@@ -703,7 +703,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding RampTime_3, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding RampAlarm_3, Mode=TwoWay}" />
@@ -720,7 +720,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding RampTime_4, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding RampAlarm_4, Mode=TwoWay}" />
@@ -737,7 +737,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding RampTime_5, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding RampAlarm_5, Mode=TwoWay}" />
@@ -754,7 +754,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding RampTime_6, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding RampAlarm_6, Mode=TwoWay}" />
@@ -766,7 +766,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding RampTime_1, Mode=OneWay}"
                                               Text="{Binding RampAlarm_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="8"
@@ -776,7 +776,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding RampTime_2, Mode=OneWay}"
                                               Text="{Binding RampAlarm_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="9"
@@ -786,7 +786,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding RampTime_3, Mode=OneWay}"
                                               Text="{Binding RampAlarm_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="10"
@@ -796,7 +796,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding RampTime_4, Mode=OneWay}"
                                               Text="{Binding RampAlarm_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="11"
@@ -806,7 +806,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding RampTime_5, Mode=OneWay}"
                                               Text="{Binding RampAlarm_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="12"
@@ -816,7 +816,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding RampTime_6, Mode=OneWay}"
                                               Text="{Binding RampAlarm_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="13"
@@ -1125,7 +1125,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding DwellTime_1, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding DwellAlarm_1, Mode=TwoWay}" />
@@ -1142,7 +1142,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding DwellTime_2, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding DwellAlarm_2, Mode=TwoWay}" />
@@ -1159,7 +1159,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding DwellTime_3, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding DwellAlarm_3, Mode=TwoWay}" />
@@ -1176,7 +1176,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding DwellTime_4, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding DwellAlarm_4, Mode=TwoWay}" />
@@ -1193,7 +1193,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding DwellTime_5, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding DwellAlarm_5, Mode=TwoWay}" />
@@ -1210,7 +1210,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Time_Max, Mode=OneWay}"
-                                    Minimum="{Binding Time_Min, Mode=OneWay}"
+                                    Minimum="{Binding DwellTime_6, Mode=OneWay}"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding DwellAlarm_6, Mode=TwoWay}" />
@@ -1222,7 +1222,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding DwellTime_1, Mode=OneWay}"
                                               Text="{Binding DwellAlarm_1, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="14"
@@ -1232,7 +1232,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding DwellTime_2, Mode=OneWay}"
                                               Text="{Binding DwellAlarm_2, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="15"
@@ -1242,7 +1242,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding DwellTime_3, Mode=OneWay}"
                                               Text="{Binding DwellAlarm_3, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="16"
@@ -1252,7 +1252,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding DwellTime_4, Mode=OneWay}"
                                               Text="{Binding DwellAlarm_4, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="17"
@@ -1262,7 +1262,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding DwellTime_5, Mode=OneWay}"
                                               Text="{Binding DwellAlarm_5, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <views:NumericTextBox Grid.Row="18"
@@ -1272,7 +1272,7 @@
                                               BorderThickness="1,1,0,0"
                                               IntOnly="True"
                                               Max="{Binding Time_Max, Mode=OneWay}"
-                                              Min="{Binding Time_Min, Mode=OneWay}"
+                                              Min="{Binding DwellTime_6, Mode=OneWay}"
                                               Text="{Binding DwellAlarm_6, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="19"
@@ -1296,7 +1296,7 @@
                                     IsSnapToTickEnabled="True"
                                     LargeChange="1"
                                     Maximum="{Binding Temperature_Max, Mode=OneWay}"
-                                    Minimum="{Binding Temperature_Min, Mode=OneWay}"
+                                    Minimum="40"
                                     SmallChange="1"
                                     TickFrequency="1"
                                     Value="{Binding CoolingTemperature, Mode=TwoWay}" />
@@ -1307,7 +1307,7 @@
                                               BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding Temperature_Max, Mode=OneWay}"
-                                              Min="{Binding Temperature_Min, Mode=OneWay}"
+                                              Min="40"
                                               Text="{Binding CoolingTemperature, Mode=TwoWay, StringFormat=\{0:F0\}}"
                                               Unit="°C" />
                         <Border Grid.Row="19"

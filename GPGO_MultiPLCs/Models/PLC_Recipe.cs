@@ -76,7 +76,7 @@ namespace GPGO_MultiPLCs.Models
 
         [JsonIgnore] public double Temperature_Min => 50.0;
 
-        [JsonIgnore] public double Time_Max => 300;
+        [JsonIgnore] public double Time_Max => 350;
 
         [JsonIgnore] public double Time_Min => 1;
 
@@ -120,9 +120,9 @@ namespace GPGO_MultiPLCs.Models
                 {
                     value = Temperature_Max;
                 }
-                else if (value < Temperature_Min)
+                else if (value < 40)
                 {
-                    value = Temperature_Min;
+                    value = 40;
                 }
 
                 Set(value);
