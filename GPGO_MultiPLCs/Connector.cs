@@ -427,13 +427,11 @@ namespace GPGO_MultiPLCs
                                        }
                                    };
 
+            List<PLC_Recipe> tempRecipeList = null;
             //!當配方列表更新時，依據使用站別發佈配方
             RecipeVM.ListUpdatedEvent += e =>
                                          {
                                              var (list, showtip) = e;
-
-                                             //todo 配方更新至C:\ITRIinit\0\ProcessJob
-                                             //todo 引發GemProcessProgramChange並且更新兩個DV:GemPPChangeName、GemPPChangeStatus
 
                                              var di = new DirectoryInfo("C:\\ITRIinit\\0\\ProcessJob");
 
@@ -444,6 +442,20 @@ namespace GPGO_MultiPLCs
 
                                              foreach (var recipe in list)
                                              {
+                                                 if (tempRecipeList != null)
+                                                 {
+                                                     var result = tempRecipeList.FirstOrDefault(x => x.RecipeName == recipe.RecipeName);
+                                                     if (result != null)
+                                                     {
+                                                         if (!result.Equals(recipe)) TotalVM.InvokeRecipe(recipe.RecipeName, SECSThread.PPStatus.Change);
+                                                         tempRecipeList.RemoveAll(x => x.RecipeName == recipe.RecipeName);
+                                                     }
+                                                     else
+                                                     {
+                                                         TotalVM.InvokeRecipe(recipe.RecipeName, SECSThread.PPStatus.Create);
+                                                     }
+                                                 }
+
                                                  var si = new StreamReaderIni();
                                                  var t  = si.AddIniSection("CCodeID1");
                                                  t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
@@ -482,6 +494,16 @@ namespace GPGO_MultiPLCs
                                                  t.AddElement(nameof(PLC_Recipe.DwellAlarm_6),          recipe.DwellAlarm_6.ToString("0.0"));
                                                  si.EncodindIni($"C:\\ITRIinit\\0\\ProcessJob\\{recipe.RecipeName}.pjb");
                                              }
+
+                                             if (tempRecipeList != null)
+                                             {
+                                                 foreach (var recipe in tempRecipeList)
+                                                 {
+                                                     TotalVM.InvokeRecipe(recipe.RecipeName, SECSThread.PPStatus.Delete);
+                                                 }
+                                             }
+
+                                             tempRecipeList = list;
 
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 

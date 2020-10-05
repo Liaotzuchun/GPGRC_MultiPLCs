@@ -14,6 +14,13 @@ namespace GPGO_MultiPLCs.Models
 {
     public class SECSThread
     {
+        public enum PPStatus
+        {
+            Create = 1,
+            Change = 2,
+            Delete = 3
+        }
+
         private GOSECS  secsGem;
         private EqpBase eqpBase;
 
@@ -48,7 +55,18 @@ namespace GPGO_MultiPLCs.Models
         {
             dp?.InvokeAsync(() =>
                             {
-                                secsGem.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
+                                switch (name)
+                                {
+                                    case "GemPPChangeName":
+                                        secsGem.AxQGWrapper.UpdateSV(9, value);
+                                        break;
+                                    case "GemPPChangeStatus":
+                                        secsGem.AxQGWrapper.UpdateSV(10, value);
+                                        break;
+                                    default:
+                                        secsGem.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
+                                        break;
+                                }
                             });
         }
 
@@ -67,7 +85,11 @@ namespace GPGO_MultiPLCs.Models
         {
             dp?.InvokeAsync(() =>
                             {
-                                if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
+                                if (name == "GemProcessProgramChange")
+                                {
+                                    secsGem.AxQGWrapper.EventReportSend(9);
+                                }
+                                else if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
                                 {
                                     secsGem.AxQGWrapper.EventReportSend(CEID);
                                 }

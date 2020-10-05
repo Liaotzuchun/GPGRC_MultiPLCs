@@ -620,6 +620,13 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public void InvokeRecipe(string name, SECSThread.PPStatus status)
+        {
+            secsGem?.UpdateDV("GemPPChangeName", name);
+            secsGem?.UpdateDV("GemPPChangeStatus", (int)status);
+            secsGem?.InvokeEvent("GemProcessProgramChange");
+        }
+
         public TotalView_ViewModel(int count, IDialogService dialog)
         {
             Dialog    = dialog;
