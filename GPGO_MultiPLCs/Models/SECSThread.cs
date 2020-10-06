@@ -47,7 +47,7 @@ namespace GPGO_MultiPLCs.Models
         {
             dp?.InvokeAsync(() =>
                             {
-                                secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, name, value);
+                                secsGem?.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, name, value);
                             });
         }
 
@@ -58,13 +58,13 @@ namespace GPGO_MultiPLCs.Models
                                 switch (name)
                                 {
                                     case "GemPPChangeName":
-                                        secsGem.AxQGWrapper.UpdateSV(9, value);
+                                        secsGem?.AxQGWrapper.UpdateSV(9, value);
                                         break;
                                     case "GemPPChangeStatus":
-                                        secsGem.AxQGWrapper.UpdateSV(10, value);
+                                        secsGem?.AxQGWrapper.UpdateSV(10, value);
                                         break;
                                     default:
-                                        secsGem.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
+                                        secsGem?.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
                                         break;
                                 }
                             });
@@ -74,9 +74,9 @@ namespace GPGO_MultiPLCs.Models
         {
             dp?.InvokeAsync(() =>
                             {
-                                if (eqpBase.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpECClass ec && int.TryParse(ec.ID, out var ECID))
+                                if (eqpBase?.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpECClass ec && int.TryParse(ec.ID, out var ECID))
                                 {
-                                    secsGem.AxQGWrapper.UpdateEC(ECID, value);
+                                    secsGem?.AxQGWrapper.UpdateEC(ECID, value);
                                 }
                             });
         }
@@ -87,11 +87,11 @@ namespace GPGO_MultiPLCs.Models
                             {
                                 if (name == "GemProcessProgramChange")
                                 {
-                                    secsGem.AxQGWrapper.EventReportSend(9);
+                                    secsGem?.AxQGWrapper.EventReportSend(9);
                                 }
-                                else if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
+                                else if (eqpBase?.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
                                 {
-                                    secsGem.AxQGWrapper.EventReportSend(CEID);
+                                    secsGem?.AxQGWrapper.EventReportSend(CEID);
                                 }
                             });
         }
@@ -100,9 +100,9 @@ namespace GPGO_MultiPLCs.Models
         {
             dp?.InvokeAsync(() =>
                             {
-                                if (eqpBase.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpAlarmClass ae && int.TryParse(ae.ID, out var ALID))
+                                if (eqpBase?.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpAlarmClass ae && int.TryParse(ae.ID, out var ALID))
                                 {
-                                    secsGem.AxQGWrapper.AlarmReportSend(ALID, val ? 255 : 0);
+                                    secsGem?.AxQGWrapper.AlarmReportSend(ALID, val ? 255 : 0);
                                 }
                             });
         }

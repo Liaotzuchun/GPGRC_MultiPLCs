@@ -1067,8 +1067,8 @@
                                                          Source="{StaticResource AuthenticatorViewModel}" />
                                                 <Binding Mode="OneWay"
                                                          Path="OnlineStatus" />
-                                                <Binding Mode="OneWay"
-                                                         Path="PC_InUse" />
+                                                <!--<Binding Mode="OneWay"
+                                                         Path="PC_InUse" />-->
                                             </MultiBinding>
                                         </ToggleButton.IsEnabled>
                                         <i:Interaction.Triggers>

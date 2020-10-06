@@ -904,6 +904,14 @@ namespace GPGO_MultiPLCs.Models
             Ext_Info.CollectionChanged += (s, e) =>
                                           {
                                               NotifyPropertyChanged(nameof(Quantity));
+
+                                              var lots   = Ext_Info.Select(x => x.LotID).Distinct();
+                                              var parts  = Ext_Info.Select(x => x.PartID).Distinct();
+                                              var panels = Ext_Info.SelectMany(x => x.PanelIDs).Distinct();
+
+                                              SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                           };
 
             #endregion 註冊PLC事件

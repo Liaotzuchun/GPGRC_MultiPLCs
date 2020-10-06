@@ -719,9 +719,21 @@ namespace GPGO_MultiPLCs.ViewModels
             secsGem.AddLOT += (index, o) =>
                               {
                                   var (lotID, partID, panels) = o;
-                                  //todo 投產
 
-                                  return HCACKValule.CantPerform;
+                                  var info = new ProductInfo
+                                             {
+                                                 PartID = partID,
+                                                 LotID  = lotID
+                                             };
+
+                                  foreach (var panel in panels)
+                                  {
+                                      info.PanelIDs.Add(panel);
+                                  }
+
+                                  PLC_All[index].Ext_Info.Add(info);
+
+                                  return HCACKValule.Acknowledge;
                               };
 
             secsGem.CommEnable_Changed += e =>
