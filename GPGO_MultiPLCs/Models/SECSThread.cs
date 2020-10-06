@@ -35,6 +35,7 @@ namespace GPGO_MultiPLCs.Models
         public event Func<int, string, ValueTask<object>, HCACKValule>                           GetLOTInfo;
         public event Action<bool>                                                                ONLINE_Changed;
         public event Action<bool>                                                                CommEnable_Changed;
+        public event Action<bool>                                                                Communicating_Changed;
         public event Action                                                                      GO_Local;
         public event Action                                                                      GO_Remote;
 
@@ -122,11 +123,11 @@ namespace GPGO_MultiPLCs.Models
                                          return;
                                      }
 
-                                     if (val && secsGem.AxQGWrapper.EnableComm() == 1)
+                                     if (val && secsGem.AxQGWrapper.EnableComm() == 0)
                                      {
                                          result = true;
                                      }
-                                     else if (!val && secsGem.AxQGWrapper.DisableComm() == 1)
+                                     else if (!val && secsGem.AxQGWrapper.DisableComm() == 0)
                                      {
                                          result = true;
                                      }
@@ -332,15 +333,8 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  switch (e.PropertyName)
                                                                                                  {
                                                                                                      case nameof(GP_GEM.SECSCommunicationControlViewModel.CommunicatioinState):
-                                                                                                         if (vm.CommunicatioinState == (int)COMM_STATE.NOT_COMMUNICATING ||
-                                                                                                             vm.CommunicatioinState == (int)COMM_STATE.DISABLE)
-                                                                                                         {
-                                                                                                             CommEnable_Changed?.Invoke(false);
-                                                                                                         }
-                                                                                                         else
-                                                                                                         {
-                                                                                                             CommEnable_Changed?.Invoke(true);
-                                                                                                         }
+                                                                                                         CommEnable_Changed?.Invoke(vm.CommunicatioinState != (int)COMM_STATE.DISABLE);
+                                                                                                         Communicating_Changed?.Invoke(vm.CommunicatioinState == (int)COMM_STATE.COMMUNICATING);
 
                                                                                                          break;
                                                                                                      case nameof(GP_GEM.SECSCommunicationControlViewModel.IsOnLine):

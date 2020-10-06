@@ -369,6 +369,12 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public bool SECS_Communicating
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
         public bool SECS_ONLINE
         {
             get => Get<bool>();
@@ -739,6 +745,11 @@ namespace GPGO_MultiPLCs.ViewModels
             secsGem.CommEnable_Changed += e =>
                                           {
                                               Set(e, nameof(SECS_ENABLE));
+                                          };
+
+            secsGem.Communicating_Changed += e =>
+                                          {
+                                              Set(e, nameof(SECS_Communicating));
                                           };
 
             secsGem.ONLINE_Changed += online =>

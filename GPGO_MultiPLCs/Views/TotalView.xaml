@@ -1181,6 +1181,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
                                 <RowDefinition Height="50" />
+                                <RowDefinition Height="30" />
                                 <RowDefinition Height="50" />
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
@@ -1203,26 +1204,67 @@
                                           FontWeight="Bold"
                                           IsChecked="{Binding SECS_ENABLE, Mode=TwoWay}"
                                           Style="{StaticResource ToggleSwitch}" />
+                            <Border Grid.Row="2"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Background="{StaticResource ErrorBrush}">
+                                <i:Interaction.Triggers>
+                                    <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
+                                                   Value="True">
+                                        <i:ChangePropertyAction PropertyName="Background"
+                                                                Value="{StaticResource OKBorderBrush}" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
+                                                   Value="False">
+                                        <i:ChangePropertyAction PropertyName="Background"
+                                                                Value="{StaticResource ErrorBrush}" />
+                                    </i:DataTrigger>
+                                </i:Interaction.Triggers>
+                                <StackPanel HorizontalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            TextElement.Foreground="{StaticResource GlyphBrush}">
+                                    <TextBlock Margin="4,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Text="Not"
+                                               Visibility="{Binding SECS_Communicating, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                                    <TextBlock Margin="4,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Text="Communicating" />
+                                </StackPanel>
+                            </Border>
                             <ToggleButton x:Name="SECS_ONLINE"
-                                          Grid.Row="2"
+                                          Grid.Row="3"
                                           Grid.Column="0"
                                           Grid.ColumnSpan="2"
                                           Content="ON-LINE"
                                           FontSize="16"
                                           FontWeight="Bold"
                                           IsChecked="{Binding SECS_ONLINE, Mode=TwoWay}"
-                                          IsEnabled="{Binding IsChecked, ElementName=SECS_ENABLE, Mode=OneWay}"
+                                          IsEnabled="{Binding SECS_Communicating, Mode=OneWay}"
                                           Style="{StaticResource ToggleSwitch}" />
                             <ToggleButton x:Name="SECS_REMOTE"
-                                          Grid.Row="3"
+                                          Grid.Row="4"
                                           Grid.Column="0"
                                           Grid.ColumnSpan="2"
                                           Content="REMOTE"
                                           FontSize="16"
                                           FontWeight="Bold"
                                           IsChecked="{Binding SECS_REMOTE, Mode=TwoWay}"
-                                          IsEnabled="{Binding IsChecked, ElementName=SECS_ONLINE, Mode=OneWay}"
-                                          Style="{StaticResource ToggleSwitch}" />
+                                          Style="{StaticResource ToggleSwitch}">
+                                <ToggleButton.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                                        <Binding ElementName="SECS_ONLINE"
+                                                 Mode="OneWay"
+                                                 Path="IsChecked" />
+                                        <Binding Mode="OneWay"
+                                                 Path="SECS_Communicating" />
+                                    </MultiBinding>
+                                </ToggleButton.IsEnabled>
+                            </ToggleButton>
                         </Grid>
                         <Grid Grid.Row="3">
                             <Grid.RowDefinitions>
