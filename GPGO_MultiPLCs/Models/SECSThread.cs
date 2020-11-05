@@ -23,11 +23,17 @@ namespace GPGO_MultiPLCs.Models
 
         private GOSECS  secsGem;
         private EqpBase eqpBase;
+        /// <summary> GPSECS服務設定檔案</summary>
+        public SECSParameterSet SECSParameterSet
+        {
+            get;
+            private set;
+        }
 
         public event Action<string>                                                              TerminalMessage;
         public event Action<int, string, object>                                                 ECChange;
         public event Func<PLC_Recipe, bool>                                                      UpsertRecipe;
-        public event Action<string>                                                              DeleteRecipe;
+        public event Action<string>                                                                     DeleteRecipe;
         public event Func<int, string, HCACKValule>                                              SetRecipe;
         public event Func<int, HCACKValule>                                                      Start;
         public event Func<int, HCACKValule>                                                      Stop;
@@ -210,16 +216,17 @@ namespace GPGO_MultiPLCs.Models
 
             dp?.InvokeAsync(() =>
                             {
-                                var secsParameterSet = new SECSParameterSet();
-                                secsParameterSet.SECSParameter.HSMS_Connect_Mode = (int)HSMS_COMM_MODE.HSMS_PASSIVE_MODE;
-                                secsParameterSet.SECSParameter.LDeviceID         = deviceIndex;                          //todo:每台烤箱要有 Device Id
-                                secsParameterSet.SECSParameter.NLocalPort        = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
-                                secsParameterSet.SECSParameter.NRemotePort       = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
-                                secsParameterSet.SECSParameter.FilePath          = $"C:\\ITRIinit\\{deviceIndex}";       //設定檔存放位置
-                                secsParameterSet.SECSParameter.MDLN              = "GP_GO";
+                                SECSParameterSet = new SECSParameterSet();
+                                //secsParameterSet.SECSParameter.HSMS_Connect_Mode = (int)HSMS_COMM_MODE.HSMS_PASSIVE_MODE;
+                                //secsParameterSet.SECSParameter.LDeviceID         = deviceIndex;                          //todo:每台烤箱要有 Device Id
+                                //secsParameterSet.SECSParameter.NLocalPort        = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
+                                //secsParameterSet.SECSParameter.NRemotePort       = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
+                                //secsParameterSet.SECSParameter.FilePath          = $"C:\\ITRIinit\\{deviceIndex}";       //設定檔存放位置
+                                SECSParameterSet.SECSParameter.FilePath = $"C:\\ITRIinit\\{deviceIndex}";       //設定檔存放位置
+                                SECSParameterSet.SECSParameter.MDLN = "GP_GO";
                                 var v = Assembly.GetExecutingAssembly().GetName().Version;
-                                secsParameterSet.SECSParameter.SOFTREV = $"{v.Major}.{v.Minor}.{v.Build}";
-                                secsGem                                = new GOSECS(secsParameterSet.SECSParameter);
+                                SECSParameterSet.SECSParameter.SOFTREV = $"{v.Major}.{v.Minor}.{v.Build}";
+                                secsGem                                = new GOSECS(SECSParameterSet.SECSParameter);
 
                                 secsGem.TerminalMessageEvent += message =>
                                                                 {
@@ -252,7 +259,7 @@ namespace GPGO_MultiPLCs.Models
                                                              {
                                                                  return HCACKValule.ParameterInvalid;
                                                              }
-
+                                                             //a8101.bank@fubon.com
                                                              if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] indexes && indexes.Length > 0 &&
                                                                  r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot &&
                                                                  r.RemoteCommandParameter[2].CPVAL.ObjectData is string part &&

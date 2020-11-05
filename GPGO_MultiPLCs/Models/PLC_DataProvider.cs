@@ -357,16 +357,42 @@ namespace GPGO_MultiPLCs.Models
             }
 
             RemoteCommandSelectPP = false;
-
-            if (check && !await Dialog.Show(new Dictionary<Language, string>
-                                            {
-                                                {Language.TW, "請確認配方內容："},
-                                                {Language.CHS, "请确认配方内容："},
-                                                {Language.EN, "Please confirm this recipe:"}
-                                            }, recipe, true))
+            Dictionary<string, object> ObjectPropertiesView = recipe.ToDictionary(Language.EN);
+            object Recipe = recipe;
+            switch (Recipe)
             {
-                return false;
+                case System.Collections.IDictionary dic:
+                    var keys = dic.Keys.Cast<object>().ToList();
+                    var vals = dic.Values.Cast<object>().ToList();
+
+                    ObjectPropertiesView = keys.Zip(vals, (x, y) => (x, y)).ToDictionary(x => x.x.ToString(), x => x.y);
+                    break;
+                case System.Collections.IEnumerable objs:
+                    ObjectPropertiesView = objs.Cast<object>().Select((x, i) => (i, x)).ToDictionary(x => x.i.ToString(), y => y.x);
+                    break;
+                default:
+                    ObjectPropertiesView = Recipe.ToDictionary(Language.EN);
+                    break;
             }
+            
+            //if (check && !await Dialog.Show(new Dictionary<Language, string>
+            //                                {
+            //                                    {Language.TW, "請確認配方內容："},
+            //                                    {Language.CHS, "请确认配方内容："},
+            //                                    {Language.EN, "Please confirm this recipe:"}
+            //                                }, recipe, true))
+            //{
+            //    return false;
+            //}
+            //if (check && !await Dialog.Show(new Dictionary<Language, string>
+            //                                {
+            //                                    {Language.TW, "請確認配方內容："},
+            //                                    {Language.CHS, "请确认配方内容："},
+            //                                    {Language.EN, "Please confirm this recipe:"}
+            //                                }, true))
+            //{
+            //    return false;
+            //}
 
             RecipeUsed?.Invoke(recipeName);
             recipe.CopyToObj(this);

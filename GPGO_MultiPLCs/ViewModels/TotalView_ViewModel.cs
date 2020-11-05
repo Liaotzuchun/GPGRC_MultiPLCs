@@ -636,8 +636,8 @@ namespace GPGO_MultiPLCs.ViewModels
         public TotalView_ViewModel(int count, IDialogService dialog)
         {
             Dialog    = dialog;
-            PLC_All   = new PLC_DataProvider[20];
             OvenCount = count;
+            PLC_All   = new PLC_DataProvider[OvenCount];
             ViewIndex = -1;
             site      = new InstanceContext(this);
 
@@ -768,7 +768,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                  };
 
             //!註冊PLC事件需引發的動作
-            for (var i = 0; i < 20; i++)
+            for (var i = 0; i < OvenCount; i++)
             {
                 var j = i + 1;
 
