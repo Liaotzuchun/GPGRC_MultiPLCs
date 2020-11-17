@@ -48,6 +48,14 @@ namespace GPGO_MultiPLCs.Models
                 case "RETRIEVELOTDATA":
                     HCACK = RetrieveLotDataCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
+                case "GO_LOCAL":
+                    if (!AxQGWrapper.OnLineLocal().Equals(0))
+                        HCACK = HCACKValule.CantPerform;
+                    break;
+                case "GO_REMOTE":
+                    if (!AxQGWrapper.OnLineRemote().Equals(0))
+                        HCACK = HCACKValule.CantPerform;
+                    break;
                 default:
                     HCACK = HCACKValule.CmdNotExist;
                     break;
@@ -702,7 +710,6 @@ namespace GPGO_MultiPLCs.Models
         public event Func<RemoteCommand, HCACKValule> STARTCommand;
         public event Func<RemoteCommand, HCACKValule> STOPCommand;
         public event Func<RemoteCommand, HCACKValule> RetrieveLotDataCommand;
-
         #endregion "RemoteCommand"
     }
 }

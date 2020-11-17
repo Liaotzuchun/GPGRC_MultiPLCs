@@ -320,7 +320,6 @@ namespace GPGO_MultiPLCs.Models
                                                        };
 
                                 secsGem.RetrieveLotDataCommand += r => HCACKValule.CantPerform; //todo
-
                                 eqpBase = SECSTool.GetEqpbase($"{index}");
                                 //SECS_GEM.GemDVDataUpdateNew("","");
                                 secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, "PLCProgramVersion", "0001");
