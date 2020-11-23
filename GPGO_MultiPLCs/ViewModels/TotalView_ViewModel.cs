@@ -782,9 +782,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 PLC_All[i].SetDatas += async (type, vals) => await SetDatas(index, type, vals);
 
-                PLC_All[i].ValueChanged += (LogType, data) =>
-                                           {
-                                           };
+                //PLC_All[i].ValueChanged += async (LogType, data) => await ValueChanged(LogType, data);
 
                 PLC_All[i].TracedDataChanged += data =>
                                                 {

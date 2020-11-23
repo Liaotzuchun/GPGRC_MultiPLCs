@@ -837,6 +837,17 @@ namespace GPGO_MultiPLCs.Models
                                             OvenInfo.IsFinished = true;
                                             await StopPP();
                                         }
+                                        else if (name == nameof(RackInput))
+                                        {
+                                            if (RackInput.Equals(true))
+                                            {
+                                                //SV_Changed?.Invoke("Oven1_RackID", "TestCarrierID");
+                                            SV_Changed?.Invoke("RackID", "TestCarrierID");
+
+                                                InvokeSECSEvent?.Invoke(nameof(RackInput));
+                                                RackInput = false;//清訊號
+                                            }
+                                        }
                                     }
                                     else if (name == nameof(CurrentStep) ||
                                              name == nameof(IsRamp) ||
@@ -867,10 +878,6 @@ namespace GPGO_MultiPLCs.Models
                                         {
                                             await StopPP();
                                         }
-                                    }
-                                    else if (name == nameof(RackInput))
-                                    {
-                                        InvokeSECSEvent?.Invoke(nameof(RackInput));
                                     }
                                 }
                                 else if (LogType == LogType.Alert)
@@ -922,6 +929,14 @@ namespace GPGO_MultiPLCs.Models
                                         else if (name == nameof(RemoteCommandSelectPP))
                                         {
                                             EventHappened?.Invoke(eventval);
+                                        }
+                                        else if (name == nameof(RemoteCommandSelectPPFinish))
+                                        {
+                                            if (RemoteCommandSelectPPFinish.Equals(true))
+                                            {
+                                                RemoteCommandSelectPPFinish = false;
+                                                EventHappened?.Invoke(eventval);
+                                            }
                                         }
                                     }
                                 }

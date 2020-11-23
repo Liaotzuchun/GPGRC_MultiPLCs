@@ -325,12 +325,12 @@ namespace GPGO_MultiPLCs.Models
                                 secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, "PLCProgramVersion", "0001");
                                 //var ALID = EqpBase.EqpAlarmViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
                                 //SECS_GEM.AxQGWrapper.AlarmReportSend(Convert.ToInt32(ALID), 255);
-                                secsGem.AxQGWrapper.AlarmReportSend(1, 1);
+                                //secsGem.AxQGWrapper.AlarmReportSend(1, 1);
 
-                                if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals("AlarmSet")) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
-                                {
-                                    secsGem.AxQGWrapper.EventReportSend(CEID);
-                                }
+                                //if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals("AlarmSet")) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
+                                //{
+                                //    secsGem.AxQGWrapper.EventReportSend(CEID);
+                                //}
 
                                 secsGem.SECSCommunicationControlViewModel.PropertyChanged += (s, e) =>
                                                                                              {
