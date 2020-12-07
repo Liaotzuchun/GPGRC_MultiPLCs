@@ -848,6 +848,17 @@ namespace GPGO_MultiPLCs.Models
                                                 RackInput = false;//清訊號
                                             }
                                         }
+                                        else if (name == nameof(RackOutput))
+                                        {
+                                            if (RackOutput.Equals(true))
+                                            {
+                                                ////SV_Changed?.Invoke("Oven1_RackID", "TestCarrierID");
+                                                //SV_Changed?.Invoke("RackID", "TestCarrierID");
+
+                                                InvokeSECSEvent?.Invoke(nameof(RackOutput));
+                                                RackOutput = false;//清訊號
+                                            }
+                                        }
                                     }
                                     else if (name == nameof(CurrentStep) ||
                                              name == nameof(IsRamp) ||

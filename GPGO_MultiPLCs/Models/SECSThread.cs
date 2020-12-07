@@ -54,7 +54,7 @@ namespace GPGO_MultiPLCs.Models
         {
             dp?.InvokeAsync(() =>
                             {
-                                secsGem?.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, name, value);
+                                var a = secsGem?.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, name, value);
                             });
         }
 
@@ -280,10 +280,10 @@ namespace GPGO_MultiPLCs.Models
                                                                 {
                                                                     return HCACKValule.ParameterInvalid;
                                                                 }
-
-                                                                if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
+                                                                int[] o = r.RemoteCommandParameter[0].CPVAL.ObjectData as int[];
+                                                                if (int.TryParse(o[0].ToString(), out var i))
                                                                 {
-                                                                    return SetRecipe?.Invoke(i, r.RemoteCommandParameter[1].CPVAL.ToString()) ?? HCACKValule.CantPerform;
+                                                                    return SetRecipe?.Invoke(i, r.RemoteCommandParameter[1].CPVAL.ObjectData.ToString()) ?? HCACKValule.CantPerform;
                                                                 }
 
                                                                 return HCACKValule.CantPerform;
@@ -296,7 +296,8 @@ namespace GPGO_MultiPLCs.Models
                                                                 return HCACKValule.ParameterInvalid;
                                                             }
 
-                                                            if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
+                                                            int[] o = r.RemoteCommandParameter[0].CPVAL.ObjectData as int[];
+                                                            if (int.TryParse(o[0].ToString(), out var i))
                                                             {
                                                                 return Start?.Invoke(i) ?? HCACKValule.CantPerform;
                                                             }
@@ -311,7 +312,8 @@ namespace GPGO_MultiPLCs.Models
                                                                return HCACKValule.ParameterInvalid;
                                                            }
 
-                                                           if (int.TryParse(r.RemoteCommandParameter[0].CPVAL.ToString(), out var i))
+                                                           int[] o = r.RemoteCommandParameter[0].CPVAL.ObjectData as int[];
+                                                           if (int.TryParse(o[0].ToString(), out var i))
                                                            {
                                                                return Stop?.Invoke(i) ?? HCACKValule.CantPerform;
                                                            }
@@ -322,7 +324,7 @@ namespace GPGO_MultiPLCs.Models
                                 secsGem.RetrieveLotDataCommand += r => HCACKValule.CantPerform; //todo
                                 eqpBase = SECSTool.GetEqpbase($"{index}");
                                 //SECS_GEM.GemDVDataUpdateNew("","");
-                                secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, "PLCProgramVersion", "0001");
+                                //secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, "PLCProgramVersion", "0001");
                                 //var ALID = EqpBase.EqpAlarmViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
                                 //SECS_GEM.AxQGWrapper.AlarmReportSend(Convert.ToInt32(ALID), 255);
                                 //secsGem.AxQGWrapper.AlarmReportSend(1, 1);
