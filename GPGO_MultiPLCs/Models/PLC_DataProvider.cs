@@ -355,7 +355,10 @@ namespace GPGO_MultiPLCs.Models
             {
                 return false;
             }
-
+            if (recipe == null || IsExecuting || !PC_InUse)
+            {
+                return false;
+            }
             RemoteCommandSelectPP = false;
             Dictionary<string, object> ObjectPropertiesView = recipe.ToDictionary(Language.EN);
             object Recipe = recipe;
@@ -825,7 +828,7 @@ namespace GPGO_MultiPLCs.Models
                                             //OvenInfo.IsFinished = true;
                                             await StopPP();
                                         }
-                                        else if (name == nameof(AutoMode_Stop))
+                                        else if (name == nameof(ProcessComplete))
                                         {
                                             if (!val)
                                             {
@@ -833,6 +836,15 @@ namespace GPGO_MultiPLCs.Models
                                             }
 
                                             InvokeSECSEvent?.Invoke("ProcessComplete");
+                                        }
+                                        else if (name == nameof(AutoMode_Stop))
+                                        {
+                                            if (!val)
+                                            {
+                                                return;
+                                            }
+
+                                            //InvokeSECSEvent?.Invoke("ProcessComplete");
 
                                             OvenInfo.IsFinished = true;
                                             await StopPP();
@@ -842,7 +854,7 @@ namespace GPGO_MultiPLCs.Models
                                             if (RackInput.Equals(true))
                                             {
                                                 //SV_Changed?.Invoke("Oven1_RackID", "TestCarrierID");
-                                            SV_Changed?.Invoke("RackID", "TestCarrierID");
+                                            //SV_Changed?.Invoke("RackID", "TestCarrierID");
 
                                                 InvokeSECSEvent?.Invoke(nameof(RackInput));
                                                 RackInput = false;//清訊號
@@ -921,7 +933,7 @@ namespace GPGO_MultiPLCs.Models
                                 }
                                 else if (LogType == LogType.Recipe)
                                 {
-                                    InvokeSECSEvent?.Invoke("RecipeChanged");
+                                    //InvokeSECSEvent?.Invoke("RecipeChanged");
                                 }
                                 else if (LogType == LogType.Trigger)
                                 {
@@ -947,6 +959,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 RemoteCommandSelectPPFinish = false;
                                                 EventHappened?.Invoke(eventval);
+                                                InvokeSECSEvent?.Invoke("RecipeChanged");
                                             }
                                         }
                                     }

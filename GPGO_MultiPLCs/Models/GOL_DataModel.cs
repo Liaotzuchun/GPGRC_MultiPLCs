@@ -1427,7 +1427,12 @@ namespace GPGO_MultiPLCs.Models
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
-
+        [PLCBitData(DataType.D, 12010, 2, LogType.Status)]
+        public bool ProcessComplete
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
         [PLCBitData(DataType.D, 12010, 5, LogType.Status)]
         public bool AutoMode_Stop
         {
@@ -1561,7 +1566,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// RackID
         /// </summary>
-        [PLCData(DataType.D, 11100, 40, LogType.Status)]
+        [PLCData(DataType.D, 11100, 24, LogType.Status)]
         public string RackID
         {
             get => GetPLC<string>();

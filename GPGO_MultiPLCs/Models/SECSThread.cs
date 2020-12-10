@@ -38,6 +38,7 @@ namespace GPGO_MultiPLCs.Models
         public event Func<int, HCACKValule>                                                      Start;
         public event Func<int, HCACKValule>                                                      Stop;
         public event Func<int, (string LotID, string PartID, IList<string> Panels), HCACKValule> AddLOT;
+        public event Func<int, HCACKValule> CANCEL;
         public event Func<int, string, ValueTask<object>, HCACKValule>                           GetLOTInfo;
         public event Action<bool>                                                                ONLINE_Changed;
         public event Action<bool>                                                                CommEnable_Changed;
@@ -273,7 +274,21 @@ namespace GPGO_MultiPLCs.Models
 
                                                              return HCACKValule.CantPerform;
                                                          };
+                                secsGem.CANCELCommand += r =>
+                                {
+                                    if (r.RemoteCommandParameter.Count < 1)
+                                    {
+                                        return HCACKValule.ParameterInvalid;
+                                    }
+                                    if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] indexes && indexes.Length > 0)
+                                    {
+                                        var i = indexes[0];
 
+                                        return CANCEL?.Invoke(i) ?? HCACKValule.CantPerform;
+                                    }
+
+                                    return HCACKValule.CantPerform;
+                                };
                                 secsGem.PP_SELECTCommand += r =>
                                                             {
                                                                 if (r.RemoteCommandParameter.Count < 2)

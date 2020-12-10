@@ -738,9 +738,32 @@ namespace GPGO_MultiPLCs.ViewModels
                                   }
 
                                   PLC_All[index].Ext_Info.Add(info);
-
+                                  Task.Run(() =>
+                                  {
+                                      Task.Delay(TimeSpan.FromMilliseconds(100)).Wait();
+                                      //secsGem.UpdateSV($"Oven{index +1}_LotIDs", PLC_All[k].EquipmentState);
+                                      //secsGem.UpdateSV($"Oven{index + 1}_PartIDs", PLC_All[k].EquipmentState);
+                                      //secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
+                                  }
+                                  );
                                   return HCACKValule.Acknowledge;
                               };
+            secsGem.CANCEL += (index) =>
+            {
+                PLC_All[index].Ext_Info.Clear();
+                if (PLC_All[index].ExecutingTask != null && PLC_All[index].IsExecuting)
+                {
+                    PLC_All[index].CTS?.Cancel();
+
+                    PLC_All[index].ExecutingTask.Wait();
+                }
+
+                CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
+                PLC_All[index].OvenInfo.Clear();
+                PLC_All[index].Ext_Info.Clear();
+                secsGem.InvokeEvent($"Oven{index + 1}_LotRemoved");
+                return HCACKValule.Acknowledge;
+            };
 
             secsGem.CommEnable_Changed += e =>
                                           {

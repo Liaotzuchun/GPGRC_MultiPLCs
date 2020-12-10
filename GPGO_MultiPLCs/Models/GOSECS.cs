@@ -36,6 +36,9 @@ namespace GPGO_MultiPLCs.Models
                 case "ADDLOT":
                     HCACK = ADDLOTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
+                case "CANCEL":
+                    HCACK = CANCELCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
+                    break;
                 case "PP_SELECT":
                     HCACK = PP_SELECTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
@@ -706,6 +709,7 @@ namespace GPGO_MultiPLCs.Models
         #region "RemoteCommand"
 
         public event Func<RemoteCommand, HCACKValule> ADDLOTCommand;
+        public event Func<RemoteCommand, HCACKValule> CANCELCommand;
         public event Func<RemoteCommand, HCACKValule> PP_SELECTCommand;
         public event Func<RemoteCommand, HCACKValule> STARTCommand;
         public event Func<RemoteCommand, HCACKValule> STOPCommand;
