@@ -553,59 +553,59 @@ namespace GPGO_MultiPLCs
             TotalVM.WantFrontData += async e =>
                                      {
                                          var (stationIndex, RackID) = e;
-                                         var path = $"{DataInputPath}\\{RackID}";
+                                         //var path = $"{DataInputPath}\\{RackID}";
 
-                                         if (Directory.Exists(path))
-                                         {
-                                             var products = new List<(string ordercode, int number, string PanelID)>();
+                                         //if (Directory.Exists(path))
+                                         //{
+                                         //    var products = new List<(string ordercode, int number, string PanelID)>();
 
-                                             await Task.Factory.StartNew(() =>
-                                                                         {
-                                                                             var files = new DirectoryInfo(path).GetFiles("*.txt");
-                                                                             foreach (var file in files)
-                                                                             {
-                                                                                 try
-                                                                                 {
-                                                                                     var str = File.ReadAllText(file.FullName, Encoding.ASCII);
-                                                                                     var result = str.Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.None)
-                                                                                                     .Where(x => x.StartsWith("General") && x.Contains("="))
-                                                                                                     .Select(x => x.Split('='))
-                                                                                                     .ToDictionary(x => x[0], x => x[1]);
+                                         //    await Task.Factory.StartNew(() =>
+                                         //                                {
+                                         //                                    var files = new DirectoryInfo(path).GetFiles("*.txt");
+                                         //                                    foreach (var file in files)
+                                         //                                    {
+                                         //                                        try
+                                         //                                        {
+                                         //                                            var str = File.ReadAllText(file.FullName, Encoding.ASCII);
+                                         //                                            var result = str.Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.None)
+                                         //                                                            .Where(x => x.StartsWith("General") && x.Contains("="))
+                                         //                                                            .Select(x => x.Split('='))
+                                         //                                                            .ToDictionary(x => x[0], x => x[1]);
 
-                                                                                     int.TryParse(Extensions.OnlyASCII(result["General2"]), out var number);
-                                                                                     products.Add((Extensions.OnlyASCII(result["General1"]), number, Extensions.OnlyASCII(result["General7"])));
+                                         //                                            int.TryParse(Extensions.OnlyASCII(result["General2"]), out var number);
+                                         //                                            products.Add((Extensions.OnlyASCII(result["General1"]), number, Extensions.OnlyASCII(result["General7"])));
 
-                                                                                     var backname = $"{file.FullName}.bak{stationIndex}";
-                                                                                     if (File.Exists(backname))
-                                                                                     {
-                                                                                         File.Delete(backname);
-                                                                                     }
+                                         //                                            var backname = $"{file.FullName}.bak{stationIndex}";
+                                         //                                            if (File.Exists(backname))
+                                         //                                            {
+                                         //                                                File.Delete(backname);
+                                         //                                            }
 
-                                                                                     file.MoveTo(backname);
-                                                                                 }
-                                                                                 catch (Exception ex)
-                                                                                 {
-                                                                                     Log.Error(ex, "");
-                                                                                 }
-                                                                             }
-                                                                         });
+                                         //                                            file.MoveTo(backname);
+                                         //                                        }
+                                         //                                        catch (Exception ex)
+                                         //                                        {
+                                         //                                            Log.Error(ex, "");
+                                         //                                        }
+                                         //                                    }
+                                         //                                });
 
-                                             return products.GroupBy(x => x.ordercode)
-                                                            .Select(x => new ProductInfo(x.Key, x.First().number)
-                                                                         {
-                                                                             PanelIDs = x.Select(y => y.PanelID).ToList()
-                                                                         })
-                                                            .ToList();
-                                         }
+                                             //return products.GroupBy(x => x.ordercode)
+                                             //               .Select(x => new ProductInfo(x.Key, x.First().number)
+                                             //                            {
+                                             //                                PanelIDs = x.Select(y => y.PanelID).ToList()
+                                             //                            })
+                                             //               .ToList();
+                                         //}
 
-                                         try
-                                         {
-                                             Directory.CreateDirectory(path);
-                                         }
-                                         catch (Exception ex)
-                                         {
-                                             Log.Error(ex, "板架資料夾不存在且無法創建");
-                                         }
+                                         //try
+                                         //{
+                                         //    Directory.CreateDirectory(path);
+                                         //}
+                                         //catch (Exception ex)
+                                         //{
+                                         //    Log.Error(ex, "板架資料夾不存在且無法創建");
+                                         //}
 
                                          return null;
                                      };
@@ -615,26 +615,26 @@ namespace GPGO_MultiPLCs
             TotalVM.CancelCheckIn += e =>
                                      {
                                          var (stationIndex, RackID) = e;
-                                         var path = $"{DataInputPath}\\{RackID}";
+                                         //var path = $"{DataInputPath}\\{RackID}";
 
-                                         if (!Directory.Exists(path))
-                                         {
-                                             return;
-                                         }
+                                         //if (!Directory.Exists(path))
+                                         //{
+                                         //    return;
+                                         //}
 
-                                         var tag   = $".bak{stationIndex}";
-                                         var files = new DirectoryInfo(path).GetFiles($"*{tag}");
-                                         foreach (var file in files)
-                                         {
-                                             var sourcename = file.FullName.TrimEnd(tag.ToCharArray());
+                                         //var tag   = $".bak{stationIndex}";
+                                         //var files = new DirectoryInfo(path).GetFiles($"*{tag}");
+                                         //foreach (var file in files)
+                                         //{
+                                         //    var sourcename = file.FullName.TrimEnd(tag.ToCharArray());
 
-                                             if (File.Exists(sourcename))
-                                             {
-                                                 File.Delete(sourcename);
-                                             }
+                                         //    if (File.Exists(sourcename))
+                                         //    {
+                                         //        File.Delete(sourcename);
+                                         //    }
 
-                                             file.MoveTo(sourcename);
-                                         }
+                                         //    file.MoveTo(sourcename);
+                                         //}
                                      };
 
             //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量

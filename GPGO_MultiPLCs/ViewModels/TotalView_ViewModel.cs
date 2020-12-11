@@ -741,9 +741,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   Task.Run(() =>
                                   {
                                       Task.Delay(TimeSpan.FromMilliseconds(100)).Wait();
-                                      //secsGem.UpdateSV($"Oven{index +1}_LotIDs", PLC_All[k].EquipmentState);
-                                      //secsGem.UpdateSV($"Oven{index + 1}_PartIDs", PLC_All[k].EquipmentState);
-                                      //secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
+                                      secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
                                   }
                                   );
                                   return HCACKValule.Acknowledge;
