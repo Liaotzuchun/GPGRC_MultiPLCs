@@ -1307,12 +1307,12 @@ namespace GPGO_MultiPLCs.Models
 
         #region 機台狀態
 
-        //[PLCBitData(DataType.D, 12010, 0, LogType.Status)]
-        //public bool RackInput
-        //{
-        //    get => GetPLC<bool>();
-        //    set => SetPLC(value);
-        //}
+        [PLCBitData(DataType.D, 12010, 0, LogType.Status)]
+        public bool ReadBarcode
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
 
         [PLCBitData(DataType.D, 12011, 1, LogType.Status)]
         public bool RackInput

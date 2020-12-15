@@ -207,11 +207,11 @@ namespace GPGO_MultiPLCs.Models
                                            await ExecutingFinished.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
                                        }
 
-                                       OvenInfo.Clear();
-                                       Ext_Info.Clear();
+                                       //OvenInfo.Clear();
+                                       //Ext_Info.Clear();
 
-                                       //!需在引發紀錄完成後才觸發取消投產
-                                       CheckInCommand.Result = false;
+                                       ////!需在引發紀錄完成後才觸發取消投產
+                                       //CheckInCommand.Result = false;
                                    });
 
                 NotifyPropertyChanged(nameof(IsExecuting));
@@ -824,8 +824,6 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
-
-                                            //OvenInfo.IsFinished = true;
                                             await StopPP();
                                         }
                                         else if (name == nameof(ProcessComplete))
@@ -834,8 +832,9 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
-
                                             InvokeSECSEvent?.Invoke("ProcessComplete");
+                                            OvenInfo.IsFinished = true;
+                                            await StopPP();
                                         }
                                         else if (name == nameof(AutoMode_Stop))
                                         {
@@ -843,19 +842,18 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
-
-                                            //InvokeSECSEvent?.Invoke("ProcessComplete");
-
-                                            OvenInfo.IsFinished = true;
-                                            await StopPP();
+                                        }
+                                        else if (name == nameof(ReadBarcode))
+                                        {
+                                            if (val.Equals(true))
+                                            {
+                                                SV_Changed?.Invoke("RackID", RackID);
+                                            }
                                         }
                                         else if (name == nameof(RackInput))
                                         {
                                             if (RackInput.Equals(true))
                                             {
-                                                //SV_Changed?.Invoke("Oven1_RackID", "TestCarrierID");
-                                            //SV_Changed?.Invoke("RackID", "TestCarrierID");
-
                                                 InvokeSECSEvent?.Invoke(nameof(RackInput));
                                                 RackInput = false;//清訊號
                                             }
@@ -864,9 +862,11 @@ namespace GPGO_MultiPLCs.Models
                                         {
                                             if (RackOutput.Equals(true))
                                             {
-                                                ////SV_Changed?.Invoke("Oven1_RackID", "TestCarrierID");
-                                                //SV_Changed?.Invoke("RackID", "TestCarrierID");
+                                                OvenInfo?.Clear();
+                                                Ext_Info.Clear();
 
+                                                //!需在引發紀錄完成後才觸發取消投產
+                                                CheckInCommand.Result = false;
                                                 InvokeSECSEvent?.Invoke(nameof(RackOutput));
                                                 RackOutput = false;//清訊號
                                             }
