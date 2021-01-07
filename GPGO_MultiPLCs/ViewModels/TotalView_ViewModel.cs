@@ -562,7 +562,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <returns>是否成功寫入PLC</returns>
         public bool SetRecipe(int index, PLC_Recipe recipe)
         {
-            if (recipe == null || PLC_All[index].IsExecuting || PLC_All[index].PC_InUse)
+            if (recipe == null || PLC_All[index].IsExecuting || PLC_All[index].PC_InUse || PLC_All[index].GreenLight)
             {
                 return false;
             }
@@ -933,7 +933,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  secsGem.UpdateSV($"Oven{j}_Previous{name}", PLC_All[k].EquipmentState);
                                              }
 
+                                             if(name == "RackID")
+                                             {
+                                                 value = value.ToString().Trim();
+                                             }                   
                                              secsGem.UpdateSV($"Oven{j}_{name}", value);
+                                             
                                          };
             }
 
