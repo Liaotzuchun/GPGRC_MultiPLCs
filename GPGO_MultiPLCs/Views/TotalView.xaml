@@ -205,8 +205,7 @@
                                                                VerticalAlignment="Center"
                                                                Text="{DynamicResource 財產編號}" />
                                                 </Border>-->
-                                                <Border Grid.Row="0"
-                                                        Grid.RowSpan="2"
+                                                <Border Grid.Row="1"
                                                         Grid.Column="0"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -230,8 +229,25 @@
                                                              Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}"
                                                              Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                                 </UniformGrid>-->
-                                                <ComboBox Grid.Row="0"
-                                                          Grid.RowSpan="2"
+                                                <Border 
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Background="{StaticResource WindowBackgroundBrush6}"
+                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                        BorderThickness="0,0,1,1">
+                                                    <TextBlock HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Text="{DynamicResource 狀態}" />
+                                                </Border>
+                                                <Border Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Background="{StaticResource LightColorBrush}"
+                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                        BorderThickness="0,0,0,1">
+                                                    <ContentControl Content="{Binding Mode=OneWay}"
+                                                                    ContentTemplate="{StaticResource ProgressDataTemplate}" />
+                                                </Border>
+                                                <ComboBox Grid.Row="1"
                                                           Grid.Column="1"
                                                           BorderThickness="0,0,0,0"
                                                           FontSize="16"

@@ -936,9 +936,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                              if(name == "RackID")
                                              {
                                                  value = value.ToString().Trim();
-                                             }                   
-                                             secsGem.UpdateSV($"Oven{j}_{name}", value);
+                                             }
                                              
+                                             secsGem.UpdateSV($"Oven{j}_{name}", value);
                                          };
             }
 
