@@ -117,83 +117,23 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task<bool> Enable(bool val)
         {
-            if (dp == null)
-            {
-                return false;
-            }
-
-            var result = false;
-            await dp.InvokeAsync(() =>
-                                 {
-                                     if (secsGem == null)
-                                     {
-                                         return;
-                                     }
-
-                                     if (val && secsGem.AxQGWrapper.EnableComm() == 0)
-                                     {
-                                         result = true;
-                                     }
-                                     else if (!val && secsGem.AxQGWrapper.DisableComm() == 0)
-                                     {
-                                         result = true;
-                                     }
-                                 });
-            return result;
+            return dp != null && 
+                   secsGem != null &&
+                   await dp.InvokeAsync(() => val && secsGem.AxQGWrapper.EnableComm() == 0 || !val && secsGem.AxQGWrapper.DisableComm() == 0);
         }
 
         public async Task<bool> Online(bool val)
         {
-            if (dp == null)
-            {
-                return false;
-            }
-
-            var result = false;
-            await dp.InvokeAsync(() =>
-                                 {
-                                     if (secsGem == null)
-                                     {
-                                         return;
-                                     }
-
-                                     if (val && secsGem.AxQGWrapper.OnLineRequest() == 1)
-                                     {
-                                         result = true;
-                                     }
-                                     else if (!val && secsGem.AxQGWrapper.OffLine() == 1)
-                                     {
-                                         result = true;
-                                     }
-                                 });
-            return result;
+            return dp != null && 
+                   secsGem != null &&
+                   await dp.InvokeAsync(() => val && secsGem.AxQGWrapper.OnLineRequest() == 1 || !val && secsGem.AxQGWrapper.OffLine() == 1);
         }
 
         public async Task<bool> Remote(bool val)
         {
-            if (dp == null)
-            {
-                return false;
-            }
-
-            var result = false;
-            await dp.InvokeAsync(() =>
-                                 {
-                                     if (secsGem == null)
-                                     {
-                                         return;
-                                     }
-
-                                     if (val && secsGem.AxQGWrapper.OnLineRemote() == 1)
-                                     {
-                                         result = true;
-                                     }
-                                     else if (!val && secsGem.AxQGWrapper.OnLineLocal() == 1)
-                                     {
-                                         result = true;
-                                     }
-                                 });
-            return result;
+            return dp != null && 
+                   secsGem != null &&
+                   await dp.InvokeAsync(() => val && secsGem.AxQGWrapper.OnLineRemote() == 1 || !val && secsGem.AxQGWrapper.OnLineLocal() == 1);
         }
 
         public SECSThread(int index)
@@ -260,7 +200,7 @@ namespace GPGO_MultiPLCs.Models
                                                              {
                                                                  return HCACKValule.ParameterInvalid;
                                                              }
-                                                             //a8101.bank@fubon.com
+
                                                              if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] indexes && indexes.Length > 0 &&
                                                                  r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot &&
                                                                  r.RemoteCommandParameter[2].CPVAL.ObjectData is string part &&
@@ -274,6 +214,7 @@ namespace GPGO_MultiPLCs.Models
 
                                                              return HCACKValule.CantPerform;
                                                          };
+
                                 secsGem.CANCELCommand += r =>
                                 {
                                     if (r.RemoteCommandParameter.Count < 1)
