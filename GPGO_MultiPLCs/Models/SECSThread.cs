@@ -152,7 +152,7 @@ namespace GPGO_MultiPLCs.Models
                                              r.RemoteCommandParameter[3].CPVAL is SECSMessageBranches Branches)
                                          {
                                              var i = indexes[0];
-                                             var panels = Branches.SECSMessageObjects.Select(x => x.ObjectData.ToString()).ToList();
+                                             var panels = Branches.SECSMessageObjects.Select(x => x.ObjectData?.ToString() ?? string.Empty).ToList();
 
                                              return AddLOT?.Invoke(i, (lot, part, panels)) ?? HCACKValule.CantPerform;
                                          }
