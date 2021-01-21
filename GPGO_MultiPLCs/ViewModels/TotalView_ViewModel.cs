@@ -350,22 +350,17 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Set(value);
 
-                async void action()
+                if (!secsGem.Enable(value))
                 {
-                    if (!await secsGem.Enable(value))
-                    {
-                        Dialog?.Show(new Dictionary<Language, string>
-                                     {
-                                         {Language.TW, "無法啟用連線"},
-                                         {Language.CHS, "无法启用联机"},
-                                         {Language.EN, "Unable to enable connection"}
-                                     });
+                    Dialog?.Show(new Dictionary<Language, string>
+                                 {
+                                     {Language.TW, "無法啟用連線"},
+                                     {Language.CHS, "无法启用联机"},
+                                     {Language.EN, "Unable to enable connection"}
+                                 });
 
-                        Set(!value, nameof(SECS_ENABLE));
-                    }
+                    Set(!value, nameof(SECS_ENABLE));
                 }
-
-                action();
             }
         }
 
@@ -387,15 +382,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 Set(value);
 
-                async void action()
+                if (!secsGem.Online(value))
                 {
-                    if (!await secsGem.Online(value))
-                    {
-                        Set(!value, nameof(SECS_ONLINE));
-                    }
+                    Set(!value, nameof(SECS_ONLINE));
                 }
-
-                action();
             }
         }
 
@@ -417,21 +407,16 @@ namespace GPGO_MultiPLCs.ViewModels
                     plc.LocalMode  = !plc.RemoteMode;
                 }
 
-                async void action()
+                if (!secsGem.Remote(value))
                 {
-                    if (!await secsGem.Remote(value))
-                    {
-                        Set(!value, nameof(SECS_REMOTE));
+                    Set(!value, nameof(SECS_REMOTE));
 
-                        foreach (var plc in PLC_All)
-                        {
-                            plc.RemoteMode = !value;
-                            plc.LocalMode  = !plc.RemoteMode;
-                        }
+                    foreach (var plc in PLC_All)
+                    {
+                        plc.RemoteMode = !value;
+                        plc.LocalMode  = !plc.RemoteMode;
                     }
                 }
-
-                action();
             }
         }
 
