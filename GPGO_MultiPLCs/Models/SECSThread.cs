@@ -43,21 +43,32 @@ namespace GPGO_MultiPLCs.Models
 
         public void UpdateSV(string name, object value)
         {
-            var a = secsGem?.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, name, value);
+            if (secsGem != null && eqpBase != null)
+            {
+                secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, name, value);
+            }
         }
 
         public void UpdateDV(string name, object value)
         {
+            if (secsGem == null)
+            {
+                return;
+            }
+
             switch (name)
             {
                 case "GemPPChangeName":
-                    secsGem?.AxQGWrapper.UpdateSV(9, value);
+                    secsGem.AxQGWrapper.UpdateSV(9, value);
                     break;
                 case "GemPPChangeStatus":
-                    secsGem?.AxQGWrapper.UpdateSV(10, value);
+                    secsGem.AxQGWrapper.UpdateSV(10, value);
                     break;
                 default:
-                    secsGem?.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
+                    if (eqpBase != null)
+                    {
+                        secsGem.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
+                    }
                     break;
             }
         }
