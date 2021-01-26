@@ -789,6 +789,8 @@ namespace GPGO_MultiPLCs.Models
                             {
                                 var (name, value, oldvalue, type, Subscriptions, SubPosition) = data;
 
+                                //var typeEnum = type is null ? "" : value is bool && SubPosition == -1 ? ((BitType)type).ToString() : ((DataType)type).ToString();
+
                                 var nowtime = DateTime.Now;
 
                                 if (LogType == LogType.Status)
@@ -933,7 +935,7 @@ namespace GPGO_MultiPLCs.Models
                                 }
                                 else if (LogType == LogType.Recipe)
                                 {
-                                    //InvokeSECSEvent?.Invoke("RecipeChanged");
+                                    SV_Changed?.Invoke(name, value);
                                 }
                                 else if (LogType == LogType.Trigger)
                                 {
