@@ -50,7 +50,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 配方名
         /// </summary>
-        [PLCData(DataType.D, 11200, 40, LogType.Recipe)]
+        [PLCData(DataType.D, 11200, 40, LogType.Status)]
         public string RecipeName
         {
             get => GetPLC<string>();
@@ -60,7 +60,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 降溫溫度
         /// </summary>
-        [PLCData(DataType.D, 11272, 0.1, LogType.Recipe)]
+        [PLCData(DataType.D, 11272, 0.1, LogType.Status)]
         public double CoolingTemperature
         {
             get => GetPLC<double>();
@@ -70,7 +70,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 降溫時間
         /// </summary>
-        [PLCData(DataType.D, 11271, LogType.Recipe)]
+        [PLCData(DataType.D, 11271, LogType.Status)]
         public double CoolingTime
         {
             get => GetPLC<double>();
@@ -89,7 +89,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 程式結束警報時間
         /// </summary>
-        [PLCData(DataType.D, 11273, LogType.Recipe)]
+        [PLCData(DataType.D, 11273, LogType.Status)]
         public double ProgramEndWarningTime
         {
             get => GetPLC<double>();
@@ -99,7 +99,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 使用段數
         /// </summary>
-        [PLCData(DataType.D, 11270, LogType.Recipe)]
+        [PLCData(DataType.D, 11270, LogType.Status)]
         public short StepCounts
         {
             get => GetPLC<short>();
@@ -109,7 +109,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度1
         /// </summary>
-        [PLCData(DataType.D, 11220, 0.1, LogType.Recipe)]
+        [PLCData(DataType.D, 11220, 0.1, LogType.Status)]
         public double TemperatureSetpoint_1
         {
             get => GetPLC<double>();
@@ -119,7 +119,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度2
         /// </summary>
-        [PLCData(DataType.D, 11221, 0.1, LogType.Recipe)]
+        [PLCData(DataType.D, 11221, 0.1, LogType.Status)]
         public double TemperatureSetpoint_2
         {
             get => GetPLC<double>();
@@ -129,7 +129,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度3
         /// </summary>
-        [PLCData(DataType.D, 11222, 0.1, LogType.Recipe)]
+        [PLCData(DataType.D, 11222, 0.1, LogType.Status)]
         public double TemperatureSetpoint_3
         {
             get => GetPLC<double>();
@@ -139,7 +139,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度4
         /// </summary>
-        [PLCData(DataType.D, 11223, 0.1, LogType.Recipe)]
+        [PLCData(DataType.D, 11223, 0.1, LogType.Status)]
         public double TemperatureSetpoint_4
         {
             get => GetPLC<double>();
@@ -149,7 +149,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度5
         /// </summary>
-        [PLCData(DataType.D, 11224, 0.1, LogType.Recipe)]
+        [PLCData(DataType.D, 11224, 0.1, LogType.Status)]
         public double TemperatureSetpoint_5
         {
             get => GetPLC<double>();
@@ -159,7 +159,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度6
         /// </summary>
-        [PLCData(DataType.D, 11225, 0.1, LogType.Recipe)]
+        [PLCData(DataType.D, 11225, 0.1, LogType.Status)]
         public double TemperatureSetpoint_6
         {
             get => GetPLC<double>();
@@ -259,7 +259,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間1
         /// </summary>
-        [PLCData(DataType.D, 11260, LogType.Recipe)]
+        [PLCData(DataType.D, 11260, LogType.Status)]
         public double RampTime_1
         {
             get => GetPLC<double>();
@@ -269,7 +269,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間2
         /// </summary>
-        [PLCData(DataType.D, 11261, LogType.Recipe)]
+        [PLCData(DataType.D, 11261, LogType.Status)]
         public double RampTime_2
         {
             get => GetPLC<double>();
@@ -279,7 +279,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間3
         /// </summary>
-        [PLCData(DataType.D, 11262, LogType.Recipe)]
+        [PLCData(DataType.D, 11262, LogType.Status)]
         public double RampTime_3
         {
             get => GetPLC<double>();
@@ -289,7 +289,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間4
         /// </summary>
-        [PLCData(DataType.D, 11263, LogType.Recipe)]
+        [PLCData(DataType.D, 11263, LogType.Status)]
         public double RampTime_4
         {
             get => GetPLC<double>();
@@ -299,7 +299,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間5
         /// </summary>
-        [PLCData(DataType.D, 11264, LogType.Recipe)]
+        [PLCData(DataType.D, 11264, LogType.Status)]
         public double RampTime_5
         {
             get => GetPLC<double>();
@@ -309,7 +309,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間6
         /// </summary>
-        [PLCData(DataType.D, 11265, LogType.Recipe)]
+        [PLCData(DataType.D, 11265, LogType.Status)]
         public double RampTime_6
         {
             get => GetPLC<double>();
@@ -337,7 +337,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間1
         /// </summary>
-        [PLCData(DataType.D, 11240, LogType.Recipe)]
+        [PLCData(DataType.D, 11240, LogType.Status)]
         public double RampAlarm_1
         {
             get => GetPLC<double>();
@@ -347,7 +347,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間2
         /// </summary>
-        [PLCData(DataType.D, 11241, LogType.Recipe)]
+        [PLCData(DataType.D, 11241, LogType.Status)]
         public double RampAlarm_2
         {
             get => GetPLC<double>();
@@ -357,7 +357,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間3
         /// </summary>
-        [PLCData(DataType.D, 11242, LogType.Recipe)]
+        [PLCData(DataType.D, 11242, LogType.Status)]
         public double RampAlarm_3
         {
             get => GetPLC<double>();
@@ -367,7 +367,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間4
         /// </summary>
-        [PLCData(DataType.D, 11243, LogType.Recipe)]
+        [PLCData(DataType.D, 11243, LogType.Status)]
         public double RampAlarm_4
         {
             get => GetPLC<double>();
@@ -377,7 +377,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間5
         /// </summary>
-        [PLCData(DataType.D, 11244, LogType.Recipe)]
+        [PLCData(DataType.D, 11244, LogType.Status)]
         public double RampAlarm_5
         {
             get => GetPLC<double>();
@@ -387,7 +387,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間6
         /// </summary>
-        [PLCData(DataType.D, 11245, LogType.Recipe)]
+        [PLCData(DataType.D, 11245, LogType.Status)]
         public double RampAlarm_6
         {
             get => GetPLC<double>();
@@ -415,7 +415,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間1
         /// </summary>
-        [PLCData(DataType.D, 11230, LogType.Recipe)]
+        [PLCData(DataType.D, 11230, LogType.Status)]
         public double DwellTime_1
         {
             get => GetPLC<double>();
@@ -425,7 +425,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間2
         /// </summary>
-        [PLCData(DataType.D, 11231, LogType.Recipe)]
+        [PLCData(DataType.D, 11231, LogType.Status)]
         public double DwellTime_2
         {
             get => GetPLC<double>();
@@ -435,7 +435,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間3
         /// </summary>
-        [PLCData(DataType.D, 11232, LogType.Recipe)]
+        [PLCData(DataType.D, 11232, LogType.Status)]
         public double DwellTime_3
         {
             get => GetPLC<double>();
@@ -445,7 +445,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間4
         /// </summary>
-        [PLCData(DataType.D, 11233, LogType.Recipe)]
+        [PLCData(DataType.D, 11233, LogType.Status)]
         public double DwellTime_4
         {
             get => GetPLC<double>();
@@ -455,7 +455,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間5
         /// </summary>
-        [PLCData(DataType.D, 11234, LogType.Recipe)]
+        [PLCData(DataType.D, 11234, LogType.Status)]
         public double DwellTime_5
         {
             get => GetPLC<double>();
@@ -465,7 +465,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間6
         /// </summary>
-        [PLCData(DataType.D, 11235, LogType.Recipe)]
+        [PLCData(DataType.D, 11235, LogType.Status)]
         public double DwellTime_6
         {
             get => GetPLC<double>();
@@ -493,7 +493,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間1
         /// </summary>
-        [PLCData(DataType.D, 11250, LogType.Recipe)]
+        [PLCData(DataType.D, 11250, LogType.Status)]
         public double DwellAlarm_1
         {
             get => GetPLC<double>();
@@ -503,7 +503,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間2
         /// </summary>
-        [PLCData(DataType.D, 11251, LogType.Recipe)]
+        [PLCData(DataType.D, 11251, LogType.Status)]
         public double DwellAlarm_2
         {
             get => GetPLC<double>();
@@ -513,7 +513,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間3
         /// </summary>
-        [PLCData(DataType.D, 11252, LogType.Recipe)]
+        [PLCData(DataType.D, 11252, LogType.Status)]
         public double DwellAlarm_3
         {
             get => GetPLC<double>();
@@ -523,7 +523,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間4
         /// </summary>
-        [PLCData(DataType.D, 11253, LogType.Recipe)]
+        [PLCData(DataType.D, 11253, LogType.Status)]
         public double DwellAlarm_4
         {
             get => GetPLC<double>();
@@ -533,7 +533,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間5
         /// </summary>
-        [PLCData(DataType.D, 11254, LogType.Recipe)]
+        [PLCData(DataType.D, 11254, LogType.Status)]
         public double DwellAlarm_5
         {
             get => GetPLC<double>();
@@ -543,7 +543,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間6
         /// </summary>
-        [PLCData(DataType.D, 11255, LogType.Recipe)]
+        [PLCData(DataType.D, 11255, LogType.Status)]
         public double DwellAlarm_6
         {
             get => GetPLC<double>();
@@ -575,7 +575,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 配方名
         /// </summary>
-        [PLCData(DataType.D, 11400, 40, LogType.None)]
+        [PLCData(DataType.D, 11400, 40, LogType.Status)]
         public string PV_RecipeName
         {
             get => GetPLC<string>();
@@ -585,7 +585,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 降溫溫度
         /// </summary>
-        [PLCData(DataType.D, 11472, 0.1, LogType.None)]
+        [PLCData(DataType.D, 11472, 0.1, LogType.Status)]
         public double PV_CoolingTemperature
         {
             get => GetPLC<double>();
@@ -595,7 +595,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 降溫時間
         /// </summary>
-        [PLCData(DataType.D, 11471, LogType.None)]
+        [PLCData(DataType.D, 11471, LogType.Status)]
         public double PV_CoolingTime
         {
             get => GetPLC<double>();
@@ -614,7 +614,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 程式結束警報時間
         /// </summary>
-        [PLCData(DataType.D, 11473, LogType.None)]
+        [PLCData(DataType.D, 11473, LogType.Status)]
         public double PV_ProgramEndWarningTime
         {
             get => GetPLC<double>();
@@ -624,7 +624,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 使用段數
         /// </summary>
-        [PLCData(DataType.D, 11470, LogType.None)]
+        [PLCData(DataType.D, 11470, LogType.Status)]
         public short PV_StepCounts
         {
             get => GetPLC<short>();
@@ -634,7 +634,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度1
         /// </summary>
-        [PLCData(DataType.D, 11420, 0.1, LogType.None)]
+        [PLCData(DataType.D, 11420, 0.1, LogType.Status)]
         public double PV_TemperatureSetpoint_1
         {
             get => GetPLC<double>();
@@ -644,7 +644,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度2
         /// </summary>
-        [PLCData(DataType.D, 11421, 0.1, LogType.None)]
+        [PLCData(DataType.D, 11421, 0.1, LogType.Status)]
         public double PV_TemperatureSetpoint_2
         {
             get => GetPLC<double>();
@@ -654,7 +654,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度3
         /// </summary>
-        [PLCData(DataType.D, 11422, 0.1, LogType.None)]
+        [PLCData(DataType.D, 11422, 0.1, LogType.Status)]
         public double PV_TemperatureSetpoint_3
         {
             get => GetPLC<double>();
@@ -664,7 +664,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度4
         /// </summary>
-        [PLCData(DataType.D, 11423, 0.1, LogType.None)]
+        [PLCData(DataType.D, 11423, 0.1, LogType.Status)]
         public double PV_TemperatureSetpoint_4
         {
             get => GetPLC<double>();
@@ -674,7 +674,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度5
         /// </summary>
-        [PLCData(DataType.D, 11424, 0.1, LogType.None)]
+        [PLCData(DataType.D, 11424, 0.1, LogType.Status)]
         public double PV_TemperatureSetpoint_5
         {
             get => GetPLC<double>();
@@ -684,7 +684,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目標溫度6
         /// </summary>
-        [PLCData(DataType.D, 11425, 0.1, LogType.None)]
+        [PLCData(DataType.D, 11425, 0.1, LogType.Status)]
         public double PV_TemperatureSetpoint_6
         {
             get => GetPLC<double>();
@@ -784,7 +784,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間1
         /// </summary>
-        [PLCData(DataType.D, 11460, LogType.None)]
+        [PLCData(DataType.D, 11460, LogType.Status)]
         public double PV_RampTime_1
         {
             get => GetPLC<double>();
@@ -794,7 +794,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間2
         /// </summary>
-        [PLCData(DataType.D, 11461, LogType.None)]
+        [PLCData(DataType.D, 11461, LogType.Status)]
         public double PV_RampTime_2
         {
             get => GetPLC<double>();
@@ -804,7 +804,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間3
         /// </summary>
-        [PLCData(DataType.D, 11462, LogType.None)]
+        [PLCData(DataType.D, 11462, LogType.Status)]
         public double PV_RampTime_3
         {
             get => GetPLC<double>();
@@ -814,7 +814,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間4
         /// </summary>
-        [PLCData(DataType.D, 11463, LogType.None)]
+        [PLCData(DataType.D, 11463, LogType.Status)]
         public double PV_RampTime_4
         {
             get => GetPLC<double>();
@@ -824,7 +824,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間5
         /// </summary>
-        [PLCData(DataType.D, 11464, LogType.None)]
+        [PLCData(DataType.D, 11464, LogType.Status)]
         public double PV_RampTime_5
         {
             get => GetPLC<double>();
@@ -834,7 +834,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫時間6
         /// </summary>
-        [PLCData(DataType.D, 11465, LogType.None)]
+        [PLCData(DataType.D, 11465, LogType.Status)]
         public double PV_RampTime_6
         {
             get => GetPLC<double>();
@@ -862,7 +862,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間1
         /// </summary>
-        [PLCData(DataType.D, 11440, LogType.None)]
+        [PLCData(DataType.D, 11440, LogType.Status)]
         public double PV_RampAlarm_1
         {
             get => GetPLC<double>();
@@ -872,7 +872,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間2
         /// </summary>
-        [PLCData(DataType.D, 11441, LogType.None)]
+        [PLCData(DataType.D, 11441, LogType.Status)]
         public double PV_RampAlarm_2
         {
             get => GetPLC<double>();
@@ -882,7 +882,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間3
         /// </summary>
-        [PLCData(DataType.D, 11442, LogType.None)]
+        [PLCData(DataType.D, 11442, LogType.Status)]
         public double PV_RampAlarm_3
         {
             get => GetPLC<double>();
@@ -892,7 +892,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間4
         /// </summary>
-        [PLCData(DataType.D, 11443, LogType.None)]
+        [PLCData(DataType.D, 11443, LogType.Status)]
         public double PV_RampAlarm_4
         {
             get => GetPLC<double>();
@@ -902,7 +902,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間5
         /// </summary>
-        [PLCData(DataType.D, 11444, LogType.None)]
+        [PLCData(DataType.D, 11444, LogType.Status)]
         public double PV_RampAlarm_5
         {
             get => GetPLC<double>();
@@ -912,7 +912,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 升溫警報時間6
         /// </summary>
-        [PLCData(DataType.D, 11445, LogType.None)]
+        [PLCData(DataType.D, 11445, LogType.Status)]
         public double PV_RampAlarm_6
         {
             get => GetPLC<double>();
@@ -940,7 +940,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間1
         /// </summary>
-        [PLCData(DataType.D, 11430, LogType.None)]
+        [PLCData(DataType.D, 11430, LogType.Status)]
         public double PV_DwellTime_1
         {
             get => GetPLC<double>();
@@ -950,7 +950,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間2
         /// </summary>
-        [PLCData(DataType.D, 11431, LogType.None)]
+        [PLCData(DataType.D, 11431, LogType.Status)]
         public double PV_DwellTime_2
         {
             get => GetPLC<double>();
@@ -960,7 +960,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間3
         /// </summary>
-        [PLCData(DataType.D, 11432, LogType.None)]
+        [PLCData(DataType.D, 11432, LogType.Status)]
         public double PV_DwellTime_3
         {
             get => GetPLC<double>();
@@ -970,7 +970,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間4
         /// </summary>
-        [PLCData(DataType.D, 11433, LogType.None)]
+        [PLCData(DataType.D, 11433, LogType.Status)]
         public double PV_DwellTime_4
         {
             get => GetPLC<double>();
@@ -980,7 +980,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間5
         /// </summary>
-        [PLCData(DataType.D, 11434, LogType.None)]
+        [PLCData(DataType.D, 11434, LogType.Status)]
         public double PV_DwellTime_5
         {
             get => GetPLC<double>();
@@ -990,7 +990,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫時間6
         /// </summary>
-        [PLCData(DataType.D, 11435, LogType.None)]
+        [PLCData(DataType.D, 11435, LogType.Status)]
         public double PV_DwellTime_6
         {
             get => GetPLC<double>();
@@ -1018,7 +1018,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間1
         /// </summary>
-        [PLCData(DataType.D, 11450, LogType.None)]
+        [PLCData(DataType.D, 11450, LogType.Status)]
         public double PV_DwellAlarm_1
         {
             get => GetPLC<double>();
@@ -1028,7 +1028,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間2
         /// </summary>
-        [PLCData(DataType.D, 11451, LogType.None)]
+        [PLCData(DataType.D, 11451, LogType.Status)]
         public double PV_DwellAlarm_2
         {
             get => GetPLC<double>();
@@ -1038,7 +1038,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間3
         /// </summary>
-        [PLCData(DataType.D, 11452, LogType.None)]
+        [PLCData(DataType.D, 11452, LogType.Status)]
         public double PV_DwellAlarm_3
         {
             get => GetPLC<double>();
@@ -1048,7 +1048,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間4
         /// </summary>
-        [PLCData(DataType.D, 11453, LogType.None)]
+        [PLCData(DataType.D, 11453, LogType.Status)]
         public double PV_DwellAlarm_4
         {
             get => GetPLC<double>();
@@ -1058,7 +1058,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間5
         /// </summary>
-        [PLCData(DataType.D, 11454, LogType.None)]
+        [PLCData(DataType.D, 11454, LogType.Status)]
         public double PV_DwellAlarm_5
         {
             get => GetPLC<double>();
@@ -1068,7 +1068,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 恆溫警報時間6
         /// </summary>
-        [PLCData(DataType.D, 11455, LogType.None)]
+        [PLCData(DataType.D, 11455, LogType.Status)]
         public double PV_DwellAlarm_6
         {
             get => GetPLC<double>();
