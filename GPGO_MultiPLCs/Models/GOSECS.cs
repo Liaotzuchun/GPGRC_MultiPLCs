@@ -30,6 +30,9 @@ namespace GPGO_MultiPLCs.Models
         /// <summary> When SECS driver receive Remote Command. </summary>
         public override RemoteCommandResponse RemoteCommandControl(RemoteCommand RemoteCommand)
         {
+            int _getSV;
+            object Value;
+            QGACTIVEXLib.SV_DATA_TYPE GetFormat;
             var HCACK = HCACKValule.Acknowledge;
             switch (RemoteCommand.RCMD)
             {
@@ -40,7 +43,8 @@ namespace GPGO_MultiPLCs.Models
                     HCACK = CANCELCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "PP_SELECT":
-                    if (AxQGWrapper.OnLineLocal().Equals(0))
+                    _getSV = AxQGWrapper.GetSV(4, out GetFormat, out Value);
+                    if (Convert.ToInt32(Value) == 4) //GemControlState 4:OnLine Local, 5:OnLine Remote
                     {
                         HCACK = HCACKValule.CantPerform;
                     }
@@ -50,7 +54,8 @@ namespace GPGO_MultiPLCs.Models
                     }   
                     break;
                 case "START":
-                    if (AxQGWrapper.OnLineLocal().Equals(0))
+                    _getSV = AxQGWrapper.GetSV(4, out GetFormat, out Value);
+                    if (Convert.ToInt32(Value) == 4) //GemControlState 4:OnLine Local, 5:OnLine Remote
                     {
                         HCACK = HCACKValule.CantPerform;
                     }
