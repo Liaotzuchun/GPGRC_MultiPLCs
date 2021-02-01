@@ -40,10 +40,24 @@ namespace GPGO_MultiPLCs.Models
                     HCACK = CANCELCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "PP_SELECT":
-                    HCACK = PP_SELECTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
+                    if (AxQGWrapper.OnLineLocal().Equals(0))
+                    {
+                        HCACK = HCACKValule.CantPerform;
+                    }
+                    else
+                    {
+                        HCACK = PP_SELECTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
+                    }   
                     break;
                 case "START":
-                    HCACK = STARTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
+                    if (AxQGWrapper.OnLineLocal().Equals(0))
+                    {
+                        HCACK = HCACKValule.CantPerform;
+                    }
+                    else
+                    {
+                        HCACK = STARTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
+                    }
                     break;
                 case "STOP":
                     HCACK = STOPCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
