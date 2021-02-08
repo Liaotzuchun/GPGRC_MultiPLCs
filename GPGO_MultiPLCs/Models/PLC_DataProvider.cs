@@ -863,13 +863,12 @@ namespace GPGO_MultiPLCs.Models
                                         else if (name == nameof(RackOutput))
                                         {
                                             if (RackOutput.Equals(true))
-                                            {
-                                                OvenInfo?.Clear();
-                                                Ext_Info.Clear();
-
+                                            {                                               
                                                 //!需在引發紀錄完成後才觸發取消投產
                                                 CheckInCommand.Result = false;
                                                 InvokeSECSEvent?.Invoke(nameof(RackOutput));
+                                                OvenInfo?.Clear();
+                                                Ext_Info.Clear();
                                                 RackOutput = false;//清訊號
                                             }
                                         }
