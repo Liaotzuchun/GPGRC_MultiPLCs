@@ -844,6 +844,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
+                                            await StopPP();
                                         }
                                         else if (name == nameof(ReadBarcode))
                                         {

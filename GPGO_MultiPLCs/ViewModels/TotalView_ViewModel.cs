@@ -815,7 +815,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                        };
 
                                                     //! 更新ProcessData以供上報
-                                                    secsGem?.UpdateDV($"Oven{j}_ProcessData", JsonConvert.SerializeObject(products));
+                                                    try
+                                                    {
+                                                        secsGem?.UpdateDV($"Oven{j}_ProcessData", JsonConvert.SerializeObject(products));
+                                                    }
+                                                    catch
+                                                    {
+                                                        // ignored
+                                                    }
 
                                                     if (!baseInfo.IsFinished)
                                                     {
@@ -918,7 +925,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  secsGem.UpdateSV($"Oven{j}_Previous{name}", PLC_All[k].EquipmentState);
                                              }
 
-                                             if(name == "RackID")
+                                             if (name == "RackID")
                                              {
                                                  value = value.ToString().Trim();
                                              }
