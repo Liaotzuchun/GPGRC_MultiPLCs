@@ -1484,6 +1484,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 爐內溫度1
         /// </summary>
+        [PLCData(DataType.D, 11380, 0.1, LogType.Status)]
         public double OvenTemperature_1
         {
             get => GetPLC<double>();
@@ -1493,6 +1494,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 爐內溫度2
         /// </summary>
+        [PLCData(DataType.D, 11381, 0.1, LogType.Status)]
         public double OvenTemperature_2
         {
             get => GetPLC<double>();
@@ -1502,6 +1504,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 爐內溫度3
         /// </summary>
+        [PLCData(DataType.D, 11382, 0.1, LogType.Status)]
         public double OvenTemperature_3
         {
             get => GetPLC<double>();
@@ -1511,6 +1514,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 爐內溫度4
         /// </summary>
+        [PLCData(DataType.D, 11383, 0.1, LogType.Status)]
         public double OvenTemperature_4
         {
             get => GetPLC<double>();
@@ -1520,6 +1524,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 爐內溫度5
         /// </summary>
+        [PLCData(DataType.D, 11384, 0.1, LogType.Status)]
         public double OvenTemperature_5
         {
             get => GetPLC<double>();
@@ -1529,6 +1534,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 爐內溫度6
         /// </summary>
+        [PLCData(DataType.D, 11385, 0.1, LogType.Status)]
         public double OvenTemperature_6
         {
             get => GetPLC<double>();
