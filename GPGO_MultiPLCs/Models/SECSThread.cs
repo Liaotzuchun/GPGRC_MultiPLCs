@@ -85,7 +85,7 @@ namespace GPGO_MultiPLCs.Models
         {
             if (name == "GemProcessProgramChange")
             {
-                secsGem?.AxQGWrapper.EventReportSend(9);
+                secsGem?.AxQGWrapper.EventReportSend(3);
             }
             else if (eqpBase?.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
             {
