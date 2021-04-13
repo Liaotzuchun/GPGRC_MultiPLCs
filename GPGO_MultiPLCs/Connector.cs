@@ -4,7 +4,6 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PLCService;
 using MongoDB.Driver;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,9 +13,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using GPCore;
-using AsyncAutoResetEvent = GPMVVM.Helpers.AsyncAutoResetEvent;
-using AsyncLock = GPMVVM.Helpers.AsyncLock;
 
 namespace GPGO_MultiPLCs
 {
@@ -456,7 +452,7 @@ namespace GPGO_MultiPLCs
                                                      }
                                                  }
 
-                                                 var si = new StreamReaderIni();
+                                                 var si = new GPCore.StreamReaderIni();
                                                  var t  = si.AddIniSection("CCodeID1");
                                                  t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0.0"));

@@ -1,0 +1,224 @@
+﻿<UserControl x:Class="GPGO_MultiPLCs.Views.SECSParameterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:GPSECSGEM="clr-namespace:GP_SECS_GEM;assembly=GP_SECS_GEM"
+             xmlns:QSACTIVEXLib="clr-namespace:QSACTIVEXLib;assembly=GP_SECS_GEM"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,
+                                              Type=GPSECSGEM:SECSParameterSet}"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Height="44"
+                     FontSize="16"
+                     Header="HSMS-SS">
+                <Grid DataContext="{Binding SECSParameter, Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="Remote IP" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="Remote Port" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="Local IP" />
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="Local Port" />
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="T5" />
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="T6" />
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="T7" />
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="T8" />
+                    </Border>
+                    <Border Grid.Row="8"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="Role" />
+                    </Border>
+                    <Border Grid.Row="9"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="Retry Time" />
+                    </Border>
+                    <Border Grid.Row="10"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="Device ID" />
+                    </Border>
+                    <TextBox Grid.Row="0"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding SzRemoteIP, Mode=TwoWay}" />
+                    <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding NRemotePort, Mode=TwoWay}" />
+                    <TextBox Grid.Row="2"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding SzLocalIP, Mode=TwoWay}" />
+                    <TextBox Grid.Row="3"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding NLocalPort, Mode=TwoWay}" />
+                    <TextBox Grid.Row="4"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding T5, Mode=TwoWay}" />
+                    <TextBox Grid.Row="5"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding T6, Mode=TwoWay}" />
+                    <TextBox Grid.Row="6"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding T7, Mode=TwoWay}" />
+                    <TextBox Grid.Row="7"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding T8, Mode=TwoWay}" />
+                    <ComboBox Grid.Row="8"
+                              Grid.Column="1"
+                              BorderThickness="1,1,1,0"
+                              ItemsSource="{views:EnumValues {x:Type QSACTIVEXLib:HSMS_COMM_MODE}}"
+                              SelectedItem="{Binding HSMS_Connect_Mode, Mode=TwoWay}" />
+                    <TextBox Grid.Row="9"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,0"
+                             IsUndoEnabled="False"
+                             Text="{Binding LLinkTestPeriod, Mode=TwoWay}" />
+                    <TextBox Grid.Row="10"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,1"
+                             IsUndoEnabled="False"
+                             Text="{Binding LDeviceID, Mode=TwoWay}" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="SECS-I"
+                     Visibility="Hidden">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button Grid.Row="1"
+                Content="{DynamicResource 儲存}"
+                FontSize="16">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding ButtonSave, Mode=OneWay}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+    </Grid>
+</UserControl>

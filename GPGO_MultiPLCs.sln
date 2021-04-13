@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2000
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GPGO_MultiPLCs", "GPGO_MultiPLCs\GPGO_MultiPLCs.csproj", "{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
 EndProject
