@@ -696,7 +696,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   }
                               };
 
-            GateOffLine += () =>
+            GateOffline += () =>
                            {
                                EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
 

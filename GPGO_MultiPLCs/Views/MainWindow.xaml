@@ -1,7 +1,6 @@
 ﻿<Window x:Class="GPGO_MultiPLCs.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:GPSECS="clr-namespace:GP_SECS_GEM;assembly=GP_SECS_GEM"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -82,8 +81,6 @@
                 <TextBlock Text="{DynamicResource 配方管理}" />
                 <TextBlock Text="{DynamicResource 生產履歷}" />
                 <TextBlock Text="{DynamicResource 事件履歷}" />
-                <TextBlock Text="{DynamicResource GEMConfig}" />
-                <!--<TextBlock Text="{DynamicResource GEMData}" />-->
             </ListBox>
         </Grid>
         <Border Grid.Row="0"
@@ -115,23 +112,6 @@
                 <local:LogView Margin="0,4,0,0"
                                DataContext="{Binding LogVM, Source={StaticResource Connector}, Mode=OneWay}" />
             </TabItem>
-            <TabItem Width="0"
-                     Height="0">
-                <Grid>
-                    <local:SECSParameterView>
-                        <local:SECSParameterView.DataContext>
-                            <GPSECS:SECSParameterSet />
-                        </local:SECSParameterView.DataContext>
-                    </local:SECSParameterView>
-                </Grid>
-            </TabItem>
-            <!--<TabItem Width="0" Height="0">
-                <GPSECSUI:MutiEqpView>
-                    <GPSECSUI:MutiEqpView.DataContext>
-                        <GPSECS:MutiEqpViewModel />
-                    </GPSECSUI:MutiEqpView.DataContext>
-                </GPSECSUI:MutiEqpView>
-            </TabItem>-->
         </TabControl>
     </Grid>
 </Window>

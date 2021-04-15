@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <sys:String x:Key="GEMConfig">GEM連線設定</sys:String>
-    <sys:String x:Key="GEMData">GEMData</sys:String>
+    <sys:String x:Key="GEMConfig">GEM联机设定</sys:String>
+    <sys:String x:Key="GEMData">GEM Data</sys:String>
     <sys:String x:Key="生產頁面">生产页面</sys:String>
     <sys:String x:Key="配方管理">配方管理</sys:String>
     <sys:String x:Key="生產履歷">生产履历</sys:String>

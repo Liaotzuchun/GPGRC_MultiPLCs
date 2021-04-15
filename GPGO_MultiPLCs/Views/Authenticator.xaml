@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="GPGO_MultiPLCs.Views.Authenticator"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:GPSECS="clr-namespace:GP_SECS_GEM;assembly=GP_SECS_GEM"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -403,6 +404,17 @@
                 </TabItem>
                 <TabItem Height="40"
                          FontSize="16"
+                         Header="{DynamicResource GEMConfig}"
+                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
+                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                    <local:SECSParameterView Height="200">
+                        <local:SECSParameterView.DataContext>
+                            <GPSECS:SECSParameterSet />
+                        </local:SECSParameterView.DataContext>
+                    </local:SECSParameterView>
+                </TabItem>
+                <!--<TabItem Height="40"
+                         FontSize="16"
                          Header="{DynamicResource 系統設定}"
                          IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
                          Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
@@ -528,7 +540,7 @@
                                       FontSize="12" />
                         </Grid>
                     </Grid>
-                </TabItem>
+                </TabItem>-->
             </TabControl>
             <ListBox Grid.Row="7"
                      Height="40"
