@@ -44,6 +44,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="Remote IP" />
                 </Border>
                 <Border Grid.Row="1"
@@ -53,6 +54,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="Remote Port" />
                 </Border>
                 <Border Grid.Row="2"
@@ -62,6 +64,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="Local IP" />
                 </Border>
                 <Border Grid.Row="3"
@@ -71,6 +74,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="Local Port" />
                 </Border>
                 <Border Grid.Row="4"
@@ -80,6 +84,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="T5" />
                 </Border>
                 <Border Grid.Row="5"
@@ -89,6 +94,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="T6" />
                 </Border>
                 <Border Grid.Row="6"
@@ -98,6 +104,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="T7" />
                 </Border>
                 <Border Grid.Row="7"
@@ -107,6 +114,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="T8" />
                 </Border>
                 <Border Grid.Row="8"
@@ -116,6 +124,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="Role" />
                 </Border>
                 <Border Grid.Row="9"
@@ -125,6 +134,7 @@
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="Retry Time" />
                 </Border>
                 <Border Grid.Row="10"
@@ -134,6 +144,7 @@
                         BorderThickness="1,1,0,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontWeight="Bold"
                                Text="Device ID" />
                 </Border>
                 <TextBox Grid.Row="0"
