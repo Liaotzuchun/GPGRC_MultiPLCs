@@ -632,11 +632,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
             Messages_Sent += (i, v) =>
                              {
-                                 if (v == null)
-                                 {
-                                     return;
-                                 }
-
                                  try
                                  {
                                      if (i <= -1)
@@ -644,36 +639,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                          return;
                                      }
 
-                                     //! short data先，bit bool後
+                                     var plc = PLC_All[i];
 
-                                     PLC_All[i].DataValues[v.D.Select(D => (DataType.D, D.Key)).ToList()] = v.D.Select(D => D.Value).ToList();
-
-                                     PLC_All[i].DataValues[v.W.Select(W => (DataType.W, W.Key)).ToList()] = v.W.Select(W => W.Value).ToList();
-
-                                     foreach (var M in v.M)
-                                     {
-                                         PLC_All[i].BitValues[(BitType.M, M.Key)] = M.Value;
-                                     }
-
-                                     foreach (var B in v.B)
-                                     {
-                                         PLC_All[i].BitValues[(BitType.B, B.Key)] = B.Value;
-                                     }
-
-                                     foreach (var S in v.S)
-                                     {
-                                         PLC_All[i].BitValues[(BitType.S, S.Key)] = S.Value;
-                                     }
-
-                                     foreach (var X in v.X)
-                                     {
-                                         PLC_All[i].BitValues[(BitType.X, X.Key)] = X.Value;
-                                     }
-
-                                     foreach (var Y in v.Y)
-                                     {
-                                         PLC_All[i].BitValues[(BitType.Y, Y.Key)] = Y.Value;
-                                     }
+                                     plc.SetValues(v);
                                  }
                                  catch
                                  {
