@@ -351,33 +351,33 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task<bool> SetRecipe(string recipeName, bool check)
         {
-            if (!(GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe))
+            if (!(GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe) || IsExecuting || !PC_InUse)
             {
                 return false;
             }
-            if (recipe == null || IsExecuting || !PC_InUse)
-            {
-                return false;
-            }
-            RemoteCommandSelectPP = false;
-            Dictionary<string, object> ObjectPropertiesView = recipe.ToDictionary(Language.EN);
-            object Recipe = recipe;
-            switch (Recipe)
-            {
-                case System.Collections.IDictionary dic:
-                    var keys = dic.Keys.Cast<object>().ToList();
-                    var vals = dic.Values.Cast<object>().ToList();
 
-                    ObjectPropertiesView = keys.Zip(vals, (x, y) => (x, y)).ToDictionary(x => x.x.ToString(), x => x.y);
-                    break;
-                case System.Collections.IEnumerable objs:
-                    ObjectPropertiesView = objs.Cast<object>().Select((x, i) => (i, x)).ToDictionary(x => x.i.ToString(), y => y.x);
-                    break;
-                default:
-                    ObjectPropertiesView = Recipe.ToDictionary(Language.EN);
-                    break;
-            }
-            
+            RemoteCommandSelectPP = false;
+
+            #region ***應該是育銓測試用吧? 沒實際用途***
+            //Dictionary<string, object> ObjectPropertiesView = recipe.ToDictionary(Language.EN);
+            //object Recipe = recipe;
+            //switch (Recipe)
+            //{
+            //    case System.Collections.IDictionary dic:
+            //        var keys = dic.Keys.Cast<object>().ToList();
+            //        var vals = dic.Values.Cast<object>().ToList();
+
+            //        ObjectPropertiesView = keys.Zip(vals, (x, y) => (x, y)).ToDictionary(x => x.x.ToString(), x => x.y);
+            //        break;
+            //    case System.Collections.IEnumerable objs:
+            //        ObjectPropertiesView = objs.Cast<object>().Select((x, i) => (i, x)).ToDictionary(x => x.i.ToString(), y => y.x);
+            //        break;
+            //    default:
+            //        ObjectPropertiesView = Recipe.ToDictionary(Language.EN);
+            //        break;
+            //}
+            #endregion
+
             //if (check && !await Dialog.Show(new Dictionary<Language, string>
             //                                {
             //                                    {Language.TW, "請確認配方內容："},
