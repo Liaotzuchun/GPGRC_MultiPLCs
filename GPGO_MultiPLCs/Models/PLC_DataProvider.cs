@@ -14,7 +14,11 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>連接PLC並提供PLC資訊</summary>
     public sealed class PLC_DataProvider : GOL_DataModel, IDisposable
     {
+        #region Interface implement
+
         public void Dispose() { CTS.Dispose(); }
+
+        #endregion
 
         public enum Status
         {
@@ -28,11 +32,27 @@ namespace GPGO_MultiPLCs.Models
             錯誤 = 4
         }
 
-        private readonly IDialogService Dialog;
-        private readonly TaskFactory    OneScheduler = new TaskFactory(new StaTaskScheduler(1));
+        private readonly TaskFactory OneScheduler = new TaskFactory(new StaTaskScheduler(1));
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
+
+        public event Action<string>                                                                 InvokeSECSEvent;
+        public event Action<string, bool>                                                           InvokeSECSAlarm;
+        public event Action<string, object>                                                         SV_Changed;
+        public event Action<string>                                                                 AssetNumberChanged;
+        public event Action<string>                                                                 CancelCheckIn;
+        public event Action<(EventType type, DateTime time, string note, string tag, object value)> EventHappened;
+        public event Func<string, PLC_Recipe>                                                       GetRecipe;
+        public event Action<string>                                                                 MachineCodeChanged;
+        public event Action                                                                         RecipeKeyInError;
+        public event Action<string>                                                                 RecipeUsed;
+        public event Func<Language>                                                                 GetLanguage;
+        public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo), ValueTask>     ExecutingFinished;
+        public event Func<(BitType, int), bool, ValueTask>                                          SetPLCSignal;
+        public event Func<string, ValueTask<ICollection<ProductInfo>>>                              WantFrontData;
+        public event Func<User>                                                                     GetUser;
+        public event Action<PLC_Recipe>                                                             RecipeChangedbyPLC;
 
         /// <summary>取消投產</summary>
         public RelayCommand CancelCheckInCommand { get; }
@@ -222,36 +242,8 @@ namespace GPGO_MultiPLCs.Models
         public string Selected_Name
         {
             get => Get<string>();
-            set => SetRecipe(value, true).Wait();
+            set => SetRecipe(value, true);
         }
-
-        public event Action<string>         InvokeSECSEvent;
-        public event Action<string, bool>   InvokeSECSAlarm;
-        public event Action<string, object> SV_Changed;
-
-        public event Action<string> AssetNumberChanged;
-
-        public event Action<string> CancelCheckIn;
-
-        public event Action<(EventType type, DateTime time, string note, string tag, object value)> EventHappened;
-
-        public event Func<string, PLC_Recipe> GetRecipe;
-
-        public event Action<string> MachineCodeChanged;
-
-        public event Action RecipeKeyInError;
-
-        public event Action<string> RecipeUsed;
-
-        public event Func<Language> GetLanguage;
-
-        public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo), ValueTask> ExecutingFinished;
-
-        public event Func<(BitType, int), bool, ValueTask> SetPLCSignal;
-
-        public event Func<string, ValueTask<ICollection<ProductInfo>>> WantFrontData;
-
-        public event Func<User> GetUser;
 
         public PLC_Recipe GetRecipePV() =>
             new PLC_Recipe
@@ -349,7 +341,7 @@ namespace GPGO_MultiPLCs.Models
             //});
         }
 
-        public async Task<bool> SetRecipe(string recipeName, bool check)
+        public bool SetRecipe(string recipeName, bool check)
         {
             if (!(GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe) || IsExecuting || !PC_InUse)
             {
@@ -359,6 +351,7 @@ namespace GPGO_MultiPLCs.Models
             RemoteCommandSelectPP = false;
 
             #region ***應該是育銓測試用吧? 沒實際用途***
+
             //Dictionary<string, object> ObjectPropertiesView = recipe.ToDictionary(Language.EN);
             //object Recipe = recipe;
             //switch (Recipe)
@@ -376,6 +369,7 @@ namespace GPGO_MultiPLCs.Models
             //        ObjectPropertiesView = Recipe.ToDictionary(Language.EN);
             //        break;
             //}
+
             #endregion
 
             //if (check && !await Dialog.Show(new Dictionary<Language, string>
@@ -492,7 +486,7 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task StartPP()
         {
-            await StopPP();
+            await StopPP(); //需先確認PP已停止
 
             ResetStopTokenSource();
             ExecutingTask = StartRecoder(60000, CTS.Token);
@@ -524,11 +518,9 @@ namespace GPGO_MultiPLCs.Models
             Ext_Info.Add(info);
         }
 
-        public PLC_DataProvider(IDialogService dialog)
+        public PLC_DataProvider(IDialogService Dialog)
         {
-            Dialog = dialog;
-
-            CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
+            CheckRecipeCommand_KeyIn = new RelayCommand(e =>
                                                         {
                                                             if (((KeyEventArgs)e).Key != Key.Enter || Selected_Name == null)
                                                             {
@@ -546,7 +538,7 @@ namespace GPGO_MultiPLCs.Models
                                                             }
                                                             else if (Recipe_Names.Contains(Intput_Name))
                                                             {
-                                                                await SetRecipe(Intput_Name, true);
+                                                                SetRecipe(Intput_Name, true);
                                                             }
                                                             else
                                                             {
@@ -701,7 +693,7 @@ namespace GPGO_MultiPLCs.Models
                                                                  }
 
                                                                  lots[lotID.ToString().Trim()] = counts;
-                                                             } while (await dialog.Show(new Dictionary<Language, string>
+                                                             } while (await Dialog.Show(new Dictionary<Language, string>
                                                                                         {
                                                                                             {Language.TW, "是否要繼續新增批號？"},
                                                                                             {Language.CHS, "是否要继续新增批号？"},
@@ -785,6 +777,7 @@ namespace GPGO_MultiPLCs.Models
 
             #region 註冊PLC事件
 
+            object PreviousEquipmentState = EquipmentState;
             ValueChanged += async (LogType, data) =>
                             {
                                 var (name, value, oldvalue, type, Subscriptions, SubPosition) = data;
@@ -816,8 +809,6 @@ namespace GPGO_MultiPLCs.Models
 
                                             InvokeSECSEvent?.Invoke("ProcessStarted");
 
-                                            await StopPP();
-
                                             await StartPP();
                                         }
                                         else if (name == nameof(ProgramStop))
@@ -826,6 +817,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
+
                                             await StopPP();
                                         }
                                         else if (name == nameof(ProcessComplete))
@@ -834,6 +826,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
+
                                             InvokeSECSEvent?.Invoke("ProcessComplete");
                                             OvenInfo.IsFinished = true;
                                             await StopPP();
@@ -844,6 +837,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
+
                                             await StopPP();
                                         }
                                         else if (name == nameof(ReadBarcode))
@@ -858,19 +852,19 @@ namespace GPGO_MultiPLCs.Models
                                             if (RackInput.Equals(true))
                                             {
                                                 InvokeSECSEvent?.Invoke(nameof(RackInput));
-                                                RackInput = false;//清訊號
+                                                RackInput = false; //清訊號
                                             }
                                         }
                                         else if (name == nameof(RackOutput))
                                         {
                                             if (RackOutput.Equals(true))
-                                            {                                               
+                                            {
                                                 //!需在引發紀錄完成後才觸發取消投產
                                                 CheckInCommand.Result = false;
                                                 InvokeSECSEvent?.Invoke(nameof(RackOutput));
                                                 OvenInfo?.Clear();
                                                 Ext_Info.Clear();
-                                                RackOutput = false;//清訊號
+                                                RackOutput = false; //清訊號
                                             }
                                         }
                                     }
@@ -890,6 +884,8 @@ namespace GPGO_MultiPLCs.Models
                                     else if (name == nameof(EquipmentState))
                                     {
                                         InvokeSECSEvent?.Invoke("EqpStatusChanged");
+                                        SV_Changed?.Invoke($"Previous{name}", PreviousEquipmentState);
+                                        PreviousEquipmentState = value;
 
                                         EventHappened?.Invoke(eventval);
                                         if (IsExecuting)
@@ -933,7 +929,7 @@ namespace GPGO_MultiPLCs.Models
                                         InvokeSECSAlarm?.Invoke(name, boolval);
                                     }
                                 }
-                                else if (LogType == LogType.Recipe)
+                                else if (LogType == LogType.Recipe) //PLC配方"設定值"改變時
                                 {
                                     SV_Changed?.Invoke(name, value);
                                 }

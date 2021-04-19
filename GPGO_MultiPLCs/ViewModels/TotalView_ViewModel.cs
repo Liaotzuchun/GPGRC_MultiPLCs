@@ -1,7 +1,6 @@
 ﻿using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
-using GPMVVM.PLCService;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -398,7 +397,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 return HCACKValule.Acknowledge;
                             };
 
-            secsGem.SetRecipe += (index, name) => PLC_All[index].SetRecipe(name, false).Result ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
+            secsGem.SetRecipe += (index, name) => PLC_All[index].SetRecipe(name, false) ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
 
             secsGem.AddLOT += (index, o) =>
                               {
@@ -472,31 +471,32 @@ namespace GPGO_MultiPLCs.ViewModels
                 var j = i + 1;
 
                 TotalProduction.Add(i, 0);
-                PLC_All[i] = new PLC_DataProvider(dialog);
+                var plc = new PLC_DataProvider(dialog);
+                PLC_All[i] = plc;
                 var index = i;
 
-                PLC_All[i].SetBit += async (type, dev, val) => await SetBit(index, type, dev, val);
+                plc.SetBit += async (type, dev, val) => await SetBit(index, type, dev, val);
 
-                PLC_All[i].SetData += async (type, dev, val) => await SetData(index, type, dev, val);
+                plc.SetData += async (type, dev, val) => await SetData(index, type, dev, val);
 
-                PLC_All[i].SetDatas += async (type, vals) => await SetDatas(index, type, vals);
+                plc.SetDatas += async (type, vals) => await SetDatas(index, type, vals);
 
-                //PLC_All[i].ValueChanged += async (LogType, data) => await ValueChanged(LogType, data);
+                //plc.ValueChanged += async (LogType, data) => await ValueChanged(LogType, data);
 
-                PLC_All[i].TracedDataChanged += data =>
+                plc.TracedDataChanged += data =>
                                                 {
                                                 };
 
-                PLC_All[i].GetLanguage += () => Language;
+                plc.GetLanguage += () => Language;
 
                 //!PLC讀取配方內容時
-                PLC_All[i].GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke((index, recipeName));
+                plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke((index, recipeName));
 
                 //!PLC由OP指定變更配方時
-                PLC_All[i].RecipeUsed += recipeName => RecipeUsed?.Invoke((index, recipeName));
+                plc.RecipeUsed += recipeName => RecipeUsed?.Invoke((index, recipeName));
 
                 //!烘烤流程結束時
-                PLC_All[i].ExecutingFinished += async e =>
+                plc.ExecutingFinished += async e =>
                                                 {
                                                     var (baseInfo, productInfo) = e;
 
@@ -550,7 +550,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 };
 
                 //!由板架code取得前端生產資訊
-                PLC_All[i].WantFrontData += async e =>
+                plc.WantFrontData += async e =>
                                             {
                                                 if (WantFrontData != null)
                                                 {
@@ -561,19 +561,19 @@ namespace GPGO_MultiPLCs.ViewModels
                                             };
 
                 //!由OP變更設備代碼時
-                PLC_All[i].MachineCodeChanged += code =>
+                plc.MachineCodeChanged += code =>
                                                  {
                                                      SaveMachineCodes(MachineCodesPath);
                                                  };
 
                 //!由OP變更財產編號時
-                PLC_All[i].AssetNumberChanged += code =>
+                plc.AssetNumberChanged += code =>
                                                  {
                                                      SaveAssetNumbers(AssetNumbersPath);
                                                  };
 
                 //!PLC配方輸入錯誤時
-                PLC_All[i].RecipeKeyInError += () =>
+                plc.RecipeKeyInError += () =>
                                                {
                                                    dialog?.Show(new Dictionary<Language, string>
                                                                 {
@@ -586,38 +586,31 @@ namespace GPGO_MultiPLCs.ViewModels
                                                };
 
                 //!PLC事件紀錄
-                PLC_All[i].EventHappened += e =>
+                plc.EventHappened += e =>
                                             {
                                                 EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
                                             };
 
                 //!取消投產
-                PLC_All[i].CancelCheckIn += RackID =>
+                plc.CancelCheckIn += RackID =>
                                             {
                                                 CancelCheckIn?.Invoke((index, RackID));
                                             };
 
-                PLC_All[i].GetUser += () => GetUser?.Invoke();
+                plc.GetUser += () => GetUser?.Invoke();
 
-                PLC_All[i].InvokeSECSEvent += EventName =>
+                plc.InvokeSECSEvent += EventName =>
                                               {
                                                   secsGem.InvokeEvent($"Oven{j}_{EventName}");
                                               };
 
-                PLC_All[i].InvokeSECSAlarm += (AlarmName, val) =>
+                plc.InvokeSECSAlarm += (AlarmName, val) =>
                                               {
                                                   secsGem.InvokeAlarm($"Oven{j}_{AlarmName}", val);
                                               };
 
-                var k = i;
-                PLC_All[i].SV_Changed += (name, value) =>
+                plc.SV_Changed += (name, value) =>
                                          {
-                                             //! 屬姓名_A、B、C...表示0、1、2...各站別屬性
-                                             if (name == nameof(GOL_DataModel.EquipmentState))
-                                             {
-                                                 secsGem.UpdateSV($"Oven{j}_Previous{name}", PLC_All[k].EquipmentState);
-                                             }
-
                                              if (name == "RackID")
                                              {
                                                  value = value.ToString().Trim();
