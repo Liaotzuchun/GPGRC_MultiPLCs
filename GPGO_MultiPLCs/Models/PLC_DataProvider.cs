@@ -846,33 +846,44 @@ namespace GPGO_MultiPLCs.Models
                                         }
                                         else if (name == nameof(ReadBarcode))
                                         {
-                                            if (val.Equals(true))
+                                            if (!val)
                                             {
-                                                SV_Changed?.Invoke("RackID", RackID);
+                                                return;
                                             }
+
+                                            SV_Changed?.Invoke("RackID", RackID);
                                         }
                                         else if (name == nameof(RackInput))
                                         {
-                                            if (RackInput.Equals(true))
+                                            if (!val)
                                             {
-                                                InvokeSECSEvent?.Invoke(nameof(RackInput));
-                                                RackInput = false; //清訊號
+                                                return;
                                             }
+
+                                            InvokeSECSEvent?.Invoke(nameof(RackInput));
+                                            RackInput = false; //清訊號
                                         }
                                         else if (name == nameof(RackOutput))
                                         {
-                                            if (RackOutput.Equals(true))
+                                            if (!val)
                                             {
-                                                //!需在引發紀錄完成後才觸發取消投產
-                                                CheckInCommand.Result = false;
-                                                InvokeSECSEvent?.Invoke(nameof(RackOutput));
-                                                OvenInfo?.Clear();
-                                                Ext_Info.Clear();
-                                                RackOutput = false; //清訊號
+                                                return;
                                             }
+
+                                            //!需在引發紀錄完成後才觸發取消投產
+                                            CheckInCommand.Result = false;
+                                            InvokeSECSEvent?.Invoke(nameof(RackOutput));
+                                            OvenInfo?.Clear();
+                                            Ext_Info.Clear();
+                                            RackOutput = false; //清訊號
                                         }
                                         else if (name == nameof(RecipeChanged))
                                         {
+                                            if (!val)
+                                            {
+                                                return;
+                                            }
+
                                             var recipe = new PLC_Recipe();
                                             recipe.CopyFromObj(this);
 
