@@ -1461,6 +1461,13 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
+        [PLCBit(BitType.M, 46, LogType.Status)]
+        public bool RecipeChanged
+        {
+            get => GetPLC<bool>();
+            set => SetPLC(value);
+        }
+
         /// <summary>
         /// 溫控器實際溫度
         /// </summary>

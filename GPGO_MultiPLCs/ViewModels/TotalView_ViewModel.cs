@@ -178,22 +178,15 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>> AddRecordToDB;
-
-        public event Action<(int StationIndex, string RackID)> CancelCheckIn;
-
+        public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>>                         AddRecordToDB;
+        public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
         public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
-
-        public event Func<(int StationIndex, string RecipeName), PLC_Recipe> GetRecipe;
-
-        public event Action<(int StationIndex, string RecipeName)> RecipeUsed;
-
-        public event Func<(int StationIndex, string RackID), ValueTask<ICollection<ProductInfo>>> WantFrontData;
-
-        public event Func<User> GetUser;
-
-        public event Func<PLC_Recipe, bool> UpsertRecipe;
-        public event Action<string>         DeleteRecipe;
+        public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
+        public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
+        public event Func<(int StationIndex, string RackID), ValueTask<ICollection<ProductInfo>>>                     WantFrontData;
+        public event Func<User>                                                                                       GetUser;
+        public event Func<PLC_Recipe, bool>                                                                           UpsertRecipe;
+        public event Action<string>                                                                                   DeleteRecipe;
 
         /// <summary>讀取財產編號</summary>
         public void LoadAssetNumbers()
@@ -283,15 +276,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <returns>是否成功寫入PLC</returns>
         public bool SetRecipe(int index, PLC_Recipe recipe)
         {
-            if (recipe == null || PLC_All[index].IsExecuting || PLC_All[index].PC_InUse || PLC_All[index].GreenLight)
-            {
-                return false;
-            }
-
-            PLC_All[index].SetSelectedRecipeName(recipe.RecipeName);
-            recipe.CopyToObj(PLC_All[index]);
-
-            return true;
+            return PLC_All[index].SetRecipe(recipe);
         }
 
         /// <summary>設定使用的PLC配方(透過配方名)</summary>
@@ -397,7 +382,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 return HCACKValule.Acknowledge;
                             };
 
-            secsGem.SetRecipe += (index, name) => PLC_All[index].SetRecipe(name, false) ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
+            secsGem.SetRecipe += (index, name) => PLC_All[index].SetRecipe(name) ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
 
             secsGem.AddLOT += (index, o) =>
                               {
@@ -475,11 +460,11 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i] = plc;
                 var index = i;
 
-                plc.SetBit += async (type, dev, val) => await SetBit(index, type, dev, val);
-
-                plc.SetData += async (type, dev, val) => await SetData(index, type, dev, val);
-
+                #region DataModel新值寫入PLC
+                plc.SetBit   += async (type, dev, val) => await SetBit(index, type, dev, val);
+                plc.SetData  += async (type, dev, val) => await SetData(index, type, dev, val);
                 plc.SetDatas += async (type, vals) => await SetDatas(index, type, vals);
+                #endregion
 
                 //plc.ValueChanged += async (LogType, data) => await ValueChanged(LogType, data);
 
@@ -618,11 +603,17 @@ namespace GPGO_MultiPLCs.ViewModels
                                              
                                              secsGem.UpdateSV($"Oven{j}_{name}", value);
                                          };
+
+                plc.RecipeChangedbyPLC += recipe =>
+                                          {
+                                              UpsertRecipe?.Invoke(recipe);
+                                          };
             }
 
             LoadMachineCodes();
             LoadAssetNumbers();
 
+            #region PLCGate事件通知
             Messages_Sent += (i, v) =>
                              {
                                  try
@@ -666,6 +657,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                    plc.OnlineStatus = false;
                                }
                            };
+            #endregion
 
             Checker = new Timer(o =>
                                 {
