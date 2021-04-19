@@ -185,9 +185,9 @@ namespace GPGO_MultiPLCs.Models
         public CodeType     CodeType      { get; set; } = CodeType.Panel;
         public bool         FirstPanel    { get; set; } = false;
         public string       OrderCode     { get; set; }
-        public string       PartID    { get; set; }
+        public string       PartID        { get; set; }
         public string       LotID         { get; set; }
-        public List<string> PanelIDs    { get; set; } = new List<string>();
+        public List<string> PanelIDs      { get; set; } = new List<string>();
         public int          ProcessNumber { get; set; }
         public string       Side          { get; set; } = "A";
 
@@ -251,26 +251,30 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>匯出成Dictionary</summary>
         /// <param name="lng">語系</param>
         /// <returns></returns>
-        public Dictionary<string, object> ToDic(Language lng) =>
-            new Dictionary<string, object>
-            {
-                {GetType().GetProperty(nameof(AddedTime)).GetName(lng), AddedTime},
-                {GetType().GetProperty(nameof(IsFinished)).GetName(lng), IsFinished},
-                {GetType().GetProperty(nameof(StationNumber)).GetName(lng), StationNumber},
-                //{GetType().GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
-                //{GetType().GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
-                {GetType().GetProperty(nameof(PartID)).GetName(lng), PartID},
-                {GetType().GetProperty(nameof(LotID)).GetName(lng), LotID},
-                {GetType().GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
-                //{GetType().GetProperty(nameof(RackID)).GetName(lng), RackID},
-                {GetType().GetProperty(nameof(Quantity)).GetName(lng), Quantity},
-                //{GetType().GetProperty(nameof(Side)).GetName(lng), Side},
-                {GetType().GetProperty(nameof(StartTime)).GetName(lng), StartTime},
-                {GetType().GetProperty(nameof(EndTime)).GetName(lng), EndTime},
-                {GetType().GetProperty(nameof(RecordTemperatures)).GetName(lng), "@"},
-                {GetType().GetProperty(nameof(RecipeName)).GetName(lng), RecipeName},
-                {GetType().GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.Indented)}
-            };
+        public Dictionary<string, object> ToDic(Language lng)
+        {
+            var type = GetType();
+
+            return new Dictionary<string, object>
+                   {
+                       {type.GetProperty(nameof(AddedTime)).GetName(lng), AddedTime},
+                       {type.GetProperty(nameof(IsFinished)).GetName(lng), IsFinished},
+                       {type.GetProperty(nameof(StationNumber)).GetName(lng), StationNumber},
+                       //{type.GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
+                       //{type.GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
+                       {type.GetProperty(nameof(PartID)).GetName(lng), PartID},
+                       {type.GetProperty(nameof(LotID)).GetName(lng), LotID},
+                       {type.GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
+                       //{type.GetProperty(nameof(RackID)).GetName(lng), RackID},
+                       {type.GetProperty(nameof(Quantity)).GetName(lng), Quantity},
+                       //{type.GetProperty(nameof(Side)).GetName(lng), Side},
+                       {type.GetProperty(nameof(StartTime)).GetName(lng), StartTime},
+                       {type.GetProperty(nameof(EndTime)).GetName(lng), EndTime},
+                       {type.GetProperty(nameof(RecordTemperatures)).GetName(lng), "@"},
+                       {type.GetProperty(nameof(RecipeName)).GetName(lng), RecipeName},
+                       {type.GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.Indented)}
+                   };
+        }
 
         /// <summary>輸出客戶指定之文字字串</summary>
         /// <returns></returns>
