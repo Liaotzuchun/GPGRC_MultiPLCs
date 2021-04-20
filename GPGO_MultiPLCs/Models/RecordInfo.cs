@@ -21,17 +21,13 @@ namespace GPGO_MultiPLCs.Models
                 return Colors.Red;
             }
 
-            if ((EventType)value == EventType.Normal)
-            {
-                return Colors.Green;
-            }
-
-            if ((EventType)value == EventType.Trigger)
-            {
-                return Colors.Blue;
-            }
-
-            return (EventType)value == EventType.Operator ? Colors.DarkOrange : Colors.Red;
+            return (EventType)value switch
+                   {
+                       EventType.Normal   => Colors.Green,
+                       EventType.Trigger  => Colors.Blue,
+                       EventType.Operator => Colors.DarkOrange,
+                       _                  => Colors.Red
+                   };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;

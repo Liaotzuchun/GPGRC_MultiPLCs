@@ -53,7 +53,7 @@ namespace GPGO_MultiPLCs
 
             Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt", rollingInterval: RollingInterval.Day, shared: true, encoding: Encoding.UTF8).CreateLogger();
 
-            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            AppDomain.CurrentDomain.UnhandledException += (_, e) =>
                                                           {
                                                               Log.Error((Exception)e.ExceptionObject, "");
 
@@ -64,7 +64,7 @@ namespace GPGO_MultiPLCs
                                                               }
                                                           };
 
-            TaskScheduler.UnobservedTaskException += (s, e) =>
+            TaskScheduler.UnobservedTaskException += (_, e) =>
                                                      {
                                                          Log.Error(e.Exception, "");
                                                          e.SetObserved();
@@ -73,7 +73,7 @@ namespace GPGO_MultiPLCs
                                                          //Current.Shutdown();
                                                      };
 
-            DispatcherUnhandledException += (s, e) =>
+            DispatcherUnhandledException += (_, e) =>
                                             {
                                                 e.Handled = true;
                                                 Log.Error(e.Exception, "");

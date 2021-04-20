@@ -154,14 +154,12 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
-                if (value > 100)
-                {
-                    value = 100;
-                }
-                else if (value < 0)
-                {
-                    value = 0;
-                }
+                value = value switch
+                        {
+                            > 100 => 100,
+                            < 0   => 0,
+                            _     => value
+                        };
 
                 Set(value);
             }
@@ -1210,7 +1208,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public override PLC_Recipe Copy(string user, UserLevel level) =>
-            new PLC_Recipe
+            new()
             {
                 Updated               = DateTime.Now,
                 RecipeName            = RecipeName,

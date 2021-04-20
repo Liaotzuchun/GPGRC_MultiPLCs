@@ -36,7 +36,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             ClosingCommand = new RelayCommand(e =>
                                               {
-                                                  if (!(e is CancelEventArgs ce))
+                                                  if (e is not CancelEventArgs ce)
                                                   {
                                                       return;
                                                   }

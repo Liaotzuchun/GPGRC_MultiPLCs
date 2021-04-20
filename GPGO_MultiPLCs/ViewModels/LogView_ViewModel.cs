@@ -80,8 +80,8 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Set(value);
 
-                ViewResults_On  = value?.Where(x => x.Value is bool v && v).ToList();
-                ViewResults_Off = value?.Where(x => x.Value is bool v && !v).ToList();
+                ViewResults_On  = value?.Where(x => x.Value is bool and true).ToList();
+                ViewResults_Off = value?.Where(x => x.Value is bool and false).ToList();
             }
         }
 
@@ -208,10 +208,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                using (var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8))
-                {
-                    await outputFile.WriteAsync(csv);
-                }
+                using var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
+                await outputFile.WriteAsync(csv);
             }
             catch (Exception ex)
             {
@@ -237,7 +235,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService dialog) : base(db)
         {
-            ToFileCommand = new RelayCommand(async o =>
+            ToFileCommand = new RelayCommand(async _ =>
                                              {
                                                  var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\EventLogs";
                                                  if (await SaveToCSV(path))
@@ -252,7 +250,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  }
                                              });
 
-            GoCommand = new RelayCommand(e =>
+            GoCommand = new RelayCommand(_ =>
                                          {
                                              if (SelectedProcessInfo == null)
                                              {
@@ -273,12 +271,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                   UpdateViewResult();
                               };
 
-            BeginIndexChanged += i =>
+            BeginIndexChanged += _ =>
                                  {
                                      UpdateViewResult();
                                  };
 
-            EndIndexChanged += i =>
+            EndIndexChanged += _ =>
                                {
                                    UpdateViewResult();
                                };

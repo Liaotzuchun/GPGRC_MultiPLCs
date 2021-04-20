@@ -311,7 +311,7 @@ namespace GPGO_MultiPLCs.ViewModels
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
 
             //!當各PLC產量變更時更新總量顯示
-            TotalProduction.CollectionChanged += (obj, args) =>
+            TotalProduction.CollectionChanged += (_, _) =>
                                                  {
                                                      NotifyPropertyChanged(nameof(TotalProduction_View));
                                                      NotifyPropertyChanged(nameof(TotalProductionCount));
@@ -408,7 +408,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   );
                                   return HCACKValule.Acknowledge;
                               };
-            secsGem.CANCEL += (index) =>
+            secsGem.CANCEL += index =>
             {
                 PLC_All[index].Ext_Info.Clear();
                 if (PLC_All[index].ExecutingTask != null && PLC_All[index].IsExecuting)
@@ -489,7 +489,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                        productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList() :
                                                                        new List<ProcessInfo>
                                                                        {
-                                                                           new ProcessInfo(baseInfo, new ProductInfo())
+                                                                           new(baseInfo, new ProductInfo())
                                                                        };
 
                                                     //! 更新ProcessData以供上報
@@ -614,7 +614,7 @@ namespace GPGO_MultiPLCs.ViewModels
             LoadAssetNumbers();
 
             #region PLCGate事件通知
-            Messages_Sent += (i, v) =>
+            MessagesSent += (i, v) =>
                              {
                                  try
                                  {
@@ -633,7 +633,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                  }
                              };
 
-            Status_Changed += (i, v) =>
+            StatusChanged += (i, v) =>
                               {
                                   try
                                   {
@@ -659,7 +659,7 @@ namespace GPGO_MultiPLCs.ViewModels
                            };
             #endregion
 
-            Checker = new Timer(o =>
+            Checker = new Timer(_ =>
                                 {
                                     if (!Gate_Status)
                                     {

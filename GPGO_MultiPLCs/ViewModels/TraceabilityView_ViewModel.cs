@@ -580,17 +580,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 var result1 = finishedResults.GroupBy(x =>
                                                       {
-                                                          switch ((ChartMode)Mode)
-                                                          {
-                                                              case ChartMode.ByPLC:
-                                                                  return x.StationNumber.ToString("00");
-                                                              case ChartMode.ByLot:
-                                                                  return x.LotID;
-                                                              case ChartMode.ByPart:
-                                                                  return x.PartID;
-                                                              default:
-                                                                  return ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00";
-                                                          }
+                                                          return (ChartMode)Mode switch
+                                                                 {
+                                                                     ChartMode.ByPLC  => x.StationNumber.ToString("00"),
+                                                                     ChartMode.ByLot  => x.LotID,
+                                                                     ChartMode.ByPart => x.PartID,
+                                                                     _                => ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00"
+                                                                 };
                                                       })
                                              .OrderBy(x => x.Key)
                                              .Select(x => (x.Key, x.Sum(y => y.Quantity)))
@@ -706,7 +702,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            FindCommand = new RelayCommand(async o =>
+            FindCommand = new RelayCommand(async _ =>
                                            {
                                                var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                   {
@@ -760,7 +756,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                }
                                            });
 
-            ToExcelCommand = new RelayCommand(async o =>
+            ToExcelCommand = new RelayCommand(async _ =>
                                               {
                                                   var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Reports";
                                                   if (await SaveToExcel(path))

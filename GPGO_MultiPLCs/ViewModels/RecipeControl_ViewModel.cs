@@ -104,7 +104,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDataBase<PLC_Recipe> db_history, IDialogService dialog) : base(db, db_history, dialog)
         {
-            ExprotCommand = new RelayCommand(e =>
+            ExprotCommand = new RelayCommand(_ =>
                                              {
                                                  var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
 
@@ -120,7 +120,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  }
                                              });
 
-            ImportCommand = new RelayCommand(async e =>
+            ImportCommand = new RelayCommand(async _ =>
                                              {
                                                  Standby = false;
 

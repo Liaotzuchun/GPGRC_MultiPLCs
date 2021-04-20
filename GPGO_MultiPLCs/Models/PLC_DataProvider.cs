@@ -33,7 +33,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         private readonly IDialogService Dialog;
-        private readonly TaskFactory    OneScheduler = new TaskFactory(new StaTaskScheduler(1));
+        private readonly TaskFactory    OneScheduler = new(new StaTaskScheduler(1));
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
@@ -66,10 +66,10 @@ namespace GPGO_MultiPLCs.Models
         public RelayCommand CheckRecipeCommand_KeyLeave { get; }
 
         /// <summary>前製程資訊</summary>
-        public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new ObservableConcurrentCollection<ProductInfo>();
+        public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new();
 
         /// <summary>取得是否正在紀錄溫度</summary>
-        public bool IsExecuting => ExecutingTask?.Status == TaskStatus.Running || ExecutingTask?.Status == TaskStatus.WaitingForActivation || ExecutingTask?.Status == TaskStatus.WaitingToRun;
+        public bool IsExecuting => ExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
 
         /// <summary>紀錄的資訊</summary>
         public BaseInfo OvenInfo { get; }
@@ -247,7 +247,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         public PLC_Recipe GetRecipePV() =>
-            new PLC_Recipe
+            new()
             {
                 DwellTime_1           = PV_DwellTime_1,
                 DwellTime_2           = PV_DwellTime_2,
@@ -277,7 +277,7 @@ namespace GPGO_MultiPLCs.Models
                 TemperatureSetpoint_6 = PV_TemperatureSetpoint_6,
                 TemperatureSetpoint_7 = PV_TemperatureSetpoint_7,
                 TemperatureSetpoint_8 = PV_TemperatureSetpoint_8,
-                StepCounts            = PV_StepCounts,
+                StepCounts            = PV_StepCounts
             };
 
         public void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) e)
@@ -353,7 +353,7 @@ namespace GPGO_MultiPLCs.Models
 
         public bool SetRecipe(string recipeName)
         {
-            if (!(GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe) || IsExecuting || !PC_InUse)
+            if (GetRecipe?.Invoke(recipeName) is not PLC_Recipe recipe || IsExecuting || !PC_InUse)
             {
                 return false;
             }
@@ -368,7 +368,7 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task<bool> SetRecipe(string recipeName, bool check)
         {
-            if (!(GetRecipe?.Invoke(recipeName) is PLC_Recipe recipe) || IsExecuting || !PC_InUse)
+            if (GetRecipe?.Invoke(recipeName) is not PLC_Recipe recipe || IsExecuting || !PC_InUse)
             {
                 return false;
             }
@@ -551,12 +551,12 @@ namespace GPGO_MultiPLCs.Models
                                                             }
                                                         });
 
-            CheckRecipeCommand_KeyLeave = new RelayCommand(e =>
+            CheckRecipeCommand_KeyLeave = new RelayCommand(_ =>
                                                            {
                                                                Intput_Name = Selected_Name;
                                                            });
 
-            CheckInCommand = new CommandWithResult<bool>(async o =>
+            CheckInCommand = new CommandWithResult<bool>(async _ =>
                                                          {
                                                              var (result0, opId) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
@@ -576,7 +576,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                              {
                                                                                                  var str = x.ToString().Trim();
 
-                                                                                                 return (str.Length > 4 && str.Length < 15,
+                                                                                                 return (str.Length is > 4 and < 15,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
                                                                                                              {Language.TW, "字數錯誤！"},
@@ -608,7 +608,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                              {
                                                                                                  var str = x.ToString().Trim();
 
-                                                                                                 return (str.Length > 4 && str.Length < 15,
+                                                                                                 return (str.Length is > 4 and < 15,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
                                                                                                              {Language.TW, "字數錯誤！"},
@@ -644,7 +644,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  {
                                                                                                      var str = x.ToString().Trim();
 
-                                                                                                     return (str.Length > 4 && str.Length < 15,
+                                                                                                     return (str.Length is > 4 and < 15,
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
                                                                                                                  {Language.TW, "字數錯誤！"},
@@ -682,7 +682,7 @@ namespace GPGO_MultiPLCs.Models
                                                                                                  {
                                                                                                      var str = x.ToString().Trim();
 
-                                                                                                     return (int.TryParse(str, out counts) && counts > 0 && counts <= 100,
+                                                                                                     return (int.TryParse(str, out counts) && counts is > 0 and <= 100,
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
                                                                                                                  {Language.TW, "數量錯誤！"},
@@ -751,7 +751,7 @@ namespace GPGO_MultiPLCs.Models
                                                              return true;
                                                          });
 
-            CancelCheckInCommand = new RelayCommand(async e =>
+            CancelCheckInCommand = new RelayCommand(async _ =>
                                                     {
                                                         if (ExecutingTask != null && IsExecuting)
                                                         {
@@ -890,10 +890,7 @@ namespace GPGO_MultiPLCs.Models
                                             RecipeChangedbyPLC?.Invoke(recipe);
                                         }
                                     }
-                                    else if (name == nameof(CurrentStep) ||
-                                             name == nameof(IsRamp) ||
-                                             name == nameof(IsWarming) ||
-                                             name == nameof(IsCooling))
+                                    else if (name is nameof(CurrentStep) or nameof(IsRamp) or nameof(IsWarming) or nameof(IsCooling))
                                     {
                                         EventHappened?.Invoke(eventval);
                                         if (IsExecuting)
@@ -986,7 +983,7 @@ namespace GPGO_MultiPLCs.Models
                                 }
                             };
 
-            Ext_Info.CollectionChanged += (s, e) =>
+            Ext_Info.CollectionChanged += (_, _) =>
                                           {
                                               NotifyPropertyChanged(nameof(Quantity));
 

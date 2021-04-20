@@ -111,15 +111,13 @@ namespace GPGO_MultiPLCs.Models
 
         public SECSThread(int index)
         {
-            var deviceIndex = index;
-
             SECSParameterSet = new SECSParameterSet();
             //secsParameterSet.SECSParameter.HSMS_Connect_Mode = (int)HSMS_COMM_MODE.HSMS_PASSIVE_MODE;
             //secsParameterSet.SECSParameter.LDeviceID         = deviceIndex;                          //todo:每台烤箱要有 Device Id
             //secsParameterSet.SECSParameter.NLocalPort        = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
             //secsParameterSet.SECSParameter.NRemotePort       = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
             //secsParameterSet.SECSParameter.FilePath          = $"C:\\ITRIinit\\{deviceIndex}";       //設定檔存放位置
-            SECSParameterSet.SECSParameter.FilePath = $"C:\\ITRIinit\\{deviceIndex}"; //設定檔存放位置
+            SECSParameterSet.SECSParameter.FilePath = $"C:\\ITRIinit\\{index}"; //設定檔存放位置
             SECSParameterSet.SECSParameter.MDLN     = "GP_GO";
             var v = Assembly.GetExecutingAssembly().GetName().Version;
             SECSParameterSet.SECSParameter.SOFTREV = $"{v.Major}.{v.Minor}.{v.Build}";
@@ -157,9 +155,9 @@ namespace GPGO_MultiPLCs.Models
                                              return HCACKValule.ParameterInvalid;
                                          }
 
-                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] indexes && indexes.Length > 0 &&
-                                             r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot &&
-                                             r.RemoteCommandParameter[2].CPVAL.ObjectData is string part &&
+                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] {Length: > 0} indexes && 
+                                             r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot && 
+                                             r.RemoteCommandParameter[2].CPVAL.ObjectData is string part && 
                                              r.RemoteCommandParameter[3].CPVAL is SECSMessageBranches Branches)
                                          {
                                              var i = indexes[0];
@@ -178,7 +176,7 @@ namespace GPGO_MultiPLCs.Models
                                              return HCACKValule.ParameterInvalid;
                                          }
 
-                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] indexes && indexes.Length > 0)
+                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] {Length: > 0} indexes)
                                          {
                                              var i = indexes[0];
 
@@ -194,8 +192,7 @@ namespace GPGO_MultiPLCs.Models
                                                 return HCACKValule.ParameterInvalid;
                                             }
 
-                                            var o = r.RemoteCommandParameter[0].CPVAL.ObjectData as int[];
-                                            if (int.TryParse(o[0].ToString(), out var i))
+                                            if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] o && int.TryParse(o[0].ToString(), out var i))
                                             {
                                                 return SetRecipe?.Invoke(i, r.RemoteCommandParameter[1].CPVAL.ObjectData.ToString()) ?? HCACKValule.CantPerform;
                                             }
@@ -210,8 +207,7 @@ namespace GPGO_MultiPLCs.Models
                                             return HCACKValule.ParameterInvalid;
                                         }
 
-                                        var o = r.RemoteCommandParameter[0].CPVAL.ObjectData as int[];
-                                        if (int.TryParse(o[0].ToString(), out var i))
+                                        if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] o && int.TryParse(o[0].ToString(), out var i))
                                         {
                                             return Start?.Invoke(i) ?? HCACKValule.CantPerform;
                                         }
@@ -226,8 +222,7 @@ namespace GPGO_MultiPLCs.Models
                                            return HCACKValule.ParameterInvalid;
                                        }
 
-                                       var o = r.RemoteCommandParameter[0].CPVAL.ObjectData as int[];
-                                       if (int.TryParse(o[0].ToString(), out var i))
+                                       if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] o && int.TryParse(o[0].ToString(), out var i))
                                        {
                                            return Stop?.Invoke(i) ?? HCACKValule.CantPerform;
                                        }
@@ -235,7 +230,7 @@ namespace GPGO_MultiPLCs.Models
                                        return HCACKValule.CantPerform;
                                    };
 
-            secsGem.RetrieveLotDataCommand += r => HCACKValule.CantPerform; //todo
+            secsGem.RetrieveLotDataCommand += _ => HCACKValule.CantPerform; //todo
             eqpBase                        =  SECSTool.GetEqpbase($"{index}");
             //SECS_GEM.GemDVDataUpdateNew("","");
             //secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, "PLCProgramVersion", "0001");

@@ -187,7 +187,7 @@ namespace GPGO_MultiPLCs.Models
         public string       OrderCode     { get; set; }
         public string       PartID        { get; set; }
         public string       LotID         { get; set; }
-        public List<string> PanelIDs      { get; set; } = new List<string>();
+        public List<string> PanelIDs      { get; set; } = new();
         public int          ProcessNumber { get; set; }
         public string       Side          { get; set; } = "A";
 
@@ -236,7 +236,7 @@ namespace GPGO_MultiPLCs.Models
         [LanguageTranslator("LotID", "批號", "批号")]
         public string LotID { get; set; }
 
-        public List<string> PanelIDs { get; set; } = new List<string>();
+        public List<string> PanelIDs { get; set; } = new();
 
         /// <summary>製程序</summary>
         [LanguageTranslator("SN", "序號", "序号")]

@@ -81,7 +81,7 @@ namespace GPGO_MultiPLCs
 
         public void Dispose() { TotalVM.Dispose(); }
 
-        private readonly AsyncLock lockobj = new AsyncLock();
+        private readonly AsyncLock lockobj = new();
 
         private AsyncAutoResetEvent _Testdatalock;
 

@@ -19,9 +19,9 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
-        private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs _)
         {
-            if (!(sender is TextBox tb))
+            if (sender is not TextBox tb)
             {
                 return;
             }

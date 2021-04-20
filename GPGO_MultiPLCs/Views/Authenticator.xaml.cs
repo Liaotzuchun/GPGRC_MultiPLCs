@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -104,9 +103,12 @@ namespace GPGO_MultiPLCs.Views
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var index = ((ListBox)sender).SelectedIndex;
-            Application.Current.Resources.MergedDictionaries.Last().Source = index == 2 ? new Uri("pack://application:,,,/Views/Languages/EN.xaml") :
-                                                                             index == 1 ? new Uri("pack://application:,,,/Views/Languages/CHS.xaml") :
-                                                                                          new Uri("pack://application:,,,/Views/Languages/TW.xaml");
+            Application.Current.Resources.MergedDictionaries.Last().Source = index switch
+                                                                             {
+                                                                                 2 => new Uri("pack://application:,,,/Views/Languages/EN.xaml"),
+                                                                                 1 => new Uri("pack://application:,,,/Views/Languages/CHS.xaml"),
+                                                                                 _ => new Uri("pack://application:,,,/Views/Languages/TW.xaml")
+                                                                             };
         }
 
         private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { NameBox.Clear(); }
@@ -129,7 +131,7 @@ namespace GPGO_MultiPLCs.Views
 
         private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            if (!(sender is TextBox tb))
+            if (sender is not TextBox tb)
             {
                 return;
             }
