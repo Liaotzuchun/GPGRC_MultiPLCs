@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 
@@ -29,11 +30,11 @@ namespace GPGO_MultiPLCs.ViewModels
                     foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
                     {
                         recipe.Used_Stations[index] = false;
-                        await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), nameof(PLC_Recipe.Used_Stations), recipe.Used_Stations);
+                        await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), nameof(PLC_Recipe.Used_Stations), recipe.Used_Stations).ConfigureAwait(false);
                     }
 
                     result.Used_Stations[index] = true;
-                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), nameof(PLC_Recipe.Used_Stations), result.Used_Stations);
+                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), nameof(PLC_Recipe.Used_Stations), result.Used_Stations).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -42,7 +43,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public bool Upsert(PLC_Recipe recipe)
+        public async ValueTask<bool> Upsert(PLC_Recipe recipe)
         {
             Standby = false;
 
@@ -51,16 +52,16 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                var TempSet = RecipeCollection.Find(x => x.RecipeName.Equals(name));
+                var TempSet = await RecipeCollection.FindAsync(x => x.RecipeName.Equals(name)).ConfigureAwait(false);
 
                 if (TempSet.Any() && !TempSet[0].Equals(recipe))
                 {
-                    RecipeCollection.Upsert(x => x.RecipeName.Equals(name), recipe);
-                    RecipeCollection_History.Add(TempSet[0]);
+                    await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(name), recipe).ConfigureAwait(false);
+                    await RecipeCollection_History.AddAsync(TempSet[0]).ConfigureAwait(false);
                 }
                 else
                 {
-                    RecipeCollection.Add(recipe);
+                    await RecipeCollection.AddAsync(recipe).ConfigureAwait(false);
                 }
 
                 result = true;
@@ -70,14 +71,14 @@ namespace GPGO_MultiPLCs.ViewModels
                 Log.Error(ex, "");
             }
 
-            RefreshList(true).ConfigureAwait(false);
+            await RefreshList(true).ConfigureAwait(false);
 
             Standby = true;
 
             return result;
         }
 
-        public bool Delete(string recipeName)
+        public async ValueTask<bool> Delete(string recipeName)
         {
             Standby = false;
 
@@ -85,8 +86,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             try
             {
-                RecipeCollection.DeleteOne(x => x.RecipeName.Equals(recipeName));
-                RecipeCollection_History.Delete(x => x.RecipeName.Equals(recipeName));
+                await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(recipeName)).ConfigureAwait(false);
+                await RecipeCollection_History.DeleteOneAsync(x => x.RecipeName.Equals(recipeName)).ConfigureAwait(false);
 
                 result = true;
             }
@@ -95,7 +96,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 Log.Error(ex, "");
             }
 
-            RefreshList(true).ConfigureAwait(false);
+            await RefreshList(true).ConfigureAwait(false);
 
             Standby = true;
 

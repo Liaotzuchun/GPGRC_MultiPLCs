@@ -49,7 +49,8 @@ namespace GPGO_MultiPLCs.Models
                     else
                     {
                         HCACK = PP_SELECTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
-                    }   
+                    }
+
                     break;
                 case "START":
                     AxQGWrapper.GetSV(4, out _, out Value);
@@ -61,6 +62,7 @@ namespace GPGO_MultiPLCs.Models
                     {
                         HCACK = STARTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     }
+
                     break;
                 case "STOP":
                     HCACK = STOPCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
@@ -70,11 +72,17 @@ namespace GPGO_MultiPLCs.Models
                     break;
                 case "GO_LOCAL":
                     if (!AxQGWrapper.OnLineLocal().Equals(0))
+                    {
                         HCACK = HCACKValule.CantPerform;
+                    }
+
                     break;
                 case "GO_REMOTE":
                     if (!AxQGWrapper.OnLineRemote().Equals(0))
+                    {
                         HCACK = HCACKValule.CantPerform;
+                    }
+
                     break;
                 default:
                     HCACK = HCACKValule.CmdNotExist;
@@ -614,14 +622,7 @@ namespace GPGO_MultiPLCs.Models
                         }
                     }
 
-                    if (InsertPPEvent != null && !InsertPPEvent.Invoke(recipe))
-                    {
-                        Tmp[2] = 1;
-                    }
-                    else
-                    {
-                        Tmp[2] = 0;
-                    }
+                    Tmp[2] = InsertPPEvent != null && !InsertPPEvent.Invoke(recipe) ? (byte)1 : (byte)0;
                 }
 
                 AxQSWrapper.SendSECSIIMessage(S, F, W_Bit, ref SystemBytes, RawData);
@@ -731,6 +732,7 @@ namespace GPGO_MultiPLCs.Models
         public event Func<RemoteCommand, HCACKValule> STARTCommand;
         public event Func<RemoteCommand, HCACKValule> STOPCommand;
         public event Func<RemoteCommand, HCACKValule> RetrieveLotDataCommand;
+
         #endregion "RemoteCommand"
     }
 }

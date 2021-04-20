@@ -353,7 +353,7 @@ namespace GPGO_MultiPLCs.Models
 
         public bool SetRecipe(string recipeName)
         {
-            if (GetRecipe?.Invoke(recipeName) is not PLC_Recipe recipe || IsExecuting || !PC_InUse)
+            if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
                 return false;
             }
@@ -368,7 +368,7 @@ namespace GPGO_MultiPLCs.Models
 
         public async Task<bool> SetRecipe(string recipeName, bool check)
         {
-            if (GetRecipe?.Invoke(recipeName) is not PLC_Recipe recipe || IsExecuting || !PC_InUse)
+            if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
                 return false;
             }
@@ -384,6 +384,7 @@ namespace GPGO_MultiPLCs.Models
             {
                 return false;
             }
+
             if (check && !await Dialog.Show(new Dictionary<Language, string>
                                             {
                                                 {Language.TW, "請確認配方內容："},
@@ -739,7 +740,7 @@ namespace GPGO_MultiPLCs.Models
                                                              {
                                                                  RemoteCommandSelectPP = false;
 
-                                                                 if (GetRecipe?.Invoke(Selected_Name) is PLC_Recipe recipe)
+                                                                 if (GetRecipe?.Invoke(Selected_Name) is {} recipe)
                                                                  {
                                                                      recipe.CopyToObj(this);
                                                                      //OvenInfo.Recipe = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);

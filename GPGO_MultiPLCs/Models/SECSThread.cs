@@ -25,8 +25,8 @@ namespace GPGO_MultiPLCs.Models
 
         public event Action<string>                                                              TerminalMessage;
         public event Action<int, string, object>                                                 ECChange;
-        public event Func<PLC_Recipe, bool>                                                      UpsertRecipe;
-        public event Action<string>                                                              DeleteRecipe;
+        public event Func<PLC_Recipe, ValueTask<bool>>                                           UpsertRecipe;
+        public event Func<string, ValueTask<bool>>                                               DeleteRecipe;
         public event Func<int, string, HCACKValule>                                              SetRecipe;
         public event Func<int, HCACKValule>                                                      Start;
         public event Func<int, HCACKValule>                                                      Stop;
@@ -69,13 +69,14 @@ namespace GPGO_MultiPLCs.Models
                     {
                         secsGem.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
                     }
+
                     break;
             }
         }
 
         public void UpdateEC(string name, object value)
         {
-            if (eqpBase?.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpECClass ec && int.TryParse(ec.ID, out var ECID))
+            if (eqpBase?.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ec && int.TryParse(ec.ID, out var ECID))
             {
                 secsGem?.AxQGWrapper.UpdateEC(ECID, value);
             }
@@ -87,7 +88,7 @@ namespace GPGO_MultiPLCs.Models
             {
                 secsGem?.AxQGWrapper.EventReportSend(3);
             }
-            else if (eqpBase?.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
+            else if (eqpBase?.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ce && int.TryParse(ce.ID, out var CEID))
             {
                 secsGem?.AxQGWrapper.EventReportSend(CEID);
             }
@@ -95,7 +96,7 @@ namespace GPGO_MultiPLCs.Models
 
         public void InvokeAlarm(string name, bool val)
         {
-            if (eqpBase?.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is EqpAlarmClass ae && int.TryParse(ae.ID, out var ALID))
+            if (eqpBase?.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ae && int.TryParse(ae.ID, out var ALID))
             {
                 secsGem?.AxQGWrapper.AlarmReportSend(ALID, val ? 255 : 0);
             }
@@ -141,7 +142,7 @@ namespace GPGO_MultiPLCs.Models
                                         {
                                         };
 
-            secsGem.InsertPPEvent += recipe => UpsertRecipe != null && UpsertRecipe.Invoke(recipe); //todo:收到新增或修改配方指令
+            secsGem.InsertPPEvent += recipe => UpsertRecipe != null && UpsertRecipe.Invoke(recipe).Result; //todo:收到新增或修改配方指令
 
             secsGem.DeletePPEvent += recipeName =>
                                      {
@@ -155,12 +156,12 @@ namespace GPGO_MultiPLCs.Models
                                              return HCACKValule.ParameterInvalid;
                                          }
 
-                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] {Length: > 0} indexes && 
-                                             r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot && 
-                                             r.RemoteCommandParameter[2].CPVAL.ObjectData is string part && 
+                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] {Length: > 0} indexes &&
+                                             r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot &&
+                                             r.RemoteCommandParameter[2].CPVAL.ObjectData is string part &&
                                              r.RemoteCommandParameter[3].CPVAL is SECSMessageBranches Branches)
                                          {
-                                             var i = indexes[0];
+                                             var i      = indexes[0];
                                              var panels = Branches.SECSMessageObjects.Select(x => x.ObjectData?.ToString() ?? string.Empty).ToList();
 
                                              return AddLOT?.Invoke(i, (lot, part, panels)) ?? HCACKValule.CantPerform;

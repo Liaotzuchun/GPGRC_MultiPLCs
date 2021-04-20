@@ -185,8 +185,8 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
         public event Func<(int StationIndex, string RackID), ValueTask<ICollection<ProductInfo>>>                     WantFrontData;
         public event Func<User>                                                                                       GetUser;
-        public event Func<PLC_Recipe, bool>                                                                           UpsertRecipe;
-        public event Action<string>                                                                                   DeleteRecipe;
+        public event Func<PLC_Recipe, ValueTask<bool>>                                                                UpsertRecipe;
+        public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
 
         /// <summary>讀取財產編號</summary>
         public void LoadAssetNumbers()
@@ -274,10 +274,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="index">PLC序號</param>
         /// <param name="recipe">配方</param>
         /// <returns>是否成功寫入PLC</returns>
-        public bool SetRecipe(int index, PLC_Recipe recipe)
-        {
-            return PLC_All[index].SetRecipe(recipe);
-        }
+        public bool SetRecipe(int index, PLC_Recipe recipe) => PLC_All[index].SetRecipe(recipe);
 
         /// <summary>設定使用的PLC配方(透過配方名)</summary>
         /// <param name="names">配方名列表</param>
@@ -291,7 +288,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public void InvokeRecipe(string name, SECSThread.PPStatus status)
         {
-            secsGem?.UpdateDV("GemPPChangeName", name);
+            secsGem?.UpdateDV("GemPPChangeName",   name);
             secsGem?.UpdateDV("GemPPChangeStatus", (int)status);
             secsGem?.InvokeEvent("GemProcessProgramChange");
         }
@@ -356,16 +353,18 @@ namespace GPGO_MultiPLCs.ViewModels
                                     }
                                 };
 
-            secsGem.UpsertRecipe += recipe =>
+            secsGem.UpsertRecipe += async recipe =>
                                     {
-                                        UpsertRecipe?.Invoke(recipe);
+                                        var _ = UpsertRecipe != null && await UpsertRecipe.Invoke(recipe);
 
                                         return true;
                                     };
 
-            secsGem.DeleteRecipe += recipeName =>
+            secsGem.DeleteRecipe += async recipeName =>
                                     {
-                                        DeleteRecipe?.Invoke(recipeName);
+                                        var _ = DeleteRecipe != null && await DeleteRecipe.Invoke(recipeName);
+
+                                        return true;
                                     };
 
             secsGem.Start += index =>
@@ -401,29 +400,28 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   PLC_All[index].Ext_Info.Add(info);
                                   Task.Run(() =>
-                                  {
-                                      Task.Delay(TimeSpan.FromMilliseconds(100)).Wait();
-                                      secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
-                                  }
-                                  );
+                                           {
+                                               Task.Delay(TimeSpan.FromMilliseconds(100)).Wait();
+                                               secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
+                                           });
                                   return HCACKValule.Acknowledge;
                               };
             secsGem.CANCEL += index =>
-            {
-                PLC_All[index].Ext_Info.Clear();
-                if (PLC_All[index].ExecutingTask != null && PLC_All[index].IsExecuting)
-                {
-                    PLC_All[index].CTS?.Cancel();
+                              {
+                                  PLC_All[index].Ext_Info.Clear();
+                                  if (PLC_All[index].ExecutingTask != null && PLC_All[index].IsExecuting)
+                                  {
+                                      PLC_All[index].CTS?.Cancel();
 
-                    PLC_All[index].ExecutingTask.Wait();
-                }
+                                      PLC_All[index].ExecutingTask.Wait();
+                                  }
 
-                CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
-                PLC_All[index].OvenInfo.Clear();
-                PLC_All[index].Ext_Info.Clear();
-                secsGem.InvokeEvent($"Oven{index + 1}_LotRemoved");
-                return HCACKValule.Acknowledge;
-            };
+                                  CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
+                                  PLC_All[index].OvenInfo.Clear();
+                                  PLC_All[index].Ext_Info.Clear();
+                                  secsGem.InvokeEvent($"Oven{index + 1}_LotRemoved");
+                                  return HCACKValule.Acknowledge;
+                              };
 
             secsGem.CommEnable_Changed += e =>
                                           {
@@ -431,9 +429,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                           };
 
             secsGem.Communicating_Changed += e =>
-                                          {
-                                              Set(e, nameof(SECS_Communicating));
-                                          };
+                                             {
+                                                 Set(e, nameof(SECS_Communicating));
+                                             };
 
             secsGem.ONLINE_Changed += online =>
                                       {
@@ -461,16 +459,18 @@ namespace GPGO_MultiPLCs.ViewModels
                 var index = i;
 
                 #region DataModel新值寫入PLC
+
                 plc.SetBit   += async (type, dev, val) => await SetBit(index, type, dev, val);
                 plc.SetData  += async (type, dev, val) => await SetData(index, type, dev, val);
                 plc.SetDatas += async (type, vals) => await SetDatas(index, type, vals);
+
                 #endregion
 
                 //plc.ValueChanged += async (LogType, data) => await ValueChanged(LogType, data);
 
                 plc.TracedDataChanged += data =>
-                                                {
-                                                };
+                                         {
+                                         };
 
                 plc.GetLanguage += () => Language;
 
@@ -482,127 +482,127 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 //!烘烤流程結束時
                 plc.ExecutingFinished += async e =>
-                                                {
-                                                    var (baseInfo, productInfo) = e;
+                                         {
+                                             var (baseInfo, productInfo) = e;
 
-                                                    var products = productInfo.Count > 0 ?
-                                                                       productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList() :
-                                                                       new List<ProcessInfo>
-                                                                       {
-                                                                           new(baseInfo, new ProductInfo())
-                                                                       };
+                                             var products = productInfo.Count > 0 ?
+                                                                productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList() :
+                                                                new List<ProcessInfo>
+                                                                {
+                                                                    new(baseInfo, new ProductInfo())
+                                                                };
 
-                                                    //! 更新ProcessData以供上報
-                                                    try
-                                                    {
-                                                        secsGem?.UpdateDV($"Oven{j}_ProcessData", JsonConvert.SerializeObject(products));
-                                                    }
-                                                    catch
-                                                    {
-                                                        // ignored
-                                                    }
+                                             //! 更新ProcessData以供上報
+                                             try
+                                             {
+                                                 secsGem?.UpdateDV($"Oven{j}_ProcessData", JsonConvert.SerializeObject(products));
+                                             }
+                                             catch
+                                             {
+                                                 // ignored
+                                             }
 
-                                                    if (!baseInfo.IsFinished)
-                                                    {
-                                                        secsGem?.InvokeEvent($"Oven{j}_ProcessAborted");
+                                             if (!baseInfo.IsFinished)
+                                             {
+                                                 secsGem?.InvokeEvent($"Oven{j}_ProcessAborted");
 
-                                                        dialog?.Show(new Dictionary<Language, string>
-                                                                     {
-                                                                         {Language.TW, $"第{index + 1}站已取消烘烤！"},
-                                                                         {Language.CHS, $"第{index + 1}站已取消烘烤！"},
-                                                                         {Language.EN, $"Oven No{index + 1}has been canceled!"}
-                                                                     },
-                                                                     TimeSpan.FromSeconds(2));
+                                                 dialog?.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  {Language.TW, $"第{index + 1}站已取消烘烤！"},
+                                                                  {Language.CHS, $"第{index + 1}站已取消烘烤！"},
+                                                                  {Language.EN, $"Oven No{index + 1}has been canceled!"}
+                                                              },
+                                                              TimeSpan.FromSeconds(2));
 
-                                                        return;
-                                                    }
+                                                 return;
+                                             }
 
-                                                    if (AddRecordToDB != null && index < TotalProduction.Count)
-                                                    {
-                                                        TotalProduction[index] = await AddRecordToDB.Invoke((index, products));
-                                                    }
+                                             if (AddRecordToDB != null && index < TotalProduction.Count)
+                                             {
+                                                 TotalProduction[index] = await AddRecordToDB.Invoke((index, products));
+                                             }
 
-                                                    secsGem?.InvokeEvent($"Oven{j}_ProcessComplete");
+                                             secsGem?.InvokeEvent($"Oven{j}_ProcessComplete");
 
-                                                    //!完成上傳後，清空生產資訊
-                                                    dialog?.Show(new Dictionary<Language, string>
-                                                                 {
-                                                                     {Language.TW, $"第{index + 1}站已完成烘烤！"},
-                                                                     {Language.CHS, $"第{index + 1}站已完成烘烤！"},
-                                                                     {Language.EN, $"Oven No{index + 1}has been finished!"}
-                                                                 },
-                                                                 TimeSpan.FromSeconds(2));
-                                                };
+                                             //!完成上傳後，清空生產資訊
+                                             dialog?.Show(new Dictionary<Language, string>
+                                                          {
+                                                              {Language.TW, $"第{index + 1}站已完成烘烤！"},
+                                                              {Language.CHS, $"第{index + 1}站已完成烘烤！"},
+                                                              {Language.EN, $"Oven No{index + 1}has been finished!"}
+                                                          },
+                                                          TimeSpan.FromSeconds(2));
+                                         };
 
                 //!由板架code取得前端生產資訊
                 plc.WantFrontData += async e =>
-                                            {
-                                                if (WantFrontData != null)
-                                                {
-                                                    return await WantFrontData.Invoke((index, e));
-                                                }
+                                     {
+                                         if (WantFrontData != null)
+                                         {
+                                             return await WantFrontData.Invoke((index, e));
+                                         }
 
-                                                return null;
-                                            };
+                                         return null;
+                                     };
 
                 //!由OP變更設備代碼時
                 plc.MachineCodeChanged += code =>
-                                                 {
-                                                     SaveMachineCodes(MachineCodesPath);
-                                                 };
+                                          {
+                                              SaveMachineCodes(MachineCodesPath);
+                                          };
 
                 //!由OP變更財產編號時
                 plc.AssetNumberChanged += code =>
-                                                 {
-                                                     SaveAssetNumbers(AssetNumbersPath);
-                                                 };
+                                          {
+                                              SaveAssetNumbers(AssetNumbersPath);
+                                          };
 
                 //!PLC配方輸入錯誤時
                 plc.RecipeKeyInError += () =>
-                                               {
-                                                   dialog?.Show(new Dictionary<Language, string>
-                                                                {
-                                                                    {Language.TW, $"第{index + 1}站配方輸入錯誤！"},
-                                                                    {Language.CHS, $"第{index + 1}站配方输入错误！"},
-                                                                    {Language.EN, $"Oven No{index + 1} recipe input error!"}
-                                                                },
-                                                                TimeSpan.FromSeconds(1),
-                                                                DialogMsgType.Alarm);
-                                               };
+                                        {
+                                            dialog?.Show(new Dictionary<Language, string>
+                                                         {
+                                                             {Language.TW, $"第{index + 1}站配方輸入錯誤！"},
+                                                             {Language.CHS, $"第{index + 1}站配方输入错误！"},
+                                                             {Language.EN, $"Oven No{index + 1} recipe input error!"}
+                                                         },
+                                                         TimeSpan.FromSeconds(1),
+                                                         DialogMsgType.Alarm);
+                                        };
 
                 //!PLC事件紀錄
                 plc.EventHappened += e =>
-                                            {
-                                                EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
-                                            };
+                                     {
+                                         EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
+                                     };
 
                 //!取消投產
                 plc.CancelCheckIn += RackID =>
-                                            {
-                                                CancelCheckIn?.Invoke((index, RackID));
-                                            };
+                                     {
+                                         CancelCheckIn?.Invoke((index, RackID));
+                                     };
 
                 plc.GetUser += () => GetUser?.Invoke();
 
                 plc.InvokeSECSEvent += EventName =>
-                                              {
-                                                  secsGem.InvokeEvent($"Oven{j}_{EventName}");
-                                              };
+                                       {
+                                           secsGem.InvokeEvent($"Oven{j}_{EventName}");
+                                       };
 
                 plc.InvokeSECSAlarm += (AlarmName, val) =>
-                                              {
-                                                  secsGem.InvokeAlarm($"Oven{j}_{AlarmName}", val);
-                                              };
+                                       {
+                                           secsGem.InvokeAlarm($"Oven{j}_{AlarmName}", val);
+                                       };
 
                 plc.SV_Changed += (name, value) =>
-                                         {
-                                             if (name == "RackID")
-                                             {
-                                                 value = value.ToString().Trim();
-                                             }
-                                             
-                                             secsGem.UpdateSV($"Oven{j}_{name}", value);
-                                         };
+                                  {
+                                      if (name == "RackID")
+                                      {
+                                          value = value.ToString().Trim();
+                                      }
+
+                                      secsGem.UpdateSV($"Oven{j}_{name}", value);
+                                  };
 
                 plc.RecipeChangedbyPLC += recipe =>
                                           {
@@ -614,39 +614,40 @@ namespace GPGO_MultiPLCs.ViewModels
             LoadAssetNumbers();
 
             #region PLCGate事件通知
+
             MessagesSent += (i, v) =>
+                            {
+                                try
+                                {
+                                    if (i <= -1)
+                                    {
+                                        return;
+                                    }
+
+                                    var plc = PLC_All[i];
+
+                                    plc.SetValues(v);
+                                }
+                                catch
+                                {
+                                    // ignored
+                                }
+                            };
+
+            StatusChanged += (i, v) =>
                              {
                                  try
                                  {
-                                     if (i <= -1)
+                                     if (i < PLC_All.Count && i > -1 && PLC_All[i].OnlineStatus != v)
                                      {
-                                         return;
+                                         PLC_All[i].OnlineStatus = v;
                                      }
-
-                                     var plc = PLC_All[i];
-
-                                     plc.SetValues(v);
                                  }
-                                 catch
+                                 catch (Exception)
                                  {
                                      // ignored
                                  }
                              };
-
-            StatusChanged += (i, v) =>
-                              {
-                                  try
-                                  {
-                                      if (i < PLC_All.Count && i > -1 && PLC_All[i].OnlineStatus != v)
-                                      {
-                                          PLC_All[i].OnlineStatus = v;
-                                      }
-                                  }
-                                  catch (Exception)
-                                  {
-                                      // ignored
-                                  }
-                              };
 
             GateOffline += () =>
                            {
@@ -657,6 +658,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                    plc.OnlineStatus = false;
                                }
                            };
+
             #endregion
 
             Checker = new Timer(_ =>
