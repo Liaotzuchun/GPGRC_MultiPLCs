@@ -10,7 +10,7 @@
         x:Name="Main"
         MinWidth="1024"
         MinHeight="768"
-        DataContext="{Binding MainVM, Source={StaticResource Connector}, Mode=OneTime}"
+        DataContext="{Binding MainVM, Source={StaticResource Mediator}, Mode=OneTime}"
         Icon="/GPGO_MultiPLCs;component/GP.ico"
         Loaded="Window_Loaded"
         Style="{StaticResource UniversalWindow}"
@@ -52,11 +52,11 @@
                 </Border.Visibility>
             </Border>
             <Grid>
-                <views:ScreenKeyboard UILanguage="{Binding Language, Source={StaticResource Connector}, Mode=OneWay}" />
+                <views:ScreenKeyboard UILanguage="{Binding Language, Source={StaticResource Mediator}, Mode=OneWay}" />
                 <local:Authenticator x:Name="Authenticator"
                                      DataContext="{StaticResource AuthenticatorViewModel}" />
                 <views:GlobalDialog x:Name="GlobalDialog"
-                                    DataContext="{Binding DialogVM, Source={StaticResource Connector}, Mode=OneTime}"
+                                    DataContext="{Binding DialogVM, Source={StaticResource Mediator}, Mode=OneTime}"
                                     IsVisibleChanged="GlobalDialog_IsVisibleChanged" />
             </Grid>
         </Grid>
@@ -95,22 +95,22 @@
                     SelectedIndex="{Binding ViewIndex, Mode=OneWay}">
             <TabItem Width="0"
                      Height="0">
-                <local:TotalView DataContext="{Binding TotalVM, Source={StaticResource Connector}, Mode=OneWay}" />
+                <local:TotalView DataContext="{Binding TotalVM, Source={StaticResource Mediator}, Mode=OneWay}" />
             </TabItem>
             <TabItem Width="0"
                      Height="0">
                 <local:RecipeControl Margin="0,4,0,0"
-                                     DataContext="{Binding RecipeVM, Source={StaticResource Connector}, Mode=OneWay}" />
+                                     DataContext="{Binding RecipeVM, Source={StaticResource Mediator}, Mode=OneWay}" />
             </TabItem>
             <TabItem Width="0"
                      Height="0">
                 <local:TraceabilityView Margin="0,4,0,0"
-                                        DataContext="{Binding TraceVM, Source={StaticResource Connector}, Mode=OneWay}" />
+                                        DataContext="{Binding TraceVM, Source={StaticResource Mediator}, Mode=OneWay}" />
             </TabItem>
             <TabItem Width="0"
                      Height="0">
                 <local:LogView Margin="0,4,0,0"
-                               DataContext="{Binding LogVM, Source={StaticResource Connector}, Mode=OneWay}" />
+                               DataContext="{Binding LogVM, Source={StaticResource Mediator}, Mode=OneWay}" />
             </TabItem>
         </TabControl>
     </Grid>

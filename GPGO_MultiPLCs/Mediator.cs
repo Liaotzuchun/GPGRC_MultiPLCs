@@ -17,10 +17,10 @@ using System.Windows.Threading;
 
 namespace GPGO_MultiPLCs
 {
-    public sealed class Connector : DependencyObject, IDisposable
+    public sealed class Mediator : DependencyObject, IDisposable
     {
-        public static readonly DependencyProperty OvenCountProperty     = DependencyProperty.Register(nameof(OvenCount),     typeof(int),    typeof(Connector), new PropertyMetadata(0,  OvenCountChanged));
-        public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
+        public static readonly DependencyProperty OvenCountProperty     = DependencyProperty.Register(nameof(OvenCount),     typeof(int),    typeof(Mediator), new PropertyMetadata(0,  OvenCountChanged));
+        public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Mediator), new PropertyMetadata("", null));
 
         public string DataInputPath
         {
@@ -28,7 +28,7 @@ namespace GPGO_MultiPLCs
             set => SetValue(DataInputPathProperty, value);
         }
 
-        public static readonly DependencyProperty DataOutputPathProperty = DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Connector), new PropertyMetadata("", null));
+        public static readonly DependencyProperty DataOutputPathProperty = DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Mediator), new PropertyMetadata("", null));
 
         public string DataOutputPath
         {
@@ -36,17 +36,17 @@ namespace GPGO_MultiPLCs
             set => SetValue(DataOutputPathProperty, value);
         }
 
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(User), typeof(User), typeof(Connector), new PropertyMetadata(default(User), UserChanged));
+        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(User), typeof(User), typeof(Mediator), new PropertyMetadata(default(User), UserChanged));
 
         public static readonly DependencyProperty LanguageProperty =
-            DependencyProperty.Register(nameof(Language), typeof(Language), typeof(Connector), new PropertyMetadata(Language.TW, LanguageChanged));
+            DependencyProperty.Register(nameof(Language), typeof(Language), typeof(Mediator), new PropertyMetadata(Language.TW, LanguageChanged));
 
         private static void LanguageChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var lng = (Language)Enum.Parse(typeof(Language), e.NewValue.ToString());
-            ((Connector)sender).DialogVM.Language = lng;
-            ((Connector)sender).TraceVM.Language  = lng;
-            ((Connector)sender).LogVM.Language    = lng;
+            ((Mediator)sender).DialogVM.Language = lng;
+            ((Mediator)sender).TraceVM.Language  = lng;
+            ((Mediator)sender).LogVM.Language    = lng;
         }
 
         public Language Language
@@ -58,7 +58,7 @@ namespace GPGO_MultiPLCs
         private static void OvenCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var count = (int)e.NewValue;
-            ((Connector)sender).TotalVM.OvenCount = count;
+            ((Mediator)sender).TotalVM.OvenCount = count;
         }
 
         public int OvenCount
@@ -70,7 +70,7 @@ namespace GPGO_MultiPLCs
         private static void UserChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var user = (User)e.NewValue;
-            ((Connector)sender).RecipeVM.UserName = user.Name;
+            ((Mediator)sender).RecipeVM.UserName = user.Name;
         }
 
         public User User
@@ -325,7 +325,7 @@ namespace GPGO_MultiPLCs
             }
         }
 
-        public Connector()
+        public Mediator()
         {
             var db = new MongoClient("mongodb://localhost:27017").GetDatabase("GP");
 

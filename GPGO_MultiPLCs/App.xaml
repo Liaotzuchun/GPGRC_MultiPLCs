@@ -15,7 +15,7 @@
                 <ResourceDictionary Source="Views/Languages/TW.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <vm:Authenticator_ViewModel x:Key="AuthenticatorViewModel" />
-            <local:Connector x:Key="Connector"
+            <local:Mediator x:Key="Mediator"
                              DataInputPath="{Binding Settings.DataInputPath, Source={StaticResource AuthenticatorViewModel}}"
                              DataOutputPath="{Binding Settings.DataOutputPath, Source={StaticResource AuthenticatorViewModel}}"
                              Language="{Binding Settings.Lng, Source={StaticResource AuthenticatorViewModel}}"
