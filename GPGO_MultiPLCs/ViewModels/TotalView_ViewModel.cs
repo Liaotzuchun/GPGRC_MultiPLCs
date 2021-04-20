@@ -661,12 +661,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
             Checker = new Timer(_ =>
                                 {
-                                    if (!Gate_Status)
+                                    if (!Gate_Status && Connect())
                                     {
-                                        if (Connect() && SetReadLists(PLC_All.Select(x => x.GetNameArray()).ToArray())) //!連線並發送訂閱列表
-                                        {
-                                            Gate_Status = true;
-                                        }
+                                        SetReadLists(PLC_All.Select(x => x.GetNameArray()).ToArray()); //!連線並發送訂閱列表
                                     }
 
                                     foreach (var plc in PLC_All)

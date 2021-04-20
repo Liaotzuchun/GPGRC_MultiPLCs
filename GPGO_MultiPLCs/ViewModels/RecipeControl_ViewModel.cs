@@ -53,7 +53,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 var TempSet = RecipeCollection.Find(x => x.RecipeName.Equals(name));
 
-                if (TempSet.Any())
+                if (TempSet.Any() && !TempSet[0].Equals(recipe))
                 {
                     RecipeCollection.Upsert(x => x.RecipeName.Equals(name), recipe);
                     RecipeCollection_History.Add(TempSet[0]);
