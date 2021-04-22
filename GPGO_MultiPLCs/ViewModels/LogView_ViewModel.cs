@@ -80,8 +80,8 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Set(value);
 
-                ViewResults_On  = value?.Where(x => x.Value is bool and true).ToList();
-                ViewResults_Off = value?.Where(x => x.Value is bool and false).ToList();
+                ViewResults_On  = value?.Where(x => x.Value is true).ToList();
+                ViewResults_Off = value?.Where(x => x.Value is false).ToList();
             }
         }
 
