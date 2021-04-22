@@ -884,9 +884,12 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
-
+                                            
                                             var recipe = new PLC_Recipe();
                                             recipe.CopyFromObj(this);
+                                            recipe.Updated     = DateTime.Now;
+                                            recipe.Editor      = "PLC";
+                                            recipe.EditorLevel = UserLevel.Operator;
 
                                             RecipeChangedbyPLC?.Invoke(recipe);
                                         }
