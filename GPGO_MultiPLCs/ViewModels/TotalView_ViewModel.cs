@@ -28,15 +28,22 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private readonly IDialogService Dialog;
         private readonly SECSThread     secsGem;
-
         /// <summary>財產編號儲存位置</summary>
         private const string AssetNumbersPath = "AssetNumbers.json";
-
         /// <summary>設備碼儲存位置</summary>
         private const string MachineCodesPath = "MachineCodes.json";
-
         /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
+
+        public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>>                         AddRecordToDB;
+        public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
+        public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
+        public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
+        public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
+        public event Func<(int StationIndex, string RackID), ValueTask<ICollection<ProductInfo>>>                     WantFrontData;
+        public event Func<User>                                                                                       GetUser;
+        public event Func<PLC_Recipe, ValueTask<bool>>                                                                UpsertRecipe;
+        public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
 
         public Language Language = Language.TW;
 
@@ -178,16 +185,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>>                         AddRecordToDB;
-        public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
-        public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
-        public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
-        public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
-        public event Func<(int StationIndex, string RackID), ValueTask<ICollection<ProductInfo>>>                     WantFrontData;
-        public event Func<User>                                                                                       GetUser;
-        public event Func<PLC_Recipe, ValueTask<bool>>                                                                UpsertRecipe;
-        public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
-
         /// <summary>讀取財產編號</summary>
         public void LoadAssetNumbers()
         {
@@ -288,7 +285,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public void InvokeRecipe(string name, SECSThread.PPStatus status)
         {
-            secsGem?.UpdateDV("GemPPChangeName",   name);
+            secsGem?.UpdateDV("GemPPChangeName", name);
             secsGem?.UpdateDV("GemPPChangeStatus", (int)status);
             secsGem?.InvokeEvent("GemProcessProgramChange");
         }
@@ -369,7 +366,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.Start += index =>
                              {
-                                 if (!Gate_Status || !PLC_All[index].OnlineStatus) return HCACKValule.CantPerform;
+                                 if (!Gate_Status || !PLC_All[index].OnlineStatus)
+                                 {
+                                     return HCACKValule.CantPerform;
+                                 }
 
                                  PLC_All[index].RemoteCommandStart = true;
 
@@ -378,7 +378,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.Stop += index =>
                             {
-                                if (!Gate_Status || !PLC_All[index].OnlineStatus) return HCACKValule.CantPerform;
+                                if (!Gate_Status || !PLC_All[index].OnlineStatus)
+                                {
+                                    return HCACKValule.CantPerform;
+                                }
 
                                 PLC_All[index].RemoteCommandStop = true;
 
@@ -387,7 +390,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.SetRecipe += (index, name) =>
                                  {
-                                     if (!Gate_Status || !PLC_All[index].OnlineStatus) return HCACKValule.CantPerform;
+                                     if (!Gate_Status || !PLC_All[index].OnlineStatus)
+                                     {
+                                         return HCACKValule.CantPerform;
+                                     }
 
                                      return PLC_All[index].SetRecipe(name) ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
                                  };
@@ -410,7 +416,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   PLC_All[index].Ext_Info.Add(info);
                                   Task.Run(() =>
                                            {
-                                               Task.Delay(TimeSpan.FromMilliseconds(100)).Wait();
+                                               Thread.Sleep(100);
                                                secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
                                            });
                                   return HCACKValule.Acknowledge;
@@ -534,7 +540,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                              secsGem?.InvokeEvent($"Oven{j}_ProcessComplete");
 
-                                             //!完成上傳後，清空生產資訊
                                              dialog?.Show(new Dictionary<Language, string>
                                                           {
                                                               {Language.TW, $"第{index + 1}站已完成烘烤！"},

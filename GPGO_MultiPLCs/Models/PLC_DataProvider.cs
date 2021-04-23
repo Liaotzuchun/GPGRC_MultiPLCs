@@ -65,13 +65,13 @@ namespace GPGO_MultiPLCs.Models
 
         public RelayCommand CheckRecipeCommand_KeyLeave { get; }
 
-        /// <summary>前製程資訊</summary>
+        /// <summary>產品資訊</summary>
         public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new();
 
         /// <summary>取得是否正在紀錄溫度</summary>
         public bool IsExecuting => ExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
 
-        /// <summary>紀錄的資訊</summary>
+        /// <summary>機台資訊</summary>
         public BaseInfo OvenInfo { get; }
 
         public int Quantity => Ext_Info.Sum(x => x.PanelIDs.Count);
@@ -91,7 +91,7 @@ namespace GPGO_MultiPLCs.Models
                     return 1.0;
                 }
 
-                var d   = 1 / (StepCounts + 1) / 2;
+                var d = 1 / (StepCounts + 1) / 2;
                 var val = (double)CurrentStep / (StepCounts + 1);
 
                 if (IsWarming)
@@ -164,79 +164,7 @@ namespace GPGO_MultiPLCs.Models
         public Task ExecutingTask
         {
             get => Get<Task>();
-            set
-            {
-                Set(value);
-
-                value.ContinueWith(async x =>
-                                   {
-                                       NotifyPropertyChanged(nameof(IsExecuting));
-
-                                       x.Dispose();
-
-                                       var h = new[]
-                                               {
-                                                   RampTime_1, RampTime_2, RampTime_3, RampTime_4,
-                                                   RampTime_5, RampTime_6, RampTime_7, RampTime_8
-                                               };
-                                       var w = new[]
-                                               {
-                                                   DwellTime_1, DwellTime_2, DwellTime_3, DwellTime_4,
-                                                   DwellTime_5, DwellTime_6, DwellTime_7, DwellTime_8
-                                               };
-
-                                       var ha = new[]
-                                                {
-                                                    RampAlarm_1, RampAlarm_2, RampAlarm_3, RampAlarm_4,
-                                                    RampAlarm_5, RampAlarm_6, RampAlarm_7, RampAlarm_8
-                                                };
-                                       var wa = new[]
-                                                {
-                                                    DwellAlarm_1, DwellAlarm_2, DwellAlarm_3, DwellAlarm_4,
-                                                    DwellAlarm_5, DwellAlarm_6, DwellAlarm_7, DwellAlarm_8
-                                                };
-                                       var t = new[]
-                                               {
-                                                   TemperatureSetpoint_1, TemperatureSetpoint_2, TemperatureSetpoint_3, TemperatureSetpoint_4,
-                                                   TemperatureSetpoint_5, TemperatureSetpoint_6, TemperatureSetpoint_7, TemperatureSetpoint_8
-                                               };
-                                       var s = new[]
-                                               {
-                                                   DwellTemperature_1, DwellTemperature_2, DwellTemperature_3, DwellTemperature_4,
-                                                   DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
-                                               };
-                                       Array.Resize(ref h,  StepCounts);
-                                       Array.Resize(ref w,  StepCounts);
-                                       Array.Resize(ref ha, StepCounts);
-                                       Array.Resize(ref wa, StepCounts);
-                                       Array.Resize(ref t,  StepCounts);
-                                       Array.Resize(ref s,  StepCounts);
-
-                                       //!結束生產，填入資料
-                                       OvenInfo.EndTime                = DateTime.Now;
-                                       OvenInfo.Recipe                 = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
-                                       OvenInfo.RampTimes              = h.ToList();
-                                       OvenInfo.DwellTimes             = w.ToList();
-                                       OvenInfo.RampAlarms             = ha.ToList();
-                                       OvenInfo.DwellAlarms            = wa.ToList();
-                                       OvenInfo.TotalRampTime          = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
-                                       OvenInfo.TargetOvenTemperatures = t.ToList();
-                                       OvenInfo.DwellTemperatures      = s.ToList();
-
-                                       if (ExecutingFinished != null)
-                                       {
-                                           await ExecutingFinished.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
-                                       }
-
-                                       //OvenInfo.Clear();
-                                       //Ext_Info.Clear();
-
-                                       ////!需在引發紀錄完成後才觸發取消投產
-                                       //CheckInCommand.Result = false;
-                                   });
-
-                NotifyPropertyChanged(nameof(IsExecuting));
-            }
+            set => Set(value);
         }
 
         /// <summary>OP選擇的配方名稱</summary>
@@ -417,16 +345,16 @@ namespace GPGO_MultiPLCs.Models
 
             await OneScheduler.StartNew(() =>
                                         {
-                                            var n                      = TimeSpan.Zero;
+                                            var n = TimeSpan.Zero;
                                             var _ThermostatTemperature = PV_ThermostatTemperature;
-                                            var _OvenTemperature_1     = OvenTemperature_1;
-                                            var _OvenTemperature_2     = OvenTemperature_2;
-                                            var _OvenTemperature_3     = OvenTemperature_3;
-                                            var _OvenTemperature_4     = OvenTemperature_4;
-                                            var _OvenTemperature_5     = OvenTemperature_5;
-                                            var _OvenTemperature_6     = OvenTemperature_6;
-                                            var _OvenTemperature_7     = OvenTemperature_7;
-                                            var _OvenTemperature_8     = OvenTemperature_8;
+                                            var _OvenTemperature_1 = OvenTemperature_1;
+                                            var _OvenTemperature_2 = OvenTemperature_2;
+                                            var _OvenTemperature_3 = OvenTemperature_3;
+                                            var _OvenTemperature_4 = OvenTemperature_4;
+                                            var _OvenTemperature_5 = OvenTemperature_5;
+                                            var _OvenTemperature_6 = OvenTemperature_6;
+                                            var _OvenTemperature_7 = OvenTemperature_7;
+                                            var _OvenTemperature_8 = OvenTemperature_8;
 
                                             while (!ct.IsCancellationRequested)
                                             {
@@ -494,6 +422,70 @@ namespace GPGO_MultiPLCs.Models
 
             ResetStopTokenSource();
             ExecutingTask = StartRecoder(60000, CTS.Token);
+            _ = ExecutingTask.ContinueWith(x =>
+                                           {
+                                               x.Dispose();
+
+                                               var h = new[]
+                                                       {
+                                                           RampTime_1, RampTime_2, RampTime_3, RampTime_4,
+                                                           RampTime_5, RampTime_6, RampTime_7, RampTime_8
+                                                       };
+                                               var w = new[]
+                                                       {
+                                                           DwellTime_1, DwellTime_2, DwellTime_3, DwellTime_4,
+                                                           DwellTime_5, DwellTime_6, DwellTime_7, DwellTime_8
+                                                       };
+
+                                               var ha = new[]
+                                                        {
+                                                            RampAlarm_1, RampAlarm_2, RampAlarm_3, RampAlarm_4,
+                                                            RampAlarm_5, RampAlarm_6, RampAlarm_7, RampAlarm_8
+                                                        };
+                                               var wa = new[]
+                                                        {
+                                                            DwellAlarm_1, DwellAlarm_2, DwellAlarm_3, DwellAlarm_4,
+                                                            DwellAlarm_5, DwellAlarm_6, DwellAlarm_7, DwellAlarm_8
+                                                        };
+                                               var t = new[]
+                                                       {
+                                                           TemperatureSetpoint_1, TemperatureSetpoint_2, TemperatureSetpoint_3, TemperatureSetpoint_4,
+                                                           TemperatureSetpoint_5, TemperatureSetpoint_6, TemperatureSetpoint_7, TemperatureSetpoint_8
+                                                       };
+                                               var s = new[]
+                                                       {
+                                                           DwellTemperature_1, DwellTemperature_2, DwellTemperature_3, DwellTemperature_4,
+                                                           DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
+                                                       };
+
+                                               Array.Resize(ref h, StepCounts);
+                                               Array.Resize(ref w, StepCounts);
+                                               Array.Resize(ref ha, StepCounts);
+                                               Array.Resize(ref wa, StepCounts);
+                                               Array.Resize(ref t, StepCounts);
+                                               Array.Resize(ref s, StepCounts);
+
+                                               //!結束生產，填入資料
+                                               OvenInfo.EndTime                = DateTime.Now;
+                                               OvenInfo.Recipe                 = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                               OvenInfo.RampTimes              = h.ToList();
+                                               OvenInfo.DwellTimes             = w.ToList();
+                                               OvenInfo.RampAlarms             = ha.ToList();
+                                               OvenInfo.DwellAlarms            = wa.ToList();
+                                               OvenInfo.TotalRampTime          = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
+                                               OvenInfo.TargetOvenTemperatures = t.ToList();
+                                               OvenInfo.DwellTemperatures      = s.ToList();
+
+                                               ExecutingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
+
+                                               //OvenInfo.Clear();
+                                               //Ext_Info.Clear();
+
+                                               ////!需在引發紀錄完成後才觸發取消投產
+                                               //CheckInCommand.Result = false;
+                                           });
+
+            NotifyPropertyChanged(nameof(IsExecuting));
         }
 
         public async Task StopPP()
@@ -874,7 +866,7 @@ namespace GPGO_MultiPLCs.Models
                                             //!需在引發紀錄完成後才觸發取消投產
                                             CheckInCommand.Result = false;
                                             InvokeSECSEvent?.Invoke(nameof(RackOutput));
-                                            OvenInfo?.Clear();
+                                            OvenInfo.Clear();
                                             Ext_Info.Clear();
                                             RackOutput = false; //清訊號
                                         }
@@ -884,7 +876,7 @@ namespace GPGO_MultiPLCs.Models
                                             {
                                                 return;
                                             }
-                                            
+
                                             var recipe = new PLC_Recipe();
                                             recipe.CopyFromObj(this);
                                             recipe.Updated     = DateTime.Now;
@@ -991,12 +983,12 @@ namespace GPGO_MultiPLCs.Models
                                           {
                                               NotifyPropertyChanged(nameof(Quantity));
 
-                                              var lots   = Ext_Info.Select(x => x.LotID).Distinct();
-                                              var parts  = Ext_Info.Select(x => x.PartID).Distinct();
+                                              var lots = Ext_Info.Select(x => x.LotID).Distinct();
+                                              var parts = Ext_Info.Select(x => x.PartID).Distinct();
                                               var panels = Ext_Info.SelectMany(x => x.PanelIDs).Distinct();
 
-                                              SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
-                                              SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("LotIDs", lots.Any() ? string.Join(",", Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("PartIDs", parts.Any() ? string.Join(",", Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
                                               SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                           };
 
