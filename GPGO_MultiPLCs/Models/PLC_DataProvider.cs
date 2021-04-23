@@ -208,14 +208,14 @@ namespace GPGO_MultiPLCs.Models
                 StepCounts            = PV_StepCounts
             };
 
-        public void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) e)
+        public void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
         {
             if (!IsExecuting)
             {
                 return;
             }
 
-            var (type, addtime, note, tag, value) = e;
+            var (type, addtime, note, tag, value) = eventdata;
             OvenInfo.EventList.Add(new LogEvent
                                    {
                                        Type        = type,

@@ -297,9 +297,9 @@ namespace GPGO_MultiPLCs.ViewModels
             PLC_All   = new PLC_DataProvider[OvenCount];
             ViewIndex = -1;
 
-            BackCommand = new RelayCommand(o =>
+            BackCommand = new RelayCommand(index =>
                                            {
-                                               Index = int.TryParse(o.ToString(), out var i) ? i : 0;
+                                               Index = int.TryParse(index.ToString(), out var i) ? i : 0;
                                            });
 
             TotalProduction = new ObservableConcurrentDictionary<int, int>();
@@ -398,9 +398,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                      return PLC_All[index].SetRecipe(name) ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
                                  };
 
-            secsGem.AddLOT += (index, o) =>
+            secsGem.AddLOT += (index, lot) =>
                               {
-                                  var (lotID, partID, panels) = o;
+                                  var (lotID, partID, panels) = lot;
 
                                   var info = new ProductInfo
                                              {
@@ -439,14 +439,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                   return HCACKValule.Acknowledge;
                               };
 
-            secsGem.CommEnable_Changed += e =>
+            secsGem.CommEnable_Changed += boolval =>
                                           {
-                                              Set(e, nameof(SECS_ENABLE));
+                                              Set(boolval, nameof(SECS_ENABLE));
                                           };
 
-            secsGem.Communicating_Changed += e =>
+            secsGem.Communicating_Changed += boolval =>
                                              {
-                                                 Set(e, nameof(SECS_Communicating));
+                                                 Set(boolval, nameof(SECS_Communicating));
                                              };
 
             secsGem.ONLINE_Changed += online =>
@@ -550,11 +550,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                          };
 
                 //!由板架code取得前端生產資訊
-                plc.WantFrontData += async e =>
+                plc.WantFrontData += async code =>
                                      {
                                          if (WantFrontData != null)
                                          {
-                                             return await WantFrontData.Invoke((index, e));
+                                             return await WantFrontData.Invoke((index, code));
                                          }
 
                                          return null;
