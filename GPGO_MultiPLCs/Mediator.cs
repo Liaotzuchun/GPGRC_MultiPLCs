@@ -83,8 +83,6 @@ namespace GPGO_MultiPLCs
 
         private readonly AsyncLock lockobj = new();
 
-        private AsyncAutoResetEvent _Testdatalock;
-
         public GlobalDialog_ViewModel     DialogVM { get; }
         public LogView_ViewModel          LogVM    { get; }
         public MainWindow_ViewModel       MainVM   { get; }
@@ -94,11 +92,8 @@ namespace GPGO_MultiPLCs
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
-        public async void MakeTestData(int PLC_Count)
+        public void MakeTestData(int PLC_Count)
         {
-            _Testdatalock = new AsyncAutoResetEvent();
-            await _Testdatalock.WaitAsync();
-
             var partnum = new[]
                           {
                               "ooxx", "abc", "zzz", "qoo",
@@ -535,12 +530,6 @@ namespace GPGO_MultiPLCs
                                                                },
                                                                TimeSpan.FromSeconds(3),
                                                                DialogMsgType.Alert);
-                                             }
-
-                                             //!當偵測到有測試資料需生成時
-                                             if (_Testdatalock != null && !_Testdatalock.IsSet())
-                                             {
-                                                 _Testdatalock.Set();
                                              }
                                          };
 

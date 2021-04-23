@@ -369,6 +369,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.Start += index =>
                              {
+                                 if (!Gate_Status || !PLC_All[index].OnlineStatus) return HCACKValule.CantPerform;
+
                                  PLC_All[index].RemoteCommandStart = true;
 
                                  return HCACKValule.Acknowledge;
@@ -376,12 +378,19 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.Stop += index =>
                             {
+                                if (!Gate_Status || !PLC_All[index].OnlineStatus) return HCACKValule.CantPerform;
+
                                 PLC_All[index].RemoteCommandStop = true;
 
                                 return HCACKValule.Acknowledge;
                             };
 
-            secsGem.SetRecipe += (index, name) => PLC_All[index].SetRecipe(name) ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
+            secsGem.SetRecipe += (index, name) =>
+                                 {
+                                     if (!Gate_Status || !PLC_All[index].OnlineStatus) return HCACKValule.CantPerform;
+
+                                     return PLC_All[index].SetRecipe(name) ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
+                                 };
 
             secsGem.AddLOT += (index, o) =>
                               {
@@ -406,6 +415,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                            });
                                   return HCACKValule.Acknowledge;
                               };
+
             secsGem.CANCEL += index =>
                               {
                                   PLC_All[index].Ext_Info.Clear();
