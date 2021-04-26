@@ -42,27 +42,11 @@ namespace GPGO_MultiPLCs.Models
                     break;
                 case "PP_SELECT":
                     AxQGWrapper.GetSV(4, out _, out Value);
-                    if (Convert.ToInt32(Value) == 4) //GemControlState 4:OnLine Local, 5:OnLine Remote
-                    {
-                        HCACK = HCACKValule.CantPerform;
-                    }
-                    else
-                    {
-                        HCACK = PP_SELECTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
-                    }
-
+                    HCACK = Convert.ToInt32(Value) == 4 ? HCACKValule.CantPerform : PP_SELECTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "START":
                     AxQGWrapper.GetSV(4, out _, out Value);
-                    if (Convert.ToInt32(Value) == 4) //GemControlState 4:OnLine Local, 5:OnLine Remote
-                    {
-                        HCACK = HCACKValule.CantPerform;
-                    }
-                    else
-                    {
-                        HCACK = STARTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
-                    }
-
+                    HCACK = Convert.ToInt32(Value) == 4 ? HCACKValule.CantPerform : STARTCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
                     break;
                 case "STOP":
                     HCACK = STOPCommand?.Invoke(RemoteCommand) ?? HCACKValule.CantPerform;
