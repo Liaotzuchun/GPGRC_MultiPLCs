@@ -1,4 +1,5 @@
-﻿using GPMVVM.Helpers;
+﻿using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PLCService;
 using System;
@@ -9,10 +10,10 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
 
-namespace GPGO_MultiPLCs.Models
+namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>連接PLC並提供PLC資訊</summary>
-    public sealed class PLC_DataProvider : GOL_DataModel, IDisposable
+    public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         #region Interface implement
 
@@ -91,7 +92,7 @@ namespace GPGO_MultiPLCs.Models
                     return 1.0;
                 }
 
-                var d = 1 / (StepCounts + 1) / 2;
+                var d   = 1 / (StepCounts + 1) / 2;
                 var val = (double)CurrentStep / (StepCounts + 1);
 
                 if (IsWarming)
@@ -345,16 +346,16 @@ namespace GPGO_MultiPLCs.Models
 
             await OneScheduler.StartNew(() =>
                                         {
-                                            var n = TimeSpan.Zero;
+                                            var n                      = TimeSpan.Zero;
                                             var _ThermostatTemperature = PV_ThermostatTemperature;
-                                            var _OvenTemperature_1 = OvenTemperature_1;
-                                            var _OvenTemperature_2 = OvenTemperature_2;
-                                            var _OvenTemperature_3 = OvenTemperature_3;
-                                            var _OvenTemperature_4 = OvenTemperature_4;
-                                            var _OvenTemperature_5 = OvenTemperature_5;
-                                            var _OvenTemperature_6 = OvenTemperature_6;
-                                            var _OvenTemperature_7 = OvenTemperature_7;
-                                            var _OvenTemperature_8 = OvenTemperature_8;
+                                            var _OvenTemperature_1     = OvenTemperature_1;
+                                            var _OvenTemperature_2     = OvenTemperature_2;
+                                            var _OvenTemperature_3     = OvenTemperature_3;
+                                            var _OvenTemperature_4     = OvenTemperature_4;
+                                            var _OvenTemperature_5     = OvenTemperature_5;
+                                            var _OvenTemperature_6     = OvenTemperature_6;
+                                            var _OvenTemperature_7     = OvenTemperature_7;
+                                            var _OvenTemperature_8     = OvenTemperature_8;
 
                                             while (!ct.IsCancellationRequested)
                                             {
@@ -458,12 +459,12 @@ namespace GPGO_MultiPLCs.Models
                                                            DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
                                                        };
 
-                                               Array.Resize(ref h, StepCounts);
-                                               Array.Resize(ref w, StepCounts);
+                                               Array.Resize(ref h,  StepCounts);
+                                               Array.Resize(ref w,  StepCounts);
                                                Array.Resize(ref ha, StepCounts);
                                                Array.Resize(ref wa, StepCounts);
-                                               Array.Resize(ref t, StepCounts);
-                                               Array.Resize(ref s, StepCounts);
+                                               Array.Resize(ref t,  StepCounts);
+                                               Array.Resize(ref s,  StepCounts);
 
                                                //!結束生產，填入資料
                                                OvenInfo.EndTime                = DateTime.Now;
@@ -514,7 +515,7 @@ namespace GPGO_MultiPLCs.Models
             Ext_Info.Add(info);
         }
 
-        public PLC_DataProvider(IDialogService dialog)
+        public PLC_ViewModel(IDialogService dialog)
         {
             Dialog = dialog;
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
@@ -983,12 +984,12 @@ namespace GPGO_MultiPLCs.Models
                                           {
                                               NotifyPropertyChanged(nameof(Quantity));
 
-                                              var lots = Ext_Info.Select(x => x.LotID).Distinct();
-                                              var parts = Ext_Info.Select(x => x.PartID).Distinct();
+                                              var lots   = Ext_Info.Select(x => x.LotID).Distinct();
+                                              var parts  = Ext_Info.Select(x => x.PartID).Distinct();
                                               var panels = Ext_Info.SelectMany(x => x.PanelIDs).Distinct();
 
-                                              SV_Changed?.Invoke("LotIDs", lots.Any() ? string.Join(",", Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
-                                              SV_Changed?.Invoke("PartIDs", parts.Any() ? string.Join(",", Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
                                               SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                           };
 

@@ -51,12 +51,12 @@ namespace GPGO_MultiPLCs.ViewModels
         public RelayCommand BackCommand { get; }
 
         /// <summary>所有PLC</summary>
-        public IList<PLC_DataProvider> PLC_All { get; }
+        public IList<PLC_ViewModel> PLC_All { get; }
 
-        public IEnumerable<PLC_DataProvider> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount);
+        public IEnumerable<PLC_ViewModel> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount);
 
         /// <summary>檢視詳細資訊的PLC</summary>
-        public PLC_DataProvider PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
+        public PLC_ViewModel PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
 
         /// <summary>產量統計</summary>
         public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
@@ -294,7 +294,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Dialog    = dialog;
             OvenCount = count;
-            PLC_All   = new PLC_DataProvider[OvenCount];
+            PLC_All   = new PLC_ViewModel[OvenCount];
             ViewIndex = -1;
 
             BackCommand = new RelayCommand(index =>
@@ -470,7 +470,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 var j = i + 1;
 
                 TotalProduction.Add(i, 0);
-                var plc = new PLC_DataProvider(dialog);
+                var plc = new PLC_ViewModel(dialog);
                 PLC_All[i] = plc;
                 var index = i;
 

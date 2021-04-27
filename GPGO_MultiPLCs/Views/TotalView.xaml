@@ -22,7 +22,7 @@
         <local:DoublesTakeCount x:Key="DoublesTakeCount" />
         <models:EventTypeToColor x:Key="EventTypeToColor" />
         <DataTemplate x:Key="ProgressDataTemplate"
-                      DataType="models:PLC_DataProvider">
+                      DataType="vm:PLC_ViewModel">
             <Grid>
                 <ProgressBar x:Name="Progress"
                              Maximum="1"
@@ -148,9 +148,9 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
-                            <DataTemplate DataType="models:PLC_DataProvider">
+                            <DataTemplate DataType="vm:PLC_ViewModel">
                                 <Grid Margin="1"
-                                      d:DataContext="{d:DesignInstance models:PLC_DataProvider}"
+                                      d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
                                       Background="{StaticResource LightColorBrush}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -229,8 +229,7 @@
                                                              Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}"
                                                              Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                                 </UniformGrid>-->
-                                                <Border 
-                                                        Grid.Row="0"
+                                                <Border Grid.Row="0"
                                                         Grid.Column="0"
                                                         Background="{StaticResource WindowBackgroundBrush6}"
                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"

@@ -247,7 +247,7 @@
     <Compile Include="Models\GOSECS.cs" />
     <Compile Include="Models\PLC_Recipe.cs" />
     <Compile Include="Models\ProcessInfo.cs" />
-    <Compile Include="Models\PLC_DataProvider.cs" />
+    <Compile Include="ViewModels\PLC_ViewModel.cs" />
     <Compile Include="Models\RecordInfo.cs" />
     <Compile Include="Models\SECSThread.cs" />
     <Compile Include="ViewModels\Authenticator_ViewModel.cs" />
