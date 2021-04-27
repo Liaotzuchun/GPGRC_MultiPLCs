@@ -515,7 +515,7 @@ namespace GPGO_MultiPLCs.ViewModels
             Ext_Info.Add(info);
         }
 
-        public PLC_ViewModel(IDialogService dialog)
+        public PLC_ViewModel(IDialogService dialog, int shift) : base(shift)
         {
             Dialog = dialog;
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>

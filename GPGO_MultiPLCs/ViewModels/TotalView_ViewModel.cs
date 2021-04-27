@@ -470,7 +470,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 var j = i + 1;
 
                 TotalProduction.Add(i, 0);
-                var plc = new PLC_ViewModel(dialog);
+                var plc = new PLC_ViewModel(dialog, 0);
+
                 PLC_All[i] = plc;
                 var index = i;
 
@@ -680,6 +681,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 {
                                     if (!Gate_Status && Connect())
                                     {
+                                        //SetReadLists(new[] {PLC_All.Select(x => x.GetNameArray()).SelectMany(y => y).OrderBy(z => z[0]).ThenBy(z=> int.Parse(z.Substring(1))).ToArray()}); //!連線並發送訂閱列表
                                         SetReadLists(PLC_All.Select(x => x.GetNameArray()).ToArray()); //!連線並發送訂閱列表
                                     }
 

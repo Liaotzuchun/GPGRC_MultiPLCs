@@ -1600,6 +1600,11 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
+        public GOL_DataModel(int shift) : base(shift)
+        {
+
+        }
+
         #endregion
     }
 }
