@@ -647,18 +647,16 @@ namespace GPGO_MultiPLCs.ViewModels
 
             #region PLCGate事件通知
 
-            MessagesSent += (i, v) =>
+            MessagesSent += (index, msgs) =>
                             {
                                 try
                                 {
-                                    if (i <= -1)
+                                    if (index <= -1)
                                     {
                                         return;
                                     }
 
-                                    var plc = PLC_All[i];
-
-                                    plc.SetValues(v[""]);
+                                    PLC_All[index].SetValues(msgs["GOL"]);
                                 }
                                 catch
                                 {
@@ -699,7 +697,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     {
                                         var list = PLC_All.Select(x => new Dictionary<string, string[]>
                                                                        {
-                                                                           {"", x.GetNameArray()}
+                                                                           {"GOL", x.GetNameArray()}
                                                                        }).ToArray();
                                         SetReadLists(list); //!連線並發送訂閱列表
                                     }
