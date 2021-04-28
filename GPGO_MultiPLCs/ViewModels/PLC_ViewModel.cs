@@ -12,7 +12,6 @@ using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
-    /// <summary>連接PLC並提供PLC資訊</summary>
     public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         #region Interface implement
@@ -515,7 +514,7 @@ namespace GPGO_MultiPLCs.ViewModels
             Ext_Info.Add(info);
         }
 
-        public PLC_ViewModel(IDialogService dialog, int shift) : base(shift)
+        public PLC_ViewModel(IDialogService dialog, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift) : base(shift)
         {
             Dialog = dialog;
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>

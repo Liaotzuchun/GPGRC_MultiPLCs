@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GP_SECS_GEM;
+using GPMVVM.PLCService;
 using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
@@ -28,10 +29,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private readonly IDialogService Dialog;
         private readonly SECSThread     secsGem;
+
         /// <summary>財產編號儲存位置</summary>
         private const string AssetNumbersPath = "AssetNumbers.json";
+
         /// <summary>設備碼儲存位置</summary>
         private const string MachineCodesPath = "MachineCodes.json";
+
         /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
 
@@ -285,7 +289,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public void InvokeRecipe(string name, SECSThread.PPStatus status)
         {
-            secsGem?.UpdateDV("GemPPChangeName", name);
+            secsGem?.UpdateDV("GemPPChangeName",   name);
             secsGem?.UpdateDV("GemPPChangeStatus", (int)status);
             secsGem?.InvokeEvent("GemProcessProgramChange");
         }
@@ -470,7 +474,19 @@ namespace GPGO_MultiPLCs.ViewModels
                 var j = i + 1;
 
                 TotalProduction.Add(i, 0);
-                var plc = new PLC_ViewModel(dialog, 0);
+                var plc = new PLC_ViewModel(dialog, (bits_shift: new Dictionary<BitType, int>
+                                                                 {
+                                                                     {BitType.B, 0},
+                                                                     {BitType.M, 0},
+                                                                     {BitType.S, 0},
+                                                                     {BitType.X, 0},
+                                                                     {BitType.Y, 0}
+                                                                 },
+                                                     datas_shift: new Dictionary<DataType, int>
+                                                                  {
+                                                                      {DataType.D, 0},
+                                                                      {DataType.W, 0}
+                                                                  })); //!可指定PLC點位位移
 
                 PLC_All[i] = plc;
                 var index = i;
@@ -642,7 +658,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                     var plc = PLC_All[i];
 
-                                    plc.SetValues(v);
+                                    plc.SetValues(v[""]);
                                 }
                                 catch
                                 {
@@ -681,8 +697,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                 {
                                     if (!Gate_Status && Connect())
                                     {
-                                        //SetReadLists(new[] {PLC_All.Select(x => x.GetNameArray()).SelectMany(y => y).OrderBy(z => z[0]).ThenBy(z=> int.Parse(z.Substring(1))).ToArray()}); //!連線並發送訂閱列表
-                                        SetReadLists(PLC_All.Select(x => x.GetNameArray()).ToArray()); //!連線並發送訂閱列表
+                                        var list = PLC_All.Select(x => new Dictionary<string, string[]>
+                                                                       {
+                                                                           {"", x.GetNameArray()}
+                                                                       }).ToArray();
+                                        SetReadLists(list); //!連線並發送訂閱列表
                                     }
 
                                     foreach (var plc in PLC_All)

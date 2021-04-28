@@ -1,4 +1,5 @@
-﻿using GPMVVM.Models;
+﻿using System.Collections.Generic;
+using GPMVVM.Models;
 using GPMVVM.PLCService;
 
 namespace GPGO_MultiPLCs.Models
@@ -1427,12 +1428,14 @@ namespace GPGO_MultiPLCs.Models
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
+
         [PLCBitData(DataType.D, 12010, 2, LogType.Status)]
         public bool ProcessComplete
         {
             get => GetPLC<bool>();
             set => SetPLC(value);
         }
+
         [PLCBitData(DataType.D, 12010, 5, LogType.Status)]
         public bool AutoMode_Stop
         {
@@ -1600,9 +1603,8 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
-        public GOL_DataModel(int shift) : base(shift)
+        public GOL_DataModel((Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift) : base(shift)
         {
-
         }
 
         #endregion
