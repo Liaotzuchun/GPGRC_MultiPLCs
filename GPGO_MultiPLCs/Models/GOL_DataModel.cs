@@ -5,7 +5,7 @@ using GPMVVM.PLCService;
 namespace GPGO_MultiPLCs.Models
 {
     [PLCObject]
-    public class GOL_DataModel : DataProvider
+    public class GOL_DataModel : PLCDataProvider
     {
         #region PC=>PLC
 
