@@ -13,77 +13,57 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace GPGO_MultiPLCs
 {
-    public sealed class Mediator : DependencyObject, IDisposable
+    public sealed class Mediator : ObservableObject, IDisposable
     {
-        public static readonly DependencyProperty OvenCountProperty     = DependencyProperty.Register(nameof(OvenCount),     typeof(int),    typeof(Mediator), new PropertyMetadata(0,  OvenCountChanged));
-        public static readonly DependencyProperty DataInputPathProperty = DependencyProperty.Register(nameof(DataInputPath), typeof(string), typeof(Mediator), new PropertyMetadata("", null));
-
         public string DataInputPath
         {
-            get => (string)GetValue(DataInputPathProperty);
-            set => SetValue(DataInputPathProperty, value);
+            get => Get<string>();
+            set => Set(value);
         }
-
-        public static readonly DependencyProperty DataOutputPathProperty = DependencyProperty.Register(nameof(DataOutputPath), typeof(string), typeof(Mediator), new PropertyMetadata("", null));
 
         public string DataOutputPath
         {
-            get => (string)GetValue(DataOutputPathProperty);
-            set => SetValue(DataOutputPathProperty, value);
-        }
-
-        public static readonly DependencyProperty UserProperty = DependencyProperty.Register(nameof(User), typeof(User), typeof(Mediator), new PropertyMetadata(default(User), UserChanged));
-
-        public static readonly DependencyProperty LanguageProperty =
-            DependencyProperty.Register(nameof(Language), typeof(Language), typeof(Mediator), new PropertyMetadata(Language.TW, LanguageChanged));
-
-        private static void LanguageChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var lng = (Language)Enum.Parse(typeof(Language), e.NewValue.ToString());
-            ((Mediator)sender).DialogVM.Language = lng;
-            ((Mediator)sender).TraceVM.Language  = lng;
-            ((Mediator)sender).LogVM.Language    = lng;
+            get => Get<string>();
+            set => Set(value);
         }
 
         public Language Language
         {
-            get => (Language)GetValue(LanguageProperty);
-            set => SetValue(LanguageProperty, value);
-        }
-
-        private static void OvenCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var count = (int)e.NewValue;
-            if (sender is Mediator {TotalVM: {}} m)
+            get => Get<Language>();
+            set
             {
-                m.TotalVM.OvenCount = count;
+                Set(value);
+
+                DialogVM.Language = value;
+                TraceVM.Language  = value;
+                LogVM.Language    = value;
             }
         }
 
         public int OvenCount
         {
-            get => (int)GetValue(OvenCountProperty);
-            set => SetValue(OvenCountProperty, value);
-        }
-
-        private static void UserChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var user = (User)e.NewValue;
-            if (sender is Mediator { RecipeVM: { } } m)
+            get => Get<int>();
+            set
             {
-                m.RecipeVM.UserName = user.Name;
+                Set(value);
+
+                TotalVM.OvenCount = value;
             }
         }
 
         public User User
         {
-            get => (User)GetValue(UserProperty);
-            set => SetValue(UserProperty, value);
+            get => Get<User>();
+            set
+            {
+                Set(value);
+
+                RecipeVM.UserName = value.Name;
+            }
         }
 
         public void Dispose() { TotalVM.Dispose(); }
@@ -345,30 +325,38 @@ namespace GPGO_MultiPLCs
             //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
 
             AuthenticatorVM = new Authenticator_ViewModel();
-            BindingOperations.SetBinding(this, DataInputPathProperty, new Binding("Settings.DataInputPath")
-                                                                      {
-                                                                          Source = AuthenticatorVM
-                                                                      });
+            DataOutputPath  = AuthenticatorVM.Settings.DataOutputPath;
+            DataInputPath   = AuthenticatorVM.Settings.DataInputPath;
+            Language        = AuthenticatorVM.Settings.Lng;
+            OvenCount       = AuthenticatorVM.Settings.OvenCount;
+            User            = AuthenticatorVM.NowUser;
 
-            BindingOperations.SetBinding(this, DataOutputPathProperty, new Binding("Settings.DataOutputPath")
-                                                                       {
-                                                                           Source = AuthenticatorVM
-                                                                       });
+            AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
+                                                        {
+                                                            switch (e.PropertyName)
+                                                            {
+                                                                case nameof(GlobalSettings.DataInputPath):
+                                                                    DataInputPath = ((GlobalSettings)s).DataInputPath;
+                                                                    break;
+                                                                case nameof(GlobalSettings.DataOutputPath):
+                                                                    DataOutputPath = ((GlobalSettings)s).DataOutputPath;
+                                                                    break;
+                                                                case nameof(GlobalSettings.Lng):
+                                                                    Language = ((GlobalSettings)s).Lng;
+                                                                    break;
+                                                                case nameof(GlobalSettings.OvenCount):
+                                                                    OvenCount = ((GlobalSettings)s).OvenCount;
+                                                                    break;
+                                                            }
+                                                        };
 
-            BindingOperations.SetBinding(this, LanguageProperty, new Binding("Settings.Lng")
-                                                                 {
-                                                                     Source = AuthenticatorVM
-                                                                 });
-
-            BindingOperations.SetBinding(this, OvenCountProperty, new Binding("Settings.OvenCount")
-                                                                  {
-                                                                      Source = AuthenticatorVM
-                                                                  });
-
-            BindingOperations.SetBinding(this, UserProperty, new Binding("NowUser")
-                                                             {
-                                                                 Source = AuthenticatorVM
-                                                             });
+            AuthenticatorVM.PropertyChanged += (s, e) =>
+                                               {
+                                                   if (e.PropertyName == nameof(Authenticator_ViewModel.NowUser))
+                                                   {
+                                                       User = ((Authenticator_ViewModel)s).NowUser;
+                                                   }
+                                               };
 
             //!當回到主頁時，也將生產總覽回到總覽頁
             MainVM.IndexChangedEvent += i =>
