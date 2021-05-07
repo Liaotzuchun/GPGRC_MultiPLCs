@@ -220,12 +220,12 @@
                                                     <TextBox BorderThickness="0"
                                                              Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
                                                              GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                                                             IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                                             IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                              Text="{Binding OvenInfo.AssetNumber, Mode=TwoWay}" />
                                                     <TextBox BorderThickness="0"
                                                              Focusable="{Binding IsHitTestVisible, RelativeSource={RelativeSource Self}}"
                                                              GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                                                             IsHitTestVisible="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                                                             IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                              Text="{Binding OvenInfo.MachineCode, Mode=TwoWay}"
                                                              Visibility="{Binding IsHitTestVisible, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                                 </UniformGrid>-->
@@ -269,8 +269,8 @@
                                                             <Binding Converter="{StaticResource IsMoreThanValue}"
                                                                      ConverterParameter="1"
                                                                      Mode="OneWay"
-                                                                     Path="NowUser.Level"
-                                                                     Source="{StaticResource AuthenticatorViewModel}" />
+                                                                     Path="User.Level"
+                                                                     Source="{StaticResource Mediator}" />
                                                             <Binding Converter="{StaticResource BoolNot}"
                                                                      Mode="OneWay"
                                                                      Path="RemoteMode" />
@@ -1078,8 +1078,8 @@
                                                 <Binding Converter="{StaticResource IsMoreThanValue}"
                                                          ConverterParameter="1"
                                                          Mode="OneWay"
-                                                         Path="NowUser.Level"
-                                                         Source="{StaticResource AuthenticatorViewModel}" />
+                                                         Path="User.Level"
+                                                         Source="{StaticResource Mediator}" />
                                                 <Binding Mode="OneWay"
                                                          Path="OnlineStatus" />
                                                 <!--<Binding Mode="OneWay"
@@ -1143,7 +1143,7 @@
                             </Grid.ColumnDefinitions>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PreviewMouseDown">
-                                    <i:InvokeCommandAction Command="{Binding StartLogin, Source={StaticResource AuthenticatorViewModel}, Mode=OneTime}" />
+                                    <i:InvokeCommandAction Command="{Binding WantLoginCommand, Mode=OneTime}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <Border Background="{StaticResource LightColorBrush}"
@@ -1153,7 +1153,7 @@
                                            VerticalAlignment="Center"
                                            FontSize="16"
                                            FontWeight="Bold"
-                                           Text="{Binding NowUser.Name, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}" />
+                                           Text="{Binding User.Name, Source={StaticResource Mediator}, Mode=OneWay}" />
                             </Border>
                             <Border Grid.Column="1">
                                 <Border.Style>
@@ -1161,19 +1161,19 @@
                                         <Setter Property="Background" Value="LightSlateGray" />
                                         <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
+                                            <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
                                                          Value="1">
                                                 <Setter Property="Background" Value="Green" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
+                                            <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
                                                          Value="2">
                                                 <Setter Property="Background" Value="Blue" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
+                                            <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
                                                          Value="3">
                                                 <Setter Property="Background" Value="Purple" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay}"
+                                            <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
                                                          Value="4">
                                                 <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
                                             </DataTrigger>
@@ -1185,7 +1185,7 @@
                                            FontSize="18"
                                            FontWeight="Bold"
                                            Foreground="White"
-                                           Text="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
+                                           Text="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
                             </Border>
                         </Grid>
                         <Grid Grid.Row="2">

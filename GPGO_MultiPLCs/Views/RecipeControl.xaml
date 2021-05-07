@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
         <Grid Margin="0,0,4,0"
               Background="{StaticResource LightColorBrush}"
-              IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+              IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
             <TabControl x:Name="TC"
                         views:TabControl.EnableSliding="True">
                 <TabItem Height="44"
@@ -2204,7 +2204,7 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
+            <Grid IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
                   TextElement.FontSize="14">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -2396,8 +2396,8 @@
                                                         <Binding Converter="{StaticResource RatioValueINT}"
                                                                  ConverterParameter="0.5"
                                                                  Mode="OneWay"
-                                                                 Path="Settings.OvenCount"
-                                                                 Source="{StaticResource AuthenticatorViewModel}" />
+                                                                 Path="OvenCount"
+                                                                 Source="{StaticResource Mediator}" />
                                                         <Binding Converter="{StaticResource RatioValue}"
                                                                  ConverterParameter="0.5"
                                                                  Mode="OneWay"
@@ -2440,7 +2440,7 @@
             <UniformGrid Grid.Row="2"
                          Height="36"
                          Margin="0"
-                         IsEnabled="{Binding NowUser.Level, Source={StaticResource AuthenticatorViewModel}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
+                         IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
                          Rows="1"
                          TextElement.FontSize="16"
                          Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">

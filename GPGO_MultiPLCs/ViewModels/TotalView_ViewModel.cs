@@ -39,6 +39,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>保持PLC Gate連線</summary>
         private readonly Timer Checker;
 
+        public event Action                                                                                           WantLogin;
         public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>>                         AddRecordToDB;
         public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
         public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
@@ -50,6 +51,8 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
 
         public Language Language = Language.TW;
+
+        public RelayCommand WantLoginCommand { get; }
 
         /// <summary>回到總覽頁</summary>
         public RelayCommand BackCommand { get; }
@@ -298,8 +301,13 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             Dialog    = dialog;
             OvenCount = count;
-            PLC_All   = new PLC_ViewModel[OvenCount];
+            PLC_All   = new PLC_ViewModel[count];
             ViewIndex = -1;
+
+            WantLoginCommand = new RelayCommand(_ =>
+                                                {
+                                                    WantLogin?.Invoke();
+                                                });
 
             BackCommand = new RelayCommand(index =>
                                            {
@@ -469,7 +477,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                  };
 
             //!註冊PLC事件需引發的動作
-            for (var i = 0; i < OvenCount; i++)
+            for (var i = 0; i < count; i++)
             {
                 var j = i + 1;
 

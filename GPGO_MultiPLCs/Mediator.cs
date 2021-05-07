@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace GPGO_MultiPLCs
@@ -58,7 +59,10 @@ namespace GPGO_MultiPLCs
         private static void OvenCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var count = (int)e.NewValue;
-            ((Mediator)sender).TotalVM.OvenCount = count;
+            if (sender is Mediator {TotalVM: {}} m)
+            {
+                m.TotalVM.OvenCount = count;
+            }
         }
 
         public int OvenCount
@@ -70,7 +74,10 @@ namespace GPGO_MultiPLCs
         private static void UserChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var user = (User)e.NewValue;
-            ((Mediator)sender).RecipeVM.UserName = user.Name;
+            if (sender is Mediator { RecipeVM: { } } m)
+            {
+                m.RecipeVM.UserName = user.Name;
+            }
         }
 
         public User User
@@ -83,12 +90,13 @@ namespace GPGO_MultiPLCs
 
         private readonly AsyncLock lockobj = new();
 
-        public GlobalDialog_ViewModel     DialogVM { get; }
-        public LogView_ViewModel          LogVM    { get; }
-        public MainWindow_ViewModel       MainVM   { get; }
-        public RecipeControl_ViewModel    RecipeVM { get; }
-        public TotalView_ViewModel        TotalVM  { get; }
-        public TraceabilityView_ViewModel TraceVM  { get; }
+        public Authenticator_ViewModel    AuthenticatorVM { get; }
+        public GlobalDialog_ViewModel     DialogVM        { get; }
+        public LogView_ViewModel          LogVM           { get; }
+        public MainWindow_ViewModel       MainVM          { get; }
+        public RecipeControl_ViewModel    RecipeVM        { get; }
+        public TotalView_ViewModel        TotalVM         { get; }
+        public TraceabilityView_ViewModel TraceVM         { get; }
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
@@ -329,10 +337,38 @@ namespace GPGO_MultiPLCs
             RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")),
                                                    new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("Old_PLC_Recipes")),
                                                    DialogVM);
+
             TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("ProductInfos")), DialogVM);
             LogVM   = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
 
-            TotalVM = new TotalView_ViewModel(2, DialogVM);
+            TotalVM = new TotalView_ViewModel(20, DialogVM);
+            //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
+
+            AuthenticatorVM = new Authenticator_ViewModel();
+            BindingOperations.SetBinding(this, DataInputPathProperty, new Binding("Settings.DataInputPath")
+                                                                      {
+                                                                          Source = AuthenticatorVM
+                                                                      });
+
+            BindingOperations.SetBinding(this, DataOutputPathProperty, new Binding("Settings.DataOutputPath")
+                                                                       {
+                                                                           Source = AuthenticatorVM
+                                                                       });
+
+            BindingOperations.SetBinding(this, LanguageProperty, new Binding("Settings.Lng")
+                                                                 {
+                                                                     Source = AuthenticatorVM
+                                                                 });
+
+            BindingOperations.SetBinding(this, OvenCountProperty, new Binding("Settings.OvenCount")
+                                                                  {
+                                                                      Source = AuthenticatorVM
+                                                                  });
+
+            BindingOperations.SetBinding(this, UserProperty, new Binding("NowUser")
+                                                             {
+                                                                 Source = AuthenticatorVM
+                                                             });
 
             //!當回到主頁時，也將生產總覽回到總覽頁
             MainVM.IndexChangedEvent += i =>
@@ -532,6 +568,8 @@ namespace GPGO_MultiPLCs
                                                                DialogMsgType.Alert);
                                              }
                                          };
+
+            TotalVM.WantLogin += () => AuthenticatorVM.StartLogin?.Execute(null);
 
             //!當某站烤箱要求配方時，自資料庫讀取配方並發送
             TotalVM.GetRecipe += e => string.IsNullOrEmpty(e.RecipeName) ? null : RecipeVM.GetRecipe(e.RecipeName);
