@@ -458,12 +458,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                            DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
                                                        };
 
-                                               Array.Resize(ref h,  StepCounts);
-                                               Array.Resize(ref w,  StepCounts);
+                                               Array.Resize(ref h, StepCounts);
+                                               Array.Resize(ref w, StepCounts);
                                                Array.Resize(ref ha, StepCounts);
                                                Array.Resize(ref wa, StepCounts);
-                                               Array.Resize(ref t,  StepCounts);
-                                               Array.Resize(ref s,  StepCounts);
+                                               Array.Resize(ref t, StepCounts);
+                                               Array.Resize(ref s, StepCounts);
 
                                                //!結束生產，填入資料
                                                OvenInfo.EndTime                = DateTime.Now;
@@ -987,8 +987,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                               var parts  = Ext_Info.Select(x => x.PartID).Distinct();
                                               var panels = Ext_Info.SelectMany(x => x.PanelIDs).Distinct();
 
-                                              SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
-                                              SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("LotIDs", lots.Any() ? string.Join(",", Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("PartIDs", parts.Any() ? string.Join(",", Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
                                               SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                           };
 

@@ -1,12 +1,12 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using GPMVVM.Helpers;
+using GPMVVM.Models;
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using GPMVVM.Models;
-using GPMVVM.Helpers;
-using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Models
 {

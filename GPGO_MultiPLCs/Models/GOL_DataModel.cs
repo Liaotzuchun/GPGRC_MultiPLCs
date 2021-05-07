@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using GPMVVM.Models;
+﻿using GPMVVM.Models;
 using GPMVVM.PLCService;
+using System.Collections.Generic;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -1603,9 +1603,7 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
-        public GOL_DataModel((Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift) : base(shift)
-        {
-        }
+        public GOL_DataModel((Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift) : base(shift) {}
 
         #endregion
     }

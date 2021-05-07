@@ -324,12 +324,13 @@ namespace GPGO_MultiPLCs
             TotalVM = new TotalView_ViewModel(20, DialogVM);
             //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
 
-            AuthenticatorVM = new Authenticator_ViewModel();
-            DataOutputPath  = AuthenticatorVM.Settings.DataOutputPath;
-            DataInputPath   = AuthenticatorVM.Settings.DataInputPath;
-            Language        = AuthenticatorVM.Settings.Lng;
-            OvenCount       = AuthenticatorVM.Settings.OvenCount;
-            User            = AuthenticatorVM.NowUser;
+            AuthenticatorVM                    = new Authenticator_ViewModel();
+            //AuthenticatorVM.Settings.OvenCount = 2;
+            DataOutputPath                     = AuthenticatorVM.Settings.DataOutputPath;
+            DataInputPath                      = AuthenticatorVM.Settings.DataInputPath;
+            Language                           = AuthenticatorVM.Settings.Lng;
+            OvenCount                          = AuthenticatorVM.Settings.OvenCount;
+            User                               = AuthenticatorVM.NowUser;
 
             AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
                                                         {

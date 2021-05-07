@@ -413,11 +413,11 @@
                         </local:SECSParameterView.DataContext>
                     </local:SECSParameterView>
                 </TabItem>
-                <!--<TabItem Height="40"
+                <TabItem Height="40"
                          FontSize="16"
                          Header="{DynamicResource 系統設定}"
                          IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
-                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                         Visibility="Collapsed">
                     <Grid Height="200">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
@@ -540,7 +540,7 @@
                                       FontSize="12" />
                         </Grid>
                     </Grid>
-                </TabItem>-->
+                </TabItem>
             </TabControl>
             <ListBox Grid.Row="7"
                      Height="40"

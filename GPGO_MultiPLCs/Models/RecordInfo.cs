@@ -91,12 +91,12 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>事件類型</summary>
     public enum EventType
     {
-        Normal,   //一般事件
+        Normal,        //一般事件
         StatusChanged, //狀態變化
-        Trigger,  //觸發事件
-        Operator, //OP操作事件
+        Trigger,       //觸發事件
+        Operator,      //OP操作事件
         Alert,
-        Alarm     //警報事件
+        Alarm //警報事件
     }
 
     [BsonIgnoreExtraElements]

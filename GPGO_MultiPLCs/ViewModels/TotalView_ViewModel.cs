@@ -1,15 +1,15 @@
-﻿using GPGO_MultiPLCs.Models;
+﻿using GP_SECS_GEM;
+using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
+using GPMVVM.PLCService;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using GP_SECS_GEM;
-using GPMVVM.PLCService;
-using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -292,7 +292,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public void InvokeRecipe(string name, SECSThread.PPStatus status)
         {
-            secsGem?.UpdateDV("GemPPChangeName",   name);
+            secsGem?.UpdateDV("GemPPChangeName", name);
             secsGem?.UpdateDV("GemPPChangeStatus", (int)status);
             secsGem?.InvokeEvent("GemProcessProgramChange");
         }
