@@ -1110,7 +1110,8 @@
                                                  Value="True">
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsExecuting, Mode=OneWay}">
+                                    <DataTrigger Binding="{Binding IsExecuting, Mode=OneWay}"
+                                                 Value="True">
                                         <Setter TargetName="ActiveToggle" Property="Content" Value="{Binding Progress, StringFormat=\{0:P\}, Mode=OneWay}" />
                                         <Setter TargetName="ActiveToggle" Property="IsEnabled" Value="False" />
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
