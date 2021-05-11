@@ -946,7 +946,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Checked">
                     <i:InvokeCommandAction Command="{Binding CheckInCommand, Mode=OneTime}"
-                                           CommandParameter="{Binding Text, ElementName=TextBlock, Mode=OneWay}" />
+                                           CommandParameter="{Binding Text, ElementName=ActiveToggleText, Mode=OneWay}" />
                 </i:EventTrigger>
                 <i:EventTrigger EventName="Unchecked">
                     <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
