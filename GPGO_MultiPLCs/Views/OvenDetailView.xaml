@@ -579,7 +579,7 @@
                         <views:LevelsProgressBar Maximum="260"
                                                  Minimum="0"
                                                  Unit="°C"
-                                                 Value="260">
+                                                 Value="{Binding PV_ThermostatTemperature, Mode=OneWay}">
                             <views:LevelsProgressBar.Steps>
                                 <MultiBinding Converter="{StaticResource DoublesTakeCount}">
                                     <Binding Mode="OneWay"
