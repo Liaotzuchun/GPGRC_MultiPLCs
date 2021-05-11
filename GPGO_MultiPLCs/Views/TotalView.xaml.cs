@@ -7,30 +7,6 @@ namespace GPGO_MultiPLCs.Views
     /// <summary>TotalView.xaml 的互動邏輯</summary>
     public partial class TotalView
     {
-        private void CB_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((ComboBox)sender).Text = ""; }
-
-        private void CB_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((ComboBox)sender).Text = ((ComboBox)sender).SelectedItem as string; }
-
-        private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            if (dg.SelectedItem != null)
-            {
-                dg.ScrollIntoView(dg.SelectedItem);
-            }
-        }
-
-        private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs _)
-        {
-            if (sender is not TextBox tb)
-            {
-                return;
-            }
-
-            await Task.Delay(15);
-
-            tb.SelectAll();
-        }
-
         public TotalView()
         {
             InitializeComponent();

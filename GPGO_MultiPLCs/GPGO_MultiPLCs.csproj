@@ -263,6 +263,12 @@
     <Compile Include="Views\LogView.xaml.cs">
       <DependentUpon>LogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OvenDetailView.xaml.cs">
+      <DependentUpon>OvenDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OvenSimpleView.xaml.cs">
+      <DependentUpon>OvenSimpleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RecipeControl.xaml.cs">
       <DependentUpon>RecipeControl.xaml</DependentUpon>
     </Compile>
@@ -309,6 +315,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\OvenDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OvenSimpleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RecipeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

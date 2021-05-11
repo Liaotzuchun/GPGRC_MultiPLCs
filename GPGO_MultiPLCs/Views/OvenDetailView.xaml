@@ -1,0 +1,1280 @@
+﻿<UserControl x:Class="GPGO_MultiPLCs.Views.OvenDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
+             xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
+             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <local:DoublesTakeCount x:Key="DoublesTakeCount" />
+        <models:EventTypeToColor x:Key="EventTypeToColor" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="300" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Margin="0,4,2,4"
+                      IsHitTestVisible="False">
+                <GroupBox.Header>
+                    <TextBlock Foreground="{DynamicResource GlyphBrush}">
+                        <Run Text="{DynamicResource 配方}" />
+                        <Run Text=":" />
+                        <Run Text="{Binding PV_RecipeName, Mode=OneWay}" />
+                    </TextBlock>
+                </GroupBox.Header>
+                <Grid ClipToBounds="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 使用段數}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="1"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding PV_StepCounts, Mode=OneWay}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 降溫溫度}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding PV_CoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="4"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 降溫時間}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="5"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_CoolingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1" />
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 目標溫度}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 升溫時間}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="3"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 升溫警報}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="4"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 恆溫時間}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="5"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 恆溫警報}" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.RowSpan="6"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="6"
+                            Background="{StaticResource DisabledBackgroundBrush}" />
+                    <Border Grid.Row="2"
+                            Grid.RowSpan="{Binding PV_StepCounts, Mode=OneWay}"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="6"
+                            Background="{StaticResource LightColorBrush}" />
+                    <Border Grid.Row="2"
+                            Grid.Column="0"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="1" />
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="0"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="2" />
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="0"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="3" />
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="0"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="4" />
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="0"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="5" />
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="0"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="6" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding PV_TemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding PV_TemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding PV_TemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding PV_TemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding PV_TemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding PV_TemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="2"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="2"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="2"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="2"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="2"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="2"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="3"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="3"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="3"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="3"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="3"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="3"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_RampAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="4"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="4"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="4"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="4"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="4"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="4"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="5"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="5"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="5"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="5"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="5"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="5"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,0">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding PV_DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Column="1"
+                      Margin="2,4,0,4"
+                      IsHitTestVisible="False">
+                <GroupBox.Header>
+                    <StackPanel Height="20"
+                                Orientation="Horizontal">
+                        <TextBlock Margin="4,0"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource GlyphBrush}"
+                                   Text="{DynamicResource 設備狀態}" />
+                        <views:UniformStackPanel Orientation="Horizontal">
+                            <Border Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                    Background="{DynamicResource OKBrush}">
+                                <Border Background="#99000000"
+                                        Visibility="{Binding GreenLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                            </Border>
+                            <Border Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                    Background="Gold">
+                                <Border Background="#99000000"
+                                        Visibility="{Binding YellowLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                            </Border>
+                            <Border Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                    Background="{DynamicResource ErrorBrush}">
+                                <Border Background="#99000000"
+                                        Visibility="{Binding RedLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                            </Border>
+                        </views:UniformStackPanel>
+                    </StackPanel>
+                </GroupBox.Header>
+                <Grid Background="{StaticResource LightColorBrush}"
+                      ClipToBounds="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="160" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"
+                            Grid.RowSpan="9"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,0">
+                        <TextBlock x:Name="Text0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 溫控器溫度}" />
+                    </Border>
+                    <UniformGrid Grid.Row="0"
+                                 Grid.RowSpan="9"
+                                 Grid.Column="1"
+                                 Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource RatioValue}, ConverterParameter=0.6, Mode=OneWay}"
+                                 Background="Transparent"
+                                 Columns="1">
+                        <views:LevelsProgressBar Maximum="260"
+                                                 Minimum="0"
+                                                 Unit="°C"
+                                                 Value="260">
+                            <views:LevelsProgressBar.Steps>
+                                <MultiBinding Converter="{StaticResource DoublesTakeCount}">
+                                    <Binding Mode="OneWay"
+                                             Path="PV_StepCounts" />
+                                    <Binding Mode="OneWay"
+                                             Path="PV_TemperatureSetpoint_1" />
+                                    <Binding Mode="OneWay"
+                                             Path="PV_TemperatureSetpoint_2" />
+                                    <Binding Mode="OneWay"
+                                             Path="PV_TemperatureSetpoint_3" />
+                                    <Binding Mode="OneWay"
+                                             Path="PV_TemperatureSetpoint_4" />
+                                    <Binding Mode="OneWay"
+                                             Path="PV_TemperatureSetpoint_5" />
+                                    <Binding Mode="OneWay"
+                                             Path="PV_TemperatureSetpoint_6" />
+                                </MultiBinding>
+                            </views:LevelsProgressBar.Steps>
+                        </views:LevelsProgressBar>
+                        <views:RangeProgressBar Margin="16,0,16,16"
+                                                Unit="%"
+                                                Value="{Binding Progress, Mode=OneWay, Converter={StaticResource RatioValue}, ConverterParameter=100}" />
+                    </UniformGrid>
+                    <!--<Border Grid.Row="1"
+                                            Grid.Column="1"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding OvenTemperature_1, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>
+                                    <Border Grid.Row="2"
+                                            Grid.Column="1"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding OvenTemperature_2, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>
+                                    <Border Grid.Row="3"
+                                            Grid.Column="1"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding OvenTemperature_3, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>
+                                    <Border Grid.Row="4"
+                                            Grid.Column="1"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding OvenTemperature_4, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>
+                                    <Border Grid.Row="5"
+                                            Grid.Column="1"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding OvenTemperature_5, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>
+                                    <Border Grid.Row="6"
+                                            Grid.Column="1"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding OvenTemperature_6, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>
+                                    <Border Grid.Row="7"
+                                            Grid.Column="1"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding OvenTemperature_7, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>
+                                    <Border Grid.Row="8"
+                                            Grid.Column="1"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,0">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding OvenTemperature_8, Mode=OneWay, StringFormat=\{0:D\} °C}" />
+                                    </Border>-->
+                    <Border Grid.Row="0"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 設備模式}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 生產結束}" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 緊急停止}" />
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 電動門}" />
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 風車異常}" />
+                    </Border>
+                    <!--<Border Grid.Row="5"
+                                            Grid.Column="2"
+                                            Background="{StaticResource WindowBackgroundBrush6}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{DynamicResource 充氣逾時}" />
+                                    </Border>-->
+                    <Border Grid.Row="5"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 超溫警報}" />
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 低溫警報}" />
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 升恆溫逾時}" />
+                    </Border>
+                    <Border Grid.Row="8"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush6}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 狀態}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <UniformGrid Rows="1">
+                            <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,0,0,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource GlyphBrush}"
+                                           Text="{DynamicResource 電腦使用}" />
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PC_InUse, Mode=OneWay}"
+                                                         Value="True">
+                                                <Setter Property="Background" Value="{StaticResource OKBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <TabControl views:TabControl.EnableSliding="True"
+                                        SelectedIndex="{Binding AutoMode, Mode=OneWay}">
+                                <TabItem Width="0"
+                                         Height="0">
+                                    <Border>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{DynamicResource 手動}" />
+                                    </Border>
+                                </TabItem>
+                                <TabItem Width="0"
+                                         Height="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="8" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Background="{StaticResource PressedBrush}">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       Foreground="White"
+                                                       Text="{DynamicResource 自動}" />
+                                        </Border>
+                                        <Border Grid.Column="1"
+                                                Background="{StaticResource DisabledBackgroundBrush}"
+                                                BorderBrush="{StaticResource DisabledBorderBrush}"
+                                                BorderThickness="1" />
+                                        <Border Grid.Column="1"
+                                                Background="{StaticResource WorkingBrush}"
+                                                BorderBrush="{StaticResource WorkingBorderBrush}"
+                                                BorderThickness="1"
+                                                Visibility="{Binding AutoMode_Start, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                        </UniformGrid>
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <CheckBox Width="60"
+                                  Background="Cyan"
+                                  BorderBrush="{StaticResource PressedBrush}"
+                                  Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                  IsChecked="{Binding ProgramStop, Mode=OneWay}"
+                                  Style="{StaticResource SignalView}" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <CheckBox Width="60"
+                                  Background="{StaticResource ErrorBrush}"
+                                  BorderBrush="{StaticResource ErrorBorderBrush}"
+                                  Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                  IsChecked="{Binding EmergencyStop, Mode=OneWay}"
+                                  Style="{StaticResource SignalView}" />
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <CheckBox Width="60"
+                                  Background="{StaticResource ErrorBrush}"
+                                  BorderBrush="{StaticResource ErrorBorderBrush}"
+                                  Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                  Style="{StaticResource SignalView}">
+                            <CheckBox.IsChecked>
+                                <MultiBinding Converter="{StaticResource MultiAnyTrue}">
+                                    <Binding Mode="OneWay"
+                                             Path="DoorNotClosed" />
+                                    <Binding Mode="OneWay"
+                                             Path="DoorOpeningLimit" />
+                                    <Binding Mode="OneWay"
+                                             Path="DoorClosingLimit" />
+                                </MultiBinding>
+                            </CheckBox.IsChecked>
+                        </CheckBox>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <CheckBox Width="60"
+                                  Background="{StaticResource ErrorBrush}"
+                                  BorderBrush="{StaticResource ErrorBorderBrush}"
+                                  Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                  Style="{StaticResource SignalView}">
+                            <CheckBox.IsChecked>
+                                <MultiBinding Converter="{StaticResource MultiAnyTrue}">
+                                    <Binding Mode="OneWay"
+                                             Path="CirculatingFanCurrentError" />
+                                    <Binding Mode="OneWay"
+                                             Path="CoolingFanError" />
+                                    <Binding Mode="OneWay"
+                                             Path="CirculatingFanInverterError" />
+                                </MultiBinding>
+                            </CheckBox.IsChecked>
+                        </CheckBox>
+                    </Border>
+                    <!--<Border Grid.Row="5"
+                                            Grid.Column="3"
+                                            Background="{StaticResource LightColorBrush}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,0,1">
+                                        <CheckBox Background="{StaticResource ErrorBrush}"
+                                                  BorderBrush="{StaticResource ErrorBorderBrush}"
+                                                  Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                                  IsChecked="{Binding InflatingTimeExceeded, Mode=OneWay}"
+                                                  Style="{StaticResource SignalView}" />
+                                    </Border>-->
+                    <Border Grid.Row="5"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <CheckBox Width="60"
+                                  Background="{StaticResource ErrorBrush}"
+                                  BorderBrush="{StaticResource ErrorBorderBrush}"
+                                  Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                  IsChecked="{Binding OverTemperatureAlarm, Mode=OneWay}"
+                                  Style="{StaticResource SignalView}" />
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <CheckBox Width="60"
+                                  Background="{StaticResource ErrorBrush}"
+                                  BorderBrush="{StaticResource ErrorBorderBrush}"
+                                  Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                  IsChecked="{Binding LowTemperature, Mode=OneWay}"
+                                  Style="{StaticResource SignalView}" />
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <CheckBox Width="60"
+                                  Background="{StaticResource ErrorBrush}"
+                                  BorderBrush="{StaticResource ErrorBorderBrush}"
+                                  Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                  IsChecked="{Binding RampTimeExceeded, Mode=OneWay}"
+                                  Style="{StaticResource SignalView}" />
+                    </Border>
+                    <Border Grid.Row="8"
+                            Grid.Column="3"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,0,1">
+                        <ContentControl Content="{Binding Mode=OneWay}"
+                                        ContentTemplate="{StaticResource ProgressDataTemplate}" />
+                    </Border>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <GroupBox Grid.Row="1"
+                  Margin="0,0,0,4">
+            <GroupBox.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="8,0"
+                               Foreground="White"
+                               Visibility="{Binding OvenInfo.StartTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
+                        <Run Text="{DynamicResource 開始時間}" />
+                        <Run Text=":" />
+                        <Run Text="{Binding OvenInfo.StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                    </TextBlock>
+                    <TextBlock Grid.Column="1"
+                               Margin="8,0"
+                               Foreground="White"
+                               Visibility="{Binding OvenInfo.EndTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
+                        <Run Text="{DynamicResource 結束時間}" />
+                        <Run Text=":" />
+                        <Run Text="{Binding OvenInfo.EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                    </TextBlock>
+                </Grid>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DataGrid x:Name="dg"
+                          AutoGenerateColumns="False"
+                          BorderThickness="0,0,1,0"
+                          FontSize="12"
+                          HorizontalScrollBarVisibility="Disabled"
+                          ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}"
+                          SelectedCellsChanged="SelectedCellsChanged"
+                          SelectedIndex="{Binding Items.Count, ConverterParameter=-1, Converter={StaticResource AddValue}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                    <DataGrid.RowHeaderTemplate>
+                        <DataTemplate>
+                            <Border x:Name="Border"
+                                    Width="5"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="0,0,1,1" />
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                             Value="Normal">
+                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                             Value="Trigger">
+                                    <Setter TargetName="Border" Property="Background" Value="Blue" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                             Value="Operator">
+                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                             Value="Alarm">
+                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </DataGrid.RowHeaderTemplate>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 時間}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="80">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 值}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <Grid>
+                                        <!--<Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="24" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Ellipse x:Name="Ellipse"
+                                                                 Width="10"
+                                                                 Height="10"
+                                                                 Margin="0,0,4,0"
+                                                                 Fill="{StaticResource DisabledBackgroundBrush}"
+                                                                 Stroke="{StaticResource DisabledBorderBrush}"
+                                                                 StrokeThickness="1" />
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />-->
+                                        <TextBlock Text="{Binding Value, Mode=OneWay}" />
+                                    </Grid>
+                                    <!--<DataTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding Value, Mode=OneWay}"
+                                                                     Value="True">
+                                                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
+                                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
+                                                        </DataTrigger>
+                                                    </DataTemplate.Triggers>-->
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 事件}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <oxy:Plot Grid.Column="1"
+                          Background="{StaticResource WindowBackgroundBrush6}"
+                          DefaultFont="Microsoft JhengHei"
+                          IsMouseWheelEnabled="False"
+                          LegendBackground="{Binding Color, Source={StaticResource LightColorBrush}}"
+                          LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                          LegendBorderThickness="1"
+                          LegendFontSize="12"
+                          LegendItemOrder="Reverse"
+                          LegendItemSpacing="8"
+                          LegendLineSpacing="2"
+                          LegendOrientation="Vertical"
+                          LegendPlacement="Outside"
+                          LegendPosition="RightTop"
+                          LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                          LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                          PlotAreaBackground="{StaticResource LightColorBrush}"
+                          PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                          PlotAreaBorderThickness="0,1,1,0"
+                          PlotMargins="40,11,0,35"
+                          TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
+                          TextOptions.TextRenderingMode="ClearType">
+                    <oxy:Plot.Axes>
+                        <oxy:TimeSpanAxis Title="{DynamicResource 時間}"
+                                          AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                          AxislineStyle="Solid"
+                                          ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                          ExtraGridlineStyle="Solid"
+                                          ExtraGridlineThickness="1"
+                                          IsPanEnabled="False"
+                                          IsZoomEnabled="False"
+                                          MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                          MajorGridlineStyle="Dot"
+                                          MajorTickSize="0"
+                                          MaximumPadding="0.2"
+                                          Minimum="0"
+                                          MinimumPadding="0"
+                                          MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                          MinorGridlineStyle="None"
+                                          MinorTickSize="0"
+                                          Position="Bottom"
+                                          StringFormat="hh:mm:ss"
+                                          TickStyle="Inside"
+                                          TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                          TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
+                        <oxy:LinearAxis Title="°C"
+                                        AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        AxislineStyle="Solid"
+                                        ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        ExtraGridlineStyle="Solid"
+                                        ExtraGridlineThickness="1"
+                                        IsPanEnabled="False"
+                                        IsZoomEnabled="False"
+                                        MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        MajorGridlineStyle="Dot"
+                                        MajorTickSize="0"
+                                        MaximumPadding="0.2"
+                                        MinimumPadding="0.2"
+                                        MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        MinorGridlineStyle="None"
+                                        MinorTickSize="0"
+                                        Position="Left"
+                                        TickStyle="Inside"
+                                        TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                        TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
+                    </oxy:Plot.Axes>
+                    <oxy:Plot.Series>
+                        <!--<oxy:LineSeries Title="{DynamicResource 爐內溫度8}"
+                                                        DataFieldX="Time"
+                                                        DataFieldY="OvenTemperatures_8"
+                                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                                        LineStyle="Solid"
+                                                        MarkerFill="BurlyWood"
+                                                        MarkerSize="3"
+                                                        MarkerType="None"
+                                                        StrokeThickness="2"
+                                                        Color="BurlyWood" />
+                                        <oxy:LineSeries Title="{DynamicResource 爐內溫度7}"
+                                                        DataFieldX="Time"
+                                                        DataFieldY="OvenTemperatures_7"
+                                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                                        LineStyle="Solid"
+                                                        MarkerFill="Brown"
+                                                        MarkerSize="3"
+                                                        MarkerType="None"
+                                                        StrokeThickness="2"
+                                                        Color="Brown" />
+                                        <oxy:LineSeries Title="{DynamicResource 爐內溫度6}"
+                                                        DataFieldX="Time"
+                                                        DataFieldY="OvenTemperatures_6"
+                                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                                        LineStyle="Solid"
+                                                        MarkerFill="Magenta"
+                                                        MarkerSize="3"
+                                                        MarkerType="None"
+                                                        StrokeThickness="2"
+                                                        Color="Magenta" />
+                                        <oxy:LineSeries Title="{DynamicResource 爐內溫度5}"
+                                                        DataFieldX="Time"
+                                                        DataFieldY="OvenTemperatures_5"
+                                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                                        LineStyle="Solid"
+                                                        MarkerFill="DarkOrchid"
+                                                        MarkerSize="3"
+                                                        MarkerType="None"
+                                                        StrokeThickness="2"
+                                                        Color="DarkOrchid" />
+                                        <oxy:LineSeries Title="{DynamicResource 爐內溫度4}"
+                                                        DataFieldX="Time"
+                                                        DataFieldY="OvenTemperatures_4"
+                                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                                        LineStyle="Solid"
+                                                        MarkerFill="DodgerBlue"
+                                                        MarkerSize="3"
+                                                        MarkerType="None"
+                                                        StrokeThickness="2"
+                                                        Color="DodgerBlue" />
+                                        <oxy:LineSeries Title="{DynamicResource 爐內溫度3}"
+                                                        DataFieldX="Time"
+                                                        DataFieldY="OvenTemperatures_3"
+                                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                                        LineStyle="Solid"
+                                                        MarkerFill="Lime"
+                                                        MarkerSize="3"
+                                                        MarkerType="None"
+                                                        StrokeThickness="2"
+                                                        Color="Lime" />
+                                        <oxy:LineSeries Title="{DynamicResource 爐內溫度2}"
+                                                        DataFieldX="Time"
+                                                        DataFieldY="OvenTemperatures_2"
+                                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                                        LineStyle="Solid"
+                                                        MarkerFill="Gold"
+                                                        MarkerSize="3"
+                                                        MarkerType="None"
+                                                        StrokeThickness="2"
+                                                        Color="Gold" />
+                                        <oxy:LineSeries Title="{DynamicResource 爐內溫度1}"
+                                                        DataFieldX="Time"
+                                                        DataFieldY="OvenTemperatures_1"
+                                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                                        LineStyle="Solid"
+                                                        MarkerFill="DarkOrange"
+                                                        MarkerSize="3"
+                                                        MarkerType="None"
+                                                        StrokeThickness="2"
+                                                        Color="DarkOrange" />-->
+                        <oxy:LineSeries Title="{DynamicResource 溫控器溫度}"
+                                        DataFieldX="Time"
+                                        DataFieldY="PV_ThermostatTemperature"
+                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
+                                        LineStyle="Solid"
+                                        MarkerFill="Red"
+                                        MarkerSize="3"
+                                        MarkerType="None"
+                                        StrokeThickness="2"
+                                        Color="Red" />
+                    </oxy:Plot.Series>
+                    <oxy:Plot.Annotations>
+                        <oxy:LineAnnotation ClipText="False"
+                                            DataContext="{Binding SelectedItem, ElementName=dg, Mode=OneWay}"
+                                            FontSize="12"
+                                            Opacity="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
+                                            StrokeThickness="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
+                                            TextColor="{Binding (models:LogEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
+                                            TextHorizontalAlignment="Center"
+                                            TextOrientation="Horizontal"
+                                            TextVerticalAlignment="Bottom"
+                                            Type="Vertical"
+                                            X="{Binding (models:LogEvent.Time).TotalSeconds, Mode=OneWay}"
+                                            Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">
+                            <oxy:LineAnnotation.Text>
+                                <MultiBinding StringFormat="{}{0} ({1})">
+                                    <Binding Converter="{views:StringToResource}"
+                                             Mode="OneWay"
+                                             Path="(models:LogEvent.Description)" />
+                                    <Binding Mode="OneWay"
+                                             Path="(models:LogEvent.Value)" />
+                                </MultiBinding>
+                            </oxy:LineAnnotation.Text>
+                        </oxy:LineAnnotation>
+                    </oxy:Plot.Annotations>
+                    <oxy:Plot.DefaultTrackerTemplate>
+                        <ControlTemplate>
+                            <oxy:TrackerControl d:DataContext="{d:DesignInstance oxy:TrackerControl}"
+                                                Background="{StaticResource LightBrush}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1"
+                                                CornerRadius="0"
+                                                LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
+                                                LineStroke="{StaticResource WindowBackgroundBrush}"
+                                                Position="{Binding Position}">
+                                <oxy:TrackerControl.Content>
+                                    <TextBlock Margin="4"
+                                               Foreground="{StaticResource BaseForeground}"
+                                               Text="{Binding Mode=OneWay}" />
+                                </oxy:TrackerControl.Content>
+                            </oxy:TrackerControl>
+                        </ControlTemplate>
+                    </oxy:Plot.DefaultTrackerTemplate>
+                </oxy:Plot>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>
