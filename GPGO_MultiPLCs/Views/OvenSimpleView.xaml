@@ -945,8 +945,7 @@
             </ToggleButton.IsEnabled>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Checked">
-                    <i:InvokeCommandAction Command="{Binding CheckInCommand, Mode=OneTime}"
-                                           CommandParameter="{Binding Text, ElementName=ActiveToggleText, Mode=OneWay}" />
+                    <i:InvokeCommandAction Command="{Binding CheckInCommand, Mode=OneTime}" />
                 </i:EventTrigger>
                 <i:EventTrigger EventName="Unchecked">
                     <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
