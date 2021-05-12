@@ -119,8 +119,7 @@ namespace GPGO_MultiPLCs
             //}
 
             BsonSerializer.RegisterSerializer(typeof(DateTime), DateTimeSerializer.LocalInstance);
-            BsonSerializer.RegisterSerializer(typeof((DataType, int)), new BsonDataLoc());
-            BsonSerializer.RegisterSerializer(typeof((BitType, int)), new BsonBitLoc());
+            BsonSerializer.RegisterSerializationProvider(new ValueTupleSerializerProvider());
         }
     }
 }
