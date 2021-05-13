@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace GPGO_MultiPLCs.Models
 {
-    [PLCObject]
     public class GOL_DataModel : PLCDataProvider
     {
         #region PC=>PLC

@@ -703,11 +703,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                 {
                                     if (!Gate_Status && Connect())
                                     {
-                                        var list = PLC_All.Select(x => new Dictionary<string, string[]>
+                                        var list = PLC_All.Select(x => new Dictionary<string, PLCDataProvider>
                                                                        {
-                                                                           {"GOL", x.GetNameArray()}
+                                                                           {"GOL", x}
                                                                        }).ToArray();
-                                        SetReadLists(list); //!連線並發送訂閱列表
+                                        SetReadListsByDataModels(list); //!連線並發送訂閱列表
                                     }
 
                                     foreach (var plc in PLC_All)
