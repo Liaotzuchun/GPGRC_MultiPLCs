@@ -1572,9 +1572,9 @@ namespace GPGO_MultiPLCs.Models
         /// 目前段數
         /// </summary>
         [PLCData(DataType.D, 11479, LogType.Status)]
-        public int CurrentStep
+        public short CurrentStep
         {
-            get => GetPLC<int>();
+            get => GetPLC<short>();
             set => SetPLC(value);
         }
 
@@ -1589,9 +1589,9 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [PLCData(DataType.D, 11043, LogType.Status)]
-        public int EquipmentState
+        public short EquipmentState
         {
-            get => GetPLC<int>();
+            get => GetPLC<short>();
             set => SetPLC(value);
         }
 
