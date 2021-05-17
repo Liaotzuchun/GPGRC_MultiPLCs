@@ -118,7 +118,7 @@ namespace GPGO_MultiPLCs.ViewModels
                     return Status.離線;
                 }
 
-                if (Enum.IsDefined(typeof(Status), EquipmentState))
+                if (Enum.IsDefined(typeof(Status), (int)EquipmentState))
                 {
                     return (Status)EquipmentState;
                 }
@@ -910,7 +910,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                         NotifyPropertyChanged(nameof(ProgressStatus));
 
-                                        if (EquipmentState == (int)Status.錯誤)
+                                        if (EquipmentState == (short)Status.錯誤)
                                         {
                                             await StopPP();
                                         }
