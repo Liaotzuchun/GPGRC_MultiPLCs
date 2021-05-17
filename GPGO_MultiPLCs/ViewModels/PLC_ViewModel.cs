@@ -171,7 +171,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public string Selected_Name
         {
             get => Get<string>();
-            set => SetRecipe(value, true).Wait();
+            set => _ = SetRecipe(value, true);
         }
 
         public PLC_Recipe GetRecipePV() =>
