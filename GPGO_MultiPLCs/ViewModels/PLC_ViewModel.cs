@@ -872,7 +872,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         }
                                         else if (name == nameof(RecipeChanged))
                                         {
-                                            if (!val)
+                                            if (!val || string.IsNullOrEmpty(RecipeName))
                                             {
                                                 return;
                                             }
