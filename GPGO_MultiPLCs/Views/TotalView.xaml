@@ -100,7 +100,7 @@
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding EquipmentState, Mode=OneWay}"
-                                                 Value="2">
+                                                 Value="1">
                                         <Setter TargetName="StatusBorder" Property="Background" Value="{StaticResource PressedBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding OnlineStatus, Mode=OneWay}"
