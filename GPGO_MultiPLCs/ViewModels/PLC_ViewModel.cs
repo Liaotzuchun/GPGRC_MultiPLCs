@@ -313,16 +313,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 return false;
             }
 
-            if (check && !await Dialog.Show(new Dictionary<Language, string>
-                                            {
-                                                {Language.TW, "請確認配方內容："},
-                                                {Language.CHS, "请确认配方内容："},
-                                                {Language.EN, "Please confirm this recipe:"}
-                                            }, true))
-            {
-                return false;
-            }
-
             RecipeUsed?.Invoke(recipeName);
             recipe.CopyToObj(this);
             Set(recipeName, nameof(Selected_Name));
