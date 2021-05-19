@@ -507,12 +507,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 #endregion
 
-                //plc.ValueChanged += async (LogType, data) => await ValueChanged(LogType, data);
-
-                plc.TracedDataChanged += data =>
-                                         {
-                                         };
-
                 plc.GetLanguage += () => Language;
 
                 //!PLC讀取配方內容時

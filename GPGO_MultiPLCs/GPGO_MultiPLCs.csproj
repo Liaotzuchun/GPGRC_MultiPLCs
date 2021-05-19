@@ -110,8 +110,8 @@
     <Reference Include="GPCore, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GPCore.1.0.5\lib\net462\GPCore.dll</HintPath>
     </Reference>
-    <Reference Include="GPMVVM, Version=1.9.9.30, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GPMVVM.1.9.9.30\lib\net48\GPMVVM.dll</HintPath>
+    <Reference Include="GPMVVM, Version=1.9.9.32, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GPMVVM.1.9.9.32\lib\net48\GPMVVM.dll</HintPath>
     </Reference>
     <Reference Include="GP_SECS_GEM, Version=1.0.6.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\GP_SECS_GEM.1.0.6\lib\net462\GP_SECS_GEM.dll</HintPath>
@@ -275,6 +275,9 @@
     <Compile Include="Views\SECSParameterView.xaml.cs">
       <DependentUpon>SECSParameterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TotalView.xaml.cs">
       <DependentUpon>TotalView.xaml</DependentUpon>
     </Compile>
@@ -328,6 +331,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SECSParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

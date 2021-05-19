@@ -1,5 +1,5 @@
-﻿using GPMVVM.Helpers;
-using GPMVVM.PLCService;
+﻿using GPGO_MultiPLCs.Views;
+using GPMVVM.Helpers;
 using Microsoft.Win32;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
@@ -45,10 +45,27 @@ namespace GPGO_MultiPLCs
 
         private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e) { Log.Error("程序未正常中止"); }
 
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var main = new MainWindow();
+
+#if (!DEBUG)
+            var splash = new SplashWindow();
+            splash.Show();
+
+            main.Loaded += (_, _) =>
+                           {
+                               splash.Close();
+                           };
+#endif
+
+            main.Show();
+        }
+
         public App()
         {
             var temp = Process.GetProcesses();
-            var mp = Process.GetCurrentProcess();
+            var mp   = Process.GetCurrentProcess();
             temp.Where(p => p.ProcessName.ToLower().Contains(mp.ProcessName.ToLower()) && p.Id != mp.Id).ToList().ForEach(p => p.Kill());
 
             Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt", rollingInterval: RollingInterval.Day, shared: true, encoding: Encoding.UTF8).CreateLogger();
@@ -90,14 +107,14 @@ namespace GPGO_MultiPLCs
                 if (!string.IsNullOrEmpty(path) && File.Exists(path))
                 {
                     var process = new Process
-                    {
-                        StartInfo = new ProcessStartInfo
-                        {
-                            FileName = path,
-                            Arguments = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all",
-                            WindowStyle = ProcessWindowStyle.Hidden
-                        }
-                    };
+                                  {
+                                      StartInfo = new ProcessStartInfo
+                                                  {
+                                                      FileName    = path,
+                                                      Arguments   = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all",
+                                                      WindowStyle = ProcessWindowStyle.Hidden
+                                                  }
+                                  };
                     process.Start();
                 }
             }
