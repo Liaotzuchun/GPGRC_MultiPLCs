@@ -54,7 +54,7 @@
         </Border.Effect>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="20" />
+                <RowDefinition Height="24" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="80" />
                 <RowDefinition Height="8" />
@@ -79,6 +79,7 @@
                     </Style>
                 </Border.Style>
                 <Border x:Name="Border2"
+                        Width="{Binding ActualHeight, ElementName=Border2, Mode=OneWay}"
                         HorizontalAlignment="Right"
                         Background="Transparent"
                         BorderBrush="{StaticResource GlyphBrush}"
@@ -97,7 +98,7 @@
                                                      PropertyValue="{StaticResource GlyphBrush}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <Path Margin="4"
+                    <Path HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Stroke="{Binding BorderBrush, ElementName=Border2, Mode=OneWay}"
                           StrokeLineJoin="Round"
