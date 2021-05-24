@@ -486,8 +486,6 @@ namespace GPGO_MultiPLCs.ViewModels
             //!註冊PLC事件需引發的動作
             for (var i = 0; i < count; i++)
             {
-                var j = i + 1;
-
                 TotalProduction.Add(i, 0);
                 var plc = new PLC_ViewModel(dialog, (bits_shift: new Dictionary<BitType, int>
                                                                  {
@@ -529,7 +527,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                              //! 更新ProcessData以供上報
                                              try
                                              {
-                                                 secsGem?.UpdateDV($"Oven{j}_ProcessData", JsonConvert.SerializeObject(products));
+                                                 secsGem?.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(products));
                                              }
                                              catch
                                              {
@@ -538,7 +536,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                              if (!baseInfo.IsFinished)
                                              {
-                                                 secsGem?.InvokeEvent($"Oven{j}_ProcessAborted");
+                                                 secsGem?.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
@@ -556,7 +554,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  TotalProduction[index] = await AddRecordToDB.Invoke((index, products));
                                              }
 
-                                             secsGem?.InvokeEvent($"Oven{j}_ProcessComplete");
+                                             secsGem?.InvokeEvent($"Oven{index + 1}_ProcessComplete");
 
                                              dialog?.Show(new Dictionary<Language, string>
                                                           {
@@ -619,12 +617,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 plc.InvokeSECSEvent += EventName =>
                                        {
-                                           secsGem.InvokeEvent($"Oven{j}_{EventName}");
+                                           secsGem.InvokeEvent($"Oven{index + 1}_{EventName}");
                                        };
 
                 plc.InvokeSECSAlarm += (AlarmName, val) =>
                                        {
-                                           secsGem.InvokeAlarm($"Oven{j}_{AlarmName}", val);
+                                           secsGem.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
                                        };
 
                 plc.SV_Changed += (name, value) =>
@@ -634,7 +632,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                           value = value.ToString().Trim();
                                       }
 
-                                      secsGem.UpdateSV($"Oven{j}_{name}", value);
+                                      secsGem.UpdateSV($"Oven{index + 1}_{name}", value);
                                   };
 
                 plc.RecipeChangedbyPLC += recipe =>
