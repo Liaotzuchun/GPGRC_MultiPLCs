@@ -499,14 +499,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 PLC_All[i] = plc;
                 var index = i;
 
-                #region DataModel新值寫入PLC
-
-                plc.SetBit   += async (type, dev, val) => await SetBit(index, type, dev, val);
-                plc.SetData  += async (type, dev, val) => await SetData(index, type, dev, val);
-                plc.SetDatas += async (type, vals) => await SetDatas(index, type, vals);
-
-                #endregion
-
                 plc.GetLanguage += () => Language;
 
                 //!PLC讀取配方內容時
@@ -642,10 +634,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                           {
                                               UpsertRecipe?.Invoke(recipe);
                                           };
-            }
 
-            LoadMachineCodes();
-            LoadAssetNumbers();
+                #region DataModel新值寫入PLC
+
+                plc.SetBit   += async (type, dev, val) => await SetBit(index, type, dev, val);
+                plc.SetData  += async (type, dev, val) => await SetData(index, type, dev, val);
+                plc.SetDatas += async (type, vals) => await SetDatas(index, type, vals);
+
+                #endregion
+            }
 
             #region PLCGate事件通知
 
@@ -692,6 +689,9 @@ namespace GPGO_MultiPLCs.ViewModels
                            };
 
             #endregion
+
+            LoadMachineCodes();
+            LoadAssetNumbers();
 
             Checker = new Timer(_ =>
                                 {
