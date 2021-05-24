@@ -75,10 +75,17 @@ namespace GPGO_MultiPLCs.ViewModels
             get => Get<int>();
             set
             {
+                if (Get<int>() == value)
+                {
+                    return;
+                }
+
                 Set(value);
                 NotifyPropertyChanged(nameof(PLC_All_View));
                 NotifyPropertyChanged(nameof(TotalProduction_View));
                 NotifyPropertyChanged(nameof(TotalProductionCount));
+
+                Gate_Status = false; //!重新連線並發送通訊列表
             }
         }
 
@@ -695,18 +702,23 @@ namespace GPGO_MultiPLCs.ViewModels
 
             Checker = new Timer(_ =>
                                 {
-                                    if (!Gate_Status && Connect())
+                                    if (Gate_Status)
                                     {
-                                        var list = PLC_All.Select(x => new Dictionary<string, PLCDataProvider>
-                                                                       {
-                                                                           {"GOL", x}
-                                                                       }).ToArray();
-                                        SetReadListsByDataModels(list); //!連線並發送訂閱列表
+                                        for (var i = 0; i < OvenCount; i++)
+                                        {
+                                            PLC_All[i].Check = !PLC_All[i].Check;
+                                        }
                                     }
-
-                                    foreach (var plc in PLC_All)
+                                    else if (Connect())
                                     {
-                                        plc.Check = !plc.Check;
+                                        for (var i = 0; i < OvenCount; i++)
+                                        {
+                                            var list = new Dictionary<string, PLCDataProvider>
+                                                       {
+                                                           {"GOL", PLC_All[i]}
+                                                       };
+                                            SetReadListByDataModels(i, list); //!連線並發送訂閱列表
+                                        }
                                     }
 
                                     Checker.Change(150, Timeout.Infinite);
