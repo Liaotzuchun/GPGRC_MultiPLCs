@@ -682,9 +682,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  lots[lotID.ToString().Trim()] = counts;
                                                              } while (await Dialog.Show(new Dictionary<Language, string>
                                                                                         {
-                                                                                            {Language.TW, "是否要繼續新增批號？"},
-                                                                                            {Language.CHS, "是否要继续新增批号？"},
-                                                                                            {Language.EN, "Continue to add LotID?"}
+                                                                                            {Language.TW, $"料號：{PartID.ToString().Trim()}\n是否要繼續新增批號？"},
+                                                                                            {Language.CHS, $"料号：{PartID.ToString().Trim()}\n是否要继续新增批号？"},
+                                                                                            {Language.EN, $"PartID：{PartID.ToString().Trim()}\nContinue to add LotID?"}
                                                                                         }, lots, true));
 
                                                              OvenInfo.OperatorID = opId.ToString().Trim();

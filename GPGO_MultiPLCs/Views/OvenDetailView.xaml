@@ -596,13 +596,12 @@
                         </views:LevelsProgressBar>
                         <DataGrid AlternationCount="2147483647"
                                   AutoGenerateColumns="False"
-                                  BorderThickness="1,1,0,0"
+                                  BorderThickness="0,1,0,0"
                                   DockPanel.Dock="Top"
                                   HorizontalScrollBarVisibility="Disabled"
-                                  IsHitTestVisible="False"
                                   ItemsSource="{Binding Ext_Info, Mode=OneWay}"
                                   RowHeaderTemplate="{StaticResource ShowRowNumbers}"
-                                  VerticalScrollBarVisibility="Disabled">
+                                  VerticalScrollBarVisibility="Auto">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Width="*">
                                     <DataGridTemplateColumn.Header>
@@ -610,11 +609,13 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:ProductInfo">
-                                            <TextBlock Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Text="{Binding PartID, Mode=OneWay}"
-                                                       TextTrimming="CharacterEllipsis" />
+                                            <Viewbox Margin="4"
+                                                     StretchDirection="DownOnly">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{Binding PartID, Mode=OneWay}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                            </Viewbox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -624,11 +625,13 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate DataType="models:ProductInfo">
-                                            <TextBlock Margin="4"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Text="{Binding LotID, Mode=OneWay}"
-                                                       TextTrimming="CharacterEllipsis" />
+                                            <Viewbox Margin="4"
+                                                     StretchDirection="DownOnly">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{Binding LotID, Mode=OneWay}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                            </Viewbox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
