@@ -110,8 +110,8 @@
     <Reference Include="GPCore, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GPCore.1.0.5\lib\net462\GPCore.dll</HintPath>
     </Reference>
-    <Reference Include="GPMVVM, Version=1.9.9.32, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GPMVVM.1.9.9.32\lib\net48\GPMVVM.dll</HintPath>
+    <Reference Include="GPMVVM, Version=1.9.9.37, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GPMVVM.1.9.9.37\lib\net48\GPMVVM.dll</HintPath>
     </Reference>
     <Reference Include="GP_SECS_GEM, Version=1.0.6.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\GP_SECS_GEM.1.0.6\lib\net462\GP_SECS_GEM.dll</HintPath>
@@ -134,8 +134,8 @@
     <Reference Include="MongoDB.Libmongocrypt, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Libmongocrypt.1.2.1\lib\net452\MongoDB.Libmongocrypt.dll</HintPath>
     </Reference>
-    <Reference Include="MongodbConnect, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongodbConnect.1.0.3\lib\net462\MongodbConnect.dll</HintPath>
+    <Reference Include="MongodbConnect, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongodbConnect.1.0.4\lib\net462\MongodbConnect.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>

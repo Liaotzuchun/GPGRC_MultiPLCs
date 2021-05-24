@@ -1602,8 +1602,10 @@ namespace GPGO_MultiPLCs.Models
             set => SetPLC(value);
         }
 
-        public GOL_DataModel((Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift) : base(shift) {}
-
         #endregion
+
+        public GOL_DataModel() { }
+
+        public GOL_DataModel((Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift) : base(shift) { }
     }
 }
