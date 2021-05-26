@@ -504,7 +504,7 @@ namespace GPGO_MultiPLCs.ViewModels
             Ext_Info.Add(info);
         }
 
-        public PLC_ViewModel(IDialogService dialog, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift) : base(shift)
+        public PLC_ViewModel(IDialogService dialog, PLCGate gate, int plcindex, string plctag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
         {
             Dialog = dialog;
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
@@ -773,7 +773,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                 var nowtime = DateTime.Now;
 
-                                if (LogType == LogType.Status)
+                                if (LogType == LogType.StatusVariables)
                                 {
                                     var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type}{data.Subscriptions.First()}", value);
 
@@ -934,7 +934,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         InvokeSECSAlarm?.Invoke(name, boolval);
                                     }
                                 }
-                                else if (LogType == LogType.Recipe) //PLC配方"設定值"改變時
+                                else if (LogType == LogType.RecipeSet) //PLC配方"設定值"改變時
                                 {
                                     SV_Changed?.Invoke(name, value);
                                 }

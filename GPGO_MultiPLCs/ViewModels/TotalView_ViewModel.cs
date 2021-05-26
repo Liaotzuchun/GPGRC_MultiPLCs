@@ -487,19 +487,19 @@ namespace GPGO_MultiPLCs.ViewModels
             for (var i = 0; i < count; i++)
             {
                 TotalProduction.Add(i, 0);
-                var plc = new PLC_ViewModel(dialog, (bits_shift: new Dictionary<BitType, int>
-                                                                 {
-                                                                     {BitType.B, 0},
-                                                                     {BitType.M, 0},
-                                                                     {BitType.S, 0},
-                                                                     {BitType.X, 0},
-                                                                     {BitType.Y, 0}
-                                                                 },
-                                                     datas_shift: new Dictionary<DataType, int>
-                                                                  {
-                                                                      {DataType.D, 0},
-                                                                      {DataType.W, 0}
-                                                                  })); //!可指定PLC點位位移
+                var plc = new PLC_ViewModel(dialog, this, i, "GOL", (bits_shift: new Dictionary<BitType, int>
+                                                                                 {
+                                                                                     {BitType.B, 0},
+                                                                                     {BitType.M, 0},
+                                                                                     {BitType.S, 0},
+                                                                                     {BitType.X, 0},
+                                                                                     {BitType.Y, 0}
+                                                                                 },
+                                                                     datas_shift: new Dictionary<DataType, int>
+                                                                                  {
+                                                                                      {DataType.D, 0},
+                                                                                      {DataType.W, 0}
+                                                                                  })); //!可指定PLC點位位移
 
                 PLC_All[i] = plc;
                 var index = i;
@@ -639,33 +639,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                           {
                                               UpsertRecipe?.Invoke(recipe);
                                           };
-
-                #region DataModel新值寫入PLC
-
-                plc.SetBit   += async (type, dev, val) => await SetBit(index, type, dev, val);
-                plc.SetData  += async (type, dev, val) => await SetData(index, type, dev, val);
-                plc.SetDatas += async (type, vals) => await SetDatas(index, type, vals);
-
-                #endregion
             }
 
             #region PLCGate事件通知
 
             MessagesSent += (index, msgs) =>
                             {
-                                try
-                                {
-                                    if (index <= -1)
-                                    {
-                                        return;
-                                    }
 
-                                    PLC_All[index].SetValues(msgs["GOL"]);
-                                }
-                                catch
-                                {
-                                    // ignored
-                                }
                             };
 
             StatusChanged += (i, v) =>
@@ -711,11 +691,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     {
                                         for (var i = 0; i < OvenCount; i++)
                                         {
-                                            var list = new Dictionary<string, PLCDataProvider>
-                                                       {
-                                                           {"GOL", PLC_All[i]}
-                                                       };
-                                            SetReadListByDataModels(i, list); //!連線並發送訂閱列表
+                                            SetReadListByDataModels(i, PLC_All[i]); //!連線並發送訂閱列表
                                         }
                                     }
 
