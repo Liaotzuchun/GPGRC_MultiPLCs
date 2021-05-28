@@ -11,36 +11,36 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12020, 0, LogType.Trigger)]
         public bool RemoteCommandStart
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12020, 1, LogType.Trigger)]
         public bool RemoteCommandStop
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 11067, 0, LogType.Trigger)]
         public bool RemoteCommandSelectPP
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 11068, 0, LogType.Trigger)]
         public bool RemoteCommandSelectPPFinish
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBit(BitType.M, 21, LogType.None)]
         public bool Check
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         #endregion
@@ -53,8 +53,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11200, 40, LogType.RecipeSet)]
         public string RecipeName
         {
-            get => GetPLC<string>();
-            set => SetPLC(value);
+            get => Get<string>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11272, 0.1, LogType.RecipeSet)]
         public double CoolingTemperature
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11271, LogType.RecipeSet)]
         public double CoolingTime
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double InflatingTime
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11273, LogType.RecipeSet)]
         public double ProgramEndWarningTime
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -102,8 +102,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11270, LogType.RecipeSet)]
         public short StepCounts
         {
-            get => GetPLC<short>();
-            set => SetPLC(value);
+            get => Get<short>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -112,8 +112,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11220, 0.1, LogType.RecipeSet)]
         public double TemperatureSetpoint_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -122,8 +122,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11221, 0.1, LogType.RecipeSet)]
         public double TemperatureSetpoint_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -132,8 +132,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11222, 0.1, LogType.RecipeSet)]
         public double TemperatureSetpoint_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -142,8 +142,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11223, 0.1, LogType.RecipeSet)]
         public double TemperatureSetpoint_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -152,8 +152,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11224, 0.1, LogType.RecipeSet)]
         public double TemperatureSetpoint_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -162,8 +162,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11225, 0.1, LogType.RecipeSet)]
         public double TemperatureSetpoint_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -171,8 +171,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double TemperatureSetpoint_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -180,8 +180,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double TemperatureSetpoint_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -189,8 +189,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTemperature_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -198,8 +198,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTemperature_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -207,8 +207,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTemperature_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -216,8 +216,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTemperature_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -225,8 +225,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTemperature_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -234,8 +234,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTemperature_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -243,8 +243,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTemperature_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -252,8 +252,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTemperature_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -262,8 +262,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11260, LogType.RecipeSet)]
         public double RampTime_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -272,8 +272,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11261, LogType.RecipeSet)]
         public double RampTime_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -282,8 +282,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11262, LogType.RecipeSet)]
         public double RampTime_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -292,8 +292,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11263, LogType.RecipeSet)]
         public double RampTime_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -302,8 +302,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11264, LogType.RecipeSet)]
         public double RampTime_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -312,8 +312,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11265, LogType.RecipeSet)]
         public double RampTime_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -321,8 +321,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double RampTime_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -330,8 +330,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double RampTime_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -340,8 +340,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11240, LogType.RecipeSet)]
         public double RampAlarm_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -350,8 +350,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11241, LogType.RecipeSet)]
         public double RampAlarm_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -360,8 +360,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11242, LogType.RecipeSet)]
         public double RampAlarm_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -370,8 +370,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11243, LogType.RecipeSet)]
         public double RampAlarm_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -380,8 +380,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11244, LogType.RecipeSet)]
         public double RampAlarm_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -390,8 +390,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11245, LogType.RecipeSet)]
         public double RampAlarm_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -399,8 +399,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double RampAlarm_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -408,8 +408,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double RampAlarm_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -418,8 +418,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11230, LogType.RecipeSet)]
         public double DwellTime_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -428,8 +428,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11231, LogType.RecipeSet)]
         public double DwellTime_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -438,8 +438,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11232, LogType.RecipeSet)]
         public double DwellTime_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -448,8 +448,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11233, LogType.RecipeSet)]
         public double DwellTime_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -458,8 +458,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11234, LogType.RecipeSet)]
         public double DwellTime_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -468,8 +468,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11235, LogType.RecipeSet)]
         public double DwellTime_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -477,8 +477,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTime_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -486,8 +486,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellTime_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -496,8 +496,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11250, LogType.RecipeSet)]
         public double DwellAlarm_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -506,8 +506,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11251, LogType.RecipeSet)]
         public double DwellAlarm_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -516,8 +516,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11252, LogType.RecipeSet)]
         public double DwellAlarm_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -526,8 +526,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11253, LogType.RecipeSet)]
         public double DwellAlarm_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -536,8 +536,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11254, LogType.RecipeSet)]
         public double DwellAlarm_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -546,8 +546,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11255, LogType.RecipeSet)]
         public double DwellAlarm_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -555,8 +555,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellAlarm_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -564,8 +564,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double DwellAlarm_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         #endregion
@@ -578,8 +578,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11400, 40, LogType.StatusVariables)]
         public string PV_RecipeName
         {
-            get => GetPLC<string>();
-            set => SetPLC(value);
+            get => Get<string>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -588,8 +588,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11472, 0.1, LogType.StatusVariables)]
         public double PV_CoolingTemperature
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -598,8 +598,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11471, LogType.StatusVariables)]
         public double PV_CoolingTime
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -607,8 +607,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_InflatingTime
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -617,8 +617,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11473, LogType.StatusVariables)]
         public double PV_ProgramEndWarningTime
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -627,8 +627,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11470, LogType.StatusVariables)]
         public short PV_StepCounts
         {
-            get => GetPLC<short>();
-            set => SetPLC(value);
+            get => Get<short>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -637,8 +637,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11420, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -647,8 +647,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11421, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -657,8 +657,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11422, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -667,8 +667,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11423, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -677,8 +677,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11424, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -687,8 +687,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11425, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -696,8 +696,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_TemperatureSetpoint_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -705,8 +705,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_TemperatureSetpoint_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -714,8 +714,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTemperature_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -723,8 +723,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTemperature_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -732,8 +732,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTemperature_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -741,8 +741,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTemperature_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -750,8 +750,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTemperature_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -759,8 +759,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTemperature_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -768,8 +768,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTemperature_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -777,8 +777,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTemperature_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -787,8 +787,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11460, LogType.StatusVariables)]
         public double PV_RampTime_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -797,8 +797,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11461, LogType.StatusVariables)]
         public double PV_RampTime_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -807,8 +807,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11462, LogType.StatusVariables)]
         public double PV_RampTime_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -817,8 +817,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11463, LogType.StatusVariables)]
         public double PV_RampTime_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -827,8 +827,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11464, LogType.StatusVariables)]
         public double PV_RampTime_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -837,8 +837,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11465, LogType.StatusVariables)]
         public double PV_RampTime_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -846,8 +846,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_RampTime_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -855,8 +855,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_RampTime_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -865,8 +865,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11440, LogType.StatusVariables)]
         public double PV_RampAlarm_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -875,8 +875,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11441, LogType.StatusVariables)]
         public double PV_RampAlarm_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -885,8 +885,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11442, LogType.StatusVariables)]
         public double PV_RampAlarm_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -895,8 +895,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11443, LogType.StatusVariables)]
         public double PV_RampAlarm_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -905,8 +905,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11444, LogType.StatusVariables)]
         public double PV_RampAlarm_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -915,8 +915,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11445, LogType.StatusVariables)]
         public double PV_RampAlarm_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -924,8 +924,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_RampAlarm_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -933,8 +933,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_RampAlarm_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -943,8 +943,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11430, LogType.StatusVariables)]
         public double PV_DwellTime_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -953,8 +953,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11431, LogType.StatusVariables)]
         public double PV_DwellTime_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -963,8 +963,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11432, LogType.StatusVariables)]
         public double PV_DwellTime_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -973,8 +973,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11433, LogType.StatusVariables)]
         public double PV_DwellTime_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -983,8 +983,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11434, LogType.StatusVariables)]
         public double PV_DwellTime_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -993,8 +993,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11435, LogType.StatusVariables)]
         public double PV_DwellTime_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1002,8 +1002,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTime_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1011,8 +1011,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellTime_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1021,8 +1021,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11450, LogType.StatusVariables)]
         public double PV_DwellAlarm_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1031,8 +1031,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11451, LogType.StatusVariables)]
         public double PV_DwellAlarm_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1041,8 +1041,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11452, LogType.StatusVariables)]
         public double PV_DwellAlarm_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1051,8 +1051,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11453, LogType.StatusVariables)]
         public double PV_DwellAlarm_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1061,8 +1061,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11454, LogType.StatusVariables)]
         public double PV_DwellAlarm_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1071,8 +1071,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11455, LogType.StatusVariables)]
         public double PV_DwellAlarm_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1080,8 +1080,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellAlarm_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1089,8 +1089,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double PV_DwellAlarm_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         #endregion
@@ -1103,8 +1103,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12002, 1, LogType.Alarm)]
         public bool ProgramStop
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1113,8 +1113,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12002, 2, LogType.Alert)]
         public bool DoorNotClosed
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1123,8 +1123,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12000, 0, LogType.Alarm)]
         public bool EmergencyStop
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1133,8 +1133,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12000, 1, LogType.Alert)]
         public bool LowTemperature
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1143,8 +1143,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12000, 2, LogType.Alarm)]
         public bool PowerPhaseError
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1153,8 +1153,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12000, 3, LogType.Alarm)]
         public bool OTPTemperatureError
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1163,8 +1163,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12000, 4, LogType.Alarm)]
         public bool CirculatingFanCurrentError
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1173,29 +1173,29 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12000, 5, LogType.Alert)]
         public bool CoolingFanError
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12000, 6, LogType.Alarm)]
         public bool ThermostatSignalError
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12000, 7, LogType.Alarm)]
         public bool DoorOpeningLimit
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12000, 8, LogType.Alarm)]
         public bool DoorClosingLimit
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1204,8 +1204,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12000, 10, LogType.Alarm)]
         public bool OverTemperatureAlarm
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1214,8 +1214,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12000, 15, LogType.Alert)]
         public bool DoorNotOpen
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1224,8 +1224,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12001, 2, LogType.Alarm)]
         public bool CirculatingFanInverterError
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1234,8 +1234,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12001, 5, LogType.Alert)]
         public bool InflatingTimeExceeded
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1244,8 +1244,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12001, 6, LogType.Alert)]
         public bool DoorNotClosedPositionException
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1254,8 +1254,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12001, 7, LogType.Alarm)]
         public bool RampTimeExceeded
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1264,43 +1264,43 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12001, 8, LogType.Alarm)]
         public bool RampBranchException
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12001, 10, LogType.Alarm)]
         public bool PLCBatteryLow
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12001, 11, LogType.Alarm)]
         public bool ELBtrip
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12001, 12, LogType.Alarm)]
         public bool ServoDriverBatteryVoltLow
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12001, 15, LogType.Alarm)]
         public bool ServoDriverError
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12002, 0, LogType.Alarm)]
         public bool RasterError
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         #endregion
@@ -1310,22 +1310,22 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12010, 0, LogType.StatusVariables)]
         public bool ReadBarcode
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12011, 1, LogType.StatusVariables)]
         public bool RackInput
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12011, 7, LogType.StatusVariables)]
         public bool RackOutput
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1334,8 +1334,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12010, 1, LogType.StatusVariables)]
         public bool AllowStart
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1343,8 +1343,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public bool AllowStop
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1353,8 +1353,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12010, 14, LogType.None)]
         public bool GreenLight
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1363,8 +1363,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12010, 13, LogType.None)]
         public bool YellowLight
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1373,8 +1373,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12010, 12, LogType.None)]
         public bool RedLight
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1383,8 +1383,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12011, 3, LogType.StatusVariables)]
         public bool IsRamp
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1393,8 +1393,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12011, 4, LogType.StatusVariables)]
         public bool IsWarming
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1403,71 +1403,71 @@ namespace GPGO_MultiPLCs.Models
         [PLCBitData(DataType.D, 12011, 5, LogType.StatusVariables)]
         public bool IsCooling
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12010, 4, LogType.StatusVariables)]
         public bool AutoMode
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12010, 3, LogType.StatusVariables)]
         public bool ManualMode
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12010, 6, LogType.StatusVariables)]
         public bool AutoMode_Start
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12010, 2, LogType.StatusVariables)]
         public bool ProcessComplete
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12010, 5, LogType.StatusVariables)]
         public bool AutoMode_Stop
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12010, 10, LogType.StatusVariables)]
         public bool PC_InUse
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12010, 8, LogType.StatusVariables)]
         public bool RemoteMode
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBitData(DataType.D, 12010, 9, LogType.StatusVariables)]
         public bool LocalMode
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         [PLCBit(BitType.M, 46, LogType.StatusVariables)]
         public bool RecipeChanged
         {
-            get => GetPLC<bool>();
-            set => SetPLC(value);
+            get => Get<bool>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1476,8 +1476,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11124, 0.1, LogType.StatusVariables)]
         public double PV_ThermostatTemperature
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1486,8 +1486,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11125, 0.1, LogType.StatusVariables)]
         public double SV_ThermostatTemperature
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1496,8 +1496,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11380, 0.1, LogType.StatusVariables)]
         public double OvenTemperature_1
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1506,8 +1506,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11381, 0.1, LogType.StatusVariables)]
         public double OvenTemperature_2
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1516,8 +1516,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11382, 0.1, LogType.StatusVariables)]
         public double OvenTemperature_3
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1526,8 +1526,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11383, 0.1, LogType.StatusVariables)]
         public double OvenTemperature_4
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1536,8 +1536,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11384, 0.1, LogType.StatusVariables)]
         public double OvenTemperature_5
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1546,8 +1546,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11385, 0.1, LogType.StatusVariables)]
         public double OvenTemperature_6
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1555,8 +1555,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double OvenTemperature_7
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1564,8 +1564,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public double OvenTemperature_8
         {
-            get => GetPLC<double>();
-            set => SetPLC(value);
+            get => Get<double>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1574,8 +1574,8 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11479, LogType.StatusVariables)]
         public short CurrentStep
         {
-            get => GetPLC<short>();
-            set => SetPLC(value);
+            get => Get<short>();
+            set => Set(value);
         }
 
         /// <summary>
@@ -1584,22 +1584,22 @@ namespace GPGO_MultiPLCs.Models
         [PLCData(DataType.D, 11100, 24, LogType.StatusVariables)]
         public string RackID
         {
-            get => GetPLC<string>();
-            set => SetPLC(value);
+            get => Get<string>();
+            set => Set(value);
         }
 
         [PLCData(DataType.D, 11043, LogType.StatusVariables)]
         public short EquipmentState
         {
-            get => GetPLC<short>();
-            set => SetPLC(value);
+            get => Get<short>();
+            set => Set(value);
         }
 
         [PLCData(DataType.D, 11045, 40, LogType.StatusVariables)]
         public string EquipmentName
         {
-            get => GetPLC<string>();
-            set => SetPLC(value);
+            get => Get<string>();
+            set => Set(value);
         }
 
         #endregion
