@@ -274,7 +274,6 @@ namespace GPGO_MultiPLCs.ViewModels
             RecipeUsed?.Invoke(recipe.RecipeName);
 
             ManualSetPLCByProperties(recipe.ToDictionary());
-            //recipe.CopyToObj(this);
 
             Set(recipe.RecipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
@@ -292,7 +291,6 @@ namespace GPGO_MultiPLCs.ViewModels
             RecipeUsed?.Invoke(recipeName);
 
             ManualSetPLCByProperties(recipe.ToDictionary());
-            //recipe.CopyToObj(this);
 
             Set(recipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
@@ -322,7 +320,6 @@ namespace GPGO_MultiPLCs.ViewModels
             RecipeUsed?.Invoke(recipeName);
 
             await ManualSetPLCByProperties(recipe.ToDictionary());
-            //recipe.CopyToObj(this);
 
             Set(recipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
@@ -734,8 +731,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  if (GetRecipe?.Invoke(Selected_Name) is {} recipe)
                                                                  {
                                                                      await ManualSetPLCByProperties(recipe.ToDictionary());
-                                                                     //recipe.CopyToObj(this);
-                                                                     //OvenInfo.Recipe = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
                                                                  }
 
                                                                  RemoteCommandSelectPP = true;
