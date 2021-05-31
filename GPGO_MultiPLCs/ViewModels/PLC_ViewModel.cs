@@ -422,55 +422,40 @@ namespace GPGO_MultiPLCs.ViewModels
                                            {
                                                x.Dispose();
 
-                                               var h = new[]
-                                                       {
-                                                           RampTime_1, RampTime_2, RampTime_3, RampTime_4,
-                                                           RampTime_5, RampTime_6, RampTime_7, RampTime_8
-                                                       };
-                                               var w = new[]
-                                                       {
-                                                           DwellTime_1, DwellTime_2, DwellTime_3, DwellTime_4,
-                                                           DwellTime_5, DwellTime_6, DwellTime_7, DwellTime_8
-                                                       };
-
-                                               var ha = new[]
-                                                        {
-                                                            RampAlarm_1, RampAlarm_2, RampAlarm_3, RampAlarm_4,
-                                                            RampAlarm_5, RampAlarm_6, RampAlarm_7, RampAlarm_8
-                                                        };
-                                               var wa = new[]
-                                                        {
-                                                            DwellAlarm_1, DwellAlarm_2, DwellAlarm_3, DwellAlarm_4,
-                                                            DwellAlarm_5, DwellAlarm_6, DwellAlarm_7, DwellAlarm_8
-                                                        };
-                                               var t = new[]
-                                                       {
-                                                           TemperatureSetpoint_1, TemperatureSetpoint_2, TemperatureSetpoint_3, TemperatureSetpoint_4,
-                                                           TemperatureSetpoint_5, TemperatureSetpoint_6, TemperatureSetpoint_7, TemperatureSetpoint_8
-                                                       };
-                                               var s = new[]
-                                                       {
-                                                           DwellTemperature_1, DwellTemperature_2, DwellTemperature_3, DwellTemperature_4,
-                                                           DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
-                                                       };
-
-                                               Array.Resize(ref h, StepCounts);
-                                               Array.Resize(ref w, StepCounts);
-                                               Array.Resize(ref ha, StepCounts);
-                                               Array.Resize(ref wa, StepCounts);
-                                               Array.Resize(ref t, StepCounts);
-                                               Array.Resize(ref s, StepCounts);
-
                                                //!結束生產，填入資料
-                                               OvenInfo.EndTime                = DateTime.Now;
-                                               OvenInfo.Recipe                 = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
-                                               OvenInfo.RampTimes              = h.ToList();
-                                               OvenInfo.DwellTimes             = w.ToList();
-                                               OvenInfo.RampAlarms             = ha.ToList();
-                                               OvenInfo.DwellAlarms            = wa.ToList();
-                                               OvenInfo.TotalRampTime          = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
-                                               OvenInfo.TargetOvenTemperatures = t.ToList();
-                                               OvenInfo.DwellTemperatures      = s.ToList();
+                                               OvenInfo.EndTime       = DateTime.Now;
+                                               OvenInfo.Recipe        = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                               OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
+                                               OvenInfo.RampTimes = new[]
+                                                                    {
+                                                                        RampTime_1, RampTime_2, RampTime_3, RampTime_4,
+                                                                        RampTime_5, RampTime_6, RampTime_7, RampTime_8
+                                                                    }.Take(StepCounts).ToList();
+                                               OvenInfo.DwellTimes = new[]
+                                                                     {
+                                                                         DwellTime_1, DwellTime_2, DwellTime_3, DwellTime_4,
+                                                                         DwellTime_5, DwellTime_6, DwellTime_7, DwellTime_8
+                                                                     }.Take(StepCounts).ToList();
+                                               OvenInfo.RampAlarms = new[]
+                                                                     {
+                                                                         RampAlarm_1, RampAlarm_2, RampAlarm_3, RampAlarm_4,
+                                                                         RampAlarm_5, RampAlarm_6, RampAlarm_7, RampAlarm_8
+                                                                     }.Take(StepCounts).ToList();
+                                               OvenInfo.DwellAlarms = new[]
+                                                                      {
+                                                                          DwellAlarm_1, DwellAlarm_2, DwellAlarm_3, DwellAlarm_4,
+                                                                          DwellAlarm_5, DwellAlarm_6, DwellAlarm_7, DwellAlarm_8
+                                                                      }.Take(StepCounts).ToList();
+                                               OvenInfo.TargetOvenTemperatures = new[]
+                                                                                 {
+                                                                                     TemperatureSetpoint_1, TemperatureSetpoint_2, TemperatureSetpoint_3, TemperatureSetpoint_4,
+                                                                                     TemperatureSetpoint_5, TemperatureSetpoint_6, TemperatureSetpoint_7, TemperatureSetpoint_8
+                                                                                 }.Take(StepCounts).ToList();
+                                               OvenInfo.DwellTemperatures = new[]
+                                                                            {
+                                                                                DwellTemperature_1, DwellTemperature_2, DwellTemperature_3, DwellTemperature_4,
+                                                                                DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
+                                                                            }.Take(StepCounts).ToList();
 
                                                ExecutingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
 
@@ -982,8 +967,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                               var parts  = Ext_Info.Select(x => x.PartID).Distinct();
                                               var panels = Ext_Info.SelectMany(x => x.PanelIDs).Distinct();
 
-                                              SV_Changed?.Invoke("LotIDs", lots.Any() ? string.Join(",", Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
-                                              SV_Changed?.Invoke("PartIDs", parts.Any() ? string.Join(",", Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
                                               SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                           };
 
