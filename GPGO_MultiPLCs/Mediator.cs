@@ -99,9 +99,9 @@ namespace GPGO_MultiPLCs
             {
                 for (var i = 0; i < PLC_Count; i++)
                 {
-                    var rn = new Random(i + j);
-
-                    var st = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), i);
+                    var plc = TotalVM.PLC_All[i];
+                    var rn  = new Random(i + j);
+                    var st  = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), i);
 
                     for (var k = 0; k < 8; k++)
                     {
@@ -109,53 +109,39 @@ namespace GPGO_MultiPLCs
                                    {
                                        StartTime  = st,
                                        RackID     = rn.Next(1, 10000).ToString("00000"),
-                                       OperatorID = rn.Next(1, 10).ToString("000")
+                                       OperatorID = rn.Next(1, 10).ToString("000"),
+                                       Recipe     = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language),
+                                       RampTimes = new[]
+                                                   {
+                                                       plc.RampTime_1, plc.RampTime_2, plc.RampTime_3, plc.RampTime_4,
+                                                       plc.RampTime_5, plc.RampTime_6, plc.RampTime_7, plc.RampTime_8
+                                                   }.Take(plc.StepCounts).ToList(),
+                                       DwellTimes = new[]
+                                                    {
+                                                        plc.DwellTime_1, plc.DwellTime_2, plc.DwellTime_3, plc.DwellTime_4,
+                                                        plc.DwellTime_5, plc.DwellTime_6, plc.DwellTime_7, plc.DwellTime_8
+                                                    }.Take(plc.StepCounts).ToList(),
+                                       RampAlarms = new[]
+                                                    {
+                                                        plc.RampAlarm_1, plc.RampAlarm_2, plc.RampAlarm_3, plc.RampAlarm_4,
+                                                        plc.RampAlarm_5, plc.RampAlarm_6, plc.RampAlarm_7, plc.RampAlarm_8
+                                                    }.Take(plc.StepCounts).ToList(),
+                                       DwellAlarms = new[]
+                                                     {
+                                                         plc.DwellAlarm_1, plc.DwellAlarm_2, plc.DwellAlarm_3, plc.DwellAlarm_4,
+                                                         plc.DwellAlarm_5, plc.DwellAlarm_6, plc.DwellAlarm_7, plc.DwellAlarm_8
+                                                     }.Take(plc.StepCounts).ToList(),
+                                       TargetOvenTemperatures = new[]
+                                                                {
+                                                                    plc.TemperatureSetpoint_1, plc.TemperatureSetpoint_2, plc.TemperatureSetpoint_3, plc.TemperatureSetpoint_4,
+                                                                    plc.TemperatureSetpoint_5, plc.TemperatureSetpoint_6, plc.TemperatureSetpoint_7, plc.TemperatureSetpoint_8
+                                                                }.Take(plc.StepCounts).ToList(),
+                                       DwellTemperatures = new[]
+                                                           {
+                                                               plc.DwellTemperature_1, plc.DwellTemperature_2, plc.DwellTemperature_3, plc.DwellTemperature_4,
+                                                               plc.DwellTemperature_5, plc.DwellTemperature_6, plc.DwellTemperature_7, plc.DwellTemperature_8
+                                                           }.Take(plc.StepCounts).ToList()
                                    };
-                        var h = new[]
-                                {
-                                    TotalVM.PLC_All[i].RampTime_1, TotalVM.PLC_All[i].RampTime_2, TotalVM.PLC_All[i].RampTime_3, TotalVM.PLC_All[i].RampTime_4,
-                                    TotalVM.PLC_All[i].RampTime_5, TotalVM.PLC_All[i].RampTime_6, TotalVM.PLC_All[i].RampTime_7, TotalVM.PLC_All[i].RampTime_8
-                                };
-                        var w = new[]
-                                {
-                                    TotalVM.PLC_All[i].DwellTime_1, TotalVM.PLC_All[i].DwellTime_2, TotalVM.PLC_All[i].DwellTime_3, TotalVM.PLC_All[i].DwellTime_4,
-                                    TotalVM.PLC_All[i].DwellTime_5, TotalVM.PLC_All[i].DwellTime_6, TotalVM.PLC_All[i].DwellTime_7, TotalVM.PLC_All[i].DwellTime_8
-                                };
-
-                        var ha = new[]
-                                 {
-                                     TotalVM.PLC_All[i].RampAlarm_1, TotalVM.PLC_All[i].RampAlarm_2, TotalVM.PLC_All[i].RampAlarm_3, TotalVM.PLC_All[i].RampAlarm_4,
-                                     TotalVM.PLC_All[i].RampAlarm_5, TotalVM.PLC_All[i].RampAlarm_6, TotalVM.PLC_All[i].RampAlarm_7, TotalVM.PLC_All[i].RampAlarm_8
-                                 };
-                        var wa = new[]
-                                 {
-                                     TotalVM.PLC_All[i].DwellAlarm_1, TotalVM.PLC_All[i].DwellAlarm_2, TotalVM.PLC_All[i].DwellAlarm_3, TotalVM.PLC_All[i].DwellAlarm_4,
-                                     TotalVM.PLC_All[i].DwellAlarm_5, TotalVM.PLC_All[i].DwellAlarm_6, TotalVM.PLC_All[i].DwellAlarm_7, TotalVM.PLC_All[i].DwellAlarm_8
-                                 };
-                        var t = new[]
-                                {
-                                    TotalVM.PLC_All[i].TemperatureSetpoint_1, TotalVM.PLC_All[i].TemperatureSetpoint_2, TotalVM.PLC_All[i].TemperatureSetpoint_3, TotalVM.PLC_All[i].TemperatureSetpoint_4,
-                                    TotalVM.PLC_All[i].TemperatureSetpoint_5, TotalVM.PLC_All[i].TemperatureSetpoint_6, TotalVM.PLC_All[i].TemperatureSetpoint_7, TotalVM.PLC_All[i].TemperatureSetpoint_8
-                                };
-                        var s = new[]
-                                {
-                                    TotalVM.PLC_All[i].DwellTemperature_1, TotalVM.PLC_All[i].DwellTemperature_2, TotalVM.PLC_All[i].DwellTemperature_3, TotalVM.PLC_All[i].DwellTemperature_4,
-                                    TotalVM.PLC_All[i].DwellTemperature_5, TotalVM.PLC_All[i].DwellTemperature_6, TotalVM.PLC_All[i].DwellTemperature_7, TotalVM.PLC_All[i].DwellTemperature_8
-                                };
-                        Array.Resize(ref h,  TotalVM.PLC_All[i].StepCounts);
-                        Array.Resize(ref w,  TotalVM.PLC_All[i].StepCounts);
-                        Array.Resize(ref ha, TotalVM.PLC_All[i].StepCounts);
-                        Array.Resize(ref wa, TotalVM.PLC_All[i].StepCounts);
-                        Array.Resize(ref t,  TotalVM.PLC_All[i].StepCounts);
-                        Array.Resize(ref s,  TotalVM.PLC_All[i].StepCounts);
-
-                        info.Recipe                 = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language);
-                        info.RampTimes              = h.ToList();
-                        info.DwellTimes             = w.ToList();
-                        info.RampAlarms             = ha.ToList();
-                        info.DwellAlarms            = wa.ToList();
-                        info.TargetOvenTemperatures = t.ToList();
-                        info.DwellTemperatures      = s.ToList();
 
                         var ttime = new TimeSpan(0, 0, 1);
                         var cc    = 0;
@@ -324,13 +310,13 @@ namespace GPGO_MultiPLCs
             TotalVM = new TotalView_ViewModel(20, DialogVM);
             //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
 
-            AuthenticatorVM                    = new Authenticator_ViewModel();
+            AuthenticatorVM = new Authenticator_ViewModel();
             //AuthenticatorVM.Settings.OvenCount = 2;
-            DataOutputPath                     = AuthenticatorVM.Settings.DataOutputPath;
-            DataInputPath                      = AuthenticatorVM.Settings.DataInputPath;
-            Language                           = AuthenticatorVM.Settings.Lng;
-            OvenCount                          = AuthenticatorVM.Settings.OvenCount;
-            User                               = AuthenticatorVM.NowUser;
+            DataOutputPath = AuthenticatorVM.Settings.DataOutputPath;
+            DataInputPath  = AuthenticatorVM.Settings.DataInputPath;
+            Language       = AuthenticatorVM.Settings.Lng;
+            OvenCount      = AuthenticatorVM.Settings.OvenCount;
+            User           = AuthenticatorVM.NowUser;
 
             AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
                                                         {
