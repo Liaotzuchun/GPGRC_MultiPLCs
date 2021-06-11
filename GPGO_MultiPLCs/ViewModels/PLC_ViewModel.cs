@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
+using UltraMapper;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -858,7 +859,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                             }
 
                                             var recipe = new PLC_Recipe();
-                                            recipe.CopyFromObj(this);
+                                            this.MapTo(recipe);
                                             recipe.Updated     = DateTime.Now;
                                             recipe.Editor      = "PLC";
                                             recipe.EditorLevel = UserLevel.Operator;
