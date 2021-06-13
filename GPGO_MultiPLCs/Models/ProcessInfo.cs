@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using UltraMapper;
 
 namespace GPGO_MultiPLCs.Models
 {
@@ -332,8 +331,8 @@ namespace GPGO_MultiPLCs.Models
 
         public ProcessInfo(BaseInfo baseInfo, ProductInfo productInfo)
         {
-            baseInfo.MapTo(this);
-            productInfo.MapTo(this);
+            baseInfo.CopyTo(this);
+            productInfo.CopyTo(this);
         }
 
         #region 此區由TraceabilityView_ViewModel新增至資料庫時填入

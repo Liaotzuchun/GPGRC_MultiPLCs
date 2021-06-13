@@ -239,9 +239,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UltraMapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UltraMapper.0.2.59\lib\net47\UltraMapper.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
