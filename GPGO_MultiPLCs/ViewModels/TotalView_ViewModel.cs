@@ -331,29 +331,19 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  };
 
             secsGem = new SECSThread(0);
-            secsGem.TerminalMessage += async message =>
+            secsGem.TerminalMessage += message =>
                                        {
                                            if (dialog == null)
                                            {
                                                return;
                                            }
 
-                                           var (result, input) = await dialog.ShowWithInput(new Dictionary<Language, string>
-                                                                                            {
-                                                                                                {Language.TW, message},
-                                                                                                {Language.CHS, message},
-                                                                                                {Language.EN, message}
-                                                                                            }, new Dictionary<Language, string>
-                                                                                               {
-                                                                                                   {Language.TW, "終端訊息"},
-                                                                                                   {Language.CHS, "终端讯息"},
-                                                                                                   {Language.EN, "TerminalMessage"}
-                                                                                               });
-
-                                           if (result)
-                                           {
-                                               secsGem.GemCore.SendTerminalMessage(input == null || input.ToString() == "" ? "Confirmed." : $"{input}");
-                                           }
+                                           _ = dialog.Show(new Dictionary<Language, string>
+                                                           {
+                                                               {Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}"},
+                                                               {Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}"},
+                                                               {Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}"}
+                                                           }, false, TimeSpan.FromDays(1));
                                        };
 
             secsGem.ECChange += (index, ecid, value) =>
@@ -645,7 +635,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
             MessagesSent += (index, msgs) =>
                             {
-
                             };
 
             StatusChanged += (i, v) =>

@@ -765,7 +765,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                 if (LogType == LogType.StatusVariables)
                                 {
-                                    var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type}{data.Subscriptions.First()}", value);
+                                    var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
 
                                     SV_Changed?.Invoke(name, value);
 
@@ -898,7 +898,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 }
                                 else if (LogType == LogType.Alert)
                                 {
-                                    var eventval = (EventType.Alert, nowtime, name, $"{(BitType)type}{data.Subscriptions.First()}", value);
+                                    var eventval = (EventType.Alert, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
                                     EventHappened?.Invoke(eventval);
                                     if (IsExecuting)
                                     {
@@ -912,7 +912,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 }
                                 else if (LogType == LogType.Alarm)
                                 {
-                                    var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type}{data.Subscriptions.First()}", value);
+                                    var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
                                     EventHappened?.Invoke(eventval);
                                     if (IsExecuting)
                                     {
@@ -932,7 +932,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 {
                                     if (value is bool val)
                                     {
-                                        var eventval = (EventType.Trigger, nowtime, name, $"{(BitType)type}{data.Subscriptions.First()}", val);
+                                        var eventval = (EventType.Trigger, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", val);
 
                                         if (name == nameof(RemoteCommandStart))
                                         {
