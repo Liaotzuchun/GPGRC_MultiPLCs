@@ -47,17 +47,14 @@ namespace GPGO_MultiPLCs
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var main = new MainWindow();
-
-#if (!DEBUG)
             var splash = new SplashWindow();
             splash.Show();
 
+            var main   = new MainWindow();
             main.Loaded += (_, _) =>
                            {
                                splash.Close();
                            };
-#endif
 
             main.Show();
         }
