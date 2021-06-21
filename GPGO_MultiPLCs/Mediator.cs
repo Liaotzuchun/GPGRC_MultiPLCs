@@ -762,7 +762,24 @@ namespace GPGO_MultiPLCs
                                       TraceVM.Date1        = info.AddedTime.Date;
                                   };
 
-            //MakeTestData(20);
+            //DialogVM.Show(new Dictionary<Language, string>
+            //              {
+            //                  {Language.TW, "測試資料產生中，請稍後！"},
+            //                  {Language.CHS, "测试数据产生中，请稍后！"},
+            //                  {Language.EN, "Testing data is being generated, please wait!"}
+            //              }, Task.Factory.StartNew(() =>
+            //                                       {
+            //                                           while (RecipeVM.Recipes == null)
+            //                                           {
+            //                                               Thread.Sleep(45);
+            //                                           }
+
+            //                                           Thread.Sleep(45);
+
+            //                                           MakeTestData(10);
+
+            //                                           Thread.Sleep(45);
+            //                                       }, TaskCreationOptions.LongRunning), TimeSpan.FromMinutes(5));
         }
     }
 }

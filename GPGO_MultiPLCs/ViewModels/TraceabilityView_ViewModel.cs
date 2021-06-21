@@ -681,19 +681,27 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = EndIndex >= BeginIndex && Results?.Count > 0 ?
-                              Results?.GetRange(BeginIndex, EndIndex - BeginIndex + 1)
-                                      .Where(x => OvenFilter.Check(x.StationNumber) &&
-                                                  RecipeFilter.Check(x.RecipeName) &&
-                                                  OrderFilter.Check(x.OrderCode) &&
-                                                  PartIDFilter.Check(x.PartID) &&
-                                                  LotIDFilter.Check(x.LotID) &&
-                                                  OpFilter.Check(x.OperatorID) &&
-                                                  RackFilter.Check(x.RackID) &&
-                                                  SideFilter.Check(x.Side))
-                                      .OrderByDescending(x => x.AddedTime)
-                                      .ToList() :
-                              null;
+            if (Results == null)
+            {
+                ViewResults = null;
+            }
+            else
+            {
+                var max = Math.Min(Results.Count, EndIndex - BeginIndex + 1);
+                ViewResults = EndIndex >= BeginIndex && Results.Count > 0 ?
+                                  Results.GetRange(BeginIndex, max)
+                                         .Where(x => OvenFilter.Check(x.StationNumber) &&
+                                                     RecipeFilter.Check(x.RecipeName) &&
+                                                     OrderFilter.Check(x.OrderCode) &&
+                                                     PartIDFilter.Check(x.PartID) &&
+                                                     LotIDFilter.Check(x.LotID) &&
+                                                     OpFilter.Check(x.OperatorID) &&
+                                                     RackFilter.Check(x.RackID) &&
+                                                     SideFilter.Check(x.Side))
+                                         .OrderByDescending(x => x.AddedTime)
+                                         .ToList() :
+                                  null;
+            }
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));
         }
@@ -834,7 +842,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              DefaultFont             = "Microsoft JhengHei",
                              PlotAreaBackground      = bgcolor,
                              PlotAreaBorderColor     = bordercolor,
-                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
+                             PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
                              LegendTitle             = nameof(ProcessInfo.PartID),
                              LegendTitleColor        = fontcolor,
@@ -873,7 +881,7 @@ namespace GPGO_MultiPLCs.ViewModels
             RackFilter    = new FilterGroup(UpdateAct);
             SideFilter    = new FilterGroup(UpdateAct);
 
-            ResultsChanged += e =>
+            ResultsChanged += async e =>
                               {
                                   OvenFilter.Filter   = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   RecipeFilter.Filter = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
@@ -890,6 +898,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                    .ToList());
 
                                   UpdateAct();
+
+                                  await Task.Delay(120);
 
                                   if (SearchResult != null)
                                   {
@@ -939,13 +949,13 @@ namespace GPGO_MultiPLCs.ViewModels
                                   }
                               };
 
-            BeginIndexChanged += i =>
+            BeginIndexChanged += _ =>
                                  {
                                      UpdateViewResult();
                                      UpdateChart(Date1, Date2);
                                  };
 
-            EndIndexChanged += i =>
+            EndIndexChanged += _ =>
                                {
                                    UpdateViewResult();
                                    UpdateChart(Date1, Date2);
