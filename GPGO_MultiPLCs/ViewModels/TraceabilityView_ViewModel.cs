@@ -564,6 +564,8 @@ namespace GPGO_MultiPLCs.ViewModels
             categoryAxis1.ActualLabels.Clear();
             categoryAxis2.ActualLabels.Clear();
 
+            ResultView.InvalidatePlot(true);
+
             if (ViewResults?.Count > 0)
             {
                 var finishedResults = ViewResults.Where(x => x.IsFinished).ToList();
@@ -745,7 +747,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                Standby = false;
 
-                                               SearchResult = await DataCollection.FindOneAsync(x => (!result1 || x.PartID.Contains(input1.ToString())) && (!result2 || x.LotID.Contains(input2.ToString())));
+                                               SearchResult = (await DataCollection.FindAsync(x => (!result1 || x.PartID.Contains(input1.ToString())) && (!result2 || x.LotID.Contains(input2.ToString())))).LastOrDefault();
 
                                                Standby = true;
 

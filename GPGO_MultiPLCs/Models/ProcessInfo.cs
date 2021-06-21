@@ -47,7 +47,7 @@ namespace GPGO_MultiPLCs.Models
 
         /// <summary>配方名</summary>
         [LanguageTranslator("Recipe Name", "配方名", "配方名")]
-        public string RecipeName => Recipe?.First().Value.ToString();
+        public string RecipeName => $"{Recipe?.First().Value}";
 
         /// <summary>配方名</summary>
         [LanguageTranslator("Recipe", "配方", "配方")]

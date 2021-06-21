@@ -779,6 +779,8 @@ namespace GPGO_MultiPLCs
             //                                           MakeTestData(10);
 
             //                                           Thread.Sleep(45);
+
+            //                                           TraceVM.TodayCommand?.Execute(null);
             //                                       }, TaskCreationOptions.LongRunning), TimeSpan.FromMinutes(5));
         }
     }
