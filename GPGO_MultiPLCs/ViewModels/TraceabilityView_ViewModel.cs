@@ -683,26 +683,26 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            if (Results == null)
+            if (Results == null || Results.Count == 0 || EndIndex < BeginIndex)
             {
                 ViewResults = null;
             }
             else
             {
-                var max = Math.Min(Results.Count, EndIndex - BeginIndex + 1);
-                ViewResults = EndIndex >= BeginIndex && Results.Count > 0 ?
-                                  Results.GetRange(BeginIndex, max)
-                                         .Where(x => OvenFilter.Check(x.StationNumber) &&
-                                                     RecipeFilter.Check(x.RecipeName) &&
-                                                     OrderFilter.Check(x.OrderCode) &&
-                                                     PartIDFilter.Check(x.PartID) &&
-                                                     LotIDFilter.Check(x.LotID) &&
-                                                     OpFilter.Check(x.OperatorID) &&
-                                                     RackFilter.Check(x.RackID) &&
-                                                     SideFilter.Check(x.Side))
-                                         .OrderByDescending(x => x.AddedTime)
-                                         .ToList() :
-                                  null;
+                var min = Math.Max(0, BeginIndex);
+                var max = Math.Min(Results.Count - 1, EndIndex);
+
+                ViewResults = Results.GetRange(min, max - min + 1)
+                                     .Where(x => OvenFilter.Check(x.StationNumber) &&
+                                                 RecipeFilter.Check(x.RecipeName) &&
+                                                 OrderFilter.Check(x.OrderCode) &&
+                                                 PartIDFilter.Check(x.PartID) &&
+                                                 LotIDFilter.Check(x.LotID) &&
+                                                 OpFilter.Check(x.OperatorID) &&
+                                                 RackFilter.Check(x.RackID) &&
+                                                 SideFilter.Check(x.Side))
+                                     .OrderByDescending(x => x.AddedTime)
+                                     .ToList();
             }
 
             NotifyPropertyChanged(nameof(ProduceTotalCount));
@@ -844,7 +844,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              DefaultFont             = "Microsoft JhengHei",
                              PlotAreaBackground      = bgcolor,
                              PlotAreaBorderColor     = bordercolor,
-                             PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
+                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
                              LegendTitle             = nameof(ProcessInfo.PartID),
                              LegendTitleColor        = fontcolor,
