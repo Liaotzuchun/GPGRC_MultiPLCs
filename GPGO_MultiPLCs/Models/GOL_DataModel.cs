@@ -1098,26 +1098,6 @@ namespace GPGO_MultiPLCs.Models
         #region 警報
 
         /// <summary>
-        /// 程式結束
-        /// </summary>
-        [PLCBitData(DataType.D, 12002, 1, LogType.Alarm)]
-        public bool ProgramStop
-        {
-            get => Get<bool>();
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// 加熱門未關
-        /// </summary>
-        [PLCBitData(DataType.D, 12002, 2, LogType.Alert)]
-        public bool DoorNotClosed
-        {
-            get => Get<bool>();
-            set => Set(value);
-        }
-
-        /// <summary>
         /// 緊急停止
         /// </summary>
         [PLCBitData(DataType.D, 12000, 0, LogType.Alarm)]
@@ -1177,6 +1157,9 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 溫控器訊號異常
+        /// </summary>
         [PLCBitData(DataType.D, 12000, 6, LogType.Alarm)]
         public bool ThermostatSignalError
         {
@@ -1184,6 +1167,9 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 開門極限
+        /// </summary>
         [PLCBitData(DataType.D, 12000, 7, LogType.Alarm)]
         public bool DoorOpeningLimit
         {
@@ -1191,6 +1177,9 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 關門極限
+        /// </summary>
         [PLCBitData(DataType.D, 12000, 8, LogType.Alarm)]
         public bool DoorClosingLimit
         {
@@ -1203,6 +1192,26 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         [PLCBitData(DataType.D, 12000, 10, LogType.Alarm)]
         public bool OverTemperatureAlarm
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 電動門要求復歸
+        /// </summary>
+        [PLCBitData(DataType.D, 12000, 12, LogType.Alarm)]
+        public bool ElectricDoorInitRequest
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 電動門不在位置上
+        /// </summary>
+        [PLCBitData(DataType.D, 12000, 13, LogType.Alarm)]
+        public bool ElectricDoorPositionError
         {
             get => Get<bool>();
             set => Set(value);
@@ -1268,6 +1277,9 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// PLC電池電壓不足
+        /// </summary>
         [PLCBitData(DataType.D, 12001, 10, LogType.Alarm)]
         public bool PLCBatteryLow
         {
@@ -1275,6 +1287,9 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 電熱ELB跳脫
+        /// </summary>
         [PLCBitData(DataType.D, 12001, 11, LogType.Alarm)]
         public bool ELBtrip
         {
@@ -1282,6 +1297,9 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 伺服驅動器電池電壓不足
+        /// </summary>
         [PLCBitData(DataType.D, 12001, 12, LogType.Alarm)]
         public bool ServoDriverBatteryVoltLow
         {
@@ -1289,6 +1307,29 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 開門極限異常
+        /// </summary>
+        [PLCBitData(DataType.D, 12001, 13, LogType.Alarm)]
+        public bool DoorOpenLimitError
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 關門極限異常
+        /// </summary>
+        [PLCBitData(DataType.D, 12001, 14, LogType.Alarm)]
+        public bool DoorCloseLimitError
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 伺服驅動器異常
+        /// </summary>
         [PLCBitData(DataType.D, 12001, 15, LogType.Alarm)]
         public bool ServoDriverError
         {
@@ -1296,8 +1337,31 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 光閘偵測異常
+        /// </summary>
         [PLCBitData(DataType.D, 12002, 0, LogType.Alarm)]
         public bool RasterError
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 程式結束
+        /// </summary>
+        [PLCBitData(DataType.D, 12002, 1, LogType.Alarm)]
+        public bool ProgramStop
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 加熱門未關
+        /// </summary>
+        [PLCBitData(DataType.D, 12002, 2, LogType.Alert)]
+        public bool DoorNotClosed
         {
             get => Get<bool>();
             set => Set(value);
