@@ -745,8 +745,9 @@ namespace GPGO_MultiPLCs
 
             LogVM.GoDetailView += async e =>
                                   {
-                                      TraceVM.Standby  = false; //!強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
-                                      MainVM.ViewIndex = 2;
+                                      TraceVM.Standby      = false; //!強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
+                                      MainVM.ViewIndex     = 2;
+                                      var (info, logEvent) = e;
 
                                       await Task.Factory.StartNew(() =>
                                                                   {
@@ -756,7 +757,8 @@ namespace GPGO_MultiPLCs
                                                                       } while (!TraceVM.Standby);
                                                                   });
 
-                                      var (info, logEvent) = e;
+                                      await Task.Delay(150);
+
                                       TraceVM.SearchResult = info;
                                       TraceVM.SearchEvent  = logEvent;
                                       TraceVM.Date1        = info.AddedTime.Date;

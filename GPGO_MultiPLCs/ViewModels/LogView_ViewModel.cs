@@ -225,12 +225,21 @@ namespace GPGO_MultiPLCs.ViewModels
 
         private void UpdateViewResult()
         {
-            ViewResults = EndIndex >= BeginIndex && Results?.Count > 0 ?
-                              Results?.GetRange(BeginIndex, EndIndex - BeginIndex + 1)
-                                      .Where(x => OvenFilter.Check(x.StationNumber) && TypeFilter.Check(x.Type))
-                                      .OrderByDescending(x => x.AddedTime)
-                                      .ToList() :
-                              null;
+            if (Results == null || Results.Count == 0 || EndIndex < BeginIndex)
+            {
+                ViewResults = null;
+            }
+            else
+            {
+                var min = Math.Max(0, BeginIndex);
+                var max = Math.Min(Results.Count - 1, EndIndex);
+
+                ViewResults = Results.GetRange(min, max - min + 1)
+                                     .Where(x => OvenFilter.Check(x.StationNumber) &&
+                                                 TypeFilter.Check(x.Type))
+                                     .OrderByDescending(x => x.AddedTime)
+                                     .ToList();
+            }
         }
 
         public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService dialog) : base(db)

@@ -559,7 +559,15 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="date2">結束日期</param>
         public void UpdateChart(DateTime date1, DateTime date2)
         {
-            ResultView.Series.Clear();
+            try
+            {
+                ResultView.Series.Clear();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
             ResultView.IsLegendVisible = false;
             categoryAxis1.ActualLabels.Clear();
             categoryAxis2.ActualLabels.Clear();
@@ -901,7 +909,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   UpdateAct();
 
-                                  await Task.Delay(120);
+                                  await Task.Delay(150);
 
                                   if (SearchResult != null)
                                   {
@@ -926,12 +934,18 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                   if (SearchEvent != null && ViewResults?.Count > 0 && SelectedIndex > -1)
                                   {
-                                      EventIndex = ViewResults[SelectedIndex]
-                                                  .EventList.Select((x, i) => (index: i, value: x))
-                                                  .Where(x => x.value.Value == SearchEvent.Value && x.value.Description == SearchEvent.Description)
-                                                  .OrderBy(x => Math.Abs((x.value.AddedTime - SearchEvent.AddedTime).TotalSeconds))
-                                                  .First()
-                                                  .index;
+                                      var matchevents = ViewResults[SelectedIndex]
+                                                       .EventList
+                                                       .Select((x, i) => (index: i, value: x))
+                                                       .Where(x => x.value.Value.Equals(SearchEvent.Value) && x.value.Description == SearchEvent.Description).ToList();
+
+                                      if (matchevents.Count > 0)
+                                      {
+                                          EventIndex = matchevents.OrderBy(x => Math.Abs((x.value.AddedTime - SearchEvent.AddedTime).TotalSeconds))
+                                                                  .First()
+                                                                  .index;
+                                      }
+
                                       SearchEvent = null;
 
                                       if (EventIndex == -1)

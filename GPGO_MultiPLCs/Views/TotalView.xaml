@@ -426,8 +426,26 @@
                             </ListBox.Template>
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <views:UniformGridWithOrientation Orientation="Vertical"
-                                                                      Rows="1" />
+                                    <views:UniformGridWithOrientation Orientation="Vertical">
+                                        <views:UniformGridWithOrientation.Rows>
+                                            <MultiBinding Converter="{StaticResource IfElse}">
+                                                <Binding Converter="{StaticResource IsLessThanValue}"
+                                                         ConverterParameter="10"
+                                                         Mode="OneWay"
+                                                         Path="OvenCount" />
+                                                <Binding>
+                                                    <Binding.Source>
+                                                        <system:Int32>1</system:Int32>
+                                                    </Binding.Source>
+                                                </Binding>
+                                                <Binding>
+                                                    <Binding.Source>
+                                                        <system:Int32>2</system:Int32>
+                                                    </Binding.Source>
+                                                </Binding>
+                                            </MultiBinding>
+                                        </views:UniformGridWithOrientation.Rows>
+                                    </views:UniformGridWithOrientation>
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                             <ListBox.ItemContainerStyle>
