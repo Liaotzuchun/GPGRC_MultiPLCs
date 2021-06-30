@@ -680,7 +680,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     {
                                         for (var i = 0; i < OvenCount; i++)
                                         {
-                                            SetReadListByDataModels(i, PLC_All[i]); //!連線並發送訂閱列表
+                                            SetReadListsByDataModels(PLC_All[i]); //!連線並發送訂閱列表
                                         }
                                     }
 
