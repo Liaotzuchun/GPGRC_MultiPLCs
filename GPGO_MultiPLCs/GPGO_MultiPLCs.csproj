@@ -110,8 +110,8 @@
     <Reference Include="GPCore, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GPCore.1.0.6\lib\net462\GPCore.dll</HintPath>
     </Reference>
-    <Reference Include="GPMVVM, Version=1.9.9.54, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GPMVVM.1.9.9.54\lib\net48\GPMVVM.dll</HintPath>
+    <Reference Include="GPMVVM, Version=1.9.9.56, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GPMVVM.1.9.9.56\lib\net48\GPMVVM.dll</HintPath>
     </Reference>
     <Reference Include="GP_SECS_GEM, Version=1.0.6.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\GP_SECS_GEM.1.0.6\lib\net462\GP_SECS_GEM.dll</HintPath>
