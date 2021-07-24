@@ -272,7 +272,7 @@ namespace GPGO_MultiPLCs.Models
                        {type.GetProperty(nameof(EndTime)).GetName(lng), EndTime},
                        {type.GetProperty(nameof(RecordTemperatures)).GetName(lng), "@"},
                        {type.GetProperty(nameof(RecipeName)).GetName(lng), RecipeName},
-                       {type.GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.Indented)}
+                       {type.GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.None)}
                    };
         }
 
