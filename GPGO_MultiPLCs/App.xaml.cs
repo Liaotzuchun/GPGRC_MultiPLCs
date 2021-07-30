@@ -108,7 +108,7 @@ namespace GPGO_MultiPLCs
                                       StartInfo = new ProcessStartInfo
                                                   {
                                                       FileName    = path,
-                                                      Arguments   = "--dbpath=C:\\GPDB\\data --logpath=C:\\GPDB\\logs\\log.txt --bind_ip_all",
+                                                      Arguments   = "--config \"C:\\Program Files\\MongoDB\\Server\\4.4\\bin\\mongod.cfg\"",
                                                       WindowStyle = ProcessWindowStyle.Hidden
                                                   }
                                   };
