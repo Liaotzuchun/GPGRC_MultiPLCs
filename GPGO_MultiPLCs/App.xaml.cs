@@ -108,7 +108,7 @@ namespace GPGO_MultiPLCs
                                       StartInfo = new ProcessStartInfo
                                                   {
                                                       FileName    = path,
-                                                      Arguments   = "--dbpath=D:\\GPDB\\data --logpath=D:\\GPDB\\logs\\log.txt --bind_ip_all",
+                                                      Arguments   = "--dbpath=C:\\GPDB\\data --logpath=C:\\GPDB\\logs\\log.txt --bind_ip_all",
                                                       WindowStyle = ProcessWindowStyle.Hidden
                                                   }
                                   };
