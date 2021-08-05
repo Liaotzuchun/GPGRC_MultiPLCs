@@ -1188,10 +1188,30 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
+        /// 含氧儀上限警報
+        /// </summary>
+        [PLCBitData(DataType.D, 12000, 9, LogType.Alarm)]
+        public bool OxygenMeterUpperLimitAlarm
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
         /// 超溫警報
         /// </summary>
         [PLCBitData(DataType.D, 12000, 10, LogType.Alarm)]
         public bool OverTemperatureAlarm
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 備用警報
+        /// </summary>
+        [PLCBitData(DataType.D, 12000, 11, LogType.Alarm)]
+        public bool SpareAlarm
         {
             get => Get<bool>();
             set => Set(value);
@@ -1218,6 +1238,16 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
+        /// 回原點逾時
+        /// </summary>
+        [PLCBitData(DataType.D, 12000, 14, LogType.Alarm)]
+        public bool BackToOriginTimeout
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
         /// 停止後未開門
         /// </summary>
         [PLCBitData(DataType.D, 12000, 15, LogType.Alert)]
@@ -1228,10 +1258,50 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
+        /// 汽缸伸出逾時
+        /// </summary>
+        [PLCBitData(DataType.D, 12001, 0, LogType.Alarm)]
+        public bool CylinderExtendTimeout
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 汽缸縮回逾時
+        /// </summary>
+        [PLCBitData(DataType.D, 12001, 1, LogType.Alarm)]
+        public bool CylinderRetractTimeout
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
         /// 循環風車變頻器異常
         /// </summary>
         [PLCBitData(DataType.D, 12001, 2, LogType.Alarm)]
         public bool CirculatingFanInverterError
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 空氣壓力不足
+        /// </summary>
+        [PLCBitData(DataType.D, 12001, 3, LogType.Alarm)]
+        public bool InsufficientAirPressure
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// EGO超溫
+        /// </summary>
+        [PLCBitData(DataType.D, 12001, 4, LogType.Alarm)]
+        public bool EGOOverTemperature
         {
             get => Get<bool>();
             set => Set(value);
@@ -1272,6 +1342,16 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         [PLCBitData(DataType.D, 12001, 8, LogType.Alarm)]
         public bool RampBranchException
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// BarCode讀取異常
+        /// </summary>
+        [PLCBitData(DataType.D, 12001, 9, LogType.Alarm)]
+        public bool BarCodeReadError
         {
             get => Get<bool>();
             set => Set(value);
@@ -1362,6 +1442,26 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         [PLCBitData(DataType.D, 12002, 2, LogType.Alert)]
         public bool DoorNotClosed
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 電控箱溫度異常
+        /// </summary>
+        [PLCBitData(DataType.D, 12002, 3, LogType.Alarm)]
+        public bool ElectricControlBoxTemperatureError
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 進氣風車異常
+        /// </summary>
+        [PLCBitData(DataType.D, 12002, 4, LogType.Alarm)]
+        public bool IntakeWindmillError
         {
             get => Get<bool>();
             set => Set(value);
