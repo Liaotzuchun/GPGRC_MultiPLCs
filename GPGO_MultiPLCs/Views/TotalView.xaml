@@ -214,6 +214,7 @@
                                           FontSize="16"
                                           FontWeight="Bold"
                                           IsChecked="{Binding SECS_ENABLE, Mode=TwoWay}"
+                                          IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}"
                                           Style="{StaticResource ToggleSwitch}" />
                             <Border Grid.Row="2"
                                     Grid.Column="0"
