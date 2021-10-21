@@ -21,19 +21,24 @@ namespace GPGO_MultiPLCs
     {
         public string DataInputPath
         {
-            get => Get<string>();
-            set => Set(value);
+            get
+                => Get<string>();
+            set
+                => Set(value);
         }
 
         public string DataOutputPath
         {
-            get => Get<string>();
-            set => Set(value);
+            get
+                => Get<string>();
+            set
+                => Set(value);
         }
 
         public Language Language
         {
-            get => Get<Language>();
+            get
+                => Get<Language>();
             set
             {
                 Set(value);
@@ -46,7 +51,8 @@ namespace GPGO_MultiPLCs
 
         public int OvenCount
         {
-            get => Get<int>();
+            get
+                => Get<int>();
             set
             {
                 Set(value);
@@ -57,7 +63,8 @@ namespace GPGO_MultiPLCs
 
         public User User
         {
-            get => Get<User>();
+            get
+                => Get<User>();
             set
             {
                 Set(value);
@@ -115,32 +122,38 @@ namespace GPGO_MultiPLCs
                                                    {
                                                        plc.RampTime_1, plc.RampTime_2, plc.RampTime_3, plc.RampTime_4,
                                                        plc.RampTime_5, plc.RampTime_6, plc.RampTime_7, plc.RampTime_8
-                                                   }.Take(plc.StepCounts).ToList(),
+                                                   }.Take(plc.StepCounts)
+                                                    .ToList(),
                                        DwellTimes = new[]
                                                     {
                                                         plc.DwellTime_1, plc.DwellTime_2, plc.DwellTime_3, plc.DwellTime_4,
                                                         plc.DwellTime_5, plc.DwellTime_6, plc.DwellTime_7, plc.DwellTime_8
-                                                    }.Take(plc.StepCounts).ToList(),
+                                                    }.Take(plc.StepCounts)
+                                                     .ToList(),
                                        RampAlarms = new[]
                                                     {
                                                         plc.RampAlarm_1, plc.RampAlarm_2, plc.RampAlarm_3, plc.RampAlarm_4,
                                                         plc.RampAlarm_5, plc.RampAlarm_6, plc.RampAlarm_7, plc.RampAlarm_8
-                                                    }.Take(plc.StepCounts).ToList(),
+                                                    }.Take(plc.StepCounts)
+                                                     .ToList(),
                                        DwellAlarms = new[]
                                                      {
                                                          plc.DwellAlarm_1, plc.DwellAlarm_2, plc.DwellAlarm_3, plc.DwellAlarm_4,
                                                          plc.DwellAlarm_5, plc.DwellAlarm_6, plc.DwellAlarm_7, plc.DwellAlarm_8
-                                                     }.Take(plc.StepCounts).ToList(),
+                                                     }.Take(plc.StepCounts)
+                                                      .ToList(),
                                        TargetOvenTemperatures = new[]
                                                                 {
                                                                     plc.TemperatureSetpoint_1, plc.TemperatureSetpoint_2, plc.TemperatureSetpoint_3, plc.TemperatureSetpoint_4,
                                                                     plc.TemperatureSetpoint_5, plc.TemperatureSetpoint_6, plc.TemperatureSetpoint_7, plc.TemperatureSetpoint_8
-                                                                }.Take(plc.StepCounts).ToList(),
+                                                                }.Take(plc.StepCounts)
+                                                                 .ToList(),
                                        DwellTemperatures = new[]
                                                            {
                                                                plc.DwellTemperature_1, plc.DwellTemperature_2, plc.DwellTemperature_3, plc.DwellTemperature_4,
                                                                plc.DwellTemperature_5, plc.DwellTemperature_6, plc.DwellTemperature_7, plc.DwellTemperature_8
-                                                           }.Take(plc.StepCounts).ToList()
+                                                           }.Take(plc.StepCounts)
+                                                            .ToList()
                                    };
 
                         var ttime = new TimeSpan(0, 0, 1);
@@ -316,7 +329,13 @@ namespace GPGO_MultiPLCs
             DataInputPath  = AuthenticatorVM.Settings.DataInputPath;
             Language       = AuthenticatorVM.Settings.Lng;
             OvenCount      = AuthenticatorVM.Settings.OvenCount;
-            User           = AuthenticatorVM.NowUser;
+            AuthenticatorVM.NowUser = new User
+                                      {
+                                          Name     = "Guest",
+                                          Password = "",
+                                          Level    = UserLevel.Guest
+                                      };
+            User = AuthenticatorVM.NowUser;
 
             AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
                                                         {
@@ -372,9 +391,9 @@ namespace GPGO_MultiPLCs
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
-                                                             {Language.TW, "仍在生產中，無法終止程式！"},
-                                                             {Language.CHS, "仍在生产中，无法终止程序！"},
-                                                             {Language.EN, "Still processing,\ncannot terminate the program."}
+                                                             { Language.TW, "仍在生產中，無法終止程式！" },
+                                                             { Language.CHS, "仍在生产中，无法终止程序！" },
+                                                             { Language.EN, "Still processing,\ncannot terminate the program." }
                                                          });
                                        }
                                        else if (User.Level > UserLevel.Operator)
@@ -382,23 +401,23 @@ namespace GPGO_MultiPLCs
                                            var user = User.Copy();
                                            var result = await DialogVM.CheckCondition(new Dictionary<Language, string>
                                                                                       {
-                                                                                          {Language.TW, "請輸入權限密碼："},
-                                                                                          {Language.CHS, "请输入权限密码："},
-                                                                                          {Language.EN, "Please enter the permission password:"}
+                                                                                          { Language.TW, "請輸入權限密碼：" },
+                                                                                          { Language.CHS, "请输入权限密码：" },
+                                                                                          { Language.EN, "Please enter the permission password:" }
                                                                                       },
                                                                                       new Dictionary<Language, string>
                                                                                       {
-                                                                                          {Language.TW, "驗證"},
-                                                                                          {Language.CHS, "验证"},
-                                                                                          {Language.EN, "Identify"}
+                                                                                          { Language.TW, "驗證" },
+                                                                                          { Language.CHS, "验证" },
+                                                                                          { Language.EN, "Identify" }
                                                                                       },
                                                                                       true,
                                                                                       x => (x.ToString() == user.Password,
                                                                                             new Dictionary<Language, string>
                                                                                             {
-                                                                                                {Language.TW, "密碼錯誤！"},
-                                                                                                {Language.CHS, "密码错误！"},
-                                                                                                {Language.EN, "Wrong password!"}
+                                                                                                { Language.TW, "密碼錯誤！" },
+                                                                                                { Language.CHS, "密码错误！" },
+                                                                                                { Language.EN, "Wrong password!" }
                                                                                             }));
 
                                            if (result.result)
@@ -423,9 +442,9 @@ namespace GPGO_MultiPLCs
                                        {
                                            DialogVM.Show(new Dictionary<Language, string>
                                                          {
-                                                             {Language.TW, "權限不足，不可關閉程式！"},
-                                                             {Language.CHS, "权限不足，不可关闭程序！"},
-                                                             {Language.EN, "Insufficient permissions,\ncan't close the program."}
+                                                             { Language.TW, "權限不足，不可關閉程式！" },
+                                                             { Language.CHS, "权限不足，不可关闭程序！" },
+                                                             { Language.EN, "Insufficient permissions,\ncan't close the program." }
                                                          });
                                        }
                                    };
@@ -535,9 +554,9 @@ namespace GPGO_MultiPLCs
 
                                                  DialogVM.Show(new Dictionary<Language, string>
                                                                {
-                                                                   {Language.TW, $"{str} 號\n烤箱目前無法寫入配方！"},
-                                                                   {Language.CHS, $"{str} 号\n烤箱目前无法写入配方！"},
-                                                                   {Language.EN, $"No. {str} oven{(l.Count > 1 ? "s" : "")} {(l.Count > 1 ? "are" : "is")}\ncurrently unable to write the recipe!"}
+                                                                   { Language.TW, $"{str} 號\n烤箱目前無法寫入配方！" },
+                                                                   { Language.CHS, $"{str} 号\n烤箱目前无法写入配方！" },
+                                                                   { Language.EN, $"No. {str} oven{(l.Count > 1 ? "s" : "")} {(l.Count > 1 ? "are" : "is")}\ncurrently unable to write the recipe!" }
                                                                },
                                                                TimeSpan.FromSeconds(3),
                                                                DialogMsgType.Alert);
@@ -570,7 +589,7 @@ namespace GPGO_MultiPLCs
                                                                                  try
                                                                                  {
                                                                                      var str = File.ReadAllText(file.FullName, Encoding.ASCII);
-                                                                                     var result = str.Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.None)
+                                                                                     var result = str.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
                                                                                                      .Where(x => x.StartsWith("General") && x.Contains("="))
                                                                                                      .Select(x => x.Split('='))
                                                                                                      .ToDictionary(x => x[0], x => x[1]);

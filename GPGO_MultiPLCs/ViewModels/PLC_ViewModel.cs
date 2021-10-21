@@ -141,6 +141,7 @@ namespace GPGO_MultiPLCs.ViewModels
             set
             {
                 Set(value);
+                NotifyPropertyChanged(nameof(ProgressStatus));
 
                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", string.Empty, value));
                 if (IsExecuting)

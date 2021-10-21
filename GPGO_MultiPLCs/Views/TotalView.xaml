@@ -184,7 +184,8 @@
                                            Text="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
                             </Border>
                         </Grid>
-                        <Grid Grid.Row="2">
+                        <Grid Grid.Row="2"
+                              IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -214,7 +215,6 @@
                                           FontSize="16"
                                           FontWeight="Bold"
                                           IsChecked="{Binding SECS_ENABLE, Mode=TwoWay}"
-                                          IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}"
                                           Style="{StaticResource ToggleSwitch}" />
                             <Border Grid.Row="2"
                                     Grid.Column="0"
