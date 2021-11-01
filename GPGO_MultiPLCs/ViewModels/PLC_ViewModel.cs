@@ -143,10 +143,10 @@ namespace GPGO_MultiPLCs.ViewModels
                 Set(value);
                 NotifyPropertyChanged(nameof(ProgressStatus));
 
-                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "PLC Offline!", string.Empty, value));
+                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, value));
                 if (IsExecuting)
                 {
-                    AddProcessEvent((EventType.Alarm, DateTime.Now, "PLC Offline!", string.Empty, value));
+                    AddProcessEvent((EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, value));
                     CTS?.Cancel();
                 }
 
@@ -752,6 +752,19 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 AssetNumberChanged?.Invoke((s as BaseInfo)?.AssetNumber);
                                             }
                                         };
+
+            gate.GateOffline += () =>
+                                {
+                                    OnlineStatus = false;
+                                };
+
+            gate.StatusChanged += (i, status) =>
+                                  {
+                                      if (i == plcindex && status != OnlineStatus)
+                                      {
+                                          OnlineStatus = status;
+                                      }
+                                  };
 
             #region 註冊PLC事件
 

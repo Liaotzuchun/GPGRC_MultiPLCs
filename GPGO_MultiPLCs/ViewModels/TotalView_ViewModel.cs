@@ -633,33 +633,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
             #region PLCGate事件通知
 
-            MessagesSent += (index, msgs) =>
-                            {
-                            };
-
-            StatusChanged += (i, v) =>
-                             {
-                                 try
-                                 {
-                                     if (i < PLC_All.Count && i > -1 && PLC_All[i].OnlineStatus != v)
-                                     {
-                                         PLC_All[i].OnlineStatus = v;
-                                     }
-                                 }
-                                 catch (Exception)
-                                 {
-                                     // ignored
-                                 }
-                             };
-
             GateOffline += () =>
                            {
                                EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
-
-                               foreach (var plc in PLC_All)
-                               {
-                                   plc.OnlineStatus = false;
-                               }
                            };
 
             #endregion
