@@ -1648,7 +1648,27 @@ namespace GPGO_MultiPLCs.Models
         /// 溫控器設定溫度
         /// </summary>
         [PLCData(DataType.D, 11125, 0.1, LogType.StatusVariables)]
-        public double SV_ThermostatTemperature
+        public double ThermostatTemperature
+        {
+            get => Get<double>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 現在風速
+        /// </summary>
+        [PLCData(DataType.D, 11126, 0.1, LogType.StatusVariables)]
+        public double PV_WindSpeed
+        {
+            get => Get<double>();
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// 設定風速
+        /// </summary>
+        [PLCData(DataType.D, 11127, 0.1, LogType.StatusVariables)]
+        public double WindSpeed
         {
             get => Get<double>();
             set => Set(value);
