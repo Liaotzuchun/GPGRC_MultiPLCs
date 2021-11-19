@@ -849,7 +849,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                             }
 
                                             SV_Changed?.Invoke("RackID", RackID);
-
                                             ReadBarcode = false; //清訊號
                                         }
                                         else if (name == nameof(RackInput))
