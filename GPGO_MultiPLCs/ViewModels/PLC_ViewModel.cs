@@ -272,12 +272,17 @@ namespace GPGO_MultiPLCs.ViewModels
                 return false;
             }
 
+            RemoteCommandSelectPP = false;
+
             RecipeUsed?.Invoke(recipe.RecipeName);
 
             ManualSetPLCByProperties(recipe.ToDictionary());
 
             Set(recipe.RecipeName, nameof(Selected_Name));
+
             Intput_Name = Selected_Name;
+
+            RemoteCommandSelectPP = true;
 
             return true;
         }
@@ -289,12 +294,17 @@ namespace GPGO_MultiPLCs.ViewModels
                 return false;
             }
 
+            RemoteCommandSelectPP = false;
+
             RecipeUsed?.Invoke(recipeName);
 
             ManualSetPLCByProperties(recipe.ToDictionary());
 
             Set(recipeName, nameof(Selected_Name));
+
             Intput_Name = Selected_Name;
+
+            RemoteCommandSelectPP = true;
 
             return true;
         }
