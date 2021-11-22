@@ -21,24 +21,19 @@ namespace GPGO_MultiPLCs
     {
         public string DataInputPath
         {
-            get
-                => Get<string>();
-            set
-                => Set(value);
+            get => Get<string>();
+            set => Set(value);
         }
 
         public string DataOutputPath
         {
-            get
-                => Get<string>();
-            set
-                => Set(value);
+            get => Get<string>();
+            set => Set(value);
         }
 
         public Language Language
         {
-            get
-                => Get<Language>();
+            get => Get<Language>();
             set
             {
                 Set(value);
@@ -51,8 +46,7 @@ namespace GPGO_MultiPLCs
 
         public int OvenCount
         {
-            get
-                => Get<int>();
+            get => Get<int>();
             set
             {
                 Set(value);
@@ -63,8 +57,7 @@ namespace GPGO_MultiPLCs
 
         public User User
         {
-            get
-                => Get<User>();
+            get => Get<User>();
             set
             {
                 Set(value);

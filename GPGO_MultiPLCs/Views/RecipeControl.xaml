@@ -118,11 +118,11 @@
                                     VerticalAlignment="Center"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
-                                    LargeChange="1"
+                                    LargeChange="0.1"
                                     Maximum="100"
                                     Minimum="0"
-                                    SmallChange="1"
-                                    TickFrequency="1"
+                                    SmallChange="0.1"
+                                    TickFrequency="0.1"
                                     Value="{Binding ProgramEndWarningTime, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="0"
@@ -130,10 +130,9 @@
                                               Background="{StaticResource LightColorBrush}"
                                               BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                               BorderThickness="1,1,0,0"
-                                              IntOnly="True"
                                               Max="100"
                                               Min="0"
-                                              Text="{Binding ProgramEndWarningTime, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding ProgramEndWarningTime, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="{DynamicResource 分}" />
                         <Border Grid.Row="1"
                                 Grid.Column="0"
