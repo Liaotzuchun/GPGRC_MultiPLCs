@@ -29,10 +29,10 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        [PLCBitData(DataType.D, 11068, 0, LogType.Trigger)]
-        public bool RemoteCommandSelectPPFinish
+        [PLCData(DataType.D, 11068, LogType.Trigger)]
+        public short RemoteCommandSelectPPFinish
         {
-            get => Get<bool>();
+            get => Get<short>();
             set => Set(value);
         }
 

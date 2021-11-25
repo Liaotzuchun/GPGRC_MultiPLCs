@@ -32,8 +32,10 @@ namespace GPGO_MultiPLCs.ViewModels
             錯誤 = 4
         }
 
-        private readonly IDialogService Dialog;
-        private readonly TaskFactory    OneScheduler = new(new StaTaskScheduler(1));
+        private const    double                     Delay = 2;
+        private readonly IDialogService             Dialog;
+        private readonly TaskFactory                OneScheduler = new(new StaTaskScheduler(1));
+        private          TaskCompletionSource<bool> TCS;
 
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
@@ -175,39 +177,38 @@ namespace GPGO_MultiPLCs.ViewModels
             set => _ = SetRecipe(value, true);
         }
 
-        public PLC_Recipe GetRecipePV() =>
-            new()
-            {
-                DwellTime_1           = PV_DwellTime_1,
-                DwellTime_2           = PV_DwellTime_2,
-                DwellTime_3           = PV_DwellTime_3,
-                DwellTime_4           = PV_DwellTime_4,
-                DwellTime_5           = PV_DwellTime_5,
-                DwellTime_6           = PV_DwellTime_6,
-                DwellTime_7           = PV_DwellTime_7,
-                DwellTime_8           = PV_DwellTime_8,
-                CoolingTime           = PV_CoolingTime,
-                CoolingTemperature    = PV_CoolingTemperature,
-                RampTime_1            = PV_RampTime_1,
-                RampTime_2            = PV_RampTime_2,
-                RampTime_3            = PV_RampTime_3,
-                RampTime_4            = PV_RampTime_4,
-                RampTime_5            = PV_RampTime_5,
-                RampTime_6            = PV_RampTime_6,
-                RampTime_7            = PV_RampTime_7,
-                RampTime_8            = PV_RampTime_8,
-                InflatingTime         = PV_InflatingTime,
-                ProgramEndWarningTime = PV_ProgramEndWarningTime,
-                TemperatureSetpoint_1 = PV_TemperatureSetpoint_1,
-                TemperatureSetpoint_2 = PV_TemperatureSetpoint_2,
-                TemperatureSetpoint_3 = PV_TemperatureSetpoint_3,
-                TemperatureSetpoint_4 = PV_TemperatureSetpoint_4,
-                TemperatureSetpoint_5 = PV_TemperatureSetpoint_5,
-                TemperatureSetpoint_6 = PV_TemperatureSetpoint_6,
-                TemperatureSetpoint_7 = PV_TemperatureSetpoint_7,
-                TemperatureSetpoint_8 = PV_TemperatureSetpoint_8,
-                StepCounts            = PV_StepCounts
-            };
+        public PLC_Recipe GetRecipePV() => new()
+                                           {
+                                               DwellTime_1           = PV_DwellTime_1,
+                                               DwellTime_2           = PV_DwellTime_2,
+                                               DwellTime_3           = PV_DwellTime_3,
+                                               DwellTime_4           = PV_DwellTime_4,
+                                               DwellTime_5           = PV_DwellTime_5,
+                                               DwellTime_6           = PV_DwellTime_6,
+                                               DwellTime_7           = PV_DwellTime_7,
+                                               DwellTime_8           = PV_DwellTime_8,
+                                               CoolingTime           = PV_CoolingTime,
+                                               CoolingTemperature    = PV_CoolingTemperature,
+                                               RampTime_1            = PV_RampTime_1,
+                                               RampTime_2            = PV_RampTime_2,
+                                               RampTime_3            = PV_RampTime_3,
+                                               RampTime_4            = PV_RampTime_4,
+                                               RampTime_5            = PV_RampTime_5,
+                                               RampTime_6            = PV_RampTime_6,
+                                               RampTime_7            = PV_RampTime_7,
+                                               RampTime_8            = PV_RampTime_8,
+                                               InflatingTime         = PV_InflatingTime,
+                                               ProgramEndWarningTime = PV_ProgramEndWarningTime,
+                                               TemperatureSetpoint_1 = PV_TemperatureSetpoint_1,
+                                               TemperatureSetpoint_2 = PV_TemperatureSetpoint_2,
+                                               TemperatureSetpoint_3 = PV_TemperatureSetpoint_3,
+                                               TemperatureSetpoint_4 = PV_TemperatureSetpoint_4,
+                                               TemperatureSetpoint_5 = PV_TemperatureSetpoint_5,
+                                               TemperatureSetpoint_6 = PV_TemperatureSetpoint_6,
+                                               TemperatureSetpoint_7 = PV_TemperatureSetpoint_7,
+                                               TemperatureSetpoint_8 = PV_TemperatureSetpoint_8,
+                                               StepCounts            = PV_StepCounts
+                                           };
 
         public void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
         {
@@ -265,46 +266,60 @@ namespace GPGO_MultiPLCs.ViewModels
             //});
         }
 
-        public bool SetRecipe(PLC_Recipe recipe)
+        public async Task<bool> SetRecipe(PLC_Recipe recipe)
         {
             if (recipe == null || IsExecuting || !PC_InUse)
             {
                 return false;
             }
 
+            TCS?.TrySetResult(false);
+
+            RemoteCommandSelectPP = false;
+            await ManualSetPLCByProperties(recipe.ToDictionary()).ConfigureAwait(false);
+            RemoteCommandSelectPP = true;
+
+            TCS = new TaskCompletionSource<bool>();
+            if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
+            {
+                RemoteCommandSelectPP = false;
+                return false;
+            }
+
             RemoteCommandSelectPP = false;
 
             RecipeUsed?.Invoke(recipe.RecipeName);
-
-            ManualSetPLCByProperties(recipe.ToDictionary());
-
             Set(recipe.RecipeName, nameof(Selected_Name));
-
             Intput_Name = Selected_Name;
-
-            RemoteCommandSelectPP = true;
 
             return true;
         }
 
-        public bool SetRecipe(string recipeName)
+        public async Task<bool> SetRecipe(string recipeName)
         {
             if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
                 return false;
             }
 
+            TCS?.TrySetResult(false);
+
+            RemoteCommandSelectPP = false;
+            await ManualSetPLCByProperties(recipe.ToDictionary()).ConfigureAwait(false);
+            RemoteCommandSelectPP = true;
+
+            TCS = new TaskCompletionSource<bool>();
+            if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
+            {
+                RemoteCommandSelectPP = false;
+                return false;
+            }
+
             RemoteCommandSelectPP = false;
 
-            RecipeUsed?.Invoke(recipeName);
-
-            ManualSetPLCByProperties(recipe.ToDictionary());
-
-            Set(recipeName, nameof(Selected_Name));
-
+            RecipeUsed?.Invoke(recipe.RecipeName);
+            Set(recipe.RecipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
-
-            RemoteCommandSelectPP = true;
 
             return true;
         }
@@ -316,26 +331,37 @@ namespace GPGO_MultiPLCs.ViewModels
                 return false;
             }
 
-            RemoteCommandSelectPP = false;
+            TCS?.TrySetResult(false);
 
-            if (check && !await Dialog.Show(new Dictionary<Language, string>
-                                            {
-                                                {Language.TW, "請確認配方內容："},
-                                                {Language.CHS, "请确认配方内容："},
-                                                {Language.EN, "Please confirm this recipe:"}
-                                            }, recipe, true))
+            if (check &&
+                !await Dialog.Show(new Dictionary<Language, string>
+                                   {
+                                       { Language.TW, "請確認配方內容：" },
+                                       { Language.CHS, "请确认配方内容：" },
+                                       { Language.EN, "Please confirm this recipe:" }
+                                   },
+                                   recipe,
+                                   true))
             {
                 return false;
             }
 
-            RecipeUsed?.Invoke(recipeName);
-
+            RemoteCommandSelectPP = false;
             await ManualSetPLCByProperties(recipe.ToDictionary());
+            RemoteCommandSelectPP = true;
 
+            TCS = new TaskCompletionSource<bool>();
+            if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
+            {
+                RemoteCommandSelectPP = false;
+                return false;
+            }
+
+            RemoteCommandSelectPP = false;
+
+            RecipeUsed?.Invoke(recipeName);
             Set(recipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
-
-            RemoteCommandSelectPP = true;
 
             return true;
         }
@@ -441,32 +467,38 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                     {
                                                                         RampTime_1, RampTime_2, RampTime_3, RampTime_4,
                                                                         RampTime_5, RampTime_6, RampTime_7, RampTime_8
-                                                                    }.Take(StepCounts).ToList();
+                                                                    }.Take(StepCounts)
+                                                                     .ToList();
                                                OvenInfo.DwellTimes = new[]
                                                                      {
                                                                          DwellTime_1, DwellTime_2, DwellTime_3, DwellTime_4,
                                                                          DwellTime_5, DwellTime_6, DwellTime_7, DwellTime_8
-                                                                     }.Take(StepCounts).ToList();
+                                                                     }.Take(StepCounts)
+                                                                      .ToList();
                                                OvenInfo.RampAlarms = new[]
                                                                      {
                                                                          RampAlarm_1, RampAlarm_2, RampAlarm_3, RampAlarm_4,
                                                                          RampAlarm_5, RampAlarm_6, RampAlarm_7, RampAlarm_8
-                                                                     }.Take(StepCounts).ToList();
+                                                                     }.Take(StepCounts)
+                                                                      .ToList();
                                                OvenInfo.DwellAlarms = new[]
                                                                       {
                                                                           DwellAlarm_1, DwellAlarm_2, DwellAlarm_3, DwellAlarm_4,
                                                                           DwellAlarm_5, DwellAlarm_6, DwellAlarm_7, DwellAlarm_8
-                                                                      }.Take(StepCounts).ToList();
+                                                                      }.Take(StepCounts)
+                                                                       .ToList();
                                                OvenInfo.TargetOvenTemperatures = new[]
                                                                                  {
                                                                                      TemperatureSetpoint_1, TemperatureSetpoint_2, TemperatureSetpoint_3, TemperatureSetpoint_4,
                                                                                      TemperatureSetpoint_5, TemperatureSetpoint_6, TemperatureSetpoint_7, TemperatureSetpoint_8
-                                                                                 }.Take(StepCounts).ToList();
+                                                                                 }.Take(StepCounts)
+                                                                                  .ToList();
                                                OvenInfo.DwellTemperatures = new[]
                                                                             {
                                                                                 DwellTemperature_1, DwellTemperature_2, DwellTemperature_3, DwellTemperature_4,
                                                                                 DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
-                                                                            }.Take(StepCounts).ToList();
+                                                                            }.Take(StepCounts)
+                                                                             .ToList();
 
                                                ExecutingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
 
@@ -520,9 +552,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                             {
                                                                 Dialog.Show(new Dictionary<Language, string>
                                                                             {
-                                                                                {Language.TW, "配方無變更"},
-                                                                                {Language.CHS, "配方无变更"},
-                                                                                {Language.EN, "No change."}
+                                                                                { Language.TW, "配方無變更" },
+                                                                                { Language.CHS, "配方无变更" },
+                                                                                { Language.EN, "No change." }
                                                                             });
                                                             }
                                                             else if (Recipe_Names.Contains(Intput_Name))
@@ -546,15 +578,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              var (result0, opId) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
-                                                                                                 {Language.TW, "輸入人員ID"},
-                                                                                                 {Language.CHS, "输入人员ID"},
-                                                                                                 {Language.EN, "Enter the Operator's Id"}
+                                                                                                 { Language.TW, "輸入人員ID" },
+                                                                                                 { Language.CHS, "输入人员ID" },
+                                                                                                 { Language.EN, "Enter the Operator's Id" }
                                                                                              },
                                                                                              new Dictionary<Language, string>
                                                                                              {
-                                                                                                 {Language.TW, "5 ~ 14個英數字"},
-                                                                                                 {Language.CHS, "5 ~ 14个英数字"},
-                                                                                                 {Language.EN, "5 ~ 14 alphanumerics"}
+                                                                                                 { Language.TW, "5 ~ 14個英數字" },
+                                                                                                 { Language.CHS, "5 ~ 14个英数字" },
+                                                                                                 { Language.EN, "5 ~ 14 alphanumerics" }
                                                                                              },
                                                                                              true,
                                                                                              x =>
@@ -564,9 +596,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                  return (str.Length is > 4 and < 15,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
-                                                                                                             {Language.TW, "字數錯誤！"},
-                                                                                                             {Language.CHS, "字数错误！"},
-                                                                                                             {Language.EN, "Input error!"}
+                                                                                                             { Language.TW, "字數錯誤！" },
+                                                                                                             { Language.CHS, "字数错误！" },
+                                                                                                             { Language.EN, "Input error!" }
                                                                                                          });
                                                                                              });
 
@@ -578,15 +610,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              var (result1, PartID) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
-                                                                                                 {Language.TW, "輸入料號"},
-                                                                                                 {Language.CHS, "输入料号"},
-                                                                                                 {Language.EN, "Enter the Part Number"}
+                                                                                                 { Language.TW, "輸入料號" },
+                                                                                                 { Language.CHS, "输入料号" },
+                                                                                                 { Language.EN, "Enter the Part Number" }
                                                                                              },
                                                                                              new Dictionary<Language, string>
                                                                                              {
-                                                                                                 {Language.TW, "5 ~ 14個英數字"},
-                                                                                                 {Language.CHS, "5 ~ 14个英数字"},
-                                                                                                 {Language.EN, "5 ~ 14 alphanumerics"}
+                                                                                                 { Language.TW, "5 ~ 14個英數字" },
+                                                                                                 { Language.CHS, "5 ~ 14个英数字" },
+                                                                                                 { Language.EN, "5 ~ 14 alphanumerics" }
                                                                                              },
                                                                                              true,
                                                                                              x =>
@@ -596,9 +628,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                  return (str.Length is > 4 and < 15,
                                                                                                          new Dictionary<Language, string>
                                                                                                          {
-                                                                                                             {Language.TW, "字數錯誤！"},
-                                                                                                             {Language.CHS, "字数错误！"},
-                                                                                                             {Language.EN, "Input error!"}
+                                                                                                             { Language.TW, "字數錯誤！" },
+                                                                                                             { Language.CHS, "字数错误！" },
+                                                                                                             { Language.EN, "Input error!" }
                                                                                                          });
                                                                                              });
 
@@ -614,15 +646,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  var (result2, lotID) =
                                                                      await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     {Language.TW, "輸入批號"},
-                                                                                                     {Language.CHS, "输入批号"},
-                                                                                                     {Language.EN, "Enter the LotID"}
+                                                                                                     { Language.TW, "輸入批號" },
+                                                                                                     { Language.CHS, "输入批号" },
+                                                                                                     { Language.EN, "Enter the LotID" }
                                                                                                  },
                                                                                                  new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     {Language.TW, "5 ~ 14個英數字"},
-                                                                                                     {Language.CHS, "5 ~ 14个英数字"},
-                                                                                                     {Language.EN, "5 ~ 14 alphanumerics"}
+                                                                                                     { Language.TW, "5 ~ 14個英數字" },
+                                                                                                     { Language.CHS, "5 ~ 14个英数字" },
+                                                                                                     { Language.EN, "5 ~ 14 alphanumerics" }
                                                                                                  },
                                                                                                  true,
                                                                                                  x =>
@@ -632,9 +664,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                      return (str.Length is > 4 and < 15,
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
-                                                                                                                 {Language.TW, "字數錯誤！"},
-                                                                                                                 {Language.CHS, "字数错误！"},
-                                                                                                                 {Language.EN, "Input error!"}
+                                                                                                                 { Language.TW, "字數錯誤！" },
+                                                                                                                 { Language.CHS, "字数错误！" },
+                                                                                                                 { Language.EN, "Input error!" }
                                                                                                              });
                                                                                                  });
 
@@ -652,15 +684,15 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  var (result4, input4) =
                                                                      await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     {Language.TW, "輸入數量"},
-                                                                                                     {Language.CHS, "输入数量"},
-                                                                                                     {Language.EN, "Enter the quantity"}
+                                                                                                     { Language.TW, "輸入數量" },
+                                                                                                     { Language.CHS, "输入数量" },
+                                                                                                     { Language.EN, "Enter the quantity" }
                                                                                                  },
                                                                                                  new Dictionary<Language, string>
                                                                                                  {
-                                                                                                     {Language.TW, "1 ~ 100"},
-                                                                                                     {Language.CHS, "1 ~ 100"},
-                                                                                                     {Language.EN, "1 ~ 100"}
+                                                                                                     { Language.TW, "1 ~ 100" },
+                                                                                                     { Language.CHS, "1 ~ 100" },
+                                                                                                     { Language.EN, "1 ~ 100" }
                                                                                                  },
                                                                                                  true,
                                                                                                  x =>
@@ -670,9 +702,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                                      return (int.TryParse(str, out counts) && counts is > 0 and <= 100,
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
-                                                                                                                 {Language.TW, "數量錯誤！"},
-                                                                                                                 {Language.CHS, "数量错误！"},
-                                                                                                                 {Language.EN, "Wrong quantity!"}
+                                                                                                                 { Language.TW, "數量錯誤！" },
+                                                                                                                 { Language.CHS, "数量错误！" },
+                                                                                                                 { Language.EN, "Wrong quantity!" }
                                                                                                              });
                                                                                                  });
 
@@ -684,10 +716,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  lots[lotID.ToString().Trim()] = counts;
                                                              } while (await Dialog.Show(new Dictionary<Language, string>
                                                                                         {
-                                                                                            {Language.TW, $"料號：{PartID.ToString().Trim()}\n是否要繼續新增批號？"},
-                                                                                            {Language.CHS, $"料号：{PartID.ToString().Trim()}\n是否要继续新增批号？"},
-                                                                                            {Language.EN, $"PartID：{PartID.ToString().Trim()}\nContinue to add LotID?"}
-                                                                                        }, lots, true));
+                                                                                            { Language.TW, $"料號：{PartID.ToString().Trim()}\n是否要繼續新增批號？" },
+                                                                                            { Language.CHS, $"料号：{PartID.ToString().Trim()}\n是否要继续新增批号？" },
+                                                                                            { Language.EN, $"PartID：{PartID.ToString().Trim()}\nContinue to add LotID?" }
+                                                                                        },
+                                                                                        lots,
+                                                                                        true));
 
                                                              OvenInfo.OperatorID = opId.ToString().Trim();
 
@@ -711,9 +745,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              {
                                                                  if (!await Dialog.Show(new Dictionary<Language, string>
                                                                                         {
-                                                                                            {Language.TW, "目前烤箱處於\"PC PASS\"模式，無法由PC設定配方\n確定投產嗎？"},
-                                                                                            {Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法由PC设定配方\n确定投产吗？"},
-                                                                                            {Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe by PC.\nAre you sure to execute?"}
+                                                                                            { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法由PC設定配方\n確定投產嗎？" },
+                                                                                            { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法由PC设定配方\n确定投产吗？" },
+                                                                                            { Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe by PC.\nAre you sure to execute?" }
                                                                                         },
                                                                                         true))
                                                                  {
@@ -955,30 +989,35 @@ namespace GPGO_MultiPLCs.ViewModels
                                 }
                                 else if (LogType == LogType.Trigger)
                                 {
-                                    if (value is bool val)
-                                    {
-                                        var eventval = (EventType.Trigger, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", val);
+                                    var eventval = (EventType.Trigger, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
 
-                                        if (name == nameof(RemoteCommandStart))
+                                    if (name == nameof(RemoteCommandStart))
+                                    {
+                                        EventHappened?.Invoke(eventval);
+                                    }
+                                    else if (name == nameof(RemoteCommandStop))
+                                    {
+                                        EventHappened?.Invoke(eventval);
+                                    }
+                                    else if (name == nameof(RemoteCommandSelectPP))
+                                    {
+                                        EventHappened?.Invoke(eventval);
+                                    }
+                                    else if (name == nameof(RemoteCommandSelectPPFinish))
+                                    {
+                                        if (RemoteCommandSelectPPFinish == 1)
                                         {
+                                            RemoteCommandSelectPPFinish = 0;
+
+                                            TCS?.TrySetResult(true);
+
                                             EventHappened?.Invoke(eventval);
+                                            InvokeSECSEvent?.Invoke("RecipeChanged");
                                         }
-                                        else if (name == nameof(RemoteCommandStop))
+                                        else if (RemoteCommandSelectPPFinish == 2)
                                         {
-                                            EventHappened?.Invoke(eventval);
-                                        }
-                                        else if (name == nameof(RemoteCommandSelectPP))
-                                        {
-                                            EventHappened?.Invoke(eventval);
-                                        }
-                                        else if (name == nameof(RemoteCommandSelectPPFinish))
-                                        {
-                                            if (RemoteCommandSelectPPFinish.Equals(true))
-                                            {
-                                                RemoteCommandSelectPPFinish = false;
-                                                EventHappened?.Invoke(eventval);
-                                                InvokeSECSEvent?.Invoke("RecipeChanged");
-                                            }
+                                            RemoteCommandSelectPPFinish = 0;
+                                            TCS?.TrySetResult(false);
                                         }
                                     }
                                 }

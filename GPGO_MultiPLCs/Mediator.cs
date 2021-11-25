@@ -444,7 +444,7 @@ namespace GPGO_MultiPLCs
 
             List<PLC_Recipe> tempRecipeList = null;
             //!當配方列表更新時，依據使用站別發佈配方
-            RecipeVM.ListUpdatedEvent += e =>
+            RecipeVM.ListUpdatedEvent += async e =>
                                          {
                                              var (list, showtip) = e;
 
@@ -534,7 +534,7 @@ namespace GPGO_MultiPLCs
                                                  var recipe = list.Find(x => j < x.Used_Stations.Count && x.Used_Stations[j]);
                                                  if (recipe != null)
                                                  {
-                                                     if (!TotalVM.SetRecipe(i, recipe))
+                                                     if (!await TotalVM.SetRecipe(i, recipe))
                                                      {
                                                          l.Add(i + 1);
                                                      }

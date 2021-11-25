@@ -104,9 +104,8 @@ namespace GPGO_MultiPLCs.Models
 
         public bool Enable(bool val) => secsGem != null && (val && secsGem.AxQGWrapper.EnableComm() == 0 || !val && secsGem.AxQGWrapper.DisableComm() == 0);
 
-        public bool Online(bool val) =>
-            secsGem != null &&
-            (val && secsGem.AxQGWrapper.OnLineRequest() == 1 || !val && secsGem.AxQGWrapper.OffLine() == 1);
+        public bool Online(bool val) => secsGem != null &&
+                                        (val && secsGem.AxQGWrapper.OnLineRequest() == 1 || !val && secsGem.AxQGWrapper.OffLine() == 1);
 
         public bool Remote(bool val) => secsGem != null && (val && secsGem.AxQGWrapper.OnLineRemote() == 1 || !val && secsGem.AxQGWrapper.OnLineLocal() == 1);
 
@@ -156,7 +155,7 @@ namespace GPGO_MultiPLCs.Models
                                              return HCACKValule.ParameterInvalid;
                                          }
 
-                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] {Length: > 0} indexes &&
+                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] { Length: > 0 } indexes &&
                                              r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot &&
                                              r.RemoteCommandParameter[2].CPVAL.ObjectData is string part &&
                                              r.RemoteCommandParameter[3].CPVAL is SECSMessageBranches Branches)
@@ -177,7 +176,7 @@ namespace GPGO_MultiPLCs.Models
                                              return HCACKValule.ParameterInvalid;
                                          }
 
-                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] {Length: > 0} indexes)
+                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] { Length: > 0 } indexes)
                                          {
                                              var i = indexes[0];
 

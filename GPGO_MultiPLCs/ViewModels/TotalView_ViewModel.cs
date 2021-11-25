@@ -285,7 +285,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="index">PLC序號</param>
         /// <param name="recipe">配方</param>
         /// <returns>是否成功寫入PLC</returns>
-        public bool SetRecipe(int index, PLC_Recipe recipe) => PLC_All[index].SetRecipe(recipe);
+        public Task<bool> SetRecipe(int index, PLC_Recipe recipe) => PLC_All[index].SetRecipe(recipe);
 
         /// <summary>設定使用的PLC配方(透過配方名)</summary>
         /// <param name="names">配方名列表</param>
@@ -404,7 +404,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                          return HCACKValule.CantPerform;
                                      }
 
-                                     return PLC_All[index].SetRecipe(name) ? HCACKValule.Acknowledge : HCACKValule.ParameterInvalid;
+                                     return PLC_All[index].SetRecipe(name).Result ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
                                  };
 
             secsGem.AddLOT += (index, lot) =>
