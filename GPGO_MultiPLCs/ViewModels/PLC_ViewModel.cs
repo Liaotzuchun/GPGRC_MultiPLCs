@@ -283,6 +283,7 @@ namespace GPGO_MultiPLCs.ViewModels
             if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
             {
                 RemoteCommandSelectPP = false;
+                RecipeChangeError     = true;
                 return false;
             }
 
@@ -312,6 +313,7 @@ namespace GPGO_MultiPLCs.ViewModels
             if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
             {
                 RemoteCommandSelectPP = false;
+                RecipeChangeError     = true;
                 return false;
             }
 
@@ -354,6 +356,7 @@ namespace GPGO_MultiPLCs.ViewModels
             if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
             {
                 RemoteCommandSelectPP = false;
+                RecipeChangeError     = true;
                 return false;
             }
 

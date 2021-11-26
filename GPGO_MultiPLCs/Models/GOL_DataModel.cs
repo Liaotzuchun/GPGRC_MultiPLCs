@@ -1487,6 +1487,16 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 配方切換異常
+        /// </summary>
+        [PLCBitData(DataType.D, 12002, 7, LogType.Alarm)]
+        public bool RecipeChangeError
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
         #endregion
 
         #region 機台狀態
