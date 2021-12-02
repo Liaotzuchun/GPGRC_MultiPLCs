@@ -25,7 +25,7 @@ namespace GPGO_MultiPLCs.Models
 
         public event Action<string>                                                              TerminalMessage;
         public event Action<int, string, object>                                                 ECChange;
-        public event Func<PLC_Recipe, ValueTask<bool>>                                           UpsertRecipe;
+        public event Func<PLC_Recipe, bool>                                                      UpsertRecipe;
         public event Func<string, ValueTask<bool>>                                               DeleteRecipe;
         public event Func<int, string, HCACKValule>                                              SetRecipe;
         public event Func<int, HCACKValule>                                                      Start;
@@ -141,7 +141,7 @@ namespace GPGO_MultiPLCs.Models
                                         {
                                         };
 
-            secsGem.InsertPPEvent += recipe => UpsertRecipe != null && UpsertRecipe.Invoke(recipe).Result; //todo:收到新增或修改配方指令
+            secsGem.InsertPPEvent += recipe => UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
 
             secsGem.DeletePPEvent += recipeName =>
                                      {

@@ -48,30 +48,38 @@ namespace GPGO_MultiPLCs.ViewModels
             Standby = false;
 
             var result = false;
-            var name   = recipe.RecipeName;
-
-            try
+            if (recipe != null)
             {
-                var TempSet = await RecipeCollection.FindAsync(x => x.RecipeName.Equals(name)).ConfigureAwait(false);
-
-                if (TempSet.Any() && !TempSet[0].Equals(recipe))
+                var name = recipe.RecipeName;
+                if (!string.IsNullOrEmpty(recipe.RecipeName))
                 {
-                    await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(name), recipe).ConfigureAwait(false);
-                    await RecipeCollection_History.AddAsync(TempSet[0]).ConfigureAwait(false);
-                }
-                else
-                {
-                    await RecipeCollection.AddAsync(recipe).ConfigureAwait(false);
-                }
+                    try
+                    {
+                        var TempSet = await RecipeCollection.FindAsync(x => x.RecipeName.Equals(name)).ConfigureAwait(false);
 
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "");
-            }
+                        if (TempSet.Any())
+                        {
+                            if (!TempSet[0].Equals(recipe))
+                            {
+                                await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(name), recipe).ConfigureAwait(false);
+                                await RecipeCollection_History.AddAsync(TempSet[0]).ConfigureAwait(false);
+                            }
+                        }
+                        else
+                        {
+                            await RecipeCollection.AddAsync(recipe).ConfigureAwait(false);
+                        }
 
-            await RefreshList(true).ConfigureAwait(false);
+                        result = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "");
+                    }
+
+                    await RefreshList(true).ConfigureAwait(false);
+                }
+            }
 
             Standby = true;
 
@@ -113,9 +121,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  {
                                                      dialog?.Show(new Dictionary<Language, string>
                                                                   {
-                                                                      {Language.TW, $"檔案已輸出至\n{path}"},
-                                                                      {Language.CHS, $"档案已输出至\n{path}"},
-                                                                      {Language.EN, $"The file has been output to\n{path}"}
+                                                                      { Language.TW, $"檔案已輸出至\n{path}" },
+                                                                      { Language.CHS, $"档案已输出至\n{path}" },
+                                                                      { Language.EN, $"The file has been output to\n{path}" }
                                                                   },
                                                                   TimeSpan.FromSeconds(6));
                                                  }
@@ -171,9 +179,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
-                                                                  {Language.TW, $"{adds}個配方已新增\n{updates}個配方已更新"},
-                                                                  {Language.CHS, $"{adds}个配方已新增\n{updates}个配方已更新"},
-                                                                  {Language.EN, $"{adds}recipe{(adds > 1 ? "s" : "")} have been added\n{updates}recipe{(updates > 1 ? "s" : "")} have been updated"}
+                                                                  { Language.TW, $"{adds}個配方已新增\n{updates}個配方已更新" },
+                                                                  { Language.CHS, $"{adds}个配方已新增\n{updates}个配方已更新" },
+                                                                  { Language.EN, $"{adds}recipe{(adds > 1 ? "s" : "")} have been added\n{updates}recipe{(updates > 1 ? "s" : "")} have been updated" }
                                                               },
                                                               TimeSpan.FromSeconds(6));
                                              });

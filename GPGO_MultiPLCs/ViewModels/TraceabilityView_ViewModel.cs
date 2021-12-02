@@ -188,7 +188,7 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
-        public async Task<ProcessInfo> FindInfo(int station, DateTime time) { return await DataCollection.FindOneAsync(x => x.StationNumber == station && x.StartTime < time && x.EndTime > time); }
+        public ValueTask<ProcessInfo> FindInfo(int station, DateTime time) => DataCollection.FindOneAsync(x => x.StationNumber == station && x.StartTime < time && x.EndTime > time);
 
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
         /// <param name="path">資料夾路徑</param>
@@ -902,7 +902,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                   RackFilter.Filter   = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   SideFilter.Filter   = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
 
-                                  TodayProductionUpdated?.Invoke(e?.Where(x => x.AddedTime.Day == DateTime.Today.Day)
+                                  TodayProductionUpdated?.Invoke(e?.Where(x => x.AddedTime.Day == DateTime.Today.Day && x.IsFinished)
                                                                    .GroupBy(x => x.StationNumber - 1)
                                                                    .Select(x => (x.Key, x.Sum(y => y.Quantity)))
                                                                    .ToList());

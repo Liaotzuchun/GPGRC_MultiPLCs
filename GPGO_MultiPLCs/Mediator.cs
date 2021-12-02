@@ -737,9 +737,9 @@ namespace GPGO_MultiPLCs
                                                        });
                                      };
 
-            TotalVM.UpsertRecipe += async recipe => await RecipeVM.Upsert(recipe).ConfigureAwait(false);
+            TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe);
 
-            TotalVM.DeleteRecipe += async recipeName => await RecipeVM.Delete(recipeName).ConfigureAwait(false);
+            TotalVM.DeleteRecipe += recipeName => RecipeVM.Delete(recipeName);
 
             //!更新每日產量
             TraceVM.TodayProductionUpdated += datas =>
@@ -753,7 +753,7 @@ namespace GPGO_MultiPLCs
                                                   }
                                               };
 
-            LogVM.WantInfo += async e => await TraceVM.FindInfo(e.station, e.time);
+            LogVM.WantInfo += e => TraceVM.FindInfo(e.station, e.time);
 
             LogVM.GoDetailView += async e =>
                                   {

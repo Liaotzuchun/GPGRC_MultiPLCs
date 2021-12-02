@@ -1378,6 +1378,72 @@ namespace GPGO_MultiPLCs.Models
             EditorLevel           = level;
         }
 
+        public bool SetByDictionary(Dictionary<string, string> dic)
+        {
+            foreach (var kv in dic)
+            {
+                var p = GetType().GetProperty(kv.Key);
+                if (p != null)
+                {
+                    if (p.PropertyType == typeof(short) && short.TryParse(kv.Value, out var s))
+                    {
+                        p.SetValue(this, s);
+
+                        if ((short)p.GetValue(this) != s)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (p.PropertyType == typeof(int) && int.TryParse(kv.Value, out var i))
+                    {
+                        p.SetValue(this, i);
+
+                        if ((int)p.GetValue(this) != i)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (p.PropertyType == typeof(float) && float.TryParse(kv.Value, out var f))
+                    {
+                        p.SetValue(this, f);
+
+                        if (((float)p.GetValue(this)).ToString("0.0") != f.ToString("0.0"))
+                        {
+                            return false;
+                        }
+                    }
+                    else if (p.PropertyType == typeof(double) && double.TryParse(kv.Value, out var d))
+                    {
+                        p.SetValue(this, d);
+
+                        if (((double)p.GetValue(this)).ToString("0.0") != d.ToString("0.0"))
+                        {
+                            return false;
+                        }
+                    }
+                    else if (p.PropertyType == typeof(string))
+                    {
+                        p.SetValue(this, kv.Value);
+
+                        if ((string)p.GetValue(this) != kv.Value)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public PLC_Recipe(string name, string user, UserLevel level) : base(name, user, level)
         {
             DwellTemperature_1    = 200;

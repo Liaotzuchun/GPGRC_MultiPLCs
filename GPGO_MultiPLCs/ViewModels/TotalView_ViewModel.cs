@@ -359,9 +359,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                     }
                                 };
 
-            secsGem.UpsertRecipe += async recipe =>
+            secsGem.UpsertRecipe += recipe =>
                                     {
-                                        var _ = UpsertRecipe != null && await UpsertRecipe.Invoke(recipe);
+                                        var _ = UpsertRecipe != null && UpsertRecipe.Invoke(recipe).Result;
 
                                         return true;
                                     };
@@ -660,7 +660,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         }
                                     }
 
-                                    Checker.Change(150, Timeout.Infinite);
+                                    Checker?.Change(150, Timeout.Infinite);
                                 },
                                 null,
                                 0,
