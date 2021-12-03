@@ -914,18 +914,18 @@ namespace GPGO_MultiPLCs.ViewModels
                                         }
                                         else if (name == nameof(RecipeChanged))
                                         {
-                                            if (!val || string.IsNullOrEmpty(RecipeName))
-                                            {
-                                                return;
-                                            }
+                                            //if (!val || string.IsNullOrEmpty(RecipeName))
+                                            //{
+                                            //    return;
+                                            //}
 
-                                            var recipe = new PLC_Recipe();
-                                            this.CopyTo(recipe);
-                                            recipe.Updated     = DateTime.Now;
-                                            recipe.Editor      = "PLC";
-                                            recipe.EditorLevel = UserLevel.Operator;
+                                            //var recipe = new PLC_Recipe();
+                                            //this.CopyTo(recipe);
+                                            //recipe.Updated     = DateTime.Now;
+                                            //recipe.Editor      = "PLC";
+                                            //recipe.EditorLevel = UserLevel.Operator;
 
-                                            RecipeChangedbyPLC?.Invoke(recipe);
+                                            //RecipeChangedbyPLC?.Invoke(recipe);
                                         }
                                     }
                                     else if (name is nameof(CurrentStep) or nameof(IsRamp) or nameof(IsWarming) or nameof(IsCooling))
