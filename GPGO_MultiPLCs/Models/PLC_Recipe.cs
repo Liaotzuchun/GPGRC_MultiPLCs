@@ -11,6 +11,9 @@ namespace GPGO_MultiPLCs.Models
     [BsonIgnoreExtraElements]
     public class PLC_Recipe : RecipeBase<PLC_Recipe>
     {
+        private const int OneDigits  = 1;
+        private const int ZeroDigits = 0;
+
         public override bool Equals(PLC_Recipe other) => other != null &&
                                                          RecipeName == other.RecipeName &&
                                                          DwellTemperature_1.ToString("0.0") == other.DwellTemperature_1.ToString("0.0") &&
@@ -163,6 +166,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > CoolingTemperature_Max)
                 {
                     value = CoolingTemperature_Max;
@@ -182,6 +187,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > CoolingTime_Max)
                 {
                     value = CoolingTime_Max;
@@ -201,6 +208,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > ProgramEndWarningTime_Max)
                 {
                     value = ProgramEndWarningTime_Max;
@@ -244,6 +253,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > InflatingTime_Max)
                 {
                     value = InflatingTime_Max;
@@ -264,6 +275,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -285,6 +298,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -306,6 +321,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -327,6 +344,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -348,6 +367,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -369,6 +390,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -390,6 +413,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -411,6 +436,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -431,6 +458,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampTime_Max)
                 {
                     value = RampTime_Max;
@@ -452,6 +481,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampTime_Max)
                 {
                     value = RampTime_Max;
@@ -473,6 +504,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampTime_Max)
                 {
                     value = RampTime_Max;
@@ -494,6 +527,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampTime_Max)
                 {
                     value = RampTime_Max;
@@ -515,6 +550,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampTime_Max)
                 {
                     value = RampTime_Max;
@@ -536,6 +573,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampTime_Max)
                 {
                     value = RampTime_Max;
@@ -558,6 +597,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampTime_Max)
                 {
                     value = RampTime_Max;
@@ -580,6 +621,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampTime_Max)
                 {
                     value = RampTime_Max;
@@ -601,6 +644,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampAlarm_Max)
                 {
                     value = RampAlarm_Max;
@@ -621,6 +666,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampAlarm_Max)
                 {
                     value = RampAlarm_Max;
@@ -641,6 +688,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampAlarm_Max)
                 {
                     value = RampAlarm_Max;
@@ -661,6 +710,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampAlarm_Max)
                 {
                     value = RampAlarm_Max;
@@ -681,6 +732,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampAlarm_Max)
                 {
                     value = RampAlarm_Max;
@@ -701,6 +754,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampAlarm_Max)
                 {
                     value = RampAlarm_Max;
@@ -722,6 +777,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampAlarm_Max)
                 {
                     value = RampAlarm_Max;
@@ -743,6 +800,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > RampAlarm_Max)
                 {
                     value = RampAlarm_Max;
@@ -764,6 +823,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -785,6 +846,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -806,6 +869,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -827,6 +892,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -848,6 +915,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -869,6 +938,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -890,6 +961,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -911,6 +984,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, OneDigits, MidpointRounding.AwayFromZero);
+
                 if (value > Temperature_Max)
                 {
                     value = Temperature_Max;
@@ -931,6 +1006,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellTime_Max)
                 {
                     value = DwellTime_Max;
@@ -952,6 +1029,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellTime_Max)
                 {
                     value = DwellTime_Max;
@@ -973,6 +1052,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellTime_Max)
                 {
                     value = DwellTime_Max;
@@ -994,6 +1075,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellTime_Max)
                 {
                     value = DwellTime_Max;
@@ -1015,6 +1098,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellTime_Max)
                 {
                     value = DwellTime_Max;
@@ -1036,6 +1121,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellTime_Max)
                 {
                     value = DwellTime_Max;
@@ -1058,6 +1145,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellTime_Max)
                 {
                     value = DwellTime_Max;
@@ -1080,6 +1169,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellTime_Max)
                 {
                     value = DwellTime_Max;
@@ -1101,6 +1192,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellAlarm_Max)
                 {
                     value = DwellAlarm_Max;
@@ -1121,6 +1214,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellAlarm_Max)
                 {
                     value = DwellAlarm_Max;
@@ -1141,6 +1236,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellAlarm_Max)
                 {
                     value = DwellAlarm_Max;
@@ -1161,6 +1258,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellAlarm_Max)
                 {
                     value = DwellAlarm_Max;
@@ -1181,6 +1280,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellAlarm_Max)
                 {
                     value = DwellAlarm_Max;
@@ -1201,6 +1302,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellAlarm_Max)
                 {
                     value = DwellAlarm_Max;
@@ -1222,6 +1325,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellAlarm_Max)
                 {
                     value = DwellAlarm_Max;
@@ -1243,6 +1348,8 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set
             {
+                value = Math.Round(value, ZeroDigits, MidpointRounding.AwayFromZero);
+
                 if (value > DwellAlarm_Max)
                 {
                     value = DwellAlarm_Max;
@@ -1385,7 +1492,25 @@ namespace GPGO_MultiPLCs.Models
                 var p = GetType().GetProperty(kv.Key);
                 if (p != null)
                 {
-                    if (p.PropertyType == typeof(short) && short.TryParse(kv.Value, out var s))
+                    if (p.PropertyType == typeof(bool) && bool.TryParse(kv.Value, out var bo))
+                    {
+                        p.SetValue(this, bo);
+
+                        if ((bool)p.GetValue(this) != bo)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (p.PropertyType == typeof(byte) && byte.TryParse(kv.Value, out var b))
+                    {
+                        p.SetValue(this, b);
+
+                        if ((byte)p.GetValue(this) != b)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (p.PropertyType == typeof(short) && short.TryParse(kv.Value, out var s))
                     {
                         p.SetValue(this, s);
 
