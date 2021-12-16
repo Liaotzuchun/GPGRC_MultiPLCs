@@ -1490,7 +1490,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 配方切換異常
         /// </summary>
-        [PLCBitData(DataType.D, 12002, 7, LogType.Alarm)]
+        [PLCBit(BitType.M, 737, LogType.Alarm)]
         public bool RecipeChangeError
         {
             get => Get<bool>();

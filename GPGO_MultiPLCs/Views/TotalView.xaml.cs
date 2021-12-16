@@ -1,8 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Input;
-
-namespace GPGO_MultiPLCs.Views
+﻿namespace GPGO_MultiPLCs.Views
 {
     /// <summary>TotalView.xaml 的互動邏輯</summary>
     public partial class TotalView
