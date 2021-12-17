@@ -167,8 +167,6 @@ namespace GPGO_MultiPLCs.Models
 
             StartTime  = new DateTime();
             EndTime    = new DateTime();
-            OperatorID = "";
-            RackID     = "";
             IsFinished = false;
         }
 

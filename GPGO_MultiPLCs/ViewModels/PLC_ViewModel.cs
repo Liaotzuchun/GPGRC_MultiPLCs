@@ -376,6 +376,7 @@ namespace GPGO_MultiPLCs.ViewModels
         private async Task StartRecoder(long cycle_ms, CancellationToken ct)
         {
             OvenInfo.Clear();
+            OvenInfo.RackID    = RackID;
             OvenInfo.StartTime = DateTime.Now;
             OvenInfo.EndTime   = new DateTime();
 
