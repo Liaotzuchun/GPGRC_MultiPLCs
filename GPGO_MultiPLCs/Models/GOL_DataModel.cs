@@ -1468,20 +1468,20 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 風速上限異常
+        /// 風速下限異常
         /// </summary>
-        [PLCBitData(DataType.D, 12002, 6, LogType.Alarm)]
-        public bool WindSpeedUpperLimitAlarm
+        [PLCBitData(DataType.D, 12002, 5, LogType.Alarm)]
+        public bool WindSpeedLowerLimitAlarm
         {
             get => Get<bool>();
             set => Set(value);
         }
 
         /// <summary>
-        /// 風速下限異常
+        /// 風速上限異常
         /// </summary>
-        [PLCBitData(DataType.D, 12002, 5, LogType.Alarm)]
-        public bool WindSpeedLowerLimitAlarm
+        [PLCBitData(DataType.D, 12002, 6, LogType.Alarm)]
+        public bool WindSpeedUpperLimitAlarm
         {
             get => Get<bool>();
             set => Set(value);
