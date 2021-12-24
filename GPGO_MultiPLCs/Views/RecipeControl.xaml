@@ -1293,11 +1293,11 @@
                                     VerticalAlignment="Center"
                                     IsSelectionRangeEnabled="True"
                                     IsSnapToTickEnabled="True"
-                                    LargeChange="1"
+                                    LargeChange="0.1"
                                     Maximum="{Binding CoolingTemperature_Max, Mode=OneWay}"
                                     Minimum="{Binding CoolingTemperature_Min, Mode=OneWay}"
-                                    SmallChange="1"
-                                    TickFrequency="1"
+                                    SmallChange="0.1"
+                                    TickFrequency="0.1"
                                     Value="{Binding CoolingTemperature, Mode=TwoWay}" />
                         </Border>
                         <views:NumericTextBox Grid.Row="19"
@@ -1307,7 +1307,7 @@
                                               BorderThickness="1,1,0,0"
                                               Max="{Binding CoolingTemperature_Max, Mode=OneWay}"
                                               Min="{Binding CoolingTemperature_Min, Mode=OneWay}"
-                                              Text="{Binding CoolingTemperature, Mode=TwoWay, StringFormat=\{0:F0\}}"
+                                              Text="{Binding CoolingTemperature, Mode=TwoWay, StringFormat=\{0:F1\}}"
                                               Unit="°C" />
                         <Border Grid.Row="19"
                                 Grid.Column="3"
@@ -2169,7 +2169,7 @@
                                     BorderThickness="1,1,0,0">
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F0\} °C}" />
+                                           Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
                             </Border>
                             <Border Grid.Row="19"
                                     Grid.Column="2"
