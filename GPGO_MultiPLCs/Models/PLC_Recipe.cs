@@ -159,7 +159,6 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        [GPIgnore]
         [LanguageTranslator("Cooling Temp.", "降溫溫度", "降温温度")]
         public double CoolingTemperature
         {
