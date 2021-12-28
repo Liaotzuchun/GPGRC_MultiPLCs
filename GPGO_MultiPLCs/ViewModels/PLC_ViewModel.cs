@@ -174,7 +174,11 @@ namespace GPGO_MultiPLCs.ViewModels
         public string Selected_Name
         {
             get => Get<string>();
-            set => _ = SetRecipe(value, true);
+            set
+            {
+                if (Selected_Name == value) return;
+                _ = SetRecipe(value, true);
+            }
         }
 
         private bool RecipeCompare(PLC_Recipe recipe) =>
@@ -340,6 +344,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
             RemoteCommandSelectPP = false;
             await ManualSetPLCByProperties(recipe.ToDictionary()).ConfigureAwait(false);
+            RecipeUsed?.Invoke(recipe.RecipeName);
+            Set(recipe.RecipeName, nameof(Selected_Name));
+            Intput_Name           = Selected_Name;
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
@@ -359,10 +366,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             RemoteCommandSelectPP = false;
-
-            RecipeUsed?.Invoke(recipe.RecipeName);
-            Set(recipe.RecipeName, nameof(Selected_Name));
-            Intput_Name = Selected_Name;
 
             return true;
         }
@@ -378,6 +381,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
             RemoteCommandSelectPP = false;
             await ManualSetPLCByProperties(recipe.ToDictionary()).ConfigureAwait(false);
+            RecipeUsed?.Invoke(recipe.RecipeName);
+            Set(recipe.RecipeName, nameof(Selected_Name));
+            Intput_Name           = Selected_Name;
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
@@ -397,10 +403,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             RemoteCommandSelectPP = false;
-
-            RecipeUsed?.Invoke(recipe.RecipeName);
-            Set(recipe.RecipeName, nameof(Selected_Name));
-            Intput_Name = Selected_Name;
 
             return true;
         }
@@ -429,6 +431,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
             RemoteCommandSelectPP = false;
             await ManualSetPLCByProperties(recipe.ToDictionary());
+            RecipeUsed?.Invoke(recipe.RecipeName);
+            Set(recipe.RecipeName, nameof(Selected_Name));
+            Intput_Name           = Selected_Name;
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
@@ -452,13 +457,13 @@ namespace GPGO_MultiPLCs.ViewModels
             if (!RecipeCompare(recipe))
             {
                 Dialog.Show(new Dictionary<Language, string>
-                              {
-                                  { Language.TW, "配方比對錯誤！" },
-                                  { Language.CHS, "配方比对错误！" },
-                                  { Language.EN, "Recipe comparison error!" }
-                              },
-                              TimeSpan.FromSeconds(3),
-                              DialogMsgType.Alarm);
+                            {
+                                { Language.TW, "配方比對錯誤！" },
+                                { Language.CHS, "配方比对错误！" },
+                                { Language.EN, "Recipe comparison error!" }
+                            },
+                            TimeSpan.FromSeconds(3),
+                            DialogMsgType.Alarm);
 
                 RemoteCommandSelectPP = false;
                 RecipeChangeError     = true;
@@ -466,10 +471,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             RemoteCommandSelectPP = false;
-
-            RecipeUsed?.Invoke(recipeName);
-            Set(recipeName, nameof(Selected_Name));
-            Intput_Name = Selected_Name;
 
             return true;
         }
