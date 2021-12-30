@@ -89,7 +89,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 程式結束警報時間
         /// </summary>
-        [PLCData(DataType.D, 11273, LogType.RecipeSet)]
+        [PLCData(DataType.D, 11273, 0.1, LogType.RecipeSet)]
         public double ProgramEndWarningTime
         {
             get => Get<double>();
