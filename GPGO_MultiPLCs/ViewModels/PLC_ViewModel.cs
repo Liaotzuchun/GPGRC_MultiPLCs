@@ -348,13 +348,19 @@ namespace GPGO_MultiPLCs.ViewModels
                 return SetRecipeResult.條件不允許;
             }
 
+            RecipeUsed?.Invoke(recipe.RecipeName);
+            Set(recipe.RecipeName, nameof(Selected_Name));
+            Intput_Name = Selected_Name;
+
+            if (RecipeCompare(recipe))
+            {
+                return SetRecipeResult.成功;
+            }
+
             TCS?.TrySetResult(false);
 
             RemoteCommandSelectPP = false;
             await ManualSetPLCByProperties(recipe.ToDictionary()).ConfigureAwait(false);
-            RecipeUsed?.Invoke(recipe.RecipeName);
-            Set(recipe.RecipeName, nameof(Selected_Name));
-            Intput_Name           = Selected_Name;
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
@@ -385,13 +391,19 @@ namespace GPGO_MultiPLCs.ViewModels
                 return SetRecipeResult.條件不允許;
             }
 
+            RecipeUsed?.Invoke(recipe.RecipeName);
+            Set(recipe.RecipeName, nameof(Selected_Name));
+            Intput_Name = Selected_Name;
+
+            if (RecipeCompare(recipe))
+            {
+                return SetRecipeResult.成功;
+            }
+
             TCS?.TrySetResult(false);
 
             RemoteCommandSelectPP = false;
             await ManualSetPLCByProperties(recipe.ToDictionary()).ConfigureAwait(false);
-            RecipeUsed?.Invoke(recipe.RecipeName);
-            Set(recipe.RecipeName, nameof(Selected_Name));
-            Intput_Name           = Selected_Name;
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
@@ -422,8 +434,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 return SetRecipeResult.條件不允許;
             }
 
-            TCS?.TrySetResult(false);
-
             if (check &&
                 !await Dialog.Show(new Dictionary<Language, string>
                                    {
@@ -437,11 +447,19 @@ namespace GPGO_MultiPLCs.ViewModels
                 return SetRecipeResult.條件不允許;
             }
 
-            RemoteCommandSelectPP = false;
-            await ManualSetPLCByProperties(recipe.ToDictionary());
             RecipeUsed?.Invoke(recipe.RecipeName);
             Set(recipe.RecipeName, nameof(Selected_Name));
-            Intput_Name           = Selected_Name;
+            Intput_Name = Selected_Name;
+
+            if (RecipeCompare(recipe))
+            {
+                return SetRecipeResult.成功;
+            }
+
+            TCS?.TrySetResult(false);
+
+            RemoteCommandSelectPP = false;
+            await ManualSetPLCByProperties(recipe.ToDictionary());
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
