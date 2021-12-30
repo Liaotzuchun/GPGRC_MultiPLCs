@@ -32,6 +32,14 @@ namespace GPGO_MultiPLCs.ViewModels
             錯誤 = 4
         }
 
+        public enum SetRecipeResult
+        {
+            成功,
+            條件不允許,
+            PLC錯誤,
+            比對錯誤
+        }
+
         private const    double                     Delay = 2;
         private readonly IDialogService             Dialog;
         private readonly TaskFactory                OneScheduler = new(new StaTaskScheduler(1));
@@ -333,11 +341,11 @@ namespace GPGO_MultiPLCs.ViewModels
             //});
         }
 
-        public async Task<bool> SetRecipe(PLC_Recipe recipe)
+        public async Task<SetRecipeResult> SetRecipe(PLC_Recipe recipe)
         {
             if (recipe == null || IsExecuting || !PC_InUse)
             {
-                return false;
+                return SetRecipeResult.條件不允許;
             }
 
             TCS?.TrySetResult(false);
@@ -354,7 +362,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 RemoteCommandSelectPP = false;
                 RecipeChangeError     = true;
-                return false;
+                return SetRecipeResult.PLC錯誤;
             }
 
             await Task.Delay(300).ConfigureAwait(false);
@@ -362,19 +370,19 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 RemoteCommandSelectPP = false;
                 RecipeChangeError     = true;
-                return false;
+                return SetRecipeResult.比對錯誤;
             }
 
             RemoteCommandSelectPP = false;
 
-            return true;
+            return SetRecipeResult.成功;
         }
 
-        public async Task<bool> SetRecipe(string recipeName)
+        public async Task<SetRecipeResult> SetRecipe(string recipeName)
         {
             if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
-                return false;
+                return SetRecipeResult.條件不允許;
             }
 
             TCS?.TrySetResult(false);
@@ -391,7 +399,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 RemoteCommandSelectPP = false;
                 RecipeChangeError     = true;
-                return false;
+                return SetRecipeResult.PLC錯誤;
             }
 
             await Task.Delay(300).ConfigureAwait(false);
@@ -399,19 +407,19 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 RemoteCommandSelectPP = false;
                 RecipeChangeError     = true;
-                return false;
+                return SetRecipeResult.比對錯誤;
             }
 
             RemoteCommandSelectPP = false;
 
-            return true;
+            return SetRecipeResult.成功;
         }
 
-        public async Task<bool> SetRecipe(string recipeName, bool check)
+        public async Task<SetRecipeResult> SetRecipe(string recipeName, bool check)
         {
             if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
-                return false;
+                return SetRecipeResult.條件不允許;
             }
 
             TCS?.TrySetResult(false);
@@ -426,7 +434,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                    recipe,
                                    true))
             {
-                return false;
+                return SetRecipeResult.條件不允許;
             }
 
             RemoteCommandSelectPP = false;
@@ -450,7 +458,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 RemoteCommandSelectPP = false;
                 RecipeChangeError     = true;
-                return false;
+                return SetRecipeResult.PLC錯誤;
             }
 
             await Task.Delay(300).ConfigureAwait(false);
@@ -467,12 +475,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 RemoteCommandSelectPP = false;
                 RecipeChangeError     = true;
-                return false;
+                return SetRecipeResult.比對錯誤;
             }
 
             RemoteCommandSelectPP = false;
 
-            return true;
+            return SetRecipeResult.成功;
         }
 
         /// <summary>開始記錄</summary>

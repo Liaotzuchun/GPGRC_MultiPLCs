@@ -478,39 +478,39 @@ namespace GPGO_MultiPLCs
                                                  var si = new GPCore.StreamReaderIni();
                                                  var t  = si.AddIniSection("CCodeID1");
                                                  t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
-                                                 t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.CoolingTemperature),    recipe.CoolingTemperature.ToString("0.0"));
-                                                 t.AddElement(nameof(PLC_Recipe.StepCounts),            recipe.StepCounts.ToString());
+                                                 t.AddElement(nameof(PLC_Recipe.CoolingTime), recipe.CoolingTime.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.CoolingTemperature), recipe.CoolingTemperature.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.StepCounts), recipe.StepCounts.ToString());
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_1), recipe.TemperatureSetpoint_1.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_2), recipe.TemperatureSetpoint_2.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_3), recipe.TemperatureSetpoint_3.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_4), recipe.TemperatureSetpoint_4.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_5), recipe.TemperatureSetpoint_5.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_6), recipe.TemperatureSetpoint_6.ToString("0.0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_1),            recipe.RampTime_1.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_2),            recipe.RampTime_2.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_3),            recipe.RampTime_3.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_4),            recipe.RampTime_4.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_5),            recipe.RampTime_5.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_6),            recipe.RampTime_6.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_1),           recipe.RampAlarm_1.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_2),           recipe.RampAlarm_2.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_3),           recipe.RampAlarm_3.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_4),           recipe.RampAlarm_4.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_5),           recipe.RampAlarm_5.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_6),           recipe.RampAlarm_6.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_1),           recipe.DwellTime_1.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_2),           recipe.DwellTime_2.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_3),           recipe.DwellTime_3.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_4),           recipe.DwellTime_4.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_5),           recipe.DwellTime_5.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_6),           recipe.DwellTime_6.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_1),          recipe.DwellAlarm_1.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_2),          recipe.DwellAlarm_2.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_3),          recipe.DwellAlarm_3.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_4),          recipe.DwellAlarm_4.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_5),          recipe.DwellAlarm_5.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_6),          recipe.DwellAlarm_6.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_1), recipe.RampTime_1.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_2), recipe.RampTime_2.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_3), recipe.RampTime_3.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_4), recipe.RampTime_4.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_5), recipe.RampTime_5.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_6), recipe.RampTime_6.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_1), recipe.RampAlarm_1.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_2), recipe.RampAlarm_2.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_3), recipe.RampAlarm_3.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_4), recipe.RampAlarm_4.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_5), recipe.RampAlarm_5.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_6), recipe.RampAlarm_6.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_1), recipe.DwellTime_1.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_2), recipe.DwellTime_2.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_3), recipe.DwellTime_3.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_4), recipe.DwellTime_4.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_5), recipe.DwellTime_5.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_6), recipe.DwellTime_6.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_1), recipe.DwellAlarm_1.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_2), recipe.DwellAlarm_2.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_3), recipe.DwellAlarm_3.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_4), recipe.DwellAlarm_4.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_5), recipe.DwellAlarm_5.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_6), recipe.DwellAlarm_6.ToString("0"));
                                                  si.EncodindIni($"C:\\ITRIinit\\0\\ProcessJob\\{recipe.RecipeName}.pjb");
                                              }
 
@@ -526,7 +526,9 @@ namespace GPGO_MultiPLCs
 
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
 
-                                             var l = new List<int>();
+                                             var l1 = new List<int>();
+                                             var l2 = new List<int>();
+                                             var l3 = new List<int>();
 
                                              for (var i = 0; i < TotalVM.PLC_All.Count; i++)
                                              {
@@ -534,22 +536,63 @@ namespace GPGO_MultiPLCs
                                                  var recipe = list.Find(x => j < x.Used_Stations.Count && x.Used_Stations[j]);
                                                  if (recipe != null)
                                                  {
-                                                     if (!await TotalVM.SetRecipe(i, recipe))
+                                                     switch (await TotalVM.SetRecipe(i, recipe))
                                                      {
-                                                         l.Add(i + 1);
+                                                         case PLC_ViewModel.SetRecipeResult.條件不允許:
+                                                             l1.Add(i + 1);
+                                                             break;
+                                                         case PLC_ViewModel.SetRecipeResult.PLC錯誤:
+                                                             l2.Add(i + 1);
+                                                             break;
+                                                         case PLC_ViewModel.SetRecipeResult.比對錯誤:
+                                                             l3.Add(i + 1);
+                                                             break;
                                                      }
                                                  }
                                              }
 
-                                             if (showtip && l.Any())
+                                             if (showtip && (l1.Any() || l2.Any() || l3.Any()))
                                              {
-                                                 var str = string.Join(", ", l);
+                                                 var str1 = string.Join(", ", l1);
+                                                 var str2 = string.Join(", ", l2);
+                                                 var str3 = string.Join(", ", l3);
+
+                                                 var tw  = new StringBuilder();
+                                                 var chs = new StringBuilder();
+                                                 var en  = new StringBuilder();
+
+                                                 if (l1.Any())
+                                                 {
+                                                     tw.Append($"{str1} 號烤箱未符合設定條件！");
+                                                     chs.Append($"{str1} 号烤箱未符合设定条件！");
+                                                     en.Append($"No. {str1} oven{(l1.Count > 1 ? "s" : "")}: Not meet the conditions！");
+                                                 }
+
+                                                 if (l2.Any())
+                                                 {
+                                                     tw.AppendLine();
+                                                     chs.AppendLine();
+                                                     en.AppendLine();
+                                                     tw.Append($"{str2} 號烤箱配方設定失敗！");
+                                                     chs.Append($"{str2} 号烤箱配方设定失败！");
+                                                     en.Append($"No. {str2} oven{(l2.Count > 1 ? "s" : "")}: Recipe set failure！");
+                                                 }
+
+                                                 if (l3.Any())
+                                                 {
+                                                     tw.AppendLine();
+                                                     chs.AppendLine();
+                                                     en.AppendLine();
+                                                     tw.Append($"{str3} 號烤箱配方比對錯誤！");
+                                                     chs.Append($"{str3} 号烤箱配方比对错误！");
+                                                     en.Append($"No. {str3} oven{(l3.Count > 1 ? "s" : "")}: Recipe check error！");
+                                                 }
 
                                                  DialogVM.Show(new Dictionary<Language, string>
                                                                {
-                                                                   { Language.TW, $"{str} 號\n烤箱目前無法寫入配方！" },
-                                                                   { Language.CHS, $"{str} 号\n烤箱目前无法写入配方！" },
-                                                                   { Language.EN, $"No. {str} oven{(l.Count > 1 ? "s" : "")} {(l.Count > 1 ? "are" : "is")}\ncurrently unable to write the recipe!" }
+                                                                   { Language.TW, tw.ToString() },
+                                                                   { Language.CHS, chs.ToString() },
+                                                                   { Language.EN, en.ToString() }
                                                                },
                                                                TimeSpan.FromSeconds(3),
                                                                DialogMsgType.Alert);
