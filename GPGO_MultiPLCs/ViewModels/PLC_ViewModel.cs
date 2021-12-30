@@ -352,11 +352,6 @@ namespace GPGO_MultiPLCs.ViewModels
             Set(recipe.RecipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
 
-            if (RecipeCompare(recipe))
-            {
-                return SetRecipeResult.成功;
-            }
-
             TCS?.TrySetResult(false);
 
             RemoteCommandSelectPP = false;
@@ -394,11 +389,6 @@ namespace GPGO_MultiPLCs.ViewModels
             RecipeUsed?.Invoke(recipe.RecipeName);
             Set(recipe.RecipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
-
-            if (RecipeCompare(recipe))
-            {
-                return SetRecipeResult.成功;
-            }
 
             TCS?.TrySetResult(false);
 
@@ -450,11 +440,6 @@ namespace GPGO_MultiPLCs.ViewModels
             RecipeUsed?.Invoke(recipe.RecipeName);
             Set(recipe.RecipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
-
-            if (RecipeCompare(recipe))
-            {
-                return SetRecipeResult.成功;
-            }
 
             TCS?.TrySetResult(false);
 
