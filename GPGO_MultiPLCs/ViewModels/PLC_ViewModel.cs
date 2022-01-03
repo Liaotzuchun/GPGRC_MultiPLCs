@@ -182,15 +182,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public string Selected_Name
         {
             get => Get<string>();
-            set
-            {
-                if (Selected_Name == value)
-                {
-                    Intput_Name = Selected_Name;
-                    return;
-                }
-                _ = SetRecipe(value, true);
-            }
+            set => _ = SetRecipe(value, true);
         }
 
         private bool RecipeCompare(PLC_Recipe recipe) =>
@@ -429,6 +421,17 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Intput_Name = Selected_Name;
                 return SetRecipeResult.條件不允許;
+            }
+
+            //!手動選擇配方時，若配方已相等就不再寫入)
+            if (RecipeCompare(recipe))
+            {
+                Dialog.Show(new Dictionary<Language, string>
+                            {
+                                { Language.TW, "配方無變更" },
+                                { Language.CHS, "配方无变更" },
+                                { Language.EN, "No change." }
+                            });
             }
 
             if (check &&
@@ -677,16 +680,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                 return;
                                                             }
 
-                                                            if (Selected_Name == Intput_Name.Trim())
-                                                            {
-                                                                Dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW, "配方無變更" },
-                                                                                { Language.CHS, "配方无变更" },
-                                                                                { Language.EN, "No change." }
-                                                                            });
-                                                            }
-                                                            else if (Recipe_Names.FirstOrDefault(x => x.Contains(Intput_Name.Trim())) is {} foundname)
+                                                            if (Recipe_Names.FirstOrDefault(x => x.Contains(Intput_Name.Trim())) is {} foundname)
                                                             {
                                                                 await SetRecipe(foundname, true);
                                                             }
