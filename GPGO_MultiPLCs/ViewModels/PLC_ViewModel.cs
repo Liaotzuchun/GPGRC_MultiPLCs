@@ -184,7 +184,11 @@ namespace GPGO_MultiPLCs.ViewModels
             get => Get<string>();
             set
             {
-                if (Selected_Name == value) return;
+                if (Selected_Name == value)
+                {
+                    Intput_Name = Selected_Name;
+                    return;
+                }
                 _ = SetRecipe(value, true);
             }
         }
@@ -434,6 +438,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                    recipe,
                                    true))
             {
+                Intput_Name = Selected_Name;
                 return SetRecipeResult.條件不允許;
             }
 
@@ -669,7 +674,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                 return;
                                                             }
 
-                                                            if (Selected_Name == Intput_Name)
+                                                            if (Selected_Name == Intput_Name.Trim())
                                                             {
                                                                 Dialog.Show(new Dictionary<Language, string>
                                                                             {
@@ -678,9 +683,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                 { Language.EN, "No change." }
                                                                             });
                                                             }
-                                                            else if (Recipe_Names.Contains(Intput_Name))
+                                                            else if (Recipe_Names.FirstOrDefault(x => x.Contains(Intput_Name.Trim())) is {} foundname)
                                                             {
-                                                                await SetRecipe(Intput_Name, true);
+                                                                await SetRecipe(foundname, true);
                                                             }
                                                             else
                                                             {
