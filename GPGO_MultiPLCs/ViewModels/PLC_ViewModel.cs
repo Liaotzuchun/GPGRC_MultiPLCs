@@ -349,6 +349,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             if (recipe == null || IsExecuting || !PC_InUse)
             {
+                Intput_Name = Selected_Name;
                 return SetRecipeResult.條件不允許;
             }
 
@@ -387,6 +388,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
+                Intput_Name = Selected_Name;
                 return SetRecipeResult.條件不允許;
             }
 
@@ -425,6 +427,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
+                Intput_Name = Selected_Name;
                 return SetRecipeResult.條件不允許;
             }
 
