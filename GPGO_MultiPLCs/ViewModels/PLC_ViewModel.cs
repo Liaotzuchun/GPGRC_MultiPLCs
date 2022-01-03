@@ -426,12 +426,18 @@ namespace GPGO_MultiPLCs.ViewModels
             //!手動選擇配方時，若配方已相等就不再寫入)
             if (RecipeCompare(recipe))
             {
-                Dialog.Show(new Dictionary<Language, string>
-                            {
-                                { Language.TW, "配方無變更" },
-                                { Language.CHS, "配方无变更" },
-                                { Language.EN, "No change." }
-                            });
+                if (check)
+                {
+                    Dialog.Show(new Dictionary<Language, string>
+                                {
+                                    { Language.TW, "配方無變更" },
+                                    { Language.CHS, "配方无变更" },
+                                    { Language.EN, "No change." }
+                                });
+                }
+
+                Intput_Name = Selected_Name;
+                return SetRecipeResult.成功;
             }
 
             if (check &&
