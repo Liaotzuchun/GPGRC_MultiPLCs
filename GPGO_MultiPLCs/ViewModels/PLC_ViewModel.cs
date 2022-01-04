@@ -182,7 +182,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public string Selected_Name
         {
             get => Get<string>();
-            set => _ = SetRecipe(value, true);
+            set => _ = SetRecipeDialog(value);
         }
 
         private bool RecipeCompare(PLC_Recipe recipe) =>
@@ -415,7 +415,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return SetRecipeResult.成功;
         }
 
-        public async Task<SetRecipeResult> SetRecipe(string recipeName, bool check)
+        public async Task<SetRecipeResult> SetRecipeDialog(string recipeName)
         {
             if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
@@ -426,22 +426,18 @@ namespace GPGO_MultiPLCs.ViewModels
             //!手動選擇配方時，若配方已相等就不再寫入)
             if (RecipeCompare(recipe))
             {
-                if (check)
-                {
-                    Dialog.Show(new Dictionary<Language, string>
-                                {
-                                    { Language.TW, "配方無變更" },
-                                    { Language.CHS, "配方无变更" },
-                                    { Language.EN, "No change." }
-                                });
-                }
+                Dialog.Show(new Dictionary<Language, string>
+                            {
+                                { Language.TW, "配方無變更" },
+                                { Language.CHS, "配方无变更" },
+                                { Language.EN, "No change." }
+                            });
 
                 Intput_Name = Selected_Name;
                 return SetRecipeResult.成功;
             }
 
-            if (check &&
-                !await Dialog.Show(new Dictionary<Language, string>
+            if (!await Dialog.Show(new Dictionary<Language, string>
                                    {
                                        { Language.TW, "請確認配方內容：" },
                                        { Language.CHS, "请确认配方内容：" },
@@ -688,7 +684,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                             if (Recipe_Names.FirstOrDefault(x => x.Contains(Intput_Name.Trim())) is {} foundname)
                                                             {
-                                                                await SetRecipe(foundname, true);
+                                                                await SetRecipeDialog(foundname);
                                                             }
                                                             else
                                                             {
