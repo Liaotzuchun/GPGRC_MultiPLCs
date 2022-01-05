@@ -570,10 +570,10 @@ namespace GPGO_MultiPLCs.Models
 
         #endregion
 
-        #region 配方運作值(設定PV)
+        #region 配方運作值(配方PV)
 
         /// <summary>
-        /// 設定PV 配方名
+        /// 配方PV 配方名
         /// </summary>
         [PLCData(DataType.D, 11400, 40, LogType.StatusVariables)]
         public string PV_RecipeName
@@ -583,7 +583,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 降溫溫度
+        /// 配方PV 降溫溫度
         /// </summary>
         [PLCData(DataType.D, 11472, 0.1, LogType.StatusVariables)]
         public double PV_CoolingTemperature
@@ -593,7 +593,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 降溫時間
+        /// 配方PV 降溫時間
         /// </summary>
         [PLCData(DataType.D, 11471, LogType.StatusVariables)]
         public double PV_CoolingTime
@@ -603,7 +603,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 充氣時間
+        /// 配方PV 充氣時間
         /// </summary>
         public double PV_InflatingTime
         {
@@ -612,7 +612,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 程式結束警報時間
+        /// 配方PV 程式結束警報時間
         /// </summary>
         [PLCData(DataType.D, 11473, LogType.StatusVariables)]
         public double PV_ProgramEndWarningTime
@@ -622,7 +622,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 使用段數
+        /// 配方PV 使用段數
         /// </summary>
         [PLCData(DataType.D, 11470, LogType.StatusVariables)]
         public short PV_StepCounts
@@ -632,7 +632,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 目標溫度1
+        /// 配方PV 目標溫度1
         /// </summary>
         [PLCData(DataType.D, 11420, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_1
@@ -642,7 +642,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 目標溫度2
+        /// 配方PV 目標溫度2
         /// </summary>
         [PLCData(DataType.D, 11421, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_2
@@ -652,7 +652,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 目標溫度3
+        /// 配方PV 目標溫度3
         /// </summary>
         [PLCData(DataType.D, 11422, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_3
@@ -662,7 +662,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 目標溫度4
+        /// 配方PV 目標溫度4
         /// </summary>
         [PLCData(DataType.D, 11423, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_4
@@ -672,7 +672,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 目標溫度5
+        /// 配方PV 目標溫度5
         /// </summary>
         [PLCData(DataType.D, 11424, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_5
@@ -682,7 +682,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 目標溫度6
+        /// 配方PV 目標溫度6
         /// </summary>
         [PLCData(DataType.D, 11425, 0.1, LogType.StatusVariables)]
         public double PV_TemperatureSetpoint_6
@@ -692,7 +692,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 目標溫度7
+        /// 配方PV 目標溫度7
         /// </summary>
         public double PV_TemperatureSetpoint_7
         {
@@ -701,7 +701,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 目標溫度8
+        /// 配方PV 目標溫度8
         /// </summary>
         public double PV_TemperatureSetpoint_8
         {
@@ -710,7 +710,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫溫度1
+        /// 配方PV 恆溫溫度1
         /// </summary>
         public double PV_DwellTemperature_1
         {
@@ -719,7 +719,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫溫度2
+        /// 配方PV 恆溫溫度2
         /// </summary>
         public double PV_DwellTemperature_2
         {
@@ -728,7 +728,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫溫度3
+        /// 配方PV 恆溫溫度3
         /// </summary>
         public double PV_DwellTemperature_3
         {
@@ -737,7 +737,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫溫度4
+        /// 配方PV 恆溫溫度4
         /// </summary>
         public double PV_DwellTemperature_4
         {
@@ -746,7 +746,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫溫度5
+        /// 配方PV 恆溫溫度5
         /// </summary>
         public double PV_DwellTemperature_5
         {
@@ -755,7 +755,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫溫度6
+        /// 配方PV 恆溫溫度6
         /// </summary>
         public double PV_DwellTemperature_6
         {
@@ -764,7 +764,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫溫度7
+        /// 配方PV 恆溫溫度7
         /// </summary>
         public double PV_DwellTemperature_7
         {
@@ -773,7 +773,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫溫度8
+        /// 配方PV 恆溫溫度8
         /// </summary>
         public double PV_DwellTemperature_8
         {
@@ -782,7 +782,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫時間1
+        /// 配方PV 升溫時間1
         /// </summary>
         [PLCData(DataType.D, 11460, LogType.StatusVariables)]
         public double PV_RampTime_1
@@ -792,7 +792,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫時間2
+        /// 配方PV 升溫時間2
         /// </summary>
         [PLCData(DataType.D, 11461, LogType.StatusVariables)]
         public double PV_RampTime_2
@@ -802,7 +802,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫時間3
+        /// 配方PV 升溫時間3
         /// </summary>
         [PLCData(DataType.D, 11462, LogType.StatusVariables)]
         public double PV_RampTime_3
@@ -812,7 +812,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫時間4
+        /// 配方PV 升溫時間4
         /// </summary>
         [PLCData(DataType.D, 11463, LogType.StatusVariables)]
         public double PV_RampTime_4
@@ -822,7 +822,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫時間5
+        /// 配方PV 升溫時間5
         /// </summary>
         [PLCData(DataType.D, 11464, LogType.StatusVariables)]
         public double PV_RampTime_5
@@ -832,7 +832,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫時間6
+        /// 配方PV 升溫時間6
         /// </summary>
         [PLCData(DataType.D, 11465, LogType.StatusVariables)]
         public double PV_RampTime_6
@@ -842,7 +842,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫時間7
+        /// 配方PV 升溫時間7
         /// </summary>
         public double PV_RampTime_7
         {
@@ -851,7 +851,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫時間8
+        /// 配方PV 升溫時間8
         /// </summary>
         public double PV_RampTime_8
         {
@@ -860,7 +860,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫警報時間1
+        /// 配方PV 升溫警報時間1
         /// </summary>
         [PLCData(DataType.D, 11440, LogType.StatusVariables)]
         public double PV_RampAlarm_1
@@ -870,7 +870,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫警報時間2
+        /// 配方PV 升溫警報時間2
         /// </summary>
         [PLCData(DataType.D, 11441, LogType.StatusVariables)]
         public double PV_RampAlarm_2
@@ -880,7 +880,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫警報時間3
+        /// 配方PV 升溫警報時間3
         /// </summary>
         [PLCData(DataType.D, 11442, LogType.StatusVariables)]
         public double PV_RampAlarm_3
@@ -890,7 +890,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫警報時間4
+        /// 配方PV 升溫警報時間4
         /// </summary>
         [PLCData(DataType.D, 11443, LogType.StatusVariables)]
         public double PV_RampAlarm_4
@@ -900,7 +900,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫警報時間5
+        /// 配方PV 升溫警報時間5
         /// </summary>
         [PLCData(DataType.D, 11444, LogType.StatusVariables)]
         public double PV_RampAlarm_5
@@ -910,7 +910,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫警報時間6
+        /// 配方PV 升溫警報時間6
         /// </summary>
         [PLCData(DataType.D, 11445, LogType.StatusVariables)]
         public double PV_RampAlarm_6
@@ -920,7 +920,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫警報時間7
+        /// 配方PV 升溫警報時間7
         /// </summary>
         public double PV_RampAlarm_7
         {
@@ -929,7 +929,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 升溫警報時間8
+        /// 配方PV 升溫警報時間8
         /// </summary>
         public double PV_RampAlarm_8
         {
@@ -938,7 +938,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫時間1
+        /// 配方PV 恆溫時間1
         /// </summary>
         [PLCData(DataType.D, 11430, LogType.StatusVariables)]
         public double PV_DwellTime_1
@@ -948,7 +948,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫時間2
+        /// 配方PV 恆溫時間2
         /// </summary>
         [PLCData(DataType.D, 11431, LogType.StatusVariables)]
         public double PV_DwellTime_2
@@ -958,7 +958,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫時間3
+        /// 配方PV 恆溫時間3
         /// </summary>
         [PLCData(DataType.D, 11432, LogType.StatusVariables)]
         public double PV_DwellTime_3
@@ -968,7 +968,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫時間4
+        /// 配方PV 恆溫時間4
         /// </summary>
         [PLCData(DataType.D, 11433, LogType.StatusVariables)]
         public double PV_DwellTime_4
@@ -978,7 +978,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫時間5
+        /// 配方PV 恆溫時間5
         /// </summary>
         [PLCData(DataType.D, 11434, LogType.StatusVariables)]
         public double PV_DwellTime_5
@@ -988,7 +988,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫時間6
+        /// 配方PV 恆溫時間6
         /// </summary>
         [PLCData(DataType.D, 11435, LogType.StatusVariables)]
         public double PV_DwellTime_6
@@ -998,7 +998,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫時間7
+        /// 配方PV 恆溫時間7
         /// </summary>
         public double PV_DwellTime_7
         {
@@ -1007,7 +1007,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫時間8
+        /// 配方PV 恆溫時間8
         /// </summary>
         public double PV_DwellTime_8
         {
@@ -1016,7 +1016,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫警報時間1
+        /// 配方PV 恆溫警報時間1
         /// </summary>
         [PLCData(DataType.D, 11450, LogType.StatusVariables)]
         public double PV_DwellAlarm_1
@@ -1026,7 +1026,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫警報時間2
+        /// 配方PV 恆溫警報時間2
         /// </summary>
         [PLCData(DataType.D, 11451, LogType.StatusVariables)]
         public double PV_DwellAlarm_2
@@ -1036,7 +1036,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫警報時間3
+        /// 配方PV 恆溫警報時間3
         /// </summary>
         [PLCData(DataType.D, 11452, LogType.StatusVariables)]
         public double PV_DwellAlarm_3
@@ -1046,7 +1046,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫警報時間4
+        /// 配方PV 恆溫警報時間4
         /// </summary>
         [PLCData(DataType.D, 11453, LogType.StatusVariables)]
         public double PV_DwellAlarm_4
@@ -1056,7 +1056,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫警報時間5
+        /// 配方PV 恆溫警報時間5
         /// </summary>
         [PLCData(DataType.D, 11454, LogType.StatusVariables)]
         public double PV_DwellAlarm_5
@@ -1066,7 +1066,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫警報時間6
+        /// 配方PV 恆溫警報時間6
         /// </summary>
         [PLCData(DataType.D, 11455, LogType.StatusVariables)]
         public double PV_DwellAlarm_6
@@ -1076,7 +1076,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫警報時間7
+        /// 配方PV 恆溫警報時間7
         /// </summary>
         public double PV_DwellAlarm_7
         {
@@ -1085,7 +1085,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 設定PV 恆溫警報時間8
+        /// 配方PV 恆溫警報時間8
         /// </summary>
         public double PV_DwellAlarm_8
         {
