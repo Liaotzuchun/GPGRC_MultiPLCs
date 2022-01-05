@@ -102,8 +102,7 @@ namespace GPGO_MultiPLCs.ViewModels
                     return 1.0;
                 }
 
-                var d   = 1.0 / StepCounts / 2.0;
-                var val = CurrentStep / (double)StepCounts / 2.0 - d; //!CurrentStep為溫控器目前段數0~12
+                var val = (CurrentStep - 1.0) / StepCounts / 2.0; //!CurrentStep為溫控器目前段數0~12
 
                 if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
                 {
