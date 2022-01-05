@@ -583,7 +583,7 @@
                                                      Value="True">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsWarming, Mode=OneWay}"
+                                        <DataTrigger Binding="{Binding IsSoak, Mode=OneWay}"
                                                      Value="True">
                                             <Setter TargetName="Progress" Property="Background" Value="{StaticResource OKBrush}" />
                                         </DataTrigger>

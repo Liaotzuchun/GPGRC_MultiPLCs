@@ -4,6 +4,7 @@ using GPMVVM.Models;
 using GPMVVM.PLCService;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -101,13 +102,8 @@ namespace GPGO_MultiPLCs.ViewModels
                     return 1.0;
                 }
 
-                var d   = 1 / (StepCounts + 1) / 2;
-                var val = (double)CurrentStep / (StepCounts + 1);
-
-                if (IsWarming)
-                {
-                    val += d;
-                }
+                var d   = 1.0 / StepCounts / 2.0;
+                var val = CurrentStep / (double)StepCounts / 2.0 - d; //!CurrentStep為溫控器目前段數0~12
 
                 if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
                 {
@@ -1050,7 +1046,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                             //RecipeChangedbyPLC?.Invoke(recipe);
                                         }
                                     }
-                                    else if (name is nameof(CurrentStep) or nameof(IsRamp) or nameof(IsWarming) or nameof(IsCooling))
+                                    else if (name is nameof(CurrentStep) or nameof(IsRamp) or nameof(IsSoak) or nameof(IsCooling))
                                     {
                                         EventHappened?.Invoke(eventval);
                                         if (IsExecuting)

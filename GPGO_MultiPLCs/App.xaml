@@ -70,7 +70,7 @@
                         <Setter TargetName="ProgressString" Property="Foreground" Value="Red" />
                         <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 升溫中}" />
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding IsWarming, Mode=OneWay}"
+                    <DataTrigger Binding="{Binding IsSoak, Mode=OneWay}"
                                  Value="True">
                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WorkingBorderBrush}" />
