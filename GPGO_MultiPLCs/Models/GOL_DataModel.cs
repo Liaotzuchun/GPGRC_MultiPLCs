@@ -1785,7 +1785,7 @@ namespace GPGO_MultiPLCs.Models
         /// <summary>
         /// 目前段數
         /// </summary>
-        [PLCData(DataType.D, 11470, LogType.StatusVariables)]
+        [PLCData(DataType.D, 11479, LogType.StatusVariables)]
         public short CurrentStep
         {
             get => Get<short>();
