@@ -293,7 +293,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             foreach (var plc in PLC_All)
             {
-                if (plc.Recipe_Names == null || plc.Recipe_Names.Except(names).Any())
+                if (plc.Recipe_Names == null || plc.Recipe_Names.Count != names.Count || plc.Recipe_Names.Except(names).Any())
                 {
                     plc.Recipe_Names = names;
                 }
