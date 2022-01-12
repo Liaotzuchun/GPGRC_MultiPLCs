@@ -102,8 +102,8 @@ namespace GPGO_MultiPLCs.ViewModels
                     return 1.0;
                 }
 
-                var d   = 1.0 / (StepCounts + 1) / 2.0;
-                var val = (CurrentStep - 1.0) / (StepCounts + 1);
+                var d   = 1.0 / StepCounts / 2.0;
+                var val = (CurrentStep - 1.0) / StepCounts;
 
                 if (IsDwell)
                 {

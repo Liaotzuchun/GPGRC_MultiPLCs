@@ -927,7 +927,7 @@
                       Grid.Row="0"
                       Grid.Column="1"
                       Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                      MaxWidth="70"
+                      MaxWidth="80"
                       FontSize="20"
                       IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
             <ToggleButton.Content>
