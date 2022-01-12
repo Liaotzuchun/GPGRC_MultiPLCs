@@ -1585,7 +1585,7 @@ namespace GPGO_MultiPLCs.Models
         /// 恆溫中
         /// </summary>
         [PLCBitData(DataType.D, 12011, 4, LogType.StatusVariables)]
-        public bool IsSoak
+        public bool IsDwell
         {
             get => Get<bool>();
             set => Set(value);

@@ -130,7 +130,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>恆溫時間</summary>
-        [LanguageTranslator("Warming Time", "恆溫時間", "恒温时间")]
+        [LanguageTranslator("Dwell Time", "恆溫時間", "恒温时间")]
         public List<double> DwellTimes
         {
             get => Get<List<double>>();
@@ -144,7 +144,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        [LanguageTranslator("Warming Alarm", "恆溫警報", "恒温警报")]
+        [LanguageTranslator("Dwell Alarm", "恆溫警報", "恒温警报")]
         public List<double> DwellAlarms
         {
             get => Get<List<double>>();

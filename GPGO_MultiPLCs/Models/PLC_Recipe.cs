@@ -1185,7 +1185,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(45)]
-        [LanguageTranslator("Warming Alarm 1", "恆溫警報 1", "恒温警报 1")]
+        [LanguageTranslator("Dwell Alarm 1", "恆溫警報 1", "恒温警报 1")]
         public double DwellAlarm_1
         {
             get => Get<double>();
@@ -1207,7 +1207,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(46)]
-        [LanguageTranslator("Warming Alarm 2", "恆溫警報 2", "恒温警报 2")]
+        [LanguageTranslator("Dwell Alarm 2", "恆溫警報 2", "恒温警报 2")]
         public double DwellAlarm_2
         {
             get => Get<double>();
@@ -1229,7 +1229,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(47)]
-        [LanguageTranslator("Warming Alarm 3", "恆溫警報 3", "恒温警报 3")]
+        [LanguageTranslator("Dwell Alarm 3", "恆溫警報 3", "恒温警报 3")]
         public double DwellAlarm_3
         {
             get => Get<double>();
@@ -1251,7 +1251,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(48)]
-        [LanguageTranslator("Warming Alarm 4", "恆溫警報 4", "恒温警报 4")]
+        [LanguageTranslator("Dwell Alarm 4", "恆溫警報 4", "恒温警报 4")]
         public double DwellAlarm_4
         {
             get => Get<double>();
@@ -1273,7 +1273,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(49)]
-        [LanguageTranslator("Warming Alarm 5", "恆溫警報 5", "恒温警报 5")]
+        [LanguageTranslator("Dwell Alarm 5", "恆溫警報 5", "恒温警报 5")]
         public double DwellAlarm_5
         {
             get => Get<double>();
@@ -1295,7 +1295,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [OrderIndex(50)]
-        [LanguageTranslator("Warming Alarm 6", "恆溫警報 6", "恒温警报 6")]
+        [LanguageTranslator("Dwell Alarm 6", "恆溫警報 6", "恒温警报 6")]
         public double DwellAlarm_6
         {
             get => Get<double>();
@@ -1318,7 +1318,7 @@ namespace GPGO_MultiPLCs.Models
 
         [GPIgnore]
         [OrderIndex(51)]
-        [LanguageTranslator("Warming Alarm 7", "恆溫警報 7", "恒温警报 7")]
+        [LanguageTranslator("Dwell Alarm 7", "恆溫警報 7", "恒温警报 7")]
         public double DwellAlarm_7
         {
             get => Get<double>();
@@ -1341,7 +1341,7 @@ namespace GPGO_MultiPLCs.Models
 
         [GPIgnore]
         [OrderIndex(52)]
-        [LanguageTranslator("Warming Alarm 8", "恆溫警報 8", "恒温警报 8")]
+        [LanguageTranslator("Dwell Alarm 8", "恆溫警報 8", "恒温警报 8")]
         public double DwellAlarm_8
         {
             get => Get<double>();

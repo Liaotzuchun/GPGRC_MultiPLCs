@@ -1045,7 +1045,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                             //RecipeChangedbyPLC?.Invoke(recipe);
                                         }
                                     }
-                                    else if (name is nameof(CurrentStep) or nameof(IsRamp) or nameof(IsSoak) or nameof(IsCooling))
+                                    else if (name is nameof(CurrentStep) or nameof(IsRamp) or nameof(IsDwell) or nameof(IsCooling))
                                     {
                                         EventHappened?.Invoke(eventval);
                                         if (IsExecuting)
