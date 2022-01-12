@@ -102,7 +102,13 @@ namespace GPGO_MultiPLCs.ViewModels
                     return 1.0;
                 }
 
-                var val = (CurrentStep - 1.0) / StepCounts / 2.0; //!CurrentStep為溫控器目前段數0~12
+                var d   = 1.0 / (StepCounts + 1) / 2.0;
+                var val = (CurrentStep - 1.0) / (StepCounts + 1);
+
+                if (IsDwell)
+                {
+                    val += d;
+                }
 
                 if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
                 {
@@ -1044,8 +1050,18 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                             //RecipeChangedbyPLC?.Invoke(recipe);
                                         }
+                                        else if (name is nameof(IsRamp) or nameof(IsDwell) or nameof(IsCooling))
+                                        {
+                                            EventHappened?.Invoke(eventval);
+                                            if (IsExecuting)
+                                            {
+                                                AddProcessEvent(eventval);
+                                            }
+
+                                            NotifyPropertyChanged(nameof(Progress));
+                                        }
                                     }
-                                    else if (name is nameof(CurrentStep) or nameof(IsRamp) or nameof(IsDwell) or nameof(IsCooling))
+                                    else if (name is nameof(CurrentStep))
                                     {
                                         EventHappened?.Invoke(eventval);
                                         if (IsExecuting)
