@@ -139,7 +139,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        [OrderIndex(2)]
+        [OrderIndex(3)]
         [LanguageTranslator("Used Step Counts", "使用段數", "使用段数")]
         public short StepCounts
         {
@@ -240,7 +240,6 @@ namespace GPGO_MultiPLCs.Models
 
         [GPIgnore]
         [JsonIgnore]
-        [OrderIndex(3)]
         [LanguageTranslator("Editor Level", "權限", "权限")]
         public override UserLevel EditorLevel { get; set; }
 
