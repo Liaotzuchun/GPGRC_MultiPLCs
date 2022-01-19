@@ -129,12 +129,19 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 if (!secsGem.Enable(value))
                 {
-                    Dialog?.Show(new Dictionary<Language, string>
-                                 {
-                                     {Language.TW, "無法啟用連線"},
-                                     {Language.CHS, "无法启用联机"},
-                                     {Language.EN, "Unable to enable connection"}
-                                 });
+                    Dialog?.Show(value ?
+                                     new Dictionary<Language, string>
+                                     {
+                                         { Language.TW, "無法啟用連線" },
+                                         { Language.CHS, "无法启用联机" },
+                                         { Language.EN, "Unable to enable connection" }
+                                     } :
+                                     new Dictionary<Language, string>
+                                     {
+                                         { Language.TW, "無法中止連線" },
+                                         { Language.CHS, "无法中止联机" },
+                                         { Language.EN, "Unable to disable connection" }
+                                     });
 
                     Set(!value, nameof(SECS_ENABLE));
                 }
@@ -345,10 +352,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                            _ = dialog.Show(new Dictionary<Language, string>
                                                            {
-                                                               {Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}"},
-                                                               {Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}"},
-                                                               {Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}"}
-                                                           }, false, TimeSpan.FromDays(1));
+                                                               { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
+                                                               { Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}" },
+                                                               { Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}" }
+                                                           },
+                                                           false,
+                                                           TimeSpan.FromDays(1));
                                        };
 
             secsGem.ECChange += (index, ecid, value) =>
@@ -482,19 +491,23 @@ namespace GPGO_MultiPLCs.ViewModels
             for (var i = 0; i < count; i++)
             {
                 TotalProduction.Add(i, 0);
-                var plc = new PLC_ViewModel(dialog, this, i, "GOL", (bits_shift: new Dictionary<BitType, int>
-                                                                                 {
-                                                                                     {BitType.B, 0},
-                                                                                     {BitType.M, 0},
-                                                                                     {BitType.S, 0},
-                                                                                     {BitType.X, 0},
-                                                                                     {BitType.Y, 0}
-                                                                                 },
-                                                                     datas_shift: new Dictionary<DataType, int>
-                                                                                  {
-                                                                                      {DataType.D, 0},
-                                                                                      {DataType.W, 0}
-                                                                                  })); //!可指定PLC點位位移
+                var plc = new PLC_ViewModel(dialog,
+                                            this,
+                                            i,
+                                            "GOL",
+                                            (bits_shift: new Dictionary<BitType, int>
+                                                         {
+                                                             { BitType.B, 0 },
+                                                             { BitType.M, 0 },
+                                                             { BitType.S, 0 },
+                                                             { BitType.X, 0 },
+                                                             { BitType.Y, 0 }
+                                                         },
+                                             datas_shift: new Dictionary<DataType, int>
+                                                          {
+                                                              { DataType.D, 0 },
+                                                              { DataType.W, 0 }
+                                                          })); //!可指定PLC點位位移
 
                 PLC_All[i] = plc;
                 var index = i;
@@ -535,9 +548,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
-                                                                  {Language.TW, $"第{index + 1}站已取消烘烤！"},
-                                                                  {Language.CHS, $"第{index + 1}站已取消烘烤！"},
-                                                                  {Language.EN, $"Oven No{index + 1}has been canceled!"}
+                                                                  { Language.TW, $"第{index + 1}站已取消烘烤！" },
+                                                                  { Language.CHS, $"第{index + 1}站已取消烘烤！" },
+                                                                  { Language.EN, $"Oven No{index + 1}has been canceled!" }
                                                               },
                                                               TimeSpan.FromSeconds(2));
 
@@ -553,9 +566,9 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                              dialog?.Show(new Dictionary<Language, string>
                                                           {
-                                                              {Language.TW, $"第{index + 1}站已完成烘烤！"},
-                                                              {Language.CHS, $"第{index + 1}站已完成烘烤！"},
-                                                              {Language.EN, $"Oven No{index + 1}has been finished!"}
+                                                              { Language.TW, $"第{index + 1}站已完成烘烤！" },
+                                                              { Language.CHS, $"第{index + 1}站已完成烘烤！" },
+                                                              { Language.EN, $"Oven No{index + 1}has been finished!" }
                                                           },
                                                           TimeSpan.FromSeconds(2));
                                          };
@@ -588,9 +601,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                         {
                                             dialog?.Show(new Dictionary<Language, string>
                                                          {
-                                                             {Language.TW, $"第{index + 1}站配方輸入錯誤！"},
-                                                             {Language.CHS, $"第{index + 1}站配方输入错误！"},
-                                                             {Language.EN, $"Oven No{index + 1} recipe input error!"}
+                                                             { Language.TW, $"第{index + 1}站配方輸入錯誤！" },
+                                                             { Language.CHS, $"第{index + 1}站配方输入错误！" },
+                                                             { Language.EN, $"Oven No{index + 1} recipe input error!" }
                                                          },
                                                          TimeSpan.FromSeconds(1),
                                                          DialogMsgType.Alarm);
