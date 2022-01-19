@@ -127,8 +127,6 @@ namespace GPGO_MultiPLCs.ViewModels
             get => Get<bool>();
             set
             {
-                Set(value);
-
                 if (!secsGem.Enable(value))
                 {
                     Dialog?.Show(new Dictionary<Language, string>
@@ -139,6 +137,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                  });
 
                     Set(!value, nameof(SECS_ENABLE));
+                }
+                else
+                {
+                    Set(value);
                 }
             }
         }
