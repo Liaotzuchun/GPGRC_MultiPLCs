@@ -102,12 +102,30 @@ namespace GPGO_MultiPLCs.Models
             }
         }
 
-        public bool Enable(bool val) => secsGem != null && (val && secsGem.AxQGWrapper.EnableComm() == 0 || !val && secsGem.AxQGWrapper.DisableComm() == 0);
+        public bool Enable(bool val)
+        {
+            if (secsGem != null)
+            {
+                if (val && secsGem.AxQGWrapper.EnableComm() == 0)
+                {
+                    secsGem.AxQSWrapper.Start(); //!啟用通訊：AxQGWrapper.EnableComm() → AxQSWrapper.Start()
+                    return true;
+                }
+
+                if (!val && secsGem.AxQGWrapper.DisableComm() == 0)
+                {
+                    secsGem.AxQSWrapper.Stop(); //!中斷通訊：AxQGWrapper.DisableComm() → AxQSWrapper.Stop()
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         public bool Online(bool val) => secsGem != null &&
-                                        (val && secsGem.AxQGWrapper.OnLineRequest() == 1 || !val && secsGem.AxQGWrapper.OffLine() == 1);
+                                        (val && secsGem.AxQGWrapper.OnLineRequest() == 0 || !val && secsGem.AxQGWrapper.OffLine() == 0 );
 
-        public bool Remote(bool val) => secsGem != null && (val && secsGem.AxQGWrapper.OnLineRemote() == 1 || !val && secsGem.AxQGWrapper.OnLineLocal() == 1);
+        public bool Remote(bool val) => secsGem != null && (val && secsGem.AxQGWrapper.OnLineRemote() == 0 || !val && secsGem.AxQGWrapper.OnLineLocal() == 0);
 
         public SECSThread(int index)
         {
