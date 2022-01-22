@@ -581,7 +581,7 @@
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding IsRamp, Mode=OneWay}"
                                                      Value="True">
-                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                            <Setter TargetName="Progress" Property="Background" Value="{StaticResource EnergyBrush}" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding IsDwell, Mode=OneWay}"
                                                      Value="True">
