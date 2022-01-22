@@ -4,7 +4,6 @@ using GPMVVM.Models;
 using GPMVVM.PLCService;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
