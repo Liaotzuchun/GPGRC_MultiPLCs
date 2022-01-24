@@ -5,6 +5,7 @@ using GPMVVM.PLCService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
@@ -162,12 +163,6 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             get => Get<string>();
             set => _ = SetRecipeDialog(value);
-        }
-
-        public bool Checking
-        {
-            get => Get<bool>();
-            set => Set(value);
         }
 
         private bool RecipeCompare(PLC_Recipe recipe) =>
@@ -699,6 +694,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                Intput_Name = Selected_Name;
                                                            });
 
+            var Checking = false;
             CheckInCommand = new CommandWithResult<bool>(async _ =>
                                                          {
                                                              if (Checking) return false;
