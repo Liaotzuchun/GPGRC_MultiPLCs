@@ -1428,7 +1428,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 程式結束
+        /// 程式結束(非正常結束，正常結束會processcomplete -> autumode_stop)
         /// </summary>
         [PLCBitData(DataType.D, 12002, 1, LogType.Alarm)]
         public bool ProgramStop
