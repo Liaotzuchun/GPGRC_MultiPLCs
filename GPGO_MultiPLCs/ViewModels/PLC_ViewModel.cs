@@ -693,8 +693,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                Intput_Name = Selected_Name;
                                                            });
 
+            var checking = false;
             CheckInCommand = new CommandWithResult<bool>(async _ =>
                                                          {
+                                                             if (checking) return false;
+                                                             checking = true;
+
                                                              var (result0, opId) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
@@ -724,6 +728,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                              if (!result0)
                                                              {
+                                                                 checking = false;
                                                                  return false;
                                                              }
 
@@ -756,6 +761,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                              if (!result1)
                                                              {
+                                                                 checking = false;
                                                                  return false;
                                                              }
 
@@ -794,6 +800,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  {
                                                                      if (lots.Count == 0)
                                                                      {
+                                                                         checking = false;
                                                                          return false;
                                                                      }
 
@@ -830,6 +837,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                                  if (!result4 && lots.Count == 0)
                                                                  {
+                                                                     checking = false;
                                                                      return false;
                                                                  }
 
@@ -871,6 +879,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                                         },
                                                                                         true))
                                                                  {
+                                                                     checking = false;
                                                                      return false;
                                                                  }
                                                              }
@@ -886,6 +895,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  RemoteCommandSelectPP = true;
                                                              }
 
+                                                             checking = false;
                                                              return true;
                                                          });
 
