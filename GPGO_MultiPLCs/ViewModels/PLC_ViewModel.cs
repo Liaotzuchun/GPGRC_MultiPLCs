@@ -889,15 +889,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              return true;
                                                          });
 
-            CancelCheckInCommand = new RelayCommand(async _ =>
+            CancelCheckInCommand = new RelayCommand(_ =>
                                                     {
-                                                        if (ExecutingTask != null && IsExecuting)
-                                                        {
-                                                            CTS?.Cancel();
-
-                                                            await ExecutingTask;
-                                                        }
-
+                                                        CheckInCommand.Result = false;
                                                         CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                         OvenInfo.Clear();
                                                         Ext_Info.Clear();

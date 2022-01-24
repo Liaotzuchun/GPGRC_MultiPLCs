@@ -15,18 +15,13 @@
              mc:Ignorable="d">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
         <TabControl Grid.Column="0"
                     views:TabControl.EnableSliding="True">
             <TabControl.SelectedIndex>
                 <MultiBinding Converter="{StaticResource MultiAnyTrueToInt}"
                               Mode="OneWay">
-                    <Binding ElementName="ActiveToggle"
-                             Mode="OneWay"
-                             Path="IsChecked" />
+                    <Binding Mode="OneWay"
+                             Path="CheckInCommand.Result" />
                     <Binding Mode="OneWay"
                              Path="IsExecuting" />
                 </MultiBinding>
@@ -38,6 +33,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="52" />
                         <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -135,6 +131,38 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                    <Button x:Name="CheckButton"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="2"
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                            MaxWidth="80"
+                            Content="{DynamicResource 投產}"
+                            FontSize="20">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                                <Binding Converter="{StaticResource BoolNot}"
+                                         Mode="OneWay"
+                                         Path="IsExecuting" />
+                                <Binding Converter="{StaticResource IsMoreThanValue}"
+                                         ConverterParameter="1"
+                                         Mode="OneWay"
+                                         Path="User.Level"
+                                         Source="{StaticResource Mediator}" />
+                                <Binding Mode="OneWay"
+                                         Path="ConnectionStatus.CurrentValue" />
+                        
+                        <Binding Mode="OneWay"
+                                         Path="PC_InUse" />
+                        
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding CheckInCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
                 </Grid>
             </TabItem>
             <TabItem Width="0"
@@ -145,27 +173,12 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="52" />
                         <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <!--<Border Background="{StaticResource WindowBackgroundBrush6}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,1,0">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{DynamicResource 操作員}" />
-                    </Border>
-                    <Border Grid.Row="0"
-                            Grid.Column="1"
-                            Background="{StaticResource LightColorBrush}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,1,0">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding OvenInfo.OperatorID, Mode=OneWay}" />
-                    </Border>-->
                     <Border Background="{StaticResource WindowBackgroundBrush6}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="0,0,1,0">
@@ -748,39 +761,9 @@
                                         </Grid>
                                     </Border>
                                 </Border>
-                                <!--<Popup.VerticalOffset>
-                                                                <MultiBinding Converter="{StaticResource SumValues}">
-                                                                    <Binding Converter="{StaticResource RatioValue}"
-                                                                             ConverterParameter="0.5"
-                                                                             ElementName="Border0"
-                                                                             Path="ActualHeight" />
-                                                                    <Binding Converter="{StaticResource RatioValue}"
-                                                                             ConverterParameter="0.5"
-                                                                             ElementName="ToggleButton0"
-                                                                             Path="ActualHeight" />
-                                                                </MultiBinding>
-                                                            </Popup.VerticalOffset>-->
                             </Popup>
                         </Grid>
                     </Border>
-                    <!--<Border Grid.Row="1"
-                                                        Grid.Column="0"
-                                                        Background="{StaticResource WindowBackgroundBrush6}"
-                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                        BorderThickness="0,1,1,0">
-                                                    <TextBlock HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               Text="{DynamicResource 板架}" />
-                                                </Border>-->
-                    <!--<Border Grid.Row="1"
-                                                        Grid.Column="1"
-                                                        Background="{StaticResource LightColorBrush}"
-                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                        BorderThickness="0,1,1,0">
-                                                    <TextBlock HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               Text="{Binding OvenInfo.RackID, Mode=OneWay}" />
-                                                </Border>-->
                     <Border x:Name="Border1"
                             Grid.Row="0"
                             Grid.Column="2"
@@ -799,15 +782,6 @@
                         <ContentControl Content="{Binding Mode=OneWay}"
                                         ContentTemplate="{StaticResource ProgressDataTemplate}" />
                     </Border>
-                    <!--<Border Grid.Row="1"
-                                                        Grid.Column="0"
-                                                        Background="{StaticResource WindowBackgroundBrush6}"
-                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                        BorderThickness="0,1,1,0">
-                                                    <TextBlock HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               Text="{DynamicResource 板架}" />
-                                                </Border>-->
                     <Border Grid.Row="1"
                             Grid.Column="2"
                             Background="{StaticResource WindowBackgroundBrush6}"
@@ -920,79 +894,32 @@
                             </Popup>
                         </Grid>
                     </Border>
+                    <Button Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="4"
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                            MaxWidth="80"
+                            FontSize="20"
+                            IsEnabled="{Binding IsEnabled, ElementName=CheckButton, Mode=OneWay}">
+                        <Grid>
+                            <TextBlock x:Name="ProgressText"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Progress, StringFormat=\{0:P\}, Mode=OneWay}"
+                                       Visibility="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolVis}}" />
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{DynamicResource 取消}"
+                                       Visibility="{Binding Visibility, ElementName=ProgressText, Mode=OneWay, Converter={StaticResource InverseVis}}" />
+                        </Grid>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
                 </Grid>
             </TabItem>
         </TabControl>
-        <ToggleButton x:Name="ActiveToggle"
-                      Grid.Row="0"
-                      Grid.Column="1"
-                      Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                      MaxWidth="80"
-                      FontSize="20"
-                      IsChecked="{Binding CheckInCommand.Result, Mode=OneWay}">
-            <ToggleButton.Content>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding Progress, StringFormat=\{0:P\}, Mode=OneWay}"
-                               Visibility="{Binding Visibility, ElementName=ActiveToggleText, Mode=OneWay, Converter={StaticResource InverseVis}}" />
-                    <TextBlock x:Name="ActiveToggleText"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 投產}"
-                               Visibility="Visible" />
-                </Grid>
-            </ToggleButton.Content>
-            <ToggleButton.IsEnabled>
-                <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                    <Binding Converter="{StaticResource BoolNot}"
-                             Mode="OneWay"
-                             Path="IsExecuting" />
-                    <Binding Converter="{StaticResource IsMoreThanValue}"
-                             ConverterParameter="1"
-                             Mode="OneWay"
-                             Path="User.Level"
-                             Source="{StaticResource Mediator}" />
-                    <Binding Mode="OneWay"
-                             Path="ConnectionStatus.CurrentValue" />
-                    <!--<Binding Mode="OneWay"
-                                                         Path="PC_InUse" />-->
-                </MultiBinding>
-            </ToggleButton.IsEnabled>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Checked">
-                    <i:InvokeCommandAction Command="{Binding CheckInCommand, Mode=OneTime}" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="Unchecked">
-                    <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </ToggleButton>
-        <i:Interaction.Triggers>
-            <i:DataTrigger Binding="{Binding IsChecked, ElementName=ActiveToggle, Mode=OneWay}"
-                           Value="True">
-                <i:ChangePropertyAction PropertyName="Text"
-                                        TargetName="ActiveToggleText"
-                                        Value="{DynamicResource 取消}" />
-            </i:DataTrigger>
-            <i:DataTrigger Binding="{Binding IsChecked, ElementName=ActiveToggle, Mode=OneWay}"
-                           Value="False">
-                <i:ChangePropertyAction PropertyName="Text"
-                                        TargetName="ActiveToggleText"
-                                        Value="{DynamicResource 投產}" />
-            </i:DataTrigger>
-            <i:DataTrigger Binding="{Binding IsExecuting, Mode=OneWay}"
-                           Value="True">
-                <i:ChangePropertyAction PropertyName="Visibility"
-                                        TargetName="ActiveToggleText"
-                                        Value="Collapsed" />
-            </i:DataTrigger>
-            <i:DataTrigger Binding="{Binding IsExecuting, Mode=OneWay}"
-                           Value="False">
-                <i:ChangePropertyAction PropertyName="Visibility"
-                                        TargetName="ActiveToggleText"
-                                        Value="Visible" />
-            </i:DataTrigger>
-        </i:Interaction.Triggers>
     </Grid>
 </UserControl>
