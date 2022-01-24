@@ -139,7 +139,7 @@
                             MaxWidth="80"
                             Content="{DynamicResource 投產}"
                             FontSize="20">
-                        <!--<Button.IsEnabled>
+                        <Button.IsEnabled>
                             <MultiBinding Converter="{StaticResource MultiAllTrue}">
                                 <Binding Converter="{StaticResource BoolNot}"
                                          Mode="OneWay"
@@ -153,8 +153,11 @@
                                          Path="ConnectionStatus.CurrentValue" />
                                 <Binding Mode="OneWay"
                                          Path="PC_InUse" />
+                                <Binding Converter="{StaticResource BoolNot}"
+                                         Mode="OneWay"
+                                         Path="Checking" />
                             </MultiBinding>
-                        </Button.IsEnabled>-->
+                        </Button.IsEnabled>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding CheckInCommand, Mode=OneTime}" />
