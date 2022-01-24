@@ -151,10 +151,8 @@
                                          Source="{StaticResource Mediator}" />
                                 <Binding Mode="OneWay"
                                          Path="ConnectionStatus.CurrentValue" />
-                        
-                        <Binding Mode="OneWay"
+                                <Binding Mode="OneWay"
                                          Path="PC_InUse" />
-                        
                             </MultiBinding>
                         </Button.IsEnabled>
                         <i:Interaction.Triggers>
