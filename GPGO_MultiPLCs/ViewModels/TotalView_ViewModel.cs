@@ -14,19 +14,8 @@ using System.Threading.Tasks;
 namespace GPGO_MultiPLCs.ViewModels
 {
     /// <summary>所有烤箱的生產總覽</summary>
-    public sealed class TotalView_ViewModel : PLCGate
+    public sealed class TotalView_ViewModel : ObservableObject
     {
-        public new void Dispose()
-        {
-            Checker.Dispose();
-            PLC_Client.Close();
-
-            foreach (var plc in PLC_All)
-            {
-                plc.Dispose();
-            }
-        }
-
         private readonly IDialogService Dialog;
         private readonly SECSThread     secsGem;
 
@@ -51,6 +40,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
 
         public Language Language = Language.TW;
+        public IGate    Gate { get; } = new PLCGate();
 
         public RelayCommand WantLoginCommand { get; }
 
@@ -85,7 +75,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 NotifyPropertyChanged(nameof(TotalProduction_View));
                 NotifyPropertyChanged(nameof(TotalProductionCount));
 
-                Gate_Status = false; //!重新連線並發送通訊列表
+                Gate.GateStatus.CurrentValue = false; //!重新連線並發送通訊列表
             }
         }
 
@@ -389,7 +379,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.Start += index =>
                              {
-                                 if (!Gate_Status || !PLC_All[index].OnlineStatus)
+                                 if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
                                  {
                                      return HCACKValule.CantPerform;
                                  }
@@ -401,7 +391,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.Stop += index =>
                             {
-                                if (!Gate_Status || !PLC_All[index].OnlineStatus)
+                                if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
                                 {
                                     return HCACKValule.CantPerform;
                                 }
@@ -413,7 +403,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
             secsGem.SetRecipe += (index, name) =>
                                  {
-                                     if (!Gate_Status || !PLC_All[index].OnlineStatus)
+                                     if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
                                      {
                                          return HCACKValule.CantPerform;
                                      }
@@ -492,7 +482,7 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 TotalProduction.Add(i, 0);
                 var plc = new PLC_ViewModel(dialog,
-                                            this,
+                                            Gate,
                                             i,
                                             "GOL",
                                             (bits_shift: new Dictionary<BitType, int>
@@ -651,10 +641,13 @@ namespace GPGO_MultiPLCs.ViewModels
 
             #region PLCGate事件通知
 
-            GateOffline += () =>
-                           {
-                               EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
-                           };
+            Gate.GateStatus.ValueChanged += status =>
+                                            {
+                                                if (!status)
+                                                {
+                                                    EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
+                                                }
+                                            };
 
             #endregion
 
@@ -663,18 +656,18 @@ namespace GPGO_MultiPLCs.ViewModels
 
             Checker = new Timer(_ =>
                                 {
-                                    if (Gate_Status)
+                                    if (Gate.GateStatus.CurrentValue)
                                     {
                                         for (var i = 0; i < OvenCount; i++)
                                         {
                                             PLC_All[i].Check = !PLC_All[i].Check;
                                         }
                                     }
-                                    else if (Connect())
+                                    else if (Gate.Connect())
                                     {
                                         for (var i = 0; i < OvenCount; i++)
                                         {
-                                            SetReadListsByDataModels(PLC_All[i]); //!連線並發送訂閱列表
+                                            Gate.SetReadListsByDataModels(PLC_All[i]); //!連線並發送訂閱列表
                                         }
                                     }
 

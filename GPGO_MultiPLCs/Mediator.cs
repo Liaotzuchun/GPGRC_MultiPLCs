@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace GPGO_MultiPLCs
 {
-    public sealed class Mediator : ObservableObject, IDisposable
+    public sealed class Mediator : ObservableObject
     {
         public string DataInputPath
         {
@@ -65,8 +65,6 @@ namespace GPGO_MultiPLCs
                 RecipeVM.UserName = value.Name;
             }
         }
-
-        public void Dispose() { TotalVM.Dispose(); }
 
         private readonly AsyncLock lockobj = new();
 

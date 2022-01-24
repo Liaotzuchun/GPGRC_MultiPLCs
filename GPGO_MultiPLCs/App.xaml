@@ -23,7 +23,7 @@
                                  Style="{StaticResource ProgressBarNoText}"
                                  Value="{Binding Progress, Mode=OneWay}" />
                     <Border Background="{StaticResource DisabledBackgroundBrush}"
-                            Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                            Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                     <TextBlock x:Name="ProgressString"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"

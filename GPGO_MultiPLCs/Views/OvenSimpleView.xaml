@@ -125,7 +125,7 @@
                                          Mode="OneWay"
                                          Path="IsExecuting" />
                                 <Binding Mode="OneWay"
-                                         Path="OnlineStatus" />
+                                         Path="ConnectionStatus.CurrentValue" />
                             </MultiBinding>
                         </ComboBox.IsEnabled>
                         <ComboBox.ItemTemplate>
@@ -954,7 +954,7 @@
                              Path="User.Level"
                              Source="{StaticResource Mediator}" />
                     <Binding Mode="OneWay"
-                             Path="OnlineStatus" />
+                             Path="ConnectionStatus.CurrentValue" />
                     <!--<Binding Mode="OneWay"
                                                          Path="PC_InUse" />-->
                 </MultiBinding>

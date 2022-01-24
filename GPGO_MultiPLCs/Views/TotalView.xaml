@@ -84,7 +84,7 @@
                                     <Border x:Name="StatusBorder"
                                             Grid.Column="0"
                                             Background="{StaticResource OKBrush}"
-                                            Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolVis}}" />
+                                            Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                                     <Border Grid.Column="0"
                                             Background="{StaticResource WorkingBrush}"
                                             Visibility="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolVis}}" />
@@ -103,7 +103,7 @@
                                                  Value="1">
                                         <Setter TargetName="StatusBorder" Property="Background" Value="{StaticResource PressedBrush}" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding OnlineStatus, Mode=OneWay}"
+                                    <DataTrigger Binding="{Binding ConnectionStatus.CurrentValue, Mode=OneWay}"
                                                  Value="True">
                                         <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
                                     </DataTrigger>
@@ -130,7 +130,7 @@
                             <Rectangle Fill="{StaticResource OKBrush}"
                                        Stroke="{StaticResource OKBorderBrush}"
                                        StrokeThickness="0"
-                                       Visibility="{Binding Gate_Status, Mode=OneWay, Converter={StaticResource BoolVis}}" />
+                                       Visibility="{Binding Gate.GateStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolVis}}" />
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -565,7 +565,7 @@
                                                      BorderThickness="0"
                                                      Maximum="1"
                                                      Value="{Binding Progress, Mode=OneWay}" />
-                                        <Border Visibility="{Binding OnlineStatus, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                                        <Border Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                     <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />

@@ -91,7 +91,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             get
             {
-                if (!OnlineStatus || !IsExecuting)
+                if (!ConnectionStatus.CurrentValue || !IsExecuting)
                 {
                     return 0.0;
                 }
@@ -123,7 +123,7 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             get
             {
-                if (!OnlineStatus)
+                if (!ConnectionStatus.CurrentValue)
                 {
                     return Status.離線;
                 }
@@ -142,27 +142,6 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             get => Get<string>();
             set => Set(value);
-        }
-
-        /// <summary>PLC連線狀態</summary>
-        public bool OnlineStatus
-        {
-            get => Get<bool>();
-            set
-            {
-                Set(value);
-                NotifyPropertyChanged(nameof(ProgressStatus));
-
-                EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, value));
-                if (IsExecuting)
-                {
-                    AddProcessEvent((EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, value));
-                    CTS?.Cancel();
-                }
-
-                SV_Changed?.Invoke(nameof(OnlineStatus), value);
-                InvokeSECSEvent?.Invoke("OnlineStatusChanged");
-            }
         }
 
         public ICollection<string> Recipe_Names
@@ -352,7 +331,7 @@ namespace GPGO_MultiPLCs.ViewModels
             TCS?.TrySetResult(false);
 
             RemoteCommandSelectPP = false;
-            await ManualSetPLCByProperties(recipe.ToDictionary()).ConfigureAwait(false);
+            await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
@@ -391,7 +370,7 @@ namespace GPGO_MultiPLCs.ViewModels
             TCS?.TrySetResult(false);
 
             RemoteCommandSelectPP = false;
-            await ManualSetPLCByProperties(recipe.ToDictionary()).ConfigureAwait(false);
+            await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
@@ -457,7 +436,7 @@ namespace GPGO_MultiPLCs.ViewModels
             TCS?.TrySetResult(false);
 
             RemoteCommandSelectPP = false;
-            await ManualSetPLCByProperties(recipe.ToDictionary());
+            await ManualSetByProperties(recipe.ToDictionary());
             RemoteCommandSelectPP = true;
 
             TCS = new TaskCompletionSource<bool>();
@@ -672,9 +651,25 @@ namespace GPGO_MultiPLCs.ViewModels
             Ext_Info.Add(info);
         }
 
-        public PLC_ViewModel(IDialogService dialog, PLCGate gate, int plcindex, string plctag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
+        public PLC_ViewModel(IDialogService dialog, IGate gate, int plcindex, string plctag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
         {
             Dialog = dialog;
+
+            ConnectionStatus.ValueChanged += status =>
+                                             {
+                                                 NotifyPropertyChanged(nameof(ProgressStatus));
+
+                                                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
+                                                 if (IsExecuting)
+                                                 {
+                                                     AddProcessEvent((EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
+                                                     CTS?.Cancel();
+                                                 }
+
+                                                 SV_Changed?.Invoke("OnlineStatus", status);
+                                                 InvokeSECSEvent?.Invoke("OnlineStatusChanged");
+                                             };
+
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
                                                         {
                                                             if (((KeyEventArgs)e).Key != Key.Enter || Selected_Name == null)
@@ -885,7 +880,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                                  if (GetRecipe?.Invoke(Selected_Name) is {} recipe)
                                                                  {
-                                                                     await ManualSetPLCByProperties(recipe.ToDictionary());
+                                                                     await ManualSetByProperties(recipe.ToDictionary());
                                                                  }
 
                                                                  RemoteCommandSelectPP = true;
@@ -921,19 +916,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 AssetNumberChanged?.Invoke((s as BaseInfo)?.AssetNumber);
                                             }
                                         };
-
-            gate.GateOffline += () =>
-                                {
-                                    OnlineStatus = false;
-                                };
-
-            gate.StatusChanged += (i, status) =>
-                                  {
-                                      if (i == plcindex && status != OnlineStatus)
-                                      {
-                                          OnlineStatus = status;
-                                      }
-                                  };
 
             #region 註冊PLC事件
 
