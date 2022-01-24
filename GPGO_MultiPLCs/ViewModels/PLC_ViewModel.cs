@@ -1084,10 +1084,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                         NotifyPropertyChanged(nameof(ProgressStatus));
 
-                                        if (EquipmentState == (short)Status.錯誤)
-                                        {
-                                            await StopPP();
-                                        }
+                                        //if (EquipmentState == (short)Status.錯誤)
+                                        //{
+                                        //    await StopPP();
+                                        //}
                                     }
                                 }
                                 else if (LogType == LogType.Alert)
