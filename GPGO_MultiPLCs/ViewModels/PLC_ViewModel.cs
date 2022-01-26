@@ -1038,12 +1038,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                         }
                                         else if (name is nameof(IsRamp) or nameof(IsDwell) or nameof(IsCooling))
                                         {
-                                            EventHappened?.Invoke(eventval);
-                                            if (IsExecuting)
-                                            {
-                                                AddProcessEvent(eventval);
-                                            }
-
                                             NotifyPropertyChanged(nameof(Progress));
                                         }
                                     }
