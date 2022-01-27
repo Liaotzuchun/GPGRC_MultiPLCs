@@ -153,7 +153,7 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="infos">紀錄資訊</param>
         /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
         /// <param name="UpdateResult">決定是否更新Ram Data</param>
-        public async void AddToDB(int index, ICollection<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
+        public async void AddToDB(int index, IEnumerable<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
         {
             var n = 0;
 
