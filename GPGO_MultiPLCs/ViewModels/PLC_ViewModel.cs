@@ -154,7 +154,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public Task ExecutingTask
         {
             get => Get<Task>();
-            set => Set(value);
+            private set => Set(value);
         }
 
         /// <summary>OP選擇的配方名稱</summary>
@@ -201,7 +201,7 @@ namespace GPGO_MultiPLCs.ViewModels
             TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
             StepCounts == recipe.StepCounts;
 
-        public PLC_Recipe GetRecipePV() =>
+        private PLC_Recipe GetRecipePV() =>
             new()
             {
                 RecipeName            = PV_RecipeName,
@@ -260,7 +260,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 StepCounts            = PV_StepCounts
             };
 
-        public void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
+        private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
         {
             if (!IsExecuting)
             {
@@ -279,7 +279,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                    });
         }
 
-        public void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
+        private void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
         {
             if (!IsExecuting)
             {
@@ -303,7 +303,7 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         /// <summary>重設CancellationTokenSource狀態</summary>
-        public void ResetStopTokenSource()
+        private void ResetStopTokenSource()
         {
             CTS?.Dispose();
 
@@ -394,7 +394,7 @@ namespace GPGO_MultiPLCs.ViewModels
             return SetRecipeResult.成功;
         }
 
-        public async Task<SetRecipeResult> SetRecipeDialog(string recipeName)
+        private async Task<SetRecipeResult> SetRecipeDialog(string recipeName)
         {
             if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
@@ -564,7 +564,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         ct);
         }
 
-        public async Task StartPP()
+        private async Task StartPP()
         {
             await StopPP(); //需先確認PP已停止
 
@@ -627,7 +627,7 @@ namespace GPGO_MultiPLCs.ViewModels
             NotifyPropertyChanged(nameof(IsExecuting));
         }
 
-        public async Task StopPP()
+        private async Task StopPP()
         {
             if (ExecutingTask != null && IsExecuting)
             {
