@@ -336,7 +336,6 @@ namespace GPGO_MultiPLCs.Models
         #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
 
         /// <summary>新增至資料庫的時間</summary>
-        [BsonId]
         [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
         public DateTime AddedTime { get; set; }
 

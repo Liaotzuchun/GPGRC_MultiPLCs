@@ -532,7 +532,19 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  // ignored
                                              }
 
-                                             if (!baseInfo.IsFinished)
+                                             if (baseInfo.IsFinished)
+                                             {
+                                                 secsGem?.InvokeEvent($"Oven{index + 1}_ProcessComplete");
+
+                                                 dialog?.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, $"第{index + 1}站已完成烘烤！" },
+                                                                  { Language.CHS, $"第{index + 1}站已完成烘烤！" },
+                                                                  { Language.EN, $"Oven No{index + 1}has been finished!" }
+                                                              },
+                                                              TimeSpan.FromSeconds(2));
+                                             }
+                                             else
                                              {
                                                  secsGem?.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
@@ -543,24 +555,12 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                   { Language.EN, $"Oven No{index + 1}has been canceled!" }
                                                               },
                                                               TimeSpan.FromSeconds(2));
-
-                                                 return;
                                              }
 
                                              if (AddRecordToDB != null && index < TotalProduction.Count)
                                              {
                                                  TotalProduction[index] = await AddRecordToDB.Invoke((index, products));
                                              }
-
-                                             secsGem?.InvokeEvent($"Oven{index + 1}_ProcessComplete");
-
-                                             dialog?.Show(new Dictionary<Language, string>
-                                                          {
-                                                              { Language.TW, $"第{index + 1}站已完成烘烤！" },
-                                                              { Language.CHS, $"第{index + 1}站已完成烘烤！" },
-                                                              { Language.EN, $"Oven No{index + 1}has been finished!" }
-                                                          },
-                                                          TimeSpan.FromSeconds(2));
                                          };
 
                 //!由板架code取得前端生產資訊

@@ -155,13 +155,12 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <param name="UpdateResult">決定是否更新Ram Data</param>
         public async void AddToDB(int index, IEnumerable<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
         {
-            var n = 0;
-
+            var dt = dateTime == default ? DateTime.Now : dateTime;
+            
             foreach (var info in infos)
             {
                 info.StationNumber = index + 1;
-                info.AddedTime     = dateTime == default ? DateTime.Now.AddMilliseconds(n) : dateTime.AddMilliseconds(n);
-                n++;
+                info.AddedTime     = dt;
 
                 try
                 {
