@@ -412,6 +412,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                 { Language.EN, "No change." }
                             });
 
+                RecipeUsed?.Invoke(recipe.RecipeName);
+                Set(recipe.RecipeName, nameof(Selected_Name));
                 Intput_Name = Selected_Name;
                 return SetRecipeResult.成功;
             }
