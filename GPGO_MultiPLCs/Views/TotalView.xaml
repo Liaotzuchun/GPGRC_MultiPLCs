@@ -73,7 +73,7 @@
                             <DataTemplate DataType="vm:PLC_ViewModel">
                                 <Grid Margin="1"
                                       d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
-                                      Background="{StaticResource LightColorBrush}">
+                                      Background="{StaticResource WindowBackgroundBrush6}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition />
@@ -142,7 +142,7 @@
                                     <i:InvokeCommandAction Command="{Binding WantLoginCommand, Mode=OneTime}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            <Border Background="{StaticResource LightColorBrush}"
+                            <Border Background="{StaticResource LightBrush}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}">
                                 <TextBlock Margin="4,0"
                                            HorizontalAlignment="Center"
@@ -198,7 +198,7 @@
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
                             <Border Grid.ColumnSpan="2"
-                                    Background="{StaticResource WindowBackgroundBrush6}"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,1">
                                 <TextBlock HorizontalAlignment="Center"
@@ -283,7 +283,7 @@
                                 <RowDefinition Height="30" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                            <Border Background="{StaticResource WindowBackgroundBrush2}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,1,0,1">
                                 <TextBlock HorizontalAlignment="Center"
@@ -297,10 +297,10 @@
                                 </TextBlock>
                             </Border>
                             <oxy:Plot Grid.Row="1"
-                                      Background="{StaticResource WindowBackgroundBrush6}"
+                                      Background="{StaticResource WindowBackgroundBrush2}"
                                       DefaultFont="Microsoft JhengHei"
                                       IsMouseWheelEnabled="False"
-                                      LegendBackground="{Binding Color, Source={StaticResource LightColorBrush}}"
+                                      LegendBackground="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}"
                                       LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                       LegendBorderThickness="1"
                                       LegendFontSize="12"
@@ -311,7 +311,7 @@
                                       LegendPosition="TopCenter"
                                       LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                       LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                      PlotAreaBackground="{StaticResource LightColorBrush}"
+                                      PlotAreaBackground="{StaticResource LightBrush}"
                                       PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                       PlotAreaBorderThickness="1,1,1,0"
                                       PlotMargins="40,-10,0,20"
@@ -458,8 +458,8 @@
                                                 <Grid>
                                                     <Grid.Background>
                                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                            <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
-                                                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                            <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                                                         </LinearGradientBrush>
                                                     </Grid.Background>
                                                     <Grid.ColumnDefinitions>
@@ -469,7 +469,7 @@
                                                     <Border>
                                                         <Border.Background>
                                                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                                <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                                <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                                                                 <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}" />
                                                             </LinearGradientBrush>
                                                         </Border.Background>
@@ -490,7 +490,7 @@
                                                             Opacity="0">
                                                         <Border.Background>
                                                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                                <GradientStop Offset="0.25" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
+                                                                <GradientStop Offset="0.25" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
                                                                 <GradientStop Offset="1.25" Color="{Binding Color, Source={StaticResource WorkingBrush}}" />
                                                             </LinearGradientBrush>
                                                         </Border.Background>
@@ -500,8 +500,8 @@
                                                             Opacity="0">
                                                         <Border.Background>
                                                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                                <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource LightColorBrush}}" />
-                                                                <GradientStop Offset="1.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                                <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                                <GradientStop Offset="1.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                                                             </LinearGradientBrush>
                                                         </Border.Background>
                                                     </Border>

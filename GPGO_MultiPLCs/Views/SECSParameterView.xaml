@@ -39,7 +39,7 @@
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -49,7 +49,7 @@
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -59,7 +59,7 @@
                 </Border>
                 <Border Grid.Row="2"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -69,7 +69,7 @@
                 </Border>
                 <Border Grid.Row="3"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -79,7 +79,7 @@
                 </Border>
                 <Border Grid.Row="4"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -89,7 +89,7 @@
                 </Border>
                 <Border Grid.Row="5"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -99,7 +99,7 @@
                 </Border>
                 <Border Grid.Row="6"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -109,7 +109,7 @@
                 </Border>
                 <Border Grid.Row="7"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -119,7 +119,7 @@
                 </Border>
                 <Border Grid.Row="8"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -129,7 +129,7 @@
                 </Border>
                 <Border Grid.Row="9"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -139,7 +139,7 @@
                 </Border>
                 <Border Grid.Row="10"
                         Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,1">
                     <TextBlock HorizontalAlignment="Center"

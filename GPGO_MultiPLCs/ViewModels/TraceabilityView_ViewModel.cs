@@ -1,4 +1,5 @@
 ﻿using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
 using GPMVVM.Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
@@ -12,8 +13,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using FontStyle = System.Drawing.FontStyle;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -31,11 +35,14 @@ namespace GPGO_MultiPLCs.ViewModels
             Pie    = 4
         }
 
-        private readonly OxyColor     bgcolor     = OxyColor.FromRgb(240, 255, 235);
-        private readonly OxyColor     bordercolor = OxyColor.FromRgb(174, 187, 168);
-        private readonly CategoryAxis categoryAxis1;
-        private readonly CategoryAxis categoryAxis2;
-        private readonly OxyColor     fontcolor = OxyColor.FromRgb(50, 70, 60);
+        private readonly Dictionary<string, PropertyInfo> ProcessInfoProperties = typeof(ProcessInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(x => x.Name, x => x);
+        private          FrameworkElement                 elementView;
+        private          OxyColor                         chartbg     = OxyColor.FromRgb(231, 246, 226);
+        private          OxyColor                         bgcolor     = OxyColor.FromRgb(215, 230, 207);
+        private          OxyColor                         bordercolor = OxyColor.FromRgb(174, 187, 168);
+        private readonly CategoryAxis                     categoryAxis1;
+        private readonly CategoryAxis                     categoryAxis2;
+        private          OxyColor                         fontcolor = OxyColor.FromRgb(50, 70, 60);
 
         public Language    Language = Language.TW;
         public LogEvent    SearchEvent;
@@ -72,6 +79,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>輸出Excel報表</summary>
         public RelayCommand ToExcelCommand { get; }
+
+        public RelayCommand LoadedCommand { get; }
 
         /// <summary>基於板架的Filter</summary>
         public FilterGroup RackFilter { get; }
@@ -192,7 +201,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
         /// <param name="path">資料夾路徑</param>
-        public async Task<bool> SaveToExcel(string path)
+        private async Task<bool> SaveToExcel(string path)
         {
             Standby = false;
 
@@ -557,8 +566,31 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>更新統計圖</summary>
         /// <param name="date1">開始日期</param>
         /// <param name="date2">結束日期</param>
-        public void UpdateChart(DateTime date1, DateTime date2)
+        private void UpdateChart(DateTime date1, DateTime date2)
         {
+            if (elementView != null)
+            {
+                if (elementView.TryFindResource("LightColor") is System.Windows.Media.Color lc)
+                {
+                    chartbg = OxyColor.FromRgb(lc.R, lc.G, lc.B);
+                }
+
+                if (elementView.TryFindResource("WindowBackgroundColor4") is System.Windows.Media.Color wb4)
+                {
+                    bordercolor = OxyColor.FromRgb(wb4.R, wb4.G, wb4.B);
+                }
+
+                if (elementView.TryFindResource("WindowBackgroundColor6") is System.Windows.Media.Color wb6)
+                {
+                    bgcolor = OxyColor.FromRgb(wb6.R, wb6.G, wb6.B);
+                }
+
+                if (elementView.TryFindResource("BaseForegroundColor") is System.Windows.Media.Color bf)
+                {
+                    fontcolor = OxyColor.FromRgb(bf.R, bf.G, bf.B);
+                }
+            }
+
             try
             {
                 ResultView.Series.Clear();
@@ -583,7 +615,9 @@ namespace GPGO_MultiPLCs.ViewModels
                              .GroupBy(x => Mode >= (int)ChartMode.ByLot ?
                                                x.StationNumber.ToString("00") :
                                                x.PartID)
-                             .OrderBy(x => x.Key).Select(x => (x.Key, x)).ToArray();
+                             .OrderBy(x => x.Key)
+                             .Select(x => (x.Key, x))
+                             .ToArray();
 
                 var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByLot;
                 var categories = new List<string>();
@@ -632,7 +666,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
-                    ResultView.LegendTitle     = Mode >= (int)ChartMode.ByLot ? nameof(ProcessInfo.StationNumber) : nameof(ProcessInfo.PartID);
+                    ResultView.LegendTitle     = Mode >= (int)ChartMode.ByLot ? 
+                                                     ProcessInfoProperties[nameof(ProcessInfo.StationNumber)].GetName(Language) :
+                                                     ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language);
 
                     var color_step_2 = 0.9 / result2.Length;
 
@@ -720,32 +756,40 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
+            LoadedCommand = new RelayCommand(e =>
+                                             {
+                                                 if (e is FrameworkElement el)
+                                                 {
+                                                     elementView = el;
+                                                 }
+                                             });
+
             FindCommand = new RelayCommand(async _ =>
                                            {
                                                var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                   {
-                                                                                                      {Language.TW, "請輸入欲搜尋之料號："},
-                                                                                                      {Language.CHS, "请输入欲搜寻之料号："},
-                                                                                                      {Language.EN, "Please enter the PartID you want to find："}
+                                                                                                      { Language.TW, "請輸入欲搜尋之料號：" },
+                                                                                                      { Language.CHS, "请输入欲搜寻之料号：" },
+                                                                                                      { Language.EN, "Please enter the PartID you want to find：" }
                                                                                                   },
                                                                                                   new Dictionary<Language, string>
                                                                                                   {
-                                                                                                      {Language.TW, "搜尋"},
-                                                                                                      {Language.CHS, "搜寻"},
-                                                                                                      {Language.EN, "Find"}
+                                                                                                      { Language.TW, "搜尋" },
+                                                                                                      { Language.CHS, "搜寻" },
+                                                                                                      { Language.EN, "Find" }
                                                                                                   });
 
                                                var (result2, input2) = await dialog.ShowWithInput(new Dictionary<Language, string>
                                                                                                   {
-                                                                                                      {Language.TW, "請輸入欲搜尋之批號："},
-                                                                                                      {Language.CHS, "请输入欲搜寻之批号："},
-                                                                                                      {Language.EN, "Please enter the LotID you want to find："}
+                                                                                                      { Language.TW, "請輸入欲搜尋之批號：" },
+                                                                                                      { Language.CHS, "请输入欲搜寻之批号：" },
+                                                                                                      { Language.EN, "Please enter the LotID you want to find：" }
                                                                                                   },
                                                                                                   new Dictionary<Language, string>
                                                                                                   {
-                                                                                                      {Language.TW, "搜尋"},
-                                                                                                      {Language.CHS, "搜寻"},
-                                                                                                      {Language.EN, "Find"}
+                                                                                                      { Language.TW, "搜尋" },
+                                                                                                      { Language.CHS, "搜寻" },
+                                                                                                      { Language.EN, "Find" }
                                                                                                   });
 
                                                if (!result1 && !result2 || string.IsNullOrEmpty(input1.ToString()) && string.IsNullOrEmpty(input2.ToString()))
@@ -781,9 +825,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   {
                                                       dialog?.Show(new Dictionary<Language, string>
                                                                    {
-                                                                       {Language.TW, $"檔案已輸出至\n{path}"},
-                                                                       {Language.CHS, $"档案已输出至\n{path}"},
-                                                                       {Language.EN, $"The file has been output to\n{path}"}
+                                                                       { Language.TW, $"檔案已輸出至\n{path}" },
+                                                                       { Language.CHS, $"档案已输出至\n{path}" },
+                                                                       { Language.EN, $"The file has been output to\n{path}" }
                                                                    },
                                                                    TimeSpan.FromSeconds(6));
                                                   }
@@ -850,11 +894,11 @@ namespace GPGO_MultiPLCs.ViewModels
             ResultView = new PlotModel
                          {
                              DefaultFont             = "Microsoft JhengHei",
-                             PlotAreaBackground      = bgcolor,
+                             PlotAreaBackground      = chartbg,
                              PlotAreaBorderColor     = bordercolor,
                              PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
-                             LegendTitle             = nameof(ProcessInfo.PartID),
+                             LegendTitle             = ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language),
                              LegendTitleColor        = fontcolor,
                              LegendTextColor         = fontcolor,
                              LegendBorder            = bordercolor,
@@ -920,9 +964,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                       {
                                           dialog.Show(new Dictionary<Language, string>
                                                       {
-                                                          {Language.TW, "查無資料！"},
-                                                          {Language.CHS, "查无资料！"},
-                                                          {Language.EN, "No data found!"}
+                                                          { Language.TW, "查無資料！" },
+                                                          { Language.CHS, "查无资料！" },
+                                                          { Language.EN, "No data found!" }
                                                       },
                                                       DialogMsgType.Alarm);
                                       }
@@ -937,7 +981,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                       var matchevents = ViewResults[SelectedIndex]
                                                        .EventList
                                                        .Select((x, i) => (index: i, value: x))
-                                                       .Where(x => x.value.Value.Equals(SearchEvent.Value) && x.value.Description == SearchEvent.Description).ToList();
+                                                       .Where(x => x.value.Value.Equals(SearchEvent.Value) && x.value.Description == SearchEvent.Description)
+                                                       .ToList();
 
                                       if (matchevents.Count > 0)
                                       {
@@ -952,9 +997,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                       {
                                           dialog.Show(new Dictionary<Language, string>
                                                       {
-                                                          {Language.TW, "查無事件！"},
-                                                          {Language.CHS, "查无事件！"},
-                                                          {Language.EN, "No event found!"}
+                                                          { Language.TW, "查無事件！" },
+                                                          { Language.CHS, "查无事件！" },
+                                                          { Language.EN, "No event found!" }
                                                       },
                                                       DialogMsgType.Alarm);
                                       }

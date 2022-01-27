@@ -85,7 +85,7 @@
         </Grid>
         <Border Grid.Row="0"
                 Grid.Column="1"
-                Background="{StaticResource LightColorBrush}"
+                Background="{StaticResource LightBrush}"
                 Child="{StaticResource GP_Logo}" />
         <TabControl Grid.Row="1"
                     Grid.Column="0"

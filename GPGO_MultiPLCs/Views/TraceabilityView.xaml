@@ -20,6 +20,8 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding TodayCommand, Mode=OneTime}" />
+            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -255,7 +257,7 @@
             </Grid>
             <Border Grid.Row="0"
                     Grid.Column="1"
-                    Background="{StaticResource WindowBackgroundBrush6}"
+                    Background="{StaticResource WindowBackgroundBrush2}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,0,1">
                 <TextBlock HorizontalAlignment="Center"
@@ -271,7 +273,7 @@
                         SelectedDateFormat="Long" />
             <Border Grid.Row="1"
                     Grid.Column="1"
-                    Background="{StaticResource WindowBackgroundBrush6}"
+                    Background="{StaticResource WindowBackgroundBrush2}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0">
                 <TextBlock HorizontalAlignment="Center"
@@ -300,7 +302,7 @@
                     Visibility="{Binding Standby, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
             <Border Grid.Row="0"
                     Grid.Column="4"
-                    Background="{StaticResource LightColorBrush}"
+                    Background="{StaticResource WindowBackgroundBrush6}"
                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                     BorderThickness="0,0,0,1">
                 <views:RangeSlider x:Name="RS"
@@ -322,7 +324,7 @@
                     <ColumnDefinition Width="50" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Border Background="{StaticResource WindowBackgroundBrush6}"
+                <Border Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -330,7 +332,7 @@
                                Text="{DynamicResource 起點}" />
                 </Border>
                 <Border Grid.Column="1"
-                        Background="{StaticResource LightColorBrush}"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,0">
                     <StackPanel HorizontalAlignment="Center"
@@ -347,7 +349,7 @@
                     </StackPanel>
                 </Border>
                 <Border Grid.Column="2"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -355,7 +357,7 @@
                                Text="{DynamicResource 終點}" />
                 </Border>
                 <Border Grid.Column="3"
-                        Background="{StaticResource LightColorBrush}"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,0">
                     <StackPanel HorizontalAlignment="Center"
@@ -372,7 +374,7 @@
                     </StackPanel>
                 </Border>
                 <Border Grid.Column="4"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,0">
                     <TextBlock HorizontalAlignment="Center"
@@ -380,7 +382,7 @@
                                Text="{DynamicResource 總筆數}" />
                 </Border>
                 <Border Grid.Column="5"
-                        Background="{StaticResource LightColorBrush}"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0">
                     <TextBlock HorizontalAlignment="Center"
@@ -522,10 +524,10 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <oxy:Plot Grid.Column="1"
-                                  Background="{StaticResource WindowBackgroundBrush6}"
+                                  Background="{StaticResource WindowBackgroundBrush2}"
                                   DefaultFont="Microsoft JhengHei"
                                   IsMouseWheelEnabled="False"
-                                  LegendBackground="{Binding Color, Source={StaticResource LightColorBrush}}"
+                                  LegendBackground="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}"
                                   LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                   LegendBorderThickness="1"
                                   LegendFontSize="12"
@@ -537,7 +539,7 @@
                                   LegendPosition="RightTop"
                                   LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                   LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                  PlotAreaBackground="{StaticResource LightColorBrush}"
+                                  PlotAreaBackground="{StaticResource LightBrush}"
                                   PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                   PlotAreaBorderThickness="0,1,1,0"
                                   PlotMargins="40,10,0,20"
@@ -823,7 +825,7 @@
                                     <Border x:Name="Border"
                                             Background="Transparent">
                                         <Border Margin="15,10,15,15"
-                                                Background="{StaticResource LightColorBrush}"
+                                                Background="{StaticResource WindowBackgroundBrush6}"
                                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                 BorderThickness="1,1,0,0">
                                             <Border.Effect>
@@ -852,7 +854,7 @@
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Background="{DynamicResource LightColorBrush}">
+                                                        <Grid Background="{DynamicResource WindowBackgroundBrush6}">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="*" />
                                                                 <ColumnDefinition Width="*" />
@@ -1018,7 +1020,7 @@
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
-                    <Setter Property="Background" Value="{DynamicResource LightColorBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource LightBrush}" />
                     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
@@ -1071,7 +1073,7 @@
                     <TextBlock Text="{DynamicResource 料號}" />
                 </ListBox>
                 <Border Grid.Column="2"
-                        Background="{StaticResource WindowBackgroundBrush6}"
+                        Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
@@ -1079,7 +1081,7 @@
                                Text="{DynamicResource 生產總量}" />
                 </Border>
                 <Border Grid.Column="3"
-                        Background="{StaticResource LightColorBrush}"
+                        Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,0,0,1">
                     <TextBlock HorizontalAlignment="Center"
@@ -1091,8 +1093,8 @@
                 </Border>
             </Grid>
             <Border Grid.Row="1"
-                    Background="{StaticResource WindowBackgroundBrush6}">
-                <oxy:PlotView Background="{StaticResource WindowBackgroundBrush6}"
+                    Background="{StaticResource WindowBackgroundBrush2}">
+                <oxy:PlotView Background="{StaticResource WindowBackgroundBrush2}"
                               IsMouseWheelEnabled="False"
                               Model="{Binding ResultView, Mode=OneWay}"
                               TextOptions.TextRenderingMode="ClearType">
