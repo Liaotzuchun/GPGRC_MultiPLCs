@@ -986,6 +986,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                 return;
                                             }
 
+                                            InvokeSECSEvent?.Invoke("ProcessStopped");
                                             await StopPP();
                                         }
                                         else if (name == nameof(ReadBarcode))
