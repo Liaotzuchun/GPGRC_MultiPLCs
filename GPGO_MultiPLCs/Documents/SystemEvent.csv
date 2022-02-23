@@ -1,0 +1,13 @@
+//  System Event Definition,,,
+// Event Const Name Define,ID,Event Name,
+_GEM_PP_CHANGE_,3,GemProcessProgramChange,(Send by AP)
+_GEM_CONTROL_STATE_LOCAL_,8,GemControlStateLocal,
+_GEM_CONTROL_STATE_REMOTE_,9,GemControlStateRemote,
+_GEM_EQ_CONST_CHANGED_,20,GemEqConstChanged,
+_GEM_MESSAGE_RECOGNITION_,21,GemMessageRecognition,(Send by AP)
+_GEM_EQP_OFF_LINE_,22,GemEqpOffLine,
+_GEM_SPOOLING_ACTIVED_,23,GemSpoolingActived,
+_GEM_SPOOLING_DEACTIVED_,24,GemSpoolingDeactived,
+_GEM_SPOOL_TRANSMIT_FAILURE_,25,GemSpoolTransmitFailure,
+//_GEM_LIMIT_ZONE_TRANSITION_,51,GemLimitZoneTransition,
+//GEM Stander:,,,
