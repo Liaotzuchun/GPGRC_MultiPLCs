@@ -1,9 +1,13 @@
 ﻿using GP_SECS_GEM;
 using QGACTIVEXLib;
+using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace GPGO_MultiPLCs.Models
@@ -122,24 +126,184 @@ namespace GPGO_MultiPLCs.Models
             return false;
         }
 
-        public bool Online(bool val) => secsGem != null &&
-                                        (val && secsGem.AxQGWrapper.OnLineRequest() == 0 || !val && secsGem.AxQGWrapper.OffLine() == 0 );
+        public bool Online(bool val) =>
+            secsGem != null &&
+            (val && secsGem.AxQGWrapper.OnLineRequest() == 0 || !val && secsGem.AxQGWrapper.OffLine() == 0);
 
         public bool Remote(bool val) => secsGem != null && (val && secsGem.AxQGWrapper.OnLineRemote() == 0 || !val && secsGem.AxQGWrapper.OnLineLocal() == 0);
 
+        private void SetEqpBase()
+        {
+            var alarmpath = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpAlarm.csv";
+            var dvpath    = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpDV.csv";
+            var ecpath    = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpEC.csv";
+            var eventpath = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpEvent.csv";
+            var svpath    = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpSV.csv";
+
+            try
+            {
+                var alarms = File.ReadAllLines(alarmpath, Encoding.UTF8);
+                foreach (var alarm in alarms)
+                {
+                    var cols = alarm.Split(',');
+                    if (cols.Length < 7 || !int.TryParse(cols[1], out _))
+                    {
+                        continue;
+                    }
+
+                    var _alarm = new EqpAlarmClass
+                                 {
+                                     Name    = cols[0],
+                                     ID      = cols[1],
+                                     CD      = cols[2],
+                                     Enabled = cols[3],
+                                     Text    = cols[4],
+                                     Trigger = cols[5],
+                                     Down    = cols[6]
+                                 };
+
+                    eqpBase.EqpAlarmViewModel.DataCollection.Add(_alarm);
+                }
+
+                var dvs = File.ReadAllLines(dvpath, Encoding.UTF8);
+                foreach (var dv in dvs)
+                {
+                    var cols = dv.Split(',');
+                    if (cols.Length < 6 || !int.TryParse(cols[1], out _))
+                    {
+                        continue;
+                    }
+
+                    var _dv = new EqpDVClass
+                              {
+                                  Name       = cols[0],
+                                  ID         = cols[1],
+                                  Type       = cols[2],
+                                  Length     = cols[3],
+                                  Unit       = cols[4],
+                                  Definition = cols[5]
+                              };
+
+                    eqpBase.EqpDVViewModel.DataCollection.Add(_dv);
+                }
+
+                var ecs = File.ReadAllLines(ecpath, Encoding.UTF8);
+                foreach (var ec in ecs)
+                {
+                    var cols = ec.Split(',');
+                    if (cols.Length < 10 || !int.TryParse(cols[1], out _))
+                    {
+                        continue;
+                    }
+
+                    var _ec = new EqpECClass
+                              {
+                                  Name         = cols[0],
+                                  ID           = cols[1],
+                                  Type         = cols[2],
+                                  MinValue     = cols[3],
+                                  MaxValue     = cols[4],
+                                  DefaultValue = cols[5],
+                                  Unit         = cols[6],
+                                  Definition   = cols[7],
+                                  Trigger      = cols[8],
+                                  Write        = cols[9]
+                              };
+
+                    eqpBase.EqpECViewModel.DataCollection.Add(_ec);
+                }
+
+                var events = File.ReadAllLines(eventpath, Encoding.UTF8);
+                foreach (var _event in events)
+                {
+                    var cols = _event.Split(',');
+                    if (cols.Length < 4 || !int.TryParse(cols[1], out _))
+                    {
+                        continue;
+                    }
+
+                    var __event = new EqpEventClass
+                                  {
+                                      Name       = cols[0],
+                                      ID         = cols[1],
+                                      Definition = cols[2],
+                                      Trigger    = cols[3]
+                                  };
+
+                    eqpBase.EqpEventViewModel.DataCollection.Add(__event);
+                }
+
+                var svs = File.ReadAllLines(svpath, Encoding.UTF8);
+                foreach (var sv in svs)
+                {
+                    var cols = sv.Split(',');
+                    if (cols.Length < 7 || !int.TryParse(cols[1], out _))
+                    {
+                        continue;
+                    }
+
+                    var _sv = new EqpSVClass
+                              {
+                                  Name       = cols[0],
+                                  ID         = cols[1],
+                                  Type       = cols[2],
+                                  Length     = cols[3],
+                                  Unit       = cols[4],
+                                  Definition = cols[5],
+                                  Trigger    = cols[6]
+                              };
+
+                    eqpBase.EqpSVViewModel.DataCollection.Add(_sv);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
+        }
+
         public SECSThread(int index)
         {
-            SECSParameterSet = new SECSParameterSet();
-            //secsParameterSet.SECSParameter.HSMS_Connect_Mode = (int)HSMS_COMM_MODE.HSMS_PASSIVE_MODE;
-            //secsParameterSet.SECSParameter.LDeviceID         = deviceIndex;                          //todo:每台烤箱要有 Device Id
-            //secsParameterSet.SECSParameter.NLocalPort        = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
-            //secsParameterSet.SECSParameter.NRemotePort       = Convert.ToInt32($"600{deviceIndex}"); //todo:每台烤箱要有 Device Id
-            //secsParameterSet.SECSParameter.FilePath          = $"C:\\ITRIinit\\{deviceIndex}";       //設定檔存放位置
-            SECSParameterSet.SECSParameter.FilePath = $"C:\\ITRIinit\\{index}"; //設定檔存放位置
-            SECSParameterSet.SECSParameter.MDLN     = "GP_GO";
             var v = Assembly.GetExecutingAssembly().GetName().Version;
-            SECSParameterSet.SECSParameter.SOFTREV = $"{v.Major}.{v.Minor}.{v.Build}";
-            secsGem                                = new GOSECS(SECSParameterSet.SECSParameter);
+
+            SECSParameterSet = new SECSParameterSet
+                               {
+                                   SECSParameter =
+                                   {
+                                       FilePath = $"C:\\ITRIinit\\{index}", //設定檔存放位置
+                                       MDLN     = "GP_GO",
+                                       SOFTREV  = $"{v.Major}.{v.Minor}.{v.Build}"
+                                   }
+                               };
+
+            secsGem = new GOSECS(SECSParameterSet.SECSParameter);
+
+            eqpBase = new EqpBase
+                      {
+                          StationNO = $"{index}",
+                          EqpAlarmViewModel = new EqpAlarmViewModel
+                                              {
+                                                  DataCollection = new ObservableCollection<EqpAlarmClass>()
+                                              },
+                          EqpDVViewModel = new EqpDVViewModel
+                                           {
+                                               DataCollection = new ObservableCollection<EqpDVClass>()
+                                           },
+                          EqpECViewModel = new EqpECViewModel
+                                           {
+                                               DataCollection = new ObservableCollection<EqpECClass>()
+                                           },
+                          EqpEventViewModel = new EqpEventViewModel
+                                              {
+                                                  DataCollection = new ObservableCollection<EqpEventClass>()
+                                              },
+                          EqpSVViewModel = new EqpSVViewModel
+                                           {
+                                               DataCollection = new ObservableCollection<EqpSVClass>()
+                                           }
+                      };
+
+            SetEqpBase();
 
             secsGem.TerminalMessageEvent += message =>
                                             {
@@ -249,17 +413,6 @@ namespace GPGO_MultiPLCs.Models
                                    };
 
             secsGem.RetrieveLotDataCommand += _ => HCACKValule.CantPerform; //todo
-            eqpBase                        =  SECSTool.GetEqpbase($"{index}");
-            //SECS_GEM.GemDVDataUpdateNew("","");
-            //secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, "PLCProgramVersion", "0001");
-            //var ALID = EqpBase.EqpAlarmViewModel.DataCollection.First(o => o.Name.Equals("AlarmSet")).ID;
-            //SECS_GEM.AxQGWrapper.AlarmReportSend(Convert.ToInt32(ALID), 255);
-            //secsGem.AxQGWrapper.AlarmReportSend(1, 1);
-
-            //if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals("AlarmSet")) is EqpEventClass ce && int.TryParse(ce.ID, out var CEID))
-            //{
-            //    secsGem.AxQGWrapper.EventReportSend(CEID);
-            //}
 
             secsGem.SECSCommunicationControlViewModel.PropertyChanged += (s, e) =>
                                                                          {
