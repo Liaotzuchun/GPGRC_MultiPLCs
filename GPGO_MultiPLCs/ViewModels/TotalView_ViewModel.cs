@@ -40,7 +40,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
 
         public Language Language = Language.TW;
-        public IGate    Gate { get; } = new PLCGate();
+        public IGate    Gate { get; } = new JsonRPCPLCGate();
 
         public RelayCommand WantLoginCommand { get; }
 
@@ -483,7 +483,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 TotalProduction.Add(i, 0);
                 var plc = new PLC_ViewModel(dialog,
                                             Gate,
-                                            i,
+                                            BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(11 + i) }, 0),
                                             "GOL",
                                             (bits_shift: new Dictionary<BitType, int>
                                                          {
@@ -663,7 +663,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                             PLC_All[i].Check = !PLC_All[i].Check;
                                         }
                                     }
-                                    else if (Gate.Connect())
+                                    else if (Gate.Connect(new Dictionary<string, string>
+                                                          {
+                                                              { "port", "5000" },
+                                                              { "frame", "MC3E" }
+                                                          }))
                                     {
                                         for (var i = 0; i < OvenCount; i++)
                                         {

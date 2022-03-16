@@ -1487,11 +1487,179 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        /// <summary>
+       /// <summary>
         /// 配方切換異常
         /// </summary>
-        [PLCBit(BitType.M, 737, LogType.Alarm)]
+        [PLCBitData(DataType.D, 12002, 7, LogType.Alarm)]
         public bool RecipeChangeError
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12002, 8, LogType.Alarm)]
+        public bool SpareAlarm2
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12002, 9, LogType.Alarm)]
+        public bool SpareAlarm3
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12002, 10, LogType.Alarm)]
+        public bool SpareAlarm4
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12002, 11, LogType.Alarm)]
+        public bool SpareAlarm5
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12002, 12, LogType.Alarm)]
+        public bool SpareAlarm6
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12002, 13, LogType.Alarm)]
+        public bool SpareAlarm7
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12002, 14, LogType.Alarm)]
+        public bool SpareAlarm8
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12002, 15, LogType.Alarm)]
+        public bool SpareAlarm9
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 0, LogType.Alarm)]
+        public bool SpareAlarm10
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 1, LogType.Alarm)]
+        public bool SpareAlarm11
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 2, LogType.Alarm)]
+        public bool SpareAlarm12
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 3, LogType.Alarm)]
+        public bool SpareAlarm13
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 4, LogType.Alarm)]
+        public bool SpareAlarm14
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 5, LogType.Alarm)]
+        public bool SpareAlarm15
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 6, LogType.Alarm)]
+        public bool SpareAlarm16
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 7, LogType.Alarm)]
+        public bool SpareAlarm17
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 8, LogType.Alarm)]
+        public bool SpareAlarm18
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 9, LogType.Alarm)]
+        public bool SpareAlarm19
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 10, LogType.Alarm)]
+        public bool SpareAlarm20
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 11, LogType.Alarm)]
+        public bool SpareAlarm21
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 12, LogType.Alarm)]
+        public bool SpareAlarm22
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 13, LogType.Alarm)]
+        public bool SpareAlarm23
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 14, LogType.Alarm)]
+        public bool SpareAlarm24
+        {
+            get => Get<bool>();
+            set => Set(value);
+        }
+
+        [PLCBitData(DataType.D, 12003, 15, LogType.Alarm)]
+        public bool SpareAlarm25
         {
             get => Get<bool>();
             set => Set(value);
