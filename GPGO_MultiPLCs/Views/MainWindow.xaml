@@ -65,7 +65,7 @@
               Background="{StaticResource LightColorBrush}">
             <ListBox FontSize="22"
                      FontWeight="Bold"
-                     ItemContainerStyle="{StaticResource ListBoxItem_Top}"
+                     Style="{StaticResource ListBoxHorizontal2}"
                      SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
                 <ListBox.Template>
                     <ControlTemplate>

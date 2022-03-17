@@ -1055,8 +1055,8 @@
                 </Grid.ColumnDefinitions>
                 <ListBox Grid.Column="1"
                          FontSize="16"
-                         ItemContainerStyle="{StaticResource ListBoxItem_Top}"
-                         SelectedIndex="{Binding Mode, Mode=TwoWay}">
+                         SelectedIndex="{Binding Mode, Mode=TwoWay}"
+                         Style="{StaticResource ListBoxHorizontal2}">
                     <ListBox.Template>
                         <ControlTemplate>
                             <ItemsPresenter />
