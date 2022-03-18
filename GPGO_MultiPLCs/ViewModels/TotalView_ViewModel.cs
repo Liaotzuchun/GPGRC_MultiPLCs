@@ -483,7 +483,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 TotalProduction.Add(i, 0);
                 var plc = new PLC_ViewModel(dialog,
                                             Gate,
-                                            BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(11 + i) }, 0),
+                                            BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(39 + i) }, 0),
                                             "GOL",
                                             (bits_shift: new Dictionary<BitType, int>
                                                          {
@@ -665,7 +665,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                     }
                                     else if (Gate.Connect(new Dictionary<string, string>
                                                           {
-                                                              { "port", "5000" },
+                                                              { "port", "5010" },
                                                               { "frame", "MC3E" }
                                                           }))
                                     {
