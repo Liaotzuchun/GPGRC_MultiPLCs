@@ -38,7 +38,7 @@ Oven1_IntakeWindmillError,1036,,1,Oven1_IntakeWindmillError,,0
 Oven1_WindSpeedUpperLimitAlarm,1037,,1,Oven1_WindSpeedUpperLimitAlarm,,0
 Oven1_WindSpeedLowerLimitAlarm,1038,,1,Oven1_WindSpeedLowerLimitAlarm,,0
 Oven1_RecipeChangeError,1039,,1,Oven1_RecipeChangeError,,0
-Oven1_SpareAlarm2,1040,,1,Oven1_SpareAlarm2,,0
+Oven1_ThermostatCommunicationError,1040,,1,Oven1_ThermostatCommunicationError,,0
 Oven1_SpareAlarm3,1041,,1,Oven1_SpareAlarm3,,0
 Oven1_SpareAlarm4,1042,,1,Oven1_SpareAlarm4,,0
 Oven1_SpareAlarm5,1043,,1,Oven1_SpareAlarm5,,0
@@ -89,7 +89,7 @@ Oven2_IntakeWindmillError,2036,,1,Oven2_IntakeWindmillError,,0
 Oven2_WindSpeedUpperLimitAlarm,2037,,1,Oven2_WindSpeedUpperLimitAlarm,,0
 Oven2_WindSpeedLowerLimitAlarm,2038,,1,Oven2_WindSpeedLowerLimitAlarm,,0
 Oven2_RecipeChangeError,2039,,1,Oven2_RecipeChangeError,,0
-Oven2_SpareAlarm2,2040,,1,Oven2_SpareAlarm2,,0
+Oven2_ThermostatCommunicationError,2040,,1,Oven2_ThermostatCommunicationError,,0
 Oven2_SpareAlarm3,2041,,1,Oven2_SpareAlarm3,,0
 Oven2_SpareAlarm4,2042,,1,Oven2_SpareAlarm4,,0
 Oven2_SpareAlarm5,2043,,1,Oven2_SpareAlarm5,,0

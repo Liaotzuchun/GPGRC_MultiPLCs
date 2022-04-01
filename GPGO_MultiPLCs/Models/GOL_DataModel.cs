@@ -1498,7 +1498,7 @@ namespace GPGO_MultiPLCs.Models
         }
 
         [PLCBitData(DataType.D, 12002, 8, LogType.Alarm)]
-        public bool SpareAlarm2
+        public bool ThermostatCommunicationError
         {
             get => Get<bool>();
             set => Set(value);
