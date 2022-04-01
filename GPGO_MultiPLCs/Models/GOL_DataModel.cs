@@ -1487,7 +1487,7 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-       /// <summary>
+        /// <summary>
         /// 配方切換異常
         /// </summary>
         [PLCBitData(DataType.D, 12002, 7, LogType.Alarm)]
@@ -1497,6 +1497,9 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// 溫控器通訊異常
+        /// </summary>
         [PLCBitData(DataType.D, 12002, 8, LogType.Alarm)]
         public bool ThermostatCommunicationError
         {
