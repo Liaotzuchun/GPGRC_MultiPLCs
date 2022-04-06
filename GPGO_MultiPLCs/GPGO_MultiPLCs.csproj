@@ -110,8 +110,8 @@
     <Reference Include="GPCore, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GPCore.1.0.8\lib\net462\GPCore.dll</HintPath>
     </Reference>
-    <Reference Include="GPMVVM, Version=1.9.9.97, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GPMVVM.1.9.9.97\lib\net48\GPMVVM.dll</HintPath>
+    <Reference Include="GPMVVM, Version=22.4.6.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GPMVVM.22.4.6.11\lib\net48\GPMVVM.dll</HintPath>
     </Reference>
     <Reference Include="GP_SECS_GEM, Version=1.0.6.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\GP_SECS_GEM.1.0.6\lib\net462\GP_SECS_GEM.dll</HintPath>
@@ -180,8 +180,8 @@
     <Reference Include="Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.Sinks.File.5.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
     </Reference>
-    <Reference Include="SharpCompress, Version=0.30.1.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpCompress.0.30.1\lib\net461\SharpCompress.dll</HintPath>
+    <Reference Include="SharpCompress, Version=0.31.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.31.0\lib\net461\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="Snappy.NET, Version=1.1.1.8, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Snappy.NET.1.1.1.8\lib\net45\Snappy.NET.dll</HintPath>
