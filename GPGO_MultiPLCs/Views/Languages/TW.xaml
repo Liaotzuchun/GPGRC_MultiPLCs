@@ -20,6 +20,7 @@
     <sys:String x:Key="製程序">製程序</sys:String>
     <sys:String x:Key="板架">板架</sys:String>
     <sys:String x:Key="數量">數量</sys:String>
+    <sys:String x:Key="總數量">總數量</sys:String>
     <sys:String x:Key="工單">工單</sys:String>
     <sys:String x:Key="料號">料號</sys:String>
     <sys:String x:Key="批號">批號</sys:String>

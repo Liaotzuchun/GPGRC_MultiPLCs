@@ -322,6 +322,9 @@
     <Compile Include="Views\OvenDetailView.xaml.cs">
       <DependentUpon>OvenDetailView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OvenEditView.xaml.cs">
+      <DependentUpon>OvenEditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OvenSimpleView.xaml.cs">
       <DependentUpon>OvenSimpleView.xaml</DependentUpon>
     </Compile>
@@ -375,6 +378,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\OvenDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OvenEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

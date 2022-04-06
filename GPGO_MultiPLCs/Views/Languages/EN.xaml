@@ -19,6 +19,7 @@
     <sys:String x:Key="製程序">Serial</sys:String>
     <sys:String x:Key="板架">RackID</sys:String>
     <sys:String x:Key="數量">Quantity</sys:String>
+    <sys:String x:Key="總數量">Total Quantity</sys:String>
     <sys:String x:Key="工單">Order</sys:String>
     <sys:String x:Key="料號">PartID</sys:String>
     <sys:String x:Key="批號">LotID</sys:String>
