@@ -91,22 +91,18 @@
                                     Height="14"
                                     VerticalAlignment="Center"
                                     Background="{StaticResource ErrorBrush}"
-                                    BorderBrush="{StaticResource ErrorBorderBrush}"
-                                    BorderThickness="1">
+                                    BorderThickness="0"
+                                    CornerRadius="7">
                                 <i:Interaction.Triggers>
                                     <i:DataTrigger Binding="{Binding PlcGate.GateStatus.CurrentValue, Source={StaticResource Mediator}, Mode=OneWay}"
                                                    Value="True">
                                         <i:ChangePropertyAction PropertyName="Background"
                                                                 Value="{StaticResource OKBrush}" />
-                                        <i:ChangePropertyAction PropertyName="BorderBrush"
-                                                                Value="{StaticResource OKBorderBrush}" />
                                     </i:DataTrigger>
                                     <i:DataTrigger Binding="{Binding PlcGate.GateStatus.CurrentValue, Source={StaticResource Mediator}, Mode=OneWay}"
                                                    Value="False">
                                         <i:ChangePropertyAction PropertyName="Background"
                                                                 Value="{StaticResource ErrorBrush}" />
-                                        <i:ChangePropertyAction PropertyName="BorderBrush"
-                                                                Value="{StaticResource ErrorBorderBrush}" />
                                     </i:DataTrigger>
                                 </i:Interaction.Triggers>
                             </Border>
