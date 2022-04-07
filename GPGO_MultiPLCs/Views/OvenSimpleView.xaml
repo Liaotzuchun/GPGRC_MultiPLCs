@@ -196,7 +196,7 @@
                             <ToggleButton x:Name="ToggleButton0"
                                           Padding="8,0"
                                           Content="{Binding RecipeName, Mode=OneWay}"
-                                          Foreground="{DynamicResource BaseForeground}"
+                                          Foreground="{StaticResource BaseForeground}"
                                           Style="{StaticResource ArrowToggle}" />
                             <Popup AllowsTransparency="True"
                                    Focusable="False"

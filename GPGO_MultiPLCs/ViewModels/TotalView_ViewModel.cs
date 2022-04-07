@@ -40,7 +40,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
 
         public Language Language = Language.TW;
-        public IGate    Gate { get; } = new JsonRPCPLCGate();
+        public IGate    Gate { get; }
 
         public RelayCommand WantLoginCommand { get; }
 
@@ -306,8 +306,9 @@ namespace GPGO_MultiPLCs.ViewModels
             secsGem?.InvokeEvent("GemProcessProgramChange");
         }
 
-        public TotalView_ViewModel(int count, IDialogService dialog)
+        public TotalView_ViewModel(int count, IGate gate, IDialogService dialog)
         {
+            Gate      = gate;
             Dialog    = dialog;
             OvenCount = count;
             PLC_All   = new PLC_ViewModel[count];

@@ -1,6 +1,7 @@
 ﻿using GPMVVM.Models;
 using System;
 using System.ComponentModel;
+using System.Reflection;
 using System.Windows.Threading;
 
 namespace GPGO_MultiPLCs.ViewModels
@@ -8,6 +9,8 @@ namespace GPGO_MultiPLCs.ViewModels
     /// <summary>主視窗</summary>
     public class MainWindow_ViewModel : ObservableObject
     {
+        public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
         public RelayCommand ClosingCommand { get; }
         public RelayCommand LoadedCommand  { get; }
 

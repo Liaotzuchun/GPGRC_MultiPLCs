@@ -754,12 +754,12 @@
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
                                              Value="True">
-                                    <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource OKBrush}" />
+                                    <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource OKBrush}" />
                                     <Setter TargetName="TextBlock" Property="Text" Value="&#xE8FB;" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
                                              Value="False">
-                                    <Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                    <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource ErrorBrush}" />
                                     <Setter TargetName="TextBlock" Property="Text" Value="&#xE711;" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
@@ -838,8 +838,8 @@
                                                     <ControlTemplate>
                                                         <Grid MinWidth="300"
                                                               MaxHeight="240"
-                                                              Background="{DynamicResource WindowBackgroundBrush2}"
-                                                              TextElement.Foreground="{DynamicResource BaseForeground}">
+                                                              Background="{StaticResource WindowBackgroundBrush2}"
+                                                              TextElement.Foreground="{StaticResource BaseForeground}">
                                                             <ScrollViewer VerticalScrollBarVisibility="Auto">
                                                                 <ItemsPresenter />
                                                             </ScrollViewer>
@@ -854,19 +854,19 @@
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Background="{DynamicResource WindowBackgroundBrush6}">
+                                                        <Grid Background="{StaticResource WindowBackgroundBrush6}">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="*" />
                                                                 <ColumnDefinition Width="*" />
                                                             </Grid.ColumnDefinitions>
-                                                            <Border BorderBrush="{DynamicResource WindowBackgroundBrush4}"
+                                                            <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                                     BorderThickness="0,0,1,1">
                                                                 <TextBlock Margin="4"
                                                                            HorizontalAlignment="Center"
                                                                            Text="{Binding Key, Mode=OneWay}" />
                                                             </Border>
                                                             <Border Grid.Column="1"
-                                                                    BorderBrush="{DynamicResource WindowBackgroundBrush4}"
+                                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                                     BorderThickness="0,0,0,1">
                                                                 <TextBlock Margin="4"
                                                                            HorizontalAlignment="Center"
@@ -1020,21 +1020,21 @@
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
-                    <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                    <Setter Property="Background" Value="{StaticResource LightBrush}" />
                     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
                                      Value="False">
-                            <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush6}" />
-                            <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+                            <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush6}" />
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                         </DataTrigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource DarkBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource GlyphBrush}" />
+                            <Setter Property="Background" Value="{StaticResource DarkBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource GlyphBrush}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource PressedBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource GlyphBrush}" />
+                            <Setter Property="Background" Value="{StaticResource PressedBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource GlyphBrush}" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>

@@ -8,7 +8,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         Closing="Window_Closing"
-        Foreground="{DynamicResource BaseForeground}"
+        Foreground="{StaticResource BaseForeground}"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"

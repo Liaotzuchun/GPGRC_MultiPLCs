@@ -48,6 +48,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public LogEvent    SearchEvent;
         public ProcessInfo SearchResult;
 
+
         /// <summary>依據工單或料號搜尋</summary>
         public RelayCommand FindCommand { get; }
 

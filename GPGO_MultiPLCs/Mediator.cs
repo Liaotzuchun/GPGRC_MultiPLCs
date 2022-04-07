@@ -75,6 +75,7 @@ namespace GPGO_MultiPLCs
         public RecipeControl_ViewModel    RecipeVM        { get; }
         public TotalView_ViewModel        TotalVM         { get; }
         public TraceabilityView_ViewModel TraceVM         { get; }
+        public IGate                      PlcGate         { get; }
 
         /// <summary>產生測試資料至資料庫</summary>
         /// <param name="PLC_Count"></param>
@@ -311,7 +312,7 @@ namespace GPGO_MultiPLCs
             TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("ProductInfos")), DialogVM);
             LogVM   = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
 
-            TotalVM = new TotalView_ViewModel(20, DialogVM);
+            TotalVM = new TotalView_ViewModel(20, new JsonRPCPLCGate(), DialogVM);
             //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
 
             AuthenticatorVM = new Authenticator_ViewModel

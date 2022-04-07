@@ -17,6 +17,109 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         mc:Ignorable="d">
+    <views:WindowStyle.TitleContent>
+        <Grid>
+            <TextBlock HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontWeight="Bold"
+                       IsHitTestVisible="False">
+                <Run Text="{DynamicResource 群翊工業}" />
+                <Run Text="{DynamicResource 曝光機}" /><Run Text="{DynamicResource 視覺系統}" />
+                <Run Text="{Binding Version, Mode=OneTime}" />
+            </TextBlock>
+            <StackPanel HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <DockPanel MinWidth="120"
+                           LastChildFill="True">
+                    <Border DockPanel.Dock="Left">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="LightSlateGray" />
+                                <Setter Property="TextElement.Foreground" Value="{StaticResource GlyphBrush}" />
+                                <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
+                                                 Value="1">
+                                        <Setter Property="Background" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
+                                                 Value="2">
+                                        <Setter Property="Background" Value="Blue" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
+                                                 Value="3">
+                                        <Setter Property="Background" Value="Purple" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
+                                                 Value="4">
+                                        <Setter Property="Background" Value="Gold" />
+                                        <Setter Property="TextElement.Foreground" Value="Red" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Text="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
+                    </Border>
+                    <ToggleButton Padding="8,0"
+                                  Content="{Binding User.Name, Source={StaticResource Mediator}, Mode=OneWay}"
+                                  DockPanel.Dock="Left"
+                                  FontWeight="Bold"
+                                  Foreground="{StaticResource GlyphBrush}"
+                                  IsChecked="{Binding Visibility, ElementName=Authenticator, Mode=OneWay, Converter={StaticResource VisBool}}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding AuthenticatorVM.StartLogin, Source={StaticResource Mediator}, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ToggleButton>
+                </DockPanel>
+                <ToggleButton Margin="4,0,0,0"
+                              FontSize="12"
+                              FontWeight="Bold"
+                              IsHitTestVisible="False"
+                              Style="{DynamicResource ToggleText}">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="8,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <Border Width="14"
+                                    Height="14"
+                                    VerticalAlignment="Center"
+                                    Background="{StaticResource ErrorBrush}"
+                                    BorderBrush="{StaticResource ErrorBorderBrush}"
+                                    BorderThickness="1">
+                                <i:Interaction.Triggers>
+                                    <i:DataTrigger Binding="{Binding PlcGate.GateStatus.CurrentValue, Source={StaticResource Mediator}, Mode=OneWay}"
+                                                   Value="True">
+                                        <i:ChangePropertyAction PropertyName="Background"
+                                                                Value="{StaticResource OKBrush}" />
+                                        <i:ChangePropertyAction PropertyName="BorderBrush"
+                                                                Value="{StaticResource OKBorderBrush}" />
+                                    </i:DataTrigger>
+                                    <i:DataTrigger Binding="{Binding PlcGate.GateStatus.CurrentValue, Source={StaticResource Mediator}, Mode=OneWay}"
+                                                   Value="False">
+                                        <i:ChangePropertyAction PropertyName="Background"
+                                                                Value="{StaticResource ErrorBrush}" />
+                                        <i:ChangePropertyAction PropertyName="BorderBrush"
+                                                                Value="{StaticResource ErrorBorderBrush}" />
+                                    </i:DataTrigger>
+                                </i:Interaction.Triggers>
+                            </Border>
+                            <TextBlock Margin="6,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource GlyphBrush}"
+                                       Text="Gate" />
+                        </StackPanel>
+                    </StackPanel>
+                </ToggleButton>
+            </StackPanel>
+        </Grid>
+    </views:WindowStyle.TitleContent>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <gpmodels:InteractiveCommand Command="{Binding ClosingCommand, Mode=OneTime}" />
@@ -65,8 +168,8 @@
               Background="{StaticResource LightColorBrush}">
             <ListBox FontSize="22"
                      FontWeight="Bold"
-                     Style="{StaticResource ListBoxHorizontal2}"
-                     SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
+                     SelectedIndex="{Binding ViewIndex, Mode=TwoWay}"
+                     Style="{StaticResource ListBoxHorizontal2}">
                 <ListBox.Template>
                     <ControlTemplate>
                         <ItemsPresenter />

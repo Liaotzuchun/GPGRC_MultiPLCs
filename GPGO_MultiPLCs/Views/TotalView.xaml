@@ -118,166 +118,109 @@
                     <Grid Grid.Column="1"
                           Background="{StaticResource WindowBackgroundBrush2}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="4" />
-                            <RowDefinition Height="50" />
+                            <RowDefinition Height="0" />
+                            <RowDefinition Height="40" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Grid>
-                            <Rectangle Fill="{StaticResource DisabledBackgroundBrush}"
-                                       Stroke="{StaticResource DisabledBorderBrush}"
-                                       StrokeThickness="0" />
-                            <Rectangle Fill="{StaticResource OKBrush}"
-                                       Stroke="{StaticResource OKBorderBrush}"
-                                       StrokeThickness="0"
-                                       Visibility="{Binding Gate.GateStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolVis}}" />
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviewMouseDown">
-                                    <i:InvokeCommandAction Command="{Binding WantLoginCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <Border Background="{StaticResource LightBrush}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}">
-                                <TextBlock Margin="4,0"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           FontWeight="Bold"
-                                           Text="{Binding User.Name, Source={StaticResource Mediator}, Mode=OneWay}" />
-                            </Border>
-                            <Border Grid.Column="1">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background" Value="LightSlateGray" />
-                                        <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
-                                                         Value="1">
-                                                <Setter Property="Background" Value="Green" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
-                                                         Value="2">
-                                                <Setter Property="Background" Value="Blue" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
-                                                         Value="3">
-                                                <Setter Property="Background" Value="Purple" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay}"
-                                                         Value="4">
-                                                <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="18"
-                                           FontWeight="Bold"
-                                           Foreground="White"
-                                           Text="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
-                            </Border>
-                        </Grid>
-                        <Grid Grid.Row="2"
-                              IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="30" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                            </Grid.RowDefinitions>
-                            <Border Grid.ColumnSpan="2"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           FontWeight="Bold"
-                                           Text="SECS" />
-                            </Border>
-                            <ToggleButton x:Name="SECS_ENABLE"
-                                          Grid.Row="1"
-                                          Grid.Column="0"
-                                          Grid.ColumnSpan="2"
-                                          Content="ENABLE"
-                                          FontSize="16"
-                                          FontWeight="Bold"
-                                          IsChecked="{Binding SECS_ENABLE, Mode=TwoWay}"
-                                          Style="{StaticResource ToggleSwitch}" />
-                            <Border Grid.Row="2"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    Background="{StaticResource ErrorBrush}">
-                                <i:Interaction.Triggers>
-                                    <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
-                                                   Value="True">
-                                        <i:ChangePropertyAction PropertyName="Background"
-                                                                Value="{StaticResource OKBorderBrush}" />
-                                    </i:DataTrigger>
-                                    <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
-                                                   Value="False">
-                                        <i:ChangePropertyAction PropertyName="Background"
-                                                                Value="{StaticResource ErrorBrush}" />
-                                    </i:DataTrigger>
-                                </i:Interaction.Triggers>
-                                <StackPanel HorizontalAlignment="Center"
-                                            Orientation="Horizontal"
-                                            TextElement.Foreground="{StaticResource GlyphBrush}">
-                                    <TextBlock Margin="4,0,0,0"
-                                               VerticalAlignment="Center"
-                                               FontSize="14"
-                                               FontWeight="Bold"
-                                               Text="Not"
-                                               Visibility="{Binding SECS_Communicating, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                    <TextBlock Margin="4,0,0,0"
-                                               VerticalAlignment="Center"
-                                               FontSize="14"
-                                               FontWeight="Bold"
-                                               Text="Communicating" />
-                                </StackPanel>
-                            </Border>
-                            <ToggleButton x:Name="SECS_ONLINE"
-                                          Grid.Row="3"
-                                          Grid.Column="0"
-                                          Grid.ColumnSpan="2"
-                                          Content="ON-LINE"
-                                          FontSize="16"
-                                          FontWeight="Bold"
-                                          IsChecked="{Binding SECS_ONLINE, Mode=TwoWay}"
-                                          IsEnabled="{Binding SECS_Communicating, Mode=OneWay}"
-                                          Style="{StaticResource ToggleSwitch}" />
-                            <ToggleButton x:Name="SECS_REMOTE"
-                                          Grid.Row="4"
-                                          Grid.Column="0"
-                                          Grid.ColumnSpan="2"
-                                          Content="REMOTE"
-                                          FontSize="16"
-                                          FontWeight="Bold"
-                                          IsChecked="{Binding SECS_REMOTE, Mode=TwoWay}"
-                                          Style="{StaticResource ToggleSwitch}">
-                                <ToggleButton.IsEnabled>
-                                    <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                                        <Binding ElementName="SECS_ONLINE"
-                                                 Mode="OneWay"
-                                                 Path="IsChecked" />
-                                        <Binding Mode="OneWay"
-                                                 Path="SECS_Communicating" />
-                                    </MultiBinding>
-                                </ToggleButton.IsEnabled>
-                            </ToggleButton>
-                        </Grid>
+                        <Border Grid.Row="1"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,1,0,1">
+                            <views:DigitalClock HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="18"
+                                                FontWeight="Bold"
+                                                IsHitTestVisible="False" />
+                        </Border>
+                        <GroupBox Grid.Row="2"
+                                  FontSize="16"
+                                  FontWeight="Bold"
+                                  Header="SECS">
+                            <Grid IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0" />
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+                                <ToggleButton x:Name="SECS_ENABLE"
+                                              Grid.Row="1"
+                                              Grid.Column="0"
+                                              Grid.ColumnSpan="2"
+                                              Content="ENABLE"
+                                              FontSize="16"
+                                              FontWeight="Bold"
+                                              IsChecked="{Binding SECS_ENABLE, Mode=TwoWay}"
+                                              Style="{StaticResource ToggleSwitch}" />
+                                <Border Grid.Row="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Background="{StaticResource ErrorBrush}">
+                                    <i:Interaction.Triggers>
+                                        <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
+                                                       Value="True">
+                                            <i:ChangePropertyAction PropertyName="Background"
+                                                                    Value="{StaticResource OKBorderBrush}" />
+                                        </i:DataTrigger>
+                                        <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
+                                                       Value="False">
+                                            <i:ChangePropertyAction PropertyName="Background"
+                                                                    Value="{StaticResource ErrorBrush}" />
+                                        </i:DataTrigger>
+                                    </i:Interaction.Triggers>
+                                    <StackPanel HorizontalAlignment="Center"
+                                                Orientation="Horizontal"
+                                                TextElement.Foreground="{StaticResource GlyphBrush}">
+                                        <TextBlock Margin="4,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14"
+                                                   FontWeight="Bold"
+                                                   Text="Not"
+                                                   Visibility="{Binding SECS_Communicating, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                                        <TextBlock Margin="4,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14"
+                                                   FontWeight="Bold"
+                                                   Text="Communicating" />
+                                    </StackPanel>
+                                </Border>
+                                <ToggleButton x:Name="SECS_ONLINE"
+                                              Grid.Row="3"
+                                              Grid.Column="0"
+                                              Grid.ColumnSpan="2"
+                                              Content="ON-LINE"
+                                              FontSize="16"
+                                              FontWeight="Bold"
+                                              IsChecked="{Binding SECS_ONLINE, Mode=TwoWay}"
+                                              IsEnabled="{Binding SECS_Communicating, Mode=OneWay}"
+                                              Style="{StaticResource ToggleSwitch}" />
+                                <ToggleButton x:Name="SECS_REMOTE"
+                                              Grid.Row="4"
+                                              Grid.Column="0"
+                                              Grid.ColumnSpan="2"
+                                              Content="REMOTE"
+                                              FontSize="16"
+                                              FontWeight="Bold"
+                                              IsChecked="{Binding SECS_REMOTE, Mode=TwoWay}"
+                                              Style="{StaticResource ToggleSwitch}">
+                                    <ToggleButton.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                                            <Binding ElementName="SECS_ONLINE"
+                                                     Mode="OneWay"
+                                                     Path="IsChecked" />
+                                            <Binding Mode="OneWay"
+                                                     Path="SECS_Communicating" />
+                                        </MultiBinding>
+                                    </ToggleButton.IsEnabled>
+                                </ToggleButton>
+                            </Grid>
+                        </GroupBox>
                         <Grid Grid.Row="3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
