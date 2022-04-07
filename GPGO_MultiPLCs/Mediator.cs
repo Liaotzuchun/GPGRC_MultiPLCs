@@ -98,7 +98,7 @@ namespace GPGO_MultiPLCs
                 for (var i = 0; i < PLC_Count; i++)
                 {
                     var plc = TotalVM.PLC_All[i];
-                    var rn  = new Random(i + j);
+                    var rn  = new Random(i                                + j);
                     var st  = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), i);
 
                     for (var k = 0; k < 8; k++)
@@ -314,8 +314,14 @@ namespace GPGO_MultiPLCs
             TotalVM = new TotalView_ViewModel(20, DialogVM);
             //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
 
-            AuthenticatorVM = new Authenticator_ViewModel();
-            //AuthenticatorVM.Settings.OvenCount = 2;
+            AuthenticatorVM = new Authenticator_ViewModel
+                              {
+                                  Settings =
+                                  {
+                                      OvenCount = 1
+                                  }
+                              };
+
             DataOutputPath = AuthenticatorVM.Settings.DataOutputPath;
             DataInputPath  = AuthenticatorVM.Settings.DataInputPath;
             Language       = AuthenticatorVM.Settings.Lng;
@@ -476,39 +482,39 @@ namespace GPGO_MultiPLCs
                                                  var si = new GPCore.StreamReaderIni();
                                                  var t  = si.AddIniSection("CCodeID1");
                                                  t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
-                                                 t.AddElement(nameof(PLC_Recipe.CoolingTime), recipe.CoolingTime.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.CoolingTemperature), recipe.CoolingTemperature.ToString("0.0"));
-                                                 t.AddElement(nameof(PLC_Recipe.StepCounts), recipe.StepCounts.ToString());
+                                                 t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.CoolingTemperature),    recipe.CoolingTemperature.ToString("0.0"));
+                                                 t.AddElement(nameof(PLC_Recipe.StepCounts),            recipe.StepCounts.ToString());
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_1), recipe.TemperatureSetpoint_1.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_2), recipe.TemperatureSetpoint_2.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_3), recipe.TemperatureSetpoint_3.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_4), recipe.TemperatureSetpoint_4.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_5), recipe.TemperatureSetpoint_5.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_6), recipe.TemperatureSetpoint_6.ToString("0.0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_1), recipe.RampTime_1.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_2), recipe.RampTime_2.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_3), recipe.RampTime_3.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_4), recipe.RampTime_4.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_5), recipe.RampTime_5.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampTime_6), recipe.RampTime_6.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_1), recipe.RampAlarm_1.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_2), recipe.RampAlarm_2.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_3), recipe.RampAlarm_3.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_4), recipe.RampAlarm_4.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_5), recipe.RampAlarm_5.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_6), recipe.RampAlarm_6.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_1), recipe.DwellTime_1.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_2), recipe.DwellTime_2.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_3), recipe.DwellTime_3.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_4), recipe.DwellTime_4.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_5), recipe.DwellTime_5.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_6), recipe.DwellTime_6.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_1), recipe.DwellAlarm_1.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_2), recipe.DwellAlarm_2.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_3), recipe.DwellAlarm_3.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_4), recipe.DwellAlarm_4.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_5), recipe.DwellAlarm_5.ToString("0"));
-                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_6), recipe.DwellAlarm_6.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_1),            recipe.RampTime_1.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_2),            recipe.RampTime_2.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_3),            recipe.RampTime_3.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_4),            recipe.RampTime_4.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_5),            recipe.RampTime_5.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampTime_6),            recipe.RampTime_6.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_1),           recipe.RampAlarm_1.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_2),           recipe.RampAlarm_2.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_3),           recipe.RampAlarm_3.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_4),           recipe.RampAlarm_4.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_5),           recipe.RampAlarm_5.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.RampAlarm_6),           recipe.RampAlarm_6.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_1),           recipe.DwellTime_1.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_2),           recipe.DwellTime_2.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_3),           recipe.DwellTime_3.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_4),           recipe.DwellTime_4.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_5),           recipe.DwellTime_5.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellTime_6),           recipe.DwellTime_6.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_1),          recipe.DwellAlarm_1.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_2),          recipe.DwellAlarm_2.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_3),          recipe.DwellAlarm_3.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_4),          recipe.DwellAlarm_4.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_5),          recipe.DwellAlarm_5.ToString("0"));
+                                                 t.AddElement(nameof(PLC_Recipe.DwellAlarm_6),          recipe.DwellAlarm_6.ToString("0"));
                                                  si.EncodindIni($"C:\\ITRIinit\\0\\ProcessJob\\{recipe.RecipeName}.pjb");
                                              }
 

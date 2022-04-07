@@ -72,10 +72,10 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="vm:PLC_ViewModel">
                                 <Grid Margin="1"
-                                      d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
-                                      Background="{StaticResource WindowBackgroundBrush6}">
+                                      d:DataContext="{d:DesignInstance vm:PLC_ViewModel}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="4" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <Border Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -95,8 +95,8 @@
                                                FontSize="36"
                                                Foreground="{StaticResource DisabledForegroundBrush}"
                                                Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-                                    <local:OvenSimpleView Grid.Column="1"
-                                                          DataContext="{Binding}" />
+                                    <local:OvenEditView Grid.Column="2"
+                                                        DataContext="{Binding}" />
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding EquipmentState, Mode=OneWay}"
