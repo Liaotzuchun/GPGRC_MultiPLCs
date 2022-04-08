@@ -75,6 +75,10 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public RelayCommand CheckRecipeCommand_KeyLeave { get; }
 
+        public RelayCommand AddLotCommand { get; }
+
+        public RelayCommand DeleteLotCommand { get; }
+
         /// <summary>產品資訊</summary>
         public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new();
 
@@ -101,7 +105,7 @@ namespace GPGO_MultiPLCs.ViewModels
                     return 1.0;
                 }
 
-                var d   = 1.0 / StepCounts / 2.0;
+                var d   = 1.0                 / StepCounts / 2.0;
                 var val = (CurrentStep - 1.0) / StepCounts;
 
                 if (IsDwell)
@@ -164,34 +168,70 @@ namespace GPGO_MultiPLCs.ViewModels
             set => _ = SetRecipeDialog(value);
         }
 
+        /// <summary>
+        /// 輸入人員ID
+        /// </summary>
+        public string InputOperatorID
+        {
+            get => Get<string>();
+            set => Set(value.Trim());
+        }
+
+        /// <summary>
+        /// 輸入料號
+        /// </summary>
+        public string InputPartID
+        {
+            get => Get<string>();
+            set => Set(value.Trim());
+        }
+
+        /// <summary>
+        /// 輸入批號
+        /// </summary>
+        public string InputLotID
+        {
+            get => Get<string>();
+            set => Set(value.Trim());
+        }
+
+        /// <summary>
+        /// 輸入數量
+        /// </summary>
+        public int InputQuantity
+        {
+            get => Get<int>();
+            set => Set(value);
+        }
+
         private bool RecipeCompare(PLC_Recipe recipe) =>
-            RecipeName == recipe.RecipeName &&
-            DwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
-            DwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
-            DwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
-            DwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
-            DwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
-            DwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
-            DwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
-            DwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
-            DwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
-            DwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
-            DwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
-            DwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
-            CoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
-            CoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
-            RampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
-            RampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
-            RampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
-            RampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
-            RampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
-            RampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
-            RampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
-            RampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
-            RampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
-            RampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
-            RampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
-            RampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
+            RecipeName                            == recipe.RecipeName                            &&
+            DwellTime_1.ToString("0.0")           == recipe.DwellTime_1.ToString("0.0")           &&
+            DwellTime_2.ToString("0.0")           == recipe.DwellTime_2.ToString("0.0")           &&
+            DwellTime_3.ToString("0.0")           == recipe.DwellTime_3.ToString("0.0")           &&
+            DwellTime_4.ToString("0.0")           == recipe.DwellTime_4.ToString("0.0")           &&
+            DwellTime_5.ToString("0.0")           == recipe.DwellTime_5.ToString("0.0")           &&
+            DwellTime_6.ToString("0.0")           == recipe.DwellTime_6.ToString("0.0")           &&
+            DwellAlarm_1.ToString("0.0")          == recipe.DwellAlarm_1.ToString("0.0")          &&
+            DwellAlarm_2.ToString("0.0")          == recipe.DwellAlarm_2.ToString("0.0")          &&
+            DwellAlarm_3.ToString("0.0")          == recipe.DwellAlarm_3.ToString("0.0")          &&
+            DwellAlarm_4.ToString("0.0")          == recipe.DwellAlarm_4.ToString("0.0")          &&
+            DwellAlarm_5.ToString("0.0")          == recipe.DwellAlarm_5.ToString("0.0")          &&
+            DwellAlarm_6.ToString("0.0")          == recipe.DwellAlarm_6.ToString("0.0")          &&
+            CoolingTime.ToString("0.0")           == recipe.CoolingTime.ToString("0.0")           &&
+            CoolingTemperature.ToString("0.0")    == recipe.CoolingTemperature.ToString("0.0")    &&
+            RampTime_1.ToString("0.0")            == recipe.RampTime_1.ToString("0.0")            &&
+            RampTime_2.ToString("0.0")            == recipe.RampTime_2.ToString("0.0")            &&
+            RampTime_3.ToString("0.0")            == recipe.RampTime_3.ToString("0.0")            &&
+            RampTime_4.ToString("0.0")            == recipe.RampTime_4.ToString("0.0")            &&
+            RampTime_5.ToString("0.0")            == recipe.RampTime_5.ToString("0.0")            &&
+            RampTime_6.ToString("0.0")            == recipe.RampTime_6.ToString("0.0")            &&
+            RampAlarm_1.ToString("0.0")           == recipe.RampAlarm_1.ToString("0.0")           &&
+            RampAlarm_2.ToString("0.0")           == recipe.RampAlarm_2.ToString("0.0")           &&
+            RampAlarm_3.ToString("0.0")           == recipe.RampAlarm_3.ToString("0.0")           &&
+            RampAlarm_4.ToString("0.0")           == recipe.RampAlarm_4.ToString("0.0")           &&
+            RampAlarm_5.ToString("0.0")           == recipe.RampAlarm_5.ToString("0.0")           &&
+            RampAlarm_6.ToString("0.0")           == recipe.RampAlarm_6.ToString("0.0")           &&
             ProgramEndWarningTime.ToString("0.0") == recipe.ProgramEndWarningTime.ToString("0.0") &&
             TemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
             TemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
@@ -199,7 +239,7 @@ namespace GPGO_MultiPLCs.ViewModels
             TemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
             TemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
             TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
-            StepCounts == recipe.StepCounts;
+            StepCounts                            == recipe.StepCounts;
 
         private PLC_Recipe GetRecipePV() =>
             new()
@@ -398,6 +438,13 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
             {
+                Dialog.Show(new Dictionary<Language, string>
+                            {
+                                { Language.TW, "條件未通過" },
+                                { Language.CHS, "条件未通过" },
+                                { Language.EN, "Fail conditions" }
+                            });
+
                 Intput_Name = Selected_Name;
                 return SetRecipeResult.條件不允許;
             }
@@ -507,14 +554,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                             while (!ct.IsCancellationRequested)
                                             {
                                                 _ThermostatTemperature = PV_ThermostatTemperature <= 0 ? _ThermostatTemperature : PV_ThermostatTemperature;
-                                                _OvenTemperature_1     = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
-                                                _OvenTemperature_2     = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
-                                                _OvenTemperature_3     = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
-                                                _OvenTemperature_4     = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
-                                                _OvenTemperature_5     = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
-                                                _OvenTemperature_6     = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
-                                                _OvenTemperature_7     = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
-                                                _OvenTemperature_8     = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+                                                _OvenTemperature_1     = OvenTemperature_1        <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
+                                                _OvenTemperature_2     = OvenTemperature_2        <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
+                                                _OvenTemperature_3     = OvenTemperature_3        <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
+                                                _OvenTemperature_4     = OvenTemperature_4        <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
+                                                _OvenTemperature_5     = OvenTemperature_5        <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
+                                                _OvenTemperature_6     = OvenTemperature_6        <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
+                                                _OvenTemperature_7     = OvenTemperature_7        <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
+                                                _OvenTemperature_8     = OvenTemperature_8        <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
 
                                                 if (DateTime.Now - OvenInfo.StartTime >= n)
                                                 {
@@ -694,6 +741,46 @@ namespace GPGO_MultiPLCs.ViewModels
                                                            {
                                                                Intput_Name = Selected_Name;
                                                            });
+
+            AddLotCommand = new RelayCommand(_ =>
+                                             {
+                                                 OvenInfo.OperatorID = InputOperatorID;
+
+                                                 if (Ext_Info.FirstOrDefault(x => x.PartID == InputPartID && x.LotID == InputLotID) is {} exinfo)
+                                                 {
+                                                     var n = exinfo.PanelIDs.Count;
+                                                     for (var i = n + 1; i <= n + InputQuantity; i++)
+                                                     {
+                                                         exinfo.PanelIDs.Add($"{exinfo.PartID}-{exinfo.LotID}-{i}");
+                                                     }
+                                                 }
+                                                 else
+                                                 {
+                                                     var info = new ProductInfo
+                                                                {
+                                                                    PartID = InputPartID,
+                                                                    LotID  = InputLotID
+                                                                };
+                                                     for (var i = 1; i <= InputQuantity; i++)
+                                                     {
+                                                         info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{i}");
+                                                     }
+
+                                                     Ext_Info.Add(info);
+                                                 }
+                                             });
+
+            DeleteLotCommand = new RelayCommand(lot =>
+                                                {
+                                                    if (lot is ProductInfo info)
+                                                    {
+                                                        var list = Ext_Info.ToList();
+                                                        list.Remove(info);
+
+                                                        Ext_Info.Clear();
+                                                        list.ForEach(x => Ext_Info.Add(x));
+                                                    }
+                                                });
 
             var Checking = false;
             CheckInCommand = new CommandWithResult<bool>(async _ =>
@@ -1149,8 +1236,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                               var parts  = Ext_Info.Select(x => x.PartID).Distinct();
                                               var panels = Ext_Info.SelectMany(x => x.PanelIDs).Distinct();
 
-                                              SV_Changed?.Invoke("LotIDs", lots.Any() ? string.Join(",", Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
-                                              SV_Changed?.Invoke("PartIDs", parts.Any() ? string.Join(",", Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
+                                              SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
                                               SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                           };
 

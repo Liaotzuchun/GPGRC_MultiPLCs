@@ -180,14 +180,14 @@ namespace GPGO_MultiPLCs.Models
     /// <summary>材料生產資訊</summary>
     public class ProductInfo //!這是一個批號的資料
     {
-        public CodeType     CodeType      { get; set; } = CodeType.Panel;
-        public bool         FirstPanel    { get; set; } = false;
-        public string       OrderCode     { get; set; }
-        public string       PartID        { get; set; }
-        public string       LotID         { get; set; }
-        public List<string> PanelIDs      { get; set; } = new();
-        public int          ProcessNumber { get; set; }
-        public string       Side          { get; set; } = "A";
+        public CodeType                               CodeType      { get; set; } = CodeType.Panel;
+        public bool                                   FirstPanel    { get; set; } = false;
+        public string                                 OrderCode     { get; set; }
+        public string                                 PartID        { get; set; }
+        public string                                 LotID         { get; set; }
+        public ObservableConcurrentCollection<string> PanelIDs      { get; set; } = new();
+        public int                                    ProcessNumber { get; set; }
+        public string                                 Side          { get; set; } = "A";
 
         public ProductInfo() {}
 
@@ -195,7 +195,7 @@ namespace GPGO_MultiPLCs.Models
         /// <param name="code">工單條碼</param>
         public ProductInfo(string code)
         {
-            var strs = code.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            var strs = code.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             OrderCode     = strs.Length > 0 ? strs[0] : "";
             ProcessNumber = strs.Length > 1 ? int.TryParse(strs[1], out var num) ? num : 0 : 0;
@@ -255,22 +255,22 @@ namespace GPGO_MultiPLCs.Models
 
             return new Dictionary<string, object>
                    {
-                       {type.GetProperty(nameof(AddedTime)).GetName(lng), AddedTime},
-                       {type.GetProperty(nameof(IsFinished)).GetName(lng), IsFinished},
-                       {type.GetProperty(nameof(StationNumber)).GetName(lng), StationNumber},
+                       { type.GetProperty(nameof(AddedTime)).GetName(lng), AddedTime },
+                       { type.GetProperty(nameof(IsFinished)).GetName(lng), IsFinished },
+                       { type.GetProperty(nameof(StationNumber)).GetName(lng), StationNumber },
                        //{type.GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
                        //{type.GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
-                       {type.GetProperty(nameof(PartID)).GetName(lng), PartID},
-                       {type.GetProperty(nameof(LotID)).GetName(lng), LotID},
-                       {type.GetProperty(nameof(OperatorID)).GetName(lng), OperatorID},
+                       { type.GetProperty(nameof(PartID)).GetName(lng), PartID },
+                       { type.GetProperty(nameof(LotID)).GetName(lng), LotID },
+                       { type.GetProperty(nameof(OperatorID)).GetName(lng), OperatorID },
                        //{type.GetProperty(nameof(RackID)).GetName(lng), RackID},
-                       {type.GetProperty(nameof(Quantity)).GetName(lng), Quantity},
+                       { type.GetProperty(nameof(Quantity)).GetName(lng), Quantity },
                        //{type.GetProperty(nameof(Side)).GetName(lng), Side},
-                       {type.GetProperty(nameof(StartTime)).GetName(lng), StartTime},
-                       {type.GetProperty(nameof(EndTime)).GetName(lng), EndTime},
-                       {type.GetProperty(nameof(RecordTemperatures)).GetName(lng), "@"},
-                       {type.GetProperty(nameof(RecipeName)).GetName(lng), RecipeName},
-                       {type.GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.None)}
+                       { type.GetProperty(nameof(StartTime)).GetName(lng), StartTime },
+                       { type.GetProperty(nameof(EndTime)).GetName(lng), EndTime },
+                       { type.GetProperty(nameof(RecordTemperatures)).GetName(lng), "@" },
+                       { type.GetProperty(nameof(RecipeName)).GetName(lng), RecipeName },
+                       { type.GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.None) }
                    };
         }
 

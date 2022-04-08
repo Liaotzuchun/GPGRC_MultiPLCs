@@ -2,13 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
              d:DesignHeight="800"
              d:DesignWidth="900"
@@ -69,7 +69,8 @@
                 </Border>
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
-                         BorderThickness="1,1,1,1" />
+                         BorderThickness="1,1,1,1"
+                         Text="{Binding InputOperatorID, Mode=TwoWay}" />
                 <Border Grid.Row="1"
                         Grid.Column="0"
                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -115,7 +116,8 @@
                 </Border>
                 <TextBox Grid.Row="2"
                          Grid.Column="1"
-                         BorderThickness="1,0,1,1" />
+                         BorderThickness="1,0,1,1"
+                         Text="{Binding InputPartID, Mode=TwoWay}" />
                 <Border Grid.Row="3"
                         Grid.Column="0"
                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -127,7 +129,8 @@
                 </Border>
                 <TextBox Grid.Row="3"
                          Grid.Column="1"
-                         BorderThickness="1,0,1,1" />
+                         BorderThickness="1,0,1,1"
+                         Text="{Binding InputLotID, Mode=TwoWay}" />
                 <Border Grid.Row="4"
                         Grid.Column="0"
                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -143,7 +146,8 @@
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,0,1,1">
                     <views:SpinControl Margin="8,0"
-                                       VerticalAlignment="Center">
+                                       VerticalAlignment="Center"
+                                       Value="{Binding InputQuantity, Mode=TwoWay}">
                         <views:SpinControl.Minimum>
                             <system:Double>0</system:Double>
                         </views:SpinControl.Minimum>
@@ -151,17 +155,26 @@
                             <system:Double>1</system:Double>
                         </views:SpinControl.SmallChange>
                         <views:SpinControl.Maximum>
-                            <system:Double>10</system:Double>
+                            <system:Double>99</system:Double>
                         </views:SpinControl.Maximum>
                         <views:NumericTextBox Background="Transparent"
                                               BorderThickness="0"
-                                              IntOnly="True" />
+                                              IntOnly="True"
+                                              Max="99"
+                                              Min="0"
+                                              Text="{Binding InputQuantity, Mode=TwoWay}" />
                     </views:SpinControl>
                 </Border>
                 <Button Grid.Row="5"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Content="{DynamicResource 新增}" />
+                        Content="{DynamicResource 新增}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding AddLotCommand, Mode=OneTime}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="0"
@@ -177,7 +190,8 @@
                     <Run Text="" />
                 </TextBlock>
             </GroupBox.Header>
-            <DataGrid AlternationCount="2147483647"
+            <DataGrid x:Name="DataGrid"
+                      AlternationCount="2147483647"
                       AutoGenerateColumns="False"
                       BorderThickness="1,1,1,1"
                       DockPanel.Dock="Top"
@@ -187,7 +201,99 @@
                       ItemsSource="{Binding Ext_Info, Mode=OneWay}"
                       RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                       VerticalScrollBarVisibility="Auto">
+                <DataGrid.Resources>
+                    <Style x:Key="DataGridCellStyle2"
+                           TargetType="{x:Type DataGridCell}">
+                        <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                        <Setter Property="MinHeight" Value="24" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource GlyphBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource DisabledBorderBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style x:Key="TextButton2"
+                           TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="FontFamily" Value="Segoe UI Semibold" />
+                        <Setter Property="Foreground" Value="{DynamicResource BaseForeground}" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="1" />
+                        <Setter Property="MinHeight" Value="1" />
+                        <Setter Property="MinWidth" Value="1" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="Border"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="0">
+                                        <ContentPresenter Margin="1"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          RecognizesAccessKey="True" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="80"
+                                            CellStyle="{StaticResource DataGridCellStyle2}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProductInfo">
+                                <Button Content="{DynamicResource 刪除}"
+                                        Style="{StaticResource TextButton2}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding DataContext.DeleteLotCommand, ElementName=DataGrid, Mode=OneTime}"
+                                                                   CommandParameter="{Binding SelectedItem, ElementName=DataGrid, Mode=OneWay}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 料號}" />
@@ -220,26 +326,14 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn Width="Auto"
+                                            MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 數量}" />
                         </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellStyle>
-                            <Style TargetType="{x:Type DataGridCell}">
-                                <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                            <ContentPresenter />
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </DataGridTemplateColumn.CellStyle>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProductInfo">
-                                <TextBlock Margin="4"
-                                           HorizontalAlignment="Center"
+                                <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{Binding PanelIDs.Count, Mode=OneWay}"
                                            TextTrimming="CharacterEllipsis" />
@@ -286,8 +380,8 @@
                 </Border>
                 <Border Grid.Row="0"
                         Grid.Column="1"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,1,1,1">
+                        BorderThickness="0,1,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{Binding StepCounts, Mode=OneWay}" />
@@ -295,16 +389,16 @@
                 <Border Grid.Row="0"
                         Grid.Column="2"
                         Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,1,1,1">
+                        BorderThickness="0,1,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{DynamicResource 降溫溫度}" />
                 </Border>
                 <Border Grid.Row="0"
                         Grid.Column="3"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,1,1,1">
+                        BorderThickness="0,1,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
@@ -312,16 +406,16 @@
                 <Border Grid.Row="0"
                         Grid.Column="4"
                         Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,1,1,1">
+                        BorderThickness="0,1,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{DynamicResource 降溫時間}" />
                 </Border>
                 <Border Grid.Row="0"
                         Grid.Column="5"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,1,1,1">
+                        BorderThickness="0,1,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center">
                         <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
@@ -331,13 +425,13 @@
                 <Border Grid.Row="1"
                         Grid.Column="0"
                         Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="1,0,1,1" />
+                        BorderThickness="1,0,1,1"
+                        Style="{StaticResource ValueBorder}" />
                 <Border Grid.Row="1"
                         Grid.Column="1"
                         Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,0,1,1">
+                        BorderThickness="0,0,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{DynamicResource 目標溫度}" />
@@ -345,8 +439,8 @@
                 <Border Grid.Row="1"
                         Grid.Column="2"
                         Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,0,1,1">
+                        BorderThickness="0,0,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{DynamicResource 升溫時間}" />
@@ -354,8 +448,8 @@
                 <Border Grid.Row="1"
                         Grid.Column="3"
                         Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,0,1,1">
+                        BorderThickness="0,0,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{DynamicResource 升溫警報}" />
@@ -363,8 +457,8 @@
                 <Border Grid.Row="1"
                         Grid.Column="4"
                         Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,0,1,1">
+                        BorderThickness="0,0,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{DynamicResource 恆溫時間}" />
@@ -372,8 +466,8 @@
                 <Border Grid.Row="1"
                         Grid.Column="5"
                         Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}"
-                        BorderThickness="0,0,1,1">
+                        BorderThickness="0,0,1,1"
+                        Style="{StaticResource ValueBorder}">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{DynamicResource 恆溫警報}" />
