@@ -1208,10 +1208,10 @@ namespace GPGO_MultiPLCs.Models
         }
 
         /// <summary>
-        /// 備用警報
+        /// 溫控器通訊異常
         /// </summary>
         [PLCBitData(DataType.D, 12000, 11, LogType.Alarm)]
-        public bool SpareAlarm
+        public bool ThermostatCommunicationError
         {
             get => Get<bool>();
             set => Set(value);
@@ -1497,11 +1497,8 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
-        /// <summary>
-        /// 溫控器通訊異常
-        /// </summary>
         [PLCBitData(DataType.D, 12002, 8, LogType.Alarm)]
-        public bool ThermostatCommunicationError
+        public bool SpareAlarm
         {
             get => Get<bool>();
             set => Set(value);
