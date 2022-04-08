@@ -20,8 +20,6 @@ namespace GPGO_MultiPLCs.Views
         public MainWindow()
         {
             InitializeComponent();
-
-            Title = $"群翊工業 {Assembly.GetExecutingAssembly().GetName().Version}";
         }
     }
 }

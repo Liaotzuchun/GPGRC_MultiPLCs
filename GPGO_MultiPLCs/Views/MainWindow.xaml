@@ -25,7 +25,6 @@
                        FontWeight="Bold"
                        IsHitTestVisible="False">
                 <Run Text="{DynamicResource 群翊工業}" />
-                <Run Text="{DynamicResource 曝光機}" /><Run Text="{DynamicResource 視覺系統}" />
                 <Run Text="{Binding Version, Mode=OneTime}" />
             </TextBlock>
             <StackPanel HorizontalAlignment="Right"
