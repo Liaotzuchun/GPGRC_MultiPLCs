@@ -147,21 +147,17 @@
                         BorderThickness="1,0,1,1">
                     <views:SpinControl Margin="8,0"
                                        VerticalAlignment="Center"
+                                       Maximum="{Binding InputQuantityMax, Mode=OneTime}"
+                                       Minimum="{Binding InputQuantityMin, Mode=OneTime}"
                                        Value="{Binding InputQuantity, Mode=TwoWay}">
-                        <views:SpinControl.Minimum>
-                            <system:Double>0</system:Double>
-                        </views:SpinControl.Minimum>
                         <views:SpinControl.SmallChange>
                             <system:Double>1</system:Double>
                         </views:SpinControl.SmallChange>
-                        <views:SpinControl.Maximum>
-                            <system:Double>99</system:Double>
-                        </views:SpinControl.Maximum>
                         <views:NumericTextBox Background="Transparent"
                                               BorderThickness="0"
                                               IntOnly="True"
-                                              Max="99"
-                                              Min="0"
+                                              Max="{Binding InputQuantityMax, Mode=OneTime}"
+                                              Min="{Binding InputQuantityMin, Mode=OneTime}"
                                               Text="{Binding InputQuantity, Mode=TwoWay}" />
                     </views:SpinControl>
                 </Border>
@@ -187,7 +183,8 @@
                            FontWeight="Bold"
                            Foreground="{StaticResource GlyphBrush}">
                     <Run Text="{DynamicResource 總數量}" />
-                    <Run Text="" />
+                    <Run Text=":" />
+                    <Run Text="{Binding Quantity, Mode=OneWay}" />
                 </TextBlock>
             </GroupBox.Header>
             <DataGrid x:Name="DataGrid"

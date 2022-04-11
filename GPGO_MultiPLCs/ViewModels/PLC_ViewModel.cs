@@ -45,6 +45,9 @@ namespace GPGO_MultiPLCs.ViewModels
         private readonly TaskFactory                OneScheduler = new(new StaTaskScheduler(1));
         private          TaskCompletionSource<bool> TCS;
 
+        public int InputQuantityMin => 0;
+        public int InputQuantityMax => 99;
+
         /// <summary>控制紀錄任務結束</summary>
         public CancellationTokenSource CTS;
 
@@ -201,7 +204,19 @@ namespace GPGO_MultiPLCs.ViewModels
         public int InputQuantity
         {
             get => Get<int>();
-            set => Set(value);
+            set
+            {
+                if (value < InputQuantityMin)
+                {
+                    value = InputQuantityMin;
+                }
+                else if (value > InputQuantityMax)
+                {
+                    value = InputQuantityMax;
+                }
+
+                Set(value);
+            }
         }
 
         private bool RecipeCompare(PLC_Recipe recipe) =>
@@ -744,6 +759,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
             AddLotCommand = new RelayCommand(_ =>
                                              {
+                                                 if (InputQuantity <= 0 || string.IsNullOrEmpty(InputPartID) || string.IsNullOrEmpty(InputLotID)) return;
+
                                                  OvenInfo.OperatorID = InputOperatorID;
 
                                                  if (Ext_Info.FirstOrDefault(x => x.PartID == InputPartID && x.LotID == InputLotID) is {} exinfo)
