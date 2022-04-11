@@ -31,816 +31,879 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid TextElement.FontWeight="Bold">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="4" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <GroupBox Margin="0,0,2,2"
-                  FontSize="16"
-                  FontWeight="Bold"
-                  Header="{DynamicResource 投產}">
-            <Grid TextElement.FontSize="20"
-                  TextElement.FontWeight="Bold">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 操作員}" />
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <views:UniformStackPanel Orientation="Vertical">
+                <Border Height="24"
+                        Background="{StaticResource OKBrush}">
+                    <Border Background="#99000000"
+                            Visibility="{Binding GreenLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                 </Border>
-                <TextBox Grid.Row="0"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,1"
-                         Text="{Binding InputOperatorID, Mode=TwoWay}" />
-                <Border Grid.Row="1"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,0,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 配方}" />
+                <Border Height="24"
+                        Background="Gold">
+                    <Border Background="#99000000"
+                            Visibility="{Binding YellowLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                 </Border>
-                <ComboBox Grid.Row="1"
-                          Grid.Column="1"
-                          BorderThickness="1,0,1,1"
-                          FontSize="16"
-                          GotKeyboardFocus="CB_GotKeyboardFocus"
-                          IsEditable="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                          IsHitTestVisible="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                          IsTextSearchEnabled="False"
-                          ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
-                          LostKeyboardFocus="CB_LostKeyboardFocus"
-                          SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
-                          Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                    <i:Interaction.Triggers>
-                        <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
-                        <i:EventTrigger EventName="KeyUp">
-                            <gpmodels:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Mode=OneWay}"
-                                       TextTrimming="CharacterEllipsis" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <Border Grid.Row="2"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,0,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 料號}" />
+                <Border Height="24"
+                        Background="{StaticResource ErrorBrush}">
+                    <Border Background="#99000000"
+                            Visibility="{Binding RedLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                 </Border>
-                <TextBox Grid.Row="2"
-                         Grid.Column="1"
-                         BorderThickness="1,0,1,1"
-                         Text="{Binding InputPartID, Mode=TwoWay}" />
-                <Border Grid.Row="3"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,0,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 批號}" />
-                </Border>
-                <TextBox Grid.Row="3"
-                         Grid.Column="1"
-                         BorderThickness="1,0,1,1"
-                         Text="{Binding InputLotID, Mode=TwoWay}" />
-                <Border Grid.Row="4"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,0,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 數量}" />
-                </Border>
-                <Border Grid.Row="4"
-                        Grid.Column="1"
-                        Background="{StaticResource LightColorBrush}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,0,1,1">
-                    <views:SpinControl Margin="8,0"
-                                       VerticalAlignment="Center"
-                                       Maximum="{Binding InputQuantityMax, Mode=OneTime}"
-                                       Minimum="{Binding InputQuantityMin, Mode=OneTime}"
-                                       Value="{Binding InputQuantity, Mode=TwoWay}">
-                        <views:SpinControl.SmallChange>
-                            <system:Double>1</system:Double>
-                        </views:SpinControl.SmallChange>
-                        <views:NumericTextBox Background="Transparent"
-                                              BorderThickness="0"
-                                              IntOnly="True"
-                                              Max="{Binding InputQuantityMax, Mode=OneTime}"
-                                              Min="{Binding InputQuantityMin, Mode=OneTime}"
-                                              Text="{Binding InputQuantity, Mode=TwoWay}" />
-                    </views:SpinControl>
-                </Border>
-                <Button Grid.Row="5"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Content="{DynamicResource 新增}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding AddLotCommand, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Row="0"
-                  Grid.Column="1"
-                  Margin="2,0,0,2">
-            <GroupBox.Header>
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Foreground="{StaticResource GlyphBrush}">
-                    <Run Text="{DynamicResource 總數量}" />
-                    <Run Text=":" />
-                    <Run Text="{Binding Quantity, Mode=OneWay}" />
-                </TextBlock>
-            </GroupBox.Header>
-            <DataGrid x:Name="DataGrid"
-                      AlternationCount="2147483647"
-                      AutoGenerateColumns="False"
-                      BorderThickness="1,1,1,1"
-                      DockPanel.Dock="Top"
-                      FontSize="14"
+            </views:UniformStackPanel>
+            <Border x:Name="StatusBorder"
+                    Grid.Row="1">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                        <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                        <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Viewbox Margin="6"
+                         VerticalAlignment="Center">
+                    <TextBlock Foreground="{StaticResource BaseForeground}"
+                               Text="{Binding ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                </Viewbox>
+            </Border>
+            <Border Grid.Row="1"
+                    Background="{StaticResource WorkingBrush}"
+                    Visibility="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolVis}}">
+                <Viewbox Margin="6"
+                         VerticalAlignment="Center">
+                    <TextBlock Foreground="{StaticResource ErrorBrush}"
+                               Text="{Binding ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                </Viewbox>
+            </Border>
+            <Border Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Background="{StaticResource DisabledBackgroundBrush}"
+                    Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                <Viewbox Margin="6"
+                         VerticalAlignment="Center">
+                    <TextBlock Foreground="{StaticResource DisabledForegroundBrush}"
+                               Text="{DynamicResource 離線}" />
+                </Viewbox>
+            </Border>
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <GroupBox Margin="0,0,2,2"
+                      FontSize="16"
                       FontWeight="Bold"
-                      HorizontalScrollBarVisibility="Disabled"
-                      ItemsSource="{Binding Ext_Info, Mode=OneWay}"
-                      RowHeaderTemplate="{StaticResource ShowRowNumbers}"
-                      VerticalScrollBarVisibility="Auto">
-                <DataGrid.Resources>
-                    <Style x:Key="DataGridCellStyle2"
-                           TargetType="{x:Type DataGridCell}">
-                        <Setter Property="Background" Value="{DynamicResource LightBrush}" />
-                        <Setter Property="BorderBrush" Value="{x:Null}" />
-                        <Setter Property="BorderThickness" Value="0" />
-                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                        <Setter Property="MinHeight" Value="24" />
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}">
-                                        <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource GlyphBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="{DynamicResource DisabledBorderBrush}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <Style x:Key="TextButton2"
-                           TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="BorderBrush" Value="{x:Null}" />
-                        <Setter Property="BorderThickness" Value="0" />
-                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                        <Setter Property="FontFamily" Value="Segoe UI Semibold" />
-                        <Setter Property="Foreground" Value="{DynamicResource BaseForeground}" />
-                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        <Setter Property="Margin" Value="1" />
-                        <Setter Property="MinHeight" Value="1" />
-                        <Setter Property="MinWidth" Value="1" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="Border"
-                                            Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            CornerRadius="0">
-                                        <ContentPresenter Margin="1"
-                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                          RecognizesAccessKey="True" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                    </Style>
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="80"
-                                            CellStyle="{StaticResource DataGridCellStyle2}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:ProductInfo">
-                                <Button Content="{DynamicResource 刪除}"
-                                        Style="{StaticResource TextButton2}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding DataContext.DeleteLotCommand, ElementName=DataGrid, Mode=OneTime}"
-                                                                   CommandParameter="{Binding SelectedItem, ElementName=DataGrid, Mode=OneWay}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 料號}" />
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:ProductInfo">
-                                <Viewbox Margin="4"
-                                         StretchDirection="DownOnly">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding PartID, Mode=OneWay}"
-                                               TextTrimming="CharacterEllipsis" />
-                                </Viewbox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 批號}" />
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:ProductInfo">
-                                <Viewbox Margin="4"
-                                         StretchDirection="DownOnly">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding LotID, Mode=OneWay}"
-                                               TextTrimming="CharacterEllipsis" />
-                                </Viewbox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
-                                            MinWidth="60">
-                        <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 數量}" />
-                        </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:ProductInfo">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{Binding PanelIDs.Count, Mode=OneWay}"
+                      Header="{DynamicResource 投產}">
+                <Grid TextElement.FontSize="20"
+                      TextElement.FontWeight="Bold">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,1,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 操作員}" />
+                    </Border>
+                    <TextBox Grid.Row="0"
+                             Grid.Column="1"
+                             BorderThickness="1,1,1,1"
+                             Text="{Binding InputOperatorID, Mode=TwoWay}" />
+                    <Border Grid.Row="1"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 配方}" />
+                    </Border>
+                    <ComboBox Grid.Row="1"
+                              Grid.Column="1"
+                              BorderThickness="1,0,1,1"
+                              FontSize="16"
+                              GotKeyboardFocus="CB_GotKeyboardFocus"
+                              IsEditable="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                              IsHitTestVisible="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                              IsTextSearchEnabled="False"
+                              ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
+                              LostKeyboardFocus="CB_LostKeyboardFocus"
+                              SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
+                              Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
+                            <i:EventTrigger EventName="KeyUp">
+                                <gpmodels:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Mode=OneWay}"
                                            TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
-        <GroupBox Grid.Row="1"
-                  Grid.Column="0"
-                  Grid.ColumnSpan="2"
-                  Margin="0,2,0,0"
-                  FontSize="16"
-                  FontWeight="Bold"
-                  Header="{DynamicResource 配方參數}">
-            <Grid Background="{StaticResource WindowBackgroundBrush6}"
-                  ClipToBounds="True">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        Style="{StaticResource ValueBorder}">
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Border Grid.Row="2"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 料號}" />
+                    </Border>
+                    <TextBox Grid.Row="2"
+                             Grid.Column="1"
+                             BorderThickness="1,0,1,1"
+                             Text="{Binding InputPartID, Mode=TwoWay}" />
+                    <Border Grid.Row="3"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 批號}" />
+                    </Border>
+                    <TextBox Grid.Row="3"
+                             Grid.Column="1"
+                             BorderThickness="1,0,1,1"
+                             Text="{Binding InputLotID, Mode=TwoWay}" />
+                    <Border Grid.Row="4"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 數量}" />
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="1"
+                            Background="{StaticResource LightColorBrush}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,1,1">
+                        <views:SpinControl Margin="8,0"
+                                           VerticalAlignment="Center"
+                                           Maximum="{Binding InputQuantityMax, Mode=OneTime}"
+                                           Minimum="{Binding InputQuantityMin, Mode=OneTime}"
+                                           Value="{Binding InputQuantity, Mode=TwoWay}">
+                            <views:SpinControl.SmallChange>
+                                <system:Double>1</system:Double>
+                            </views:SpinControl.SmallChange>
+                            <views:NumericTextBox Background="Transparent"
+                                                  BorderThickness="0"
+                                                  IntOnly="True"
+                                                  Max="{Binding InputQuantityMax, Mode=OneTime}"
+                                                  Min="{Binding InputQuantityMin, Mode=OneTime}"
+                                                  Text="{Binding InputQuantity, Mode=TwoWay}" />
+                        </views:SpinControl>
+                    </Border>
+                    <Button Grid.Row="5"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Content="{DynamicResource 新增}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding AddLotCommand, Mode=OneTime}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="0"
+                      Grid.Column="1"
+                      Margin="2,0,0,2">
+                <GroupBox.Header>
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{DynamicResource 使用段數}" />
-                </Border>
-                <Border Grid.Row="0"
-                        Grid.Column="1"
-                        BorderThickness="0,1,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding StepCounts, Mode=OneWay}" />
-                </Border>
-                <Border Grid.Row="0"
-                        Grid.Column="2"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderThickness="0,1,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 降溫溫度}" />
-                </Border>
-                <Border Grid.Row="0"
-                        Grid.Column="3"
-                        BorderThickness="0,1,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                </Border>
-                <Border Grid.Row="0"
-                        Grid.Column="4"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderThickness="0,1,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 降溫時間}" />
-                </Border>
-                <Border Grid.Row="0"
-                        Grid.Column="5"
-                        BorderThickness="0,1,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource GlyphBrush}">
+                        <Run Text="{DynamicResource 總數量}" />
+                        <Run Text=":" />
+                        <Run Text="{Binding Quantity, Mode=OneWay}" />
                     </TextBlock>
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderThickness="1,0,1,1"
-                        Style="{StaticResource ValueBorder}" />
-                <Border Grid.Row="1"
-                        Grid.Column="1"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 目標溫度}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="2"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 升溫時間}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="3"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 升溫警報}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="4"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 恆溫時間}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="5"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 恆溫警報}" />
-                </Border>
-                <Border Grid.Row="2"
-                        Grid.Column="0"
-                        BorderThickness="1,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="1" />
-                </Border>
-                <Border x:Name="Border2"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        BorderThickness="1,0,1,1"
-                        IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="2" />
-                </Border>
-                <Border x:Name="Border3"
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        BorderThickness="1,0,1,1"
-                        IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="3" />
-                </Border>
-                <Border x:Name="Border4"
-                        Grid.Row="5"
-                        Grid.Column="0"
-                        BorderThickness="1,0,1,1"
-                        IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="4" />
-                </Border>
-                <Border x:Name="Border5"
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        BorderThickness="1,0,1,1"
-                        IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="5" />
-                </Border>
-                <Border x:Name="Border6"
-                        Grid.Row="7"
-                        Grid.Column="0"
-                        BorderThickness="1,0,1,1"
-                        IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="6" />
-                </Border>
-                <Border Grid.Row="2"
-                        Grid.Column="1"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding TemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                </Border>
-                <Border Grid.Row="3"
-                        Grid.Column="1"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding TemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                </Border>
-                <Border Grid.Row="4"
-                        Grid.Column="1"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding TemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                </Border>
-                <Border Grid.Row="5"
-                        Grid.Column="1"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding TemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                </Border>
-                <Border Grid.Row="6"
-                        Grid.Column="1"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding TemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                </Border>
-                <Border Grid.Row="7"
-                        Grid.Column="1"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding TemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
-                </Border>
-                <Border Grid.Row="2"
-                        Grid.Column="2"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="3"
-                        Grid.Column="2"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="4"
-                        Grid.Column="2"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="5"
-                        Grid.Column="2"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="6"
-                        Grid.Column="2"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="7"
-                        Grid.Column="2"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="2"
-                        Grid.Column="3"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="3"
-                        Grid.Column="3"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="4"
-                        Grid.Column="3"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="5"
-                        Grid.Column="3"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="6"
-                        Grid.Column="3"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="7"
-                        Grid.Column="3"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding RampAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="2"
-                        Grid.Column="4"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="3"
-                        Grid.Column="4"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="4"
-                        Grid.Column="4"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="5"
-                        Grid.Column="4"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="6"
-                        Grid.Column="4"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="7"
-                        Grid.Column="4"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="2"
-                        Grid.Column="5"
-                        BorderThickness="0,0,1,1"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="3"
-                        Grid.Column="5"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="4"
-                        Grid.Column="5"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="5"
-                        Grid.Column="5"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="6"
-                        Grid.Column="5"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-                <Border Grid.Row="7"
-                        Grid.Column="5"
-                        BorderThickness="0,0,1,1"
-                        IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
-                        Style="{StaticResource ValueBorder}">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center">
-                        <Run Text="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
-                </Border>
-            </Grid>
-        </GroupBox>
+                </GroupBox.Header>
+                <DataGrid x:Name="DataGrid"
+                          AlternationCount="2147483647"
+                          AutoGenerateColumns="False"
+                          BorderThickness="1,1,1,1"
+                          DockPanel.Dock="Top"
+                          FontSize="14"
+                          FontWeight="Bold"
+                          HorizontalScrollBarVisibility="Disabled"
+                          ItemsSource="{Binding Ext_Info, Mode=OneWay}"
+                          RowHeaderTemplate="{StaticResource ShowRowNumbers}"
+                          VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Resources>
+                        <Style x:Key="DataGridCellStyle2"
+                               TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                            <Setter Property="BorderBrush" Value="{x:Null}" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                            <Setter Property="MinHeight" Value="24" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource GlyphBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource DisabledBorderBrush}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <Style x:Key="TextButton2"
+                               TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="{x:Null}" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <Setter Property="FontFamily" Value="Segoe UI Semibold" />
+                            <Setter Property="Foreground" Value="{DynamicResource BaseForeground}" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="1" />
+                            <Setter Property="MinHeight" Value="1" />
+                            <Setter Property="MinWidth" Value="1" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="Border"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="0">
+                                            <ContentPresenter Margin="1"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              RecognizesAccessKey="True" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="80"
+                                                CellStyle="{StaticResource DataGridCellStyle2}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:ProductInfo">
+                                    <Button Content="{DynamicResource 刪除}"
+                                            Style="{StaticResource TextButton2}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.DeleteLotCommand, ElementName=DataGrid, Mode=OneTime}"
+                                                                       CommandParameter="{Binding SelectedItem, ElementName=DataGrid, Mode=OneWay}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 料號}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:ProductInfo">
+                                    <Viewbox Margin="4"
+                                             StretchDirection="DownOnly">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding PartID, Mode=OneWay}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </Viewbox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 批號}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:ProductInfo">
+                                    <Viewbox Margin="4"
+                                             StretchDirection="DownOnly">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding LotID, Mode=OneWay}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </Viewbox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="Auto"
+                                                MinWidth="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 數量}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:ProductInfo">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding PanelIDs.Count, Mode=OneWay}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <GroupBox Grid.Row="1"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      Margin="0,2,0,0"
+                      FontSize="16"
+                      FontWeight="Bold"
+                      Header="{DynamicResource 配方參數}">
+                <Grid Background="{StaticResource WindowBackgroundBrush6}"
+                      ClipToBounds="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 使用段數}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="1"
+                            BorderThickness="0,1,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding StepCounts, Mode=OneWay}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,1,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 降溫溫度}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="3"
+                            BorderThickness="0,1,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="4"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,1,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 降溫時間}" />
+                    </Border>
+                    <Border Grid.Row="0"
+                            Grid.Column="5"
+                            BorderThickness="0,1,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="1,0,1,1"
+                            Style="{StaticResource ValueBorder}" />
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 目標溫度}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="2"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 升溫時間}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="3"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 升溫警報}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="4"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 恆溫時間}" />
+                    </Border>
+                    <Border Grid.Row="1"
+                            Grid.Column="5"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 恆溫警報}" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="0"
+                            BorderThickness="1,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="1" />
+                    </Border>
+                    <Border x:Name="Border2"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            BorderThickness="1,0,1,1"
+                            IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="2" />
+                    </Border>
+                    <Border x:Name="Border3"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            BorderThickness="1,0,1,1"
+                            IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="3" />
+                    </Border>
+                    <Border x:Name="Border4"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            BorderThickness="1,0,1,1"
+                            IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="4" />
+                    </Border>
+                    <Border x:Name="Border5"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            BorderThickness="1,0,1,1"
+                            IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="5" />
+                    </Border>
+                    <Border x:Name="Border6"
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            BorderThickness="1,0,1,1"
+                            IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="6" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="1"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding TemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="1"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding TemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="1"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding TemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="1"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding TemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="1"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding TemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="1"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding TemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="2"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="2"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="2"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="2"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="2"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="2"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="3"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="3"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="3"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="3"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="3"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="3"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding RampAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="4"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="4"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="4"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="4"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="4"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="4"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="5"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="5"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="5"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="5"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="5"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="5"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{DynamicResource 分}" />
+                        </TextBlock>
+                    </Border>
+                </Grid>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>

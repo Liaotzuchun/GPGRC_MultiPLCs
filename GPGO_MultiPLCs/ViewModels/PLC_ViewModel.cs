@@ -357,18 +357,20 @@ namespace GPGO_MultiPLCs.ViewModels
                                             });
         }
 
-        /// <summary>重設CancellationTokenSource狀態</summary>
-        private void ResetStopTokenSource()
+        /// <summary>
+        /// 重設CancellationTokenSource狀態
+        /// </summary>
+        /// <param name="act">取消動作時執行的委派</param>
+        private void ResetStopTokenSource(Action act = null)
         {
             CTS?.Dispose();
 
             CTS = new CancellationTokenSource();
 
-            //!可註冊取消時須執行的動作
-            //CTS.Token.Register(() =>
-            //{
-            //
-            //});
+            if (act != null)
+            {
+                CTS.Token.Register(act);
+            }
         }
 
         public async Task<SetRecipeResult> SetRecipe(PLC_Recipe recipe)

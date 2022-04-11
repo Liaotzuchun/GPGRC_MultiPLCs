@@ -40,14 +40,14 @@ namespace GPGO_MultiPLCs.ViewModels
         private          OxyColor                         chartbg     = OxyColor.FromRgb(231, 246, 226);
         private          OxyColor                         bgcolor     = OxyColor.FromRgb(215, 230, 207);
         private          OxyColor                         bordercolor = OxyColor.FromRgb(174, 187, 168);
+        private          OxyColor                         fontcolor   = OxyColor.FromRgb(50,  70,  60);
+        private readonly LinearAxis                       linearAxis;
         private readonly CategoryAxis                     categoryAxis1;
         private readonly CategoryAxis                     categoryAxis2;
-        private          OxyColor                         fontcolor = OxyColor.FromRgb(50, 70, 60);
 
         public Language    Language = Language.TW;
         public LogEvent    SearchEvent;
         public ProcessInfo SearchResult;
-
 
         /// <summary>依據工單或料號搜尋</summary>
         public RelayCommand FindCommand { get; }
@@ -157,7 +157,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public async void AddToDB(int index, IEnumerable<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
         {
             var dt = dateTime == default ? DateTime.Now : dateTime;
-            
+
             foreach (var info in infos)
             {
                 info.StationNumber = index + 1;
@@ -244,7 +244,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                              index =>
                                                              {
                                                                  var fi    = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff(}{index + 1}).xlsm");
-                                                                 var datas = ViewResults.GetRange(500 * index, index == x - 1 ? y : 500);
+                                                                 var datas = ViewResults.GetRange(500 * index, index == x                    - 1 ? y : 500);
                                                                  var n     = datas.Count;
                                                                  var xlwb  = new ExcelPackage();
                                                                  xlwb.Workbook.CreateVBAProject();
@@ -294,7 +294,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      }
 
                                                                      var sheet_name = $"Records {i + 1}";
-                                                                     wsht.Cells[i + 4, values.Length - 2].Formula = $"HYPERLINK(\"#'{sheet_name}'!$A$4\",\"@\")";
+                                                                     wsht.Cells[i                  + 4, values.Length - 2].Formula = $"HYPERLINK(\"#'{sheet_name}'!$A$4\",\"@\")";
                                                                      wsht.Cells[i + 4, values.Length - 2].Style.Font.Color.SetColor(Color.Blue);
                                                                      wsht.Cells[i + 4, values.Length - 2].Style.Font.UnderLine = false;
 
@@ -589,6 +589,27 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     fontcolor = OxyColor.FromRgb(bf.R, bf.G, bf.B);
                 }
+
+                linearAxis.TitleColor            = fontcolor;
+                linearAxis.AxislineColor         = bordercolor;
+                linearAxis.MajorGridlineColor    = bordercolor;
+                linearAxis.MinorGridlineColor    = bordercolor;
+                linearAxis.TicklineColor         = bordercolor;
+                linearAxis.ExtraGridlineColor    = bordercolor;
+                linearAxis.TextColor             = fontcolor;
+                categoryAxis1.TitleColor         = fontcolor;
+                categoryAxis1.MajorGridlineColor = bordercolor;
+                categoryAxis1.MinorGridlineColor = bordercolor;
+                categoryAxis1.TicklineColor      = bordercolor;
+                categoryAxis1.ExtraGridlineColor = bordercolor;
+                categoryAxis1.TextColor          = fontcolor;
+                categoryAxis1.AxislineColor      = bordercolor;
+                ResultView.PlotAreaBackground    = chartbg;
+                ResultView.PlotAreaBorderColor   = bordercolor;
+                ResultView.LegendTitleColor      = fontcolor;
+                ResultView.LegendTextColor       = fontcolor;
+                ResultView.LegendBorder          = bordercolor;
+                ResultView.LegendBackground      = bgcolor;
             }
 
             try
@@ -666,9 +687,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
-                    ResultView.LegendTitle     = Mode >= (int)ChartMode.ByLot ? 
-                                                     ProcessInfoProperties[nameof(ProcessInfo.StationNumber)].GetName(Language) :
-                                                     ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language);
+                    ResultView.LegendTitle = Mode >= (int)ChartMode.ByLot ?
+                                                 ProcessInfoProperties[nameof(ProcessInfo.StationNumber)].GetName(Language) :
+                                                 ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language);
 
                     var color_step_2 = 0.9 / result2.Length;
 
@@ -738,12 +759,12 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 ViewResults = Results.GetRange(min, max - min + 1)
                                      .Where(x => OvenFilter.Check(x.StationNumber) &&
-                                                 RecipeFilter.Check(x.RecipeName) &&
-                                                 OrderFilter.Check(x.OrderCode) &&
-                                                 PartIDFilter.Check(x.PartID) &&
-                                                 LotIDFilter.Check(x.LotID) &&
-                                                 OpFilter.Check(x.OperatorID) &&
-                                                 RackFilter.Check(x.RackID) &&
+                                                 RecipeFilter.Check(x.RecipeName)  &&
+                                                 OrderFilter.Check(x.OrderCode)    &&
+                                                 PartIDFilter.Check(x.PartID)      &&
+                                                 LotIDFilter.Check(x.LotID)        &&
+                                                 OpFilter.Check(x.OperatorID)      &&
+                                                 RackFilter.Check(x.RackID)        &&
                                                  SideFilter.Check(x.Side))
                                      .OrderByDescending(x => x.AddedTime)
                                      .ToList();
@@ -833,31 +854,31 @@ namespace GPGO_MultiPLCs.ViewModels
                                                   }
                                               });
 
-            var linearAxis = new LinearAxis
-                             {
-                                 IsPanEnabled       = false,
-                                 IsZoomEnabled      = false,
-                                 FontSize           = 12,
-                                 TitleColor         = fontcolor,
-                                 TickStyle          = TickStyle.Inside,
-                                 MajorGridlineStyle = LineStyle.Dot,
-                                 //MajorStep = 100,
-                                 MinorGridlineStyle = LineStyle.None,
-                                 MajorTickSize      = 0,
-                                 MinorTickSize      = 0,
-                                 //MinorStep = 10,
-                                 AxislineStyle      = LineStyle.Solid,
-                                 AxislineColor      = bordercolor,
-                                 MajorGridlineColor = bordercolor,
-                                 MinorGridlineColor = bordercolor,
-                                 TicklineColor      = bordercolor,
-                                 ExtraGridlineColor = bordercolor,
-                                 ExtraGridlineStyle = LineStyle.None,
-                                 TextColor          = fontcolor,
-                                 Minimum            = 0,
-                                 MaximumPadding     = 0.15
-                                 //Maximum = 1000
-                             };
+            linearAxis = new LinearAxis
+                         {
+                             IsPanEnabled       = false,
+                             IsZoomEnabled      = false,
+                             FontSize           = 12,
+                             TitleColor         = fontcolor,
+                             TickStyle          = TickStyle.Inside,
+                             MajorGridlineStyle = LineStyle.Dot,
+                             //MajorStep = 100,
+                             MinorGridlineStyle = LineStyle.None,
+                             MajorTickSize      = 0,
+                             MinorTickSize      = 0,
+                             //MinorStep = 10,
+                             AxislineStyle      = LineStyle.Solid,
+                             AxislineColor      = bordercolor,
+                             MajorGridlineColor = bordercolor,
+                             MinorGridlineColor = bordercolor,
+                             TicklineColor      = bordercolor,
+                             ExtraGridlineColor = bordercolor,
+                             ExtraGridlineStyle = LineStyle.None,
+                             TextColor          = fontcolor,
+                             Minimum            = 0,
+                             MaximumPadding     = 0.15
+                             //Maximum = 1000
+                         };
 
             categoryAxis1 = new CategoryAxis
                             {
@@ -896,7 +917,7 @@ namespace GPGO_MultiPLCs.ViewModels
                              DefaultFont             = "Microsoft JhengHei",
                              PlotAreaBackground      = chartbg,
                              PlotAreaBorderColor     = bordercolor,
-                             PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
+                             PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
                              LegendTitle             = ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language),
                              LegendTitleColor        = fontcolor,

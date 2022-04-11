@@ -26,7 +26,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="224" />
                     </Grid.ColumnDefinitions>
-                    <ListBox Margin="0,3,3,0"
+                    <ListBox Margin="0,4,4,0"
                              AlternationCount="2147483647"
                              ItemsSource="{Binding PLC_All_View, Mode=OneWay}"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -71,47 +71,7 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="vm:PLC_ViewModel">
-                                <Grid Margin="1"
-                                      d:DataContext="{d:DesignInstance vm:PLC_ViewModel}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="4" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                                            MaxWidth="70"
-                                            Background="{StaticResource DisabledBackgroundBrush}" />
-                                    <Border x:Name="StatusBorder"
-                                            Grid.Column="0"
-                                            Background="{StaticResource OKBrush}"
-                                            Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolVis}}" />
-                                    <Border Grid.Column="0"
-                                            Background="{StaticResource WorkingBrush}"
-                                            Visibility="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolVis}}" />
-                                    <TextBlock x:Name="TextBlock"
-                                               Grid.Column="0"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize="36"
-                                               Foreground="{StaticResource DisabledForegroundBrush}"
-                                               Text="{Binding (FrameworkElement.TemplatedParent).(ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-                                    <local:OvenEditView Grid.Column="2"
-                                                        DataContext="{Binding}" />
-                                </Grid>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding EquipmentState, Mode=OneWay}"
-                                                 Value="1">
-                                        <Setter TargetName="StatusBorder" Property="Background" Value="{StaticResource PressedBrush}" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ConnectionStatus.CurrentValue, Mode=OneWay}"
-                                                 Value="True">
-                                        <Setter TargetName="TextBlock" Property="Foreground" Value="White" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsExecuting, Mode=OneWay}"
-                                                 Value="True">
-                                        <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource BaseForeground}" />
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
+                                <local:OvenEditView DataContext="{Binding}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -345,7 +305,8 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Button Content="{DynamicResource 返回總覽}"
-                                FontSize="16">
+                                FontSize="20"
+                                FontWeight="Bold">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding BackCommand, Mode=OneTime}"
@@ -402,7 +363,7 @@
                                                         </LinearGradientBrush>
                                                     </Grid.Background>
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="0" />
                                                         <ColumnDefinition />
                                                     </Grid.ColumnDefinitions>
                                                     <Border>
@@ -417,7 +378,6 @@
                                                                     Background="Cyan"
                                                                     Opacity="0" />
                                                             <TextBlock x:Name="TextBlock"
-                                                                       Margin="4,0"
                                                                        HorizontalAlignment="Center"
                                                                        VerticalAlignment="Center"
                                                                        Foreground="{StaticResource BaseForeground}"
