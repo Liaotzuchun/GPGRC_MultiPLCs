@@ -484,8 +484,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 TotalProduction.Add(i, 0);
                 var plc = new PLC_ViewModel(dialog,
                                             Gate,
-                                            //BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(39 + i) }, 0),
-                                            i,
+                                            BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(39 + i) }, 0),
+                                            //i,
                                             "GOL",
                                             (bits_shift: new Dictionary<BitType, int>
                                                          {

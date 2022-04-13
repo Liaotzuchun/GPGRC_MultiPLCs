@@ -4,7 +4,6 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PLCService;
 using MongoDB.Driver;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
