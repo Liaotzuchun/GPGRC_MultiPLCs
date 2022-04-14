@@ -38,9 +38,13 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<User>                                                                                       GetUser;
         public event Func<PLC_Recipe, ValueTask<bool>>                                                                UpsertRecipe;
         public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
+        public event Func<string, ValueTask<ProcessInfo>>                                                             RetrieveLotData;  
 
         public Language Language = Language.TW;
+
         public IGate    Gate { get; }
+
+        public ObservableQueue<LogEvent> Messages { get; } = new();
 
         public RelayCommand WantLoginCommand { get; }
 
@@ -55,11 +59,6 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>檢視詳細資訊的PLC</summary>
         public PLC_ViewModel PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
 
-        /// <summary>產量統計</summary>
-        public ObservableConcurrentDictionary<int, int> TotalProduction { get; }
-
-        public int TotalProductionCount => TotalProduction_View?.Sum(x => x.Value) ?? 0;
-
         public int OvenCount
         {
             get => Get<int>();
@@ -72,8 +71,6 @@ namespace GPGO_MultiPLCs.ViewModels
 
                 Set(value);
                 NotifyPropertyChanged(nameof(PLC_All_View));
-                NotifyPropertyChanged(nameof(TotalProduction_View));
-                NotifyPropertyChanged(nameof(TotalProductionCount));
 
                 Gate.GateStatus.CurrentValue = false; //!重新連線並發送通訊列表
             }
@@ -93,8 +90,6 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
             }
         }
-
-        public IEnumerable<KeyValuePair<int, int>> TotalProduction_View => OvenCount > TotalProduction.Count ? TotalProduction : TotalProduction.Take(OvenCount);
 
         /// <summary>PLC詳細資訊檢視index</summary>
         public int ViewIndex
@@ -324,15 +319,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                Index = int.TryParse(index.ToString(), out var i) ? i : 0;
                                            });
 
-            TotalProduction = new ObservableConcurrentDictionary<int, int>();
-
-            //!當各PLC產量變更時更新總量顯示
-            TotalProduction.CollectionChanged += (_, _) =>
-                                                 {
-                                                     NotifyPropertyChanged(nameof(TotalProduction_View));
-                                                     NotifyPropertyChanged(nameof(TotalProductionCount));
-                                                 };
-
             secsGem = new SECSThread(0);
             secsGem.TerminalMessage += message =>
                                        {
@@ -478,10 +464,33 @@ namespace GPGO_MultiPLCs.ViewModels
                                      Set(true, nameof(SECS_REMOTE));
                                  };
 
+            //!依LotID查詢最近一筆資料
+            secsGem.RetrieveLotData += lotid =>
+                                       {
+                                           var info = RetrieveLotData?.Invoke(lotid).Result;
+
+                                           if (info != null)
+                                           {
+                                               try
+                                               {
+                                                   secsGem?.UpdateDV("RetrieveLotData", JsonConvert.SerializeObject(info));
+                                               }
+                                               catch
+                                               {
+                                                   // ignored
+                                               }
+                                           }
+                                           else
+                                           {
+                                               return HCACKValule.NoObjectExists;
+                                           }
+
+                                           return HCACKValule.Acknowledge;
+                                       };
+
             //!註冊PLC事件需引發的動作
             for (var i = 0; i < count; i++)
             {
-                TotalProduction.Add(i, 0);
                 var plc = new PLC_ViewModel(dialog,
                                             Gate,
                                             BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(39 + i) }, 0),
@@ -559,9 +568,9 @@ namespace GPGO_MultiPLCs.ViewModels
                                                               TimeSpan.FromSeconds(2));
                                              }
 
-                                             if (AddRecordToDB != null && index < TotalProduction.Count)
+                                             if (AddRecordToDB != null)
                                              {
-                                                 TotalProduction[index] = await AddRecordToDB.Invoke((index, products));
+                                                 await AddRecordToDB.Invoke((index, products));
                                              }
                                          };
 

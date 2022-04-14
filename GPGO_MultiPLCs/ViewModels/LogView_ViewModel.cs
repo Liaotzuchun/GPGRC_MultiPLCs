@@ -200,11 +200,11 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             var csv = ViewResults.ToCSV(Language,
-                                        new[]
-                                        {
-                                            typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)), typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)), typeof(LogEvent).GetProperty(nameof(LogEvent.Type)), typeof(LogEvent).GetProperty(nameof(LogEvent.Description2)),
-                                            typeof(LogEvent).GetProperty(nameof(LogEvent.Value))
-                                        });
+                                        typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)),
+                                        typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)),
+                                        typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
+                                        typeof(LogEvent).GetProperty(nameof(LogEvent.Description2)),
+                                        typeof(LogEvent).GetProperty(nameof(LogEvent.Value)));
 
             try
             {

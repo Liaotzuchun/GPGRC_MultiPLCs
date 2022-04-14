@@ -36,12 +36,12 @@ namespace GPGO_MultiPLCs.Models
         public event Func<int, HCACKValule>                                                      Stop;
         public event Func<int, (string LotID, string PartID, IList<string> Panels), HCACKValule> AddLOT;
         public event Func<int, HCACKValule>                                                      CANCEL;
-        public event Func<int, string, ValueTask<object>, HCACKValule>                           GetLOTInfo;
         public event Action<bool>                                                                ONLINE_Changed;
         public event Action<bool>                                                                CommEnable_Changed;
         public event Action<bool>                                                                Communicating_Changed;
         public event Action                                                                      GO_Local;
         public event Action                                                                      GO_Remote;
+        public event Func<string, HCACKValule>                                                   RetrieveLotData;                                                             
 
         public QGWrapper GemCore => secsGem?.AxQGWrapper;
 
@@ -345,7 +345,7 @@ namespace GPGO_MultiPLCs.Models
                                              var i      = indexes[0];
                                              var panels = Branches.SECSMessageObjects.Select(x => x.ObjectData?.ToString() ?? string.Empty).ToList();
 
-                                             return AddLOT?.Invoke(i, (lot, part, panels)) ?? HCACKValule.CantPerform;
+                                             return AddLOT?.Invoke(i, (lot, part, panels)) ?? HCACKValule.ParameterInvalid;
                                          }
 
                                          return HCACKValule.CantPerform;
@@ -362,7 +362,7 @@ namespace GPGO_MultiPLCs.Models
                                          {
                                              var i = indexes[0];
 
-                                             return CANCEL?.Invoke(i) ?? HCACKValule.CantPerform;
+                                             return CANCEL?.Invoke(i) ?? HCACKValule.ParameterInvalid;
                                          }
 
                                          return HCACKValule.CantPerform;
@@ -376,7 +376,7 @@ namespace GPGO_MultiPLCs.Models
 
                                             if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] o && int.TryParse(o[0].ToString(), out var i))
                                             {
-                                                return SetRecipe?.Invoke(i, r.RemoteCommandParameter[1].CPVAL.ObjectData.ToString()) ?? HCACKValule.CantPerform;
+                                                return SetRecipe?.Invoke(i, r.RemoteCommandParameter[1].CPVAL.ObjectData.ToString()) ?? HCACKValule.ParameterInvalid;
                                             }
 
                                             return HCACKValule.CantPerform;
@@ -391,7 +391,7 @@ namespace GPGO_MultiPLCs.Models
 
                                         if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] o && int.TryParse(o[0].ToString(), out var i))
                                         {
-                                            return Start?.Invoke(i) ?? HCACKValule.CantPerform;
+                                            return Start?.Invoke(i) ?? HCACKValule.ParameterInvalid;
                                         }
 
                                         return HCACKValule.CantPerform;
@@ -406,13 +406,26 @@ namespace GPGO_MultiPLCs.Models
 
                                        if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] o && int.TryParse(o[0].ToString(), out var i))
                                        {
-                                           return Stop?.Invoke(i) ?? HCACKValule.CantPerform;
+                                           return Stop?.Invoke(i) ?? HCACKValule.ParameterInvalid;
                                        }
 
                                        return HCACKValule.CantPerform;
                                    };
 
-            secsGem.RetrieveLotDataCommand += _ => HCACKValule.CantPerform; //todo
+            secsGem.RetrieveLotDataCommand += r =>
+                                              {
+                                                  if (r.RemoteCommandParameter.Count < 1)
+                                                  {
+                                                      return HCACKValule.ParameterInvalid;
+                                                  }
+
+                                                  if (r.RemoteCommandParameter[0].CPVAL.ObjectData is string lotid && !string.IsNullOrEmpty(lotid))
+                                                  {
+                                                      return RetrieveLotData?.Invoke(lotid) ?? HCACKValule.ParameterInvalid;
+                                                  }
+
+                                                  return HCACKValule.CantPerform;
+                                              };
 
             secsGem.SECSCommunicationControlViewModel.PropertyChanged += (s, e) =>
                                                                          {

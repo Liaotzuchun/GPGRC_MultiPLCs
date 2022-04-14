@@ -81,6 +81,8 @@ namespace GPGO_MultiPLCs.Models
         /// </summary>
         public override void GEM_QGEvent(int lID, int S, int F, int W_Bit, int SystemBytes, object RawData, int Length)
         {
+            //var str = SECSTool.ShowSECSIIMessage(AxQSWrapper, RawData);
+
             if (S == 7 && F is 4 or 24)
             {
                 if (RawData is byte[] Tmp && Tmp[2] == 0)

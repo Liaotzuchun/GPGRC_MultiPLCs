@@ -10,7 +10,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Brushes_Material.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/Brushes_Classic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/GPMVVM;component/Views/GPView.xaml" />
                 <ResourceDictionary Source="Views/Languages/TW.xaml" />
             </ResourceDictionary.MergedDictionaries>

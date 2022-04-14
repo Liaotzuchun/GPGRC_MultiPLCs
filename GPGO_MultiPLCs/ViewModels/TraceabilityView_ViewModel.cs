@@ -121,9 +121,6 @@ namespace GPGO_MultiPLCs.ViewModels
             set => Set(value);
         }
 
-        /// <summary>本日產量更新事件</summary>
-        public event Action<List<(int StationIndex, int Production)>> TodayProductionUpdated;
-
         /// <summary>新增至資料庫</summary>
         /// <param name="index">PLC序號，由0開始(寫入時會自動+1)</param>
         /// <param name="info">紀錄資訊</param>
@@ -198,6 +195,8 @@ namespace GPGO_MultiPLCs.ViewModels
         }
 
         public ValueTask<ProcessInfo> FindInfo(int station, DateTime time) => DataCollection.FindOneAsync(x => x.StationNumber == station && x.StartTime < time && x.EndTime > time);
+
+        public ValueTask<List<ProcessInfo>> FindInfo(string lotid) => DataCollection.FindAsync(x => x.LotID == lotid);
 
         /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
         /// <param name="path">資料夾路徑</param>
@@ -966,11 +965,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                   OpFilter.Filter     = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   RackFilter.Filter   = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
                                   SideFilter.Filter   = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-
-                                  TodayProductionUpdated?.Invoke(e?.Where(x => x.AddedTime.Day == DateTime.Today.Day && x.IsFinished)
-                                                                   .GroupBy(x => x.StationNumber - 1)
-                                                                   .Select(x => (x.Key, x.Sum(y => y.Quantity)))
-                                                                   .ToList());
 
                                   UpdateAct();
 

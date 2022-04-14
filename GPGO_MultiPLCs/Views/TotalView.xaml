@@ -171,111 +171,18 @@
                                 </ToggleButton>
                             </Grid>
                         </GroupBox>
-                        <GroupBox Grid.Row="3">
+                        <GroupBox Grid.Row="3"
+                                  DataContext="{Binding PLC_All[0], Mode=OneWay}"
+                                  IsHitTestVisible="False">
                             <GroupBox.Header>
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontSize="16"
                                            FontWeight="Bold"
                                            Foreground="{StaticResource GlyphBrush}">
-                                    <Run Text="{DynamicResource 本日產量}" />
-                                    <Run Text=": " />
-                                    <Run Text="{Binding TotalProductionCount, Mode=OneWay}" />
-                                    <Run Text="{DynamicResource 片}" />
+                                    <Run Text="{DynamicResource 烤箱}" /><Run Text="{DynamicResource 信號}" />
                                 </TextBlock>
                             </GroupBox.Header>
-                            <Grid>
-                                <oxy:Plot Background="{StaticResource WindowBackgroundBrush2}"
-                                          DefaultFont="Microsoft JhengHei"
-                                          IsMouseWheelEnabled="False"
-                                          LegendBackground="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}"
-                                          LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                          LegendBorderThickness="1"
-                                          LegendFontSize="12"
-                                          LegendItemOrder="Reverse"
-                                          LegendItemSpacing="10"
-                                          LegendOrientation="Horizontal"
-                                          LegendPlacement="Outside"
-                                          LegendPosition="TopCenter"
-                                          LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                          LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                          PlotAreaBackground="{StaticResource LightBrush}"
-                                          PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                          PlotAreaBorderThickness="1,1,1,0"
-                                          PlotMargins="40,-10,0,20"
-                                          TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                          TextOptions.TextRenderingMode="ClearType">
-                                    <oxy:Plot.Axes>
-                                        <oxy:LinearAxis AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                        AxislineStyle="Solid"
-                                                        ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                        ExtraGridlineStyle="Solid"
-                                                        ExtraGridlineThickness="1"
-                                                        IsPanEnabled="False"
-                                                        IsZoomEnabled="False"
-                                                        MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                        MajorGridlineStyle="Dot"
-                                                        MaximumPadding="0.28"
-                                                        Minimum="0"
-                                                        MinimumPadding="0"
-                                                        MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                        MinorGridlineStyle="None"
-                                                        Position="Bottom"
-                                                        TickStyle="Inside"
-                                                        TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                        TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
-                                        <oxy:CategoryAxis x:Name="CA"
-                                                          AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                          AxislineStyle="Solid"
-                                                          EndPosition="0"
-                                                          ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                          ExtraGridlineStyle="None"
-                                                          ExtraGridlineThickness="0"
-                                                          GapWidth="1"
-                                                          IsPanEnabled="False"
-                                                          IsZoomEnabled="False"
-                                                          MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                          MajorGridlineStyle="None"
-                                                          MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                          MinorGridlineStyle="None"
-                                                          Position="Left"
-                                                          StartPosition="1"
-                                                          TickStyle="Inside"
-                                                          TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                          TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
-                                    </oxy:Plot.Axes>
-                                    <oxy:Plot.Series>
-                                        <oxy:BarSeries x:Name="BS"
-                                                       FillColor="Cyan"
-                                                       ItemsSource="{Binding TotalProduction_View, Mode=OneWay}"
-                                                       LabelFormatString="{}{0}"
-                                                       LabelMargin="4"
-                                                       LabelPlacement="Outside"
-                                                       StrokeColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                                       StrokeThickness="1"
-                                                       ValueField="Value" />
-                                    </oxy:Plot.Series>
-                                    <oxy:Plot.DefaultTrackerTemplate>
-                                        <ControlTemplate>
-                                            <oxy:TrackerControl d:DataContext="{d:DesignInstance oxy:TrackerControl}"
-                                                                Background="{StaticResource LightBrush}"
-                                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                                BorderThickness="1"
-                                                                CornerRadius="0"
-                                                                HorizontalLineVisibility="Collapsed"
-                                                                LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                                                LineStroke="DeepSkyBlue"
-                                                                Position="{Binding Position}">
-                                                <oxy:TrackerControl.Content>
-                                                    <TextBlock Margin="4"
-                                                               Foreground="{StaticResource BaseForeground}"
-                                                               Text="{Binding Mode=OneWay}" />
-                                                </oxy:TrackerControl.Content>
-                                            </oxy:TrackerControl>
-                                        </ControlTemplate>
-                                    </oxy:Plot.DefaultTrackerTemplate>
-                                </oxy:Plot>
-                            </Grid>
                         </GroupBox>
                         <Border Grid.Row="4"
                                 Background="{StaticResource WindowBackgroundBrush6}"

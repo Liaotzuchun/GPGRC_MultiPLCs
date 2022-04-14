@@ -1,7 +1,6 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!--  若要使字串換行，需加上xml:space="preserve"屬性，並配合&#x0a;  -->
     <sys:String x:Key="GEMConfig">GEM連線設定</sys:String>
@@ -174,4 +173,39 @@
     <sys:String x:Key="完成烘烤">完成烘烤</sys:String>
     <sys:String x:Key="電動門">電動門</sys:String>
     <sys:String x:Key="電腦使用">電腦使用</sys:String>
+    <sys:String x:Key="烤箱">烤箱</sys:String>
+    <sys:String x:Key="信號">信號</sys:String>
+    <sys:String x:Key="溫控器低溫異常">溫控器低溫異常</sys:String>
+    <sys:String x:Key="電源相位異常">電源相位異常</sys:String>
+    <sys:String x:Key="OTP超溫異常">OTP超溫異常</sys:String>
+    <sys:String x:Key="循環風車電流異常">循環風車電流異常</sys:String>
+    <sys:String x:Key="冷卻進氣風車異常">冷卻進氣風車異常</sys:String>
+    <sys:String x:Key="溫控器訊號異常">溫控器訊號異常</sys:String>
+    <sys:String x:Key="開門極限">開門極限</sys:String>
+    <sys:String x:Key="關門極限">關門極限</sys:String>
+    <sys:String x:Key="含氧儀上限警報">含氧儀上限警報</sys:String>
+    <sys:String x:Key="溫控器通訊異常">溫控器通訊異常</sys:String>
+    <sys:String x:Key="電動門要求復歸">電動門要求復歸</sys:String>
+    <sys:String x:Key="電動門不在位置上">電動門不在位置上</sys:String>
+    <sys:String x:Key="回原點逾時">回原點逾時</sys:String>
+    <sys:String x:Key="停止後未開門">停止後未開門</sys:String>
+    <sys:String x:Key="汽缸伸出逾時">汽缸伸出逾時</sys:String>
+    <sys:String x:Key="汽缸縮回逾時">汽缸縮回逾時</sys:String>
+    <sys:String x:Key="循環風車變頻器異常">循環風車變頻器異常</sys:String>
+    <sys:String x:Key="空氣壓力不足">空氣壓力不足</sys:String>
+    <sys:String x:Key="EGO超溫">EGO超溫</sys:String>
+    <sys:String x:Key="充氮氣逾時">充氮氣逾時</sys:String>
+    <sys:String x:Key="門未關定位異常">門未關定位異常</sys:String>
+    <sys:String x:Key="加熱分路跳脫">加熱分路跳脫</sys:String>
+    <sys:String x:Key="BarCode讀取異常">BarCode讀取異常</sys:String>
+    <sys:String x:Key="PLC電池電壓不足">PLC電池電壓不足</sys:String>
+    <sys:String x:Key="電熱ELB跳脫">電熱ELB跳脫</sys:String>
+    <sys:String x:Key="伺服驅動器電池電壓不足">伺服驅動器電池電壓不足</sys:String>
+    <sys:String x:Key="開門極限異常">開門極限異常</sys:String>
+    <sys:String x:Key="關門極限異常">關門極限異常</sys:String>
+    <sys:String x:Key="伺服驅動器異常">伺服驅動器異常</sys:String>
+    <sys:String x:Key="光閘偵測異常">光閘偵測異常</sys:String>
+    <sys:String x:Key="加熱門未關">加熱門未關</sys:String>
+    <sys:String x:Key="電控箱溫度異常">電控箱溫度異常</sys:String>
+    <sys:String x:Key="進氣風車異常">進氣風車異常</sys:String>
 </ResourceDictionary>

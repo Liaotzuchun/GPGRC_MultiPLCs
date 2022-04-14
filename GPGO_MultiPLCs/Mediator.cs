@@ -702,17 +702,7 @@ namespace GPGO_MultiPLCs
 
             TotalVM.DeleteRecipe += recipeName => RecipeVM.Delete(recipeName);
 
-            //!更新每日產量
-            TraceVM.TodayProductionUpdated += datas =>
-                                              {
-                                                  foreach (var (StationIndex, Production) in datas)
-                                                  {
-                                                      if (StationIndex < TotalVM.TotalProduction.Count)
-                                                      {
-                                                          TotalVM.TotalProduction[StationIndex] = Production;
-                                                      }
-                                                  }
-                                              };
+            TotalVM.RetrieveLotData += async lotid => (await TraceVM.FindInfo(lotid)).OrderByDescending(x=>x.EndTime).FirstOrDefault();
 
             LogVM.WantInfo += e => TraceVM.FindInfo(e.station, e.time);
 

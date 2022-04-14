@@ -6,8 +6,6 @@
         public TotalView()
         {
             InitializeComponent();
-            CA.LabelFormatter = val => $"No. {val + 1:00}";
-            //BS.LabelFormatString = "{0}";
         }
     }
 }
