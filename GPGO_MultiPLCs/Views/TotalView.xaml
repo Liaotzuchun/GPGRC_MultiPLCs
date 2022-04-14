@@ -5,6 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:oxy="http://oxyplot.org/wpf"
              xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
@@ -172,7 +173,6 @@
                             </Grid>
                         </GroupBox>
                         <GroupBox Grid.Row="3"
-                                  DataContext="{Binding PLC_All[0], Mode=OneWay}"
                                   IsHitTestVisible="False">
                             <GroupBox.Header>
                                 <TextBlock HorizontalAlignment="Center"
@@ -180,9 +180,46 @@
                                            FontSize="16"
                                            FontWeight="Bold"
                                            Foreground="{StaticResource GlyphBrush}">
-                                    <Run Text="{DynamicResource 烤箱}" /><Run Text="{DynamicResource 信號}" />
+                                    <Run Text="{DynamicResource 事件}" /><Run Text="{DynamicResource 訊息}" />
                                 </TextBlock>
                             </GroupBox.Header>
+                            <DataGrid AutoGenerateColumns="False"
+                                      BorderThickness="1,0,1,0"
+                                      FontSize="14"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding QueueMessages, Mode=OneWay}"
+                                      VerticalScrollBarVisibility="Auto">
+                                <DataGrid.RowDetailsTemplate>
+                                    <DataTemplate DataType="models:LogEvent">
+                                        <TextBlock Margin="4"
+                                                   Text="{Binding Description, Mode=OneWay}"
+                                                   TextWrapping="Wrap" />
+                                    </DataTemplate>
+                                </DataGrid.RowDetailsTemplate>
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="*"
+                                                            MinWidth="60">
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock Text="{DynamicResource 時間}" />
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="models:LogEvent">
+                                                <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:HH:mm:ss\}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock Text="{DynamicResource 類型}" />
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="models:LogEvent">
+                                                <TextBlock Text="{Binding Type, Mode=OneWay, Converter={views:StringToResource}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </GroupBox>
                         <Border Grid.Row="4"
                                 Background="{StaticResource WindowBackgroundBrush6}"

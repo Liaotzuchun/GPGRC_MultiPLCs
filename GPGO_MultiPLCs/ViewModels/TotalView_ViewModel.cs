@@ -44,7 +44,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public IGate    Gate { get; }
 
-        public ObservableQueue<LogEvent> Messages { get; } = new();
+        public ObservableQueue<LogEvent> QueueMessages { get; } = new();
 
         public RelayCommand WantLoginCommand { get; }
 

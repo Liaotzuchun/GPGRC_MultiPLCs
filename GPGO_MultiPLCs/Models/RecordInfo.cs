@@ -95,8 +95,9 @@ namespace GPGO_MultiPLCs.Models
         StatusChanged, //狀態變化
         Trigger,       //觸發事件
         Operator,      //OP操作事件
-        Alert,
-        Alarm //警報事件
+        Alert,         //警告
+        Alarm,         //警報事件
+        SECSCommnd
     }
 
     [BsonIgnoreExtraElements]
