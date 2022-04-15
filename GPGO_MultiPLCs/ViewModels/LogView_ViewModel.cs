@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,8 @@ namespace GPGO_MultiPLCs.ViewModels
     public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     {
         public Language Language = Language.TW;
+
+        public event Action<LogEvent> LogAdded;
 
         /// <summary>執行詳情顯示</summary>
         public RelayCommand GoCommand { get; }
@@ -109,6 +112,7 @@ namespace GPGO_MultiPLCs.ViewModels
             try
             {
                 await DataCollection.AddAsync(ev);
+                LogAdded?.Invoke(ev);
 
                 if (UpdateResult)
                 {
@@ -120,6 +124,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 Log.Error(ex, "事件紀錄寫入資料庫失敗");
             }
         }
+
+        public ValueTask<List<LogEvent>> FindLog(Expression<Func<LogEvent, bool>> findact) => DataCollection.FindAsync(findact);
 
         public async void FindNextOFF(int index)
         {

@@ -6,8 +6,6 @@
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
-             xmlns:oxy="http://oxyplot.org/wpf"
-             xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
@@ -33,7 +31,7 @@
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
                              SelectedIndex="{Binding ViewIndex, Mode=TwoWay}">
-                        <ListBox.ItemsPanel>
+                        <!--<ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <views:UniformGridWithOrientation x:Name="UniformGridWithOrientation"
                                                                   Orientation="Horizontal">
@@ -57,7 +55,7 @@
                                     </views:UniformGridWithOrientation.Columns>
                                 </views:UniformGridWithOrientation>
                             </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
+                        </ListBox.ItemsPanel>-->
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -72,7 +70,7 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="vm:PLC_ViewModel">
-                                <local:OvenEditView DataContext="{Binding}" />
+                                <local:OvenEditView DataContext="{Binding Mode=OneWay}" />
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -172,23 +170,112 @@
                                 </ToggleButton>
                             </Grid>
                         </GroupBox>
-                        <GroupBox Grid.Row="3"
-                                  IsHitTestVisible="False">
+                        <GroupBox Grid.Row="3">
                             <GroupBox.Header>
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           FontWeight="Bold"
-                                           Foreground="{StaticResource GlyphBrush}">
-                                    <Run Text="{DynamicResource 事件}" /><Run Text="{DynamicResource 訊息}" />
-                                </TextBlock>
+                                <Border Background="Transparent" MouseDown="Border_MouseDown">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="{StaticResource GlyphBrush}">
+                                        <Run Text="{DynamicResource 今日}" /><Run Text="{DynamicResource 訊息}" />
+                                    </TextBlock>
+                                </Border>
                             </GroupBox.Header>
-                            <DataGrid AutoGenerateColumns="False"
+                            <DataGrid x:Name="MessageDataGrid"
+                                      AutoGenerateColumns="False"
                                       BorderThickness="1,0,1,0"
                                       FontSize="14"
                                       HorizontalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding QueueMessages, Mode=OneWay}"
                                       VerticalScrollBarVisibility="Auto">
+                                <DataGrid.CellStyle>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                                        <Setter Property="MinHeight" Value="24" />
+                                        <Setter Property="Padding" Value="4" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                    <Border Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource BaseForeground}" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground" Value="{DynamicResource DisabledBorderBrush}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.CellStyle>
+                                <DataGrid.RowHeaderStyle>
+                                    <Style TargetType="DataGridRowHeader">
+                                        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                    <ContentPresenter Content="{TemplateBinding Content}"
+                                                                      ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DataGrid.RowHeaderStyle>
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="{x:Type DataGridRow}">
+                                        <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush6}" />
+                                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.RowHeaderTemplate>
+                                    <DataTemplate>
+                                        <Border x:Name="Border"
+                                                Width="5"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="0,0,1,1" />
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                         Value="Normal">
+                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                         Value="Trigger">
+                                                <Setter TargetName="Border" Property="Background" Value="Blue" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                         Value="Operator">
+                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                         Value="Alarm">
+                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </DataGrid.RowHeaderTemplate>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate DataType="models:LogEvent">
                                         <TextBlock Margin="4"

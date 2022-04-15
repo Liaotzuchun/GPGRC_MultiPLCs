@@ -702,7 +702,7 @@ namespace GPGO_MultiPLCs
 
             TotalVM.DeleteRecipe += recipeName => RecipeVM.Delete(recipeName);
 
-            TotalVM.RetrieveLotData += async lotid => (await TraceVM.FindInfo(lotid)).OrderByDescending(x=>x.EndTime).FirstOrDefault();
+            TotalVM.RetrieveLotData += async lotid => (await TraceVM.FindInfo(lotid)).OrderByDescending(x => x.EndTime).FirstOrDefault();
 
             LogVM.WantInfo += e => TraceVM.FindInfo(e.station, e.time);
 
@@ -726,6 +726,20 @@ namespace GPGO_MultiPLCs
                                       TraceVM.SearchEvent  = logEvent;
                                       TraceVM.Date1        = info.AddedTime.Date;
                                   };
+
+            LogVM.LogAdded += log =>
+                              {
+                                  if (log.Value is true && (int)log.Type > 1)
+                                  {
+                                      TotalVM.InsertMessage(log);
+                                  }
+                              };
+
+            Task.Run(() =>
+                     {
+                         var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => x.Value is true && (int)x.Type > 1).Take(50).ToArray();
+                         TotalVM.InsertMessage(evs);
+                     });
 
             //DialogVM.Show(new Dictionary<Language, string>
             //              {

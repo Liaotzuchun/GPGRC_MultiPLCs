@@ -725,10 +725,10 @@ namespace GPGO_MultiPLCs.ViewModels
                                              {
                                                  NotifyPropertyChanged(nameof(ProgressStatus));
 
-                                                 EventHappened?.Invoke((EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
+                                                 EventHappened?.Invoke((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
                                                  if (IsExecuting)
                                                  {
-                                                     AddProcessEvent((EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
+                                                     AddProcessEvent((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
                                                      CTS?.Cancel();
                                                  }
 

@@ -301,6 +301,28 @@ namespace GPGO_MultiPLCs.ViewModels
             secsGem?.InvokeEvent("GemProcessProgramChange");
         }
 
+        public void InsertMessage(params LogEvent[] evs)
+        {
+            foreach (var ev in evs)
+            {
+                try
+                {
+                    QueueMessages.Enqueue(ev);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+
+            var count = QueueMessages.Count - 50;
+            for (var i = 0; i < count; i++)
+            {
+                QueueMessages.Dequeue();
+            }
+        }
+
         public TotalView_ViewModel(int count, IGate gate, IDialogService dialog)
         {
             Gate      = gate;
