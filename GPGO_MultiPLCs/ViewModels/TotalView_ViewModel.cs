@@ -44,7 +44,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public IGate    Gate { get; }
 
-        public ObservableQueue<LogEvent> QueueMessages { get; } = new();
+        public ObservableConcurrentQueue<LogEvent> QueueMessages { get; } = new();
 
         public RelayCommand WantLoginCommand { get; }
 
@@ -319,7 +319,7 @@ namespace GPGO_MultiPLCs.ViewModels
             var count = QueueMessages.Count - 50;
             for (var i = 0; i < count; i++)
             {
-                QueueMessages.Dequeue();
+                QueueMessages.TryDequeue(out _);
             }
         }
 
