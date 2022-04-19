@@ -316,8 +316,7 @@ namespace GPGO_MultiPLCs.ViewModels
                 }
             }
 
-            var count = QueueMessages.Count - 50;
-            for (var i = 0; i < count; i++)
+            while (QueueMessages.Count > 50)
             {
                 QueueMessages.TryDequeue(out _);
             }
