@@ -28,11 +28,9 @@ namespace GPGO_MultiPLCs.ViewModels
         {
             ByDateTime = 0,
             ByPLC      = 1,
-
-            //ByOrder = 2,
-            ByLot  = 2,
-            ByPart = 3,
-            Pie    = 4
+            ByLot      = 2,
+            ByPart     = 3,
+            Pie        = 4
         }
 
         private readonly Dictionary<string, PropertyInfo> ProcessInfoProperties = typeof(ProcessInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(x => x.Name, x => x);

@@ -46,11 +46,12 @@
             <GroupBox Margin="0,4,2,4"
                       IsHitTestVisible="False">
                 <GroupBox.Header>
-                    <TextBlock Foreground="{StaticResource GlyphBrush}">
+                    <TextBlock FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource GlyphBrush}">
                         <Run Text="{DynamicResource 配方}" />
                         <Run Text=":" />
-                        <Run FontWeight="Bold"
-                             Text="{Binding PV_RecipeName, Mode=OneWay}" />
+                        <Run Text="{Binding PV_RecipeName, Mode=OneWay}" />
                     </TextBlock>
                 </GroupBox.Header>
                 <Grid Background="{StaticResource WindowBackgroundBrush6}"
@@ -76,7 +77,7 @@
                     <Border Grid.Row="0"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"
-                            BorderThickness="0,0,1,1"
+                            BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -84,7 +85,7 @@
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="1"
-                            BorderThickness="0,0,1,1"
+                            BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -93,7 +94,7 @@
                     <Border Grid.Row="0"
                             Grid.Column="2"
                             Background="{StaticResource WindowBackgroundBrush2}"
-                            BorderThickness="0,0,1,1"
+                            BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -101,7 +102,7 @@
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="3"
-                            BorderThickness="0,0,1,1"
+                            BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -110,7 +111,7 @@
                     <Border Grid.Row="0"
                             Grid.Column="4"
                             Background="{StaticResource WindowBackgroundBrush2}"
-                            BorderThickness="0,0,1,1"
+                            BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -118,7 +119,7 @@
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="5"
-                            BorderThickness="0,0,0,1"
+                            BorderThickness="0,1,0,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
@@ -555,6 +556,8 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="4,0"
                                    VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="Bold"
                                    Foreground="{StaticResource GlyphBrush}"
                                    Text="{DynamicResource 設備狀態}" />
                         <Border Height="20"
@@ -605,32 +608,35 @@
                     <DockPanel Grid.Column="0"
                                Background="Transparent"
                                LastChildFill="True">
-                        <views:LevelsProgressBar MaxWidth="200"
-                                                 Margin="0,0,0,-18"
-                                                 DockPanel.Dock="Top"
-                                                 Maximum="260"
-                                                 Minimum="0"
-                                                 Unit="°C"
-                                                 Value="{Binding PV_ThermostatTemperature, Mode=OneWay}">
-                            <views:LevelsProgressBar.Steps>
-                                <MultiBinding Converter="{StaticResource DoublesTakeCount}">
-                                    <Binding Mode="OneWay"
-                                             Path="PV_StepCounts" />
-                                    <Binding Mode="OneWay"
-                                             Path="PV_TemperatureSetpoint_1" />
-                                    <Binding Mode="OneWay"
-                                             Path="PV_TemperatureSetpoint_2" />
-                                    <Binding Mode="OneWay"
-                                             Path="PV_TemperatureSetpoint_3" />
-                                    <Binding Mode="OneWay"
-                                             Path="PV_TemperatureSetpoint_4" />
-                                    <Binding Mode="OneWay"
-                                             Path="PV_TemperatureSetpoint_5" />
-                                    <Binding Mode="OneWay"
-                                             Path="PV_TemperatureSetpoint_6" />
-                                </MultiBinding>
-                            </views:LevelsProgressBar.Steps>
-                        </views:LevelsProgressBar>
+                        <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,1,0,0"
+                                DockPanel.Dock="Top">
+                            <views:LevelsProgressBar MaxWidth="200"
+                                                     Margin="0,0,0,-18"
+                                                     Maximum="260"
+                                                     Minimum="0"
+                                                     Unit="°C"
+                                                     Value="{Binding PV_ThermostatTemperature, Mode=OneWay}">
+                                <views:LevelsProgressBar.Steps>
+                                    <MultiBinding Converter="{StaticResource DoublesTakeCount}">
+                                        <Binding Mode="OneWay"
+                                                 Path="PV_StepCounts" />
+                                        <Binding Mode="OneWay"
+                                                 Path="PV_TemperatureSetpoint_1" />
+                                        <Binding Mode="OneWay"
+                                                 Path="PV_TemperatureSetpoint_2" />
+                                        <Binding Mode="OneWay"
+                                                 Path="PV_TemperatureSetpoint_3" />
+                                        <Binding Mode="OneWay"
+                                                 Path="PV_TemperatureSetpoint_4" />
+                                        <Binding Mode="OneWay"
+                                                 Path="PV_TemperatureSetpoint_5" />
+                                        <Binding Mode="OneWay"
+                                                 Path="PV_TemperatureSetpoint_6" />
+                                    </MultiBinding>
+                                </views:LevelsProgressBar.Steps>
+                            </views:LevelsProgressBar>
+                        </Border>
                         <DataGrid AlternationCount="2147483647"
                                   AutoGenerateColumns="False"
                                   BorderThickness="0,1,0,0"
@@ -706,7 +712,7 @@
                                                       Rows="9">
                         <Border Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,0,1,1">
+                                BorderThickness="1,1,1,1">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource 設備模式}" />
@@ -774,11 +780,14 @@
                                                       Rows="9">
                         <Border Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="0,0,0,1">
+                                BorderThickness="0,1,1,1">
                             <UniformGrid Rows="1">
-                                <Border>
+                                <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="0,0,1,0">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
+                                               FontSize="16"
+                                               FontWeight="Bold"
                                                Text="{DynamicResource 電腦使用}" />
                                     <Border.Style>
                                         <Style TargetType="Border">
@@ -801,6 +810,8 @@
                                         <Border>
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
                                                        Text="{DynamicResource 手動}" />
                                         </Border>
                                     </TabItem>
@@ -815,6 +826,7 @@
                                                 <TextBlock HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16"
+                                                           FontWeight="Bold"
                                                            Foreground="White"
                                                            Text="{DynamicResource 自動}" />
                                             </Border>
@@ -939,16 +951,30 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Margin="8,0"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource GlyphBrush}">
+                        <Run Text="RackID" />
+                        <Run Text=":" />
+                        <Run Text="{Binding RackID, Mode=OneWay}" />
+                    </TextBlock>
+                    <TextBlock Grid.Column="1"
+                               Margin="8,0"
+                               FontSize="16"
+                               FontWeight="Bold"
                                Foreground="{StaticResource GlyphBrush}"
                                Visibility="{Binding OvenInfo.StartTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
                         <Run Text="{DynamicResource 開始時間}" />
                         <Run Text=":" />
                         <Run Text="{Binding OvenInfo.StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
                     </TextBlock>
-                    <TextBlock Grid.Column="1"
+                    <TextBlock Grid.Column="2"
                                Margin="8,0"
+                               FontSize="16"
+                               FontWeight="Bold"
                                Foreground="{StaticResource GlyphBrush}"
                                Visibility="{Binding OvenInfo.EndTime, Converter={StaticResource DateTimeCheckVis}, Mode=OneWay}">
                         <Run Text="{DynamicResource 結束時間}" />
@@ -965,7 +991,7 @@
                 <DataGrid x:Name="dg"
                           views:DataGridExtensions.AutoScrollToEnd="True"
                           AutoGenerateColumns="False"
-                          BorderThickness="0,0,1,0"
+                          BorderThickness="0,1,1,0"
                           FontSize="12"
                           HorizontalScrollBarVisibility="Disabled"
                           ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}"

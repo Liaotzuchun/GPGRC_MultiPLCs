@@ -1053,25 +1053,19 @@
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="150" />
                 </Grid.ColumnDefinitions>
-                <ListBox Grid.Column="1"
-                         FontSize="16"
-                         SelectedIndex="{Binding Mode, Mode=TwoWay}"
-                         Style="{StaticResource ListBoxHorizontal2}">
-                    <ListBox.Template>
-                        <ControlTemplate>
-                            <ItemsPresenter />
-                        </ControlTemplate>
-                    </ListBox.Template>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <views:UniformStackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <TextBlock Text="{DynamicResource 日期時間}" />
-                    <TextBlock Text="{DynamicResource 設備}" />
-                    <TextBlock Text="{DynamicResource 批號}" />
-                    <TextBlock Text="{DynamicResource 料號}" />
-                </ListBox>
+                <views:UniformStackPanel Grid.Column="1"
+                                         Orientation="Horizontal"
+                                         TextElement.FontSize="16">
+                    <ToggleButton Content="{DynamicResource 日期時間}"
+                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter=0}"
+                                  Style="{StaticResource ToggleButton_BotBar}" />
+                    <ToggleButton Content="{DynamicResource 批號}"
+                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter=2}"
+                                  Style="{StaticResource ToggleButton_BotBar}" />
+                    <ToggleButton Content="{DynamicResource 料號}"
+                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter=3}"
+                                  Style="{StaticResource ToggleButton_BotBar}" />
+                </views:UniformStackPanel>
                 <Border Grid.Column="2"
                         Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"

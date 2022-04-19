@@ -309,10 +309,9 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     QueueMessages.Enqueue(ev);
                 }
-                catch (Exception e)
+                catch
                 {
-                    Console.WriteLine(e);
-                    throw;
+                    // ignored
                 }
             }
 
