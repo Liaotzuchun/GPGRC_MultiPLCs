@@ -963,6 +963,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <DataGrid x:Name="dg"
+                          views:DataGridExtensions.AutoScrollToEnd="True"
                           AutoGenerateColumns="False"
                           BorderThickness="0,0,1,0"
                           FontSize="12"

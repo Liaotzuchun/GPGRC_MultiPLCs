@@ -172,7 +172,8 @@
                         </GroupBox>
                         <GroupBox Grid.Row="3">
                             <GroupBox.Header>
-                                <Border Background="Transparent" MouseDown="Border_MouseDown">
+                                <Border Background="Transparent"
+                                        MouseDown="Border_MouseDown">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontSize="16"
@@ -183,6 +184,7 @@
                                 </Border>
                             </GroupBox.Header>
                             <DataGrid x:Name="MessageDataGrid"
+                                      views:DataGridExtensions.AutoScrollToEnd="True"
                                       AutoGenerateColumns="False"
                                       BorderThickness="1,0,1,0"
                                       FontSize="14"
