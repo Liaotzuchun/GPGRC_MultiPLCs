@@ -337,7 +337,7 @@
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Content="{DynamicResource 返回總覽}"
+                        <Button Content="{DynamicResource 投產頁面}"
                                 FontSize="20"
                                 FontWeight="Bold">
                             <i:Interaction.Triggers>

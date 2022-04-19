@@ -365,7 +365,7 @@ namespace GPGO_MultiPLCs
             //!當回到主頁時，也將生產總覽回到總覽頁
             MainVM.IndexChangedEvent += i =>
                                         {
-                                            if (i == 0)
+                                            if (i == 0 && !TotalVM.PLC_All[0].IsExecuting)
                                             {
                                                 TotalVM.Index = 0;
                                             }

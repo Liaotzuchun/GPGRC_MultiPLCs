@@ -55,6 +55,7 @@
     <sys:String x:Key="時間">Time</sys:String>
     <sys:String x:Key="事件">Event</sys:String>
     <sys:String x:Key="返回總覽">Back to Main</sys:String>
+    <sys:String x:Key="投產頁面">Operation Page</sys:String>
     <sys:String x:Key="使用段數">Steps</sys:String>
     <sys:String x:Key="降溫溫度">Cooling</sys:String>
     <sys:String x:Key="降溫時間">Cooling Time</sys:String>

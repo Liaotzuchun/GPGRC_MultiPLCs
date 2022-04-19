@@ -12,6 +12,7 @@
              d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
              d:DesignHeight="800"
              d:DesignWidth="900"
+             IsEnabled="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolNot}}"
              mc:Ignorable="d">
 
     <UserControl.Resources>

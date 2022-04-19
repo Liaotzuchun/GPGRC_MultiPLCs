@@ -55,6 +55,7 @@
     <sys:String x:Key="時間">时间</sys:String>
     <sys:String x:Key="事件">事件</sys:String>
     <sys:String x:Key="返回總覽">返回总览</sys:String>
+    <sys:String x:Key="投產頁面">投产页面</sys:String>
     <sys:String x:Key="使用段數">使用段数</sys:String>
     <sys:String x:Key="降溫溫度">降温温度</sys:String>
     <sys:String x:Key="降溫時間">降温时间</sys:String>

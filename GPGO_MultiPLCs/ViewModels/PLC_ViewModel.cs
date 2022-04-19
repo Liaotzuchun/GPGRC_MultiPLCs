@@ -62,6 +62,7 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Action                                                                         RecipeKeyInError;
         public event Action<string>                                                                 RecipeUsed;
         public event Func<Language>                                                                 GetLanguage;
+        public event Action                                                                         ExecutingStarted;
         public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo), ValueTask>     ExecutingFinished;
         public event Func<(BitType, int), bool, ValueTask>                                          SetPLCSignal;
         public event Func<string, ValueTask<ICollection<ProductInfo>>>                              WantFrontData;
@@ -689,6 +690,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                            });
 
             NotifyPropertyChanged(nameof(IsExecuting));
+            ExecutingStarted?.Invoke();
         }
 
         private async Task StopPP()

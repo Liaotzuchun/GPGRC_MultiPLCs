@@ -541,6 +541,12 @@ namespace GPGO_MultiPLCs.ViewModels
                 //!PLC由OP指定變更配方時
                 plc.RecipeUsed += recipeName => RecipeUsed?.Invoke((index, recipeName));
 
+                plc.ExecutingStarted += () =>
+                                        {
+                                            ViewIndex = 0;
+                                            Index     = 1;
+                                        };
+
                 //!烘烤流程結束時
                 plc.ExecutingFinished += async e =>
                                          {
