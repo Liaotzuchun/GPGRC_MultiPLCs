@@ -11,7 +11,7 @@
         MinWidth="1024"
         MinHeight="768"
         DataContext="{Binding MainVM, Source={StaticResource Mediator}, Mode=OneTime}"
-        Icon="/GPGO_MultiPLCs;component/GP.ico"
+        Icon="/GP.ico"
         Loaded="Window_Loaded"
         Style="{StaticResource UniversalWindow}"
         WindowStartupLocation="CenterScreen"
