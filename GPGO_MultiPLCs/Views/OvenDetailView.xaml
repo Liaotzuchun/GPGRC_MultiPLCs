@@ -1007,7 +1007,11 @@
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                              Value="Normal">
-                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
+                                    <Setter TargetName="Border" Property="Background" Value="Green" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                             Value="StatusChanged">
+                                    <Setter TargetName="Border" Property="Background" Value="DodgerBlue" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                              Value="Trigger">
@@ -1015,11 +1019,15 @@
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                              Value="Operator">
-                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                    <Setter TargetName="Border" Property="Background" Value="DarkOrange" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                             Value="Alert">
+                                    <Setter TargetName="Border" Property="Background" Value="Magenta" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                              Value="Alarm">
-                                    <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
+                                    <Setter TargetName="Border" Property="Background" Value="Red" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -1245,9 +1253,6 @@
                                             Opacity="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
                                             StrokeThickness="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
                                             TextColor="{Binding (models:LogEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
-                                            TextHorizontalAlignment="Center"
-                                            TextOrientation="Horizontal"
-                                            TextVerticalAlignment="Bottom"
                                             Type="Vertical"
                                             X="{Binding (models:LogEvent.Time).TotalSeconds, Mode=OneWay}"
                                             Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">

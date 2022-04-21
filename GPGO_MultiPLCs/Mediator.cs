@@ -150,52 +150,21 @@ namespace GPGO_MultiPLCs
                         var ttime = new TimeSpan(0, 0, 1);
                         var cc    = 0;
 
-                        var _ev = new LogEvent
-                                  {
-                                      StationNumber = i + 1,
-                                      StartTime     = st,
-                                      AddedTime     = st + ttime,
-                                      Description   = "第1段升溫",
-                                      TagCode       = $"{BitType.S}{100}",
-                                      Type          = EventType.Normal,
-                                      Value         = true
-                                  };
-
-                        LogVM.AddToDB(_ev);
-                        info.EventList.Add(_ev);
-
                         for (var m = 0; m < 100; m++)
                         {
-                            if (m == 60)
-                            {
-                                var ev1 = new LogEvent
-                                          {
-                                              StationNumber = i + 1,
-                                              StartTime     = st,
-                                              AddedTime     = st + ttime - TimeSpan.FromMilliseconds(1),
-                                              Description   = "第1段升溫",
-                                              TagCode       = $"{BitType.S}{100}",
-                                              Type          = EventType.Normal,
-                                              Value         = false
-                                          };
+                            var ev1 = new LogEvent
+                                      {
+                                          StationNumber = i + 1,
+                                          StartTime     = st,
+                                          AddedTime     = st + ttime,
+                                          Description   = $"{i}{j}{m}",
+                                          TagCode       = $"ooxx{m}",
+                                          Type          = (EventType)new Random(DateTime.Now.Millisecond + m).Next(0, 6),
+                                          Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
+                                      };
 
-                                LogVM.AddToDB(ev1);
-                                info.EventList.Add(ev1);
-
-                                var ev2 = new LogEvent
-                                          {
-                                              StationNumber = i + 1,
-                                              StartTime     = st,
-                                              AddedTime     = st + ttime,
-                                              Description   = "第1段恆溫",
-                                              TagCode       = $"{BitType.S}{101}",
-                                              Type          = EventType.Normal,
-                                              Value         = true
-                                          };
-
-                                LogVM.AddToDB(ev2);
-                                info.EventList.Add(ev2);
-                            }
+                            LogVM.AddToDB(ev1);
+                            info.EventList.Add(ev1);
 
                             var tempt = 30 * (1 + 5 * 1 / (1 + Math.Exp(-0.12 * cc + 3)));
                             var vals = new RecordTemperatures
@@ -218,48 +187,6 @@ namespace GPGO_MultiPLCs
 
                             ttime = ttime.Add(TimeSpan.FromMinutes(1));
                         }
-
-                        var ev_1 = new LogEvent
-                                   {
-                                       StationNumber = i + 1,
-                                       StartTime     = st,
-                                       AddedTime     = st + ttime - TimeSpan.FromSeconds(60),
-                                       Description   = "第1段恆溫",
-                                       TagCode       = $"{BitType.S}{100}",
-                                       Type          = EventType.Normal,
-                                       Value         = false
-                                   };
-
-                        LogVM.AddToDB(ev_1);
-                        info.EventList.Add(ev_1);
-
-                        var ev_2 = new LogEvent
-                                   {
-                                       StationNumber = i + 1,
-                                       StartTime     = st,
-                                       AddedTime     = st + ttime - TimeSpan.FromSeconds(1),
-                                       Description   = "程式結束",
-                                       TagCode       = $"{BitType.S}{102}",
-                                       Type          = EventType.Trigger,
-                                       Value         = true
-                                   };
-
-                        LogVM.AddToDB(ev_2);
-                        info.EventList.Add(ev_2);
-
-                        var ev_3 = new LogEvent
-                                   {
-                                       StationNumber = i + 1,
-                                       StartTime     = st,
-                                       AddedTime     = st + ttime,
-                                       Description   = "自動停止",
-                                       TagCode       = $"{BitType.S}{102}",
-                                       Type          = EventType.Trigger,
-                                       Value         = true
-                                   };
-
-                        LogVM.AddToDB(ev_3);
-                        info.EventList.Add(ev_3);
 
                         info.EndTime       = info.StartTime + ttime;
                         info.IsFinished    = new Random().NextDouble() > 0.5;
@@ -756,7 +683,7 @@ namespace GPGO_MultiPLCs
 
             //                                           Thread.Sleep(45);
 
-            //                                           MakeTestData(10);
+            //                                           MakeTestData(2);
 
             //                                           Thread.Sleep(45);
 

@@ -23,10 +23,13 @@ namespace GPGO_MultiPLCs.Models
 
             return (EventType)value switch
                    {
-                       EventType.Normal   => Colors.Green,
-                       EventType.Trigger  => Colors.Blue,
-                       EventType.Operator => Colors.DarkOrange,
-                       _                  => Colors.Red
+                       EventType.Normal        => Colors.Green,
+                       EventType.StatusChanged => Colors.DodgerBlue,
+                       EventType.Trigger       => Colors.Blue,
+                       EventType.Operator      => Colors.DarkOrange,
+                       EventType.Alert         => Colors.Magenta,
+                       EventType.Alarm         => Colors.Red,
+                       _                       => Colors.Gray
                    };
         }
 

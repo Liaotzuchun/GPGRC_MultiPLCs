@@ -624,8 +624,8 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             ResultView.IsLegendVisible = false;
-            categoryAxis1.ActualLabels.Clear();
-            categoryAxis2.ActualLabels.Clear();
+            categoryAxis1.Labels.Clear();
+            categoryAxis2.Labels.Clear();
 
             ResultView.InvalidatePlot(true);
 
@@ -667,8 +667,8 @@ namespace GPGO_MultiPLCs.ViewModels
                 {
                     var (result, count) = result1[i];
                     categories.Add(result);
-                    categoryAxis1.ActualLabels.Add(result);
-                    categoryAxis2.ActualLabels.Add(result);
+                    categoryAxis1.Labels.Add(result);
+                    categoryAxis2.Labels.Add(result);
 
                     var cs = new BarSeries
                              {
