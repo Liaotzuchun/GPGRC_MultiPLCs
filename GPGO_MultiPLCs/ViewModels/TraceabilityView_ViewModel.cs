@@ -679,7 +679,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                  StrokeThickness   = 0,
                                  StrokeColor       = NoLayer2 ? bordercolor : OxyColors.Transparent,
                                  FillColor         = NoLayer2 ? OxyColor.FromHsv(i * color_step_1, 0.9, 0.9) : OxyColors.Transparent,
-                                 XAxisKey          = "2"
+                                 YAxisKey          = "2",
+                                 XAxisKey          = "0"
                              };
 
                     cs.Items.Add(new BarItem(count, i));
@@ -710,7 +711,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                       StrokeThickness   = 0,
                                       StrokeColor       = bordercolor,
                                       FillColor         = OxyColor.FromHsv(i * color_step_2, 0.9, 0.9),
-                                      XAxisKey          = "1"
+                                      YAxisKey          = "1",
+                                      XAxisKey          = "0"
                                   };
 
                         for (var j = 0; j < categories.Count; j++)
@@ -879,7 +881,9 @@ namespace GPGO_MultiPLCs.ViewModels
                              ExtraGridlineStyle = LineStyle.None,
                              TextColor          = fontcolor,
                              Minimum            = 0,
-                             MaximumPadding     = 0.15
+                             MaximumPadding     = 0.15,
+                             Position           = AxisPosition.Left,
+                             Key                = "0"
                              //Maximum = 1000
                          };
 
