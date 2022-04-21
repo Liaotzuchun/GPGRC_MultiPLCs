@@ -17,7 +17,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using FontStyle = System.Drawing.FontStyle;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -313,8 +312,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      record_sht.Cells[3, 8].Value                = nameof(RecordTemperatures.OvenTemperatures_6);
                                                                      //record_sht.Cells[3, 9].Value = nameof(RecordTemperatures.OvenTemperatures_7);
                                                                      //record_sht.Cells[3, 10].Value = nameof(RecordTemperatures.OvenTemperatures_8);
-                                                                     record_sht.Cells[3, 1, 3, 10].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                                                                     record_sht.Cells[3, 1, 3, 10].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
+                                                                     record_sht.Cells[3, 1, 3, 8].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                                     record_sht.Cells[3, 1, 3, 8].Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
 
                                                                      for (var j = 0; j < temps.Length; j++)
                                                                      {
@@ -331,11 +330,11 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                          //record_sht.Cells[4 + j, 10].Value                    = temps[j].OvenTemperatures_8;
                                                                      }
 
-                                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Left.Style   = ExcelBorderStyle.Thin;
-                                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Right.Style  = ExcelBorderStyle.Thin;
-                                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].Style.Border.Top.Style    = ExcelBorderStyle.Thin;
-                                                                     record_sht.Cells[3, 1, temps.Length + 3, 10].AutoFitColumns();
+                                                                     record_sht.Cells[3, 1, temps.Length + 3, 8].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                                                                     record_sht.Cells[3, 1, temps.Length + 3, 8].Style.Border.Left.Style   = ExcelBorderStyle.Thin;
+                                                                     record_sht.Cells[3, 1, temps.Length + 3, 8].Style.Border.Right.Style  = ExcelBorderStyle.Thin;
+                                                                     record_sht.Cells[3, 1, temps.Length + 3, 8].Style.Border.Top.Style    = ExcelBorderStyle.Thin;
+                                                                     record_sht.Cells[3, 1, temps.Length + 3, 8].AutoFitColumns();
 
                                                                      var record_code = new StringBuilder();
                                                                      record_code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
@@ -390,24 +389,29 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                      //record_s9.Border.Fill.Color = Color.BurlyWood;
 
                                                                      record_chart.XAxis.Title.Text = "Timespan (H:M:S)";
-                                                                     record_chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
-                                                                     record_chart.XAxis.MajorTickMark = eAxisTickMark.In;
-                                                                     record_chart.XAxis.MinorTickMark = eAxisTickMark.None;
-                                                                     record_chart.XAxis.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
+                                                                     record_chart.XAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
+                                                                     record_chart.XAxis.MajorTickMark   = eAxisTickMark.In;
+                                                                     record_chart.XAxis.MinorTickMark   = eAxisTickMark.None;
+                                                                     record_chart.XAxis.Font.SetFromFont("Calibri", 10);
                                                                      record_chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
                                                                      record_chart.YAxis.Title.Text        = "Temperature (°C)";
-                                                                     record_chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                                     record_chart.YAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
                                                                      record_chart.YAxis.Title.Rotation = 270;
                                                                      record_chart.YAxis.MajorTickMark  = eAxisTickMark.In;
                                                                      record_chart.YAxis.MinorTickMark  = eAxisTickMark.None;
-                                                                     record_chart.YAxis.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
+                                                                     record_chart.YAxis.Font.SetFromFont("Calibri", 10);
                                                                      record_chart.RoundedCorners    = false;
                                                                      record_chart.Border.Fill.Color = Color.Black;
                                                                      record_chart.SetPosition(0, 0, 0, 0);
 
                                                                      record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                                                     record_sht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
+                                                                     record_sht.Cells.Style.Font.SetFromFont("Segoe UI", 11);
                                                                      record_sht.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                                                                     for (var j = 1; j <= 8; j++)
+                                                                     {
+                                                                         record_sht.Column(j).Width += 2;
+                                                                     }
                                                                  }
 
                                                                  wsht.Cells[3, 1, n + 3, keys.Length].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
@@ -417,7 +421,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  wsht.Cells[3, 1, n + 3, keys.Length].AutoFitColumns();
 
                                                                  wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                                                 wsht.Cells.Style.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Regular));
+                                                                 wsht.Cells.Style.Font.SetFromFont("Segoe UI", 11);
                                                                  wsht.Cells[2, 1].Style.HorizontalAlignment         = ExcelHorizontalAlignment.Left;
                                                                  wsht.Column(keys.Length).Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                                                                  for (var i = 1; i <= keys.Length; i++)
@@ -499,17 +503,17 @@ namespace GPGO_MultiPLCs.ViewModels
                                                                  //s9.Border.Fill.Color = Color.BurlyWood;
 
                                                                  chart.XAxis.Title.Text = "Timespan (H:M:S)";
-                                                                 chart.XAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                                 chart.XAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
                                                                  chart.XAxis.MajorTickMark = eAxisTickMark.In;
                                                                  chart.XAxis.MinorTickMark = eAxisTickMark.None;
-                                                                 chart.XAxis.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
+                                                                 chart.XAxis.Font.SetFromFont("Calibri", 10);
                                                                  chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
                                                                  chart.YAxis.Title.Text        = "Temperature (°C)";
-                                                                 chart.YAxis.Title.Font.SetFromFont(new Font("Segoe UI", 11, FontStyle.Bold));
+                                                                 chart.YAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
                                                                  chart.YAxis.Title.Rotation = 270;
                                                                  chart.YAxis.MajorTickMark  = eAxisTickMark.In;
                                                                  chart.YAxis.MinorTickMark  = eAxisTickMark.None;
-                                                                 chart.YAxis.Font.SetFromFont(new Font("Calibri", 10, FontStyle.Regular));
+                                                                 chart.YAxis.Font.SetFromFont("Calibri", 10);
                                                                  chart.RoundedCorners    = false;
                                                                  chart.Border.Fill.Color = Color.Black;
                                                                  chart.SetPosition(0, 0, 0, 0);
