@@ -42,7 +42,7 @@
     <PackageReference Include="GPMVVM" Version="22.4.19.9" />
     <PackageReference Include="GP_SECS_GEM" Version="1.10.0" />
     <PackageReference Include="MongodbConnect" Version="1.0.15" />
-    <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
+    <PackageReference Include="OxyPlot.Contrib.Wpf" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,6 +6,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
 using OxyPlot;
 using OxyPlot.Axes;
+using OxyPlot.Legends;
 using OxyPlot.Series;
 using Serilog;
 using System;
@@ -390,8 +391,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                                      record_chart.XAxis.Title.Text = "Timespan (H:M:S)";
                                                                      record_chart.XAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
-                                                                     record_chart.XAxis.MajorTickMark   = eAxisTickMark.In;
-                                                                     record_chart.XAxis.MinorTickMark   = eAxisTickMark.None;
+                                                                     record_chart.XAxis.MajorTickMark = eAxisTickMark.In;
+                                                                     record_chart.XAxis.MinorTickMark = eAxisTickMark.None;
                                                                      record_chart.XAxis.Font.SetFromFont("Calibri", 10);
                                                                      record_chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
                                                                      record_chart.YAxis.Title.Text        = "Temperature (°C)";
@@ -591,26 +592,26 @@ namespace GPGO_MultiPLCs.ViewModels
                     fontcolor = OxyColor.FromRgb(bf.R, bf.G, bf.B);
                 }
 
-                linearAxis.TitleColor            = fontcolor;
-                linearAxis.AxislineColor         = bordercolor;
-                linearAxis.MajorGridlineColor    = bordercolor;
-                linearAxis.MinorGridlineColor    = bordercolor;
-                linearAxis.TicklineColor         = bordercolor;
-                linearAxis.ExtraGridlineColor    = bordercolor;
-                linearAxis.TextColor             = fontcolor;
-                categoryAxis1.TitleColor         = fontcolor;
-                categoryAxis1.MajorGridlineColor = bordercolor;
-                categoryAxis1.MinorGridlineColor = bordercolor;
-                categoryAxis1.TicklineColor      = bordercolor;
-                categoryAxis1.ExtraGridlineColor = bordercolor;
-                categoryAxis1.TextColor          = fontcolor;
-                categoryAxis1.AxislineColor      = bordercolor;
-                ResultView.PlotAreaBackground    = chartbg;
-                ResultView.PlotAreaBorderColor   = bordercolor;
-                ResultView.LegendTitleColor      = fontcolor;
-                ResultView.LegendTextColor       = fontcolor;
-                ResultView.LegendBorder          = bordercolor;
-                ResultView.LegendBackground      = bgcolor;
+                linearAxis.TitleColor                  = fontcolor;
+                linearAxis.AxislineColor               = bordercolor;
+                linearAxis.MajorGridlineColor          = bordercolor;
+                linearAxis.MinorGridlineColor          = bordercolor;
+                linearAxis.TicklineColor               = bordercolor;
+                linearAxis.ExtraGridlineColor          = bordercolor;
+                linearAxis.TextColor                   = fontcolor;
+                categoryAxis1.TitleColor               = fontcolor;
+                categoryAxis1.MajorGridlineColor       = bordercolor;
+                categoryAxis1.MinorGridlineColor       = bordercolor;
+                categoryAxis1.TicklineColor            = bordercolor;
+                categoryAxis1.ExtraGridlineColor       = bordercolor;
+                categoryAxis1.TextColor                = fontcolor;
+                categoryAxis1.AxislineColor            = bordercolor;
+                ResultView.PlotAreaBackground          = chartbg;
+                ResultView.PlotAreaBorderColor         = bordercolor;
+                ResultView.Legends[0].LegendTitleColor = fontcolor;
+                ResultView.Legends[0].LegendTextColor  = fontcolor;
+                ResultView.Legends[0].LegendBorder     = bordercolor;
+                ResultView.Legends[0].LegendBackground = bgcolor;
             }
 
             try
@@ -669,7 +670,7 @@ namespace GPGO_MultiPLCs.ViewModels
                     categoryAxis1.ActualLabels.Add(result);
                     categoryAxis2.ActualLabels.Add(result);
 
-                    var cs = new ColumnSeries
+                    var cs = new BarSeries
                              {
                                  FontSize          = result1.Length > 20 ? 8 : 10,
                                  LabelFormatString = "{0}",
@@ -681,23 +682,24 @@ namespace GPGO_MultiPLCs.ViewModels
                                  XAxisKey          = "2"
                              };
 
-                    cs.Items.Add(new ColumnItem(count, i));
+                    cs.Items.Add(new BarItem(count, i));
                     ResultView.Series.Add(cs);
                 }
 
                 if (!NoLayer2)
                 {
                     ResultView.IsLegendVisible = true;
-                    ResultView.LegendTitle = Mode >= (int)ChartMode.ByLot ?
-                                                 ProcessInfoProperties[nameof(ProcessInfo.StationNumber)].GetName(Language) :
-                                                 ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language);
+                    ResultView.Legends[0].LegendTitle = Mode >= (int)ChartMode.ByLot ?
+                                                            ProcessInfoProperties[nameof(ProcessInfo.StationNumber)].GetName(Language) :
+                                                            ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language);
 
                     var color_step_2 = 0.9 / result2.Length;
 
                     for (var i = 0; i < result2.Length; i++)
                     {
                         var (cat, info) = result2[i];
-                        var ccs = new ColumnSeries
+
+                        var ccs = new BarSeries
                                   {
                                       FontSize          = 10,
                                       LabelFormatString = result2.Length > 10 || categories.Count > 20 ? "" : "{0}",
@@ -735,7 +737,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                           .Sum(x => x.Quantity);
                             if (val > 0)
                             {
-                                ccs.Items.Add(new ColumnItem(val, j));
+                                ccs.Items.Add(new BarItem(val, j));
                             }
                         }
 
@@ -910,6 +912,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                 IsPanEnabled  = false,
                                 IsZoomEnabled = false,
                                 IsAxisVisible = false,
+                                Position      = AxisPosition.Bottom,
                                 Key           = "2"
                             };
 
@@ -920,21 +923,25 @@ namespace GPGO_MultiPLCs.ViewModels
                              PlotAreaBorderColor     = bordercolor,
                              PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
                              PlotMargins             = new OxyThickness(35, 0, 0, 20),
-                             LegendTitle             = ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language),
-                             LegendTitleColor        = fontcolor,
-                             LegendTextColor         = fontcolor,
-                             LegendBorder            = bordercolor,
-                             LegendBackground        = bgcolor,
-                             LegendPlacement         = LegendPlacement.Outside,
-                             LegendPosition          = LegendPosition.RightTop,
-                             LegendOrientation       = LegendOrientation.Vertical,
-                             LegendFontSize          = 12,
-                             LegendTitleFontSize     = 12,
-                             //LegendItemOrder = LegendItemOrder.Reverse,
-                             LegendMargin  = 4,
-                             LegendPadding = 5,
-                             TextColor     = fontcolor
+                             TextColor               = fontcolor
                          };
+
+            ResultView.Legends.Add(new Legend
+                                   {
+                                       LegendTitle         = ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language),
+                                       LegendTitleColor    = fontcolor,
+                                       LegendTextColor     = fontcolor,
+                                       LegendBorder        = bordercolor,
+                                       LegendBackground    = bgcolor,
+                                       LegendPlacement     = LegendPlacement.Outside,
+                                       LegendPosition      = LegendPosition.RightTop,
+                                       LegendOrientation   = LegendOrientation.Vertical,
+                                       LegendFontSize      = 12,
+                                       LegendTitleFontSize = 12,
+                                       //LegendItemOrder = LegendItemOrder.Reverse,
+                                       LegendMargin  = 4,
+                                       LegendPadding = 5,
+                                   });
 
             ResultView.Axes.Add(linearAxis);
             ResultView.Axes.Add(categoryAxis2);

@@ -7,11 +7,13 @@
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
-             xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Contrib.Wpf"
              xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
+             xmlns:oxys="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             xmlns:wpf="http://oxyplot.org/wpf"
              d:DataContext="{d:DesignInstance vm:TraceabilityView_ViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -527,24 +529,26 @@
                                   Background="{StaticResource WindowBackgroundBrush2}"
                                   DefaultFont="Microsoft JhengHei"
                                   IsMouseWheelEnabled="False"
-                                  LegendBackground="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}"
-                                  LegendBorder="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                  LegendBorderThickness="1"
-                                  LegendFontSize="12"
-                                  LegendItemOrder="Reverse"
-                                  LegendItemSpacing="8"
-                                  LegendLineSpacing="2"
-                                  LegendOrientation="Vertical"
-                                  LegendPlacement="Outside"
-                                  LegendPosition="RightTop"
-                                  LegendTextColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                                  LegendTitleColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                   PlotAreaBackground="{StaticResource LightBrush}"
                                   PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                   PlotAreaBorderThickness="0,1,1,0"
                                   PlotMargins="40,10,0,20"
                                   TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                   TextOptions.TextRenderingMode="ClearType">
+                            <oxy:Plot.Legends>
+                                <oxy:Legend LegendBackground="{StaticResource WindowBackgroundColor6}"
+                                            LegendBorder="{StaticResource WindowBackgroundColor4}"
+                                            LegendBorderThickness="1"
+                                            LegendFontSize="12"
+                                            LegendItemOrder="Reverse"
+                                            LegendItemSpacing="8"
+                                            LegendLineSpacing="2"
+                                            LegendOrientation="Vertical"
+                                            LegendPlacement="Outside"
+                                            LegendPosition="RightTop"
+                                            LegendTextColor="{StaticResource BaseForegroundColor}"
+                                            LegendTitleColor="{StaticResource BaseForegroundColor}" />
+                            </oxy:Plot.Legends>
                             <oxy:Plot.Axes>
                                 <oxy:TimeSpanAxis AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                                   AxislineStyle="Solid"
@@ -683,8 +687,7 @@
                                                 Color="Red" />
                             </oxy:Plot.Series>
                             <oxy:Plot.Annotations>
-                                <oxy:LineAnnotation ClipText="False"
-                                                    DataContext="{Binding SelectedItem, ElementName=dg2, Mode=OneWay}"
+                                <oxy:LineAnnotation DataContext="{Binding SelectedItem, ElementName=dg2, Mode=OneWay}"
                                                     FontSize="12"
                                                     Opacity="{Binding SelectedIndex, ElementName=dg2, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
                                                     StrokeThickness="{Binding SelectedIndex, ElementName=dg2, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
@@ -708,20 +711,20 @@
                             </oxy:Plot.Annotations>
                             <oxy:Plot.DefaultTrackerTemplate>
                                 <ControlTemplate>
-                                    <oxy:TrackerControl d:DataContext="{d:DesignInstance oxy:TrackerControl}"
-                                                        Background="{StaticResource LightBrush}"
-                                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                        BorderThickness="1"
-                                                        CornerRadius="0"
-                                                        LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                                        LineStroke="{StaticResource WindowBackgroundBrush}"
-                                                        Position="{Binding Position}">
-                                        <oxy:TrackerControl.Content>
+                                    <oxys:TrackerControl d:DataContext="{d:DesignInstance oxys:TrackerControl}"
+                                                         Background="{StaticResource LightBrush}"
+                                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                         BorderThickness="1"
+                                                         CornerRadius="0"
+                                                         LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
+                                                         LineStroke="{StaticResource WindowBackgroundBrush}"
+                                                         Position="{Binding Position}">
+                                        <oxys:TrackerControl.Content>
                                             <TextBlock Margin="4"
                                                        Foreground="{StaticResource BaseForeground}"
                                                        Text="{Binding Mode=OneWay}" />
-                                        </oxy:TrackerControl.Content>
-                                    </oxy:TrackerControl>
+                                        </oxys:TrackerControl.Content>
+                                    </oxys:TrackerControl>
                                 </ControlTemplate>
                             </oxy:Plot.DefaultTrackerTemplate>
                         </oxy:Plot>
@@ -1088,13 +1091,13 @@
             </Grid>
             <Border Grid.Row="1"
                     Background="{StaticResource WindowBackgroundBrush2}">
-                <oxy:PlotView Background="{StaticResource WindowBackgroundBrush2}"
+                <wpf:PlotView Background="{StaticResource WindowBackgroundBrush2}"
                               IsMouseWheelEnabled="False"
                               Model="{Binding ResultView, Mode=OneWay}"
                               TextOptions.TextRenderingMode="ClearType">
-                    <oxy:PlotView.DefaultTrackerTemplate>
+                    <wpf:PlotView.DefaultTrackerTemplate>
                         <ControlTemplate>
-                            <oxy:TrackerControl d:DataContext="{d:DesignInstance oxy:TrackerControl}"
+                            <wpf:TrackerControl d:DataContext="{d:DesignInstance wpf:TrackerControl}"
                                                 Background="{StaticResource LightBrush}"
                                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                 BorderThickness="1"
@@ -1103,14 +1106,14 @@
                                                 LineStroke="{StaticResource WindowBackgroundBrush}"
                                                 Position="{Binding Position}"
                                                 VerticalLineVisibility="Collapsed">
-                                <oxy:TrackerControl.Content>
+                                <wpf:TrackerControl.Content>
                                     <TextBlock Margin="4"
                                                Text="{Binding Mode=OneWay}" />
-                                </oxy:TrackerControl.Content>
-                            </oxy:TrackerControl>
+                                </wpf:TrackerControl.Content>
+                            </wpf:TrackerControl>
                         </ControlTemplate>
-                    </oxy:PlotView.DefaultTrackerTemplate>
-                </oxy:PlotView>
+                    </wpf:PlotView.DefaultTrackerTemplate>
+                </wpf:PlotView>
             </Border>
         </Grid>
     </Grid>
