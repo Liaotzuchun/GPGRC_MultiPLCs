@@ -1094,7 +1094,7 @@
                           PlotAreaBackground="{StaticResource LightBrush}"
                           PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                           PlotAreaBorderThickness="0,1,1,0"
-                          PlotMargins="40,11,0,35"
+                          PlotMargins="40,0,0,35"
                           TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                           TextOptions.TextRenderingMode="ClearType">
                     <oxy:Plot.Legends>

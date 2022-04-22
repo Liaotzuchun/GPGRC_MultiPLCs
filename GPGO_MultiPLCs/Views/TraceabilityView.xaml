@@ -540,7 +540,7 @@
                                   PlotAreaBackground="{StaticResource LightBrush}"
                                   PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                   PlotAreaBorderThickness="0,1,1,0"
-                                  PlotMargins="40,10,0,20"
+                                  PlotMargins="40,0,0,20"
                                   TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
                                   TextOptions.TextRenderingMode="ClearType">
                             <oxy:Plot.Legends>
@@ -558,7 +558,8 @@
                                             LegendTitleColor="{StaticResource BaseForegroundColor}" />
                             </oxy:Plot.Legends>
                             <oxy:Plot.Axes>
-                                <oxy:TimeSpanAxis AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
+                                <oxy:TimeSpanAxis Key="ooxx"
+                                                  AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                                   AxislineStyle="Solid"
                                                   ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
                                                   ExtraGridlineStyle="Solid"
