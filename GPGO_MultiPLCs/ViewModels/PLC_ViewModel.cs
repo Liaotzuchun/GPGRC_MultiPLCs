@@ -1,23 +1,21 @@
-﻿using GPGO_MultiPLCs.Models;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using GPMVVM.PLCService;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Input;
+using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using PLCService;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
     public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         #region Interface implement
-
         public void Dispose() { CTS.Dispose(); }
-
         #endregion
 
         public enum Status
@@ -1032,7 +1030,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                         };
 
             #region 註冊PLC事件
-
             object PreviousEquipmentState = EquipmentState;
             ValueChanged += async (LogType, data) =>
                             {
@@ -1261,7 +1258,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                               SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
                                               SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                           };
-
             #endregion 註冊PLC事件
         }
     }

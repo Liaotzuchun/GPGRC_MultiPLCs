@@ -1,15 +1,15 @@
-﻿using GP_SECS_GEM;
-using GPGO_MultiPLCs.Models;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using GPMVVM.PLCService;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using GP_SECS_GEM;
+using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using Newtonsoft.Json;
+using PLCService;
 
 namespace GPGO_MultiPLCs.ViewModels
 {
@@ -38,11 +38,11 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<User>                                                                                       GetUser;
         public event Func<PLC_Recipe, ValueTask<bool>>                                                                UpsertRecipe;
         public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
-        public event Func<string, ValueTask<ProcessInfo>>                                                             RetrieveLotData;  
+        public event Func<string, ValueTask<ProcessInfo>>                                                             RetrieveLotData;
 
         public Language Language = Language.TW;
 
-        public IGate    Gate { get; }
+        public IGate Gate { get; }
 
         public ObservableConcurrentQueue<LogEvent> QueueMessages { get; } = new();
 
@@ -296,7 +296,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public void InvokeRecipe(string name, SECSThread.PPStatus status)
         {
-            secsGem?.UpdateDV("GemPPChangeName", name);
+            secsGem?.UpdateDV("GemPPChangeName",   name);
             secsGem?.UpdateDV("GemPPChangeStatus", (int)status);
             secsGem?.InvokeEvent("GemProcessProgramChange");
         }
@@ -575,8 +575,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
-                                                                  { Language.TW, $"第{index + 1}站已完成烘烤！" },
-                                                                  { Language.CHS, $"第{index + 1}站已完成烘烤！" },
+                                                                  { Language.TW, $"第{index       + 1}站已完成烘烤！" },
+                                                                  { Language.CHS, $"第{index      + 1}站已完成烘烤！" },
                                                                   { Language.EN, $"Oven No{index + 1}has been finished!" }
                                                               },
                                                               TimeSpan.FromSeconds(2));
@@ -587,8 +587,8 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
-                                                                  { Language.TW, $"第{index + 1}站已取消烘烤！" },
-                                                                  { Language.CHS, $"第{index + 1}站已取消烘烤！" },
+                                                                  { Language.TW, $"第{index       + 1}站已取消烘烤！" },
+                                                                  { Language.CHS, $"第{index      + 1}站已取消烘烤！" },
                                                                   { Language.EN, $"Oven No{index + 1}has been canceled!" }
                                                               },
                                                               TimeSpan.FromSeconds(2));
@@ -628,8 +628,8 @@ namespace GPGO_MultiPLCs.ViewModels
                                         {
                                             dialog?.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, $"第{index + 1}站配方輸入錯誤！" },
-                                                             { Language.CHS, $"第{index + 1}站配方输入错误！" },
+                                                             { Language.TW, $"第{index       + 1}站配方輸入錯誤！" },
+                                                             { Language.CHS, $"第{index      + 1}站配方输入错误！" },
                                                              { Language.EN, $"Oven No{index + 1} recipe input error!" }
                                                          },
                                                          TimeSpan.FromSeconds(1),
@@ -677,7 +677,6 @@ namespace GPGO_MultiPLCs.ViewModels
             }
 
             #region PLCGate事件通知
-
             Gate.GateStatus.ValueChanged += status =>
                                             {
                                                 if (!status)
@@ -685,7 +684,6 @@ namespace GPGO_MultiPLCs.ViewModels
                                                     EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
                                                 }
                                             };
-
             #endregion
 
             LoadMachineCodes();

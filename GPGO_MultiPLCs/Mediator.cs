@@ -1,10 +1,4 @@
-﻿using GPGO_MultiPLCs.Models;
-using GPGO_MultiPLCs.ViewModels;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using GPMVVM.PLCService;
-using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using GPGO_MultiPLCs.Models;
+using GPGO_MultiPLCs.ViewModels;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs
 {
@@ -642,10 +641,7 @@ namespace GPGO_MultiPLCs
 
                                       await Task.Factory.StartNew(() =>
                                                                   {
-                                                                      do
-                                                                      {
-                                                                          Thread.Sleep(30);
-                                                                      } while (!TraceVM.Standby);
+                                                                      SpinWait.SpinUntil(() => TraceVM.Standby);
                                                                   });
 
                                       await Task.Delay(150);

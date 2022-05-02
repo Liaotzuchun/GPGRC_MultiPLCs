@@ -1,13 +1,12 @@
-﻿using GPMVVM.Models;
-using GPMVVM.PLCService;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GPMVVM.Models;
+using PLCService;
 
 namespace GPGO_MultiPLCs.Models
 {
     public class GOL_DataModel : PLCDataProvider
     {
         #region PC=>PLC
-
         [PLCBitData(DataType.D, 12020, 0, LogType.Trigger)]
         public bool RemoteCommandStart
         {
@@ -42,11 +41,9 @@ namespace GPGO_MultiPLCs.Models
             get => Get<bool>();
             set => Set(value);
         }
-
         #endregion
 
         #region 配方設定值
-
         /// <summary>
         /// 配方名
         /// </summary>
@@ -567,11 +564,9 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set => Set(value);
         }
-
         #endregion
 
         #region 配方運作值(配方PV)
-
         /// <summary>
         /// 配方PV 配方名
         /// </summary>
@@ -1092,11 +1087,9 @@ namespace GPGO_MultiPLCs.Models
             get => Get<double>();
             set => Set(value);
         }
-
         #endregion
 
         #region 警報
-
         /// <summary>
         /// 緊急停止
         /// </summary>
@@ -1664,11 +1657,9 @@ namespace GPGO_MultiPLCs.Models
             get => Get<bool>();
             set => Set(value);
         }
-
         #endregion
 
         #region 機台狀態
-
         [PLCBitData(DataType.D, 12010, 0, LogType.StatusVariables)]
         public bool ReadBarcode
         {
@@ -1983,7 +1974,6 @@ namespace GPGO_MultiPLCs.Models
             get => Get<string>();
             set => Set(value);
         }
-
         #endregion
 
         public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) {}
