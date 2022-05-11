@@ -484,9 +484,9 @@ namespace GPGO_MultiPLCs
 
                                              if (showtip && (l1.Any() || l2.Any() || l3.Any()))
                                              {
-                                                 var str1 = string.Join(", ", l1);
-                                                 var str2 = string.Join(", ", l2);
-                                                 var str3 = string.Join(", ", l3);
+                                                 //var str1 = string.Join(", ", l1);
+                                                 //var str2 = string.Join(", ", l2);
+                                                 //var str3 = string.Join(", ", l3);
 
                                                  var tw  = new StringBuilder();
                                                  var chs = new StringBuilder();
@@ -494,9 +494,9 @@ namespace GPGO_MultiPLCs
 
                                                  if (l1.Any())
                                                  {
-                                                     tw.Append($"{str1} 號烤箱未符合設定條件！");
-                                                     chs.Append($"{str1} 号烤箱未符合设定条件！");
-                                                     en.Append($"No. {str1} oven{(l1.Count > 1 ? "s" : "")}: Not meet the conditions！");
+                                                     tw.Append("烤箱未符合設定條件！");
+                                                     chs.Append("烤箱未符合设定条件！");
+                                                     en.Append("Not meet the conditions！");
                                                  }
 
                                                  if (l2.Any())
@@ -504,9 +504,9 @@ namespace GPGO_MultiPLCs
                                                      tw.AppendLine();
                                                      chs.AppendLine();
                                                      en.AppendLine();
-                                                     tw.Append($"{str2} 號烤箱配方設定失敗！");
-                                                     chs.Append($"{str2} 号烤箱配方设定失败！");
-                                                     en.Append($"No. {str2} oven{(l2.Count > 1 ? "s" : "")}: Recipe set failure！");
+                                                     tw.Append("烤箱配方設定失敗！");
+                                                     chs.Append("烤箱配方设定失败！");
+                                                     en.Append("Recipe set failure！");
                                                  }
 
                                                  if (l3.Any())
@@ -514,9 +514,9 @@ namespace GPGO_MultiPLCs
                                                      tw.AppendLine();
                                                      chs.AppendLine();
                                                      en.AppendLine();
-                                                     tw.Append($"{str3} 號烤箱配方比對錯誤！");
-                                                     chs.Append($"{str3} 号烤箱配方比对错误！");
-                                                     en.Append($"No. {str3} oven{(l3.Count > 1 ? "s" : "")}: Recipe check error！");
+                                                     tw.Append("烤箱配方比對錯誤！");
+                                                     chs.Append("烤箱配方比对错误！");
+                                                     en.Append("Recipe check error！");
                                                  }
 
                                                  DialogVM.Show(new Dictionary<Language, string>
