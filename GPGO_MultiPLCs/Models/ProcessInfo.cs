@@ -159,11 +159,14 @@ namespace GPGO_MultiPLCs.Models
             set => Set(value);
         }
 
+        public ProcessChartModel ChartModel { get; }
+
         /// <summary>初始化清除資訊</summary>
         public void Clear()
         {
             EventList.Clear();
             RecordTemperatures.Clear();
+            ChartModel.Clear();
 
             StartTime  = new DateTime();
             EndTime    = new DateTime();
@@ -172,6 +175,7 @@ namespace GPGO_MultiPLCs.Models
 
         public BaseInfo()
         {
+            ChartModel         = new ProcessChartModel();
             EventList          = new ObservableConcurrentCollection<LogEvent>();
             RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
         }
@@ -325,7 +329,9 @@ namespace GPGO_MultiPLCs.Models
             return stb.ToString();
         }
 
-        public ProcessInfo() {}
+        public ProcessInfo()
+        {
+        }
 
         public ProcessInfo(BaseInfo baseInfo, ProductInfo productInfo)
         {

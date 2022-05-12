@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
+using System.Windows;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
@@ -66,6 +67,8 @@ namespace GPGO_MultiPLCs.ViewModels
         public event Func<string, ValueTask<ICollection<ProductInfo>>>                              WantFrontData;
         public event Func<User>                                                                     GetUser;
         public event Action<PLC_Recipe>                                                             RecipeChangedbyPLC;
+
+        public RelayCommand LoadedCommand { get; }
 
         /// <summary>取消投產</summary>
         public RelayCommand CancelCheckInCommand { get; }
@@ -218,6 +221,11 @@ namespace GPGO_MultiPLCs.ViewModels
             }
         }
 
+        public LogEvent SelectedLogEvent
+        {
+            set => OvenInfo.ChartModel.SetAnnotation(value);
+        }
+
         private bool RecipeCompare(PLC_Recipe recipe) =>
             RecipeName                            == recipe.RecipeName                            &&
             DwellTime_1.ToString("0.0")           == recipe.DwellTime_1.ToString("0.0")           &&
@@ -340,20 +348,23 @@ namespace GPGO_MultiPLCs.ViewModels
                 return;
             }
 
-            OvenInfo.RecordTemperatures.Add(new RecordTemperatures
-                                            {
-                                                StartTime                = start,
-                                                AddedTime                = addtime,
-                                                PV_ThermostatTemperature = t0,
-                                                OvenTemperatures_1       = t1,
-                                                OvenTemperatures_2       = t2,
-                                                OvenTemperatures_3       = t3,
-                                                OvenTemperatures_4       = t4,
-                                                OvenTemperatures_5       = t5,
-                                                OvenTemperatures_6       = t6,
-                                                OvenTemperatures_7       = t7,
-                                                OvenTemperatures_8       = t8
-                                            });
+            var record = new RecordTemperatures
+                         {
+                             StartTime                = start,
+                             AddedTime                = addtime,
+                             PV_ThermostatTemperature = t0,
+                             OvenTemperatures_1       = t1,
+                             OvenTemperatures_2       = t2,
+                             OvenTemperatures_3       = t3,
+                             OvenTemperatures_4       = t4,
+                             OvenTemperatures_5       = t5,
+                             OvenTemperatures_6       = t6,
+                             OvenTemperatures_7       = t7,
+                             OvenTemperatures_8       = t8
+                         };
+
+            OvenInfo.RecordTemperatures.Add(record);
+            OvenInfo.ChartModel.AddDate(record);
         }
 
         /// <summary>
@@ -685,6 +696,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
                                                ////!需在引發紀錄完成後才觸發取消投產
                                                //CheckInCommand.Result = false;
+                                               NotifyPropertyChanged(nameof(IsExecuting));
                                            });
 
             NotifyPropertyChanged(nameof(IsExecuting));
@@ -719,7 +731,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public PLC_ViewModel(IDialogService dialog, IGate gate, int plcindex, string plctag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
         {
-            Dialog = dialog;
+            Dialog     = dialog;
 
             ConnectionStatus.ValueChanged += status =>
                                              {
@@ -735,6 +747,14 @@ namespace GPGO_MultiPLCs.ViewModels
                                                  SV_Changed?.Invoke("OnlineStatus", status);
                                                  InvokeSECSEvent?.Invoke("OnlineStatusChanged");
                                              };
+
+            LoadedCommand = new RelayCommand(e =>
+                                             {
+                                                 if (e is FrameworkElement el)
+                                                 {
+                                                     OvenInfo.ChartModel.SetFrameworkElement(el);
+                                                 }
+                                             });
 
             CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
                                                         {

@@ -17,6 +17,14 @@ namespace GPGO_MultiPLCs.Views
             }
         }
 
+        private void SelectedCellsChanged2(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if (dg2.SelectedItem != null)
+            {
+                dg2.ScrollIntoView(dg2.SelectedItem);
+            }
+        }
+
         public TraceabilityView() { InitializeComponent(); }
     }
 }

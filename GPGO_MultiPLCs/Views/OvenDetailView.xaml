@@ -2,12 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
-             xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Contrib.Wpf"
              xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
-             xmlns:oxys="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared"
+             xmlns:oxyShared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared"
+             xmlns:oxyWpf="http://oxyplot.org/skiawpf"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
@@ -33,6 +34,13 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Mode=OneWay}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -997,7 +1005,8 @@
                           HorizontalScrollBarVisibility="Disabled"
                           ItemsSource="{Binding OvenInfo.EventList, Mode=OneWay, IsAsync=True}"
                           SelectedCellsChanged="SelectedCellsChanged"
-                          SelectedIndex="{Binding Items.Count, ConverterParameter=-1, Converter={StaticResource AddValue}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
+                          SelectedIndex="{Binding Items.Count, ConverterParameter=-1, Converter={StaticResource AddValue}, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                          SelectedItem="{Binding SelectedLogEvent, Mode=OneWayToSource}">
                     <DataGrid.RowHeaderTemplate>
                         <DataTemplate>
                             <Border x:Name="Border"
@@ -1087,209 +1096,11 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <oxy:Plot Grid.Column="1"
-                          Background="{StaticResource WindowBackgroundBrush2}"
-                          DefaultFont="Microsoft JhengHei"
-                          IsMouseWheelEnabled="False"
-                          PlotAreaBackground="{StaticResource LightBrush}"
-                          PlotAreaBorderColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                          PlotAreaBorderThickness="0,1,1,0"
-                          PlotMargins="40,0,0,35"
-                          TextColor="{Binding Color, Source={StaticResource BaseForeground}}"
-                          TextOptions.TextRenderingMode="ClearType">
-                    <oxy:Plot.Legends>
-                        <oxy:Legend LegendBackground="{StaticResource WindowBackgroundColor6}"
-                                    LegendBorder="{StaticResource WindowBackgroundColor4}"
-                                    LegendBorderThickness="1"
-                                    LegendFontSize="12"
-                                    LegendItemOrder="Reverse"
-                                    LegendItemSpacing="8"
-                                    LegendLineSpacing="2"
-                                    LegendOrientation="Vertical"
-                                    LegendPlacement="Outside"
-                                    LegendPosition="RightTop"
-                                    LegendTextColor="{StaticResource BaseForegroundColor}"
-                                    LegendTitleColor="{StaticResource BaseForegroundColor}" />
-                    </oxy:Plot.Legends>
-                    <oxy:Plot.Axes>
-                        <oxy:TimeSpanAxis Title="{DynamicResource 時間}"
-                                          AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                          AxislineStyle="Solid"
-                                          ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                          ExtraGridlineStyle="Solid"
-                                          ExtraGridlineThickness="1"
-                                          IsPanEnabled="False"
-                                          IsZoomEnabled="False"
-                                          MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                          MajorGridlineStyle="Dot"
-                                          MajorTickSize="0"
-                                          MaximumPadding="0.2"
-                                          Minimum="0"
-                                          MinimumPadding="0"
-                                          MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                          MinorGridlineStyle="None"
-                                          MinorTickSize="0"
-                                          Position="Bottom"
-                                          StringFormat="hh:mm:ss"
-                                          TickStyle="Inside"
-                                          TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                          TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
-                        <oxy:LinearAxis Title="°C"
-                                        AxislineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                        AxislineStyle="Solid"
-                                        ExtraGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                        ExtraGridlineStyle="Solid"
-                                        ExtraGridlineThickness="1"
-                                        IsPanEnabled="False"
-                                        IsZoomEnabled="False"
-                                        MajorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                        MajorGridlineStyle="Dot"
-                                        MajorTickSize="0"
-                                        MaximumPadding="0.2"
-                                        MinimumPadding="0.2"
-                                        MinorGridlineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                        MinorGridlineStyle="None"
-                                        MinorTickSize="0"
-                                        Position="Left"
-                                        TickStyle="Inside"
-                                        TicklineColor="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}"
-                                        TitleColor="{Binding Color, Source={StaticResource BaseForeground}}" />
-                    </oxy:Plot.Axes>
-                    <oxy:Plot.Series>
-                        <!--<oxy:LineSeries Title="{DynamicResource 爐內溫度8}"
-                                        DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_8"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="BurlyWood"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="BurlyWood" />
-                        <oxy:LineSeries Title="{DynamicResource 爐內溫度7}"
-                                        DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_7"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="Brown"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="Brown" />-->
-                        <oxy:LineSeries Title="{DynamicResource 爐內溫度6}"
-                                        DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_6"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="Magenta"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="Magenta" />
-                        <oxy:LineSeries Title="{DynamicResource 爐內溫度5}"
-                                        DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_5"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="DarkOrchid"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="DarkOrchid" />
-                        <oxy:LineSeries Title="{DynamicResource 爐內溫度4}"
-                                        DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_4"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="DodgerBlue"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="DodgerBlue" />
-                        <oxy:LineSeries Title="{DynamicResource 爐內溫度3}"
-                                        DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_3"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="Lime"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="Lime" />
-                        <oxy:LineSeries Title="{DynamicResource 爐內溫度2}"
-                                        DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_2"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="Gold"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="Gold" />
-                        <oxy:LineSeries Title="{DynamicResource 爐內溫度1}"
-                                        DataFieldX="Time"
-                                        DataFieldY="OvenTemperatures_1"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="DarkOrange"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="DarkOrange" />
-                        <oxy:LineSeries Title="{DynamicResource 溫控器溫度}"
-                                        DataFieldX="Time"
-                                        DataFieldY="PV_ThermostatTemperature"
-                                        ItemsSource="{Binding OvenInfo.RecordTemperatures, Mode=OneWay}"
-                                        LineStyle="Solid"
-                                        MarkerFill="Red"
-                                        MarkerSize="3"
-                                        MarkerType="None"
-                                        StrokeThickness="2"
-                                        Color="Red" />
-                    </oxy:Plot.Series>
-                    <oxy:Plot.Annotations>
-                        <oxy:LineAnnotation DataContext="{Binding SelectedItem, ElementName=dg, Mode=OneWay}"
-                                            FontSize="12"
-                                            Opacity="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                            StrokeThickness="{Binding SelectedIndex, ElementName=dg, Converter={StaticResource IsMoreThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                            TextColor="{Binding (models:LogEvent.Type), Converter={StaticResource EventTypeToColor}, Mode=OneWay}"
-                                            TextHorizontalAlignment="Left"
-                                            TextMargin="0"
-                                            TextOrientation="Horizontal"
-                                            TextVerticalAlignment="Top"
-                                            Type="Vertical"
-                                            X="{Binding (models:LogEvent.Time).TotalSeconds, Mode=OneWay}"
-                                            Color="{Binding TextColor, RelativeSource={RelativeSource Self}}">
-                            <oxy:LineAnnotation.Text>
-                                <MultiBinding StringFormat="{}{0} ({1})">
-                                    <Binding Converter="{views:StringToResource}"
-                                             Mode="OneWay"
-                                             Path="(models:LogEvent.Description)" />
-                                    <Binding Mode="OneWay"
-                                             Path="(models:LogEvent.Value)" />
-                                </MultiBinding>
-                            </oxy:LineAnnotation.Text>
-                        </oxy:LineAnnotation>
-                    </oxy:Plot.Annotations>
-                    <oxy:Plot.DefaultTrackerTemplate>
-                        <ControlTemplate>
-                            <oxys:TrackerControl d:DataContext="{d:DesignInstance oxys:TrackerControl}"
-                                                 Background="{StaticResource LightBrush}"
-                                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                 BorderThickness="1"
-                                                 CornerRadius="0"
-                                                 LineExtents="{Binding (oxyPlot:PlotElement.PlotModel).PlotArea}"
-                                                 LineStroke="{StaticResource WindowBackgroundBrush}"
-                                                 Position="{Binding Position}">
-                                <oxys:TrackerControl.Content>
-                                    <TextBlock Margin="4"
-                                               Foreground="{StaticResource BaseForeground}"
-                                               Text="{Binding Mode=OneWay}" />
-                                </oxys:TrackerControl.Content>
-                            </oxys:TrackerControl>
-                        </ControlTemplate>
-                    </oxy:Plot.DefaultTrackerTemplate>
-                </oxy:Plot>
+                <oxyWpf:PlotView Grid.Column="1"
+                                 Background="{StaticResource WindowBackgroundBrush6}"
+                                 DefaultTrackerTemplate="{x:Null}"
+                                 Model="{Binding OvenInfo.ChartModel.ChartView, Mode=OneWay}"
+                                 TextOptions.TextRenderingMode="ClearType" />
             </Grid>
         </GroupBox>
     </Grid>

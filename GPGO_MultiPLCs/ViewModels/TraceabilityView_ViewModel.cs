@@ -71,6 +71,8 @@ namespace GPGO_MultiPLCs.ViewModels
         /// <summary>基於配方的Filter</summary>
         public FilterGroup RecipeFilter { get; }
 
+        public ProcessChartModel ChartModel { get; }
+
         public PlotModel ResultView { get; }
 
         /// <summary>基於正反面的Filter</summary>
@@ -87,7 +89,27 @@ namespace GPGO_MultiPLCs.ViewModels
         public int EventIndex
         {
             get => Get<int>();
-            set => Set(value);
+            set
+            {
+                Set(value);
+
+                if (ViewResults != null && SelectedIndex > -1 && SelectedIndex < ViewResults.Count)
+                {
+                    var result = ViewResults[SelectedIndex];
+                    if (value > -1 && value < result.EventList.Count)
+                    {
+                        ChartModel.SetAnnotation(result.EventList.ElementAt(value));
+                    }
+                    else
+                    {
+                        ChartModel.SetAnnotation(null);
+                    }
+                }
+                else
+                {
+                    ChartModel.SetAnnotation(null);
+                }
+            }
         }
 
         /// <summary>切換分類統計</summary>
@@ -109,6 +131,15 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Set(value);
                 EventIndex = -1;
+
+                if (value > -1 && value < ViewResults.Count)
+                {
+                    ChartModel.SetData(ViewResults[value].RecordTemperatures.ToList());
+                }
+                else
+                {
+                    ChartModel.Clear();
+                }
             }
         }
 
@@ -781,12 +812,14 @@ namespace GPGO_MultiPLCs.ViewModels
         public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db, IDialogService dialog) : base(db)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ChartModel                  = new ProcessChartModel();
 
             LoadedCommand = new RelayCommand(e =>
                                              {
                                                  if (e is FrameworkElement el)
                                                  {
                                                      elementView = el;
+                                                     ChartModel.SetFrameworkElement(el);
                                                  }
                                              });
 
