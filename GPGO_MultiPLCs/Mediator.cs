@@ -406,7 +406,7 @@ namespace GPGO_MultiPLCs
                                                      }
                                                  }
 
-                                                 var si = new GPCore.StreamReaderIni();
+                                                 var si = new StreamReaderIni();
                                                  var t  = si.AddIniSection("CCodeID1");
                                                  t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
                                                  t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0"));

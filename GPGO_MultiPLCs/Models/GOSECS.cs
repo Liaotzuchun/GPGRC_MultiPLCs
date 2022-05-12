@@ -1,5 +1,4 @@
 ﻿using GP_SECS_GEM;
-using GPCore;
 using GPMVVM.Models;
 using QGACTIVEXLib;
 using System;
