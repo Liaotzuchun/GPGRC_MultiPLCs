@@ -1099,8 +1099,7 @@
                 <oxyWpf:PlotView Grid.Column="1"
                                  Background="{StaticResource WindowBackgroundBrush6}"
                                  DefaultTrackerTemplate="{x:Null}"
-                                 Model="{Binding OvenInfo.ChartModel.ChartView, Mode=OneWay}"
-                                 TextOptions.TextRenderingMode="ClearType" />
+                                 Model="{Binding OvenInfo.ChartModel.ChartView, Mode=OneWay}"/>
             </Grid>
         </GroupBox>
     </Grid>

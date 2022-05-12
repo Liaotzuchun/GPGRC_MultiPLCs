@@ -89,27 +89,29 @@ namespace GPGO_MultiPLCs.ViewModels
         public int EventIndex
         {
             get => Get<int>();
+            set => Set(value);
+        }
+
+        public ProcessInfo SelectedProcessInfo
+        {
+            get => Get<ProcessInfo>();
             set
             {
                 Set(value);
-
-                if (ViewResults != null && SelectedIndex > -1 && SelectedIndex < ViewResults.Count)
+                if (value != null)
                 {
-                    var result = ViewResults[SelectedIndex];
-                    if (value > -1 && value < result.EventList.Count)
-                    {
-                        ChartModel.SetAnnotation(result.EventList.ElementAt(value));
-                    }
-                    else
-                    {
-                        ChartModel.SetAnnotation(null);
-                    }
+                    ChartModel.SetData(value.RecordTemperatures.ToList());
                 }
                 else
                 {
-                    ChartModel.SetAnnotation(null);
+                    ChartModel.Clear();
                 }
             }
+        }
+
+        public LogEvent SelectedLogEvent
+        {
+            set => ChartModel.SetAnnotation(value);
         }
 
         /// <summary>切換分類統計</summary>
@@ -131,15 +133,6 @@ namespace GPGO_MultiPLCs.ViewModels
             {
                 Set(value);
                 EventIndex = -1;
-
-                if (value > -1 && value < ViewResults.Count)
-                {
-                    ChartModel.SetData(ViewResults[value].RecordTemperatures.ToList());
-                }
-                else
-                {
-                    ChartModel.Clear();
-                }
             }
         }
 

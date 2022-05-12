@@ -6,6 +6,7 @@ using OxyPlot.Series;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+using HorizontalAlignment = OxyPlot.HorizontalAlignment;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -163,6 +164,10 @@ public class ProcessChartModel
             }
 
             LineAnnotation.X = TimeSpanAxis.ToDouble(ev.Time);
+
+            var m = (TimeSpanAxis.ActualMaximum - TimeSpanAxis.ActualMinimum) / 2.0;
+            LineAnnotation.TextHorizontalAlignment = LineAnnotation.X > m ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+
             LineAnnotation.Color = ev.Type switch
                                    {
                                        EventType.Normal        => OxyColors.Green,
@@ -176,7 +181,7 @@ public class ProcessChartModel
 
             LineAnnotation.TextColor = LineAnnotation.Color;
             var value = ev.Value is bool b ? b ? "ON" : "OFF" : ev.Value.ToString();
-            LineAnnotation.Text      = $"{ev.Description}: {value}";
+            LineAnnotation.Text = $"{ev.Description}: {value}";
         }
 
         RefreshView(true);
@@ -243,6 +248,10 @@ public class ProcessChartModel
 
             ChartView.InvalidatePlot(true);
         }
+        else
+        {
+            Clear();
+        }
     }
 
     public ProcessChartModel()
@@ -250,7 +259,7 @@ public class ProcessChartModel
         ChartView = new PlotModel
                     {
                         DefaultFont             = "Microsoft JhengHei",
-                        PlotAreaBorderThickness = new OxyThickness(0,  1,  1, 0),
+                        PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 0),
                         PlotMargins             = new OxyThickness(40, 0, 0, 35)
                     };
 
@@ -315,7 +324,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineSeries1 = new LineSeries
                       {
@@ -325,7 +334,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineSeries2 = new LineSeries
                       {
@@ -335,7 +344,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineSeries3 = new LineSeries
                       {
@@ -345,7 +354,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineSeries4 = new LineSeries
                       {
@@ -355,7 +364,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineSeries5 = new LineSeries
                       {
@@ -365,7 +374,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineSeries6 = new LineSeries
                       {
@@ -375,7 +384,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineSeries7 = new LineSeries
                       {
@@ -385,7 +394,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineSeries8 = new LineSeries
                       {
@@ -395,7 +404,7 @@ public class ProcessChartModel
                           StrokeThickness     = 2,
                           Decimator           = Decimator.Decimate,
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-        };
+                      };
 
         LineAnnotation = new LineAnnotation
                          {

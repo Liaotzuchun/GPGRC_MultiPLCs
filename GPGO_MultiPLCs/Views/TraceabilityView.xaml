@@ -431,7 +431,8 @@
                       HorizontalScrollBarVisibility="Disabled"
                       ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}"
                       SelectedCellsChanged="SelectedCellsChanged"
-                      SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+                      SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedProcessInfo, Mode=OneWayToSource}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="Auto"
                                             MinWidth="60">
@@ -756,9 +757,10 @@
                           BorderThickness="0,1,1,0"
                           FontSize="12"
                           HorizontalScrollBarVisibility="Disabled"
-                          ItemsSource="{Binding SelectedItem.EventList, ElementName=dg, Mode=OneWay, IsAsync=True}"
+                          ItemsSource="{Binding SelectedProcessInfo.EventList, Mode=OneWay, IsAsync=True}"
                           SelectedCellsChanged="SelectedCellsChanged2"
-                          SelectedIndex="{Binding EventIndex, Mode=TwoWay}">
+                          SelectedIndex="{Binding EventIndex, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedLogEvent, Mode=OneWayToSource}">
                     <DataGrid.RowHeaderTemplate>
                         <DataTemplate>
                             <Border x:Name="Border"
@@ -852,8 +854,7 @@
                                  Background="{StaticResource WindowBackgroundBrush6}"
                                  BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                  BorderThickness="0,1,0,0"
-                                 Model="{Binding ChartModel.ChartView, Mode=OneWay}"
-                                 TextOptions.TextRenderingMode="ClearType">
+                                 Model="{Binding ChartModel.ChartView, Mode=OneWay}">
                     <oxyWpf:PlotView.DefaultTrackerTemplate>
                         <ControlTemplate>
                             <oxyShared:TrackerControl d:DataContext="{d:DesignInstance oxyShared:TrackerControl}"
@@ -929,8 +930,7 @@
                     Background="{StaticResource WindowBackgroundBrush2}">
                 <oxyWpf:PlotView Background="{StaticResource WindowBackgroundBrush2}"
                                  IsMouseWheelEnabled="False"
-                                 Model="{Binding ResultView, Mode=OneWay}"
-                                 TextOptions.TextRenderingMode="ClearType">
+                                 Model="{Binding ResultView, Mode=OneWay}">
                     <oxyWpf:PlotView.DefaultTrackerTemplate>
                         <ControlTemplate>
                             <wpf:TrackerControl d:DataContext="{d:DesignInstance wpf:TrackerControl}"
