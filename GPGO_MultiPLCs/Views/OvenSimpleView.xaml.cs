@@ -2,32 +2,31 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace GPGO_MultiPLCs.Views
+namespace GPGO_MultiPLCs.Views;
+
+/// <summary>
+/// OvenSimpleView.xaml 的互動邏輯
+/// </summary>
+public partial class OvenSimpleView
 {
-    /// <summary>
-    /// OvenSimpleView.xaml 的互動邏輯
-    /// </summary>
-    public partial class OvenSimpleView
+    private void CB_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((ComboBox)sender).Text = ""; }
+
+    private void CB_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((ComboBox)sender).Text = ((ComboBox)sender).SelectedItem as string; }
+
+    private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs _)
     {
-        private void CB_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((ComboBox)sender).Text = ""; }
-
-        private void CB_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((ComboBox)sender).Text = ((ComboBox)sender).SelectedItem as string; }
-
-        private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs _)
+        if (sender is not TextBox tb)
         {
-            if (sender is not TextBox tb)
-            {
-                return;
-            }
-
-            await Task.Delay(15);
-
-            tb.SelectAll();
+            return;
         }
 
-        public OvenSimpleView()
-        {
-            InitializeComponent();
-        }
+        await Task.Delay(15);
+
+        tb.SelectAll();
+    }
+
+    public OvenSimpleView()
+    {
+        InitializeComponent();
     }
 }

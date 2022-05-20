@@ -1,13 +1,12 @@
-﻿namespace GPGO_MultiPLCs.Views
+﻿namespace GPGO_MultiPLCs.Views;
+
+/// <summary>
+/// SECSParameterView.xaml 的互動邏輯
+/// </summary>
+public partial class SECSParameterView
 {
-    /// <summary>
-    /// SECSParameterView.xaml 的互動邏輯
-    /// </summary>
-    public partial class SECSParameterView
+    public SECSParameterView()
     {
-        public SECSParameterView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="6.0.3" />
+    <PackageReference Include="EPPlus" Version="6.0.4" />
     <PackageReference Include="GPMVVM" Version="22.5.11.15" />
     <PackageReference Include="GPMVVM.MongoDB" Version="22.5.11.15" />
     <PackageReference Include="GP_SECS_GEM.WunmaoEdited" Version="1.10.0" />
