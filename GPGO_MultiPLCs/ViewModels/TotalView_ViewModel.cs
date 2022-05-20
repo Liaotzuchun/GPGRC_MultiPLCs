@@ -303,21 +303,31 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public void InsertMessage(params LogEvent[] evs)
     {
-        foreach (var ev in evs)
-        {
-            try
-            {
-                QueueMessages.Enqueue(ev);
-            }
-            catch
-            {
-                // ignored
-            }
-        }
+        if (evs.Length == 0) return;
 
-        while (QueueMessages.Count > 50)
+        var _evs = evs.OrderBy(x => x.AddedTime).ToArray();
+
+        if (QueueMessages.IsEmpty ||
+            _evs.FirstOrDefault() is {} _ev                                            &&
+            _ev.AddedTime                            >= QueueMessages.Last().AddedTime &&
+            (DateTime.Now - _ev.AddedTime).TotalDays <= 1.0)
         {
-            QueueMessages.TryDequeue(out _);
+            foreach (var ev in _evs)
+            {
+                try
+                {
+                    QueueMessages.Enqueue(ev);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+
+            while (QueueMessages.Count > 50)
+            {
+                QueueMessages.TryDequeue(out _);
+            }
         }
     }
 
@@ -677,6 +687,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
 
         #region PLCGate事件通知
+
         Gate.GateStatus.ValueChanged += status =>
                                         {
                                             if (!status)
@@ -684,6 +695,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                 EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
                                             }
                                         };
+
         #endregion
 
         LoadMachineCodes();

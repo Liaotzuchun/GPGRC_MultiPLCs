@@ -656,10 +656,7 @@ public sealed class Mediator : ObservableObject
 
         LogVM.LogAdded += log =>
                           {
-                              if (log.Value is true && (int)log.Type > 1)
-                              {
-                                  TotalVM.InsertMessage(log);
-                              }
+                              TotalVM.InsertMessage(log);
                           };
 
         Task.Run(() =>
@@ -670,26 +667,29 @@ public sealed class Mediator : ObservableObject
 
         #region 產生測試用生產數據資料庫，務必先建立配方！！
 
-        DialogVM.Show(new Dictionary<Language, string>
-                      {
-                          {Language.TW, "測試資料產生中，請稍後！"},
-                          {Language.CHS, "测试数据产生中，请稍后！"},
-                          {Language.EN, "Testing data is being generated, please wait!"}
-                      }, Task.Factory.StartNew(() =>
-                                               {
-                                                   while (RecipeVM.Recipes == null)
-                                                   {
-                                                       Thread.Sleep(45);
-                                                   }
+        //DialogVM.Show(new Dictionary<Language, string>
+        //              {
+        //                  { Language.TW, "測試資料產生中，請稍後！" },
+        //                  { Language.CHS, "测试数据产生中，请稍后！" },
+        //                  { Language.EN, "Testing data is being generated, please wait!" }
+        //              },
+        //              Task.Factory.StartNew(() =>
+        //                                    {
+        //                                        while (RecipeVM.Recipes == null)
+        //                                        {
+        //                                            Thread.Sleep(45);
+        //                                        }
 
-                                                   Thread.Sleep(45);
-                                                   
-                                                   MakeTestData(1);
-                                                   
-                                                   Thread.Sleep(45);
+        //                                        Thread.Sleep(45);
 
-                                                   TraceVM.TodayCommand?.Execute(null);
-                                               }, TaskCreationOptions.LongRunning), TimeSpan.FromMinutes(5));
+        //                                        MakeTestData(1);
+
+        //                                        Thread.Sleep(45);
+
+        //                                        TraceVM.TodayCommand?.Execute(null);
+        //                                    },
+        //                                    TaskCreationOptions.LongRunning),
+        //              TimeSpan.FromMinutes(5));
 
         #endregion
     }
