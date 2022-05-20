@@ -16,7 +16,9 @@ namespace GPGO_MultiPLCs.ViewModels
     public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         #region Interface implement
+
         public void Dispose() { CTS.Dispose(); }
+
         #endregion
 
         public enum Status
@@ -179,7 +181,11 @@ namespace GPGO_MultiPLCs.ViewModels
         public string InputOperatorID
         {
             get => Get<string>();
-            set => Set(value.Trim());
+            set
+            {
+                value = value.Trim();
+                Set(value.Length > 5 ? value.Substring(0, 5) : value);
+            }
         }
 
         /// <summary>
@@ -188,7 +194,11 @@ namespace GPGO_MultiPLCs.ViewModels
         public string InputPartID
         {
             get => Get<string>();
-            set => Set(value.Trim());
+            set
+            {
+                value = value.Trim();
+                Set(value.Length > 16 ? value.Substring(0, 16) : value);
+            }
         }
 
         /// <summary>
@@ -197,7 +207,24 @@ namespace GPGO_MultiPLCs.ViewModels
         public string InputLotID
         {
             get => Get<string>();
-            set => Set(value.Trim());
+            set
+            {
+                value = value.Trim();
+                if (value.Length < 10)
+                {
+                    Dialog.Show(new Dictionary<Language, string>
+                                {
+                                    { Language.TW, "需至少10個字元" },
+                                    { Language.CHS, "需至少10个字符" },
+                                    { Language.EN, "At least 10 chars" }
+                                },
+                                DialogMsgType.Alert);
+                }
+                else
+                {
+                    Set(value);
+                }
+            }
         }
 
         /// <summary>
@@ -731,7 +758,7 @@ namespace GPGO_MultiPLCs.ViewModels
 
         public PLC_ViewModel(IDialogService dialog, IGate gate, int plcindex, string plctag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
         {
-            Dialog     = dialog;
+            Dialog = dialog;
 
             ConnectionStatus.ValueChanged += status =>
                                              {
@@ -782,6 +809,19 @@ namespace GPGO_MultiPLCs.ViewModels
             AddLotCommand = new RelayCommand(_ =>
                                              {
                                                  if (InputQuantity <= 0 || string.IsNullOrEmpty(InputPartID) || string.IsNullOrEmpty(InputLotID)) return;
+
+                                                 if (InputLotID.Length < 10)
+                                                 {
+                                                     Dialog.Show(new Dictionary<Language, string>
+                                                                 {
+                                                                     { Language.TW, "批號需至少10個字元" },
+                                                                     { Language.CHS, "批号需至少10个字符" },
+                                                                     { Language.EN, " LotID must be at least 10 chars" }
+                                                                 },
+                                                                 DialogMsgType.Alert);
+
+                                                     return;
+                                                 }
 
                                                  OvenInfo.OperatorID = InputOperatorID;
 
@@ -1050,6 +1090,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                         };
 
             #region 註冊PLC事件
+
             object PreviousEquipmentState = EquipmentState;
             ValueChanged += async (LogType, data) =>
                             {
@@ -1278,6 +1319,7 @@ namespace GPGO_MultiPLCs.ViewModels
                                               SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
                                               SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                           };
+
             #endregion 註冊PLC事件
         }
     }
