@@ -307,10 +307,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         var _evs = evs.OrderBy(x => x.AddedTime).ToArray();
 
-        if (QueueMessages.IsEmpty ||
-            _evs.FirstOrDefault() is {} _ev                                            &&
-            _ev.AddedTime                            >= QueueMessages.Last().AddedTime &&
-            (DateTime.Now - _ev.AddedTime).TotalDays <= 1.0)
+        if (QueueMessages.IsEmpty || (_evs.FirstOrDefault() is {} _ev && _ev.AddedTime >= QueueMessages.Last().AddedTime && (DateTime.Now - _ev.AddedTime).TotalDays <= 1.0))
         {
             foreach (var ev in _evs)
             {
