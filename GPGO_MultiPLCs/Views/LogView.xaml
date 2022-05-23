@@ -495,8 +495,8 @@
                                       MinWidth="80" />
                     <ColumnDefinition Width="Auto"
                                       MinWidth="80" />
-                    <ColumnDefinition Width="Auto"
-                                      MinWidth="80" />
+                    <ColumnDefinition Width="0"
+                                      MinWidth="0" />
                     <ColumnDefinition Width="Auto"
                                       MinWidth="80" />
                     <ColumnDefinition Width="Auto"

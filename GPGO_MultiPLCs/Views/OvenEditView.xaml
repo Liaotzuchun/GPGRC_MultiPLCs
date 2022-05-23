@@ -129,24 +129,11 @@
                             BorderThickness="1,1,0,1">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Text="{DynamicResource 操作員}" />
-                    </Border>
-                    <TextBox Grid.Row="0"
-                             Grid.Column="1"
-                             BorderThickness="1,1,1,1"
-                             Text="{Binding InputOperatorID, Mode=TwoWay}" />
-                    <Border Grid.Row="1"
-                            Grid.Column="0"
-                            Background="{StaticResource WindowBackgroundBrush2}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="1,0,0,1">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
                                    Text="{DynamicResource 配方}" />
                     </Border>
-                    <ComboBox Grid.Row="1"
+                    <ComboBox Grid.Row="0"
                               Grid.Column="1"
-                              BorderThickness="1,0,1,1"
+                              BorderThickness="1,1,1,1"
                               FontSize="16"
                               GotKeyboardFocus="CB_GotKeyboardFocus"
                               IsEditable="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -169,6 +156,20 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                    <Border Grid.Row="1"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 操作員}" />
+                    </Border>
+                    <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             BorderThickness="1,0,1,1"
+                             GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                             Text="{Binding InputOperatorID, Mode=TwoWay}" />
                     <Border Grid.Row="2"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -181,6 +182,7 @@
                     <TextBox Grid.Row="2"
                              Grid.Column="1"
                              BorderThickness="1,0,1,1"
+                             GotKeyboardFocus="TextBox_GotKeyboardFocus"
                              Text="{Binding InputPartID, Mode=TwoWay}" />
                     <Border Grid.Row="3"
                             Grid.Column="0"
@@ -194,6 +196,7 @@
                     <TextBox Grid.Row="3"
                              Grid.Column="1"
                              BorderThickness="1,0,1,1"
+                             GotKeyboardFocus="TextBox_GotKeyboardFocus"
                              Text="{Binding InputLotID, Mode=TwoWay}" />
                     <Border Grid.Row="4"
                             Grid.Column="0"
@@ -327,16 +330,115 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="Auto"
-                                                MinWidth="60">
+                                                MinWidth="50">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource 數量}" />
                             </DataGridTemplateColumn.Header>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate DataType="models:ProductInfo">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding PanelIDs.Count, Mode=OneWay}"
-                                               TextTrimming="CharacterEllipsis" />
+                                    <Grid>
+                                        <ToggleButton x:Name="ToggleButton"
+                                                      Content="{Binding PanelIDs.Count, Mode=OneWay}"
+                                                      Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridCell}}}"
+                                                      Style="{StaticResource ArrowToggle}">
+                                            <ToggleButton.IsChecked>
+                                                <Binding Converter="{StaticResource ConstValue}"
+                                                         Mode="OneWay"
+                                                         Path="IsSelected"
+                                                         RelativeSource="{RelativeSource FindAncestor,
+                                                                                         AncestorType={x:Type DataGridCell}}">
+                                                    <Binding.ConverterParameter>
+                                                        <system:Boolean>False</system:Boolean>
+                                                    </Binding.ConverterParameter>
+                                                </Binding>
+                                            </ToggleButton.IsChecked>
+                                        </ToggleButton>
+                                        <Popup AllowsTransparency="True"
+                                               Focusable="False"
+                                               IsHitTestVisible="False"
+                                               IsOpen="{Binding IsChecked, ElementName=ToggleButton, Mode=OneWay}"
+                                               Placement="Center"
+                                               PopupAnimation="Fade">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeave">
+                                                    <views:SetPropertyAction PropertyName="IsChecked"
+                                                                             TargetObject="{Binding ElementName=ToggleButton, Mode=OneTime}">
+                                                        <views:SetPropertyAction.PropertyValue>
+                                                            <system:Boolean>False</system:Boolean>
+                                                        </views:SetPropertyAction.PropertyValue>
+                                                    </views:SetPropertyAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                            <ItemsControl x:Name="ItemsControl"
+                                                          AlternationCount="2147483647"
+                                                          ItemsSource="{Binding PanelIDs, Mode=OneWay}">
+                                                <ItemsControl.Template>
+                                                    <ControlTemplate>
+                                                        <Border Background="Transparent">
+                                                            <Border Margin="15,10,15,15"
+                                                                    Background="{StaticResource LightColorBrush}"
+                                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                    BorderThickness="1,1,0,0">
+                                                                <Border.Effect>
+                                                                    <DropShadowEffect BlurRadius="15"
+                                                                                      Direction="270"
+                                                                                      Opacity="0.25" />
+                                                                </Border.Effect>
+                                                                <ItemsPresenter />
+                                                            </Border>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </ItemsControl.Template>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <views:UniformGridWithOrientation Orientation="Vertical"
+                                                                                          Rows="10" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid TextElement.Foreground="{StaticResource BaseForeground}">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="30" />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                    BorderThickness="0,0,1,1">
+                                                                <TextBlock Margin="4"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontSize="12"
+                                                                           Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
+                                                            </Border>
+                                                            <Border Grid.Column="1"
+                                                                    Background="Transparent"
+                                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                    BorderThickness="0,0,1,1">
+                                                                <TextBlock Margin="4"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontSize="12"
+                                                                           Text="{Binding Mode=OneWay}" />
+                                                            </Border>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <Popup.VerticalOffset>
+                                                <MultiBinding Converter="{StaticResource SumValues}">
+                                                    <Binding Converter="{StaticResource RatioValue}"
+                                                             ConverterParameter="0.5"
+                                                             ElementName="ItemsControl"
+                                                             Path="ActualHeight" />
+                                                    <Binding Converter="{StaticResource RatioValue}"
+                                                             ConverterParameter="0.5"
+                                                             ElementName="ToggleButton"
+                                                             Path="ActualHeight" />
+                                                </MultiBinding>
+                                            </Popup.VerticalOffset>
+                                        </Popup>
+                                    </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -348,8 +450,31 @@
                       Grid.ColumnSpan="2"
                       Margin="0,2,0,0"
                       FontSize="16"
-                      FontWeight="Bold"
-                      Header="{DynamicResource 配方參數}">
+                      FontWeight="Bold">
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   Foreground="{StaticResource GlyphBrush}"
+                                   Text="{DynamicResource 配方參數}" />
+                        <Border Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Background="{StaticResource WindowBackgroundBrush6}">
+                            <TextBlock Margin="4,0"
+                                       FontSize="12"
+                                       Foreground="{StaticResource ErrorBrush}"
+                                       Text="SV" />
+                        </Border>
+                        <Border VerticalAlignment="Center"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,0,0,0">
+                            <TextBlock Margin="4,0"
+                                       FontSize="12"
+                                       Foreground="{StaticResource BaseForeground}"
+                                       Text="PV" />
+                        </Border>
+                    </StackPanel>
+                </GroupBox.Header>
                 <Grid Background="{StaticResource WindowBackgroundBrush6}"
                       ClipToBounds="True">
                     <Grid.ColumnDefinitions>
@@ -383,8 +508,12 @@
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding StepCounts, Mode=OneWay}" />
+                                   VerticalAlignment="Center">
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding StepCounts, Mode=OneWay}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_StepCounts, Mode=OneWay}" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="2"
@@ -392,16 +521,22 @@
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{DynamicResource 降溫溫度}" />
+                                   VerticalAlignment="Center">
+                            <Run Text="{DynamicResource 降溫溫度}" />
+                            <Run Text="(°C)" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="3"
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                   VerticalAlignment="Center">
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding CoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_CoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="4"
@@ -409,8 +544,10 @@
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{DynamicResource 降溫時間}" />
+                                   VerticalAlignment="Center">
+                            <Run Text="{DynamicResource 降溫時間}" />
+                            <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="5"
@@ -418,8 +555,10 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_CoolingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="1"
@@ -433,8 +572,10 @@
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{DynamicResource 目標溫度}" />
+                                   VerticalAlignment="Center">
+                            <Run Text="{DynamicResource 目標溫度}" />
+                            <Run Text="(°C)" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="2"
@@ -442,8 +583,10 @@
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{DynamicResource 升溫時間}" />
+                                   VerticalAlignment="Center">
+                            <Run Text="{DynamicResource 升溫時間}" />
+                            <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="3"
@@ -451,8 +594,10 @@
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{DynamicResource 升溫警報}" />
+                                   VerticalAlignment="Center">
+                            <Run Text="{DynamicResource 升溫警報}" />
+                            <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="4"
@@ -460,8 +605,10 @@
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{DynamicResource 恆溫時間}" />
+                                   VerticalAlignment="Center">
+                            <Run Text="{DynamicResource 恆溫時間}" />
+                            <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="5"
@@ -469,8 +616,10 @@
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{DynamicResource 恆溫警報}" />
+                                   VerticalAlignment="Center">
+                            <Run Text="{DynamicResource 恆溫警報}" />
+                            <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="2"
                             Grid.Column="0"
@@ -535,8 +684,12 @@
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                   VerticalAlignment="Center">
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding TemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_TemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="1"
@@ -544,8 +697,12 @@
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                   VerticalAlignment="Center">
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding TemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_TemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="1"
@@ -553,8 +710,12 @@
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                   VerticalAlignment="Center">
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding TemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_TemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="1"
@@ -562,8 +723,12 @@
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                   VerticalAlignment="Center">
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding TemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_TemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="1"
@@ -571,8 +736,12 @@
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                   VerticalAlignment="Center">
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding TemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_TemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="1"
@@ -580,8 +749,12 @@
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding TemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\} °C}" />
+                                   VerticalAlignment="Center">
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding TemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_TemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        </TextBlock>
                     </Border>
                     <Border Grid.Row="2"
                             Grid.Column="2"
@@ -589,8 +762,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="3"
@@ -600,8 +776,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="4"
@@ -611,8 +790,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="5"
@@ -622,8 +804,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="6"
@@ -633,8 +818,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="7"
@@ -644,8 +832,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="2"
@@ -654,8 +845,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="3"
@@ -665,8 +859,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="4"
@@ -676,8 +873,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="5"
@@ -687,8 +887,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="6"
@@ -698,8 +901,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="7"
@@ -709,8 +915,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding RampAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding RampAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_RampAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="2"
@@ -719,8 +928,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="3"
@@ -730,8 +942,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="4"
@@ -741,8 +956,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="5"
@@ -752,8 +970,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="6"
@@ -763,8 +984,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="7"
@@ -774,8 +998,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="2"
@@ -784,8 +1011,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="3"
@@ -795,8 +1025,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="4"
@@ -806,8 +1039,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="5"
@@ -817,8 +1053,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="6"
@@ -828,8 +1067,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="7"
@@ -839,8 +1081,11 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 分}" />
+                            <Run Foreground="{StaticResource ErrorBrush}"
+                                 Text="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding PV_DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+
                         </TextBlock>
                     </Border>
                 </Grid>

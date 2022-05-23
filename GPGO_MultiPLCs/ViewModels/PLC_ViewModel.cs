@@ -740,20 +740,33 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
     }
 
-    public void AddLOT(string PartID, string lotid, IEnumerable<string> panels)
+    public void AddLOT(string PartID, string LotID, IEnumerable<string> panels)
     {
-        var info = new ProductInfo
-                   {
-                       PartID = PartID.Trim(),
-                       LotID  = lotid.Trim()
-                   };
-
-        foreach (var panel in panels)
+        if (Ext_Info.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is {} exinfo)
         {
-            info.PanelIDs.Add(panel);
-        }
+            var n = exinfo.PanelIDs.Count;
+            foreach (var panel in panels)
+            {
+                exinfo.PanelIDs.Add(panel);
+            }
 
-        Ext_Info.Add(info);
+            exinfo.NotifyPanels();
+        }
+        else
+        {
+            var info = new ProductInfo
+                       {
+                           PartID = PartID.Trim(),
+                           LotID  = LotID.Trim()
+                       };
+
+            foreach (var panel in panels)
+            {
+                info.PanelIDs.Add(panel);
+            }
+
+            Ext_Info.Add(info);
+        }
     }
 
     public PLC_ViewModel(IDialogService dialog, IGate gate, int plcindex, string plctag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
@@ -785,7 +798,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
                                                     {
-                                                        if (((KeyEventArgs)e).Key != Key.Enter || Selected_Name == null)
+                                                        if (((KeyEventArgs)e).Key != Key.Enter)
                                                         {
                                                             return;
                                                         }
@@ -832,6 +845,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                  {
                                                      exinfo.PanelIDs.Add($"{exinfo.PartID}-{exinfo.LotID}-{i}");
                                                  }
+
+                                                 exinfo.NotifyPanels();
                                              }
                                              else
                                              {

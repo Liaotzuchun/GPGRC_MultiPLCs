@@ -182,16 +182,21 @@ public class BaseInfo : ObservableObject
 }
 
 /// <summary>材料生產資訊</summary>
-public class ProductInfo //!這是一個批號的資料
+public class ProductInfo : ObservableObject //!這是一個批號的資料
 {
-    public CodeType                               CodeType      { get; set; } = CodeType.Panel;
-    public bool                                   FirstPanel    { get; set; } = false;
-    public string                                 OrderCode     { get; set; }
-    public string                                 PartID        { get; set; }
-    public string                                 LotID         { get; set; }
-    public ObservableConcurrentCollection<string> PanelIDs      { get; set; } = new();
-    public int                                    ProcessNumber { get; set; }
-    public string                                 Side          { get; set; } = "A";
+    public CodeType     CodeType      { get; set; } = CodeType.Panel;
+    public bool         FirstPanel    { get; set; } = false;
+    public string       OrderCode     { get; set; }
+    public string       PartID        { get; set; }
+    public string       LotID         { get; set; }
+    public List<string> PanelIDs      { get; set; } = new();
+    public int          ProcessNumber { get; set; }
+    public string       Side          { get; set; } = "A";
+
+    public void NotifyPanels()
+    {
+        NotifyPropertyChanged(nameof(PanelIDs));
+    }
 
     public ProductInfo() {}
 

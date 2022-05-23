@@ -26,9 +26,10 @@ public class EventTypeToColor : IValueConverter
                    EventType.StatusChanged => Colors.DodgerBlue,
                    EventType.Trigger       => Colors.Blue,
                    EventType.Operator      => Colors.DarkOrange,
-                   EventType.Alert         => Colors.Magenta,
+                   EventType.Alert         => Colors.OrangeRed,
                    EventType.Alarm         => Colors.Red,
-                   _                       => Colors.Gray
+                   EventType.SECSCommnd    => Colors.Magenta,
+                   _                       => Colors.Transparent
                };
     }
 

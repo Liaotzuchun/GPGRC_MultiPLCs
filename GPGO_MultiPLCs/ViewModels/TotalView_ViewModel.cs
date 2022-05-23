@@ -429,18 +429,8 @@ public sealed class TotalView_ViewModel : ObservableObject
                           {
                               var (lotID, partID, panels) = lot;
 
-                              var info = new ProductInfo
-                                         {
-                                             PartID = partID,
-                                             LotID  = lotID
-                                         };
+                              PLC_All[index].AddLOT(lotID, partID, panels);
 
-                              foreach (var panel in panels)
-                              {
-                                  info.PanelIDs.Add(panel);
-                              }
-
-                              PLC_All[index].Ext_Info.Add(info);
                               Task.Run(() =>
                                        {
                                            Thread.Sleep(100);

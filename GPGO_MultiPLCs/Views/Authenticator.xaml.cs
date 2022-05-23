@@ -118,7 +118,8 @@ public partial class Authenticator
     {
         if (e.Key == Key.Enter)
         {
-            LoginButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            Keyboard.Focus(Password);
+            //LoginButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
     }
 

@@ -261,7 +261,11 @@
                                         <DataTemplate.Triggers>
                                             <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                          Value="Normal">
-                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource OKBrush}" />
+                                                <Setter TargetName="Border" Property="Background" Value="Green" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                         Value="StatusChanged">
+                                                <Setter TargetName="Border" Property="Background" Value="DodgerBlue" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                          Value="Trigger">
@@ -269,11 +273,19 @@
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                          Value="Operator">
-                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource WorkingBrush}" />
+                                                <Setter TargetName="Border" Property="Background" Value="DarkOrange" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                         Value="Alert">
+                                                <Setter TargetName="Border" Property="Background" Value="OrangeRed" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                          Value="Alarm">
-                                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ErrorBrush}" />
+                                                <Setter TargetName="Border" Property="Background" Value="Red" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                         Value="SECSCommnd">
+                                                <Setter TargetName="Border" Property="Background" Value="Magenta" />
                                             </DataTrigger>
                                         </DataTemplate.Triggers>
                                     </DataTemplate>
@@ -362,7 +374,8 @@
                                 <ItemsPanelTemplate>
                                     <views:UniformGridWithOrientation Orientation="Vertical">
                                         <views:UniformGridWithOrientation.Rows>
-                                            <MultiBinding Converter="{StaticResource IfElse}">
+                                            <MultiBinding Converter="{StaticResource IfElse}"
+                                                          FallbackValue="1">
                                                 <Binding Converter="{StaticResource IsLessThanValue}"
                                                          ConverterParameter="10"
                                                          Mode="OneWay"

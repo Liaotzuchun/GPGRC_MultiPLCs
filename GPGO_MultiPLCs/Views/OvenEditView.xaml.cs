@@ -12,6 +12,10 @@ public partial class OvenEditView : UserControl
 
     private void CB_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((ComboBox)sender).Text = ((ComboBox)sender).SelectedItem as string; }
 
+    private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        ((TextBox)sender).SelectAll();
+    }
 
     public OvenEditView()
     {

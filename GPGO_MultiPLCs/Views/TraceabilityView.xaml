@@ -749,7 +749,7 @@
                   Height="222"
                   Visibility="{Binding SelectedIndex, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter=0}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="240" />
+                    <ColumnDefinition Width="300" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <DataGrid x:Name="dg2"
@@ -761,6 +761,19 @@
                           SelectedCellsChanged="SelectedCellsChanged2"
                           SelectedIndex="{Binding EventIndex, Mode=TwoWay}"
                           SelectedItem="{Binding SelectedLogEvent, Mode=OneWayToSource}">
+                    <DataGrid.RowHeaderStyle>
+                        <Style TargetType="DataGridRowHeader">
+                            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                        <ContentPresenter Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.RowHeaderStyle>
                     <DataGrid.RowHeaderTemplate>
                         <DataTemplate>
                             <Border x:Name="Border"
@@ -786,11 +799,15 @@
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                              Value="Alert">
-                                    <Setter TargetName="Border" Property="Background" Value="Magenta" />
+                                    <Setter TargetName="Border" Property="Background" Value="OrangeRed" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                              Value="Alarm">
                                     <Setter TargetName="Border" Property="Background" Value="Red" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                             Value="SECSCommnd">
+                                    <Setter TargetName="Border" Property="Background" Value="Magenta" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -806,7 +823,17 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="48">
+                        <DataGridTemplateColumn Width="Auto">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 類型}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:LogEvent">
+                                    <TextBlock Text="{Binding Type, Mode=OneWay, Converter={views:StringToResource}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="Auto">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource 值}" />
                             </DataGridTemplateColumn.Header>
