@@ -803,13 +803,12 @@
                                 <Border x:Name="Border"
                                         Background="Transparent">
                                     <DataGrid Margin="15"
-                                              AlternationCount="2147483647"
+                                              views:DataGridExtensions.DisplayRowNumber="True"
                                               AutoGenerateColumns="False"
                                               BorderThickness="1,1,0,0"
                                               HorizontalScrollBarVisibility="Disabled"
                                               IsHitTestVisible="False"
                                               ItemsSource="{Binding Ext_Info, Mode=OneWay}"
-                                              RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                                               VerticalScrollBarVisibility="Disabled">
                                         <DataGrid.Effect>
                                             <DropShadowEffect BlurRadius="15"

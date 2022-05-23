@@ -646,13 +646,12 @@
                                 </views:LevelsProgressBar.Steps>
                             </views:LevelsProgressBar>
                         </Border>
-                        <DataGrid AlternationCount="2147483647"
+                        <DataGrid views:DataGridExtensions.DisplayRowNumber="True"
                                   AutoGenerateColumns="False"
                                   BorderThickness="0,1,0,0"
                                   DockPanel.Dock="Top"
                                   HorizontalScrollBarVisibility="Disabled"
                                   ItemsSource="{Binding Ext_Info, Mode=OneWay}"
-                                  RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                                   VerticalScrollBarVisibility="Auto">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Width="*">
@@ -1099,7 +1098,7 @@
                 <oxyWpf:PlotView Grid.Column="1"
                                  Background="{StaticResource WindowBackgroundBrush6}"
                                  DefaultTrackerTemplate="{x:Null}"
-                                 Model="{Binding OvenInfo.ChartModel.ChartView, Mode=OneWay}"/>
+                                 Model="{Binding OvenInfo.ChartModel.ChartView, Mode=OneWay}" />
             </Grid>
         </GroupBox>
     </Grid>

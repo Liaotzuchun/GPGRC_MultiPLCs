@@ -106,7 +106,8 @@
             <GroupBox Margin="0,0,2,2"
                       FontSize="16"
                       FontWeight="Bold"
-                      Header="{DynamicResource 投產}">
+                      Header="{DynamicResource 投產}"
+                      IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
                 <Grid TextElement.FontSize="20"
                       TextElement.FontWeight="Bold">
                     <Grid.ColumnDefinitions>
@@ -205,9 +206,23 @@
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="1"
-                            Background="{StaticResource LightColorBrush}"
-                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="1,0,1,1">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="{StaticResource LightBrush}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" />
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=NumericTextBox, Mode=OneWay}"
+                                                 Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource LightColorBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
                         <views:SpinControl Margin="8,0"
                                            VerticalAlignment="Center"
                                            Maximum="{Binding InputQuantityMax, Mode=OneTime}"
@@ -216,7 +231,8 @@
                             <views:SpinControl.SmallChange>
                                 <system:Double>1</system:Double>
                             </views:SpinControl.SmallChange>
-                            <views:NumericTextBox Background="Transparent"
+                            <views:NumericTextBox x:Name="NumericTextBox"
+                                                  Background="Transparent"
                                                   BorderThickness="0"
                                                   IntOnly="True"
                                                   Max="{Binding InputQuantityMax, Mode=OneTime}"
@@ -251,7 +267,7 @@
                     </TextBlock>
                 </GroupBox.Header>
                 <DataGrid x:Name="DataGrid"
-                          AlternationCount="2147483647"
+                          views:DataGridExtensions.DisplayRowNumber="True"
                           AutoGenerateColumns="False"
                           BorderThickness="1,1,1,1"
                           DockPanel.Dock="Top"
@@ -259,10 +275,10 @@
                           FontWeight="Bold"
                           HorizontalScrollBarVisibility="Disabled"
                           ItemsSource="{Binding Ext_Info, Mode=OneWay}"
-                          RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                           VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="80"
+                        <DataGridTemplateColumn Width="Auto"
+                                                MinWidth="60"
                                                 CellStyle="{StaticResource DataGridCellStyle2}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate DataType="models:ProductInfo">

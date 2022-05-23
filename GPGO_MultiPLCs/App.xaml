@@ -121,14 +121,14 @@
             </Style>
             <Style x:Key="TextButton2"
                    TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                 <Setter Property="BorderBrush" Value="{x:Null}" />
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="FocusVisualStyle" Value="{x:Null}" />
                 <Setter Property="FontFamily" Value="Segoe UI Semibold" />
                 <Setter Property="Foreground" Value="{DynamicResource BaseForeground}" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="Margin" Value="1" />
+                <Setter Property="Margin" Value="0" />
                 <Setter Property="MinHeight" Value="1" />
                 <Setter Property="MinWidth" Value="1" />
                 <Setter Property="Template">
@@ -139,20 +139,22 @@
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="0">
-                                <ContentPresenter Margin="1"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   RecognizesAccessKey="True" />
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource WorkingBrush}" />
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource WorkingBrush}" />
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
                                     <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+                                    <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

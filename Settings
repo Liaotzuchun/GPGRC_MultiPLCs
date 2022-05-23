@@ -1,0 +1,7 @@
+﻿{
+  "$type": "GPGO_MultiPLCs.Models.GlobalSettings, GPGO_MultiPLCs",
+  "DataInputPath": "D:\\Intput",
+  "DataOutputPath": "D:\\",
+  "Lng": 0,
+  "OvenCount": 1
+}

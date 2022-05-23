@@ -2310,14 +2310,13 @@
             </Grid>
             <DataGrid Grid.Row="1"
                       Margin="0"
-                      AlternationCount="2147483647"
+                      views:DataGridExtensions.DisplayRowNumber="True"
                       AutoGenerateColumns="False"
                       BorderThickness="0"
                       ColumnWidth="Auto"
                       EnableRowVirtualization="False"
                       HorizontalScrollBarVisibility="Auto"
                       ItemsSource="{Binding ViewRecipes, Mode=OneWay, IsAsync=True}"
-                      RowHeaderTemplate="{StaticResource ShowRowNumbers}"
                       SelectedCellsChanged="DataGrid_SelectedCellsChanged"
                       SelectedIndex="{Binding SelectedRecipeIndex, Mode=TwoWay}">
                 <i:Interaction.Triggers>
