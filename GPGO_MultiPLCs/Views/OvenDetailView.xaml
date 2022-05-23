@@ -50,7 +50,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <GroupBox Margin="0,4,2,4"
                       IsHitTestVisible="False">
@@ -609,10 +609,9 @@
                 <Grid Background="{StaticResource LightBrush}"
                       ClipToBounds="True">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="Auto"
-                                          MinWidth="100" />
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="320"  />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="150" />
                     </Grid.ColumnDefinitions>
                     <DockPanel Grid.Column="0"
                                Background="Transparent"
@@ -620,10 +619,10 @@
                         <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,0"
                                 DockPanel.Dock="Top">
-                            <views:LevelsProgressBar MaxWidth="200"
-                                                     Margin="0,0,0,-18"
+                            <views:LevelsProgressBar Margin="-10,-20,-10,0"
                                                      Maximum="260"
                                                      Minimum="0"
+                                                     Style="{DynamicResource HLineLevelsProgressBar}"
                                                      Unit="°C"
                                                      Value="{Binding PV_ThermostatTemperature, Mode=OneWay}">
                                 <views:LevelsProgressBar.Steps>
