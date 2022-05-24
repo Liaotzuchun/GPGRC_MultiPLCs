@@ -744,7 +744,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         if (Ext_Info.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is {} exinfo)
         {
-            var n = exinfo.PanelIDs.Count;
             foreach (var panel in panels)
             {
                 exinfo.PanelIDs.Add(panel);
@@ -991,7 +990,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                              }
 
                                                              var counts = 0;
-                                                             var (result4, input4) =
+                                                             var (result4, _) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
                                                                                              {
                                                                                                  { Language.TW, "輸入數量" },
@@ -1109,7 +1108,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         object PreviousEquipmentState = EquipmentState;
         ValueChanged += async (LogType, data) =>
                         {
-                            var (name, value, oldvalue, type, Subscriptions, SubPosition) = data;
+                            var (name, value, _, type, Subscriptions, SubPosition) = data;
 
                             //var typeEnum = type is null ? "" : value is bool && SubPosition == -1 ? ((BitType)type).ToString() : ((DataType)type).ToString();
 
