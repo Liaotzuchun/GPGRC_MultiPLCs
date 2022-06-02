@@ -44,7 +44,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     private const    double                     Delay = 2;
     private readonly IDialogService             Dialog;
     private readonly TaskFactory                OneScheduler = new(new StaTaskScheduler(1));
-    private          TaskCompletionSource<bool> TCS;
+    //private          TaskCompletionSource<bool> TCS;
 
     public int InputQuantityMin => 0;
     public int InputQuantityMax => 99;
@@ -422,19 +422,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         Set(recipe.RecipeName, nameof(Selected_Name));
         Intput_Name = Selected_Name;
 
-        TCS?.TrySetResult(false);
+        //TCS?.TrySetResult(false);
 
         RemoteCommandSelectPP = false;
         await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
+        InvokeSECSEvent?.Invoke("RecipeChanged");
         RemoteCommandSelectPP = true;
 
-        TCS = new TaskCompletionSource<bool>();
-        if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
-        {
-            RemoteCommandSelectPP = false;
-            RecipeChangeError     = true;
-            return SetRecipeResult.PLC錯誤;
-        }
+        //TCS = new TaskCompletionSource<bool>();
+        //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
+        //{
+        //    RemoteCommandSelectPP = false;
+        //    RecipeChangeError     = true;
+        //    return SetRecipeResult.PLC錯誤;
+        //}
 
         await Task.Delay(300).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
@@ -461,19 +462,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         Set(recipe.RecipeName, nameof(Selected_Name));
         Intput_Name = Selected_Name;
 
-        TCS?.TrySetResult(false);
+        //TCS?.TrySetResult(false);
 
         RemoteCommandSelectPP = false;
         await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
+        InvokeSECSEvent?.Invoke("RecipeChanged");
         RemoteCommandSelectPP = true;
 
-        TCS = new TaskCompletionSource<bool>();
-        if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
-        {
-            RemoteCommandSelectPP = false;
-            RecipeChangeError     = true;
-            return SetRecipeResult.PLC錯誤;
-        }
+        //TCS = new TaskCompletionSource<bool>();
+        //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
+        //{
+        //    RemoteCommandSelectPP = false;
+        //    RecipeChangeError     = true;
+        //    return SetRecipeResult.PLC錯誤;
+        //}
 
         await Task.Delay(300).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
@@ -536,28 +538,29 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         Set(recipe.RecipeName, nameof(Selected_Name));
         Intput_Name = Selected_Name;
 
-        TCS?.TrySetResult(false);
+        //TCS?.TrySetResult(false);
 
         RemoteCommandSelectPP = false;
         await ManualSetByProperties(recipe.ToDictionary());
+        InvokeSECSEvent?.Invoke("RecipeChanged");
         RemoteCommandSelectPP = true;
 
-        TCS = new TaskCompletionSource<bool>();
-        if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
-        {
-            Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, "配方設定失敗！" },
-                            { Language.CHS, "配方设定失败！" },
-                            { Language.EN, "Failed to set recipe!" }
-                        },
-                        TimeSpan.FromSeconds(3),
-                        DialogMsgType.Alarm);
+        //TCS = new TaskCompletionSource<bool>();
+        //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
+        //{
+        //    Dialog.Show(new Dictionary<Language, string>
+        //                {
+        //                    { Language.TW, "配方設定失敗！" },
+        //                    { Language.CHS, "配方设定失败！" },
+        //                    { Language.EN, "Failed to set recipe!" }
+        //                },
+        //                TimeSpan.FromSeconds(3),
+        //                DialogMsgType.Alarm);
 
-            RemoteCommandSelectPP = false;
-            RecipeChangeError     = true;
-            return SetRecipeResult.PLC錯誤;
-        }
+        //    RemoteCommandSelectPP = false;
+        //    RecipeChangeError     = true;
+        //    return SetRecipeResult.PLC錯誤;
+        //}
 
         await Task.Delay(300).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
@@ -1307,7 +1310,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     {
                                         RemoteCommandSelectPPFinish = 0;
 
-                                        TCS?.TrySetResult(true);
+                                        //TCS?.TrySetResult(true);
 
                                         EventHappened?.Invoke(eventval);
                                         InvokeSECSEvent?.Invoke("RecipeChanged");
@@ -1315,7 +1318,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     else if (RemoteCommandSelectPPFinish == 2)
                                     {
                                         RemoteCommandSelectPPFinish = 0;
-                                        TCS?.TrySetResult(false);
+                                        //TCS?.TrySetResult(false);
                                     }
                                 }
                             }

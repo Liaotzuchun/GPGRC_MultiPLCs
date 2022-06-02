@@ -21,15 +21,12 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    [PLCBitData(DataType.D, 11067, 0, LogType.Trigger)]
     public bool RemoteCommandSelectPP
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    //! PC<=PLC
-    [PLCData(DataType.D, 11068, LogType.Trigger)]
     public short RemoteCommandSelectPPFinish
     {
         get => Get<short>();
@@ -1742,7 +1739,7 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    public bool ProcessComplete
+    public bool ProcessComplete //TODO
     {
         get => Get<bool>();
         set => Set(value);
@@ -1755,19 +1752,19 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    public bool PC_InUse
+    public bool PC_InUse //TODO
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    public bool RemoteMode
+    public bool RemoteMode //TODO
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    public bool LocalMode
+    public bool LocalMode //TODO
     {
         get => Get<bool>();
         set => Set(value);
@@ -1915,7 +1912,7 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    public short EquipmentState
+    public short EquipmentState //TODO
     {
         get => Get<short>();
         set => Set(value);
