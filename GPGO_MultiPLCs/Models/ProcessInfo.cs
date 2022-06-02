@@ -181,8 +181,21 @@ public class BaseInfo : ObservableObject
     }
 }
 
+public interface IProduct
+{
+    CodeType     CodeType      { get; set; }
+    bool         FirstPanel    { get; set; }
+    string       OrderCode     { get; set; }
+    string       PartID        { get; set; }
+    string       LotID         { get; set; }
+    List<string> PanelIDs      { get; set; }
+    int          ProcessNumber { get; set; }
+    string       Side          { get; set; }
+    int          Tier          { get; set; }
+}
+
 /// <summary>材料生產資訊</summary>
-public class ProductInfo : ObservableObject //!這是一個批號的資料
+public class ProductInfo : ObservableObject , IProduct //!這是一個批號的資料
 {
     public CodeType     CodeType      { get; set; } = CodeType.Panel;
     public bool         FirstPanel    { get; set; } = false;
@@ -192,6 +205,10 @@ public class ProductInfo : ObservableObject //!這是一個批號的資料
     public List<string> PanelIDs      { get; set; } = new();
     public int          ProcessNumber { get; set; }
     public string       Side          { get; set; } = "A";
+    /// <summary>
+    /// 放在第幾層
+    /// </summary>
+    public int          Tier          { get; set; }
 
     public void NotifyPanels()
     {
@@ -219,7 +236,7 @@ public class ProductInfo : ObservableObject //!這是一個批號的資料
 
 /// <summary>資料庫紀錄資訊 = 機台資訊(BaseInfo) + 材料生產資訊(ProductInfo)</summary>
 [BsonIgnoreExtraElements]
-public class ProcessInfo : BaseInfo, ILogData
+public class ProcessInfo : BaseInfo, ILogData, IProduct
 {
     /// <summary>單一製程序材料數量</summary>
     [LanguageTranslator("Quantity", "數量", "数量")]
@@ -252,6 +269,11 @@ public class ProcessInfo : BaseInfo, ILogData
     /// <summary>正反面</summary>
     [LanguageTranslator("Side", "面", "面")]
     public string Side { get; set; } = "A";
+
+    /// <summary>
+    /// 放在第幾層
+    /// </summary>
+    public int Tier { get; set; }
 
     public string AlarmListString() { return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm).Select(x => x.TagCode)); }
 
