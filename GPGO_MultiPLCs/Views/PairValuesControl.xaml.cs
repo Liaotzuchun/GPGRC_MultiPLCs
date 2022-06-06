@@ -1,34 +1,33 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace GPGO_MultiPLCs.Views
+namespace GPGO_MultiPLCs.Views;
+
+/// <summary>
+/// PairValuesControl.xaml 的互動邏輯
+/// </summary>
+public partial class PairValuesControl : UserControl
 {
-    /// <summary>
-    /// PairValuesControl.xaml 的互動邏輯
-    /// </summary>
-    public partial class PairValuesControl : UserControl
+    public string Value1
     {
-        public string Value1
-        {
-            get => (string)GetValue(Value1Property);
-            set => SetValue(Value1Property, value);
-        }
+        get => (string)GetValue(Value1Property);
+        set => SetValue(Value1Property, value);
+    }
 
-        public static readonly DependencyProperty Value1Property =
-            DependencyProperty.Register("Value1", typeof(string), typeof(PairValuesControl), new UIPropertyMetadata(string.Empty, null));
+    public static readonly DependencyProperty Value1Property =
+        DependencyProperty.Register("Value1", typeof(string), typeof(PairValuesControl), new UIPropertyMetadata(string.Empty, null));
 
-        public string Value2
-        {
-            get => (string)GetValue(Value2Property);
-            set => SetValue(Value2Property, value);
-        }
+    public string Value2
+    {
+        get => (string)GetValue(Value2Property);
+        set => SetValue(Value2Property, value);
+    }
 
-        public static readonly DependencyProperty Value2Property =
-            DependencyProperty.Register("Value2", typeof(string), typeof(PairValuesControl), new UIPropertyMetadata(string.Empty, null));
+    public static readonly DependencyProperty Value2Property =
+        DependencyProperty.Register("Value2", typeof(string), typeof(PairValuesControl), new UIPropertyMetadata(string.Empty, null));
 
-        public PairValuesControl()
-        {
-            InitializeComponent();
-        }
+    public PairValuesControl()
+    {
+        InitializeComponent();
     }
 }

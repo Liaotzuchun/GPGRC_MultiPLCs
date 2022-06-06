@@ -7,14 +7,14 @@ namespace GPGO_MultiPLCs.Models;
 public class GOL_DataModel : PLCDataProvider
 {
     #region PC=>PLC //todo PLC需實作這些
-    [PLCBitData(DataType.D, 12020, 0, LogType.Trigger)]
+    [PLCBit(BitType.M, 51, LogType.Trigger)]
     public bool RemoteCommandStart
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    [PLCBitData(DataType.D, 12020, 1, LogType.Trigger)]
+    [PLCBit(BitType.M, 52, LogType.Trigger)]
     public bool RemoteCommandStop
     {
         get => Get<bool>();
@@ -1633,7 +1633,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 允許啟動
     /// </summary>
-    public bool AllowStart
+    public bool AllowStart //todo
     {
         get => Get<bool>();
         set => Set(value);
@@ -1642,7 +1642,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 允許停止
     /// </summary>
-    public bool AllowStop
+    public bool AllowStop //todo
     {
         get => Get<bool>();
         set => Set(value);
@@ -1739,7 +1739,8 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    public bool ProcessComplete //TODO
+    [PLCBit(BitType.M, 209, LogType.StatusVariables)]
+    public bool ProcessComplete
     {
         get => Get<bool>();
         set => Set(value);

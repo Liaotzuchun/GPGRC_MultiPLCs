@@ -472,13 +472,13 @@ public sealed class Mediator : ObservableObject
                                              {
                                                  switch (await TotalVM.SetRecipe(i, recipe))
                                                  {
-                                                     case PLC_ViewModel.SetRecipeResult.條件不允許:
+                                                     case SetRecipeResult.條件不允許:
                                                          l1.Add(i + 1);
                                                          break;
-                                                     case PLC_ViewModel.SetRecipeResult.PLC錯誤:
+                                                     case SetRecipeResult.PLC錯誤:
                                                          l2.Add(i + 1);
                                                          break;
-                                                     case PLC_ViewModel.SetRecipeResult.比對錯誤:
+                                                     case SetRecipeResult.比對錯誤:
                                                          l3.Add(i + 1);
                                                          break;
                                                  }

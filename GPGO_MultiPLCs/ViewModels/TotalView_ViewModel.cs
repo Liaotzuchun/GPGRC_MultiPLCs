@@ -279,7 +279,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     /// <param name="index">PLC序號</param>
     /// <param name="recipe">配方</param>
     /// <returns>是否成功寫入PLC</returns>
-    public Task<PLC_ViewModel.SetRecipeResult> SetRecipe(int index, PLC_Recipe recipe) => PLC_All[index].SetRecipe(recipe);
+    public Task<SetRecipeResult> SetRecipe(int index, PLC_Recipe recipe) => PLC_All[index].SetRecipe(recipe);
 
     /// <summary>設定使用的PLC配方(透過配方名)</summary>
     /// <param name="names">配方名列表</param>
@@ -422,7 +422,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      return HCACKValule.CantPerform;
                                  }
 
-                                 return PLC_All[index].SetRecipe(name).Result == PLC_ViewModel.SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
+                                 return PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
                              };
 
         secsGem.AddLOT += (index, lot) =>

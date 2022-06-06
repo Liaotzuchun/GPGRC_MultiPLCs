@@ -10,13 +10,6 @@ using System.Text;
 
 namespace GPGO_MultiPLCs.Models;
 
-public enum CodeType
-{
-    Panel,
-    SubPanel,
-    JobNo
-}
-
 /// <summary>機台資訊</summary>
 [BsonIgnoreExtraElements]
 public class BaseInfo : ObservableObject

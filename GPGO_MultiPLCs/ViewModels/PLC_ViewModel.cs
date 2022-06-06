@@ -21,26 +21,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     #endregion
 
-    public enum Status
-    {
-        離線 = -1,
-        未知,
-        運轉中 = 1,
-        待命  = 2,
-        準備中,
-        維修 = 8,
-        停止 = 16,
-        錯誤 = 4
-    }
-
-    public enum SetRecipeResult
-    {
-        成功,
-        條件不允許,
-        PLC錯誤,
-        比對錯誤
-    }
-
     private const    double                     Delay = 2;
     private readonly IDialogService             Dialog;
     private readonly TaskFactory                OneScheduler = new(new StaTaskScheduler(1));
