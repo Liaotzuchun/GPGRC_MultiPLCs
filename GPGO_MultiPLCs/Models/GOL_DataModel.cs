@@ -6,22 +6,20 @@ namespace GPGO_MultiPLCs.Models;
 
 public class GOL_DataModel : PLCDataProvider
 {
-    #region PC=>PLC //todo PLC需實作這些
-    [PLCBit(BitType.M, 51, LogType.Trigger)]
-    public bool RemoteCommandStart
+    #region PC=>PLC
+    public bool RemoteCommandStart //todo 偵測host下command後自發事件
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    [PLCBit(BitType.M, 52, LogType.Trigger)]
     public bool RemoteCommandStop
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    public bool RemoteCommandSelectPP
+    public bool RemoteCommandSelectPP //todo 丟配方至D1000再自己檢查D700
     {
         get => Get<bool>();
         set => Set(value);
@@ -1633,7 +1631,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 允許啟動
     /// </summary>
-    public bool AllowStart //todo
+    public bool AllowStart //todo D60=2
     {
         get => Get<bool>();
         set => Set(value);
@@ -1642,7 +1640,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 允許停止
     /// </summary>
-    public bool AllowStop //todo
+    public bool AllowStop //todo M209:ON
     {
         get => Get<bool>();
         set => Set(value);
@@ -1753,13 +1751,13 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    public bool PC_InUse //TODO
+    public bool PC_InUse //TODO 不需要
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    public bool RemoteMode //TODO
+    public bool RemoteMode //TODO 與localmode同一個
     {
         get => Get<bool>();
         set => Set(value);
@@ -1913,7 +1911,7 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    public short EquipmentState //TODO
+    public short EquipmentState //TODO D60
     {
         get => Get<short>();
         set => Set(value);

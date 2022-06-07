@@ -16,7 +16,7 @@ public enum Status
     準備中,     //手動模式
     維修 = 8,   //NOTE 沒有
     停止 = 16,  //自動停止
-    錯誤 = 4    //機台報警+停止
+    錯誤 = 4    //設備異常
 }
 
 public enum SetRecipeResult
