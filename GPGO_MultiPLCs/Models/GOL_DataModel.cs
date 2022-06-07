@@ -1778,7 +1778,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 溫控器實際溫度
     /// </summary>
-    [PLCData(DataType.D, 65, LogType.StatusVariables)]
+    [PLCData(DataType.D, 65, 0.1, LogType.StatusVariables)]
     public double PV_ThermostatTemperature
     {
         get => Get<double>();
@@ -1788,7 +1788,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 溫控器設定溫度
     /// </summary>
-    [PLCData(DataType.D, 64, LogType.StatusVariables)]
+    [PLCData(DataType.D, 64, 0.1, LogType.StatusVariables)]
     public double ThermostatTemperature
     {
         get => Get<double>();
