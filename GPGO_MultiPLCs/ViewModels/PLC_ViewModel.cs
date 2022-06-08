@@ -21,9 +21,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     #endregion
 
-    private const    double                     Delay = 2;
-    private readonly IDialogService             Dialog;
-    private readonly TaskFactory                OneScheduler = new(new StaTaskScheduler(1));
+    private const    double         Delay = 2;
+    private readonly IDialogService Dialog;
+
+    private readonly TaskFactory OneScheduler = new(new StaTaskScheduler(1));
     //private          TaskCompletionSource<bool> TCS;
 
     public int InputQuantityMin => 0;
@@ -47,8 +48,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo), ValueTask>     ExecutingFinished;
     public event Func<(BitType, int), bool, ValueTask>                                          SetPLCSignal;
     public event Func<string, ValueTask<ICollection<ProductInfo>>>                              WantFrontData;
-    public event Func<User>                                                                     GetUser;
-    public event Action<PLC_Recipe>                                                             RecipeChangedbyPLC;
+
+    public event Func<User> GetUser;
+    //public event Action<PLC_Recipe>                                                             RecipeChangedbyPLC;
 
     public RelayCommand LoadedCommand { get; }
 
@@ -119,9 +121,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 return Status.離線;
             }
 
-            if (Enum.IsDefined(typeof(Status), (int)EquipmentState))
+            switch (EquipmentState)
             {
-                return (Status)EquipmentState;
+                case 0:
+                    return Status.待命;
+                case 1:
+                    return Status.運轉中;
+                case 2:
+                    return Status.停止;
+                case 3:
+                    return Status.錯誤;
             }
 
             return Status.未知;
@@ -392,7 +401,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public async Task<SetRecipeResult> SetRecipe(PLC_Recipe recipe)
     {
-        if (recipe == null || IsExecuting || !PC_InUse)
+        if (recipe == null || IsExecuting || !RemoteMode)
         {
             Intput_Name = Selected_Name;
             return SetRecipeResult.條件不允許;
@@ -404,10 +413,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         //TCS?.TrySetResult(false);
 
-        RemoteCommandSelectPP = false;
+        //RemoteCommandSelectPP = false;
         await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
         InvokeSECSEvent?.Invoke("RecipeChanged");
-        RemoteCommandSelectPP = true;
+        //RemoteCommandSelectPP = true;
 
         //TCS = new TaskCompletionSource<bool>();
         //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
@@ -417,22 +426,22 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         //    return SetRecipeResult.PLC錯誤;
         //}
 
-        await Task.Delay(300).ConfigureAwait(false);
+        await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
         {
-            RemoteCommandSelectPP = false;
+            //RemoteCommandSelectPP = false;
             RecipeChangeError     = true;
             return SetRecipeResult.比對錯誤;
         }
 
-        RemoteCommandSelectPP = false;
+        //RemoteCommandSelectPP = false;
 
         return SetRecipeResult.成功;
     }
 
     public async Task<SetRecipeResult> SetRecipe(string recipeName)
     {
-        if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
+        if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !RemoteMode)
         {
             Intput_Name = Selected_Name;
             return SetRecipeResult.條件不允許;
@@ -444,10 +453,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         //TCS?.TrySetResult(false);
 
-        RemoteCommandSelectPP = false;
+        //RemoteCommandSelectPP = false;
         await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
         InvokeSECSEvent?.Invoke("RecipeChanged");
-        RemoteCommandSelectPP = true;
+        //RemoteCommandSelectPP = true;
 
         //TCS = new TaskCompletionSource<bool>();
         //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
@@ -457,22 +466,22 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         //    return SetRecipeResult.PLC錯誤;
         //}
 
-        await Task.Delay(300).ConfigureAwait(false);
+        await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
         {
-            RemoteCommandSelectPP = false;
+            //RemoteCommandSelectPP = false;
             RecipeChangeError     = true;
             return SetRecipeResult.比對錯誤;
         }
 
-        RemoteCommandSelectPP = false;
+        //RemoteCommandSelectPP = false;
 
         return SetRecipeResult.成功;
     }
 
     private async Task<SetRecipeResult> SetRecipeDialog(string recipeName)
     {
-        if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !PC_InUse)
+        if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !RemoteMode)
         {
             Dialog.Show(new Dictionary<Language, string>
                         {
@@ -520,10 +529,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         //TCS?.TrySetResult(false);
 
-        RemoteCommandSelectPP = false;
+        //RemoteCommandSelectPP = false;
         await ManualSetByProperties(recipe.ToDictionary());
         InvokeSECSEvent?.Invoke("RecipeChanged");
-        RemoteCommandSelectPP = true;
+        //RemoteCommandSelectPP = true;
 
         //TCS = new TaskCompletionSource<bool>();
         //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
@@ -542,7 +551,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         //    return SetRecipeResult.PLC錯誤;
         //}
 
-        await Task.Delay(300).ConfigureAwait(false);
+        await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
         {
             Dialog.Show(new Dictionary<Language, string>
@@ -554,12 +563,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         TimeSpan.FromSeconds(3),
                         DialogMsgType.Alarm);
 
-            RemoteCommandSelectPP = false;
+            //RemoteCommandSelectPP = false;
             RecipeChangeError     = true;
             return SetRecipeResult.比對錯誤;
         }
 
-        RemoteCommandSelectPP = false;
+        //RemoteCommandSelectPP = false;
 
         return SetRecipeResult.成功;
     }
@@ -571,7 +580,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     private async Task StartRecoder(long cycle_ms, CancellationToken ct)
     {
         OvenInfo.Clear();
-        OvenInfo.RackID    = RackID;
+        //OvenInfo.RackID    = RackID;
         OvenInfo.StartTime = DateTime.Now;
         OvenInfo.EndTime   = new DateTime();
 
@@ -701,11 +710,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                            ExecutingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
 
-                                           //OvenInfo.Clear();
-                                           //Ext_Info.Clear();
+                                           OvenInfo.Clear();
+                                           Ext_Info.Clear();
 
-                                           ////!需在引發紀錄完成後才觸發取消投產
-                                           //CheckInCommand.Result = false;
+                                           //!需在引發紀錄完成後才觸發取消投產
+                                           CheckInCommand.Result = false;
                                            NotifyPropertyChanged(nameof(IsExecuting));
                                        });
 
@@ -1034,13 +1043,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                              Ext_Info.Add(info);
                                                          }
 
-                                                         if (!PC_InUse)
+                                                         if (!RemoteMode)
                                                          {
                                                              if (!await Dialog.Show(new Dictionary<Language, string>
                                                                                     {
-                                                                                        { Language.TW, "目前烤箱處於\"PC PASS\"模式，無法由PC設定配方\n確定投產嗎？" },
-                                                                                        { Language.CHS, "目前烤箱处于\"PC PASS\"模式，无法由PC设定配方\n确定投产吗？" },
-                                                                                        { Language.EN, "The oven is in \"PC PASS\" mode, can't set recipe by PC.\nAre you sure to execute?" }
+                                                                                        { Language.TW, "目前烤箱處於\"Local\"模式，無法由PC設定配方\n確定投產嗎？" },
+                                                                                        { Language.CHS, "目前烤箱处于\"Local\"模式，无法由PC设定配方\n确定投产吗？" },
+                                                                                        { Language.EN, "The oven is in \"Local\" mode, can't set recipe by PC.\nAre you sure to execute?" }
                                                                                     },
                                                                                     true))
                                                              {
@@ -1050,14 +1059,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                          }
                                                          else
                                                          {
-                                                             RemoteCommandSelectPP = false;
+                                                             //RemoteCommandSelectPP = false;
 
                                                              if (GetRecipe?.Invoke(Selected_Name) is {} recipe)
                                                              {
                                                                  await ManualSetByProperties(recipe.ToDictionary());
                                                              }
 
-                                                             RemoteCommandSelectPP = true;
+                                                             //RemoteCommandSelectPP = true;
                                                          }
 
                                                          Checking = false;
@@ -1152,55 +1161,55 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         InvokeSECSEvent?.Invoke("ProcessStopped");
                                         await StopPP();
                                     }
-                                    else if (name == nameof(ReadBarcode))
-                                    {
-                                        if (!val)
-                                        {
-                                            return;
-                                        }
+                                    //else if (name == nameof(ReadBarcode))
+                                    //{
+                                    //    if (!val)
+                                    //    {
+                                    //        return;
+                                    //    }
 
-                                        SV_Changed?.Invoke("RackID", RackID);
-                                        ReadBarcode = false; //清訊號
-                                    }
-                                    else if (name == nameof(RackInput))
-                                    {
-                                        if (!val)
-                                        {
-                                            return;
-                                        }
+                                    //    SV_Changed?.Invoke("RackID", RackID);
+                                    //    ReadBarcode = false; //清訊號
+                                    //}
+                                    //else if (name == nameof(RackInput))
+                                    //{
+                                    //    if (!val)
+                                    //    {
+                                    //        return;
+                                    //    }
 
-                                        InvokeSECSEvent?.Invoke(nameof(RackInput));
-                                        RackInput = false; //清訊號
-                                    }
-                                    else if (name == nameof(RackOutput))
-                                    {
-                                        if (!val)
-                                        {
-                                            return;
-                                        }
+                                    //    InvokeSECSEvent?.Invoke(nameof(RackInput));
+                                    //    RackInput = false; //清訊號
+                                    //}
+                                    //else if (name == nameof(RackOutput))
+                                    //{
+                                    //    if (!val)
+                                    //    {
+                                    //        return;
+                                    //    }
 
-                                        //!需在引發紀錄完成後才觸發取消投產
-                                        CheckInCommand.Result = false;
-                                        InvokeSECSEvent?.Invoke(nameof(RackOutput));
-                                        OvenInfo.Clear();
-                                        Ext_Info.Clear();
-                                        RackOutput = false; //清訊號
-                                    }
-                                    else if (name == nameof(RecipeChanged))
-                                    {
-                                        //if (!val || string.IsNullOrEmpty(RecipeName))
-                                        //{
-                                        //    return;
-                                        //}
+                                    //    //!需在引發紀錄完成後才觸發取消投產
+                                    //    CheckInCommand.Result = false;
+                                    //    InvokeSECSEvent?.Invoke(nameof(RackOutput));
+                                    //    OvenInfo.Clear();
+                                    //    Ext_Info.Clear();
+                                    //    RackOutput = false; //清訊號
+                                    //}
+                                    //else if (name == nameof(RecipeChanged))
+                                    //{
+                                    //    if (!val || string.IsNullOrEmpty(RecipeName))
+                                    //    {
+                                    //        return;
+                                    //    }
 
-                                        //var recipe = new PLC_Recipe();
-                                        //this.CopyTo(recipe);
-                                        //recipe.Updated     = DateTime.Now;
-                                        //recipe.Editor      = "PLC";
-                                        //recipe.EditorLevel = UserLevel.Operator;
+                                    //    var recipe = new PLC_Recipe();
+                                    //    this.CopyTo(recipe);
+                                    //    recipe.Updated = DateTime.Now;
+                                    //    recipe.Editor = "PLC";
+                                    //    recipe.EditorLevel = UserLevel.Operator;
 
-                                        //RecipeChangedbyPLC?.Invoke(recipe);
-                                    }
+                                    //    RecipeChangedbyPLC?.Invoke(recipe);
+                                    //}
                                     else if (name is nameof(IsRamp) or nameof(IsDwell) or nameof(IsCooling))
                                     {
                                         NotifyPropertyChanged(nameof(Progress));
@@ -1270,36 +1279,43 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             }
                             else if (LogType == LogType.Trigger)
                             {
-                                var eventval = (EventType.Trigger, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
+                                if (value is true)
+                                {
+                                    var eventval = (EventType.Trigger, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
 
-                                if (name == nameof(RemoteCommandStart))
-                                {
-                                    EventHappened?.Invoke(eventval);
-                                }
-                                else if (name == nameof(RemoteCommandStop))
-                                {
-                                    EventHappened?.Invoke(eventval);
-                                }
-                                else if (name == nameof(RemoteCommandSelectPP))
-                                {
-                                    EventHappened?.Invoke(eventval);
-                                }
-                                else if (name == nameof(RemoteCommandSelectPPFinish))
-                                {
-                                    if (RemoteCommandSelectPPFinish == 1)
+                                    if (name == nameof(RemoteCommandStart))
                                     {
-                                        RemoteCommandSelectPPFinish = 0;
-
-                                        //TCS?.TrySetResult(true);
-
                                         EventHappened?.Invoke(eventval);
-                                        InvokeSECSEvent?.Invoke("RecipeChanged");
+                                        AutoMode_Stop  = false;
+                                        AutoMode_Start = true;
                                     }
-                                    else if (RemoteCommandSelectPPFinish == 2)
+                                    else if (name == nameof(RemoteCommandStop))
                                     {
-                                        RemoteCommandSelectPPFinish = 0;
-                                        //TCS?.TrySetResult(false);
+                                        EventHappened?.Invoke(eventval);
+                                        AutoMode_Start = false;
+                                        AutoMode_Stop  = true;
                                     }
+                                    //else if (name == nameof(RemoteCommandSelectPP))
+                                    //{
+                                    //    EventHappened?.Invoke(eventval);
+                                    //}
+                                    //else if (name == nameof(RemoteCommandSelectPPFinish))
+                                    //{
+                                    //    if (RemoteCommandSelectPPFinish == 1)
+                                    //    {
+                                    //        RemoteCommandSelectPPFinish = 0;
+
+                                    //        //TCS?.TrySetResult(true);
+
+                                    //        EventHappened?.Invoke(eventval);
+                                    //        InvokeSECSEvent?.Invoke("RecipeChanged");
+                                    //    }
+                                    //    else if (RemoteCommandSelectPPFinish == 2)
+                                    //    {
+                                    //        RemoteCommandSelectPPFinish = 0;
+                                    //        //TCS?.TrySetResult(false);
+                                    //    }
+                                    //}
                                 }
                             }
                         };

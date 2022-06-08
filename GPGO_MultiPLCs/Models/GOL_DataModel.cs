@@ -7,7 +7,8 @@ namespace GPGO_MultiPLCs.Models;
 public class GOL_DataModel : PLCDataProvider
 {
     #region PC=>PLC
-    public bool RemoteCommandStart //todo 偵測host下command後自發事件
+
+    public bool RemoteCommandStart
     {
         get => Get<bool>();
         set => Set(value);
@@ -19,17 +20,17 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    public bool RemoteCommandSelectPP //todo 丟配方至D1000再自己檢查D700
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
+    //public bool RemoteCommandSelectPP
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
 
-    public short RemoteCommandSelectPPFinish
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
+    //public short RemoteCommandSelectPPFinish
+    //{
+    //    get => Get<short>();
+    //    set => Set(value);
+    //}
 
     [PLCBit(BitType.M, 21, LogType.None)]
     public bool Check
@@ -37,9 +38,11 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<bool>();
         set => Set(value);
     }
+
     #endregion
 
     #region 配方設定值
+
     /// <summary>
     /// 配方名
     /// </summary>
@@ -559,9 +562,11 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<double>();
         set => Set(value);
     }
+
     #endregion
 
     #region 配方運作值(配方PV)
+
     /// <summary>
     /// 配方PV 配方名
     /// </summary>
@@ -1080,9 +1085,11 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<double>();
         set => Set(value);
     }
+
     #endregion
 
     #region 警報
+
     /// <summary>
     /// 緊急停止
     /// </summary>
@@ -1607,31 +1614,34 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<bool>();
         set => Set(value);
     }
+
     #endregion
 
     #region 機台狀態
-    public bool ReadBarcode
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    
-    public bool RackInput
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    
-    public bool RackOutput
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
+
+    //public bool ReadBarcode
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
+
+    //public bool RackInput
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
+
+    //public bool RackOutput
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
 
     /// <summary>
     /// 允許啟動
     /// </summary>
-    public bool AllowStart //todo D60=2
+    [PLCBitData(DataType.D, 60, 1, LogType.StatusVariables)]
+    public bool AllowStart
     {
         get => Get<bool>();
         set => Set(value);
@@ -1640,7 +1650,8 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 允許停止
     /// </summary>
-    public bool AllowStop //todo M209:ON
+    [PLCBit(BitType.M, 209, LogType.StatusVariables)]
+    public bool AllowStop
     {
         get => Get<bool>();
         set => Set(value);
@@ -1751,29 +1762,30 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    public bool PC_InUse //TODO 不需要
+    //public bool PC_InUse //! 不需要
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
+
+    [PLCBit(BitType.M, 341, LogType.StatusVariables)]
+    public bool RemoteMode
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    public bool RemoteMode //TODO 與localmode同一個
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
+    //public bool LocalMode
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
 
-    public bool LocalMode //TODO
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    public bool RecipeChanged
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
+    //public bool RecipeChanged
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
 
     /// <summary>
     /// 溫控器實際溫度
@@ -1905,13 +1917,14 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// RackID
     /// </summary>
-    public string RackID
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
+    //public string RackID
+    //{
+    //    get => Get<string>();
+    //    set => Set(value);
+    //}
 
-    public short EquipmentState //TODO D60
+    [PLCData(DataType.D, 60, LogType.StatusVariables)]
+    public short EquipmentState
     {
         get => Get<short>();
         set => Set(value);
@@ -1922,6 +1935,7 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<string>();
         set => Set(value);
     }
+
     #endregion
 
     public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) {}

@@ -177,7 +177,6 @@ public sealed class TotalView_ViewModel : ObservableObject
             foreach (var plc in PLC_All)
             {
                 plc.RemoteMode = value;
-                plc.LocalMode  = !plc.RemoteMode;
             }
 
             if (!secsGem.Remote(value))
@@ -187,7 +186,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                 foreach (var plc in PLC_All)
                 {
                     plc.RemoteMode = !value;
-                    plc.LocalMode  = !plc.RemoteMode;
                 }
             }
         }
@@ -393,7 +391,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.Start += index =>
                          {
-                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
+                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AllowStart)
                              {
                                  return HCACKValule.CantPerform;
                              }
@@ -405,7 +403,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.Stop += index =>
                         {
-                            if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
+                            if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AllowStop)
                             {
                                 return HCACKValule.CantPerform;
                             }
@@ -510,8 +508,8 @@ public sealed class TotalView_ViewModel : ObservableObject
         {
             var plc = new PLC_ViewModel(dialog,
                                         Gate,
-                                        //BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(39 + i) }, 0),
-                                        i,
+                                        BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(39 + i) }, 0),
+                                        //i,
                                         "GOL",
                                         (bits_shift: new Dictionary<BitType, int>
                                                      {
@@ -667,10 +665,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                   secsGem.UpdateSV($"Oven{index + 1}_{name}", value);
                               };
 
-            plc.RecipeChangedbyPLC += recipe =>
-                                      {
-                                          UpsertRecipe?.Invoke(recipe);
-                                      };
+            //plc.RecipeChangedbyPLC += recipe =>
+            //                          {
+            //                              UpsertRecipe?.Invoke(recipe);
+            //                          };
         }
 
         #region PLCGate事件通知
