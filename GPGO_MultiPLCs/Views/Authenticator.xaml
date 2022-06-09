@@ -10,7 +10,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
-             xmlns:gpcoremodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM.Core"
              d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
              Foreground="{StaticResource BaseForeground}"
              IsVisibleChanged="UserControl_IsVisibleChanged"
