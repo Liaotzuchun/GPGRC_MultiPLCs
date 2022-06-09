@@ -9,6 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             xmlns:gpcoremodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM.Core"
              d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
              Foreground="{StaticResource BaseForeground}"
              IsVisibleChanged="UserControl_IsVisibleChanged"
@@ -353,7 +354,7 @@
                                     <TextBlock Text="{DynamicResource 帳號}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpmodels:User">
+                                    <DataTemplate DataType="gpcoremodels:User">
                                         <TextBlock Text="{Binding Name, Mode=OneWay}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </DataTemplate>
@@ -364,7 +365,7 @@
                                     <TextBlock Text="{DynamicResource 密碼}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpmodels:User">
+                                    <DataTemplate DataType="gpcoremodels:User">
                                         <TextBlock Text="{Binding Password, Mode=OneWay}"
                                                    TextTrimming="CharacterEllipsis" />
                                     </DataTemplate>
@@ -375,7 +376,7 @@
                                     <TextBlock Text="{DynamicResource 層級}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpmodels:User">
+                                    <DataTemplate DataType="gpcoremodels:User">
                                         <TextBlock Text="{Binding Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -385,7 +386,7 @@
                                     <TextBlock Text="{DynamicResource 上次登入}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpmodels:User">
+                                    <DataTemplate DataType="gpcoremodels:User">
                                         <TextBlock Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -395,7 +396,7 @@
                                     <TextBlock Text="{DynamicResource 創建時間}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpmodels:User">
+                                    <DataTemplate DataType="gpcoremodels:User">
                                         <TextBlock Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -548,7 +549,7 @@
                      Margin="8,0,8,8"
                      FontSize="16"
                      ItemContainerStyle="{StaticResource ListBoxItem_Top}"
-                     SelectedIndex="{Binding Settings.Lng, Converter={StaticResource EnumToInt}, ConverterParameter={x:Type gpmodels:Language}, Mode=TwoWay}"
+                     SelectedIndex="{Binding Settings.Lng, Converter={StaticResource EnumToInt}, ConverterParameter={x:Type gpcoremodels:Language}, Mode=TwoWay}"
                      SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.Template>
                     <ControlTemplate>

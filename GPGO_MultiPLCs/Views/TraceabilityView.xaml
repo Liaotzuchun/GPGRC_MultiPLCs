@@ -45,8 +45,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <views:FilterGroupProxy x:Key="OvenFilterData"
-                                Data="{Binding OvenFilter, Mode=OneWay}" />
+        <!--<views:FilterGroupProxy x:Key="OvenFilterData"
+                                Data="{Binding OvenFilter, Mode=OneWay}" />-->
         <views:FilterGroupProxy x:Key="RecipeFilterData"
                                 Data="{Binding RecipeFilter, Mode=OneWay}" />
         <!--<views:FilterGroupProxy x:Key="OrderFilterData"
