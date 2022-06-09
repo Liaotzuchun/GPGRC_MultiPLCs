@@ -73,7 +73,7 @@
                 <Viewbox Margin="6"
                          VerticalAlignment="Center">
                     <TextBlock Foreground="{StaticResource BaseForeground}"
-                               Text="{Binding ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                               Text="{Binding PV_ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
                 </Viewbox>
             </Border>
             <Border Grid.Row="1"
@@ -82,7 +82,7 @@
                 <Viewbox Margin="6"
                          VerticalAlignment="Center">
                     <TextBlock Foreground="{StaticResource ErrorBrush}"
-                               Text="{Binding ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                               Text="{Binding PV_ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
                 </Viewbox>
             </Border>
             <Border Grid.Row="0"
@@ -117,6 +117,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
@@ -245,7 +246,42 @@
                                                   Text="{Binding InputQuantity, Mode=TwoWay}" />
                         </views:SpinControl>
                     </Border>
-                    <Button Grid.Row="5"
+                    <Border Grid.Row="5"
+                            Grid.Column="0"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,0,1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource 階層}" />
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="1"
+                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="1,0,0,0">
+                        <ListBox ItemContainerStyle="{StaticResource ListBoxItem_Top}"
+                                 SelectedIndex="{Binding InputLayer, Mode=TwoWay, Converter={StaticResource AddValue}, ConverterParameter=-1}">
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter />
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <views:UniformStackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <system:String>1</system:String>
+                            <system:String>2</system:String>
+                            <system:String>3</system:String>
+                            <system:String>4</system:String>
+                            <system:String>5</system:String>
+                            <system:String>6</system:String>
+                            <system:String>7</system:String>
+                            <system:String>8</system:String>
+                        </ListBox>
+                    </Border>
+                    <Button Grid.Row="6"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Content="{DynamicResource 新增}">
@@ -280,6 +316,7 @@
                           FontWeight="Bold"
                           HorizontalScrollBarVisibility="Disabled"
                           ItemsSource="{Binding Ext_Info, Mode=OneWay}"
+                          Loaded="DataGrid_Loaded"
                           VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="Auto"
@@ -296,6 +333,21 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="Auto">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{DynamicResource 階層}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="models:ProductInfo">
+                                    <Viewbox Margin="4"
+                                             StretchDirection="DownOnly">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding Layer, Mode=OneWay}" />
+                                    </Viewbox>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace GPGO_MultiPLCs.Views;
 
@@ -12,6 +15,15 @@ public partial class OvenDetailView
         if (dg.SelectedItem != null)
         {
             dg.ScrollIntoView(dg.SelectedItem);
+        }
+    }
+
+    private void DataGrid_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var cvTasks = CollectionViewSource.GetDefaultView(((DataGrid)sender).ItemsSource);
+        if (cvTasks is { CanSort: true } && !cvTasks.SortDescriptions.Any())
+        {
+            cvTasks.SortDescriptions.Add(new SortDescription("Layer", ListSortDirection.Ascending));
         }
     }
 

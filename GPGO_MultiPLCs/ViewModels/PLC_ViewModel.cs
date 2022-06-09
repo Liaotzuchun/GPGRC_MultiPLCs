@@ -29,6 +29,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public int InputQuantityMin => 0;
     public int InputQuantityMax => 99;
+    public int InputLayerMin => 1;
+    public int InputLayerMax => 8;
 
     /// <summary>控制紀錄任務結束</summary>
     public CancellationTokenSource CTS;
@@ -231,6 +233,24 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             else if (value > InputQuantityMax)
             {
                 value = InputQuantityMax;
+            }
+
+            Set(value);
+        }
+    }
+
+    public int InputLayer
+    {
+        get => Get<int>();
+        set
+        {
+            if (value < InputLayerMin)
+            {
+                value = InputLayerMin;
+            }
+            else if (value > InputLayerMax)
+            {
+                value = InputLayerMax;
             }
 
             Set(value);
@@ -762,7 +782,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public PLC_ViewModel(IDialogService dialog, IGate gate, int plcindex, string plctag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
     {
-        Dialog = dialog;
+        InputLayer = InputLayerMin;
+        Dialog     = dialog;
 
         ConnectionStatus.ValueChanged += status =>
                                          {
@@ -829,30 +850,18 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                              OvenInfo.OperatorID = InputOperatorID;
 
-                                             if (Ext_Info.FirstOrDefault(x => x.PartID == InputPartID && x.LotID == InputLotID) is {} exinfo)
+                                             var info = new ProductInfo
+                                                        {
+                                                            PartID = InputPartID,
+                                                            LotID  = InputLotID,
+                                                            Layer = InputLayer
+                                                        };
+                                             for (var i = 1; i <= InputQuantity; i++)
                                              {
-                                                 var n = exinfo.PanelIDs.Count;
-                                                 for (var i = n + 1; i <= n + InputQuantity; i++)
-                                                 {
-                                                     exinfo.PanelIDs.Add($"{exinfo.PartID}-{exinfo.LotID}-{i}");
-                                                 }
-
-                                                 exinfo.NotifyPanels();
+                                                 info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
                                              }
-                                             else
-                                             {
-                                                 var info = new ProductInfo
-                                                            {
-                                                                PartID = InputPartID,
-                                                                LotID  = InputLotID
-                                                            };
-                                                 for (var i = 1; i <= InputQuantity; i++)
-                                                 {
-                                                     info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{i}");
-                                                 }
 
-                                                 Ext_Info.Add(info);
-                                             }
+                                             Ext_Info.Add(info);
                                          });
 
         DeleteLotCommand = new RelayCommand(lot =>

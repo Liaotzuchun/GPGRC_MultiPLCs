@@ -209,5 +209,5 @@
     <sys:String x:Key="加熱門未關">DoorNotClosed</sys:String>
     <sys:String x:Key="電控箱溫度異常">ElectricControlBoxTemperatureError</sys:String>
     <sys:String x:Key="進氣風車異常">IntakeWindmillError</sys:String>
-
+    <sys:String x:Key="階層">Layer</sys:String>
 </ResourceDictionary>

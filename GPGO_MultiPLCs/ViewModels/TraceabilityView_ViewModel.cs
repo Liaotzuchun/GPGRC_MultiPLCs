@@ -86,6 +86,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     /// <summary>基於板架的Filter</summary>
     public FilterGroup RackFilter { get; }
 
+    public FilterGroup LayerFilter { get; }
+
     public int EventIndex
     {
         get => Get<int>();
@@ -789,12 +791,13 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             ViewResults = Results.GetRange(min, max - min + 1)
                                  .Where(x => OvenFilter.Check(x.StationNumber) &&
                                              RecipeFilter.Check(x.RecipeName)  &&
-                                             OrderFilter.Check(x.OrderCode)    &&
-                                             PartIDFilter.Check(x.PartID)      &&
-                                             LotIDFilter.Check(x.LotID)        &&
-                                             OpFilter.Check(x.OperatorID)      &&
-                                             RackFilter.Check(x.RackID)        &&
-                                             SideFilter.Check(x.Side))
+                                             //OrderFilter.Check(x.OrderCode)    &&
+                                             PartIDFilter.Check(x.PartID) &&
+                                             LotIDFilter.Check(x.LotID)   &&
+                                             OpFilter.Check(x.OperatorID) &&
+                                             //RackFilter.Check(x.RackID)        &&
+                                             //SideFilter.Check(x.Side)          &&
+                                             LayerFilter.Check(x.Layer))
                                  .OrderByDescending(x => x.AddedTime)
                                  .ToList();
         }
@@ -993,17 +996,19 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         OpFilter      = new FilterGroup(UpdateAct);
         RackFilter    = new FilterGroup(UpdateAct);
         SideFilter    = new FilterGroup(UpdateAct);
+        LayerFilter   = new FilterGroup(UpdateAct);
 
         ResultsChanged += async e =>
                           {
-                              OvenFilter.Filter   = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              RecipeFilter.Filter = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              OrderFilter.Filter  = e?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              PartIDFilter.Filter = e?.Select(x => x.PartID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              LotIDFilter.Filter  = e?.Select(x => x.LotID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              OpFilter.Filter     = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              RackFilter.Filter   = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              SideFilter.Filter   = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                              OvenFilter.Filter   = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
+                              RecipeFilter.Filter = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()    ?? new List<EqualFilter>();
+                              PartIDFilter.Filter = e?.Select(x => x.PartID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()        ?? new List<EqualFilter>();
+                              LotIDFilter.Filter  = e?.Select(x => x.LotID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()         ?? new List<EqualFilter>();
+                              OpFilter.Filter     = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()    ?? new List<EqualFilter>();
+                              LayerFilter.Filter  = e?.Select(x => x.Layer).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()         ?? new List<EqualFilter>();
+                              //OrderFilter.Filter  = e?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()     ?? new List<EqualFilter>();
+                              //RackFilter.Filter   = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()        ?? new List<EqualFilter>();
+                              //SideFilter.Filter   = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()          ?? new List<EqualFilter>();
 
                               UpdateAct();
 

@@ -50,7 +50,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <GroupBox Margin="0,4,2,4"
                       IsHitTestVisible="False">
@@ -609,7 +609,7 @@
                 <Grid Background="{StaticResource LightBrush}"
                       ClipToBounds="True">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="320"  />
+                        <ColumnDefinition Width="320" />
                         <ColumnDefinition Width="90" />
                         <ColumnDefinition Width="150" />
                     </Grid.ColumnDefinitions>
@@ -651,8 +651,24 @@
                                   DockPanel.Dock="Top"
                                   HorizontalScrollBarVisibility="Disabled"
                                   ItemsSource="{Binding Ext_Info, Mode=OneWay}"
+                                  Loaded="DataGrid_Loaded"
                                   VerticalScrollBarVisibility="Auto">
                             <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="Auto">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 階層}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:ProductInfo">
+                                            <Viewbox Margin="4"
+                                                     StretchDirection="DownOnly">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{Binding Layer, Mode=OneWay}" />
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Width="*">
                                     <DataGridTemplateColumn.Header>
                                         <TextBlock Text="{DynamicResource 料號}" />
@@ -876,7 +892,7 @@
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,1,1">
                             <UniformGrid Rows="1">
-                                <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                <!--<Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="0,0,1,0">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
@@ -896,7 +912,7 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
-                                </Border>
+                                </Border>-->
                                 <TabControl views:TabControl.EnableSliding="True"
                                             SelectedIndex="{Binding AutoMode, Mode=OneWay}">
                                     <TabItem Width="0"
@@ -1047,14 +1063,14 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Margin="8,0"
+                    <!--<TextBlock Margin="8,0"
                                FontSize="16"
                                FontWeight="Bold"
                                Foreground="{StaticResource GlyphBrush}">
                         <Run Text="RackID" />
                         <Run Text=":" />
                         <Run Text="{Binding RackID, Mode=OneWay}" />
-                    </TextBlock>
+                    </TextBlock>-->
                     <TextBlock Grid.Column="1"
                                Margin="8,0"
                                FontSize="16"

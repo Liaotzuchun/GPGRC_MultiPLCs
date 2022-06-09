@@ -210,4 +210,5 @@
     <sys:String x:Key="加熱門未關">加熱門未關</sys:String>
     <sys:String x:Key="電控箱溫度異常">電控箱溫度異常</sys:String>
     <sys:String x:Key="進氣風車異常">進氣風車異常</sys:String>
+    <sys:String x:Key="階層">階層</sys:String>
 </ResourceDictionary>

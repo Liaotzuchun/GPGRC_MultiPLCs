@@ -184,11 +184,11 @@ public interface IProduct
     List<string> PanelIDs      { get; set; }
     int          ProcessNumber { get; set; }
     string       Side          { get; set; }
-    int          Tier          { get; set; }
+    int          Layer          { get; set; }
 }
 
 /// <summary>材料生產資訊</summary>
-public class ProductInfo : ObservableObject , IProduct //!這是一個批號的資料
+public class ProductInfo : ObservableObject, IProduct //!這是一個批號的資料
 {
     public CodeType     CodeType      { get; set; } = CodeType.Panel;
     public bool         FirstPanel    { get; set; } = false;
@@ -198,10 +198,11 @@ public class ProductInfo : ObservableObject , IProduct //!這是一個批號的�
     public List<string> PanelIDs      { get; set; } = new();
     public int          ProcessNumber { get; set; }
     public string       Side          { get; set; } = "A";
+
     /// <summary>
     /// 放在第幾層
     /// </summary>
-    public int          Tier          { get; set; }
+    public int Layer { get; set; }
 
     public void NotifyPanels()
     {
@@ -266,7 +267,7 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct
     /// <summary>
     /// 放在第幾層
     /// </summary>
-    public int Tier { get; set; }
+    public int Layer { get; set; }
 
     public string AlarmListString() { return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm).Select(x => x.TagCode)); }
 
