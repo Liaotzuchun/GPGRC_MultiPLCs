@@ -1,4 +1,5 @@
-﻿using GPMVVM.Models;
+﻿using GPMVVM.Helpers;
+using GPMVVM.Models;
 using System;
 using System.ComponentModel;
 using System.Reflection;
