@@ -326,6 +326,11 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
     }
 
+    public void StartPLCGate()
+    {
+        Checker?.Change(0, Timeout.Infinite);
+    }
+
     public TotalView_ViewModel(int count, IGate gate, IDialogService dialog)
     {
         Gate      = gate;
@@ -710,7 +715,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                 Checker?.Change(150, Timeout.Infinite);
                             },
                             null,
-                            0,
+                            Timeout.Infinite,
                             Timeout.Infinite);
     }
 }

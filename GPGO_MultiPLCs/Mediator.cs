@@ -303,6 +303,8 @@ public sealed class Mediator : ObservableObject
         //!當主視窗讀取完成時，再讀取配方和生產履歷資料庫
         MainVM.LoadedEvent += async dp =>
                               {
+                                  TotalVM.StartPLCGate();
+
                                   await dp.InvokeAsync(() =>
                                                        {
                                                            RecipeVM.InitialLoadCommand.Execute(null);
