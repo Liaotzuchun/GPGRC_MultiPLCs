@@ -4,6 +4,7 @@
              xmlns:GPSECS="clr-namespace:GP_SECS_GEM;assembly=GP_SECS_GEM"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
+             xmlns:gpcoremodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM.Core"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
