@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using PLCService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,10 +10,6 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows;
 using System.Windows.Input;
-using GPGO_MultiPLCs.Models;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using PLCService;
 
 namespace GPGO_MultiPLCs.ViewModels;
 
@@ -23,14 +23,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     private const    double         Delay = 2;
     private readonly IDialogService Dialog;
+    private          bool           ManualRecord;
 
     private readonly TaskFactory OneScheduler = new(new StaTaskScheduler(1));
     //private          TaskCompletionSource<bool> TCS;
 
     public int InputQuantityMin => 0;
     public int InputQuantityMax => 99;
-    public int InputLayerMin => 1;
-    public int InputLayerMax => 8;
+    public int InputLayerMin    => 1;
+    public int InputLayerMax    => 8;
 
     /// <summary>控制紀錄任務結束</summary>
     public CancellationTokenSource CTS;
@@ -90,6 +91,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             {
                 return 0.0;
             }
+
+            ManualRecord = true; //! 狀態變更強制紀錄溫度
 
             if (IsCooling)
             {
@@ -450,7 +453,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         if (!RecipeCompare(recipe))
         {
             //RemoteCommandSelectPP = false;
-            RecipeChangeError     = true;
+            RecipeChangeError = true;
             return SetRecipeResult.比對錯誤;
         }
 
@@ -490,7 +493,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         if (!RecipeCompare(recipe))
         {
             //RemoteCommandSelectPP = false;
-            RecipeChangeError     = true;
+            RecipeChangeError = true;
             return SetRecipeResult.比對錯誤;
         }
 
@@ -584,7 +587,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         DialogMsgType.Alarm);
 
             //RemoteCommandSelectPP = false;
-            RecipeChangeError     = true;
+            RecipeChangeError = true;
             return SetRecipeResult.比對錯誤;
         }
 
@@ -645,16 +648,31 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                                 if (n >= TimeSpan.FromMinutes(30))
                                                 {
-                                                    n += TimeSpan.FromSeconds(30);
+                                                    n += TimeSpan.FromSeconds(10);
                                                 }
                                                 else if (n >= TimeSpan.FromMinutes(1))
                                                 {
-                                                    n += TimeSpan.FromSeconds(10);
+                                                    n += TimeSpan.FromSeconds(5);
                                                 }
                                                 else
                                                 {
                                                     n += TimeSpan.FromSeconds(2);
                                                 }
+                                            }
+                                            else if (ManualRecord)
+                                            {
+                                                ManualRecord = false;
+                                                AddTemperatures(OvenInfo.StartTime,
+                                                                DateTime.Now,
+                                                                _ThermostatTemperature,
+                                                                _OvenTemperature_1,
+                                                                _OvenTemperature_2,
+                                                                _OvenTemperature_3,
+                                                                _OvenTemperature_4,
+                                                                _OvenTemperature_5,
+                                                                _OvenTemperature_6,
+                                                                _OvenTemperature_7,
+                                                                _OvenTemperature_8);
                                             }
                                             else
                                             {
@@ -854,7 +872,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         {
                                                             PartID = InputPartID,
                                                             LotID  = InputLotID,
-                                                            Layer = InputLayer
+                                                            Layer  = InputLayer
                                                         };
                                              for (var i = 1; i <= InputQuantity; i++)
                                              {

@@ -230,7 +230,7 @@ public class ProductInfo : ObservableObject, IProduct //!這是一個批號的�
 
 /// <summary>資料庫紀錄資訊 = 機台資訊(BaseInfo) + 材料生產資訊(ProductInfo)</summary>
 [BsonIgnoreExtraElements]
-public class ProcessInfo : BaseInfo, ILogData, IProduct
+public class ProcessInfo : BaseInfo, ILogData, IProduct //todo 將溫度紀錄與材料資訊拆分，避免沒必要的重複溫度紀錄在資料庫中
 {
     /// <summary>單一製程序材料數量</summary>
     [LanguageTranslator("Quantity", "數量", "数量")]
@@ -297,57 +297,6 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct
                    { type.GetProperty(nameof(RecipeName)).GetName(lng), RecipeName },
                    { type.GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.None) }
                };
-    }
-
-    /// <summary>輸出客戶指定之文字字串</summary>
-    /// <returns></returns>
-    public string ToString(int index)
-    {
-        var stb = new StringBuilder();
-        stb.Append("General1=");
-        stb.AppendLine(OrderCode);
-        stb.Append("General2=");
-        stb.AppendLine(ProcessNumber.ToString("0000"));
-        stb.Append("General3=");
-        stb.AppendLine(StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
-        stb.Append("General4=");
-        stb.AppendLine(EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
-        stb.Append("General5=");
-        stb.AppendLine(MachineCode);
-        stb.Append("General6=");
-        stb.AppendLine(CodeType.ToString());
-        stb.Append("General7=");
-        stb.AppendLine(PanelIDs.Count > index ? PanelIDs[index] : "");
-        stb.Append("General8=");
-        stb.AppendLine(RecipeName);
-        stb.Append("General9=");
-        stb.AppendLine((index + 1).ToString());
-        stb.Append("General10=");
-        stb.AppendLine(Quantity.ToString());
-        stb.Append("General11=");
-        stb.AppendLine(OperatorID);
-        stb.Append("General12=");
-        stb.AppendLine("");
-        stb.Append("General13=");
-        stb.AppendLine(Side);
-        stb.Append("General14=");
-        stb.AppendLine("");
-        stb.Append("General15=");
-        stb.AppendLine(FirstPanel ? "Y" : "N");
-        stb.Append("Machine1=");
-        stb.AppendLine(RackID);
-        stb.Append("Machine2=");
-        stb.AppendLine(string.Join(",", TargetOvenTemperatures.Select(x => ((int)Math.Round(x, MidpointRounding.AwayFromZero)).ToString())));
-        stb.Append("Machine3=");
-        stb.AppendLine(string.Join(",", DwellTimes.Select(x => x.ToString(CultureInfo.InvariantCulture))));
-        stb.Append("Machine4=");
-        stb.AppendLine(string.Join(",", RampTimes.Select(x => x.ToString(CultureInfo.InvariantCulture))));
-        stb.Append("Machine5=");
-        stb.AppendLine(TotalRampTime.ToString(CultureInfo.InvariantCulture));
-        stb.Append("Machine6=");
-        stb.AppendLine(AlarmListString());
-
-        return stb.ToString();
     }
 
     public ProcessInfo()
