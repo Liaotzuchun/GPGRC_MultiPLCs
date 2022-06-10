@@ -2,6 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GPGO_MultiPLCs"
+             xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:views="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              Exit="Application_Exit"
              SessionEnding="Application_SessionEnding"
@@ -162,6 +165,40 @@
                 </Setter>
                 <Setter Property="VerticalContentAlignment" Value="Center" />
             </Style>
+            <DataTemplate x:Key="BooleanDataTemplate"
+                          DataType="models:LogEvent">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="24" />
+                    </Grid.ColumnDefinitions>
+                    <Ellipse x:Name="Ellipse"
+                             Width="10"
+                             Height="10"
+                             Margin="0,0,4,0"
+                             Fill="{StaticResource DisabledBackgroundBrush}"
+                             Stroke="{StaticResource DisabledBorderBrush}"
+                             StrokeThickness="1" />
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                </Grid>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding Value, Mode=OneWay}"
+                                 Value="True">
+                        <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
+                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+            <DataTemplate x:Key="TextDataTemplate"
+                          DataType="models:LogEvent">
+                <TextBlock Text="{Binding Value, Mode=OneWay}"
+                           TextTrimming="CharacterEllipsis" />
+            </DataTemplate>
+            <views:LogTypeTemplateSelector x:Key="LogTypeTemplateSelector"
+                                           DataType="{x:Type system:Boolean}"
+                                           OtherTemplate="{StaticResource TextDataTemplate}"
+                                           Template="{StaticResource BooleanDataTemplate}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

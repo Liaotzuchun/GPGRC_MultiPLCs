@@ -292,9 +292,50 @@
                                 </DataGrid.RowHeaderTemplate>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate DataType="models:LogEvent">
-                                        <TextBlock Margin="4"
-                                                   Text="{Binding Description, Mode=OneWay}"
-                                                   TextWrapping="Wrap" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Border Background="{StaticResource WindowBackgroundBrush6}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,1">
+                                                <TextBlock Margin="4"
+                                                           HorizontalAlignment="Right"
+                                                           Text="{DynamicResource 名稱}" />
+                                            </Border>
+                                            <Border Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,0,1">
+                                                <TextBlock Margin="4"
+                                                           HorizontalAlignment="Left"
+                                                           Text="{Binding Description, Mode=OneWay}"
+                                                           TextWrapping="Wrap" />
+                                            </Border>
+                                            <Border Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Background="{StaticResource WindowBackgroundBrush6}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,1,0">
+                                                <TextBlock Margin="4"
+                                                           HorizontalAlignment="Right"
+                                                           Text="{DynamicResource 值}" />
+                                            </Border>
+                                            <Border Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="0,0,0,0">
+                                                <ContentControl Margin="4"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding Mode=OneWay}"
+                                                                ContentTemplateSelector="{StaticResource LogTypeTemplateSelector}" />
+                                            </Border>
+                                        </Grid>
                                     </DataTemplate>
                                 </DataGrid.RowDetailsTemplate>
                                 <DataGrid.Columns>

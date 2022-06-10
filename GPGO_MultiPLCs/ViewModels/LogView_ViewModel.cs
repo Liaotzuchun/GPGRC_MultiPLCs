@@ -83,7 +83,7 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
         {
             Set(value);
 
-            ViewResults_On  = value?.Where(x => x.Value is true).ToList();
+            ViewResults_On  = value?.Where(x => x.Value is not false).ToList();
             ViewResults_Off = value?.Where(x => x.Value is false).ToList();
         }
     }
@@ -168,7 +168,7 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
                                         for (var i = 0; i < ViewResults_On.Count; i++)
                                         {
                                             var on = ViewResults_On[i];
-                                            if (on.AddedTime < _off.AddedTime && on.StationNumber == _off.StationNumber && on.Type == _off.Type && on.Description == _off.Description)
+                                            if (on.Value is true && on.AddedTime < _off.AddedTime && on.StationNumber == _off.StationNumber && on.Type == _off.Type && on.Description == _off.Description)
                                             {
                                                 Set(on.Value == _off.Value ? -1 : i, nameof(SelectedIndex1));
 

@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:models1="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:LogView_ViewModel}"
@@ -37,8 +39,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <views:FilterGroupProxy x:Key="OvenFilterData"
-                                Data="{Binding OvenFilter, Mode=OneWay}" />
+        <!--<views:FilterGroupProxy x:Key="OvenFilterData"
+                                Data="{Binding OvenFilter, Mode=OneWay}" />-->
         <views:FilterGroupProxy x:Key="TypeFilterData"
                                 Data="{Binding TypeFilter, Mode=OneWay}" />
         <DataTemplate x:Key="EqualFilterTemplate"
@@ -411,7 +413,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <!--<DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource OvenFilterData}"
@@ -423,7 +425,7 @@
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
@@ -438,36 +440,12 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="Auto"
-                                            MinWidth="60">
+                                            MinWidth="60"
+                                            MaxWidth="240"
+                                            CellTemplateSelector="{StaticResource LogTypeTemplateSelector}">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 值}" />
                         </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:LogEvent">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="24" />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse x:Name="Ellipse"
-                                             Width="10"
-                                             Height="10"
-                                             Margin="0,0,4,0"
-                                             Fill="{StaticResource DisabledBackgroundBrush}"
-                                             Stroke="{StaticResource DisabledBorderBrush}"
-                                             StrokeThickness="1" />
-                                    <TextBlock Grid.Column="1"
-                                               Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
-                                </Grid>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Value, Mode=OneWay}"
-                                                 Value="True">
-                                        <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
-                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.Header>
@@ -680,7 +658,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <!--<DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource OvenFilterData}"
@@ -692,7 +670,7 @@
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
@@ -707,36 +685,12 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="Auto"
-                                            MinWidth="60">
+                                            MinWidth="60"
+                                            MaxWidth="240"
+                                            CellTemplateSelector="{StaticResource LogTypeTemplateSelector}">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 值}" />
                         </DataGridTemplateColumn.Header>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="models:LogEvent">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="24" />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse x:Name="Ellipse"
-                                             Width="10"
-                                             Height="10"
-                                             Margin="0,0,4,0"
-                                             Fill="{StaticResource DisabledBackgroundBrush}"
-                                             Stroke="{StaticResource DisabledBorderBrush}"
-                                             StrokeThickness="1" />
-                                    <TextBlock Grid.Column="1"
-                                               Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
-                                </Grid>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Value, Mode=OneWay}"
-                                                 Value="True">
-                                        <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
-                                        <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.Header>
