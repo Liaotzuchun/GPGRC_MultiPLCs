@@ -264,9 +264,8 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct
     [LanguageTranslator("Side", "面", "面")]
     public string Side { get; set; } = "A";
 
-    /// <summary>
-    /// 放在第幾層
-    /// </summary>
+    /// <summary>放在第幾層</summary>
+    [LanguageTranslator("Layer", "階層", "阶层")]
     public int Layer { get; set; }
 
     public string AlarmListString() { return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm).Select(x => x.TagCode)); }
@@ -282,7 +281,8 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct
                {
                    { type.GetProperty(nameof(AddedTime)).GetName(lng), AddedTime },
                    { type.GetProperty(nameof(IsFinished)).GetName(lng), IsFinished },
-                   { type.GetProperty(nameof(StationNumber)).GetName(lng), StationNumber },
+                   //{ type.GetProperty(nameof(StationNumber)).GetName(lng), StationNumber },
+                   { type.GetProperty(nameof(Layer)).GetName(lng), Layer },
                    //{type.GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
                    //{type.GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
                    { type.GetProperty(nameof(PartID)).GetName(lng), PartID },
