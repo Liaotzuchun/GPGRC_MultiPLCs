@@ -3,14 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:GPSECS="clr-namespace:GP_SECS_GEM;assembly=GP_SECS_GEM"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:gpcoremodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM.Core"
+             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
+             FontWeight="Bold"
              Foreground="{StaticResource BaseForeground}"
              IsVisibleChanged="UserControl_IsVisibleChanged"
              KeyboardNavigation.TabNavigation="Cycle"
@@ -148,7 +149,7 @@
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                         Margin="0,0,8,0"
                         Content="{DynamicResource 登出}"
-                        IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}"
+                        IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay, FallbackValue=False}"
                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -211,19 +212,19 @@
                             <Setter Property="Grid.RowSpan" Value="2" />
                             <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay}"
+                                <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay, FallbackValue=False}"
                                              Value="1">
                                     <Setter Property="Background" Value="Green" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay}"
+                                <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay, FallbackValue=False}"
                                              Value="2">
                                     <Setter Property="Background" Value="Blue" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay}"
+                                <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay, FallbackValue=False}"
                                              Value="3">
                                     <Setter Property="Background" Value="Purple" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay}"
+                                <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay, FallbackValue=False}"
                                              Value="4">
                                     <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
                                 </DataTrigger>
@@ -235,14 +236,14 @@
                                FontSize="36"
                                FontWeight="Bold"
                                Foreground="White"
-                               Text="{Binding NowUser.Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
+                               Text="{Binding NowUser.Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2, FallbackValue=False}" />
                 </Border>
             </Grid>
             <Grid x:Name="Grid"
                   Grid.Row="4"
                   Height="80"
                   Margin="8,0"
-                  IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}"
+                  IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
                   KeyboardNavigation.TabNavigation="Cycle"
                   TextElement.FontSize="16"
                   Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
@@ -407,140 +408,40 @@
                 <TabItem Height="40"
                          FontSize="16"
                          Header="{DynamicResource GEMConfig}"
-                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
+                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}"
                          Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                    <local:SECSParameterView Height="200">
-                        <local:SECSParameterView.DataContext>
-                            <GPSECS:SECSParameterSet />
-                        </local:SECSParameterView.DataContext>
-                    </local:SECSParameterView>
+                    <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                            BorderThickness="0,0,1,0">
+                        <local:SECSParameterView Height="200">
+                            <local:SECSParameterView.DataContext>
+                                <GPSECS:SECSParameterSet />
+                            </local:SECSParameterView.DataContext>
+                        </local:SECSParameterView>
+                    </Border>
                 </TabItem>
                 <TabItem Height="40"
                          FontSize="16"
                          Header="{DynamicResource 系統設定}"
-                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay}"
-                         Visibility="Collapsed">
+                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}">
                     <Grid Height="200">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="90" />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 上傳}" />
-                            </Border>
-                            <Border Grid.Column="1"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
-                                <TextBlock x:Name="PathText"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="Consolas"
-                                           FontSize="14"
-                                           Text="{Binding Settings.DataOutputPath, Mode=OneWay}" />
-                            </Border>
-                            <ToggleButton x:Name="TB"
-                                          Grid.Column="2"
-                                          Width="60"
-                                          Content="{DynamicResource 修改}"
-                                          IsEnabled="{Binding IsChecked, ElementName=InputTB, Converter={StaticResource BoolNot}, Mode=OneWay}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Checked">
-                                        <views:SetPropertyAction PropertyName="Content"
-                                                                 PropertyValue="{DynamicResource 套用}" />
-                                    </i:EventTrigger>
-                                    <i:EventTrigger EventName="Unchecked">
-                                        <views:SetPropertyAction PropertyName="Content"
-                                                                 PropertyValue="{DynamicResource 修改}" />
-                                        <i:InvokeCommandAction Command="{Binding SetPath, Mode=OneTime}"
-                                                               CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </ToggleButton>
-                            <Button Grid.Column="3"
-                                    Width="60"
-                                    Click="Button_Click"
-                                    Content="{DynamicResource 取消}"
-                                    Visibility="{Binding IsChecked, ElementName=TB, Converter={StaticResource BoolVis}}" />
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="90" />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 下載}" />
-                            </Border>
-                            <Border Grid.Column="1"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,0,1">
-                                <TextBlock x:Name="InputPathText"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontFamily="Consolas"
-                                           FontSize="14"
-                                           Text="{Binding Settings.DataInputPath, Mode=OneWay}" />
-                            </Border>
-                            <ToggleButton x:Name="InputTB"
-                                          Grid.Column="2"
-                                          Width="60"
-                                          BorderThickness="1,0,1,1"
-                                          Content="{DynamicResource 修改}"
-                                          IsEnabled="{Binding IsChecked, ElementName=TB, Converter={StaticResource BoolNot}, Mode=OneWay}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Checked">
-                                        <views:SetPropertyAction PropertyName="Content"
-                                                                 PropertyValue="{DynamicResource 套用}" />
-                                    </i:EventTrigger>
-                                    <i:EventTrigger EventName="Unchecked">
-                                        <views:SetPropertyAction PropertyName="Content"
-                                                                 PropertyValue="{DynamicResource 修改}" />
-                                        <i:InvokeCommandAction Command="{Binding SetInputPath, Mode=OneTime}"
-                                                               CommandParameter="{Binding SelectedItem.(TreeViewItem.Tag), ElementName=TV, Mode=OneWay}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </ToggleButton>
-                            <Button Grid.Column="3"
-                                    Width="60"
-                                    BorderThickness="1,0,1,1"
-                                    Click="Button_Click_1"
-                                    Content="{DynamicResource 取消}"
-                                    Visibility="{Binding IsChecked, ElementName=InputTB, Converter={StaticResource BoolVis}}" />
-                        </Grid>
-                        <Grid Grid.Row="2">
-                            <Grid.IsEnabled>
-                                <MultiBinding Converter="{StaticResource MultiAnyTrue}"
-                                              Mode="OneWay">
-                                    <Binding ElementName="TB"
-                                             Mode="OneWay"
-                                             Path="IsChecked" />
-                                    <Binding ElementName="InputTB"
-                                             Mode="OneWay"
-                                             Path="IsChecked" />
-                                </MultiBinding>
-                            </Grid.IsEnabled>
-                            <TreeView x:Name="TV"
-                                      BorderThickness="1,0,1,1"
-                                      FontFamily="Consolas"
-                                      FontSize="12" />
-                        </Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,1,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="PLC IP" />
+                        </Border>
+                        <TextBox x:Name="IPTextBox"
+                                 Grid.Column="1"
+                                 BorderThickness="0,1,1,1"
+                                 FontFamily="Consolas"
+                                 FontSize="16"
+                                 KeyDown="TextBox_KeyDown"
+                                 Text="{Binding IPString, Mode=TwoWay}" />
                     </Grid>
                 </TabItem>
             </TabControl>

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using GP_SECS_GEM;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
+using Mapster.Adapters;
 using Newtonsoft.Json;
 using PLCService;
 
@@ -20,10 +22,10 @@ public sealed class TotalView_ViewModel : ObservableObject
     private readonly SECSThread     secsGem;
 
     /// <summary>財產編號儲存位置</summary>
-    private const string AssetNumbersPath = "AssetNumbers.json";
+    private const string AssetNumbersPath = "AssetNumbers";
 
     /// <summary>設備碼儲存位置</summary>
-    private const string MachineCodesPath = "MachineCodes.json";
+    private const string MachineCodesPath = "MachineCodes";
 
     /// <summary>保持PLC Gate連線</summary>
     private readonly Timer Checker;
@@ -213,10 +215,10 @@ public sealed class TotalView_ViewModel : ObservableObject
             }
         }
 
-        foreach (var plc in PLC_All)
-        {
-            plc.OvenInfo.AssetNumber = "";
-        }
+        //foreach (var plc in PLC_All)
+        //{
+        //    plc.OvenInfo.AssetNumber = "";
+        //}
     }
 
     /// <summary>讀取設備碼</summary>
@@ -241,10 +243,10 @@ public sealed class TotalView_ViewModel : ObservableObject
             }
         }
 
-        for (var i = 0; i < PLC_All.Count; i++)
-        {
-            PLC_All[i].OvenInfo.MachineCode = $"Machine{i + 1:00}";
-        }
+        //for (var i = 0; i < PLC_All.Count; i++)
+        //{
+        //    PLC_All[i].OvenInfo.MachineCode = $"Machine{i + 1:00}";
+        //}
     }
 
     /// <summary>儲存財產編號</summary>
@@ -331,7 +333,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         Checker?.Change(0, Timeout.Infinite);
     }
 
-    public TotalView_ViewModel(int count, IGate gate, IDialogService dialog)
+    public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
         Gate      = gate;
         Dialog    = dialog;
@@ -508,12 +510,14 @@ public sealed class TotalView_ViewModel : ObservableObject
                                        return HCACKValule.Acknowledge;
                                    };
 
+        var address = plcaddress.GetAddressBytes();
+
         //!註冊PLC事件需引發的動作
         for (var i = 0; i < count; i++)
         {
             var plc = new PLC_ViewModel(dialog,
                                         Gate,
-                                        BitConverter.ToInt32(new byte[] { 192, 168, 3, (byte)(39 + i) }, 0),
+                                        BitConverter.ToInt32(new[] { address[0], address[1], address[2], (byte)(address[3] + i) }, 0),
                                         //i,
                                         "GOL",
                                         (bits_shift: new Dictionary<BitType, int>
@@ -677,7 +681,6 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
 
         #region PLCGate事件通知
-
         Gate.GateStatus.ValueChanged += status =>
                                         {
                                             if (!status)
@@ -685,7 +688,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                 EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
                                             }
                                         };
-
         #endregion
 
         LoadMachineCodes();

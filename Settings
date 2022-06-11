@@ -1,0 +1,6 @@
+﻿{
+  "$type": "GPGO_MultiPLCs.Models.GlobalSettings, GPGO_MultiPLCs",
+  "PLCIP": "192.168.3.39",
+  "Lng": 0,
+  "OvenCount": 1
+}

@@ -1,19 +1,12 @@
-﻿using GPMVVM.Models;
+﻿using System.Net;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models;
 
 /// <summary>PC程式參數</summary>
 public class GlobalSettings : RecipeFileBase<GlobalSettings>
 {
-    /// <summary>前端資料輸入位置</summary>
-    public string DataInputPath
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
-    /// <summary>上傳資料輸出位置</summary>
-    public string DataOutputPath
+    public string PLCIP
     {
         get => Get<string>();
         set => Set(value);
@@ -34,9 +27,8 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
 
     public GlobalSettings() : base("Settings")
     {
-        DataInputPath  = "D:\\Intput";
-        DataOutputPath = "D:\\";
-        Lng            = Language.TW;
-        OvenCount      = 20;
+        PLCIP = new IPAddress(new byte[] { 192, 168, 3, 39 }).ToString();
+        Lng = Language.TW;
+        OvenCount = 20;
     }
 }

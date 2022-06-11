@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views;
@@ -12,60 +13,6 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>Authenticator.xaml 的互動邏輯</summary>
 public partial class Authenticator
 {
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        PathText.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
-
-        if (TV.SelectedItem is TreeViewItem tvi)
-        {
-            tvi.IsSelected = false;
-        }
-
-        TV.Items.Clear();
-        foreach (var s in Directory.GetLogicalDrives())
-        {
-            var item = new TreeViewItem
-                       {
-                           Header     = s,
-                           Tag        = s,
-                           FontWeight = FontWeights.Normal
-                       };
-
-            item.Items.Add(null);
-            item.Expanded += Folder_Expanded;
-            TV.Items.Add(item);
-        }
-
-        TB.IsChecked = false;
-    }
-
-    private void Button_Click_1(object sender, RoutedEventArgs e)
-    {
-        InputPathText.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
-
-        if (TV.SelectedItem is TreeViewItem tvi)
-        {
-            tvi.IsSelected = false;
-        }
-
-        TV.Items.Clear();
-        foreach (var s in Directory.GetLogicalDrives())
-        {
-            var item = new TreeViewItem
-                       {
-                           Header     = s,
-                           Tag        = s,
-                           FontWeight = FontWeights.Normal
-                       };
-
-            item.Items.Add(null);
-            item.Expanded += Folder_Expanded;
-            TV.Items.Add(item);
-        }
-
-        InputTB.IsChecked = false;
-    }
-
     private void Folder_Expanded(object sender, RoutedEventArgs e)
     {
         var item = (TreeViewItem)sender;
@@ -143,6 +90,15 @@ public partial class Authenticator
         tb.SelectAll();
     }
 
+    private void TextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            var binding = BindingOperations.GetBindingExpression(IPTextBox, TextBox.TextProperty);
+            binding?.UpdateSource();
+        }
+    }
+
     private async void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
         if (Visibility == Visibility.Visible)
@@ -157,20 +113,7 @@ public partial class Authenticator
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-        TV.Items.Clear();
-        foreach (var s in Directory.GetLogicalDrives())
-        {
-            var item = new TreeViewItem
-                       {
-                           Header     = s,
-                           Tag        = s,
-                           FontWeight = FontWeights.Normal
-                       };
 
-            item.Items.Add(null);
-            item.Expanded += Folder_Expanded;
-            TV.Items.Add(item);
-        }
     }
 
     public Authenticator() { InitializeComponent(); }

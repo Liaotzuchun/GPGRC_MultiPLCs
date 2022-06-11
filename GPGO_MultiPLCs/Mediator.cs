@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,18 +18,6 @@ namespace GPGO_MultiPLCs;
 
 public sealed class Mediator : ObservableObject
 {
-    public string DataInputPath
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
-    public string DataOutputPath
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
     public Language Language
     {
         get => Get<Language>();
@@ -241,19 +230,18 @@ public sealed class Mediator : ObservableObject
         LogVM   = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
 
         PlcGate = new JsonRPCPLCGate();
-        TotalVM = new TotalView_ViewModel(20, PlcGate, DialogVM);
         //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
 
-        AuthenticatorVM = new Authenticator_ViewModel
-                          {
-                              Settings =
-                              {
-                                  OvenCount = 1
-                              }
-                          };
+        AuthenticatorVM                    = new Authenticator_ViewModel
+                                             {
+                                                 Settings =
+                                                 {
+                                                     OvenCount = 1
+                                                 }
+                                             };
 
-        DataOutputPath = AuthenticatorVM.Settings.DataOutputPath;
-        DataInputPath  = AuthenticatorVM.Settings.DataInputPath;
+        TotalVM                            = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
+
         Language       = AuthenticatorVM.Settings.Lng;
         OvenCount      = AuthenticatorVM.Settings.OvenCount;
         AuthenticatorVM.NowUser = new User
@@ -268,11 +256,13 @@ public sealed class Mediator : ObservableObject
                                                     {
                                                         switch (e.PropertyName)
                                                         {
-                                                            case nameof(GlobalSettings.DataInputPath):
-                                                                DataInputPath = ((GlobalSettings)s).DataInputPath;
-                                                                break;
-                                                            case nameof(GlobalSettings.DataOutputPath):
-                                                                DataOutputPath = ((GlobalSettings)s).DataOutputPath;
+                                                            case nameof(GlobalSettings.PLCIP):
+                                                                DialogVM.Show(new Dictionary<Language, string>
+                                                                              {
+                                                                                  { Language.TW, "系統設定變更，請重新啟動程式！" },
+                                                                                  { Language.CHS, "系统设定变更，请重新启动程序！" },
+                                                                                  { Language.EN, "System settings changed, please restart the program." }
+                                                                              });
                                                                 break;
                                                             case nameof(GlobalSettings.Lng):
                                                                 Language = ((GlobalSettings)s).Lng;
