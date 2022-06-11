@@ -232,18 +232,10 @@ public sealed class Mediator : ObservableObject
         PlcGate = new JsonRPCPLCGate();
         //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
 
-        AuthenticatorVM                    = new Authenticator_ViewModel
-                                             {
-                                                 Settings =
-                                                 {
-                                                     OvenCount = 1
-                                                 }
-                                             };
-
-        TotalVM                            = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
-
-        Language       = AuthenticatorVM.Settings.Lng;
-        OvenCount      = AuthenticatorVM.Settings.OvenCount;
+        AuthenticatorVM = new Authenticator_ViewModel();
+        TotalVM         = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
+        Language        = AuthenticatorVM.Settings.Lng;
+        OvenCount       = AuthenticatorVM.Settings.OvenCount;
         AuthenticatorVM.NowUser = new User
                                   {
                                       Name     = "Guest",

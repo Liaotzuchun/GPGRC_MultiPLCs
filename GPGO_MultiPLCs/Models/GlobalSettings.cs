@@ -29,6 +29,6 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
     {
         PLCIP = new IPAddress(new byte[] { 192, 168, 3, 39 }).ToString();
         Lng = Language.TW;
-        OvenCount = 20;
+        OvenCount = 1;
     }
 }
