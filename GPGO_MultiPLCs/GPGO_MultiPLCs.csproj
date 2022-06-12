@@ -10,6 +10,8 @@
     <Company>GroupUp</Company>
     <ApplicationIcon>GP.ico</ApplicationIcon>
 	<Platforms>AnyCPU;x86;x64</Platforms>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+	<Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <COMReference Include="QGACTIVEXLib">

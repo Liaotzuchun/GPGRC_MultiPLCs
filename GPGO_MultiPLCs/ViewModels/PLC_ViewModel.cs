@@ -71,14 +71,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public RelayCommand DeleteLotCommand { get; }
 
+    /// <summary>機台資訊</summary>
+    public BaseInfo OvenInfo { get; }
+
     /// <summary>產品資訊</summary>
     public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new();
 
     /// <summary>取得是否正在紀錄溫度</summary>
     public bool IsExecuting => ExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
-
-    /// <summary>機台資訊</summary>
-    public BaseInfo OvenInfo { get; }
 
     public int Quantity => Ext_Info.Sum(x => x.PanelIDs.Count);
 

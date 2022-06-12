@@ -40,7 +40,7 @@ public class BaseInfo : ObservableObject
     [LanguageTranslator("Recipe Name", "配方名", "配方名")]
     public string RecipeName => $"{Recipe?.First().Value}";
 
-    /// <summary>配方名</summary>
+    /// <summary>配方名(key:屬性名稱，value:值)</summary>
     [LanguageTranslator("Recipe", "配方", "配方")]
     public Dictionary<string, object> Recipe
     {
