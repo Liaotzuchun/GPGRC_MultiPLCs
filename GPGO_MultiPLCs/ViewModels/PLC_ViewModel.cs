@@ -709,42 +709,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            OvenInfo.EndTime       = DateTime.Now;
                                            OvenInfo.Recipe        = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
-                                           OvenInfo.RampTimes = new[]
-                                                                {
-                                                                    RampTime_1, RampTime_2, RampTime_3, RampTime_4,
-                                                                    RampTime_5, RampTime_6, RampTime_7, RampTime_8
-                                                                }.Take(StepCounts)
-                                                                 .ToList();
-                                           OvenInfo.DwellTimes = new[]
-                                                                 {
-                                                                     DwellTime_1, DwellTime_2, DwellTime_3, DwellTime_4,
-                                                                     DwellTime_5, DwellTime_6, DwellTime_7, DwellTime_8
-                                                                 }.Take(StepCounts)
-                                                                  .ToList();
-                                           OvenInfo.RampAlarms = new[]
-                                                                 {
-                                                                     RampAlarm_1, RampAlarm_2, RampAlarm_3, RampAlarm_4,
-                                                                     RampAlarm_5, RampAlarm_6, RampAlarm_7, RampAlarm_8
-                                                                 }.Take(StepCounts)
-                                                                  .ToList();
-                                           OvenInfo.DwellAlarms = new[]
-                                                                  {
-                                                                      DwellAlarm_1, DwellAlarm_2, DwellAlarm_3, DwellAlarm_4,
-                                                                      DwellAlarm_5, DwellAlarm_6, DwellAlarm_7, DwellAlarm_8
-                                                                  }.Take(StepCounts)
-                                                                   .ToList();
-                                           OvenInfo.TargetOvenTemperatures = new[]
-                                                                             {
-                                                                                 TemperatureSetpoint_1, TemperatureSetpoint_2, TemperatureSetpoint_3, TemperatureSetpoint_4,
-                                                                                 TemperatureSetpoint_5, TemperatureSetpoint_6, TemperatureSetpoint_7, TemperatureSetpoint_8
-                                                                             }.Take(StepCounts)
-                                                                              .ToList();
-                                           OvenInfo.DwellTemperatures = new[]
-                                                                        {
-                                                                            DwellTemperature_1, DwellTemperature_2, DwellTemperature_3, DwellTemperature_4,
-                                                                            DwellTemperature_5, DwellTemperature_6, DwellTemperature_7, DwellTemperature_8
-                                                                        }.Take(StepCounts)
-                                                                         .ToList();
 
                                            ExecutingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
 

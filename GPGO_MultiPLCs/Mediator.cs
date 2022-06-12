@@ -96,43 +96,7 @@ public sealed class Mediator : ObservableObject
                                    StartTime  = st,
                                    RackID     = rn.Next(1, 10000).ToString("00000"),
                                    OperatorID = rn.Next(1, 10).ToString("000"),
-                                   Recipe     = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language),
-                                   RampTimes = new[]
-                                               {
-                                                   plc.RampTime_1, plc.RampTime_2, plc.RampTime_3, plc.RampTime_4,
-                                                   plc.RampTime_5, plc.RampTime_6, plc.RampTime_7, plc.RampTime_8
-                                               }.Take(plc.StepCounts)
-                                                .ToList(),
-                                   DwellTimes = new[]
-                                                {
-                                                    plc.DwellTime_1, plc.DwellTime_2, plc.DwellTime_3, plc.DwellTime_4,
-                                                    plc.DwellTime_5, plc.DwellTime_6, plc.DwellTime_7, plc.DwellTime_8
-                                                }.Take(plc.StepCounts)
-                                                 .ToList(),
-                                   RampAlarms = new[]
-                                                {
-                                                    plc.RampAlarm_1, plc.RampAlarm_2, plc.RampAlarm_3, plc.RampAlarm_4,
-                                                    plc.RampAlarm_5, plc.RampAlarm_6, plc.RampAlarm_7, plc.RampAlarm_8
-                                                }.Take(plc.StepCounts)
-                                                 .ToList(),
-                                   DwellAlarms = new[]
-                                                 {
-                                                     plc.DwellAlarm_1, plc.DwellAlarm_2, plc.DwellAlarm_3, plc.DwellAlarm_4,
-                                                     plc.DwellAlarm_5, plc.DwellAlarm_6, plc.DwellAlarm_7, plc.DwellAlarm_8
-                                                 }.Take(plc.StepCounts)
-                                                  .ToList(),
-                                   TargetOvenTemperatures = new[]
-                                                            {
-                                                                plc.TemperatureSetpoint_1, plc.TemperatureSetpoint_2, plc.TemperatureSetpoint_3, plc.TemperatureSetpoint_4,
-                                                                plc.TemperatureSetpoint_5, plc.TemperatureSetpoint_6, plc.TemperatureSetpoint_7, plc.TemperatureSetpoint_8
-                                                            }.Take(plc.StepCounts)
-                                                             .ToList(),
-                                   DwellTemperatures = new[]
-                                                       {
-                                                           plc.DwellTemperature_1, plc.DwellTemperature_2, plc.DwellTemperature_3, plc.DwellTemperature_4,
-                                                           plc.DwellTemperature_5, plc.DwellTemperature_6, plc.DwellTemperature_7, plc.DwellTemperature_8
-                                                       }.Take(plc.StepCounts)
-                                                        .ToList()
+                                   Recipe     = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language)
                                };
 
                     var ttime = new TimeSpan(0, 0, 1);

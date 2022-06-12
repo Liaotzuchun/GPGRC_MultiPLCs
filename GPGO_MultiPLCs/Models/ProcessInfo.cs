@@ -1,12 +1,10 @@
-﻿using GPMVVM.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GPMVVM.Helpers;
 using GPMVVM.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -98,52 +96,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>目標溫度</summary>
-    [LanguageTranslator("Temp. SP", "目標溫度", "目标温度")]
-    public List<double> TargetOvenTemperatures
-    {
-        get => Get<List<double>>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫溫度</summary>
-    [LanguageTranslator("Dwell Temp.", "恆溫溫度", "恒温温度")]
-    public List<double> DwellTemperatures
-    {
-        get => Get<List<double>>();
-        set => Set(value);
-    }
-
-    /// <summary>加熱時間(升溫至目標溫度)</summary>
-    [LanguageTranslator("Ramp Time", "加熱時間", "加热时间")]
-    public List<double> RampTimes
-    {
-        get => Get<List<double>>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間</summary>
-    [LanguageTranslator("Dwell Time", "恆溫時間", "恒温时间")]
-    public List<double> DwellTimes
-    {
-        get => Get<List<double>>();
-        set => Set(value);
-    }
-
-    [LanguageTranslator("Ramp Alarm", "加熱警報", "加热警报")]
-    public List<double> RampAlarms
-    {
-        get => Get<List<double>>();
-        set => Set(value);
-    }
-
-    [LanguageTranslator("Dwell Alarm", "恆溫警報", "恒温警报")]
-    public List<double> DwellAlarms
-    {
-        get => Get<List<double>>();
-        set => Set(value);
-    }
-
     /// <summary>總烘烤時間</summary>
     [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
     public double TotalRampTime
@@ -152,6 +104,7 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
+    [BsonIgnore]
     public ProcessChartModel ChartModel { get; }
 
     /// <summary>初始化清除資訊</summary>
@@ -184,7 +137,7 @@ public interface IProduct
     List<string> PanelIDs      { get; set; }
     int          ProcessNumber { get; set; }
     string       Side          { get; set; }
-    int          Layer          { get; set; }
+    int          Layer         { get; set; }
 }
 
 /// <summary>材料生產資訊</summary>
@@ -199,9 +152,7 @@ public class ProductInfo : ObservableObject, IProduct //!這是一個批號的�
     public int          ProcessNumber { get; set; }
     public string       Side          { get; set; } = "A";
 
-    /// <summary>
-    /// 放在第幾層
-    /// </summary>
+    /// <summary>放在第幾層</summary>
     public int Layer { get; set; }
 
     public void NotifyPanels()
@@ -310,7 +261,6 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct //todo 將溫度紀錄�
     }
 
     #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
-
     /// <summary>新增至資料庫的時間</summary>
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
@@ -318,6 +268,5 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct //todo 將溫度紀錄�
     /// <summary>PLC站號</summary>
     [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
     public int StationNumber { get; set; }
-
     #endregion 此區由TraceabilityView_ViewModel新增至資料庫時填入
 }

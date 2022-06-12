@@ -1,40 +1,11 @@
-﻿using GPMVVM.Models;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Globalization;
+﻿using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
+using GPMVVM.Models;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models;
 //!此區是烘烤時的溫度和事件紀錄資料模型
-
-/// <summary>定義事件type的代表顏色</summary>
-public class EventTypeToColor : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value == null)
-        {
-            return Colors.Red;
-        }
-
-        return (EventType)value switch
-               {
-                   EventType.Normal        => Colors.Green,
-                   EventType.StatusChanged => Colors.DodgerBlue,
-                   EventType.Trigger       => Colors.Blue,
-                   EventType.Operator      => Colors.DarkOrange,
-                   EventType.Alert         => Colors.OrangeRed,
-                   EventType.Alarm         => Colors.Red,
-                   EventType.SECSCommnd    => Colors.Magenta,
-                   _                       => Colors.Transparent
-               };
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
-}
 
 /// <summary>溫度紀錄</summary>
 [BsonIgnoreExtraElements]
@@ -83,12 +54,6 @@ public class RecordTemperatures
     public DateTime StartTime { get; set; }
 
     public double PV_ThermostatTemperature { get; set; }
-}
-
-public enum PCEventCode
-{
-    PC_Offline = -1,
-    段數切換
 }
 
 /// <summary>事件類型</summary>
