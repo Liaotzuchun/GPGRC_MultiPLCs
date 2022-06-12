@@ -315,7 +315,7 @@
                           FontSize="14"
                           FontWeight="Bold"
                           HorizontalScrollBarVisibility="Disabled"
-                          ItemsSource="{Binding Ext_Info, Mode=OneWay}"
+                          ItemsSource="{Binding ProductInfos, Mode=OneWay}"
                           Loaded="DataGrid_Loaded"
                           VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>

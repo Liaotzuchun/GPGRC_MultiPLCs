@@ -650,7 +650,7 @@
                                   BorderThickness="0,1,0,0"
                                   DockPanel.Dock="Top"
                                   HorizontalScrollBarVisibility="Disabled"
-                                  ItemsSource="{Binding Ext_Info, Mode=OneWay}"
+                                  ItemsSource="{Binding ProductInfos, Mode=OneWay}"
                                   Loaded="DataGrid_Loaded"
                                   VerticalScrollBarVisibility="Auto">
                             <DataGrid.Columns>

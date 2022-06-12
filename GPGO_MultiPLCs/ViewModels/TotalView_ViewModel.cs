@@ -446,7 +446,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.CANCEL += index =>
                           {
-                              PLC_All[index].Ext_Info.Clear();
+                              PLC_All[index].ProductInfos.Clear();
                               if (PLC_All[index].ExecutingTask != null && PLC_All[index].IsExecuting)
                               {
                                   PLC_All[index].CTS?.Cancel();
@@ -456,7 +456,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                               CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
                               PLC_All[index].OvenInfo.Clear();
-                              PLC_All[index].Ext_Info.Clear();
+                              PLC_All[index].ProductInfos.Clear();
                               secsGem.InvokeEvent($"Oven{index + 1}_LotRemoved");
                               return HCACKValule.Acknowledge;
                           };

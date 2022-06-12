@@ -808,7 +808,7 @@
                                               BorderThickness="1,1,0,0"
                                               HorizontalScrollBarVisibility="Disabled"
                                               IsHitTestVisible="False"
-                                              ItemsSource="{Binding Ext_Info, Mode=OneWay}"
+                                              ItemsSource="{Binding ProductInfos, Mode=OneWay}"
                                               VerticalScrollBarVisibility="Disabled">
                                         <DataGrid.Effect>
                                             <DropShadowEffect BlurRadius="15"

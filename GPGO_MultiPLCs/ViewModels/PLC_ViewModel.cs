@@ -75,12 +75,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public BaseInfo OvenInfo { get; }
 
     /// <summary>產品資訊</summary>
-    public ObservableConcurrentCollection<ProductInfo> Ext_Info { get; } = new();
+    public ObservableConcurrentCollection<ProductInfo> ProductInfos { get; } = new();
+
+    public int Quantity => ProductInfos.Sum(x => x.PanelIDs.Count);
 
     /// <summary>取得是否正在紀錄溫度</summary>
     public bool IsExecuting => ExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
-
-    public int Quantity => Ext_Info.Sum(x => x.PanelIDs.Count);
 
     /// <summary>生產進度</summary>
     public double Progress
@@ -710,10 +710,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            OvenInfo.Recipe        = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
 
-                                           ExecutingFinished?.Invoke((OvenInfo.Copy(), Ext_Info.ToArray()));
+                                           ExecutingFinished?.Invoke((OvenInfo.Copy(), ProductInfos.ToArray()));
 
                                            OvenInfo.Clear();
-                                           Ext_Info.Clear();
+                                           ProductInfos.Clear();
 
                                            //!需在引發紀錄完成後才觸發取消投產
                                            CheckInCommand.Result = false;
@@ -736,7 +736,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public void AddLOT(string PartID, string LotID, IEnumerable<string> panels)
     {
-        if (Ext_Info.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is {} exinfo)
+        if (ProductInfos.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is {} exinfo)
         {
             foreach (var panel in panels)
             {
@@ -758,7 +758,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 info.PanelIDs.Add(panel);
             }
 
-            Ext_Info.Add(info);
+            ProductInfos.Add(info);
         }
     }
 
@@ -843,18 +843,18 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                  info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
                                              }
 
-                                             Ext_Info.Add(info);
+                                             ProductInfos.Add(info);
                                          });
 
         DeleteLotCommand = new RelayCommand(lot =>
                                             {
                                                 if (lot is ProductInfo info)
                                                 {
-                                                    var list = Ext_Info.ToList();
+                                                    var list = ProductInfos.ToList();
                                                     list.Remove(info);
 
-                                                    Ext_Info.Clear();
-                                                    list.ForEach(x => Ext_Info.Add(x));
+                                                    ProductInfos.Clear();
+                                                    list.ForEach(x => ProductInfos.Add(x));
                                                 }
                                             });
 
@@ -1018,7 +1018,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                                          OvenInfo.OperatorID = opId.ToString().Trim();
 
-                                                         Ext_Info.Clear();
+                                                         ProductInfos.Clear();
                                                          foreach (var lot in lots)
                                                          {
                                                              var info = new ProductInfo
@@ -1031,7 +1031,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                  info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{i}");
                                                              }
 
-                                                             Ext_Info.Add(info);
+                                                             ProductInfos.Add(info);
                                                          }
 
                                                          if (!RemoteMode)
@@ -1069,7 +1069,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     CheckInCommand.Result = false;
                                                     CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                     OvenInfo.Clear();
-                                                    Ext_Info.Clear();
+                                                    ProductInfos.Clear();
                                                 });
 
         OvenInfo = new BaseInfo();
@@ -1183,7 +1183,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     //    CheckInCommand.Result = false;
                                     //    InvokeSECSEvent?.Invoke(nameof(RackOutput));
                                     //    OvenInfo.Clear();
-                                    //    Ext_Info.Clear();
+                                    //    ProductInfos.Clear();
                                     //    RackOutput = false; //清訊號
                                     //}
                                     //else if (name == nameof(RecipeChanged))
@@ -1311,17 +1311,17 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             }
                         };
 
-        Ext_Info.CollectionChanged += (_, _) =>
+        ProductInfos.CollectionChanged += (_, _) =>
                                       {
                                           NotifyPropertyChanged(nameof(Quantity));
 
-                                          var lots   = Ext_Info.Select(x => x.LotID).Distinct();
-                                          var parts  = Ext_Info.Select(x => x.PartID).Distinct();
-                                          var panels = Ext_Info.SelectMany(x => x.PanelIDs).Distinct();
+                                          var lots   = ProductInfos.Select(x => x.LotID).Distinct();
+                                          var parts  = ProductInfos.Select(x => x.PartID).Distinct();
+                                          var panels = ProductInfos.SelectMany(x => x.PanelIDs).Distinct();
 
-                                          SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   Ext_Info.Select(x => x.LotID).Distinct()) : string.Empty);
-                                          SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  Ext_Info.Select(x => x.PartID).Distinct()) : string.Empty);
-                                          SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", Ext_Info.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
+                                          SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   ProductInfos.Select(x => x.LotID).Distinct()) : string.Empty);
+                                          SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  ProductInfos.Select(x => x.PartID).Distinct()) : string.Empty);
+                                          SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", ProductInfos.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
                                       };
 
         #endregion 註冊PLC事件
