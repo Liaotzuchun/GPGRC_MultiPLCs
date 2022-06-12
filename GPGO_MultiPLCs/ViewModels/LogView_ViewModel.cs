@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs.ViewModels;
 
@@ -107,21 +108,45 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     /// <summary>新增至資料庫</summary>
     /// <param name="ev">紀錄資訊</param>
     /// <param name="UpdateResult">決定是否更新Ram Data</param>
-    public async void AddToDB(LogEvent ev, bool UpdateResult = false)
+    public async ValueTask<bool> AddToDBAsync(LogEvent ev, bool UpdateResult = false)
     {
         try
         {
-            await DataCollection.AddAsync(ev);
+            if (!await DataCollection.AddAsync(ev)) return false;
             LogAdded?.Invoke(ev);
 
             if (UpdateResult)
             {
                 Results = await DataCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
             }
+
+            return true;
         }
         catch (Exception ex)
         {
             Log.Error(ex, "事件紀錄寫入資料庫失敗");
+            return false;
+        }
+    }
+
+    public bool AddToDB(LogEvent ev, bool UpdateResult = false)
+    {
+        try
+        {
+            if (!DataCollection.Add(ev)) return false;
+            LogAdded?.Invoke(ev);
+
+            if (UpdateResult)
+            {
+                Results = DataCollection.Find(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "事件紀錄寫入資料庫失敗");
+            return false;
         }
     }
 
@@ -257,9 +282,9 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
                                              {
                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
-                                                                  {Language.TW, $"檔案已輸出至\n{path}"},
-                                                                  {Language.CHS, $"档案已输出至\n{path}"},
-                                                                  {Language.EN, $"The file has been output to\n{path}"}
+                                                                  { Language.TW, $"檔案已輸出至\n{path}" },
+                                                                  { Language.CHS, $"档案已输出至\n{path}" },
+                                                                  { Language.EN, $"The file has been output to\n{path}" }
                                                               },
                                                               TimeSpan.FromSeconds(6));
                                              }

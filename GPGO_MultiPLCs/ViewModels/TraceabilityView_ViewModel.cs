@@ -34,6 +34,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     }
 
     private readonly Dictionary<string, PropertyInfo> ProcessInfoProperties = typeof(ProcessInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(x => x.Name, x => x);
+    private readonly Dictionary<string, PropertyInfo> ProductInfoProperties = typeof(ProductInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(x => x.Name, x => x);
     private          FrameworkElement                 elementView;
     private          OxyColor                         chartbg     = OxyColor.FromRgb(231, 246, 226);
     private          OxyColor                         bgcolor     = OxyColor.FromRgb(215, 230, 207);
@@ -150,23 +151,49 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     /// <param name="info">紀錄資訊</param>
     /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
     /// <param name="UpdateResult">決定是否更新Ram Data</param>
-    public async void AddToDB(int index, ProcessInfo info, DateTime dateTime = default, bool UpdateResult = false)
+    public async ValueTask<bool> AddToDBAsync(int index, ProcessInfo info, DateTime dateTime = default, bool UpdateResult = false)
     {
         info.StationNumber = index + 1;
         info.AddedTime     = dateTime == default ? DateTime.Now : dateTime;
 
         try
         {
-            await DataCollection.AddAsync(info);
+            if (!await DataCollection.AddAsync(info)) return false;
 
             if (UpdateResult)
             {
                 Results = await DataCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
             }
+
+            return true;
         }
         catch (Exception ex)
         {
             Log.Error(ex, "生產紀錄寫入資料庫失敗");
+            return false;
+        }
+    }
+
+    public bool AddToDB(int index, ProcessInfo info, DateTime dateTime = default, bool UpdateResult = false)
+    {
+        info.StationNumber = index + 1;
+        info.AddedTime     = dateTime == default ? DateTime.Now : dateTime;
+
+        try
+        {
+            if (!DataCollection.Add(info)) return false;
+
+            if (UpdateResult)
+            {
+                Results = DataCollection.Find(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "生產紀錄寫入資料庫失敗");
+            return false;
         }
     }
 
@@ -175,7 +202,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     /// <param name="infos">紀錄資訊</param>
     /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
     /// <param name="UpdateResult">決定是否更新Ram Data</param>
-    public async void AddToDB(int index, IEnumerable<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
+    public async ValueTask<bool> AddToDBAsync(int index, ICollection<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
     {
         var dt = dateTime == default ? DateTime.Now : dateTime;
 
@@ -183,20 +210,51 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         {
             info.StationNumber = index + 1;
             info.AddedTime     = dt;
+        }
 
-            try
-            {
-                await DataCollection.AddAsync(info);
+        try
+        {
+            if (!await DataCollection.AddManyAsync(infos)) return false;
 
-                if (UpdateResult)
-                {
-                    Results = await DataCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
-                }
-            }
-            catch (Exception ex)
+            if (UpdateResult)
             {
-                Log.Error(ex, "生產紀錄寫入資料庫失敗");
+                Results = await DataCollection.FindAsync(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
             }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "生產紀錄寫入資料庫失敗");
+            return false;
+        }
+    }
+
+    public bool AddToDB(int index, ICollection<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
+    {
+        var dt = dateTime == default ? DateTime.Now : dateTime;
+
+        foreach (var info in infos)
+        {
+            info.StationNumber = index + 1;
+            info.AddedTime     = dt;
+        }
+
+        try
+        {
+            if (!DataCollection.AddMany(infos)) return false;
+
+            if (UpdateResult)
+            {
+                Results = DataCollection.Find(x => x.AddedTime >= Date1 && x.AddedTime < Date2.AddDays(1));
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "生產紀錄寫入資料庫失敗");
+            return false;
         }
     }
 
@@ -220,7 +278,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
     public ValueTask<ProcessInfo> FindInfo(int station, DateTime time) => DataCollection.FindOneAsync(x => x.StationNumber == station && x.StartTime < time && x.EndTime > time);
 
-    public ValueTask<List<ProcessInfo>> FindInfo(string lotid) => DataCollection.FindAsync(x => x.LotID == lotid);
+    public ValueTask<List<ProcessInfo>> FindInfo(string lotid) => DataCollection.FindAsync(x => x.Products.Any(y => y.LotID == lotid)); //todo 待確認
 
     /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
     /// <param name="path">資料夾路徑</param>
@@ -657,13 +715,13 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
         if (ViewResults?.Count > 0)
         {
-            var finishedResults = ViewResults.Where(x => x.IsFinished).ToList();
+            var finishedResults = ViewResults.Where(x => x.IsFinished).SelectMany(x => x.GetFlatInfos()).ToList();
 
             var ByDate = date2 - date1 > TimeSpan.FromDays(1);
             var result2 = finishedResults
                          .GroupBy(x => Mode >= (int)ChartMode.ByLot ?
                                            x.StationNumber.ToString("00") :
-                                           x.PartID)
+                                           x.Product.PartID)
                          .OrderBy(x => x.Key)
                          .Select(x => (x.Key, x))
                          .ToArray();
@@ -676,13 +734,13 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                       return (ChartMode)Mode switch
                                                              {
                                                                  ChartMode.ByPLC  => x.StationNumber.ToString("00"),
-                                                                 ChartMode.ByLot  => x.LotID,
-                                                                 ChartMode.ByPart => x.PartID,
+                                                                 ChartMode.ByLot  => x.Product.LotID,
+                                                                 ChartMode.ByPart => x.Product.PartID,
                                                                  _                => ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00"
                                                              };
                                                   })
                                          .OrderBy(x => x.Key)
-                                         .Select(x => (x.Key, x.Sum(y => y.Quantity)))
+                                         .Select(x => (x.Key, x.Sum(y => y.Product.Quantity)))
                                          .ToArray();
 
             categoryAxis1.FontSize = result1.Length > 20 ? 9 : 12;
@@ -718,7 +776,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                 ResultView.IsLegendVisible = true;
                 ResultView.Legends[0].LegendTitle = Mode >= (int)ChartMode.ByLot ?
                                                         ProcessInfoProperties[nameof(ProcessInfo.StationNumber)].GetName(Language) :
-                                                        ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language);
+                                                        ProductInfoProperties[nameof(ProductInfo.PartID)].GetName(Language);
 
                 var color_step_2 = 0.9 / result2.Length;
 
@@ -750,9 +808,9 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                      case ChartMode.ByPLC:
                                                          return x.StationNumber.ToString("00") == categories[j];
                                                      case ChartMode.ByLot:
-                                                         return x.LotID == categories[j];
+                                                         return x.Product.LotID == categories[j];
                                                      case ChartMode.ByPart:
-                                                         return x.PartID == categories[j];
+                                                         return x.Product.PartID == categories[j];
                                                  }
 
                                                  if (ByDate)
@@ -762,7 +820,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                                                  return $"{x.AddedTime.Hour:00}:00" == categories[j];
                                              })
-                                      .Sum(x => x.Quantity);
+                                      .Sum(x => x.Product.Quantity);
                         if (val > 0)
                         {
                             ccs.Items.Add(new BarItem(val, j));
@@ -789,15 +847,13 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             var max = Math.Min(Results.Count - 1, EndIndex);
 
             ViewResults = Results.GetRange(min, max - min + 1)
-                                 .Where(x => OvenFilter.Check(x.StationNumber) &&
-                                             RecipeFilter.Check(x.RecipeName)  &&
+                                 .Where(x => OvenFilter.Check(x.StationNumber)       &&
+                                             RecipeFilter.Check(x.Recipe.RecipeName) &&
                                              //OrderFilter.Check(x.OrderCode)    &&
-                                             PartIDFilter.Check(x.PartID) &&
-                                             LotIDFilter.Check(x.LotID)   &&
-                                             OpFilter.Check(x.OperatorID) &&
-                                             //RackFilter.Check(x.RackID)        &&
-                                             //SideFilter.Check(x.Side)          &&
-                                             LayerFilter.Check(x.Layer))
+                                             OpFilter.Check(x.OperatorID)                      &&
+                                             x.Products.Any(y => PartIDFilter.Check(y.PartID)) &&
+                                             x.Products.Any(y => LotIDFilter.Check(y.LotID))   &&
+                                             x.Products.Any(y => LayerFilter.Check(y.Layer)))
                                  .OrderByDescending(x => x.AddedTime)
                                  .ToList();
         }
@@ -854,7 +910,10 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                                            Standby = false;
 
-                                           SearchResult = (await DataCollection.FindAsync(x => (!result1 || x.PartID.Contains(input1.ToString())) && (!result2 || x.LotID.Contains(input2.ToString())))).LastOrDefault();
+                                           //todo 待確認
+                                           SearchResult = (await DataCollection.FindAsync(x => (!result1 || x.Products.Any(y => y.PartID.Contains(input1.ToString()))) &&
+                                                                                               (!result2 || x.Products.Any(y => y.LotID.Contains(input2.ToString())))))
+                                              .LastOrDefault();
 
                                            Standby = true;
 
@@ -961,7 +1020,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
         ResultView.Legends.Add(new Legend
                                {
-                                   LegendTitle         = ProcessInfoProperties[nameof(ProcessInfo.PartID)].GetName(Language),
+                                   LegendTitle         = ProductInfoProperties[nameof(ProductInfo.PartID)].GetName(Language),
                                    LegendTitleColor    = fontcolor,
                                    LegendTextColor     = fontcolor,
                                    LegendBorder        = bordercolor,
@@ -1000,15 +1059,12 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
         ResultsChanged += async e =>
                           {
-                              OvenFilter.Filter   = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
-                              RecipeFilter.Filter = e?.Select(x => x.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()    ?? new List<EqualFilter>();
-                              PartIDFilter.Filter = e?.Select(x => x.PartID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()        ?? new List<EqualFilter>();
-                              LotIDFilter.Filter  = e?.Select(x => x.LotID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()         ?? new List<EqualFilter>();
-                              OpFilter.Filter     = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()    ?? new List<EqualFilter>();
-                              LayerFilter.Filter  = e?.Select(x => x.Layer).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()         ?? new List<EqualFilter>();
-                              //OrderFilter.Filter  = e?.Select(x => x.OrderCode).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()     ?? new List<EqualFilter>();
-                              //RackFilter.Filter   = e?.Select(x => x.RackID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()        ?? new List<EqualFilter>();
-                              //SideFilter.Filter   = e?.Select(x => x.Side).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()          ?? new List<EqualFilter>();
+                              OvenFilter.Filter   = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()                      ?? new List<EqualFilter>();
+                              RecipeFilter.Filter = e?.Select(x => x.Recipe.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()                  ?? new List<EqualFilter>();
+                              OpFilter.Filter     = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()                         ?? new List<EqualFilter>();
+                              PartIDFilter.Filter = e?.SelectMany(x => x.Products.Select(y => y.PartID)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
+                              LotIDFilter.Filter  = e?.SelectMany(x => x.Products.Select(y => y.LotID)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()  ?? new List<EqualFilter>();
+                              LayerFilter.Filter  = e?.SelectMany(x => x.Products.Select(y => y.Layer)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()  ?? new List<EqualFilter>();
 
                               UpdateAct();
 

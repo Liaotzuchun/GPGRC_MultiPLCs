@@ -4,7 +4,6 @@ using System.Linq;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using MongoDB.Bson.Serialization.Attributes;
-using Newtonsoft.Json;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -12,7 +11,6 @@ namespace GPGO_MultiPLCs.Models;
 [BsonIgnoreExtraElements]
 public class BaseInfo : ObservableObject
 {
-    /// <summary>財產編號</summary>
     [LanguageTranslator("Asset No.", "財產編號", "财产编号")]
     public string AssetNumber
     {
@@ -20,7 +18,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>機台編號</summary>
     [LanguageTranslator("Device", "設備編號", "设备编号")]
     public string MachineCode
     {
@@ -28,7 +25,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>操作人員ID</summary>
     [LanguageTranslator("Operator", "操作員", "操作员")]
     public string OperatorID
     {
@@ -36,19 +32,13 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>配方名</summary>
-    [LanguageTranslator("Recipe Name", "配方名", "配方名")]
-    public string RecipeName => $"{Recipe?.First().Value}";
-
-    /// <summary>配方名(key:屬性名稱，value:值)</summary>
     [LanguageTranslator("Recipe", "配方", "配方")]
-    public Dictionary<string, object> Recipe
+    public PLC_Recipe Recipe
     {
-        get => Get<Dictionary<string, object>>();
+        get => Get<PLC_Recipe>();
         set => Set(value);
     }
 
-    /// <summary>板架編號</summary>
     [LanguageTranslator("RackID", "板架", "台车")]
     public string RackID
     {
@@ -56,7 +46,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>開始時間</summary>
     [LanguageTranslator("Starting Time", "開始時間", "开始时间")]
     public DateTime StartTime
     {
@@ -64,7 +53,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>結束時間</summary>
     [LanguageTranslator("Closing Time", "結束時間", "结束时间")]
     public DateTime EndTime
     {
@@ -72,7 +60,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>完成烘烤</summary>
     [LanguageTranslator("Finished", "完成烘烤", "完成烘烤")]
     public bool IsFinished
     {
@@ -80,7 +67,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>紀錄溫度</summary>
     [LanguageTranslator("Temps", "溫度紀錄", "温度纪录")]
     public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
     {
@@ -88,13 +74,21 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    /// <summary>事件紀錄</summary>
     [LanguageTranslator("Events", "事件紀錄", "事件纪录")]
     public ObservableConcurrentCollection<LogEvent> EventList
     {
         get => Get<ObservableConcurrentCollection<LogEvent>>();
         set => Set(value);
     }
+
+    [LanguageTranslator("Products", "產品", "产品")]
+    public ObservableConcurrentCollection<ProductInfo> Products
+    {
+        get => Get<ObservableConcurrentCollection<ProductInfo>>();
+        set => Set(value);
+    }
+
+    public int Quantity => Products.Sum(x => x.PanelIDs.Count);
 
     /// <summary>總烘烤時間</summary>
     [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
@@ -104,123 +98,48 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    [BsonIgnore]
-    public ProcessChartModel ChartModel { get; }
-
     /// <summary>初始化清除資訊</summary>
-    public void Clear()
+    public virtual void Clear()
     {
         EventList.Clear();
         RecordTemperatures.Clear();
-        ChartModel.Clear();
+        Products.Clear();
 
-        StartTime  = new DateTime();
-        EndTime    = new DateTime();
+        StartTime = new DateTime();
+        EndTime = new DateTime();
         IsFinished = false;
     }
 
     public BaseInfo()
     {
-        ChartModel         = new ProcessChartModel();
+        Recipe             = new PLC_Recipe();
         EventList          = new ObservableConcurrentCollection<LogEvent>();
         RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
+        Products           = new ObservableConcurrentCollection<ProductInfo>();
+
+        Products.CollectionChanged += (_, _) => { NotifyPropertyChanged(nameof(Quantity)); };
     }
 }
 
-public interface IProduct
+public class BaseInfoWithChart : BaseInfo
 {
-    CodeType     CodeType      { get; set; }
-    bool         FirstPanel    { get; set; }
-    string       OrderCode     { get; set; }
-    string       PartID        { get; set; }
-    string       LotID         { get; set; }
-    List<string> PanelIDs      { get; set; }
-    int          ProcessNumber { get; set; }
-    string       Side          { get; set; }
-    int          Layer         { get; set; }
-}
+    public ProcessChartModel ChartModel { get; }
 
-/// <summary>材料生產資訊</summary>
-public class ProductInfo : ObservableObject, IProduct //!這是一個批號的資料
-{
-    public CodeType     CodeType      { get; set; } = CodeType.Panel;
-    public bool         FirstPanel    { get; set; } = false;
-    public string       OrderCode     { get; set; }
-    public string       PartID        { get; set; }
-    public string       LotID         { get; set; }
-    public List<string> PanelIDs      { get; set; } = new();
-    public int          ProcessNumber { get; set; }
-    public string       Side          { get; set; } = "A";
-
-    /// <summary>放在第幾層</summary>
-    public int Layer { get; set; }
-
-    public void NotifyPanels()
+    public override void Clear()
     {
-        NotifyPropertyChanged(nameof(PanelIDs));
+        base.Clear();
+        ChartModel.Clear();
     }
 
-    public ProductInfo() {}
-
-    /// <summary></summary>
-    /// <param name="code">工單條碼</param>
-    public ProductInfo(string code)
+    public BaseInfoWithChart()
     {
-        var strs = code.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-        OrderCode     = strs.Length > 0 ? strs[0] : "";
-        ProcessNumber = strs.Length > 1 ? int.TryParse(strs[1], out var num) ? num : 0 : 0;
-    }
-
-    public ProductInfo(string orderCode, int processNumber)
-    {
-        OrderCode     = orderCode;
-        ProcessNumber = processNumber;
+        ChartModel = new ProcessChartModel();
     }
 }
 
-/// <summary>資料庫紀錄資訊 = 機台資訊(BaseInfo) + 材料生產資訊(ProductInfo)</summary>
 [BsonIgnoreExtraElements]
-public class ProcessInfo : BaseInfo, ILogData, IProduct //todo 將溫度紀錄與材料資訊拆分，避免沒必要的重複溫度紀錄在資料庫中
+public class ProcessInfo : BaseInfo, ILogData
 {
-    /// <summary>單一製程序材料數量</summary>
-    [LanguageTranslator("Quantity", "數量", "数量")]
-    public int Quantity => PanelIDs.Count;
-
-    /// <summary>條碼類型</summary>
-    [LanguageTranslator("Code Type", "條碼類型", "条码类型")]
-    public CodeType CodeType { get; set; }
-
-    /// <summary>是否為首件</summary>
-    [LanguageTranslator("First Article", "首件", "首件")]
-    public bool FirstPanel { get; set; } = false;
-
-    /// <summary>工單號</summary>
-    [LanguageTranslator("Order", "工單", "工单")]
-    public string OrderCode { get; set; }
-
-    [LanguageTranslator("PartID", "料號", "料号")]
-    public string PartID { get; set; }
-
-    [LanguageTranslator("LotID", "批號", "批号")]
-    public string LotID { get; set; }
-
-    public List<string> PanelIDs { get; set; } = new();
-
-    /// <summary>製程序</summary>
-    [LanguageTranslator("SN", "序號", "序号")]
-    public int ProcessNumber { get; set; }
-
-    /// <summary>正反面</summary>
-    [LanguageTranslator("Side", "面", "面")]
-    public string Side { get; set; } = "A";
-
-    /// <summary>放在第幾層</summary>
-    [LanguageTranslator("Layer", "階層", "阶层")]
-    public int Layer { get; set; }
-
-    public string AlarmListString() { return string.Join(",", EventList.Where(x => x.Type == EventType.Alarm).Select(x => x.TagCode)); }
-
     /// <summary>匯出成Dictionary</summary>
     /// <param name="lng">語系</param>
     /// <returns></returns>
@@ -232,21 +151,12 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct //todo 將溫度紀錄�
                {
                    { type.GetProperty(nameof(AddedTime)).GetName(lng), AddedTime },
                    { type.GetProperty(nameof(IsFinished)).GetName(lng), IsFinished },
-                   //{ type.GetProperty(nameof(StationNumber)).GetName(lng), StationNumber },
-                   { type.GetProperty(nameof(Layer)).GetName(lng), Layer },
-                   //{type.GetProperty(nameof(MachineCode)).GetName(lng), MachineCode},
-                   //{type.GetProperty(nameof(OrderCode)).GetName(lng), OrderCode},
-                   { type.GetProperty(nameof(PartID)).GetName(lng), PartID },
-                   { type.GetProperty(nameof(LotID)).GetName(lng), LotID },
                    { type.GetProperty(nameof(OperatorID)).GetName(lng), OperatorID },
-                   //{type.GetProperty(nameof(RackID)).GetName(lng), RackID},
                    { type.GetProperty(nameof(Quantity)).GetName(lng), Quantity },
-                   //{type.GetProperty(nameof(Side)).GetName(lng), Side},
                    { type.GetProperty(nameof(StartTime)).GetName(lng), StartTime },
                    { type.GetProperty(nameof(EndTime)).GetName(lng), EndTime },
-                   { type.GetProperty(nameof(RecordTemperatures)).GetName(lng), "@" },
-                   { type.GetProperty(nameof(RecipeName)).GetName(lng), RecipeName },
-                   { type.GetProperty(nameof(Recipe)).GetName(lng), JsonConvert.SerializeObject(Recipe, Formatting.None) }
+                   { type.GetProperty(nameof(Recipe)).GetName(lng), Recipe.RecipeName },
+                   { type.GetProperty(nameof(RecordTemperatures)).GetName(lng), "@" }
                };
     }
 
@@ -254,10 +164,9 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct //todo 將溫度紀錄�
     {
     }
 
-    public ProcessInfo(BaseInfo baseInfo, ProductInfo productInfo)
+    public ProcessInfo(BaseInfo baseInfo)
     {
         baseInfo.CopyTo(this);
-        productInfo.CopyTo(this);
     }
 
     #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
@@ -269,4 +178,6 @@ public class ProcessInfo : BaseInfo, ILogData, IProduct //todo 將溫度紀錄�
     [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
     public int StationNumber { get; set; }
     #endregion 此區由TraceabilityView_ViewModel新增至資料庫時填入
+
+    public IEnumerable<(DateTime AddedTime, int StationNumber, ProductInfo Product)> GetFlatInfos() => Products.Select(x => (AddedTime, StationNumber, x));
 }

@@ -16,9 +16,7 @@ namespace GPGO_MultiPLCs.ViewModels;
 public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 {
     #region Interface implement
-
     public void Dispose() { CTS.Dispose(); }
-
     #endregion
 
     private const    double         Delay = 2;
@@ -48,7 +46,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action<string>                                                                 RecipeUsed;
     public event Func<Language>                                                                 GetLanguage;
     public event Action                                                                         ExecutingStarted;
-    public event Func<(BaseInfo baseInfo, ICollection<ProductInfo> productInfo), ValueTask>     ExecutingFinished;
+    public event Func<BaseInfo, ValueTask>                                                      ExecutingFinished;
     public event Func<(BitType, int), bool, ValueTask>                                          SetPLCSignal;
     public event Func<string, ValueTask<ICollection<ProductInfo>>>                              WantFrontData;
 
@@ -72,12 +70,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public RelayCommand DeleteLotCommand { get; }
 
     /// <summary>機台資訊</summary>
-    public BaseInfo OvenInfo { get; }
-
-    /// <summary>產品資訊</summary>
-    public ObservableConcurrentCollection<ProductInfo> ProductInfos { get; } = new();
-
-    public int Quantity => ProductInfos.Sum(x => x.PanelIDs.Count);
+    public BaseInfoWithChart OvenInfo { get; }
 
     /// <summary>取得是否正在紀錄溫度</summary>
     public bool IsExecuting => ExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
@@ -262,7 +255,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public LogEvent SelectedLogEvent
     {
-        set => OvenInfo.ChartModel.SetAnnotation(value);
+        set => OvenInfo.ChartModel?.SetAnnotation(value);
     }
 
     private bool RecipeCompare(PLC_Recipe recipe) =>
@@ -707,13 +700,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                            //!結束生產，填入資料
                                            OvenInfo.EndTime       = DateTime.Now;
-                                           OvenInfo.Recipe        = GetRecipePV().ToDictionary(GetLanguage?.Invoke() ?? Language.TW);
+                                           OvenInfo.Recipe        = GetRecipePV();
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
 
-                                           ExecutingFinished?.Invoke((OvenInfo.Copy(), ProductInfos.ToArray()));
+                                           ExecutingFinished?.Invoke(OvenInfo.Copy());
 
                                            OvenInfo.Clear();
-                                           ProductInfos.Clear();
 
                                            //!需在引發紀錄完成後才觸發取消投產
                                            CheckInCommand.Result = false;
@@ -736,14 +728,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public void AddLOT(string PartID, string LotID, IEnumerable<string> panels)
     {
-        if (ProductInfos.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is {} exinfo)
+        if (OvenInfo.Products.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is {} product)
         {
             foreach (var panel in panels)
             {
-                exinfo.PanelIDs.Add(panel);
+                product.PanelIDs.Add(panel);
             }
 
-            exinfo.NotifyPanels();
+            product.NotifyPanels();
         }
         else
         {
@@ -758,7 +750,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 info.PanelIDs.Add(panel);
             }
 
-            ProductInfos.Add(info);
+            OvenInfo.Products.Add(info);
         }
     }
 
@@ -843,18 +835,18 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                  info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
                                              }
 
-                                             ProductInfos.Add(info);
+                                             OvenInfo.Products.Add(info);
                                          });
 
         DeleteLotCommand = new RelayCommand(lot =>
                                             {
                                                 if (lot is ProductInfo info)
                                                 {
-                                                    var list = ProductInfos.ToList();
+                                                    var list = OvenInfo.Products.ToList();
                                                     list.Remove(info);
 
-                                                    ProductInfos.Clear();
-                                                    list.ForEach(x => ProductInfos.Add(x));
+                                                    OvenInfo.Products.Clear();
+                                                    list.ForEach(x => OvenInfo.Products.Add(x));
                                                 }
                                             });
 
@@ -1018,7 +1010,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                                          OvenInfo.OperatorID = opId.ToString().Trim();
 
-                                                         ProductInfos.Clear();
+                                                         OvenInfo.Products.Clear();
                                                          foreach (var lot in lots)
                                                          {
                                                              var info = new ProductInfo
@@ -1028,10 +1020,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                         };
                                                              for (var i = 1; i <= lot.Value; i++)
                                                              {
-                                                                 info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{i}");
+                                                                 info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
                                                              }
 
-                                                             ProductInfos.Add(info);
+                                                             OvenInfo.Products.Add(info);
                                                          }
 
                                                          if (!RemoteMode)
@@ -1069,10 +1061,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     CheckInCommand.Result = false;
                                                     CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                     OvenInfo.Clear();
-                                                    ProductInfos.Clear();
                                                 });
 
-        OvenInfo = new BaseInfo();
+        OvenInfo = new BaseInfoWithChart();
         OvenInfo.PropertyChanged += (s, e) =>
                                     {
                                         //!在機台編號或財產編號變更時需通知儲存
@@ -1087,7 +1078,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     };
 
         #region 註冊PLC事件
-
         object PreviousEquipmentState = EquipmentState;
         ValueChanged += async (LogType, data) =>
                         {
@@ -1311,19 +1301,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             }
                         };
 
-        ProductInfos.CollectionChanged += (_, _) =>
-                                      {
-                                          NotifyPropertyChanged(nameof(Quantity));
+        OvenInfo.Products.CollectionChanged += (_, _) =>
+                                               {
+                                                   var lots   = OvenInfo.Products.Select(x => x.LotID).Distinct().ToArray();
+                                                   var parts  = OvenInfo.Products.Select(x => x.PartID).Distinct().ToArray();
+                                                   var panels = OvenInfo.Products.SelectMany(x => x.PanelIDs).Distinct().ToArray();
 
-                                          var lots   = ProductInfos.Select(x => x.LotID).Distinct();
-                                          var parts  = ProductInfos.Select(x => x.PartID).Distinct();
-                                          var panels = ProductInfos.SelectMany(x => x.PanelIDs).Distinct();
-
-                                          SV_Changed?.Invoke("LotIDs",   lots.Any() ? string.Join(",",   ProductInfos.Select(x => x.LotID).Distinct()) : string.Empty);
-                                          SV_Changed?.Invoke("PartIDs",  parts.Any() ? string.Join(",",  ProductInfos.Select(x => x.PartID).Distinct()) : string.Empty);
-                                          SV_Changed?.Invoke("PanelIDs", panels.Any() ? string.Join(",", ProductInfos.SelectMany(x => x.PanelIDs).Distinct()) : string.Empty);
-                                      };
-
+                                                   SV_Changed?.Invoke("LotIDs",   lots.Length   > 0 ? string.Join(",", lots) : string.Empty);
+                                                   SV_Changed?.Invoke("PartIDs",  parts.Length  > 0 ? string.Join(",", parts) : string.Empty);
+                                                   SV_Changed?.Invoke("PanelIDs", panels.Length > 0 ? string.Join(",", panels) : string.Empty);
+                                               };
         #endregion 註冊PLC事件
     }
 }

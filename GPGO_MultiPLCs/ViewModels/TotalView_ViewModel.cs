@@ -446,7 +446,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.CANCEL += index =>
                           {
-                              PLC_All[index].ProductInfos.Clear();
+                              PLC_All[index].OvenInfo.Products.Clear();
                               if (PLC_All[index].ExecutingTask != null && PLC_All[index].IsExecuting)
                               {
                                   PLC_All[index].CTS?.Cancel();
@@ -456,7 +456,6 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                               CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
                               PLC_All[index].OvenInfo.Clear();
-                              PLC_All[index].ProductInfos.Clear();
                               secsGem.InvokeEvent($"Oven{index + 1}_LotRemoved");
                               return HCACKValule.Acknowledge;
                           };
@@ -552,21 +551,14 @@ public sealed class TotalView_ViewModel : ObservableObject
                                     };
 
             //!烘烤流程結束時
-            plc.ExecutingFinished += async e =>
+            plc.ExecutingFinished += async baseInfo =>
                                      {
-                                         var (baseInfo, productInfo) = e;
-
-                                         var products = productInfo.Count > 0 ?
-                                                            productInfo.Select(info => new ProcessInfo(baseInfo, info)).ToList() :
-                                                            new List<ProcessInfo>
-                                                            {
-                                                                new(baseInfo, new ProductInfo())
-                                                            };
+                                         var products = new List<ProcessInfo> { new (baseInfo) };
 
                                          //! 更新ProcessData以供上報
                                          try
                                          {
-                                             secsGem?.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(products));
+                                             secsGem?.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
                                          }
                                          catch
                                          {

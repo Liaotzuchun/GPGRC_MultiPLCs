@@ -79,32 +79,32 @@ public sealed class Mediator : ObservableObject
                         "111", "222", "333", "444",
                         "555", "666", "777"
                     };
-        var time = DateTime.Now;
 
-        for (var j = 1; j <= new DateTime(time.Year, time.Month, 1).AddMonths(1).AddDays(-1).Day; j++)
+        var         time = DateTime.Now;
+
+        for (var j = 1; j <= DateTime.DaysInMonth(time.Year, time.Month); j++) //! 產生一個月的資料
         {
             for (var i = 0; i < PLC_Count; i++)
             {
-                var plc = TotalVM.PLC_All[i];
-                var rn  = new Random(i                                + j);
-                var st  = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), i);
+                var rn = new Random(i                                + j);
+                var st = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), rn.Next(0, 60)); //! 早上8點開始
 
-                for (var k = 0; k < 8; k++)
+                for (var k = 0; k < 8; k++) //! 每天每烤箱8筆
                 {
                     var info = new ProcessInfo
                                {
                                    StartTime  = st,
                                    RackID     = rn.Next(1, 10000).ToString("00000"),
                                    OperatorID = rn.Next(1, 10).ToString("000"),
-                                   Recipe     = RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)].ToDictionary(Language)
+                                   Recipe     = RecipeVM.Recipes == null || RecipeVM.Recipes.Count == 0 ? new PLC_Recipe { RecipeName = "NoName" } : RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)]
                                };
 
                     var ttime = new TimeSpan(0, 0, 1);
                     var cc    = 0;
 
-                    for (var m = 0; m < 100; m++)
+                    for (var m = 0; m < 100; m++) //! 產生100筆溫度資料，間隔1分鐘
                     {
-                        if (m % 10 == 0)
+                        if (m % 10 == 0) //! 每10分鐘產生一筆事件
                         {
                             var ev1 = new LogEvent
                                       {
@@ -140,41 +140,35 @@ public sealed class Mediator : ObservableObject
                         cc += 1;
                         info.RecordTemperatures.Add(vals);
 
-                        ttime = ttime.Add(TimeSpan.FromMinutes(1));
+                        ttime = ttime.Add(TimeSpan.FromMinutes(1)); //! 間隔1分鐘
                     }
 
                     info.EndTime       = info.StartTime + ttime;
                     info.IsFinished    = new Random().NextDouble() > 0.5;
                     info.TotalRampTime = (info.EndTime - info.StartTime).Minutes;
 
-                    st = info.EndTime + TimeSpan.FromMinutes(10);
+                    st = info.EndTime + TimeSpan.FromHours(2);
 
-                    var infos = new List<ProcessInfo>();
-                    var temp  = new List<int>();
-                    var n     = rn.Next(0, 1);
+                    var n = rn.Next(0, 8); //! 階層
                     for (var p = 0; p <= n; p++)
                     {
-                        var _info = info.Copy();
-                        var index = rn.Next(0, partnum.Length);
-                        while (temp.Contains(index))
-                        {
-                            index = rn.Next(0, partnum.Length);
-                        }
-
-                        temp.Add(index);
-                        _info.PartID = partnum[index];
-                        _info.LotID  = lotid[rn.Next(0, lotid.Length)];
+                        var product = new ProductInfo
+                                      {
+                                          PartID = partnum[rn.Next(0, partnum.Length)],
+                                          LotID  = lotid[rn.Next(0,   lotid.Length)],
+                                          Layer  = p
+                                      };
 
                         var count = rn.Next(10, 20);
                         for (var m = 1; m <= count; m++)
                         {
-                            _info.PanelIDs.Add($"{_info.PartID}-{_info.LotID}-{m}");
+                            product.PanelIDs.Add($"{product.PartID}-{product.LotID}-{product.Layer}-{m}");
                         }
 
-                        infos.Add(_info);
+                        info.Products.Add(product);
                     }
 
-                    TraceVM.AddToDB(i, infos, info.EndTime.AddMinutes(1));
+                    TraceVM.AddToDB(i, info, info.EndTime.AddSeconds(10));
                 }
             }
         }
@@ -302,14 +296,14 @@ public sealed class Mediator : ObservableObject
                                            sb.Append(", Level:");
                                            sb.Append(user.Level.ToString());
                                            sb.Append(", App ShutDown.");
-                                           LogVM.AddToDB(new LogEvent
-                                                         {
-                                                             AddedTime     = DateTime.Now,
-                                                             StationNumber = 0,
-                                                             Type          = EventType.Operator,
-                                                             Description   = sb.ToString(),
-                                                             Value         = true
-                                                         });
+                                           await LogVM.AddToDBAsync(new LogEvent
+                                                                    {
+                                                                        AddedTime     = DateTime.Now,
+                                                                        StationNumber = 0,
+                                                                        Type          = EventType.Operator,
+                                                                        Description   = sb.ToString(),
+                                                                        Value         = true
+                                                                    });
                                            Application.Current.Shutdown(23555277);
                                        }
                                    }
@@ -499,7 +493,7 @@ public sealed class Mediator : ObservableObject
                                      var (stationIndex, infos) = e;
                                      using (await lockobj.LockAsync())
                                      {
-                                         TraceVM.AddToDB(stationIndex, infos);
+                                         await TraceVM.AddToDBAsync(stationIndex, infos);
 
                                          //!輸出嘉聯益資料
                                          //if (!string.IsNullOrEmpty(inpath) && !string.IsNullOrEmpty(outpath) && e.Infos.Any())
@@ -562,18 +556,18 @@ public sealed class Mediator : ObservableObject
                                      return await TraceVM.CheckProductions(stationIndex);
                                  };
 
-        TotalVM.EventHappened += e =>
+        TotalVM.EventHappened += async e =>
                                  {
                                      var (stationIndex, type, time, note, tag, value) = e;
-                                     LogVM.AddToDB(new LogEvent
-                                                   {
-                                                       StationNumber = stationIndex + 1,
-                                                       AddedTime     = time,
-                                                       Type          = type,
-                                                       Description   = note,
-                                                       TagCode       = tag,
-                                                       Value         = value
-                                                   });
+                                     await LogVM.AddToDBAsync(new LogEvent
+                                                              {
+                                                                  StationNumber = stationIndex + 1,
+                                                                  AddedTime     = time,
+                                                                  Type          = type,
+                                                                  Description   = note,
+                                                                  TagCode       = tag,
+                                                                  Value         = value
+                                                              });
                                  };
 
         TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe);
@@ -613,8 +607,8 @@ public sealed class Mediator : ObservableObject
                      TotalVM.InsertMessage(evs);
                  });
 
-        #region 產生測試用生產數據資料庫，務必先建立配方！！
-
+        //todo 有問題！！Dialog顯示不正常
+        //#region 產生測試用生產數據資料庫，務必先建立配方！！
         //DialogVM.Show(new Dictionary<Language, string>
         //              {
         //                  { Language.TW, "測試資料產生中，請稍後！" },
@@ -623,22 +617,24 @@ public sealed class Mediator : ObservableObject
         //              },
         //              Task.Factory.StartNew(() =>
         //                                    {
-        //                                        while (RecipeVM.Recipes == null)
+        //                                        try
         //                                        {
         //                                            Thread.Sleep(45);
+
+        //                                            MakeTestData(1);
+
+        //                                            Thread.Sleep(45);
+
+        //                                            var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => x.Value is true && (int)x.Type > 1).Take(50).ToArray();
+        //                                            TotalVM.InsertMessage(evs);
         //                                        }
-
-        //                                        Thread.Sleep(45);
-
-        //                                        MakeTestData(1);
-
-        //                                        Thread.Sleep(45);
-
-        //                                        TraceVM.TodayCommand?.Execute(null);
+        //                                        catch
+        //                                        {
+        //                                            // ignored
+        //                                        }
         //                                    },
         //                                    TaskCreationOptions.LongRunning),
-        //              TimeSpan.FromMinutes(5));
-
-        #endregion
+        //              new TimeSpan());
+        //#endregion
     }
 }

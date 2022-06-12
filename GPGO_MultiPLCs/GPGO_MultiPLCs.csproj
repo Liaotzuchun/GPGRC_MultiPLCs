@@ -1,52 +1,53 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <LangVersion>latest</LangVersion>
-    <OutputType>WinExe</OutputType>
-    <AssemblyVersion>22.4.20.16</AssemblyVersion>
-    <FileVersion>22.4.20.16</FileVersion>
-    <Authors>wunmao</Authors>
-    <Company>GroupUp</Company>
-    <ApplicationIcon>GP.ico</ApplicationIcon>
-	<Platforms>AnyCPU;x86;x64</Platforms>
-	<PlatformTarget>AnyCPU</PlatformTarget>
-	<Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <COMReference Include="QGACTIVEXLib">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>dcf453ea-d30f-47d6-a916-cfd254b85739</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="QSACTIVEXLib">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>b25f3585-0060-40de-b95f-80146b9365e6</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </COMReference>
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<LangVersion>latest</LangVersion>
+		<OutputType>WinExe</OutputType>
+		<AssemblyVersion>22.4.20.16</AssemblyVersion>
+		<FileVersion>22.4.20.16</FileVersion>
+		<Authors>wunmao</Authors>
+		<Company>GroupUp</Company>
+		<ApplicationIcon>GP.ico</ApplicationIcon>
+		<Platforms>AnyCPU;x86;x64</Platforms>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<Prefer32Bit>true</Prefer32Bit>
+		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+	</PropertyGroup>
+	<ItemGroup>
+		<COMReference Include="QGACTIVEXLib">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>0</VersionMinor>
+			<VersionMajor>1</VersionMajor>
+			<Guid>dcf453ea-d30f-47d6-a916-cfd254b85739</Guid>
+			<Lcid>0</Lcid>
+			<Isolated>false</Isolated>
+			<EmbedInteropTypes>true</EmbedInteropTypes>
+		</COMReference>
+		<COMReference Include="QSACTIVEXLib">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>0</VersionMinor>
+			<VersionMajor>1</VersionMajor>
+			<Guid>b25f3585-0060-40de-b95f-80146b9365e6</Guid>
+			<Lcid>0</Lcid>
+			<Isolated>false</Isolated>
+			<EmbedInteropTypes>true</EmbedInteropTypes>
+		</COMReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="GP.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="GP.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="EPPlus" Version="6.0.4" />
-    <PackageReference Include="GPMVVM" Version="22.6.11.20" />
-    <PackageReference Include="GPMVVM.MongoDB" Version="22.6.9.22" />
-    <PackageReference Include="GP_SECS_GEM.WunmaoEdited" Version="22.6.9.22" />
-    <PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="EPPlus" Version="6.0.4" />
+		<PackageReference Include="GPMVVM" Version="22.6.11.20" />
+		<PackageReference Include="GPMVVM.MongoDB" Version="22.6.9.22" />
+		<PackageReference Include="GP_SECS_GEM.WunmaoEdited" Version="22.6.9.22" />
+		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
+	<ItemGroup>
+		<WCFMetadata Include="Connected Services\" />
+	</ItemGroup>
 </Project>
