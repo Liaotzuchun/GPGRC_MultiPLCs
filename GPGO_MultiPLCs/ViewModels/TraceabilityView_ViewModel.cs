@@ -528,6 +528,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  {
                                                                      record_sht.Column(j).Width += 2;
                                                                  }
+
+                                                                 //todo 在record_sht加入配方和產品資訊
                                                              }
 
                                                              cells                           = wsht.Cells[3, 1, n + 3, keys.Length];
