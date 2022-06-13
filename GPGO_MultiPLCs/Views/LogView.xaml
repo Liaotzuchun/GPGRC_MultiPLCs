@@ -473,12 +473,6 @@
                                       MinWidth="80" />
                     <ColumnDefinition Width="Auto"
                                       MinWidth="80" />
-                    <ColumnDefinition Width="0"
-                                      MinWidth="0" />
-                    <ColumnDefinition Width="Auto"
-                                      MinWidth="80" />
-                    <ColumnDefinition Width="Auto"
-                                      MinWidth="80" />
                     <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -508,7 +502,7 @@
                         BorderThickness="0,1,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{DynamicResource 料號}" />
+                               Text="{DynamicResource 操作員}" />
                 </Border>
                 <Border Grid.Row="0"
                         Grid.Column="3"
@@ -517,34 +511,7 @@
                         BorderThickness="0,1,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{DynamicResource 操作員}" />
-                </Border>
-                <Border Grid.Row="0"
-                        Grid.Column="4"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,1,1,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 板架}" />
-                </Border>
-                <Border Grid.Row="0"
-                        Grid.Column="5"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,1,1,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
                                Text="{DynamicResource 數量}" />
-                </Border>
-                <Border Grid.Row="0"
-                        Grid.Column="6"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,1,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 正反面}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="0"
@@ -572,7 +539,7 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.RecipeName, Mode=OneWay}" />
+                               Text="{Binding SelectedProcessInfo.Recipe.RecipeName, Mode=OneWay}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="2"
@@ -581,7 +548,7 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.PartID, Mode=OneWay}" />
+                               Text="{Binding SelectedProcessInfo.OperatorID, Mode=OneWay}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="3"
@@ -590,38 +557,11 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.OperatorID, Mode=OneWay}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="4"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,0,1,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.RackID, Mode=OneWay}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="5"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,0,1,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
                                Text="{Binding SelectedProcessInfo.Quantity, Mode=OneWay}" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="6"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,0,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.Side, Mode=OneWay}" />
                 </Border>
                 <Button Grid.Row="0"
                         Grid.RowSpan="2"
-                        Grid.Column="7"
+                        Grid.Column="4"
                         Command="{Binding GoCommand, Mode=OneWay}"
                         Content="{DynamicResource 詳情}"
                         FontSize="16"

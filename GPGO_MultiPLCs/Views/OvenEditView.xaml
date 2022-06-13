@@ -290,7 +290,7 @@
                                Foreground="{StaticResource GlyphBrush}">
                         <Run Text="{DynamicResource 總數量}" />
                         <Run Text=":" />
-                        <Run Text="{Binding Quantity, Mode=OneWay}" />
+                        <Run Text="{Binding OvenInfo.Quantity, Mode=OneWay}" />
                     </TextBlock>
                 </GroupBox.Header>
                 <DataGrid x:Name="DataGrid"

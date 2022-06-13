@@ -1046,7 +1046,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         }
 
         SelectedIndex = -1;
-        EventIndex    = -1;
         OvenFilter    = new FilterGroup(UpdateAct);
         RecipeFilter  = new FilterGroup(UpdateAct);
         OrderFilter   = new FilterGroup(UpdateAct);

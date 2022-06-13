@@ -241,6 +241,8 @@ public sealed class Mediator : ObservableObject
                                         {
                                             TotalVM.Index = 0;
                                         }
+
+                                        TraceVM.SelectedIndex = -1;
                                     };
 
         //!當主視窗讀取完成時，再讀取配方和生產履歷資料庫
