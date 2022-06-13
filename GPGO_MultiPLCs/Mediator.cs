@@ -80,7 +80,7 @@ public sealed class Mediator : ObservableObject
                         "555", "666", "777"
                     };
 
-        var         time = DateTime.Now;
+        var time = DateTime.Now;
 
         for (var j = 1; j <= DateTime.DaysInMonth(time.Year, time.Month); j++) //! 產生一個月的資料
         {
@@ -117,7 +117,7 @@ public sealed class Mediator : ObservableObject
                                           Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
                                       };
 
-                            LogVM.AddToDB(ev1);
+                            LogVM.DataCollection.Add(ev1);
                             info.EventList.Add(ev1);
                         }
 
@@ -168,7 +168,10 @@ public sealed class Mediator : ObservableObject
                         info.Products.Add(product);
                     }
 
-                    TraceVM.AddToDB(i, info, info.EndTime.AddSeconds(10));
+                    info.StationNumber = i + 1;
+                    info.AddedTime     = info.EndTime.AddSeconds(10);
+
+                    TraceVM.DataCollection.Add(info);
                 }
             }
         }
@@ -603,12 +606,12 @@ public sealed class Mediator : ObservableObject
 
         Task.Run(() =>
                  {
-                     var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => x.Value is true && (int)x.Type > 1).Take(50).ToArray();
+                     var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => (int)x.Type > 1).Take(50).ToArray();
                      TotalVM.InsertMessage(evs);
                  });
 
-        //todo 有問題！！Dialog顯示不正常
         //#region 產生測試用生產數據資料庫，務必先建立配方！！
+
         //DialogVM.Show(new Dictionary<Language, string>
         //              {
         //                  { Language.TW, "測試資料產生中，請稍後！" },
@@ -619,22 +622,20 @@ public sealed class Mediator : ObservableObject
         //                                    {
         //                                        try
         //                                        {
-        //                                            Thread.Sleep(45);
+        //                                            Thread.Sleep(1200);
 
         //                                            MakeTestData(1);
 
-        //                                            Thread.Sleep(45);
-
-        //                                            var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => x.Value is true && (int)x.Type > 1).Take(50).ToArray();
+        //                                            var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => (int)x.Type > 1).Take(50).ToArray();
         //                                            TotalVM.InsertMessage(evs);
         //                                        }
         //                                        catch
         //                                        {
         //                                            // ignored
         //                                        }
-        //                                    },
-        //                                    TaskCreationOptions.LongRunning),
-        //              new TimeSpan());
+        //                                    }),
+        //              TimeSpan.FromMinutes(5));
+
         //#endregion
     }
 }
