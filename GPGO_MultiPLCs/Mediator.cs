@@ -243,6 +243,7 @@ public sealed class Mediator : ObservableObject
                                         }
 
                                         TraceVM.SelectedIndex = -1;
+                                        TraceVM.ShowProducts  = false;
                                     };
 
         //!當主視窗讀取完成時，再讀取配方和生產履歷資料庫

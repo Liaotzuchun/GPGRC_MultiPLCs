@@ -635,6 +635,7 @@
                                   AutoGenerateColumns="False"
                                   BorderThickness="0,1,0,0"
                                   DockPanel.Dock="Top"
+                                  FontSize="12"
                                   HorizontalScrollBarVisibility="Disabled"
                                   ItemsSource="{Binding OvenInfo.Products, Mode=OneWay}"
                                   Loaded="DataGrid_Loaded"
@@ -1138,32 +1139,32 @@
                                     <DataTrigger.Binding>
                                         <MultiBinding Converter="{StaticResource MultiAllTrue}">
                                             <Binding Converter="{StaticResource IsEqualValue}"
-                                                                 ConverterParameter="4"
-                                                                 Path="DataContext.(models:LogEvent.Type)"
-                                                                 RelativeSource="{RelativeSource FindAncestor,
-                                                                                                 AncestorType={x:Type DataGridRowHeader}}" />
+                                                     ConverterParameter="4"
+                                                     Path="DataContext.(models:LogEvent.Type)"
+                                                     RelativeSource="{RelativeSource FindAncestor,
+                                                                                     AncestorType={x:Type DataGridRowHeader}}" />
                                             <Binding Path="DataContext.(models:LogEvent.Value)"
-                                                                 RelativeSource="{RelativeSource FindAncestor,
-                                                                                                 AncestorType={x:Type DataGridRowHeader}}" />
+                                                     RelativeSource="{RelativeSource FindAncestor,
+                                                                                     AncestorType={x:Type DataGridRowHeader}}" />
                                         </MultiBinding>
                                     </DataTrigger.Binding>
                                     <Setter TargetName="Border" Property="Background" Value="OrangeRed" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                         Value="Alarm">
+                                             Value="Alarm">
                                     <Setter TargetName="Border" Property="Background" Value="Lime" />
                                 </DataTrigger>
                                 <DataTrigger Value="True">
                                     <DataTrigger.Binding>
                                         <MultiBinding Converter="{StaticResource MultiAllTrue}">
                                             <Binding Converter="{StaticResource IsEqualValue}"
-                                                                 ConverterParameter="5"
-                                                                 Path="DataContext.(models:LogEvent.Type)"
-                                                                 RelativeSource="{RelativeSource FindAncestor,
-                                                                                                 AncestorType={x:Type DataGridRowHeader}}" />
+                                                     ConverterParameter="5"
+                                                     Path="DataContext.(models:LogEvent.Type)"
+                                                     RelativeSource="{RelativeSource FindAncestor,
+                                                                                     AncestorType={x:Type DataGridRowHeader}}" />
                                             <Binding Path="DataContext.(models:LogEvent.Value)"
-                                                                 RelativeSource="{RelativeSource FindAncestor,
-                                                                                                 AncestorType={x:Type DataGridRowHeader}}" />
+                                                     RelativeSource="{RelativeSource FindAncestor,
+                                                                                     AncestorType={x:Type DataGridRowHeader}}" />
                                         </MultiBinding>
                                     </DataTrigger.Binding>
                                     <Setter TargetName="Border" Property="Background" Value="Red" />

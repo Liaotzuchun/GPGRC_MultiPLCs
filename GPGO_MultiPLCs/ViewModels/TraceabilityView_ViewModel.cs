@@ -47,9 +47,15 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     public Language    Language = Language.TW;
     public LogEvent    SearchEvent;
     public ProcessInfo SearchResult;
+    public ProductInfo SearchProduct;
 
     /// <summary>依據工單或料號搜尋</summary>
     public RelayCommand FindCommand { get; }
+
+    /// <summary>輸出Excel報表</summary>
+    public RelayCommand ToExcelCommand { get; }
+
+    public RelayCommand LoadedCommand { get; }
 
     /// <summary>基於操作員的Filter</summary>
     public FilterGroup OpFilter { get; }
@@ -66,34 +72,23 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     /// <summary>基於PLC站號的Filter</summary>
     public FilterGroup OvenFilter { get; }
 
-    /// <summary>總量統計</summary>
-    public int ProduceTotalCount => ViewResults?.Count > 0 ? ViewResults.Where(x => x.IsFinished).Sum(x => x.Quantity) : 0;
-
     /// <summary>基於配方的Filter</summary>
     public FilterGroup RecipeFilter { get; }
 
-    public ProcessChartModel ChartModel { get; }
-
-    public PlotModel ResultView { get; }
-
     /// <summary>基於正反面的Filter</summary>
     public FilterGroup SideFilter { get; }
-
-    /// <summary>輸出Excel報表</summary>
-    public RelayCommand ToExcelCommand { get; }
-
-    public RelayCommand LoadedCommand { get; }
 
     /// <summary>基於板架的Filter</summary>
     public FilterGroup RackFilter { get; }
 
     public FilterGroup LayerFilter { get; }
 
-    public int EventIndex
-    {
-        get => Get<int>();
-        set => Set(value);
-    }
+    /// <summary>總量統計</summary>
+    public int ProduceTotalCount => ViewResults?.Count > 0 ? ViewResults.Where(x => x.IsFinished).Sum(x => x.Quantity) : 0;
+
+    public ProcessChartModel ChartModel { get; }
+
+    public PlotModel ResultView { get; }
 
     public ProcessInfo SelectedProcessInfo
     {
@@ -137,6 +132,29 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             Set(value);
             EventIndex = -1;
         }
+    }
+
+    public int EventIndex
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
+
+    public bool ShowProducts
+    {
+        get => Get<bool>();
+        set
+        {
+            Set(value);
+
+            ProductIndex = -1;
+        }
+    }
+
+    public int ProductIndex
+    {
+        get => Get<int>();
+        set => Set(value);
     }
 
     /// <summary>顯示的資料列表</summary>
@@ -278,7 +296,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
     public ValueTask<ProcessInfo> FindInfo(int station, DateTime time) => DataCollection.FindOneAsync(x => x.StationNumber == station && x.StartTime < time && x.EndTime > time);
 
-    public ValueTask<List<ProcessInfo>> FindInfo(string lotid) => DataCollection.FindAsync(x => x.Products.Any(y => y.LotID == lotid)); //todo 待確認
+    public ValueTask<List<ProcessInfo>> FindInfo(string lotid) => DataCollection.FindAsync(x => x.Products.Any(y => y.LotID == lotid));
 
     /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
     /// <param name="path">資料夾路徑</param>
@@ -910,24 +928,28 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                                            Standby = false;
 
-                                           //todo 待確認
-                                           SearchResult = (await DataCollection.FindAsync(x => (!result1 || x.Products.Any(y => y.PartID.Contains(input1.ToString()))) &&
-                                                                                               (!result2 || x.Products.Any(y => y.LotID.Contains(input2.ToString())))))
+                                           SearchResult = (await DataCollection.FindAsync(x => x.Products.Any(y => (!result1 ||
+                                                                                                                    y.PartID.Contains(input1.ToString())) &&
+                                                                                                                   (!result2 ||
+                                                                                                                    y.LotID.Contains(input2.ToString())))))
                                               .LastOrDefault();
 
                                            Standby = true;
 
                                            if (SearchResult == null)
                                            {
-                                               SearchResult = new ProcessInfo
-                                                              {
-                                                                  StationNumber = -1
-                                                              };
-
-                                               UpdateResults(Date1, Date2);
+                                               dialog.Show(new Dictionary<Language, string>
+                                                           {
+                                                               { Language.TW, "查無此產品！" },
+                                                               { Language.CHS, "查无此产品！" },
+                                                               { Language.EN, "No product be found!" }
+                                                           },
+                                                           DialogMsgType.Alarm);
                                            }
                                            else
                                            {
+                                               SearchProduct = SearchResult.Products.Where(x => x.PartID.Contains(input1.ToString()) && x.LotID.Contains(input2.ToString())).OrderBy(x => x.Layer).FirstOrDefault();
+
                                                Date1 = SearchResult.AddedTime.Date;
                                            }
                                        });
@@ -1080,7 +1102,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                   {
                                                       { Language.TW, "查無資料！" },
                                                       { Language.CHS, "查无资料！" },
-                                                      { Language.EN, "No data found!" }
+                                                      { Language.EN, "No data be found!" }
                                                   },
                                                   DialogMsgType.Alarm);
                                   }
@@ -1104,10 +1126,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                               .First()
                                                               .index;
                                   }
-
-                                  SearchEvent = null;
-
-                                  if (EventIndex == -1)
+                                  else
                                   {
                                       dialog.Show(new Dictionary<Language, string>
                                                   {
@@ -1117,6 +1136,22 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                   },
                                                   DialogMsgType.Alarm);
                                   }
+
+                                  SearchEvent = null;
+                              }
+                              else if (SearchProduct != null && ViewResults?.Count > 0 && SelectedIndex > -1)
+                              {
+                                  ShowProducts = true;
+                                  ProductIndex = ViewResults[SelectedIndex]
+                                                .Products
+                                                .Select((x, i) => (index: i, value: x))
+                                                .OrderBy(x => x.value.Layer)
+                                                .FirstOrDefault(x => x.value.PartID == SearchProduct.PartID &&
+                                                                     x.value.LotID  == SearchProduct.LotID  &&
+                                                                     x.value.Layer  == SearchProduct.Layer)
+                                                .index;
+
+                                  SearchProduct = null;
                               }
                               else
                               {

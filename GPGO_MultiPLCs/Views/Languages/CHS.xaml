@@ -211,4 +211,5 @@
     <sys:String x:Key="進氣風車異常">进气风车异常</sys:String>
     <sys:String x:Key="階層">阶层</sys:String>
     <sys:String x:Key="名稱">名称</sys:String>
+    <sys:String x:Key="產品">产品</sys:String>
 </ResourceDictionary>

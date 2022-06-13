@@ -22,10 +22,38 @@ public partial class OvenEditView : UserControl
 
     private void DataGrid_Loaded(object sender, System.Windows.RoutedEventArgs e)
     {
-        var cvTasks = CollectionViewSource.GetDefaultView(((DataGrid)sender).ItemsSource);
-        if (cvTasks is { CanSort: true } && !cvTasks.SortDescriptions.Any())
+        var products = CollectionViewSource.GetDefaultView(((DataGrid)sender).ItemsSource);
+        if (products is { CanSort: true } && !products.SortDescriptions.Any())
         {
-            cvTasks.SortDescriptions.Add(new SortDescription("Layer", ListSortDirection.Ascending));
+            products.SortDescriptions.Add(new SortDescription("Layer", ListSortDirection.Ascending));
+        }
+    }
+
+    private void RecipeComboBox_KeyDown(object sender, KeyEventArgs e)
+    {
+    }
+
+    private void OPTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            Keyboard.Focus(PartTextBox);
+        }
+    }
+
+    private void PartTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            Keyboard.Focus(LotTextBox);
+        }
+    }
+
+    private void LotTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            Keyboard.Focus(NumericTextBox);
         }
     }
 

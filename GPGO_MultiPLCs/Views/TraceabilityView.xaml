@@ -526,7 +526,7 @@
                                             <Border Margin="15,10,15,15"
                                                     Background="{StaticResource WindowBackgroundBrush6}"
                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="1,1,0,0">
+                                                    BorderThickness="1,0,0,0">
                                                 <Border.Effect>
                                                     <DropShadowEffect BlurRadius="15"
                                                                       Direction="270"
@@ -558,7 +558,8 @@
                                                             Background="{StaticResource WindowBackgroundBrush2}"
                                                             BorderThickness="0,1,1,1"
                                                             Style="{StaticResource ValueBorder}">
-                                                        <TextBlock HorizontalAlignment="Center"
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 使用段數}" />
                                                     </Border>
@@ -575,7 +576,8 @@
                                                             Background="{StaticResource WindowBackgroundBrush2}"
                                                             BorderThickness="0,1,1,1"
                                                             Style="{StaticResource ValueBorder}">
-                                                        <TextBlock HorizontalAlignment="Center"
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 降溫溫度}" />
                                                     </Border>
@@ -592,13 +594,14 @@
                                                             Background="{StaticResource WindowBackgroundBrush2}"
                                                             BorderThickness="0,1,1,1"
                                                             Style="{StaticResource ValueBorder}">
-                                                        <TextBlock HorizontalAlignment="Center"
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 降溫時間}" />
                                                     </Border>
                                                     <Border Grid.Row="0"
                                                             Grid.Column="5"
-                                                            BorderThickness="0,1,0,1"
+                                                            BorderThickness="0,1,1,1"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
@@ -616,7 +619,8 @@
                                                             Background="{StaticResource WindowBackgroundBrush2}"
                                                             BorderThickness="0,0,1,1"
                                                             Style="{StaticResource ValueBorder}">
-                                                        <TextBlock HorizontalAlignment="Center"
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 目標溫度}" />
                                                     </Border>
@@ -625,7 +629,8 @@
                                                             Background="{StaticResource WindowBackgroundBrush2}"
                                                             BorderThickness="0,0,1,1"
                                                             Style="{StaticResource ValueBorder}">
-                                                        <TextBlock HorizontalAlignment="Center"
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 升溫時間}" />
                                                     </Border>
@@ -634,7 +639,8 @@
                                                             Background="{StaticResource WindowBackgroundBrush2}"
                                                             BorderThickness="0,0,1,1"
                                                             Style="{StaticResource ValueBorder}">
-                                                        <TextBlock HorizontalAlignment="Center"
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 升溫警報}" />
                                                     </Border>
@@ -643,22 +649,24 @@
                                                             Background="{StaticResource WindowBackgroundBrush2}"
                                                             BorderThickness="0,0,1,1"
                                                             Style="{StaticResource ValueBorder}">
-                                                        <TextBlock HorizontalAlignment="Center"
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 恆溫時間}" />
                                                     </Border>
                                                     <Border Grid.Row="1"
                                                             Grid.Column="5"
                                                             Background="{StaticResource WindowBackgroundBrush2}"
-                                                            BorderThickness="0,0,0,1"
+                                                            BorderThickness="0,0,1,1"
                                                             Style="{StaticResource ValueBorder}">
-                                                        <TextBlock HorizontalAlignment="Center"
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 恆溫警報}" />
                                                     </Border>
                                                     <Border Grid.Row="2"
                                                             Grid.Column="0"
-                                                            BorderThickness="1,0,1,1"
+                                                            BorderThickness="0,0,1,1"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
@@ -667,7 +675,7 @@
                                                     <Border x:Name="Border2"
                                                             Grid.Row="3"
                                                             Grid.Column="0"
-                                                            BorderThickness="1,0,1,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -677,7 +685,7 @@
                                                     <Border x:Name="Border3"
                                                             Grid.Row="4"
                                                             Grid.Column="0"
-                                                            BorderThickness="1,0,1,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -687,7 +695,7 @@
                                                     <Border x:Name="Border4"
                                                             Grid.Row="5"
                                                             Grid.Column="0"
-                                                            BorderThickness="1,0,1,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -697,7 +705,7 @@
                                                     <Border x:Name="Border5"
                                                             Grid.Row="6"
                                                             Grid.Column="0"
-                                                            BorderThickness="1,0,1,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -707,7 +715,7 @@
                                                     <Border x:Name="Border6"
                                                             Grid.Row="7"
                                                             Grid.Column="0"
-                                                            BorderThickness="1,0,1,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding StepCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -760,7 +768,7 @@
                                                     </Border>
                                                     <Border Grid.Row="7"
                                                             Grid.Column="1"
-                                                            BorderThickness="0,0,1,0"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -823,7 +831,7 @@
                                                     </Border>
                                                     <Border Grid.Row="7"
                                                             Grid.Column="2"
-                                                            BorderThickness="0,0,1,0"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -888,7 +896,7 @@
                                                     </Border>
                                                     <Border Grid.Row="7"
                                                             Grid.Column="3"
-                                                            BorderThickness="0,0,1,0"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -953,7 +961,7 @@
                                                     </Border>
                                                     <Border Grid.Row="7"
                                                             Grid.Column="4"
-                                                            BorderThickness="0,0,1,0"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -964,7 +972,7 @@
                                                     </Border>
                                                     <Border Grid.Row="2"
                                                             Grid.Column="5"
-                                                            BorderThickness="0,0,0,1"
+                                                            BorderThickness="0,0,1,1"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
@@ -974,7 +982,7 @@
                                                     </Border>
                                                     <Border Grid.Row="3"
                                                             Grid.Column="5"
-                                                            BorderThickness="0,0,0,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -985,7 +993,7 @@
                                                     </Border>
                                                     <Border Grid.Row="4"
                                                             Grid.Column="5"
-                                                            BorderThickness="0,0,0,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -996,7 +1004,7 @@
                                                     </Border>
                                                     <Border Grid.Row="5"
                                                             Grid.Column="5"
-                                                            BorderThickness="0,0,0,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -1007,7 +1015,7 @@
                                                     </Border>
                                                     <Border Grid.Row="6"
                                                             Grid.Column="5"
-                                                            BorderThickness="0,0,0,1"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -1018,7 +1026,7 @@
                                                     </Border>
                                                     <Border Grid.Row="7"
                                                             Grid.Column="5"
-                                                            BorderThickness="0,0,0,0"
+                                                            BorderThickness="0,0,1,1"
                                                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
@@ -1126,161 +1134,336 @@
                     <ColumnDefinition Width="300" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <DataGrid x:Name="dg2"
-                          AutoGenerateColumns="False"
-                          BorderThickness="0,1,1,0"
-                          FontSize="12"
-                          HorizontalScrollBarVisibility="Disabled"
-                          ItemsSource="{Binding SelectedProcessInfo.EventList, Mode=OneWay, IsAsync=True}"
-                          SelectedCellsChanged="SelectedCellsChanged2"
-                          SelectedIndex="{Binding EventIndex, Mode=TwoWay}"
-                          SelectedItem="{Binding SelectedLogEvent, Mode=OneWayToSource}">
-                    <DataGrid.RowHeaderStyle>
-                        <Style TargetType="DataGridRowHeader">
-                            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                                        <ContentPresenter Content="{TemplateBinding Content}"
-                                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DataGrid.RowHeaderStyle>
-                    <DataGrid.RowHeaderTemplate>
-                        <DataTemplate>
-                            <Border x:Name="Border"
-                                    Width="5"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,1,1" />
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                             Value="Normal">
-                                    <Setter TargetName="Border" Property="Background" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                             Value="StatusChanged">
-                                    <Setter TargetName="Border" Property="Background" Value="DodgerBlue" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                             Value="Trigger">
-                                    <Setter TargetName="Border" Property="Background" Value="Blue" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                             Value="Operator">
-                                    <Setter TargetName="Border" Property="Background" Value="DarkOrange" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                             Value="Alert">
-                                    <Setter TargetName="Border" Property="Background" Value="Lime" />
-                                </DataTrigger>
-                                <DataTrigger Value="True">
-                                    <DataTrigger.Binding>
-                                        <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                                            <Binding Converter="{StaticResource IsEqualValue}"
-                                                     ConverterParameter="4"
-                                                     Path="DataContext.(models:LogEvent.Type)"
-                                                     RelativeSource="{RelativeSource FindAncestor,
-                                                                                     AncestorType={x:Type DataGridRowHeader}}" />
-                                            <Binding Path="DataContext.(models:LogEvent.Value)"
-                                                     RelativeSource="{RelativeSource FindAncestor,
-                                                                                     AncestorType={x:Type DataGridRowHeader}}" />
-                                        </MultiBinding>
-                                    </DataTrigger.Binding>
-                                    <Setter TargetName="Border" Property="Background" Value="OrangeRed" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                             Value="Alarm">
-                                    <Setter TargetName="Border" Property="Background" Value="Lime" />
-                                </DataTrigger>
-                                <DataTrigger Value="True">
-                                    <DataTrigger.Binding>
-                                        <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                                            <Binding Converter="{StaticResource IsEqualValue}"
-                                                     ConverterParameter="5"
-                                                     Path="DataContext.(models:LogEvent.Type)"
-                                                     RelativeSource="{RelativeSource FindAncestor,
-                                                                                     AncestorType={x:Type DataGridRowHeader}}" />
-                                            <Binding Path="DataContext.(models:LogEvent.Value)"
-                                                     RelativeSource="{RelativeSource FindAncestor,
-                                                                                     AncestorType={x:Type DataGridRowHeader}}" />
-                                        </MultiBinding>
-                                    </DataTrigger.Binding>
-                                    <Setter TargetName="Border" Property="Background" Value="Red" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                             Value="SECSCommnd">
-                                    <Setter TargetName="Border" Property="Background" Value="Magenta" />
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
-                        </DataTemplate>
-                    </DataGrid.RowHeaderTemplate>
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="60">
-                            <DataGridTemplateColumn.Header>
-                                <TextBlock Text="{DynamicResource 時間}" />
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="models:LogEvent">
-                                    <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="Auto">
-                            <DataGridTemplateColumn.Header>
-                                <TextBlock Text="{DynamicResource 類型}" />
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="models:LogEvent">
-                                    <TextBlock Text="{Binding Type, Mode=OneWay, Converter={views:StringToResource}}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="Auto">
-                            <DataGridTemplateColumn.Header>
-                                <TextBlock Text="{DynamicResource 值}" />
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="models:LogEvent">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="24" />
-                                        </Grid.ColumnDefinitions>
-                                        <Ellipse x:Name="Ellipse"
-                                                 Width="10"
-                                                 Height="10"
-                                                 Margin="0,0,4,0"
-                                                 Fill="{StaticResource DisabledBackgroundBrush}"
-                                                 Stroke="{StaticResource DisabledBorderBrush}"
-                                                 StrokeThickness="1" />
-                                        <TextBlock Grid.Column="1"
-                                                   Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
-                                    </Grid>
+                <TabControl SelectedIndex="{Binding ShowProducts, Mode=OneWay}">
+                    <TabItem Height="30"
+                             Header="{DynamicResource 事件}">
+                        <DataGrid x:Name="dg2"
+                                  AutoGenerateColumns="False"
+                                  BorderThickness="0,1,1,0"
+                                  FontSize="12"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  ItemsSource="{Binding SelectedProcessInfo.EventList, Mode=OneWay, IsAsync=True}"
+                                  SelectedCellsChanged="SelectedCellsChanged2"
+                                  SelectedIndex="{Binding EventIndex, Mode=TwoWay}"
+                                  SelectedItem="{Binding SelectedLogEvent, Mode=OneWayToSource}">
+                            <DataGrid.RowHeaderStyle>
+                                <Style TargetType="DataGridRowHeader">
+                                    <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                <ContentPresenter Content="{TemplateBinding Content}"
+                                                                  ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGrid.RowHeaderStyle>
+                            <DataGrid.RowHeaderTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="Border"
+                                            Width="5"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="0,0,1,1" />
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding Value, Mode=OneWay}"
-                                                     Value="True">
-                                            <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
-                                            <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                     Value="Normal">
+                                            <Setter TargetName="Border" Property="Background" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                     Value="StatusChanged">
+                                            <Setter TargetName="Border" Property="Background" Value="DodgerBlue" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                     Value="Trigger">
+                                            <Setter TargetName="Border" Property="Background" Value="Blue" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                     Value="Operator">
+                                            <Setter TargetName="Border" Property="Background" Value="DarkOrange" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                     Value="Alert">
+                                            <Setter TargetName="Border" Property="Background" Value="Lime" />
+                                        </DataTrigger>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                                                    <Binding Converter="{StaticResource IsEqualValue}"
+                                                             ConverterParameter="4"
+                                                             Path="DataContext.(models:LogEvent.Type)"
+                                                             RelativeSource="{RelativeSource FindAncestor,
+                                                                                             AncestorType={x:Type DataGridRowHeader}}" />
+                                                    <Binding Path="DataContext.(models:LogEvent.Value)"
+                                                             RelativeSource="{RelativeSource FindAncestor,
+                                                                                             AncestorType={x:Type DataGridRowHeader}}" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter TargetName="Border" Property="Background" Value="OrangeRed" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                     Value="Alarm">
+                                            <Setter TargetName="Border" Property="Background" Value="Lime" />
+                                        </DataTrigger>
+                                        <DataTrigger Value="True">
+                                            <DataTrigger.Binding>
+                                                <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                                                    <Binding Converter="{StaticResource IsEqualValue}"
+                                                             ConverterParameter="5"
+                                                             Path="DataContext.(models:LogEvent.Type)"
+                                                             RelativeSource="{RelativeSource FindAncestor,
+                                                                                             AncestorType={x:Type DataGridRowHeader}}" />
+                                                    <Binding Path="DataContext.(models:LogEvent.Value)"
+                                                             RelativeSource="{RelativeSource FindAncestor,
+                                                                                             AncestorType={x:Type DataGridRowHeader}}" />
+                                                </MultiBinding>
+                                            </DataTrigger.Binding>
+                                            <Setter TargetName="Border" Property="Background" Value="Red" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                     Value="SECSCommnd">
+                                            <Setter TargetName="Border" Property="Background" Value="Magenta" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*">
-                            <DataGridTemplateColumn.Header>
-                                <TextBlock Text="{DynamicResource 事件}" />
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="models:LogEvent">
-                                    <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
-                                               TextTrimming="CharacterEllipsis" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                            </DataGrid.RowHeaderTemplate>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="60">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 時間}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:LogEvent">
+                                            <TextBlock Text="{Binding Time, StringFormat=\{0:hh\\:mm\\:ss\}, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="Auto">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 類型}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:LogEvent">
+                                            <TextBlock Text="{Binding Type, Mode=OneWay, Converter={views:StringToResource}}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="Auto">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 值}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:LogEvent">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="24" />
+                                                </Grid.ColumnDefinitions>
+                                                <Ellipse x:Name="Ellipse"
+                                                         Width="10"
+                                                         Height="10"
+                                                         Margin="0,0,4,0"
+                                                         Fill="{StaticResource DisabledBackgroundBrush}"
+                                                         Stroke="{StaticResource DisabledBorderBrush}"
+                                                         StrokeThickness="1" />
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                                            </Grid>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Value, Mode=OneWay}"
+                                                             Value="True">
+                                                    <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
+                                                    <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 事件}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:LogEvent">
+                                            <TextBlock Text="{Binding Description, Mode=OneWay, Converter={views:StringToResource}}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem Header="{DynamicResource 產品}">
+                        <DataGrid AutoGenerateColumns="False"
+                                  BorderThickness="0,1,1,0"
+                                  FontSize="12"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  ItemsSource="{Binding SelectedProcessInfo.Products, Mode=OneWay}"
+                                  Loaded="DataGrid_Loaded"
+                                  SelectedIndex="{Binding ProductIndex, Mode=TwoWay}"
+                                  VerticalScrollBarVisibility="Auto">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="Auto">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 階層}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:ProductInfo">
+                                            <Viewbox StretchDirection="DownOnly">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{Binding Layer, Mode=OneWay}" />
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 料號}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:ProductInfo">
+                                            <Viewbox StretchDirection="DownOnly">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{Binding PartID, Mode=OneWay}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 批號}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:ProductInfo">
+                                            <Viewbox StretchDirection="DownOnly">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{Binding LotID, Mode=OneWay}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="Auto"
+                                                        MinWidth="50">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 數量}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:ProductInfo">
+                                            <Grid>
+                                                <ToggleButton x:Name="ToggleButton"
+                                                              Content="{Binding PanelIDs.Count, Mode=OneWay}"
+                                                              Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridCell}}}"
+                                                              Style="{StaticResource ArrowToggle}">
+                                                    <ToggleButton.IsChecked>
+                                                        <Binding Converter="{StaticResource ConstValue}"
+                                                                 Mode="OneWay"
+                                                                 Path="IsSelected"
+                                                                 RelativeSource="{RelativeSource FindAncestor,
+                                                                                                 AncestorType={x:Type DataGridCell}}">
+                                                            <Binding.ConverterParameter>
+                                                                <system:Boolean>False</system:Boolean>
+                                                            </Binding.ConverterParameter>
+                                                        </Binding>
+                                                    </ToggleButton.IsChecked>
+                                                </ToggleButton>
+                                                <Popup AllowsTransparency="True"
+                                                       Focusable="False"
+                                                       IsHitTestVisible="False"
+                                                       IsOpen="{Binding IsChecked, ElementName=ToggleButton, Mode=OneWay}"
+                                                       Placement="Center"
+                                                       PopupAnimation="Fade">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="MouseLeave">
+                                                            <views:SetPropertyAction PropertyName="IsChecked"
+                                                                                     TargetObject="{Binding ElementName=ToggleButton, Mode=OneTime}">
+                                                                <views:SetPropertyAction.PropertyValue>
+                                                                    <system:Boolean>False</system:Boolean>
+                                                                </views:SetPropertyAction.PropertyValue>
+                                                            </views:SetPropertyAction>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    <ItemsControl x:Name="ItemsControl"
+                                                                  AlternationCount="2147483647"
+                                                                  ItemsSource="{Binding PanelIDs, Mode=OneWay}">
+                                                        <ItemsControl.Template>
+                                                            <ControlTemplate>
+                                                                <Border Background="Transparent">
+                                                                    <Border Margin="15,10,15,15"
+                                                                            Background="{StaticResource LightColorBrush}"
+                                                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                            BorderThickness="1,1,0,0">
+                                                                        <Border.Effect>
+                                                                            <DropShadowEffect BlurRadius="15"
+                                                                                              Direction="270"
+                                                                                              Opacity="0.25" />
+                                                                        </Border.Effect>
+                                                                        <ItemsPresenter />
+                                                                    </Border>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </ItemsControl.Template>
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <views:UniformGridWithOrientation Orientation="Vertical"
+                                                                                                  Rows="10" />
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid TextElement.Foreground="{StaticResource BaseForeground}">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="30" />
+                                                                        <ColumnDefinition />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Border Background="{StaticResource WindowBackgroundBrush6}"
+                                                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                            BorderThickness="0,0,1,1">
+                                                                        <TextBlock Margin="4"
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontSize="12"
+                                                                                   Text="{Binding (ItemsControl.AlternationIndex), ConverterParameter=1, Converter={StaticResource AddValue}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneTime}" />
+                                                                    </Border>
+                                                                    <Border Grid.Column="1"
+                                                                            Background="Transparent"
+                                                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                                            BorderThickness="0,0,1,1">
+                                                                        <TextBlock Margin="4"
+                                                                                   HorizontalAlignment="Center"
+                                                                                   VerticalAlignment="Center"
+                                                                                   FontSize="12"
+                                                                                   Text="{Binding Mode=OneWay}" />
+                                                                    </Border>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                    <Popup.VerticalOffset>
+                                                        <MultiBinding Converter="{StaticResource SumValues}">
+                                                            <Binding Converter="{StaticResource RatioValue}"
+                                                                     ConverterParameter="0.5"
+                                                                     ElementName="ItemsControl"
+                                                                     Path="ActualHeight" />
+                                                            <Binding Converter="{StaticResource RatioValue}"
+                                                                     ConverterParameter="0.5"
+                                                                     ElementName="ToggleButton"
+                                                                     Path="ActualHeight" />
+                                                        </MultiBinding>
+                                                    </Popup.VerticalOffset>
+                                                </Popup>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                </TabControl>
                 <oxyWpf:PlotView Grid.Column="1"
                                  Background="{StaticResource WindowBackgroundBrush6}"
                                  BorderBrush="{StaticResource WindowBackgroundBrush4}"

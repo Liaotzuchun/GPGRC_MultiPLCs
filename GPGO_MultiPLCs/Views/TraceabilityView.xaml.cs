@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views;
@@ -22,6 +25,15 @@ public partial class TraceabilityView
         if (dg2.SelectedItem != null)
         {
             dg2.ScrollIntoView(dg2.SelectedItem);
+        }
+    }
+
+    private void DataGrid_Loaded(object sender, RoutedEventArgs e)
+    {
+        var products = CollectionViewSource.GetDefaultView(((DataGrid)sender).ItemsSource);
+        if (products is { CanSort: true } && !products.SortDescriptions.Any())
+        {
+            products.SortDescriptions.Add(new SortDescription("Layer", ListSortDirection.Ascending));
         }
     }
 

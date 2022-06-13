@@ -211,4 +211,5 @@
     <sys:String x:Key="進氣風車異常">IntakeWindmillError</sys:String>
     <sys:String x:Key="階層">Layer</sys:String>
     <sys:String x:Key="名稱">Name</sys:String>
+    <sys:String x:Key="產品">Products</sys:String>
 </ResourceDictionary>
