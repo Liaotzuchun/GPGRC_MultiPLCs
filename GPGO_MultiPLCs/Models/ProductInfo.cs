@@ -26,6 +26,7 @@ public class ProductInfo : ObservableObject //!這是一個批號的資料
     [LanguageTranslator("LotID", "批號", "批号")]
     public string LotID { get; set; }
 
+    [GPIgnore]
     public List<string> PanelIDs { get; set; } = new();
 
     [LanguageTranslator("SN", "序號", "序号")]

@@ -35,25 +35,44 @@ public class RecordTemperatures
             }
            .Min();
 
+    [GPIgnore]
+    [LanguageTranslator("Started", "開始時間", "开始时间")]
+    public DateTime StartTime { get; set; }
+
     [LanguageTranslator("Duration", "歷時", "历时")]
     public TimeSpan Time => AddedTime - StartTime;
 
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
 
-    public double OvenTemperatures_1 { get; set; }
-    public double OvenTemperatures_2 { get; set; }
-    public double OvenTemperatures_3 { get; set; }
-    public double OvenTemperatures_4 { get; set; }
-    public double OvenTemperatures_5 { get; set; }
-    public double OvenTemperatures_6 { get; set; }
-    public double OvenTemperatures_7 { get; set; }
-    public double OvenTemperatures_8 { get; set; }
-
-    [LanguageTranslator("Started", "開始時間", "开始时间")]
-    public DateTime StartTime { get; set; }
-
+    [LanguageTranslator("ThermostatTemperature", "溫控器溫度", "温控器温度")]
     public double PV_ThermostatTemperature { get; set; }
+
+    [LanguageTranslator("OvenTemperatures_1", "感溫器溫度1", "感温器温度1")]
+    public double OvenTemperatures_1 { get; set; }
+
+    [LanguageTranslator("OvenTemperatures_2", "感溫器溫度2", "感温器温度2")]
+    public double OvenTemperatures_2 { get; set; }
+
+    [LanguageTranslator("OvenTemperatures_3", "感溫器溫度3", "感温器温度3")]
+    public double OvenTemperatures_3 { get; set; }
+
+    [LanguageTranslator("OvenTemperatures_4", "感溫器溫度4", "感温器温度4")]
+    public double OvenTemperatures_4 { get; set; }
+
+    [LanguageTranslator("OvenTemperatures_5", "感溫器溫度5", "感温器温度5")]
+    public double OvenTemperatures_5 { get; set; }
+
+    [LanguageTranslator("OvenTemperatures_6", "感溫器溫度6", "感温器温度6")]
+    public double OvenTemperatures_6 { get; set; }
+
+    [GPIgnore]
+    [LanguageTranslator("OvenTemperatures_7", "感溫器溫度7", "感温器温度7")]
+    public double OvenTemperatures_7 { get; set; }
+
+    [GPIgnore]
+    [LanguageTranslator("OvenTemperatures_8", "感溫器溫度8", "感温器温度8")]
+    public double OvenTemperatures_8 { get; set; }
 }
 
 /// <summary>事件類型</summary>

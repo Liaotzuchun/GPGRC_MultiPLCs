@@ -105,8 +105,8 @@ public class BaseInfo : ObservableObject
         RecordTemperatures.Clear();
         Products.Clear();
 
-        StartTime = new DateTime();
-        EndTime = new DateTime();
+        StartTime  = new DateTime();
+        EndTime    = new DateTime();
         IsFinished = false;
     }
 
@@ -156,6 +156,7 @@ public class ProcessInfo : BaseInfo, ILogData
                    { type.GetProperty(nameof(StartTime)).GetName(lng), StartTime },
                    { type.GetProperty(nameof(EndTime)).GetName(lng), EndTime },
                    { type.GetProperty(nameof(Recipe)).GetName(lng), Recipe.RecipeName },
+                   { type.GetProperty(nameof(Products)).GetName(lng), Products.Sum(x => x.Quantity) },
                    { type.GetProperty(nameof(RecordTemperatures)).GetName(lng), "@" }
                };
     }
@@ -170,6 +171,7 @@ public class ProcessInfo : BaseInfo, ILogData
     }
 
     #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
+
     /// <summary>新增至資料庫的時間</summary>
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
@@ -177,6 +179,7 @@ public class ProcessInfo : BaseInfo, ILogData
     /// <summary>PLC站號</summary>
     [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
     public int StationNumber { get; set; }
+
     #endregion 此區由TraceabilityView_ViewModel新增至資料庫時填入
 
     public IEnumerable<(DateTime AddedTime, int StationNumber, ProductInfo Product)> GetFlatInfos() => Products.Select(x => (AddedTime, StationNumber, x));
