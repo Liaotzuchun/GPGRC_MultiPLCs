@@ -186,7 +186,7 @@
                             <DataGrid x:Name="MessageDataGrid"
                                       AutoGenerateColumns="False"
                                       BorderThickness="1,0,1,0"
-                                      FontSize="14"
+                                      FontSize="12"
                                       HorizontalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding QueueMessages, Mode=OneWay}"
                                       Loaded="MessageDataGrid_Loaded"
@@ -376,8 +376,7 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="models:LogEvent">
-                                                <TextBlock FontSize="12"
-                                                           Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:M/d HH:mm:ss\}}" />
+                                                <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:M/d HH:mm:ss\}}" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

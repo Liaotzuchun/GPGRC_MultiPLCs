@@ -478,7 +478,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         secsGem.CommEnable_Changed += boolval =>
                                       {
                                           if (SECS_ENABLE == boolval) return;
-                                          SECS_ENABLE = boolval;
+                                          Set(boolval, nameof(SECS_ENABLE));
 
                                           var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ENABLE), "", boolval);
                                           EventHappened?.Invoke(eventval);
@@ -487,7 +487,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         secsGem.Communicating_Changed += boolval =>
                                          {
                                              if (SECS_Communicating == boolval) return;
-                                             SECS_Communicating = boolval;
+                                             Set(boolval, nameof(SECS_Communicating));
                                              if (SECS_Communicating != boolval) return;
                                              var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_Communicating), "", boolval);
                                              EventHappened?.Invoke(eventval);
@@ -496,7 +496,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         secsGem.ONLINE_Changed += online =>
                                   {
                                       if (SECS_ONLINE == online) return;
-                                      SECS_ONLINE = online;
+                                      Set(online, nameof(SECS_ONLINE));
                                       if (SECS_ONLINE != online) return;
                                       var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ONLINE), "", online);
                                       EventHappened?.Invoke(eventval);
@@ -505,7 +505,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         secsGem.GO_Local += () =>
                             {
                                 if (!SECS_REMOTE) return;
-                                SECS_REMOTE = false;
+                                Set(false, nameof(SECS_REMOTE));
                                 if (SECS_REMOTE) return;
                                 var eventval = (-1, EventType.StatusChanged, DateTime.Now, "SECS_LOCAL", "", true);
                                 EventHappened?.Invoke(eventval);
@@ -514,7 +514,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         secsGem.GO_Remote += () =>
                              {
                                  if (SECS_REMOTE) return;
-                                 SECS_REMOTE = true;
+                                 Set(true, nameof(SECS_REMOTE));
                                  if (!SECS_REMOTE) return;
                                  var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_REMOTE), "", true);
                                  EventHappened?.Invoke(eventval);
