@@ -609,7 +609,7 @@ public sealed class Mediator : ObservableObject
 
         Task.Run(() =>
                  {
-                     var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => (int)x.Type > 1).Take(50).ToArray();
+                     var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1) && x.AddedTime <= DateTime.Now && x.Type > EventType.StatusChanged).OrderByDescending(x => x.AddedTime).Take(50).ToArray();
                      TotalVM.InsertMessage(evs);
                  });
 

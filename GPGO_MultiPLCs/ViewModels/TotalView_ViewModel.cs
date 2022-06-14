@@ -9,7 +9,6 @@ using GP_SECS_GEM;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
-using Mapster.Adapters;
 using Newtonsoft.Json;
 using PLCService;
 
@@ -130,12 +129,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      { Language.EN, "Unable to disable connection" }
                                  });
 
-                Set(!value, nameof(SECS_ENABLE));
+                value = !value;
             }
-            else
-            {
-                Set(value);
-            }
+
+            Set(value);
         }
     }
 
@@ -155,12 +152,12 @@ public sealed class TotalView_ViewModel : ObservableObject
                 return;
             }
 
-            Set(value);
-
             if (!secsGem.Online(value))
             {
-                Set(!value, nameof(SECS_ONLINE));
+                value = !value;
             }
+
+            Set(value);
         }
     }
 
@@ -174,21 +171,16 @@ public sealed class TotalView_ViewModel : ObservableObject
                 return;
             }
 
-            Set(value);
+            if (!secsGem.Remote(value))
+            {
+                value = !value;
+            }
+
+            Set(value, nameof(SECS_REMOTE));
 
             foreach (var plc in PLC_All)
             {
                 plc.RemoteMode = value;
-            }
-
-            if (!secsGem.Remote(value))
-            {
-                Set(!value, nameof(SECS_REMOTE));
-
-                foreach (var plc in PLC_All)
-                {
-                    plc.RemoteMode = !value;
-                }
             }
         }
     }
@@ -206,8 +198,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                 {
                     PLC_All[i].OvenInfo.AssetNumber = vals[i];
                 }
-
-                return;
             }
             catch
             {
@@ -234,8 +224,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                 {
                     PLC_All[i].OvenInfo.MachineCode = vals[i];
                 }
-
-                return;
             }
             catch
             {
@@ -307,9 +295,9 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         var _evs = evs.OrderBy(x => x.AddedTime).ToArray();
 
-        if (QueueMessages.IsEmpty || (_evs.FirstOrDefault() is {} _ev && (DateTime.Now - _ev.AddedTime).TotalDays <= 1.0))
+        foreach (var ev in _evs)
         {
-            foreach (var ev in _evs)
+            if (ev.Type > EventType.StatusChanged)
             {
                 try
                 {
@@ -320,11 +308,11 @@ public sealed class TotalView_ViewModel : ObservableObject
                     // ignored
                 }
             }
+        }
 
-            while (QueueMessages.Count > 50)
-            {
-                QueueMessages.TryDequeue(out _);
-            }
+        while (QueueMessages.Count > 50)
+        {
+            QueueMessages.TryDequeue(out _);
         }
     }
 
@@ -359,6 +347,9 @@ public sealed class TotalView_ViewModel : ObservableObject
                                            return;
                                        }
 
+                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.TerminalMessageEvent), "",message);
+                                       EventHappened?.Invoke(eventval);
+
                                        _ = dialog.Show(new Dictionary<Language, string>
                                                        {
                                                            { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
@@ -384,50 +375,72 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.UpsertRecipe += recipe =>
                                 {
-                                    var _ = UpsertRecipe != null && UpsertRecipe.Invoke(recipe).Result;
+                                    var result   = UpsertRecipe != null && UpsertRecipe.Invoke(recipe).Result;
+                                    var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.InsertPPEvent), "", recipe.RecipeName);
+                                    EventHappened?.Invoke(eventval);
 
-                                    return true;
+                                    return result;
                                 };
 
         secsGem.DeleteRecipe += async recipeName =>
                                 {
-                                    var _ = DeleteRecipe != null && await DeleteRecipe.Invoke(recipeName);
+                                    var result   = DeleteRecipe != null && await DeleteRecipe.Invoke(recipeName);
+                                    var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.DeletePPEvent), "", recipeName);
+                                    EventHappened?.Invoke(eventval);
 
-                                    return true;
+                                    return result;
                                 };
 
         secsGem.Start += index =>
                          {
+                             var result = HCACKValule.CantPerform;
+
                              if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AllowStart)
                              {
-                                 return HCACKValule.CantPerform;
+                                 return result;
                              }
 
-                             PLC_All[index].RemoteCommandStart = true;
+                             result = HCACKValule.Acknowledge;
+                             var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.STARTCommand), "", index);
+                             EventHappened?.Invoke(eventval);
+                             PLC_All[index].AutoMode_Stop  = false;
+                             PLC_All[index].AutoMode_Start = true;
 
-                             return HCACKValule.Acknowledge;
+                             return result;
                          };
 
         secsGem.Stop += index =>
                         {
+                            var result = HCACKValule.CantPerform;
+
                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AllowStop)
                             {
-                                return HCACKValule.CantPerform;
+                                return result;
                             }
 
-                            PLC_All[index].RemoteCommandStop = true;
+                            result = HCACKValule.Acknowledge;
+                            var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.STOPCommand), "", index);
+                            EventHappened?.Invoke(eventval);
+                            PLC_All[index].AutoMode_Start = false;
+                            PLC_All[index].AutoMode_Stop  = true;
 
-                            return HCACKValule.Acknowledge;
+                            return result;
                         };
 
         secsGem.SetRecipe += (index, name) =>
                              {
+                                 var result = HCACKValule.CantPerform;
+
                                  if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
                                  {
-                                     return HCACKValule.CantPerform;
+                                     return result;
                                  }
 
-                                 return PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
+                                 result = PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
+                                 var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.PP_SELECTCommand), "", $"{index}-{name}");
+                                 EventHappened?.Invoke(eventval);
+
+                                 return result;
                              };
 
         secsGem.AddLOT += (index, lot) =>
@@ -436,11 +449,10 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                               PLC_All[index].AddLOT(lotID, partID, panels);
 
-                              Task.Run(() =>
-                                       {
-                                           Thread.Sleep(100);
-                                           secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
-                                       });
+                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.ADDLOTCommand), "", $"{index}-{lotID}-{partID}-{panels.Count}");
+                              EventHappened?.Invoke(eventval);
+
+                              secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
                               return HCACKValule.Acknowledge;
                           };
 
@@ -454,6 +466,9 @@ public sealed class TotalView_ViewModel : ObservableObject
                                   PLC_All[index].ExecutingTask.Wait();
                               }
 
+                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.CANCELCommand), "", index);
+                              EventHappened?.Invoke(eventval);
+
                               CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
                               PLC_All[index].OvenInfo.Clear();
                               secsGem.InvokeEvent($"Oven{index + 1}_LotRemoved");
@@ -462,33 +477,56 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.CommEnable_Changed += boolval =>
                                       {
-                                          Set(boolval, nameof(SECS_ENABLE));
+                                          if (SECS_ENABLE == boolval) return;
+                                          SECS_ENABLE = boolval;
+
+                                          var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ENABLE), "", boolval);
+                                          EventHappened?.Invoke(eventval);
                                       };
 
         secsGem.Communicating_Changed += boolval =>
                                          {
-                                             Set(boolval, nameof(SECS_Communicating));
+                                             if (SECS_Communicating == boolval) return;
+                                             SECS_Communicating = boolval;
+                                             if (SECS_Communicating != boolval) return;
+                                             var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_Communicating), "", boolval);
+                                             EventHappened?.Invoke(eventval);
                                          };
 
         secsGem.ONLINE_Changed += online =>
                                   {
-                                      Set(online, nameof(SECS_ONLINE));
+                                      if (SECS_ONLINE == online) return;
+                                      SECS_ONLINE = online;
+                                      if (SECS_ONLINE != online) return;
+                                      var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ONLINE), "", online);
+                                      EventHappened?.Invoke(eventval);
                                   };
 
         secsGem.GO_Local += () =>
                             {
-                                Set(false, nameof(SECS_REMOTE));
+                                if (!SECS_REMOTE) return;
+                                SECS_REMOTE = false;
+                                if (SECS_REMOTE) return;
+                                var eventval = (-1, EventType.StatusChanged, DateTime.Now, "SECS_LOCAL", "", true);
+                                EventHappened?.Invoke(eventval);
                             };
 
         secsGem.GO_Remote += () =>
                              {
-                                 Set(true, nameof(SECS_REMOTE));
+                                 if (SECS_REMOTE) return;
+                                 SECS_REMOTE = true;
+                                 if (!SECS_REMOTE) return;
+                                 var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_REMOTE), "", true);
+                                 EventHappened?.Invoke(eventval);
                              };
 
         //!依LotID查詢最近一筆資料
         secsGem.RetrieveLotData += lotid =>
                                    {
                                        var info = RetrieveLotData?.Invoke(lotid).Result;
+
+                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.RetrieveLotDataCommand), "", lotid);
+                                       EventHappened?.Invoke(eventval);
 
                                        if (info != null)
                                        {
@@ -553,7 +591,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             //!烘烤流程結束時
             plc.ExecutingFinished += async baseInfo =>
                                      {
-                                         var products = new List<ProcessInfo> { new (baseInfo) };
+                                         var products = new List<ProcessInfo> { new(baseInfo) };
 
                                          //! 更新ProcessData以供上報
                                          try
@@ -673,6 +711,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
 
         #region PLCGate事件通知
+
         Gate.GateStatus.ValueChanged += status =>
                                         {
                                             if (!status)
@@ -680,6 +719,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                 EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
                                             }
                                         };
+
         #endregion
 
         LoadMachineCodes();

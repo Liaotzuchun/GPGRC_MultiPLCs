@@ -8,30 +8,6 @@ public class GOL_DataModel : PLCDataProvider
 {
     #region PC=>PLC
 
-    public bool RemoteCommandStart
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    public bool RemoteCommandStop
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    //public bool RemoteCommandSelectPP
-    //{
-    //    get => Get<bool>();
-    //    set => Set(value);
-    //}
-
-    //public short RemoteCommandSelectPPFinish
-    //{
-    //    get => Get<short>();
-    //    set => Set(value);
-    //}
-
     [PLCBit(BitType.M, 21, LogType.None)]
     public bool Check
     {

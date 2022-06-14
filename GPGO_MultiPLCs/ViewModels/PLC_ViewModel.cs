@@ -1260,44 +1260,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             }
                             else if (LogType == LogType.Trigger)
                             {
-                                if (value is true)
-                                {
-                                    var eventval = (EventType.Trigger, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
 
-                                    if (name == nameof(RemoteCommandStart))
-                                    {
-                                        EventHappened?.Invoke(eventval);
-                                        AutoMode_Stop  = false;
-                                        AutoMode_Start = true;
-                                    }
-                                    else if (name == nameof(RemoteCommandStop))
-                                    {
-                                        EventHappened?.Invoke(eventval);
-                                        AutoMode_Start = false;
-                                        AutoMode_Stop  = true;
-                                    }
-                                    //else if (name == nameof(RemoteCommandSelectPP))
-                                    //{
-                                    //    EventHappened?.Invoke(eventval);
-                                    //}
-                                    //else if (name == nameof(RemoteCommandSelectPPFinish))
-                                    //{
-                                    //    if (RemoteCommandSelectPPFinish == 1)
-                                    //    {
-                                    //        RemoteCommandSelectPPFinish = 0;
-
-                                    //        //TCS?.TrySetResult(true);
-
-                                    //        EventHappened?.Invoke(eventval);
-                                    //        InvokeSECSEvent?.Invoke("RecipeChanged");
-                                    //    }
-                                    //    else if (RemoteCommandSelectPPFinish == 2)
-                                    //    {
-                                    //        RemoteCommandSelectPPFinish = 0;
-                                    //        //TCS?.TrySetResult(false);
-                                    //    }
-                                    //}
-                                }
                             }
                         };
 
