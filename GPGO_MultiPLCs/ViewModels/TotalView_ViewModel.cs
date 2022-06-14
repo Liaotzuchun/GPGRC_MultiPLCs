@@ -176,7 +176,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                 value = !value;
             }
 
-            Set(value, nameof(SECS_REMOTE));
+            Set(value);
 
             foreach (var plc in PLC_All)
             {
@@ -347,7 +347,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                            return;
                                        }
 
-                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.TerminalMessageEvent), "",message);
+                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.TerminalMessageEvent), "", message);
                                        EventHappened?.Invoke(eventval);
 
                                        _ = dialog.Show(new Dictionary<Language, string>
@@ -477,8 +477,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.CommEnable_Changed += boolval =>
                                       {
-                                          if (SECS_ENABLE == boolval) return;
-                                          Set(boolval, nameof(SECS_ENABLE));
+                                          if (SECS_ENABLE == boolval) return; //! 確定值變
+                                          Set(boolval, nameof(SECS_ENABLE));  //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
 
                                           var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ENABLE), "", boolval);
                                           EventHappened?.Invoke(eventval);
@@ -486,36 +486,36 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.Communicating_Changed += boolval =>
                                          {
-                                             if (SECS_Communicating == boolval) return;
-                                             Set(boolval, nameof(SECS_Communicating));
-                                             if (SECS_Communicating != boolval) return;
+                                             if (SECS_Communicating == boolval) return; //! 確定值變
+                                             Set(boolval, nameof(SECS_Communicating));  //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+
                                              var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_Communicating), "", boolval);
                                              EventHappened?.Invoke(eventval);
                                          };
 
         secsGem.ONLINE_Changed += online =>
                                   {
-                                      if (SECS_ONLINE == online) return;
-                                      Set(online, nameof(SECS_ONLINE));
-                                      if (SECS_ONLINE != online) return;
+                                      if (SECS_ONLINE == online) return; //! 確定值變
+                                      Set(online, nameof(SECS_ONLINE));  //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+
                                       var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ONLINE), "", online);
                                       EventHappened?.Invoke(eventval);
                                   };
 
         secsGem.GO_Local += () =>
                             {
-                                if (!SECS_REMOTE) return;
-                                Set(false, nameof(SECS_REMOTE));
-                                if (SECS_REMOTE) return;
+                                if (!SECS_REMOTE) return;        //! 確定值變
+                                Set(false, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+
                                 var eventval = (-1, EventType.StatusChanged, DateTime.Now, "SECS_LOCAL", "", true);
                                 EventHappened?.Invoke(eventval);
                             };
 
         secsGem.GO_Remote += () =>
                              {
-                                 if (SECS_REMOTE) return;
-                                 Set(true, nameof(SECS_REMOTE));
-                                 if (!SECS_REMOTE) return;
+                                 if (SECS_REMOTE) return;        //! 確定值變
+                                 Set(true, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+
                                  var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_REMOTE), "", true);
                                  EventHappened?.Invoke(eventval);
                              };

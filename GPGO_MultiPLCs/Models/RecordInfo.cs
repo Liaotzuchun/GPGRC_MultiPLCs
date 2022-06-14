@@ -93,9 +93,11 @@ public class LogEvent : ILogData
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
 
+    [GPIgnore]
     [LanguageTranslator("Duration", "歷時", "历时")]
     public TimeSpan Time => AddedTime - StartTime;
 
+    [GPIgnore]
     [LanguageTranslator("Event", "事件", "事件")]
     public string Description2
     {
@@ -111,13 +113,16 @@ public class LogEvent : ILogData
     public string Description { get; set; }
 
     //!當處在生產中時，即烤箱開始生產的時間，若未在生產，則沒有值
+    [GPIgnore]
     [LanguageTranslator("Started", "開始時間", "开始时间")]
     public DateTime StartTime { get; set; }
 
     //!站號由1開始
+    [GPIgnore]
     [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
     public int StationNumber { get; set; }
 
+    [GPIgnore]
     [LanguageTranslator("Tag", "標籤", "标签")]
     public string TagCode { get; set; }
 

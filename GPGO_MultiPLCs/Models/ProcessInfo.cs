@@ -11,6 +11,7 @@ namespace GPGO_MultiPLCs.Models;
 [BsonIgnoreExtraElements]
 public class BaseInfo : ObservableObject
 {
+    [GPIgnore]
     [LanguageTranslator("Asset No.", "財產編號", "财产编号")]
     public string AssetNumber
     {
@@ -18,6 +19,7 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
+    [GPIgnore]
     [LanguageTranslator("Device", "設備編號", "设备编号")]
     public string MachineCode
     {
@@ -39,6 +41,7 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
+    [GPIgnore]
     [LanguageTranslator("RackID", "板架", "台车")]
     public string RackID
     {
@@ -90,7 +93,7 @@ public class BaseInfo : ObservableObject
 
     public int Quantity => Products.Sum(x => x.PanelIDs.Count);
 
-    /// <summary>總烘烤時間</summary>
+    [GPIgnore]
     [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
     public double TotalRampTime
     {
@@ -149,15 +152,15 @@ public class ProcessInfo : BaseInfo, ILogData
 
         return new Dictionary<string, object>
                {
-                   { type.GetProperty(nameof(AddedTime)).GetName(lng), AddedTime },
-                   { type.GetProperty(nameof(IsFinished)).GetName(lng), IsFinished },
-                   { type.GetProperty(nameof(OperatorID)).GetName(lng), OperatorID },
-                   { type.GetProperty(nameof(Quantity)).GetName(lng), Quantity },
-                   { type.GetProperty(nameof(StartTime)).GetName(lng), StartTime },
-                   { type.GetProperty(nameof(EndTime)).GetName(lng), EndTime },
-                   { type.GetProperty(nameof(Recipe)).GetName(lng), Recipe.RecipeName },
-                   { type.GetProperty(nameof(Products)).GetName(lng), Products.Sum(x => x.Quantity) },
-                   { type.GetProperty(nameof(RecordTemperatures)).GetName(lng), "@" }
+                   { type.GetProperty(nameof(AddedTime))?.GetName(lng)          ?? nameof(AddedTime), AddedTime },
+                   { type.GetProperty(nameof(OperatorID))?.GetName(lng)         ?? nameof(OperatorID), OperatorID },
+                   { type.GetProperty(nameof(IsFinished))?.GetName(lng)         ?? nameof(IsFinished), IsFinished },
+                   { type.GetProperty(nameof(StartTime))?.GetName(lng)          ?? nameof(StartTime), StartTime },
+                   { type.GetProperty(nameof(EndTime))?.GetName(lng)            ?? nameof(EndTime), EndTime },
+                   { type.GetProperty(nameof(Recipe))?.GetName(lng)             ?? nameof(Recipe), Recipe },
+                   { type.GetProperty(nameof(Products))?.GetName(lng)           ?? nameof(Products), Products },
+                   { type.GetProperty(nameof(RecordTemperatures))?.GetName(lng) ?? nameof(RecordTemperatures), RecordTemperatures },
+                   { type.GetProperty(nameof(EventList))?.GetName(lng)          ?? nameof(EventList), EventList }
                };
     }
 
@@ -173,10 +176,13 @@ public class ProcessInfo : BaseInfo, ILogData
     #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
 
     /// <summary>新增至資料庫的時間</summary>
+    [OrderIndex(-10)]
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
 
     /// <summary>PLC站號</summary>
+    [GPIgnore]
+    [OrderIndex(-9)]
     [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
     public int StationNumber { get; set; }
 
