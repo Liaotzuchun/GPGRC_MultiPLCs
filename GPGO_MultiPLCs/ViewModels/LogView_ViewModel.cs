@@ -77,9 +77,9 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     }
 
     /// <summary>顯示的資料列表</summary>
-    public List<LogEvent> ViewResults
+    public IList<LogEvent> ViewResults
     {
-        get => Get<List<LogEvent>>();
+        get => Get<IList<LogEvent>>();
         set
         {
             Set(value);
@@ -89,15 +89,15 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
         }
     }
 
-    public List<LogEvent> ViewResults_Off
+    public IList<LogEvent> ViewResults_Off
     {
-        get => Get<List<LogEvent>>();
+        get => Get<IList<LogEvent>>();
         set => Set(value);
     }
 
-    public List<LogEvent> ViewResults_On
+    public IList<LogEvent> ViewResults_On
     {
-        get => Get<List<LogEvent>>();
+        get => Get<IList<LogEvent>>();
         set => Set(value);
     }
 
@@ -305,8 +305,13 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
 
         ResultsChanged += e =>
                           {
-                              OvenFilter.Filter = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              TypeFilter.Filter = e?.Select(x => x.Type).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                              if (e == null)
+                              {
+                                  return;
+                              }
+
+                              OvenFilter.Filter = e.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                              TypeFilter.Filter = e.Select(x => x.Type).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
 
                               UpdateViewResult();
                           };

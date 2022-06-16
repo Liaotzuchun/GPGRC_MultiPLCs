@@ -12,6 +12,7 @@ using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
+using GPMVVM.PooledCollections;
 using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs;
@@ -405,8 +406,8 @@ public sealed class Mediator : ObservableObject
                                          }
 
                                          tempRecipeList = list;
-
-                                         TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToArray());
+                                         using var _list = list.Select(x => x.RecipeName).ToPooledList();
+                                         TotalVM.SetRecipeNames(_list);
 
                                          var l1 = new List<int>();
                                          var l2 = new List<int>();
@@ -609,7 +610,7 @@ public sealed class Mediator : ObservableObject
 
         Task.Run(() =>
                  {
-                     var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1) && x.AddedTime <= DateTime.Now && x.Type > EventType.StatusChanged).OrderByDescending(x => x.AddedTime).Take(50).ToArray();
+                     using var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1) && x.AddedTime <= DateTime.Now && x.Type > EventType.StatusChanged).OrderByDescending(x => x.AddedTime).Take(50).ToPooledList();
                      TotalVM.InsertMessage(evs);
                  });
 
@@ -629,7 +630,7 @@ public sealed class Mediator : ObservableObject
 
         //                                            MakeTestData(1);
 
-        //                                            var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => (int)x.Type > 1).Take(50).ToArray();
+        //                                            var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => (int)x.Type > 1).Take(50).ToPooledList();
         //                                            TotalVM.InsertMessage(evs);
         //                                        }
         //                                        catch

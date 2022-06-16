@@ -9,6 +9,7 @@ using GP_SECS_GEM;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
+using GPMVVM.PooledCollections;
 using Newtonsoft.Json;
 using PLCService;
 
@@ -242,7 +243,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     {
         try
         {
-            PLC_All.Select(x => x.OvenInfo.AssetNumber).ToArray().WriteToJsonFile(path);
+            using var AssetNumbers = PLC_All.Select(x => x.OvenInfo.AssetNumber).ToPooledList();
+            AssetNumbers.WriteToJsonFile(path);
         }
         catch
         {
@@ -255,7 +257,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     {
         try
         {
-            PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray().WriteToJsonFile(path);
+            using var MachineCodes = PLC_All.Select(x => x.OvenInfo.MachineCode).ToPooledList();
+            MachineCodes.WriteToJsonFile(path);
         }
         catch
         {
@@ -292,6 +295,32 @@ public sealed class TotalView_ViewModel : ObservableObject
     public void InsertMessage(params LogEvent[] evs)
     {
         if (evs.Length == 0) return;
+
+        evs.OrderBy(x => x.AddedTime)
+           .ForEach(ev =>
+                    {
+                        if (ev.Type > EventType.StatusChanged)
+                        {
+                            try
+                            {
+                                QueueMessages.Enqueue(ev);
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+                    });
+
+        while (QueueMessages.Count > 50)
+        {
+            QueueMessages.TryDequeue(out _);
+        }
+    }
+
+    public void InsertMessage(IList<LogEvent> evs)
+    {
+        if (evs.Count == 0) return;
 
         evs.OrderBy(x => x.AddedTime)
            .ForEach(ev =>
@@ -453,8 +482,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                               PLC_All[index].AddLOT(lotID, partID, panels);
 
-                              var unit     = panels.Length > 1 ? "pcs" : "pc";
-                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.ADDLOTCommand), "", $"{index}-{lotID}-{partID}-{layer}-{panels.Length}{unit}");
+                              var unit     = panels.Count > 1 ? "pcs" : "pc";
+                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.ADDLOTCommand), "", $"{index}-{lotID}-{partID}-{layer}-{panels.Count}{unit}");
                               EventHappened?.Invoke(eventval);
 
                               secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");

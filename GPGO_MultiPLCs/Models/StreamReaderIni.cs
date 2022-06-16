@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using GPMVVM.Helpers;
+using GPMVVM.PooledCollections;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -12,17 +14,20 @@ public class StreamReaderIni
     /// ini檔案 Section列表
     /// </summary>
     public Dictionary<string, IniElementConstruct> Sections { get; set; }
+
     /// <summary> 使用Stream Builder建立空Ini檔案</summary>
     public StreamReaderIni()
     {
         Sections = new Dictionary<string, IniElementConstruct>();
     }
+
     /// <summary> 使用Stream Builder建立Ini檔案</summary>
     /// <param name="Path"> 檔案位置</param>
     public StreamReaderIni(string Path)
     {
         DecodingIni(Path, Encoding.ASCII);
     }
+
     /// <summary>
     /// 增加Ini的Section
     /// </summary>
@@ -42,6 +47,7 @@ public class StreamReaderIni
     {
         DecodingIni(Path, Encoding);
     }
+
     /// <summary>
     /// 為Ini檔案解碼
     /// </summary>
@@ -58,7 +64,7 @@ public class StreamReaderIni
         Sections = new Dictionary<string, IniElementConstruct>();
 
         IniElementConstruct iniElementConstruct = null;
-        while (sr.ReadLine() is { } s)
+        while (sr.ReadLine() is {} s)
         {
             //string s = sr.ReadLine();
             //空值或空字串判斷
@@ -89,37 +95,33 @@ public class StreamReaderIni
             }
         }
     }
+
     /// <summary> 輸出Ini </summary>
     public void EncodindIni(string Path)
     {
         EncodindIni(Path, Encoding.ASCII);
     }
+
     /// <summary> 輸出Ini </summary>
     public void EncodindIni(string Path, Encoding Encoding)
     {
-        using (var sw = new StreamWriter(File.Create(Path), Encoding))
+        using var sw = new StreamWriter(File.Create(Path), Encoding);
+
+        foreach (var section in Sections)
         {
-            //for (int i = 1; i < 16; i++)
-            //{
-            //    sw.WriteLine("General" + i + "=" + this["General" + i]);
-            //}
-            Sections.ToList().ForEach(
-                                      o =>
-                                      {
-                                          sw.WriteLine($"[{o.Key}]");
-                                          o.Value.ItemElements.ToList().ForEach(
-                                                                                item =>
-                                                                                {
-                                                                                    sw.WriteLine($"{item.Key} = {item.Value}");
-                                                                                }
-                                                                               );
-                                      }
-                                     );
-            sw.Flush();
-            sw.Close();
+            sw.WriteLine($"[{section.Key}]");
+
+            foreach (var item in section.Value.ItemElements)
+            {
+                sw.WriteLine($"{item.Key} = {item.Value}");
+            }
         }
+
+        sw.Flush();
+        sw.Close();
     }
 }
+
 /// <summary> Ini章節結構</summary>
 public class IniElementConstruct
 {
@@ -127,11 +129,13 @@ public class IniElementConstruct
     /// ItemElement 的集合
     /// </summary>
     public Dictionary<string, string> ItemElements { get; set; }
+
     /// <summary> Ini章節結構</summary>
     public IniElementConstruct()
     {
         ItemElements = new Dictionary<string, string>();
     }
+
     /// <summary>
     /// 增加一元素
     /// </summary>

@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GPMVVM.PooledCollections;
 
 namespace GPGO_MultiPLCs.ViewModels;
 
@@ -121,7 +122,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             Set(value);
             if (value != null)
             {
-                ChartModel.SetData(value.RecordTemperatures.ToList());
+                ChartModel.SetData(value.RecordTemperatures);
             }
             else
             {
@@ -399,13 +400,13 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              wsht.View.FreezePanes(main_value_row, 1);
                                                              wsht.Row(main_chart_row).Height = 225;
 
-                                                             var        keys      = datas[0].ToDic(Language).Keys.ToArray().AsSpan();
-                                                             var        temp_keys = Array.Empty<string>();
+                                                             using var  keys      = datas[0].ToDic(Language).Keys.ToPooledList();
+                                                             using var  temp_keys = new PooledList<string>();
                                                              var        max_count = 0;
                                                              ExcelRange cells;
 
                                                              //! 生產紀錄各屬性名稱
-                                                             for (var i = 0; i < keys.Length; i++)
+                                                             for (var i = 0; i < keys.Count; i++)
                                                              {
                                                                  cells       = wsht.Cells[main_name_row, i + 1];
                                                                  cells.Value = keys[i];
@@ -415,27 +416,27 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              //! 加入每筆生產紀錄
                                                              for (var i = 0; i < n; i++)
                                                              {
-                                                                 var values     = datas[i].ToDic(Language).Values.ToArray().AsSpan();                            //! 生產資訊（時間、人員、機台資訊）
-                                                                 var temps      = datas[i].RecordTemperatures.Select(o => o.ToDic(Language)).ToArray().AsSpan(); //! 溫度紀錄
-                                                                 var logs       = datas[i].EventList.Select(o => o.ToDictionary(Language)).ToArray().AsSpan();   //! 事件紀錄
-                                                                 var recipe     = datas[i].Recipe.ToDictionary(Language).ToArray().AsSpan();                     //! 配方
-                                                                 var products   = datas[i].Products.Select(o => o.ToDic(Language)).ToArray().AsSpan();           //! 產品資訊
-                                                                 var sheet_name = $"Records {i + 1}";                                                            //! 每筆紀錄另開一張表
+                                                                 using var values     = datas[i].ToDic(Language).Values.ToPooledList();                            //! 生產資訊（時間、人員、機台資訊）
+                                                                 using var temps      = datas[i].RecordTemperatures.Select(o => o.ToDic(Language)).ToPooledList(); //! 溫度紀錄
+                                                                 using var logs       = datas[i].EventList.Select(o => o.ToDictionary(Language)).ToPooledList();   //! 事件紀錄
+                                                                 using var recipe     = datas[i].Recipe.ToDictionary(Language).ToPooledList();                     //! 配方
+                                                                 using var products   = datas[i].Products.Select(o => o.ToDic(Language)).ToPooledList();           //! 產品資訊
+                                                                 var       sheet_name = $"Records {i + 1}";                                                        //! 每筆紀錄另開一張表
 
                                                                  if (i == 0)
                                                                  {
-                                                                     temp_keys = temps[0].Keys.ToArray();
+                                                                     temp_keys.AddRange(temps[0].Keys);
                                                                  }
 
-                                                                 if (temps.Length > max_count)
+                                                                 if (temps.Count > max_count)
                                                                  {
-                                                                     max_count = temps.Length;
+                                                                     max_count = temps.Count;
                                                                  }
 
-                                                                 var ev_col = (temp_keys.Length + 2);
+                                                                 var ev_col = (temp_keys.Count + 2);
 
                                                                  //! 每個屬性值填入
-                                                                 for (var j = 0; j < values.Length; j++)
+                                                                 for (var j = 0; j < values.Count; j++)
                                                                  {
                                                                      cells = wsht.Cells[i + main_value_row, j + 1];
                                                                      if (values[j] is DateTime date)
@@ -513,7 +514,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  CellLink(cells);
 
                                                                  //! 加入配方
-                                                                 for (var j = 0; j < recipe.Length; j++)
+                                                                 for (var j = 0; j < recipe.Count; j++)
                                                                  {
                                                                      cells       = record_sht.Cells[recipe_name_row, j + 1];
                                                                      cells.Value = recipe[j].Key;
@@ -532,7 +533,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  }
 
                                                                  //! 加入產品資料
-                                                                 for (var j = 0; j < products.Length; j++)
+                                                                 for (var j = 0; j < products.Count; j++)
                                                                  {
                                                                      for (var k = 0; k < products[0].Count; k++)
                                                                      {
@@ -551,7 +552,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  }
 
                                                                  //! 加入事件資料
-                                                                 for (var j = 0; j < logs.Length; j++)
+                                                                 for (var j = 0; j < logs.Count; j++)
                                                                  {
                                                                      for (var k = 0; k < logs[0].Count; k++)
                                                                      {
@@ -578,7 +579,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  }
 
                                                                  //! 加入溫度屬性名稱
-                                                                 for (var j = 0; j < temp_keys.Length; j++)
+                                                                 for (var j = 0; j < temp_keys.Count; j++)
                                                                  {
                                                                      cells       = record_sht.Cells[log_name_row, j + 1];
                                                                      cells.Value = temp_keys[j];
@@ -586,9 +587,9 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  }
 
                                                                  //! 加入溫度數值
-                                                                 for (var j = 0; j < temps.Length; j++)
+                                                                 for (var j = 0; j < temps.Count; j++)
                                                                  {
-                                                                     for (var k = 0; k < temp_keys.Length; k++)
+                                                                     for (var k = 0; k < temp_keys.Count; k++)
                                                                      {
                                                                          var val = temps[j].Values.ElementAt(k);
                                                                          cells = record_sht.Cells[log_value_row + j, k + 1];
@@ -624,7 +625,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  record_sht.CodeModule.Code = record_code.ToString();
 
                                                                  //! 高亮顯示所選的行列
-                                                                 var exp_address        = new ExcelAddress(record_sht.Cells[log_value_row, 1, temps.Length + log_name_row, temp_keys.Length].Address);
+                                                                 var exp_address        = new ExcelAddress(record_sht.Cells[log_value_row, 1, temps.Count + log_name_row, temp_keys.Count].Address);
                                                                  var record_condition_h = record_sht.ConditionalFormatting.AddExpression(exp_address);
                                                                  record_condition_h.Formula                          = "ROW()=CELL(\"row\")";
                                                                  record_condition_h.Style.Fill.PatternType           = ExcelFillStyle.Solid;
@@ -637,8 +638,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  var record_chart = (ExcelLineChart)record_sht.Drawings.AddChart("", eChartType.Line);
                                                                  record_chart.SetSize(500, 200);
 
-                                                                 var jj = temps.Length + log_name_row;
-                                                                 for (var j = 2; j <= temp_keys.Length; j++) //! 插入繪圖溫度資料點
+                                                                 var jj = temps.Count + log_name_row;
+                                                                 for (var j = 2; j <= temp_keys.Count; j++) //! 插入繪圖溫度資料點
                                                                  {
                                                                      var record_s = record_chart.Series.Add(record_sht.Cells[log_value_row, j, jj, j],  //! 溫度資料 
                                                                                                             record_sht.Cells[log_value_row, 1, jj, 1]); //! 紀錄時間
@@ -682,7 +683,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              wsht.Cells.AutoFitColumns();
                                                              wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                              wsht.Cells.Style.Font.SetFromFont("Segoe UI", 11);
-                                                             for (var i = 1; i <= keys.Length; i++)
+                                                             for (var i = 1; i <= keys.Count; i++)
                                                              {
                                                                  wsht.Column(i).Width += 2;
                                                              }
@@ -701,7 +702,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              wsht.CodeModule.Code = code.ToString();
 
                                                              //! 高亮顯示所選的行列
-                                                             var exp_address2 = new ExcelAddress(wsht.Cells[main_value_row, 1, n + main_name_row, keys.Length].Address);
+                                                             var exp_address2 = new ExcelAddress(wsht.Cells[main_value_row, 1, n + main_name_row, keys.Count].Address);
                                                              var condition_h  = wsht.ConditionalFormatting.AddExpression(exp_address2);
                                                              condition_h.Formula                          = "ROW()=CELL(\"row\")";
                                                              condition_h.Style.Fill.PatternType           = ExcelFillStyle.Solid;
@@ -719,7 +720,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                                                              for (var i = 1; i <= max_count; i++)
                                                              {
-                                                                 for (var j = 1; j <= temp_keys.Length; j++)
+                                                                 for (var j = 1; j <= temp_keys.Count; j++)
                                                                  {
                                                                      data_sht.Cells[i, j].Formula = $"INDIRECT(\"'\" & \"Records \" & GPGO & \"'\" & \"!${j.GetExcelColumnName()}${i + log_name_row}\")";
                                                                  }
@@ -730,7 +731,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              var chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
                                                              chart.SetSize(900, 300);
 
-                                                             for (var j = 2; j <= temp_keys.Length; j++)
+                                                             for (var j = 2; j <= temp_keys.Count; j++)
                                                              {
                                                                  var record_s = chart.Series.Add(data_sht.Cells[1, j, max_count, j],
                                                                                                  data_sht.Cells[1, 1, max_count, 1]);
@@ -867,41 +868,39 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
         if (ViewResults?.Count > 0)
         {
-            var finishedResults = ViewResults.Where(x => x.IsFinished).SelectMany(x => x.GetFlatInfos()).ToList();
+            using var finishedResults = ViewResults.Where(x => x.IsFinished).SelectMany(x => x.GetFlatInfos()).ToPooledList();
 
             var ByDate = date2 - date1 > TimeSpan.FromDays(1);
-            var result2 = finishedResults
-                         .GroupBy(x => Mode >= (int)ChartMode.ByLot ?
-                                           x.StationNumber.ToString("00") :
-                                           x.Product.PartID)
-                         .OrderBy(x => x.Key)
-                         .Select(x => (x.Key, x))
-                         .ToArray()
-                         .AsSpan();
+            using var result2 = finishedResults
+                               .GroupBy(x => Mode >= (int)ChartMode.ByLot ?
+                                                 x.StationNumber.ToString("00") :
+                                                 x.Product.PartID)
+                               .OrderBy(x => x.Key)
+                               .Select(x => (x.Key, x))
+                               .ToPooledList();
 
-            var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByLot;
+            var NoLayer2   = result2.Count > 20 && Mode >= (int)ChartMode.ByLot;
             var categories = new List<string>();
 
-            var result1 = finishedResults.GroupBy(x =>
-                                                  {
-                                                      return (ChartMode)Mode switch
-                                                             {
-                                                                 ChartMode.ByPLC  => x.StationNumber.ToString("00"),
-                                                                 ChartMode.ByLot  => x.Product.LotID,
-                                                                 ChartMode.ByPart => x.Product.PartID,
-                                                                 _                => ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00"
-                                                             };
-                                                  })
-                                         .OrderBy(x => x.Key)
-                                         .Select(x => (x.Key, x.Sum(y => y.Product.Quantity)))
-                                         .ToArray()
-                                         .AsSpan();
+            using var result1 = finishedResults.GroupBy(x =>
+                                                        {
+                                                            return (ChartMode)Mode switch
+                                                                   {
+                                                                       ChartMode.ByPLC  => x.StationNumber.ToString("00"),
+                                                                       ChartMode.ByLot  => x.Product.LotID,
+                                                                       ChartMode.ByPart => x.Product.PartID,
+                                                                       _                => ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00"
+                                                                   };
+                                                        })
+                                               .OrderBy(x => x.Key)
+                                               .Select(x => (x.Key, x.Sum(y => y.Product.Quantity)))
+                                               .ToPooledList();
 
-            categoryAxis1.FontSize = result1.Length > 20 ? 9 : 12;
+            categoryAxis1.FontSize = result1.Count > 20 ? 9 : 12;
 
-            var color_step_1 = 0.9 / result1.Length;
+            var color_step_1 = 0.9 / result1.Count;
 
-            for (var i = 0; i < result1.Length; i++)
+            for (var i = 0; i < result1.Count; i++)
             {
                 var (result, count) = result1[i];
                 categories.Add(result);
@@ -910,7 +909,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                 var cs = new BarSeries
                          {
-                             FontSize          = result1.Length > 20 ? 8 : 10,
+                             FontSize          = result1.Count > 20 ? 8 : 10,
                              LabelFormatString = "{0}",
                              TextColor         = fontcolor,
                              IsStacked         = true,
@@ -932,16 +931,16 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                         ProcessInfoProperties[nameof(ProcessInfo.StationNumber)].GetName(Language) :
                                                         ProductInfoProperties[nameof(ProductInfo.PartID)].GetName(Language);
 
-                var color_step_2 = 0.9 / result2.Length;
+                var color_step_2 = 0.9 / result2.Count;
 
-                for (var i = 0; i < result2.Length; i++)
+                for (var i = 0; i < result2.Count; i++)
                 {
                     var (cat, info) = result2[i];
 
                     var ccs = new BarSeries
                               {
                                   FontSize          = 10,
-                                  LabelFormatString = result2.Length > 10 || categories.Count > 20 ? "" : "{0}",
+                                  LabelFormatString = result2.Count > 10 || categories.Count > 20 ? "" : "{0}",
                                   LabelPlacement    = LabelPlacement.Middle,
                                   TextColor         = OxyColors.White,
                                   Title             = cat,
@@ -1250,11 +1249,11 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                               if (SearchEvent != null && ViewResults?.Count > 0 && SelectedIndex > -1)
                               {
-                                  var matchevents = ViewResults[SelectedIndex]
+                                  using var matchevents = ViewResults[SelectedIndex]
                                                    .EventList
                                                    .Select((x, i) => (index: i, value: x))
                                                    .Where(x => x.value.Value.Equals(SearchEvent.Value) && x.value.Description == SearchEvent.Description)
-                                                   .ToList();
+                                                   .ToPooledList();
 
                                   if (matchevents.Count > 0)
                                   {

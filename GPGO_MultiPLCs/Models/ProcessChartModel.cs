@@ -218,7 +218,7 @@ public class ProcessChartModel
         RefreshView(true);
     }
 
-    public void SetData(ICollection<RecordTemperatures> tps)
+    public void SetData(IEnumerable<RecordTemperatures> tps)
     {
         if (tps != null)
         {

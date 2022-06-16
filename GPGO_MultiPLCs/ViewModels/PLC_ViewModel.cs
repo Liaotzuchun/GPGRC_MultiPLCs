@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows;
 using System.Windows.Input;
+using GPMVVM.PooledCollections;
 
 namespace GPGO_MultiPLCs.ViewModels;
 
@@ -842,7 +843,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             {
                                                 if (lot is ProductInfo info)
                                                 {
-                                                    var list = OvenInfo.Products.ToList();
+                                                    using var list = OvenInfo.Products.ToPooledList();
                                                     list.Remove(info);
 
                                                     OvenInfo.Products.Clear();
@@ -1266,13 +1267,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         OvenInfo.Products.CollectionChanged += (_, _) =>
                                                {
-                                                   var lots   = OvenInfo.Products.Select(x => x.LotID).Distinct().ToArray();
-                                                   var parts  = OvenInfo.Products.Select(x => x.PartID).Distinct().ToArray();
-                                                   var panels = OvenInfo.Products.SelectMany(x => x.PanelIDs).Distinct().ToArray();
+                                                   using var lots   = OvenInfo.Products.Select(x => x.LotID).Distinct().ToPooledList();
+                                                   using var parts  = OvenInfo.Products.Select(x => x.PartID).Distinct().ToPooledList();
+                                                   using var panels = OvenInfo.Products.SelectMany(x => x.PanelIDs).Distinct().ToPooledList();
 
-                                                   SV_Changed?.Invoke("LotIDs",   lots.Length   > 0 ? string.Join(",", lots) : string.Empty);
-                                                   SV_Changed?.Invoke("PartIDs",  parts.Length  > 0 ? string.Join(",", parts) : string.Empty);
-                                                   SV_Changed?.Invoke("PanelIDs", panels.Length > 0 ? string.Join(",", panels) : string.Empty);
+                                                   SV_Changed?.Invoke("LotIDs",   lots.Count   > 0 ? string.Join(",", lots) : string.Empty);
+                                                   SV_Changed?.Invoke("PartIDs",  parts.Count  > 0 ? string.Join(",", parts) : string.Empty);
+                                                   SV_Changed?.Invoke("PanelIDs", panels.Count > 0 ? string.Join(",", panels) : string.Empty);
                                                };
         #endregion 註冊PLC事件
     }
