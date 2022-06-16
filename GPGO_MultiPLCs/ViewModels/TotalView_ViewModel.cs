@@ -293,22 +293,21 @@ public sealed class TotalView_ViewModel : ObservableObject
     {
         if (evs.Length == 0) return;
 
-        var _evs = evs.OrderBy(x => x.AddedTime).ToArray();
-
-        foreach (var ev in _evs)
-        {
-            if (ev.Type > EventType.StatusChanged)
-            {
-                try
-                {
-                    QueueMessages.Enqueue(ev);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-        }
+        evs.OrderBy(x => x.AddedTime)
+           .ForEach(ev =>
+                    {
+                        if (ev.Type > EventType.StatusChanged)
+                        {
+                            try
+                            {
+                                QueueMessages.Enqueue(ev);
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+                    });
 
         while (QueueMessages.Count > 50)
         {
@@ -445,11 +444,17 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.AddLOT += (index, lot) =>
                           {
-                              var (lotID, partID, panels) = lot;
+                              if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || PLC_All[index].IsExecuting)
+                              {
+                                  return HCACKValule.CantPerform;
+                              }
+
+                              var (lotID, partID, layer, panels) = lot;
 
                               PLC_All[index].AddLOT(lotID, partID, panels);
 
-                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.ADDLOTCommand), "", $"{index}-{lotID}-{partID}-{panels.Count}");
+                              var unit     = panels.Length > 1 ? "pcs" : "pc";
+                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.ADDLOTCommand), "", $"{index}-{lotID}-{partID}-{layer}-{panels.Length}{unit}");
                               EventHappened?.Invoke(eventval);
 
                               secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
@@ -458,6 +463,11 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.CANCEL += index =>
                           {
+                              if (PLC_All[index].IsExecuting)
+                              {
+                                  return HCACKValule.CantPerform;
+                              }
+
                               PLC_All[index].OvenInfo.Products.Clear();
                               if (PLC_All[index].ExecutingTask != null && PLC_All[index].IsExecuting)
                               {

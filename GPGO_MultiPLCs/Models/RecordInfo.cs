@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using GPMVVM.Helpers;
 using GPMVVM.Models;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -73,6 +75,23 @@ public class RecordTemperatures
     [GPIgnore]
     [LanguageTranslator("OvenTemperatures_8", "感溫器溫度8", "感温器温度8")]
     public double OvenTemperatures_8 { get; set; }
+
+    public Dictionary<string, object> ToDic(Language lng)
+    {
+        var type = GetType();
+
+        return new Dictionary<string, object>
+               {
+                   { type.GetProperty(nameof(Time))?.GetName(lng)                     ?? nameof(Time), Time },
+                   { type.GetProperty(nameof(PV_ThermostatTemperature))?.GetName(lng) ?? nameof(PV_ThermostatTemperature), PV_ThermostatTemperature },
+                   { type.GetProperty(nameof(OvenTemperatures_1))?.GetName(lng)       ?? nameof(OvenTemperatures_1), OvenTemperatures_1 },
+                   { type.GetProperty(nameof(OvenTemperatures_2))?.GetName(lng)       ?? nameof(OvenTemperatures_2), OvenTemperatures_2 },
+                   { type.GetProperty(nameof(OvenTemperatures_3))?.GetName(lng)       ?? nameof(OvenTemperatures_3), OvenTemperatures_3 },
+                   { type.GetProperty(nameof(OvenTemperatures_4))?.GetName(lng)       ?? nameof(OvenTemperatures_4), OvenTemperatures_4 },
+                   { type.GetProperty(nameof(OvenTemperatures_5))?.GetName(lng)       ?? nameof(OvenTemperatures_5), OvenTemperatures_5 },
+                   { type.GetProperty(nameof(OvenTemperatures_6))?.GetName(lng)       ?? nameof(OvenTemperatures_6), OvenTemperatures_6 },
+               };
+    }
 }
 
 /// <summary>事件類型</summary>

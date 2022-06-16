@@ -51,10 +51,10 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     private const int recipe_value_row  = 2;
     private const int product_name_row  = 4;
     private const int product_value_row = 5;
-    private const int chart_row         = 14;
-    private const int back_row          = 15;
-    private const int log_name_row      = 16;
-    private const int log_value_row     = 17;
+    private const int chart_row         = product_name_row;
+    private const int back_row          = 14;
+    private const int log_name_row      = 15;
+    private const int log_value_row     = 16;
 
     private readonly Dictionary<string, PropertyInfo> ProcessInfoProperties = typeof(ProcessInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(x => x.Name, x => x);
     private readonly Dictionary<string, PropertyInfo> ProductInfoProperties = typeof(ProductInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(x => x.Name, x => x);
@@ -399,7 +399,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              wsht.View.FreezePanes(main_value_row, 1);
                                                              wsht.Row(main_chart_row).Height = 225;
 
-                                                             var        keys      = datas[0].ToDic(Language).Keys.ToArray();
+                                                             var        keys      = datas[0].ToDic(Language).Keys.ToArray().AsSpan();
                                                              var        temp_keys = Array.Empty<string>();
                                                              var        max_count = 0;
                                                              ExcelRange cells;
@@ -415,12 +415,12 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              //! 加入每筆生產紀錄
                                                              for (var i = 0; i < n; i++)
                                                              {
-                                                                 var values     = datas[i].ToDic(Language).Values.ToArray();                                   //! 生產資訊（時間、人員、機台資訊）
-                                                                 var temps      = datas[i].RecordTemperatures.Select(o => o.ToDictionary(Language)).ToArray(); //! 溫度紀錄
-                                                                 var logs       = datas[i].EventList.Select(o => o.ToDictionary(Language)).ToArray();          //! 事件紀錄
-                                                                 var recipe     = datas[i].Recipe.ToDictionary(Language).ToArray();                            //! 配方
-                                                                 var products   = datas[i].Products.Select(o => o.ToDic(Language)).ToArray();                  //! 產品資訊
-                                                                 var sheet_name = $"Records {i + 1}";                                                          //! 每筆紀錄另開一張表
+                                                                 var values     = datas[i].ToDic(Language).Values.ToArray().AsSpan();                            //! 生產資訊（時間、人員、機台資訊）
+                                                                 var temps      = datas[i].RecordTemperatures.Select(o => o.ToDic(Language)).ToArray().AsSpan(); //! 溫度紀錄
+                                                                 var logs       = datas[i].EventList.Select(o => o.ToDictionary(Language)).ToArray().AsSpan();   //! 事件紀錄
+                                                                 var recipe     = datas[i].Recipe.ToDictionary(Language).ToArray().AsSpan();                     //! 配方
+                                                                 var products   = datas[i].Products.Select(o => o.ToDic(Language)).ToArray().AsSpan();           //! 產品資訊
+                                                                 var sheet_name = $"Records {i + 1}";                                                            //! 每筆紀錄另開一張表
 
                                                                  if (i == 0)
                                                                  {
@@ -441,7 +441,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                      if (values[j] is DateTime date)
                                                                      {
                                                                          cells.Value                     = date.ToOADate();
-                                                                         cells.Style.Numberformat.Format = System.Globalization.DateTimeFormatInfo.CurrentInfo.LongTimePattern;
+                                                                         cells.Style.Numberformat.Format = "yyyy/MM/dd HH:mm:ss";
                                                                      }
                                                                      else if (values[j] is TimeSpan timeSpan)
                                                                      {
@@ -506,7 +506,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
                                                                  record_sht.View.ShowGridLines = false;
                                                                  record_sht.View.FreezePanes(log_value_row, 1);
-                                                                 record_sht.Row(chart_row).Height = 225;
+                                                                 //record_sht.Row(chart_row).Height = 225;
 
                                                                  cells         = record_sht.Cells[back_row, 1];
                                                                  cells.Formula = $"HYPERLINK(\"#'{wsht.Name}'!$A${i + main_value_row}\",\"<<<<<<Back\")";
@@ -561,7 +561,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                          if (val is DateTime date)
                                                                          {
                                                                              cells.Value                     = date.ToOADate();
-                                                                             cells.Style.Numberformat.Format = System.Globalization.DateTimeFormatInfo.CurrentInfo.LongTimePattern;
+                                                                             cells.Style.Numberformat.Format = "yyyy/MM/dd HH:mm:ss";
                                                                          }
                                                                          else if (val is TimeSpan)
                                                                          {
@@ -619,7 +619,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  record_code.AppendLine("If num < 1 Then");
                                                                  record_code.AppendLine("num = 1");
                                                                  record_code.AppendLine("End If");
-                                                                 record_code.AppendLine($"Range(\"A{chart_row}\").Value = num");
+                                                                 record_code.AppendLine($"Range(\"{(products[0].Count + 1).GetExcelColumnName()}{chart_row}\").Value = num");
                                                                  record_code.AppendLine("End Sub");
                                                                  record_sht.CodeModule.Code = record_code.ToString();
 
@@ -635,7 +635,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  record_condition_v.Style.Fill.BackgroundColor.Color = Color.Honeydew;
 
                                                                  var record_chart = (ExcelLineChart)record_sht.Drawings.AddChart("", eChartType.Line);
-                                                                 record_chart.SetSize(900, 300);
+                                                                 record_chart.SetSize(500, 200);
 
                                                                  var jj = temps.Length + log_name_row;
                                                                  for (var j = 2; j <= temp_keys.Length; j++) //! 插入繪圖溫度資料點
@@ -652,8 +652,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  record_chart.XAxis.MinorTickMark = eAxisTickMark.None;
                                                                  record_chart.XAxis.Font.SetFromFont("Calibri", 10);
                                                                  record_chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
-                                                                 record_chart.XAxis.Format            = "HH:mm:ss";
-                                                                 record_chart.YAxis.Title.Text        = "Temperature (°C)";
+                                                                 //record_chart.XAxis.Format            = "HH:mm:ss";
+                                                                 record_chart.YAxis.Title.Text = "Temperature (°C)";
                                                                  record_chart.YAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
                                                                  record_chart.YAxis.Title.Rotation = 270;
                                                                  record_chart.YAxis.MajorTickMark  = eAxisTickMark.In;
@@ -661,7 +661,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  record_chart.YAxis.Font.SetFromFont("Calibri", 10);
                                                                  record_chart.RoundedCorners    = false;
                                                                  record_chart.Border.Fill.Color = Color.Black;
-                                                                 record_chart.SetPosition(chart_row - 1, 0, 0, 0);
+                                                                 record_chart.SetPosition(chart_row - 1, 0, products[0].Count, 0);
 
                                                                  record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                                                                  record_sht.Cells.Style.Font.SetFromFont("Segoe UI", 11);
@@ -876,7 +876,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                            x.Product.PartID)
                          .OrderBy(x => x.Key)
                          .Select(x => (x.Key, x))
-                         .ToArray();
+                         .ToArray()
+                         .AsSpan();
 
             var NoLayer2   = result2.Length > 20 && Mode >= (int)ChartMode.ByLot;
             var categories = new List<string>();
@@ -893,7 +894,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                   })
                                          .OrderBy(x => x.Key)
                                          .Select(x => (x.Key, x.Sum(y => y.Product.Quantity)))
-                                         .ToArray();
+                                         .ToArray()
+                                         .AsSpan();
 
             categoryAxis1.FontSize = result1.Length > 20 ? 9 : 12;
 

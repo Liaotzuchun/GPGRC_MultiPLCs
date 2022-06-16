@@ -2,7 +2,6 @@
 using QGACTIVEXLib;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -21,27 +20,27 @@ public class SECSThread
         Delete = 3
     }
 
-    private readonly GOSECS  secsGem;
+    private readonly GOSECS secsGem;
     private readonly EqpBase eqpBase;
 
     /// <summary> GPSECS服務設定檔案</summary>
     public SECSParameterSet SECSParameterSet { get; }
 
-    public event Action<string>                                                              TerminalMessage;
-    public event Action<int, string, object>                                                 ECChange;
-    public event Func<PLC_Recipe, bool>                                                      UpsertRecipe;
-    public event Func<string, ValueTask<bool>>                                               DeleteRecipe;
-    public event Func<int, string, HCACKValule>                                              SetRecipe;
-    public event Func<int, HCACKValule>                                                      Start;
-    public event Func<int, HCACKValule>                                                      Stop;
-    public event Func<int, (string LotID, string PartID, IList<string> Panels), HCACKValule> AddLOT;
-    public event Func<int, HCACKValule>                                                      CANCEL;
-    public event Action<bool>                                                                ONLINE_Changed;
-    public event Action<bool>                                                                CommEnable_Changed;
-    public event Action<bool>                                                                Communicating_Changed;
-    public event Action                                                                      GO_Local;
-    public event Action                                                                      GO_Remote;
-    public event Func<string, HCACKValule>                                                   RetrieveLotData;                                                             
+    public event Action<string> TerminalMessage;
+    public event Action<int, string, object> ECChange;
+    public event Func<PLC_Recipe, bool> UpsertRecipe;
+    public event Func<string, ValueTask<bool>> DeleteRecipe;
+    public event Func<int, string, HCACKValule> SetRecipe;
+    public event Func<int, HCACKValule> Start;
+    public event Func<int, HCACKValule> Stop;
+    public event Func<int, (string LotID, string PartID, int layer, string[] Panels), HCACKValule> AddLOT;
+    public event Func<int, HCACKValule> CANCEL;
+    public event Action<bool> ONLINE_Changed;
+    public event Action<bool> CommEnable_Changed;
+    public event Action<bool> Communicating_Changed;
+    public event Action GO_Local;
+    public event Action GO_Remote;
+    public event Func<string, HCACKValule> RetrieveLotData;
 
     public QGWrapper GemCore => secsGem?.AxQGWrapper;
 
@@ -80,7 +79,7 @@ public class SECSThread
 
     public void UpdateEC(string name, object value)
     {
-        if (eqpBase?.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ec && int.TryParse(ec.ID, out var ECID))
+        if (eqpBase?.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is { } ec && int.TryParse(ec.ID, out var ECID))
         {
             secsGem?.AxQGWrapper.UpdateEC(ECID, value);
         }
@@ -92,7 +91,7 @@ public class SECSThread
         {
             secsGem?.AxQGWrapper.EventReportSend(3);
         }
-        else if (eqpBase?.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ce && int.TryParse(ce.ID, out var CEID))
+        else if (eqpBase?.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is { } ce && int.TryParse(ce.ID, out var CEID))
         {
             secsGem?.AxQGWrapper.EventReportSend(CEID);
         }
@@ -100,7 +99,7 @@ public class SECSThread
 
     public void InvokeAlarm(string name, bool val)
     {
-        if (eqpBase?.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ae && int.TryParse(ae.ID, out var ALID))
+        if (eqpBase?.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is { } ae && int.TryParse(ae.ID, out var ALID))
         {
             secsGem?.AxQGWrapper.AlarmReportSend(ALID, val ? 255 : 0);
         }
@@ -135,10 +134,10 @@ public class SECSThread
     private void SetEqpBase()
     {
         var alarmpath = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpAlarm.csv";
-        var dvpath    = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpDV.csv";
-        var ecpath    = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpEC.csv";
+        var dvpath = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpDV.csv";
+        var ecpath = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpEC.csv";
         var eventpath = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpEvent.csv";
-        var svpath    = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpSV.csv";
+        var svpath = $"{SECSParameterSet.SECSParameter.FilePath}\\EqpInitData\\EqpSV.csv";
 
         try
         {
@@ -152,15 +151,15 @@ public class SECSThread
                 }
 
                 var _alarm = new EqpAlarmClass
-                             {
-                                 Name    = cols[0],
-                                 ID      = cols[1],
-                                 CD      = cols[2],
-                                 Enabled = cols[3],
-                                 Text    = cols[4],
-                                 Trigger = cols[5],
-                                 Down    = cols[6]
-                             };
+                {
+                    Name = cols[0],
+                    ID = cols[1],
+                    CD = cols[2],
+                    Enabled = cols[3],
+                    Text = cols[4],
+                    Trigger = cols[5],
+                    Down = cols[6]
+                };
 
                 eqpBase.EqpAlarmViewModel.DataCollection.Add(_alarm);
             }
@@ -175,14 +174,14 @@ public class SECSThread
                 }
 
                 var _dv = new EqpDVClass
-                          {
-                              Name       = cols[0],
-                              ID         = cols[1],
-                              Type       = cols[2],
-                              Length     = cols[3],
-                              Unit       = cols[4],
-                              Definition = cols[5]
-                          };
+                {
+                    Name = cols[0],
+                    ID = cols[1],
+                    Type = cols[2],
+                    Length = cols[3],
+                    Unit = cols[4],
+                    Definition = cols[5]
+                };
 
                 eqpBase.EqpDVViewModel.DataCollection.Add(_dv);
             }
@@ -197,18 +196,18 @@ public class SECSThread
                 }
 
                 var _ec = new EqpECClass
-                          {
-                              Name         = cols[0],
-                              ID           = cols[1],
-                              Type         = cols[2],
-                              MinValue     = cols[3],
-                              MaxValue     = cols[4],
-                              DefaultValue = cols[5],
-                              Unit         = cols[6],
-                              Definition   = cols[7],
-                              Trigger      = cols[8],
-                              Write        = cols[9]
-                          };
+                {
+                    Name = cols[0],
+                    ID = cols[1],
+                    Type = cols[2],
+                    MinValue = cols[3],
+                    MaxValue = cols[4],
+                    DefaultValue = cols[5],
+                    Unit = cols[6],
+                    Definition = cols[7],
+                    Trigger = cols[8],
+                    Write = cols[9]
+                };
 
                 eqpBase.EqpECViewModel.DataCollection.Add(_ec);
             }
@@ -223,12 +222,12 @@ public class SECSThread
                 }
 
                 var __event = new EqpEventClass
-                              {
-                                  Name       = cols[0],
-                                  ID         = cols[1],
-                                  Definition = cols[2],
-                                  Trigger    = cols[3]
-                              };
+                {
+                    Name = cols[0],
+                    ID = cols[1],
+                    Definition = cols[2],
+                    Trigger = cols[3]
+                };
 
                 eqpBase.EqpEventViewModel.DataCollection.Add(__event);
             }
@@ -243,15 +242,15 @@ public class SECSThread
                 }
 
                 var _sv = new EqpSVClass
-                          {
-                              Name       = cols[0],
-                              ID         = cols[1],
-                              Type       = cols[2],
-                              Length     = cols[3],
-                              Unit       = cols[4],
-                              Definition = cols[5],
-                              Trigger    = cols[6]
-                          };
+                {
+                    Name = cols[0],
+                    ID = cols[1],
+                    Type = cols[2],
+                    Length = cols[3],
+                    Unit = cols[4],
+                    Definition = cols[5],
+                    Trigger = cols[6]
+                };
 
                 eqpBase.EqpSVViewModel.DataCollection.Add(_sv);
             }
@@ -267,41 +266,41 @@ public class SECSThread
         var v = Assembly.GetExecutingAssembly().GetName().Version;
 
         SECSParameterSet = new SECSParameterSet
-                           {
-                               SECSParameter =
+        {
+            SECSParameter =
                                {
                                    FilePath = $"C:\\ITRIinit\\{index}", //設定檔存放位置
                                    MDLN     = "GP_GO",
                                    SOFTREV  = $"{v.Major}.{v.Minor}.{v.Build}"
                                }
-                           };
+        };
 
         secsGem = new GOSECS(SECSParameterSet.SECSParameter);
 
         eqpBase = new EqpBase
-                  {
-                      StationNO = $"{index}",
-                      EqpAlarmViewModel = new EqpAlarmViewModel
-                                          {
-                                              DataCollection = new ObservableCollection<EqpAlarmClass>()
-                                          },
-                      EqpDVViewModel = new EqpDVViewModel
-                                       {
-                                           DataCollection = new ObservableCollection<EqpDVClass>()
-                                       },
-                      EqpECViewModel = new EqpECViewModel
-                                       {
-                                           DataCollection = new ObservableCollection<EqpECClass>()
-                                       },
-                      EqpEventViewModel = new EqpEventViewModel
-                                          {
-                                              DataCollection = new ObservableCollection<EqpEventClass>()
-                                          },
-                      EqpSVViewModel = new EqpSVViewModel
-                                       {
-                                           DataCollection = new ObservableCollection<EqpSVClass>()
-                                       }
-                  };
+        {
+            StationNO = $"{index}",
+            EqpAlarmViewModel = new EqpAlarmViewModel
+            {
+                DataCollection = new ObservableCollection<EqpAlarmClass>()
+            },
+            EqpDVViewModel = new EqpDVViewModel
+            {
+                DataCollection = new ObservableCollection<EqpDVClass>()
+            },
+            EqpECViewModel = new EqpECViewModel
+            {
+                DataCollection = new ObservableCollection<EqpECClass>()
+            },
+            EqpEventViewModel = new EqpEventViewModel
+            {
+                DataCollection = new ObservableCollection<EqpEventClass>()
+            },
+            EqpSVViewModel = new EqpSVViewModel
+            {
+                DataCollection = new ObservableCollection<EqpSVClass>()
+            }
+        };
 
         SetEqpBase();
 
@@ -332,7 +331,7 @@ public class SECSThread
         //S2F41
         secsGem.ADDLOTCommand += r =>
                                  {
-                                     if (r.RemoteCommandParameter.Count < 4)
+                                     if (r.RemoteCommandParameter.Count < 5)
                                      {
                                          return HCACKValule.ParameterInvalid;
                                      }
@@ -340,12 +339,14 @@ public class SECSThread
                                      if (r.RemoteCommandParameter[0].CPVAL.ObjectData is int[] { Length: > 0 } indexes &&
                                          r.RemoteCommandParameter[1].CPVAL.ObjectData is string lot                    &&
                                          r.RemoteCommandParameter[2].CPVAL.ObjectData is string part                   &&
-                                         r.RemoteCommandParameter[3].CPVAL is SECSMessageBranches Branches)
+                                         r.RemoteCommandParameter[3].CPVAL.ObjectData is int[] layers                   &&
+                                         r.RemoteCommandParameter[4].CPVAL is SECSMessageBranches Branches)
                                      {
                                          var i      = indexes[0];
-                                         var panels = Branches.SECSMessageObjects.Select(x => x.ObjectData?.ToString() ?? string.Empty).ToList();
+                                         var l      = layers[0];
+                                         var panels = Branches.SECSMessageObjects.Select(x => x.ObjectData?.ToString() ?? string.Empty).ToArray();
 
-                                         return AddLOT?.Invoke(i, (lot, part, panels)) ?? HCACKValule.ParameterInvalid;
+                                         return AddLOT?.Invoke(i, (lot, part, l, panels)) ?? HCACKValule.ParameterInvalid;
                                      }
 
                                      return HCACKValule.CantPerform;
@@ -434,7 +435,7 @@ public class SECSThread
                                                                          switch (e.PropertyName)
                                                                          {
                                                                              case nameof(GP_GEM.SECSCommunicationControlViewModel.CommunicatioinState):
-                                                                                 CommEnable_Changed?.Invoke(vm.CommunicatioinState    != (int)COMM_STATE.DISABLE);
+                                                                                 CommEnable_Changed?.Invoke(vm.CommunicatioinState != (int)COMM_STATE.DISABLE);
                                                                                  Communicating_Changed?.Invoke(vm.CommunicatioinState == (int)COMM_STATE.COMMUNICATING);
 
                                                                                  break;

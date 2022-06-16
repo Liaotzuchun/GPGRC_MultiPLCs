@@ -1890,15 +1890,18 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>
-    /// RackID
-    /// </summary>
+    ///// <summary>
+    ///// RackID
+    ///// </summary>
     //public string RackID
     //{
     //    get => Get<string>();
     //    set => Set(value);
     //}
 
+    /// <summary>
+    /// 設備狀態，0=待機，1=生產中，2=自動停止，3=設備異常
+    /// </summary>
     [PLCData(DataType.D, 60, LogType.StatusVariables)]
     public short EquipmentState
     {

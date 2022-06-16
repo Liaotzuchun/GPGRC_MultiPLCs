@@ -613,32 +613,32 @@ public sealed class Mediator : ObservableObject
                      TotalVM.InsertMessage(evs);
                  });
 
-        //#region 產生測試用生產數據資料庫，務必先建立配方！！
+        #region 產生測試用生產數據資料庫，務必先建立配方！！
 
-        //DialogVM.Show(new Dictionary<Language, string>
-        //              {
-        //                  { Language.TW, "測試資料產生中，請稍後！" },
-        //                  { Language.CHS, "测试数据产生中，请稍后！" },
-        //                  { Language.EN, "Testing data is being generated, please wait!" }
-        //              },
-        //              Task.Factory.StartNew(() =>
-        //                                    {
-        //                                        try
-        //                                        {
-        //                                            Thread.Sleep(1200);
+        DialogVM.Show(new Dictionary<Language, string>
+                      {
+                          { Language.TW, "測試資料產生中，請稍後！" },
+                          { Language.CHS, "测试数据产生中，请稍后！" },
+                          { Language.EN, "Testing data is being generated, please wait!" }
+                      },
+                      Task.Factory.StartNew(() =>
+                                            {
+                                                try
+                                                {
+                                                    Thread.Sleep(1200);
 
-        //                                            MakeTestData(1);
+                                                    MakeTestData(1);
 
-        //                                            var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => (int)x.Type > 1).Take(50).ToArray();
-        //                                            TotalVM.InsertMessage(evs);
-        //                                        }
-        //                                        catch
-        //                                        {
-        //                                            // ignored
-        //                                        }
-        //                                    }),
-        //              TimeSpan.FromMinutes(5));
+                                                    var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1)).Where(x => (int)x.Type > 1).Take(50).ToArray();
+                                                    TotalVM.InsertMessage(evs);
+                                                }
+                                                catch
+                                                {
+                                                    // ignored
+                                                }
+                                            }),
+                      TimeSpan.FromMinutes(5));
 
-        //#endregion
+        #endregion
     }
 }

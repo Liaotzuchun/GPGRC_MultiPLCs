@@ -63,7 +63,13 @@ public partial class App
     {
         var temp = Process.GetProcesses();
         var mp   = Process.GetCurrentProcess();
-        temp.Where(p => p.ProcessName.ToLower().Contains(mp.ProcessName.ToLower()) && p.Id != mp.Id).ToList().ForEach(p => p.Kill());
+        temp.ForEach(p =>
+                     {
+                         if (p.ProcessName.ToLower().Contains(mp.ProcessName.ToLower()) && p.Id != mp.Id)
+                         {
+                             p.Kill();
+                         }
+                     });
 
         Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt", rollingInterval: RollingInterval.Day, shared: true, encoding: Encoding.UTF8).CreateLogger();
 
