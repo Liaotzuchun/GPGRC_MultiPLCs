@@ -25,10 +25,27 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         set => Set(value);
     }
 
+    public int RecordDelay
+    {
+        get => Get<int>();
+        set
+        {
+            value = value switch
+                    {
+                        < 1  => 1,
+                        > 60 => 60,
+                        _    => value
+                    };
+
+            Set(value);
+        }
+    }
+
     public GlobalSettings() : base("Settings")
     {
-        PLCIP = new IPAddress(new byte[] { 192, 168, 3, 39 }).ToString();
-        Lng = Language.TW;
-        OvenCount = 1;
+        PLCIP       = new IPAddress(new byte[] { 192, 168, 3, 39 }).ToString();
+        Lng         = Language.TW;
+        OvenCount   = 1;
+        RecordDelay = 1;
     }
 }

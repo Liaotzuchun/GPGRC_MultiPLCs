@@ -120,7 +120,8 @@
                                    VerticalAlignment="Center"
                                    Text="{DynamicResource 配方}" />
                     </Border>
-                    <ComboBox Grid.Row="0" x:Name="RecipeComboBox"
+                    <ComboBox x:Name="RecipeComboBox"
+                              Grid.Row="0"
                               Grid.Column="1"
                               BorderThickness="1,1,1,1"
                               GotKeyboardFocus="CB_GotKeyboardFocus"
@@ -128,9 +129,10 @@
                               IsHitTestVisible="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                               IsTextSearchEnabled="False"
                               ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
+                              KeyDown="RecipeComboBox_KeyDown"
                               LostKeyboardFocus="CB_LostKeyboardFocus"
                               SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
-                              Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="RecipeComboBox_KeyDown">
+                              Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Triggers>
                             <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
                             <i:EventTrigger EventName="KeyUp">
@@ -375,7 +377,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="Auto"
-                                                MinWidth="50">
+                                                MinWidth="60">
                             <DataGridTemplateColumn.Header>
                                 <TextBlock Text="{DynamicResource 數量}" />
                             </DataGridTemplateColumn.Header>
@@ -460,11 +462,13 @@
                                                                     Background="Transparent"
                                                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                                     BorderThickness="0,0,1,1">
-                                                                <TextBlock Margin="4"
-                                                                           HorizontalAlignment="Center"
-                                                                           VerticalAlignment="Center"
-                                                                           FontSize="12"
-                                                                           Text="{Binding Mode=OneWay}" />
+                                                                <Viewbox Margin="4"
+                                                                         HorizontalAlignment="Center"
+                                                                         VerticalAlignment="Center"
+                                                                         StretchDirection="DownOnly">
+                                                                    <TextBlock FontSize="12"
+                                                                               Text="{Binding Mode=OneWay}" />
+                                                                </Viewbox>
                                                             </Border>
                                                         </Grid>
                                                     </DataTemplate>

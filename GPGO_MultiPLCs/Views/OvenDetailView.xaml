@@ -774,11 +774,13 @@
                                                                             Background="Transparent"
                                                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                                             BorderThickness="0,0,1,1">
-                                                                        <TextBlock Margin="4"
-                                                                                   HorizontalAlignment="Center"
-                                                                                   VerticalAlignment="Center"
-                                                                                   FontSize="12"
-                                                                                   Text="{Binding Mode=OneWay}" />
+                                                                        <Viewbox Margin="4"
+                                                                                 HorizontalAlignment="Center"
+                                                                                 VerticalAlignment="Center"
+                                                                                 StretchDirection="DownOnly">
+                                                                            <TextBlock FontSize="12"
+                                                                                       Text="{Binding Mode=OneWay}" />
+                                                                        </Viewbox>
                                                                     </Border>
                                                                 </Grid>
                                                             </DataTemplate>

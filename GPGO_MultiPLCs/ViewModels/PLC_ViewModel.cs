@@ -17,10 +17,11 @@ namespace GPGO_MultiPLCs.ViewModels;
 public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 {
     #region Interface implement
+
     public void Dispose() { CTS.Dispose(); }
+
     #endregion
 
-    private const    double         Delay = 2;
     private readonly IDialogService Dialog;
     private          bool           ManualRecord;
 
@@ -50,9 +51,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Func<BaseInfo, ValueTask>                                                      ExecutingFinished;
     public event Func<(BitType, int), bool, ValueTask>                                          SetPLCSignal;
     public event Func<string, ValueTask<ICollection<ProductInfo>>>                              WantFrontData;
+    public event Func<User>                                                                     GetUser;
+    //public event Action<PLC_Recipe>                                                           RecipeChangedbyPLC;
 
-    public event Func<User> GetUser;
-    //public event Action<PLC_Recipe>                                                             RecipeChangedbyPLC;
+    public double Delay { get; set; } = 1;
 
     public RelayCommand LoadedCommand { get; }
 
@@ -603,7 +605,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         await OneScheduler.StartNew(() =>
                                     {
-                                        var n                      = TimeSpan.Zero;
+                                        var n                      = TimeSpan.FromSeconds(Delay); //! 每delay週期紀錄一次
                                         var _ThermostatTemperature = PV_ThermostatTemperature;
                                         var _OvenTemperature_1     = OvenTemperature_1;
                                         var _OvenTemperature_2     = OvenTemperature_2;
@@ -639,19 +641,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                 _OvenTemperature_6,
                                                                 _OvenTemperature_7,
                                                                 _OvenTemperature_8);
-
-                                                if (n >= TimeSpan.FromMinutes(30))
-                                                {
-                                                    n += TimeSpan.FromSeconds(10);
-                                                }
-                                                else if (n >= TimeSpan.FromMinutes(1))
-                                                {
-                                                    n += TimeSpan.FromSeconds(5);
-                                                }
-                                                else
-                                                {
-                                                    n += TimeSpan.FromSeconds(2);
-                                                }
                                             }
                                             else if (ManualRecord)
                                             {
@@ -810,33 +799,37 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                          {
                                              if (InputQuantity <= 0 || string.IsNullOrEmpty(InputPartID) || string.IsNullOrEmpty(InputLotID)) return;
 
-                                             if (InputLotID.Length < 10)
-                                             {
-                                                 Dialog.Show(new Dictionary<Language, string>
-                                                             {
-                                                                 { Language.TW, "批號需至少10個字元" },
-                                                                 { Language.CHS, "批号需至少10个字符" },
-                                                                 { Language.EN, " LotID must be at least 10 chars" }
-                                                             },
-                                                             DialogMsgType.Alert);
-
-                                                 return;
-                                             }
 
                                              OvenInfo.OperatorID = InputOperatorID;
 
-                                             var info = new ProductInfo
-                                                        {
-                                                            PartID = InputPartID,
-                                                            LotID  = InputLotID,
-                                                            Layer  = InputLayer
-                                                        };
-                                             for (var i = 1; i <= InputQuantity; i++)
+                                             //! 當PartID、LotID和Layer都相等，數量則直接覆蓋
+                                             var same = OvenInfo.Products.FirstOrDefault(x => x.PartID == InputPartID && x.LotID == InputLotID && x.Layer == InputLayer);
+                                             if (same != null)
                                              {
-                                                 info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
-                                             }
+                                                 same.PanelIDs.Clear();
+                                                 for (var i = 1; i <= InputQuantity; i++)
+                                                 {
+                                                     same.PanelIDs.Add($"{InputPartID}-{InputLotID}-{InputLayer}-{i}");
+                                                 }
 
-                                             OvenInfo.Products.Add(info);
+                                                 same.NotifyPanels();
+                                             }
+                                             else
+                                             {
+                                                 var info = new ProductInfo
+                                                            {
+                                                                PartID = InputPartID,
+                                                                LotID  = InputLotID,
+                                                                Layer  = InputLayer
+                                                            };
+
+                                                 for (var i = 1; i <= InputQuantity; i++)
+                                                 {
+                                                     info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
+                                                 }
+
+                                                 OvenInfo.Products.Add(info);
+                                             }
                                          });
 
         DeleteLotCommand = new RelayCommand(lot =>
@@ -1079,6 +1072,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     };
 
         #region 註冊PLC事件
+
         object PreviousEquipmentState = EquipmentState;
         ValueChanged += async (LogType, data) =>
                         {
@@ -1261,7 +1255,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             }
                             else if (LogType == LogType.Trigger)
                             {
-
                             }
                         };
 
@@ -1275,6 +1268,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                    SV_Changed?.Invoke("PartIDs",  parts.Count  > 0 ? string.Join(",", parts) : string.Empty);
                                                    SV_Changed?.Invoke("PanelIDs", panels.Count > 0 ? string.Join(",", panels) : string.Empty);
                                                };
+
         #endregion 註冊PLC事件
     }
 }

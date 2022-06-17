@@ -8,6 +8,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:Authenticator_ViewModel}"
@@ -236,7 +237,7 @@
                                FontSize="36"
                                FontWeight="Bold"
                                Foreground="White"
-                               Text="{Binding NowUser.Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2, FallbackValue=False}" />
+                               Text="{Binding NowUser.Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2, FallbackValue=GU}" />
                 </Border>
             </Grid>
             <Grid x:Name="Grid"
@@ -424,6 +425,10 @@
                          Header="{DynamicResource 系統設定}"
                          IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}">
                     <Grid Height="200">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="90" />
                             <ColumnDefinition />
@@ -436,12 +441,44 @@
                                        Text="PLC IP" />
                         </Border>
                         <TextBox x:Name="IPTextBox"
+                                 Grid.Row="0"
                                  Grid.Column="1"
                                  BorderThickness="0,1,1,1"
-                                 FontFamily="Consolas"
                                  FontSize="16"
                                  KeyDown="TextBox_KeyDown"
                                  Text="{Binding IPString, Mode=TwoWay}" />
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,0,1,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="Delay" />
+                        </Border>
+                        <Border Grid.Row="1"
+                                Grid.Column="1"
+                                Background="{StaticResource LightBrush}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                            <views:SpinControl Margin="8,0"
+                                               VerticalAlignment="Center"
+                                               Maximum="60"
+                                               Minimum="1"
+                                               Value="{Binding Settings.RecordDelay, Mode=TwoWay}">
+                                <views:SpinControl.SmallChange>
+                                    <system:Double>1</system:Double>
+                                </views:SpinControl.SmallChange>
+                                <views:NumericTextBox x:Name="NumericTextBox"
+                                                      Background="Transparent"
+                                                      BorderThickness="0"
+                                                      IntOnly="True"
+                                                      Max="60"
+                                                      Min="1"
+                                                      Text="{Binding Settings.RecordDelay, Mode=TwoWay}"
+                                                      Unit="s" />
+                            </views:SpinControl>
+                        </Border>
                     </Grid>
                 </TabItem>
             </TabControl>

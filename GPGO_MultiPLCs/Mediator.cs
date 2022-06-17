@@ -22,7 +22,7 @@ public sealed class Mediator : ObservableObject
     public Language Language
     {
         get => Get<Language>();
-        set
+        private set
         {
             Set(value);
 
@@ -35,7 +35,7 @@ public sealed class Mediator : ObservableObject
     public int OvenCount
     {
         get => Get<int>();
-        set
+        private set
         {
             Set(value);
 
@@ -46,11 +46,25 @@ public sealed class Mediator : ObservableObject
     public User User
     {
         get => Get<User>();
-        set
+        private set
         {
             Set(value);
 
-            RecipeVM.UserName = value.Name;
+            RecipeVM.UserName = value.Name ?? string.Empty;
+        }
+    }
+
+    public int RecordDelay
+    {
+        get => Get<int>();
+        private set
+        {
+            Set(value);
+
+            foreach (var plc in TotalVM.PLC_All)
+            {
+                plc.Delay = value;
+            }
         }
     }
 
@@ -406,7 +420,7 @@ public sealed class Mediator : ObservableObject
                                          }
 
                                          tempRecipeList = list;
-                                         using var _list = list.Select(x => x.RecipeName).ToPooledList();
+                                         var _list = list.Select(x => x.RecipeName).ToList();
                                          TotalVM.SetRecipeNames(_list);
 
                                          var l1 = new List<int>();
