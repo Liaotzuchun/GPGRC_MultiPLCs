@@ -150,8 +150,8 @@ public sealed class Mediator : ObservableObject
 
                     st = info.EndTime + TimeSpan.FromHours(2);
 
-                    var n = rn.Next(0, 8); //! 階層
-                    for (var p = 0; p <= n; p++)
+                    var n = rn.Next(0, 8) + 1; //! 階層
+                    for (var p = 1; p <= n; p++)
                     {
                         var product = new ProductInfo
                                       {
@@ -614,7 +614,7 @@ public sealed class Mediator : ObservableObject
                      TotalVM.InsertMessage(evs);
                  });
 
-        //#region 產生測試用生產數據資料庫，務必先建立配方！！
+        #region 產生測試用生產數據資料庫，務必先建立配方！！
 
         //DialogVM.Show(new Dictionary<Language, string>
         //              {
@@ -640,6 +640,6 @@ public sealed class Mediator : ObservableObject
         //                                    }),
         //              TimeSpan.FromMinutes(5));
 
-        //#endregion
+        #endregion
     }
 }

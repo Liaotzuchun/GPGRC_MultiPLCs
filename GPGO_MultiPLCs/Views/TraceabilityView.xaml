@@ -4,7 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
@@ -49,12 +48,12 @@
                                 Data="{Binding RecipeFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="OpFilterData"
                                 Data="{Binding OpFilter, Mode=OneWay}" />
-        <views:FilterGroupProxy x:Key="PartIDFilterData"
+        <views:FilterGroupProxy x:Key="FinishedFilterData"
+                                Data="{Binding FinishedFilter, Mode=OneWay}" />
+        <!--<views:FilterGroupProxy x:Key="PartIDFilterData"
                                 Data="{Binding PartIDFilter, Mode=OneWay}" />
-        <views:FilterGroupProxy x:Key="LotIDFilterData"
-                                Data="{Binding LotIDFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="LayerFilterData"
-                                Data="{Binding LayerFilter, Mode=OneWay}" />
+                                Data="{Binding LayerFilter, Mode=OneWay}" />-->
         <DataTemplate x:Key="EqualFilterTemplate"
                       DataType="gpmodels:EqualFilter">
             <MenuItem Header="{Binding Value, Mode=OneWay}"
@@ -440,9 +439,11 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="Auto"
-                                            MinWidth="30">
+                                            MinWidth="30" HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
-                            <TextBlock Text="{DynamicResource 完成烘烤}" />
+                            <ContentControl Content="{StaticResource FinishedFilterData}"
+                                            Style="{StaticResource FilterStyle}"
+                                            Tag="{DynamicResource 完成烘烤}" />
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
@@ -453,12 +454,12 @@
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
                                                  Value="True">
-                                        <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource OKBrush}" />
+                                        <Setter TargetName="TextBlock" Property="Foreground" Value="Green" />
                                         <Setter TargetName="TextBlock" Property="Text" Value="&#xE8FB;" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsFinished, Mode=OneWay}"
                                                  Value="False">
-                                        <Setter TargetName="TextBlock" Property="Foreground" Value="{StaticResource ErrorBrush}" />
+                                        <Setter TargetName="TextBlock" Property="Foreground" Value="Red" />
                                         <Setter TargetName="TextBlock" Property="Text" Value="&#xE711;" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
@@ -1511,13 +1512,13 @@
                                          Orientation="Horizontal"
                                          TextElement.FontSize="16">
                     <ToggleButton Content="{DynamicResource 日期時間}"
-                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter=0}"
+                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter={x:Static vm:ChartMode.ByDateTime}}"
                                   Style="{StaticResource ToggleButton_BotBar}" />
-                    <ToggleButton Content="{DynamicResource 批號}"
-                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter=2}"
+                    <ToggleButton Content="{DynamicResource 階層}"
+                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter={x:Static vm:ChartMode.ByLayer}}"
                                   Style="{StaticResource ToggleButton_BotBar}" />
                     <ToggleButton Content="{DynamicResource 料號}"
-                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter=3}"
+                                  IsChecked="{Binding Mode, Mode=TwoWay, Converter={StaticResource IsEqualValue}, ConverterParameter={x:Static vm:ChartMode.ByPart}}"
                                   Style="{StaticResource ToggleButton_BotBar}" />
                 </views:UniformStackPanel>
                 <Border Grid.Column="2"
