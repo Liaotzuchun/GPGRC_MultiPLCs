@@ -58,6 +58,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public RelayCommand LoadedCommand { get; }
 
+    public RelayCommand StartCommand { get; }
+
+    public RelayCommand StopCommand { get; }
+
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
 
@@ -1052,10 +1056,28 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         CancelCheckInCommand = new RelayCommand(_ =>
                                                 {
+                                                    if (IsExecuting) return;
+
                                                     CheckInCommand.Result = false;
                                                     CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                     OvenInfo.Clear();
                                                 });
+
+        StartCommand = new RelayCommand(_ =>
+                                        {
+                                            if(!AllowStart) return;
+
+                                            AutoMode_Stop  = false;
+                                            AutoMode_Start = true;
+                                        });
+
+        StopCommand = new RelayCommand(_ =>
+                                        {
+                                            if (!AllowStop) return;
+
+                                            AutoMode_Start  = false;
+                                            AutoMode_Stop = true;
+                                        });
 
         OvenInfo = new BaseInfoWithChart();
         OvenInfo.PropertyChanged += (s, e) =>

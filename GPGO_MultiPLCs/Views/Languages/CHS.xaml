@@ -209,7 +209,9 @@
     <sys:String x:Key="加熱門未關">加热门未关</sys:String>
     <sys:String x:Key="電控箱溫度異常">电控箱温度异常</sys:String>
     <sys:String x:Key="進氣風車異常">进气风车异常</sys:String>
-    <sys:String x:Key="階層">阶层</sys:String>
+    <sys:String x:Key="階層">层别</sys:String>
     <sys:String x:Key="名稱">名称</sys:String>
     <sys:String x:Key="產品">产品</sys:String>
+    <sys:String x:Key="啟動">启动</sys:String>
+    <sys:String x:Key="中止">中止</sys:String>
 </ResourceDictionary>

@@ -417,7 +417,7 @@
                     <Grid Grid.Row="1"
                           Margin="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="120" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Button Content="{DynamicResource 投產頁面}"
@@ -577,11 +577,17 @@
                                 <DataTemplate>
                                     <Grid TextElement.FontSize="12"
                                           TextElement.Foreground="{StaticResource BaseForeground}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="120" />
+                                        </Grid.ColumnDefinitions>
                                         <ProgressBar x:Name="Progress"
+                                                     Grid.Column="0"
                                                      BorderThickness="0"
                                                      Maximum="1"
                                                      Value="{Binding Progress, Mode=OneWay}" />
-                                        <Border Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                                        <Border Grid.Column="0"
+                                                Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                     <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
@@ -593,6 +599,17 @@
                                                        Foreground="{StaticResource DisabledForegroundBrush}"
                                                        Text="{DynamicResource 離線}" />
                                         </Border>
+                                        <Button Grid.Column="1"
+                                                Content="{DynamicResource 中止}"
+                                                FontSize="20"
+                                                FontWeight="Bold" >
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction
+                                                        Command="{Binding StopCommand, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
                                     </Grid>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding IsRamp, Mode=OneWay}"
