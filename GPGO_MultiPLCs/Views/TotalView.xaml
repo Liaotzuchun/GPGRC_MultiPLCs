@@ -601,8 +601,18 @@
                                     <Button Grid.Column="1"
                                             Content="{DynamicResource 中止}"
                                             FontSize="20"
-                                            FontWeight="Bold"
-                                            IsEnabled="{Binding AllowStop, Mode=OneWay}">
+                                            FontWeight="Bold">
+                                        <Button.IsEnabled>
+                                            <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                                                <Binding Converter="{StaticResource IsMoreThanValue}"
+                                                         ConverterParameter="1"
+                                                         Mode="OneWay"
+                                                         Path="User.Level"
+                                                         Source="{StaticResource Mediator}" />
+                                                <Binding Mode="OneWay"
+                                                         Path="AllowStop" />
+                                            </MultiBinding>
+                                        </Button.IsEnabled>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding StopCommand, Mode=OneTime}" />
