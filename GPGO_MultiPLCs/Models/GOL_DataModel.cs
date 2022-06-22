@@ -1616,7 +1616,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 允許啟動
     /// </summary>
-    [PLCBitData(DataType.D, 60, 1, LogType.StatusVariables)]
+    [PLCBitData(DataType.D, 60, 0, LogType.StatusVariables)]
     public bool AllowStart
     {
         get => Get<bool>();

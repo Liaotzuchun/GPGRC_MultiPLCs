@@ -500,16 +500,6 @@
                     </DataGrid>
                     <views:UniformStackPanel Grid.Row="1"
                                              Orientation="Horizontal">
-                        <ToggleButton x:Name="ToggleButton"
-                                      Content="{DynamicResource 上傳}"
-                                      FontSize="20"
-                                      FontWeight="Bold">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Unchecked">
-                                    <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </ToggleButton>
                         <Button Content="{DynamicResource 啟動}"
                                 FontSize="20"
                                 FontWeight="Bold"

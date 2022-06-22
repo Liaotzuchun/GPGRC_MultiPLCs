@@ -46,21 +46,18 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action<string>                                                                 MachineCodeChanged;
     public event Action                                                                         RecipeKeyInError;
     public event Action<string>                                                                 RecipeUsed;
-    public event Func<Language>                                                                 GetLanguage;
     public event Action                                                                         ExecutingStarted;
-    public event Func<BaseInfo, ValueTask>                                                      ExecutingFinished;
-    public event Func<(BitType, int), bool, ValueTask>                                          SetPLCSignal;
-    public event Func<string, ValueTask<ICollection<ProductInfo>>>                              WantFrontData;
-    public event Func<User>                                                                     GetUser;
+
+    public event Func<BaseInfo, ValueTask> ExecutingFinished;
     //public event Action<PLC_Recipe>                                                           RecipeChangedbyPLC;
 
     public double Delay { get; set; } = 1;
 
     public RelayCommand LoadedCommand { get; }
 
-    public RelayCommand StartCommand { get; }
+    public AsyncCommand StartCommand { get; }
 
-    public RelayCommand StopCommand { get; }
+    public AsyncCommand StopCommand { get; }
 
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
@@ -380,32 +377,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                });
     }
 
-    private void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
-    {
-        if (!IsExecuting)
-        {
-            return;
-        }
-
-        var record = new RecordTemperatures
-                     {
-                         StartTime                = start,
-                         AddedTime                = addtime,
-                         PV_ThermostatTemperature = t0,
-                         OvenTemperatures_1       = t1,
-                         OvenTemperatures_2       = t2,
-                         OvenTemperatures_3       = t3,
-                         OvenTemperatures_4       = t4,
-                         OvenTemperatures_5       = t5,
-                         OvenTemperatures_6       = t6,
-                         OvenTemperatures_7       = t7,
-                         OvenTemperatures_8       = t8
-                     };
-
-        OvenInfo.RecordTemperatures.Add(record);
-        OvenInfo.ChartModel.AddDate(record);
-    }
-
     /// <summary>
     /// 重設CancellationTokenSource狀態
     /// </summary>
@@ -600,26 +571,60 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     /// <param name="cycle_ms">紀錄週期，單位為毫秒</param>
     /// <param name="ct">取消任務的token</param>
     /// <returns></returns>
-    private async Task StartRecoder(long cycle_ms, CancellationToken ct)
+    private async Task StartRecoder(CancellationToken ct)
     {
         OvenInfo.Clear();
         //OvenInfo.RackID    = RackID;
+
+        void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
+        {
+            var record = new RecordTemperatures
+                         {
+                             StartTime                = start,
+                             AddedTime                = addtime,
+                             PV_ThermostatTemperature = t0,
+                             OvenTemperatures_1       = t1,
+                             OvenTemperatures_2       = t2,
+                             OvenTemperatures_3       = t3,
+                             OvenTemperatures_4       = t4,
+                             OvenTemperatures_5       = t5,
+                             OvenTemperatures_6       = t6,
+                             OvenTemperatures_7       = t7,
+                             OvenTemperatures_8       = t8
+                         };
+
+            OvenInfo.RecordTemperatures.Add(record);
+            OvenInfo.ChartModel.AddDate(record);
+        }
+
         OvenInfo.StartTime = DateTime.Now;
-        OvenInfo.EndTime   = new DateTime();
+        OvenInfo.EndTime   = OvenInfo.StartTime;
+        var nt                     = OvenInfo.StartTime;
+        var n                      = TimeSpan.FromSeconds(Delay); //! 每delay週期紀錄一次
+        var _ThermostatTemperature = PV_ThermostatTemperature;
+        var _OvenTemperature_1     = OvenTemperature_1;
+        var _OvenTemperature_2     = OvenTemperature_2;
+        var _OvenTemperature_3     = OvenTemperature_3;
+        var _OvenTemperature_4     = OvenTemperature_4;
+        var _OvenTemperature_5     = OvenTemperature_5;
+        var _OvenTemperature_6     = OvenTemperature_6;
+        var _OvenTemperature_7     = OvenTemperature_7;
+        var _OvenTemperature_8     = OvenTemperature_8;
+
+        AddTemperatures(OvenInfo.StartTime,
+                        OvenInfo.StartTime,
+                        _ThermostatTemperature,
+                        _OvenTemperature_1,
+                        _OvenTemperature_2,
+                        _OvenTemperature_3,
+                        _OvenTemperature_4,
+                        _OvenTemperature_5,
+                        _OvenTemperature_6,
+                        _OvenTemperature_7,
+                        _OvenTemperature_8);
 
         await OneScheduler.StartNew(() =>
                                     {
-                                        var n                      = TimeSpan.FromSeconds(Delay); //! 每delay週期紀錄一次
-                                        var _ThermostatTemperature = PV_ThermostatTemperature;
-                                        var _OvenTemperature_1     = OvenTemperature_1;
-                                        var _OvenTemperature_2     = OvenTemperature_2;
-                                        var _OvenTemperature_3     = OvenTemperature_3;
-                                        var _OvenTemperature_4     = OvenTemperature_4;
-                                        var _OvenTemperature_5     = OvenTemperature_5;
-                                        var _OvenTemperature_6     = OvenTemperature_6;
-                                        var _OvenTemperature_7     = OvenTemperature_7;
-                                        var _OvenTemperature_8     = OvenTemperature_8;
-
                                         while (!ct.IsCancellationRequested)
                                         {
                                             _ThermostatTemperature = PV_ThermostatTemperature <= 0 ? _ThermostatTemperature : PV_ThermostatTemperature;
@@ -632,10 +637,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             _OvenTemperature_7     = OvenTemperature_7        <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
                                             _OvenTemperature_8     = OvenTemperature_8        <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
 
-                                            if (DateTime.Now - OvenInfo.StartTime >= n)
+                                            if (DateTime.Now - nt >= n)
                                             {
+                                                nt = DateTime.Now;
                                                 AddTemperatures(OvenInfo.StartTime,
-                                                                DateTime.Now,
+                                                                nt,
                                                                 _ThermostatTemperature,
                                                                 _OvenTemperature_1,
                                                                 _OvenTemperature_2,
@@ -667,17 +673,27 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             }
                                         }
 
+                                        _ThermostatTemperature = PV_ThermostatTemperature <= 0 ? _ThermostatTemperature : PV_ThermostatTemperature;
+                                        _OvenTemperature_1     = OvenTemperature_1        <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
+                                        _OvenTemperature_2     = OvenTemperature_2        <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
+                                        _OvenTemperature_3     = OvenTemperature_3        <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
+                                        _OvenTemperature_4     = OvenTemperature_4        <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
+                                        _OvenTemperature_5     = OvenTemperature_5        <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
+                                        _OvenTemperature_6     = OvenTemperature_6        <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
+                                        _OvenTemperature_7     = OvenTemperature_7        <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
+                                        _OvenTemperature_8     = OvenTemperature_8        <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+
                                         AddTemperatures(OvenInfo.StartTime,
                                                         DateTime.Now,
-                                                        PV_ThermostatTemperature,
-                                                        OvenTemperature_1,
-                                                        OvenTemperature_2,
-                                                        OvenTemperature_3,
-                                                        OvenTemperature_4,
-                                                        OvenTemperature_5,
-                                                        OvenTemperature_6,
-                                                        OvenTemperature_7,
-                                                        OvenTemperature_8);
+                                                        _ThermostatTemperature,
+                                                        _OvenTemperature_1,
+                                                        _OvenTemperature_2,
+                                                        _OvenTemperature_3,
+                                                        _OvenTemperature_4,
+                                                        _OvenTemperature_5,
+                                                        _OvenTemperature_6,
+                                                        _OvenTemperature_7,
+                                                        _OvenTemperature_8);
                                     },
                                     ct);
     }
@@ -687,7 +703,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         await StopPP(); //需先確認PP已停止
 
         ResetStopTokenSource();
-        ExecutingTask = StartRecoder(60000, CTS.Token);
+        ExecutingTask = StartRecoder(CTS.Token);
         _ = ExecutingTask.ContinueWith(x =>
                                        {
                                            x.Dispose();
@@ -1063,21 +1079,71 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     OvenInfo.Clear();
                                                 });
 
-        StartCommand = new RelayCommand(_ =>
+        StartCommand = new AsyncCommand(async _ =>
                                         {
-                                            if(!AllowStart) return;
+                                            if (!AllowStart)
+                                            {
+                                                dialog.Show(new Dictionary<Language, string>
+                                                            {
+                                                                { Language.TW, "不允許啟動" },
+                                                                { Language.CHS, "不允许启动" },
+                                                                { Language.EN, "Not allowed to start." }
+                                                            },
+                                                            DialogMsgType.Alert);
+
+                                                return;
+                                            }
+
+                                            if (!await dialog.Show(new Dictionary<Language, string>
+                                                                   {
+                                                                       { Language.TW, "確定啟動烘烤？" },
+                                                                       { Language.CHS, "确定启动烘烤？" },
+                                                                       { Language.EN, "Are you sure you want to start baking?" }
+                                                                   },
+                                                                   true,
+                                                                   TimeSpan.FromSeconds(15),
+                                                                   DialogMsgType.Alert))
+                                            {
+                                                return;
+                                            }
 
                                             AutoMode_Stop  = false;
                                             AutoMode_Start = true;
-                                        });
+                                        },
+                                        null);
 
-        StopCommand = new RelayCommand(_ =>
-                                        {
-                                            if (!AllowStop) return;
+        StopCommand = new AsyncCommand(async _ =>
+                                       {
+                                           if (!AllowStop)
+                                           {
+                                               dialog.Show(new Dictionary<Language, string>
+                                                           {
+                                                               { Language.TW, "不允許停止" },
+                                                               { Language.CHS, "不允许停止" },
+                                                               { Language.EN, "Not allowed to stop." }
+                                                           },
+                                                           DialogMsgType.Alert);
 
-                                            AutoMode_Start  = false;
-                                            AutoMode_Stop = true;
-                                        });
+                                               return;
+                                           }
+
+                                           if (!await dialog.Show(new Dictionary<Language, string>
+                                                                  {
+                                                                      { Language.TW, "確定停止烘烤？" },
+                                                                      { Language.CHS, "确定停止烘烤？" },
+                                                                      { Language.EN, "Are you sure you want to stop baking?" }
+                                                                  },
+                                                                  true,
+                                                                  TimeSpan.FromSeconds(15),
+                                                                  DialogMsgType.Alert))
+                                           {
+                                               return;
+                                           }
+
+                                           AutoMode_Start = false;
+                                           AutoMode_Stop  = true;
+                                       },
+                                       null);
 
         OvenInfo = new BaseInfoWithChart();
         OvenInfo.PropertyChanged += (s, e) =>

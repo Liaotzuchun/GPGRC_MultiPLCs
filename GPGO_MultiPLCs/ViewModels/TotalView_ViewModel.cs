@@ -36,8 +36,6 @@ public sealed class TotalView_ViewModel : ObservableObject
     public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
     public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
     public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
-    public event Func<(int StationIndex, string RackID), ValueTask<ICollection<ProductInfo>>>                     WantFrontData;
-    public event Func<User>                                                                                       GetUser;
     public event Func<PLC_Recipe, ValueTask<bool>>                                                                UpsertRecipe;
     public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
     public event Func<string, ValueTask<ProcessInfo>>                                                             RetrieveLotData;
@@ -59,7 +57,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     public IEnumerable<PLC_ViewModel> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount);
 
     /// <summary>檢視詳細資訊的PLC</summary>
-    public PLC_ViewModel PLC_In_Focused => ViewIndex > -1 ? PLC_All[ViewIndex] : null;
+    public PLC_ViewModel PLC_In_Focused => PLCIndex > -1 ? PLC_All[PLCIndex] : null;
 
     public int OvenCount
     {
@@ -88,13 +86,13 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             if (value == 0)
             {
-                ViewIndex = -1;
+                PLCIndex = -1;
             }
         }
     }
 
-    /// <summary>PLC詳細資訊檢視index</summary>
-    public int ViewIndex
+    /// <summary>選擇PLC，並切換至該PLC詳細資訊檢視</summary>
+    public int PLCIndex
     {
         get => Get<int>();
         set
@@ -355,7 +353,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         Dialog    = dialog;
         OvenCount = count;
         PLC_All   = new PLC_ViewModel[count];
-        ViewIndex = -1;
+        PLCIndex  = -1;
 
         WantLoginCommand = new RelayCommand(_ =>
                                             {
@@ -498,12 +496,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                               }
 
                               PLC_All[index].OvenInfo.Products.Clear();
-                              if (PLC_All[index].ExecutingTask != null && PLC_All[index].IsExecuting)
-                              {
-                                  PLC_All[index].CTS?.Cancel();
-
-                                  PLC_All[index].ExecutingTask.Wait();
-                              }
 
                               var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.CANCELCommand), "", index);
                               EventHappened?.Invoke(eventval);
@@ -613,8 +605,6 @@ public sealed class TotalView_ViewModel : ObservableObject
             PLC_All[i] = plc;
             var index = i;
 
-            plc.GetLanguage += () => Language;
-
             //!PLC讀取配方內容時
             plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke((index, recipeName));
 
@@ -623,8 +613,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.ExecutingStarted += () =>
                                     {
-                                        ViewIndex = 0;
-                                        Index     = 1;
+                                        PLCIndex = index;
+                                        Index    = 1;
                                     };
 
             //!烘烤流程結束時
@@ -671,18 +661,9 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          {
                                              await AddRecordToDB.Invoke((index, products));
                                          }
+
+                                         Index = 0; //! 烘烤完成，切回投產頁面
                                      };
-
-            //!由板架code取得前端生產資訊
-            plc.WantFrontData += async code =>
-                                 {
-                                     if (WantFrontData != null)
-                                     {
-                                         return await WantFrontData.Invoke((index, code));
-                                     }
-
-                                     return null;
-                                 };
 
             //!由OP變更設備代碼時
             plc.MachineCodeChanged += code =>
@@ -720,8 +701,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                  {
                                      CancelCheckIn?.Invoke((index, RackID));
                                  };
-
-            plc.GetUser += () => GetUser?.Invoke();
 
             plc.InvokeSECSEvent += EventName =>
                                    {

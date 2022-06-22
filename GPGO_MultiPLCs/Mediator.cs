@@ -504,8 +504,6 @@ public sealed class Mediator : ObservableObject
         //!設定配方被該站使用
         TotalVM.RecipeUsed += e => RecipeVM.SetUsed(e.StationIndex, e.RecipeName);
 
-        TotalVM.GetUser += () => User;
-
         //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
         TotalVM.AddRecordToDB += async e =>
                                  {
