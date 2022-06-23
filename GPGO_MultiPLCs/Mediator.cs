@@ -14,6 +14,7 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
 using MongoDB.Driver;
+using Serilog;
 
 namespace GPGO_MultiPLCs;
 
@@ -507,69 +508,68 @@ public sealed class Mediator : ObservableObject
         //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
         TotalVM.AddRecordToDB += async e =>
                                  {
-                                     //var (inpath, outpath) = await Dispatcher.InvokeAsync(() => (DataInputPath, DataOutputPath));
-
-                                     var (stationIndex, infos) = e;
+                                     var (stationIndex, info) = e;
                                      using (await lockobj.LockAsync())
                                      {
-                                         await TraceVM.AddToDBAsync(stationIndex, infos);
+                                         await TraceVM.AddToDBAsync(stationIndex, info);
 
-                                         //!輸出嘉聯益資料
-                                         //if (!string.IsNullOrEmpty(inpath) && !string.IsNullOrEmpty(outpath) && e.Infos.Any())
-                                         //{
-                                         //    if (!Directory.Exists(outpath))
-                                         //    {
-                                         //        try
-                                         //        {
-                                         //            Directory.CreateDirectory(outpath);
-                                         //        }
-                                         //        catch (Exception ex)
-                                         //        {
-                                         //            Log.Error(ex, "上傳資料夾不存在且無法創建");
-                                         //        }
-                                         //    }
+                                         //! 輸出欣興CSV紀錄
+                                         var outpath = AuthenticatorVM.Settings.DataOutputPath;
 
-                                         //    foreach (var info in e.Infos)
-                                         //    {
-                                         //        for (var i = 0; i < info.Quantity; i++)
-                                         //        {
-                                         //            var path = $"{outpath}\\{info.AssetNumber}_{DateTime.Now:yyyyMMddHHmmssfff}_{e.StationIndex + 1}_";
+                                         if (!Directory.Exists(outpath))
+                                         {
+                                             try
+                                             {
+                                                 Directory.CreateDirectory(outpath);
+                                             }
+                                             catch (Exception ex)
+                                             {
+                                                 Log.Error(ex, "上傳資料夾不存在且無法創建");
+                                             }
+                                         }
 
-                                         //            var n = 1;
-                                         //            while (File.Exists($"{path}{n}"))
-                                         //            {
-                                         //                n++;
-                                         //            }
+                                         var type   = typeof(ProcessInfo);
+                                         var recipe = info.Recipe.ToDictionary(Language);
+                                         using var titles = new[]
+                                                            {
+                                                                type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
+                                                                type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
+                                                                type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
+                                                                type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
+                                                                type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
+                                                                type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
+                                                                type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
+                                                                type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
+                                                                type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
+                                                            }.Concat(recipe.Keys)
+                                                             .ToPooledList();
 
-                                         //            try
-                                         //            {
-                                         //                using (var outputFile = new StreamWriter($"{path}{n}.txt", false, Encoding.ASCII))
-                                         //                {
-                                         //                    await outputFile.WriteAsync(info.ToString(i));
-                                         //                }
+                                         var sb = new StringBuilder();
+                                         sb.AppendLine(string.Join(",", titles));
 
-                                         //                await Task.Delay(1);
-                                         //                //!紀錄資料到指定輸出資料夾
-                                         //            }
-                                         //            catch (Exception ex)
-                                         //            {
-                                         //                Log.Error(ex, "資料輸出上傳失敗");
-                                         //            }
-                                         //        }
-                                         //    }
+                                         foreach (var product in info.Products)
+                                         {
+                                             var vals = new[]
+                                                        {
+                                                            info.AddedTime.ToString("yy-MM-dd"),
+                                                            info.StartTime.ToString("HH:mm:ss"),
+                                                            info.EndTime.ToString("HH:mm:ss"),
+                                                            product.PartID,
+                                                            product.LotID,
+                                                            product.Quantity.ToString(),
+                                                            info.OvenCode,
+                                                            product.Layer.ToString(),
+                                                            info.OperatorID
+                                                        }.Concat(recipe.Values)
+                                                         .ToPooledList();
 
-                                         //    var _path = $"{inpath}\\{e.Infos.First().RackID}";
+                                             sb.AppendLine(string.Join(",", vals));
+                                         }
 
-                                         //    if (Directory.Exists(_path))
-                                         //    {
-                                         //        var tag   = $".bak{e.StationIndex}";
-                                         //        var files = new DirectoryInfo(_path).GetFiles($"*{tag}");
-                                         //        foreach (var file in files)
-                                         //        {
-                                         //            file.Delete();
-                                         //        }
-                                         //    }
-                                         //}
+                                         using (var outputFile = new StreamWriter($"{DateTime.Now:yyyyMMddHHmmss}.txt", false, Encoding.ASCII))
+                                         {
+                                             await outputFile.WriteAsync(sb.ToString());
+                                         }
                                      }
 
                                      return await TraceVM.CheckProductions(stationIndex);

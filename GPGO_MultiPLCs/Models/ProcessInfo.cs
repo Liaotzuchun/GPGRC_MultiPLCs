@@ -27,6 +27,14 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
+    [GPIgnore]
+    [LanguageTranslator("Oven", "機台別", "机台别")]
+    public string OvenCode
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+
     [LanguageTranslator("Operator", "操作員", "操作员")]
     public string OperatorID
     {

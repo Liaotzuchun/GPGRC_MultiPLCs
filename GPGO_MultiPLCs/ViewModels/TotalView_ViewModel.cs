@@ -31,7 +31,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     private readonly Timer Checker;
 
     public event Action                                                                                           WantLogin;
-    public event Func<(int StationIndex, ICollection<ProcessInfo> Infos), ValueTask<int>>                         AddRecordToDB;
+    public event Func<(int StationIndex, ProcessInfo Info), ValueTask<int>>                                       AddRecordToDB;
     public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
     public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
     public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
@@ -620,7 +620,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             //!烘烤流程結束時
             plc.ExecutingFinished += async baseInfo =>
                                      {
-                                         var products = new List<ProcessInfo> { new(baseInfo) };
+                                         var product = new ProcessInfo(baseInfo);
 
                                          //! 更新ProcessData以供上報
                                          try
@@ -659,7 +659,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                          if (AddRecordToDB != null)
                                          {
-                                             await AddRecordToDB.Invoke((index, products));
+                                             await AddRecordToDB.Invoke((index, product));
                                          }
 
                                          Index = 0; //! 烘烤完成，切回投產頁面
