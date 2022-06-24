@@ -342,7 +342,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     {
         Standby = false;
 
-        var result = true;
+        var result = false;
 
         if (ViewResults?.Count > 0)
         {
@@ -357,8 +357,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                 catch (Exception ex)
                                                 {
                                                     Log.Error(ex, "EXCEL輸出資料夾無法創建");
-                                                    result = false;
-
                                                     return;
                                                 }
                                             }
@@ -380,7 +378,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                          x,
                                                          index =>
                                                          {
-                                                             var fi    = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff(}{index + 1}).xlsm");
+                                                             var fi    = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff}({index + 1}).xlsm");
                                                              var datas = ViewResults.GetRange(500 * index, index == x                    - 1 ? y : 500);
                                                              var n     = datas.Count;
                                                              var xlwb  = new ExcelPackage();
@@ -769,12 +767,11 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              try
                                                              {
                                                                  xlwb.SaveAs(fi);
+                                                                 result = true;
                                                              }
                                                              catch (Exception ex)
                                                              {
                                                                  Log.Error(ex, "EXCEL儲存失敗");
-                                                                 result = false;
-
                                                                  return;
                                                              }
 
@@ -782,9 +779,96 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                          });
                                         });
         }
-        else
+
+        Standby = true;
+
+        return result;
+    }
+
+    private async Task<bool> SaveToCSV(string path)
+    {
+        Standby = false;
+
+        var result = false;
+
+        if (ViewResults?.Count > 0)
         {
-            result = false;
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            path = path.Trim().TrimEnd('\\');
+
+                                            if (!Directory.Exists(path))
+                                            {
+                                                try
+                                                {
+                                                    Directory.CreateDirectory(path);
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    Log.Error(ex, "CSV輸出資料夾無法創建");
+                                                    return;
+                                                }
+                                            }
+
+                                            var datas = ViewResults.Where(x => x.IsFinished).ToPooledList();
+                                            if (datas.Count <= 0) return;
+
+                                            try
+                                            {
+                                                var recipe = datas[0].Recipe.ToDictionary(Language);
+                                                var type   = typeof(ProcessInfo);
+
+                                                using var titles = new[]
+                                                                   {
+                                                                       type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
+                                                                       type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
+                                                                       type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
+                                                                       type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
+                                                                       type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
+                                                                       type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
+                                                                       type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
+                                                                       type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
+                                                                       type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
+                                                                   }.Concat(recipe.Keys)
+                                                                    .ToPooledList();
+
+                                                var sb = new StringBuilder();
+                                                sb.AppendLine(string.Join(",", titles));
+
+                                                foreach (var info in datas)
+                                                {
+                                                    recipe = info.Recipe.ToDictionary(Language);
+
+                                                    foreach (var product in info.Products)
+                                                    {
+                                                        var vals = new[]
+                                                                   {
+                                                                       info.AddedTime.ToString("yy-MM-dd"),
+                                                                       info.StartTime.ToString("HH:mm:ss"),
+                                                                       info.EndTime.ToString("HH:mm:ss"),
+                                                                       product.PartID,
+                                                                       product.LotID,
+                                                                       product.Quantity.ToString(),
+                                                                       info.OvenCode,
+                                                                       product.Layer.ToString(),
+                                                                       info.OperatorID
+                                                                   }.Concat(recipe.Values)
+                                                                    .ToPooledList();
+
+                                                        sb.AppendLine(string.Join(",", vals));
+                                                    }
+                                                }
+
+                                                using var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
+                                                outputFile.Write(sb.ToString());
+
+                                                result = true;
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Log.Error(ex, "CSV儲存失敗");
+                                            }
+                                        });
         }
 
         Standby = true;
@@ -1084,15 +1168,44 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         ToExcelCommand = new RelayCommand(async _ =>
                                           {
                                               var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Reports";
-                                              if (await SaveToExcel(path))
+                                              var (result, choose) = await dialog.ChooseOne(new Dictionary<Language, string>
+                                                                                            {
+                                                                                                { Language.TW, "選擇輸出類型" },
+                                                                                                { Language.CHS, "选择输出类型" },
+                                                                                                { Language.EN, "Select output type" }
+                                                                                            },
+                                                                                            new[]
+                                                                                            {
+                                                                                                new Dictionary<Language, string>
+                                                                                                {
+                                                                                                    { Language.TW, "EXCEL" },
+                                                                                                    { Language.CHS, "EXCEL" },
+                                                                                                    { Language.EN, "EXCEL" }
+                                                                                                },
+                                                                                                new Dictionary<Language, string>
+                                                                                                {
+                                                                                                    { Language.TW, "CSV" },
+                                                                                                    { Language.CHS, "CSV" },
+                                                                                                    { Language.EN, "CSV" }
+                                                                                                }
+                                                                                            },
+                                                                                            new Dictionary<Language, string>
+                                                                                            {
+                                                                                                { Language.TW, "輸出類型" },
+                                                                                                { Language.CHS, "输出类型" },
+                                                                                                { Language.EN, "Select output type" }
+                                                                                            },
+                                                                                            true);
+
+                                              if (result && ((int)choose == 0 ? await SaveToExcel(path) : await SaveToCSV(path)))
                                               {
-                                                  dialog?.Show(new Dictionary<Language, string>
-                                                               {
-                                                                   { Language.TW, $"檔案已輸出至\n{path}" },
-                                                                   { Language.CHS, $"档案已输出至\n{path}" },
-                                                                   { Language.EN, $"The file has been output to\n{path}" }
-                                                               },
-                                                               TimeSpan.FromSeconds(6));
+                                                  dialog.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, $"檔案已輸出至\n{path}" },
+                                                                  { Language.CHS, $"档案已输出至\n{path}" },
+                                                                  { Language.EN, $"The file has been output to\n{path}" }
+                                                              },
+                                                              TimeSpan.FromSeconds(6));
                                               }
                                           });
 

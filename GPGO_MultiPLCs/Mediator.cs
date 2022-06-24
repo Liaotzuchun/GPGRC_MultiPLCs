@@ -512,26 +512,61 @@ public sealed class Mediator : ObservableObject
                                      using (await lockobj.LockAsync())
                                      {
                                          await TraceVM.AddToDBAsync(stationIndex, info);
-
-                                         //! 輸出欣興CSV紀錄
-                                         var outpath = AuthenticatorVM.Settings.DataOutputPath;
-
-                                         if (!Directory.Exists(outpath))
+                                         if (info.IsFinished)
                                          {
-                                             try
-                                             {
-                                                 Directory.CreateDirectory(outpath);
-                                             }
-                                             catch (Exception ex)
-                                             {
-                                                 Log.Error(ex, "上傳資料夾不存在且無法創建");
-                                             }
-                                         }
+                                             //! 輸出欣興CSV紀錄
+                                             var outpath = AuthenticatorVM.Settings.DataOutputPath.Trim().TrimEnd('\\');
 
-                                         var type   = typeof(ProcessInfo);
-                                         var recipe = info.Recipe.ToDictionary(Language);
-                                         using var titles = new[]
-                                                            {
+                                             if (!Directory.Exists(outpath))
+                                             {
+                                                 try
+                                                 {
+                                                     Directory.CreateDirectory(outpath);
+                                                 }
+                                                 catch (Exception ex)
+                                                 {
+                                                     Log.Error(ex, "上傳資料夾不存在且無法創建");
+                                                 }
+                                             }
+
+                                             var recipe = info.Recipe.ToDictionary(Language);
+                                             var type = typeof(ProcessInfo);
+
+                                             //await Task.Run(() =>
+                                             //               {
+                                             //                   FastCSV.WriteFile($"{outpath}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv",
+                                             //                                     new[]
+                                             //                                         {
+                                             //                                             type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
+                                             //                                             type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
+                                             //                                             type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
+                                             //                                             type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
+                                             //                                             type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
+                                             //                                             type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
+                                             //                                             type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
+                                             //                                             type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
+                                             //                                             type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
+                                             //                                         }.Concat(recipe.Keys)
+                                             //                                          .ToArray(),
+                                             //                                     ',',
+                                             //                                     info.Products,
+                                             //                                     product => new[]
+                                             //                                                {
+                                             //                                                    info.AddedTime.ToString("yy-MM-dd"),
+                                             //                                                    info.StartTime.ToString("HH:mm:ss"),
+                                             //                                                    info.EndTime.ToString("HH:mm:ss"),
+                                             //                                                    product.PartID,
+                                             //                                                    product.LotID,
+                                             //                                                    product.Quantity.ToString(),
+                                             //                                                    info.OvenCode,
+                                             //                                                    product.Layer.ToString(),
+                                             //                                                    info.OperatorID
+                                             //                                                }.Concat(recipe.Values.Cast<string>())
+                                             //                                                 .ToArray());
+                                             //               });
+
+                                             using var titles = new[]
+                                                                {
                                                                 type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
                                                                 type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
                                                                 type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
@@ -542,15 +577,15 @@ public sealed class Mediator : ObservableObject
                                                                 type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
                                                                 type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
                                                             }.Concat(recipe.Keys)
-                                                             .ToPooledList();
+                                                                 .ToPooledList();
 
-                                         var sb = new StringBuilder();
-                                         sb.AppendLine(string.Join(",", titles));
+                                             var sb = new StringBuilder();
+                                             sb.AppendLine(string.Join(",", titles));
 
-                                         foreach (var product in info.Products)
-                                         {
-                                             var vals = new[]
-                                                        {
+                                             foreach (var product in info.Products)
+                                             {
+                                                 var vals = new[]
+                                                            {
                                                             info.AddedTime.ToString("yy-MM-dd"),
                                                             info.StartTime.ToString("HH:mm:ss"),
                                                             info.EndTime.ToString("HH:mm:ss"),
@@ -561,13 +596,12 @@ public sealed class Mediator : ObservableObject
                                                             product.Layer.ToString(),
                                                             info.OperatorID
                                                         }.Concat(recipe.Values)
-                                                         .ToPooledList();
+                                                             .ToPooledList();
 
-                                             sb.AppendLine(string.Join(",", vals));
-                                         }
+                                                 sb.AppendLine(string.Join(",", vals));
+                                             }
 
-                                         using (var outputFile = new StreamWriter($"{DateTime.Now:yyyyMMddHHmmss}.txt", false, Encoding.ASCII))
-                                         {
+                                             using var outputFile = new StreamWriter($"{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
                                              await outputFile.WriteAsync(sb.ToString());
                                          }
                                      }
