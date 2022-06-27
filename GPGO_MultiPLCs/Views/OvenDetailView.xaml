@@ -617,6 +617,16 @@
                                         Height="16"
                                         Margin="2,0"
                                         VerticalAlignment="Center"
+                                        Background="{StaticResource BlueA700Brush}"
+                                        CornerRadius="8">
+                                    <Border Background="#99000000"
+                                            CornerRadius="8"
+                                            Visibility="{Binding BlueLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                                </Border>
+                                <Border Width="16"
+                                        Height="16"
+                                        Margin="2,0"
+                                        VerticalAlignment="Center"
                                         Background="{StaticResource OKBrush}"
                                         CornerRadius="8">
                                     <Border Background="#99000000"

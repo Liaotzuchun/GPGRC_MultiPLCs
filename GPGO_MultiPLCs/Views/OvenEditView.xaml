@@ -33,6 +33,11 @@
             </Grid.RowDefinitions>
             <views:UniformStackPanel Orientation="Vertical">
                 <Border Height="24"
+                        Background="{StaticResource BlueA700Brush}">
+                    <Border Background="#99000000"
+                            Visibility="{Binding BlueLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                </Border>
+                <Border Height="24"
                         Background="{StaticResource OKBrush}">
                     <Border Background="#99000000"
                             Visibility="{Binding GreenLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
