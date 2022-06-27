@@ -32,6 +32,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 降溫溫度
     /// </summary>
+    [PLCData(DataType.D, 1092, 0.1, LogType.RecipeSet)]
     public double CoolingTemperature
     {
         get => Get<double>();
@@ -49,9 +50,30 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 充氣時間
+    /// 氮氣模式
     /// </summary>
+    [PLCBitData(DataType.D, 1089, 0, LogType.RecipeSet)]
+    public bool NitrogenMode
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 充氣逾時時間
+    /// </summary>
+    [PLCData(DataType.D, 1090, LogType.RecipeSet)]
     public double InflatingTime
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 含氧量設定
+    /// </summary>
+    [PLCData(DataType.D, 1097, LogType.RecipeSet)]
+    public double OxygenContentSet
     {
         get => Get<double>();
         set => Set(value);
@@ -71,7 +93,7 @@ public class GOL_DataModel : PLCDataProvider
     /// 使用段數
     /// </summary>
     [PLCData(DataType.D, 1075, LogType.RecipeSet)]
-    public short StepCounts
+    public short SegmentCounts
     {
         get => Get<short>();
         set => Set(value);
@@ -556,6 +578,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 降溫溫度
     /// </summary>
+    [PLCData(DataType.D, 792, 0.1, LogType.RecipeSet)]
     public double PV_CoolingTemperature
     {
         get => Get<double>();
@@ -573,9 +596,30 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 配方PV 充氣時間
+    /// 配方PV 氮氣模式
     /// </summary>
+    [PLCBitData(DataType.D, 789, 0, LogType.RecipeSet)]
+    public bool PV_NitrogenMode
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 配方PV 充氣逾時時間
+    /// </summary>
+    [PLCData(DataType.D, 790, LogType.StatusVariables)]
     public double PV_InflatingTime
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 配方PV 含氧量設定
+    /// </summary>
+    [PLCData(DataType.D, 797, LogType.StatusVariables)]
+    public double PV_OxygenContentSet
     {
         get => Get<double>();
         set => Set(value);
@@ -584,6 +628,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 程式結束警報時間
     /// </summary>
+    [PLCData(DataType.D, 157, 0.1, LogType.RecipeSet)]
     public double PV_ProgramEndWarningTime
     {
         get => Get<double>();
@@ -594,7 +639,7 @@ public class GOL_DataModel : PLCDataProvider
     /// 配方PV 使用段數
     /// </summary>
     [PLCData(DataType.D, 775, LogType.StatusVariables)]
-    public short PV_StepCounts
+    public short PV_SegmentCounts
     {
         get => Get<short>();
         set => Set(value);
@@ -1778,6 +1823,26 @@ public class GOL_DataModel : PLCDataProvider
     /// </summary>
     [PLCData(DataType.D, 64, 0.1, LogType.StatusVariables)]
     public double ThermostatTemperature
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 氮氣流量
+    /// </summary>
+    [PLCData(DataType.D, 402, LogType.StatusVariables)]
+    public double NitrogenFlow
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 含氧量
+    /// </summary>
+    [PLCData(DataType.D, 404, LogType.StatusVariables)]
+    public double OxygenContent
     {
         get => Get<double>();
         set => Set(value);

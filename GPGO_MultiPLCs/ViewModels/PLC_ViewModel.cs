@@ -96,8 +96,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 return 1.0;
             }
 
-            var d   = 1.0                 / StepCounts / 2.0;
-            var val = (CurrentStep - 1.0) / StepCounts;
+            var d   = 1.0                 / SegmentCounts / 2.0;
+            var val = (CurrentStep - 1.0) / SegmentCounts;
 
             if (IsDwell)
             {
@@ -263,6 +263,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     private bool RecipeCompare(PLC_Recipe recipe) =>
+        NitrogenMode                          == recipe.NitrogenMode                          &&
+        OxygenContentSet.ToString("0")        == recipe.OxygenContentSet.ToString("0")        &&
         RecipeName                            == recipe.RecipeName                            &&
         DwellTime_1.ToString("0.0")           == recipe.DwellTime_1.ToString("0.0")           &&
         DwellTime_2.ToString("0.0")           == recipe.DwellTime_2.ToString("0.0")           &&
@@ -290,6 +292,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         RampAlarm_4.ToString("0.0")           == recipe.RampAlarm_4.ToString("0.0")           &&
         RampAlarm_5.ToString("0.0")           == recipe.RampAlarm_5.ToString("0.0")           &&
         RampAlarm_6.ToString("0.0")           == recipe.RampAlarm_6.ToString("0.0")           &&
+        InflatingTime.ToString("0")           == recipe.InflatingTime.ToString("0")           &&
         ProgramEndWarningTime.ToString("0.0") == recipe.ProgramEndWarningTime.ToString("0.0") &&
         TemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
         TemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
@@ -297,11 +300,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         TemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
         TemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
         TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
-        StepCounts                            == recipe.StepCounts;
+        SegmentCounts                         == recipe.SegmentCounts;
 
     private PLC_Recipe GetRecipePV() =>
         new()
         {
+            NitrogenMode          = PV_NitrogenMode,
+            OxygenContentSet      = PV_OxygenContentSet,
             RecipeName            = PV_RecipeName,
             DwellTemperature_1    = PV_DwellTemperature_1,
             DwellTemperature_2    = PV_DwellTemperature_2,
@@ -355,7 +360,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             TemperatureSetpoint_6 = PV_TemperatureSetpoint_6,
             TemperatureSetpoint_7 = PV_TemperatureSetpoint_7,
             TemperatureSetpoint_8 = PV_TemperatureSetpoint_8,
-            StepCounts            = PV_StepCounts
+            SegmentCounts         = PV_SegmentCounts
         };
 
     private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)

@@ -88,6 +88,7 @@
     <sys:String x:Key="手動">手動</sys:String>
     <sys:String x:Key="自動">自動</sys:String>
     <sys:String x:Key="分">分</sys:String>
+    <sys:String x:Key="秒">秒</sys:String>
     <sys:String x:Key="儲存">儲存</sys:String>
     <sys:String x:Key="搜尋">搜尋</sys:String>
     <sys:String x:Key="更新時間">更新時間</sys:String>
@@ -215,4 +216,6 @@
     <sys:String x:Key="產品">產品</sys:String>
     <sys:String x:Key="啟動">啟動</sys:String>
     <sys:String x:Key="中止">中止</sys:String>
+    <sys:String x:Key="氮氣模式">氮氣模式</sys:String>
+    <sys:String x:Key="含氧量">含氧量</sys:String>
 </ResourceDictionary>

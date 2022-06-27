@@ -378,7 +378,7 @@ public sealed class Mediator : ObservableObject
                                              t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0"));
                                              t.AddElement(nameof(PLC_Recipe.CoolingTemperature),    recipe.CoolingTemperature.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.StepCounts),            recipe.StepCounts.ToString());
+                                             t.AddElement(nameof(PLC_Recipe.SegmentCounts),            recipe.SegmentCounts.ToString());
                                              t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_1), recipe.TemperatureSetpoint_1.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_2), recipe.TemperatureSetpoint_2.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_3), recipe.TemperatureSetpoint_3.ToString("0.0"));

@@ -6,7 +6,7 @@ CCODE: [CCodeID1], 1, 34 , Comment 1
  ProgramEndWarningTime, FT_4, 0, 100,
  CoolingTime, FT_4, 1, 120,
  CoolingTemperature, FT_4, 40, 250,
- StepCounts, INT_4,      1,        6,
+ SegmentCounts, INT_4, 1, 6,
  TemperatureSetpoint_1, FT_4, 50, 250,
  TemperatureSetpoint_2, FT_4, 50, 250,
  TemperatureSetpoint_3, FT_4, 50, 250,

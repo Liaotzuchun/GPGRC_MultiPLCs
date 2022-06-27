@@ -14,67 +14,70 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     private const int Digits1 = 1;
     private const int Digits0 = 0;
 
-    public override bool Equals(PLC_Recipe other) => other                                 != null                                        &&
-                                                     RecipeName                            == other.RecipeName                            &&
-                                                     DwellTemperature_1.ToString("0.0")    == other.DwellTemperature_1.ToString("0.0")    &&
-                                                     DwellTemperature_2.ToString("0.0")    == other.DwellTemperature_2.ToString("0.0")    &&
-                                                     DwellTemperature_3.ToString("0.0")    == other.DwellTemperature_3.ToString("0.0")    &&
-                                                     DwellTemperature_4.ToString("0.0")    == other.DwellTemperature_4.ToString("0.0")    &&
-                                                     DwellTemperature_5.ToString("0.0")    == other.DwellTemperature_5.ToString("0.0")    &&
-                                                     DwellTemperature_6.ToString("0.0")    == other.DwellTemperature_6.ToString("0.0")    &&
-                                                     DwellTemperature_7.ToString("0.0")    == other.DwellTemperature_7.ToString("0.0")    &&
-                                                     DwellTemperature_8.ToString("0.0")    == other.DwellTemperature_8.ToString("0.0")    &&
-                                                     DwellTime_1.ToString("0.0")           == other.DwellTime_1.ToString("0.0")           &&
-                                                     DwellTime_2.ToString("0.0")           == other.DwellTime_2.ToString("0.0")           &&
-                                                     DwellTime_3.ToString("0.0")           == other.DwellTime_3.ToString("0.0")           &&
-                                                     DwellTime_4.ToString("0.0")           == other.DwellTime_4.ToString("0.0")           &&
-                                                     DwellTime_5.ToString("0.0")           == other.DwellTime_5.ToString("0.0")           &&
-                                                     DwellTime_6.ToString("0.0")           == other.DwellTime_6.ToString("0.0")           &&
-                                                     DwellTime_7.ToString("0.0")           == other.DwellTime_7.ToString("0.0")           &&
-                                                     DwellTime_8.ToString("0.0")           == other.DwellTime_8.ToString("0.0")           &&
-                                                     DwellAlarm_1.ToString("0.0")          == other.DwellAlarm_1.ToString("0.0")          &&
-                                                     DwellAlarm_2.ToString("0.0")          == other.DwellAlarm_2.ToString("0.0")          &&
-                                                     DwellAlarm_3.ToString("0.0")          == other.DwellAlarm_3.ToString("0.0")          &&
-                                                     DwellAlarm_4.ToString("0.0")          == other.DwellAlarm_4.ToString("0.0")          &&
-                                                     DwellAlarm_5.ToString("0.0")          == other.DwellAlarm_5.ToString("0.0")          &&
-                                                     DwellAlarm_6.ToString("0.0")          == other.DwellAlarm_6.ToString("0.0")          &&
-                                                     DwellAlarm_7.ToString("0.0")          == other.DwellAlarm_7.ToString("0.0")          &&
-                                                     DwellAlarm_8.ToString("0.0")          == other.DwellAlarm_8.ToString("0.0")          &&
-                                                     CoolingTime.ToString("0.0")           == other.CoolingTime.ToString("0.0")           &&
-                                                     CoolingTemperature.ToString("0.0")    == other.CoolingTemperature.ToString("0.0")    &&
-                                                     RampTime_1.ToString("0.0")            == other.RampTime_1.ToString("0.0")            &&
-                                                     RampTime_2.ToString("0.0")            == other.RampTime_2.ToString("0.0")            &&
-                                                     RampTime_3.ToString("0.0")            == other.RampTime_3.ToString("0.0")            &&
-                                                     RampTime_4.ToString("0.0")            == other.RampTime_4.ToString("0.0")            &&
-                                                     RampTime_5.ToString("0.0")            == other.RampTime_5.ToString("0.0")            &&
-                                                     RampTime_6.ToString("0.0")            == other.RampTime_6.ToString("0.0")            &&
-                                                     RampTime_7.ToString("0.0")            == other.RampTime_7.ToString("0.0")            &&
-                                                     RampTime_8.ToString("0.0")            == other.RampTime_8.ToString("0.0")            &&
-                                                     RampAlarm_1.ToString("0.0")           == other.RampAlarm_1.ToString("0.0")           &&
-                                                     RampAlarm_2.ToString("0.0")           == other.RampAlarm_2.ToString("0.0")           &&
-                                                     RampAlarm_3.ToString("0.0")           == other.RampAlarm_3.ToString("0.0")           &&
-                                                     RampAlarm_4.ToString("0.0")           == other.RampAlarm_4.ToString("0.0")           &&
-                                                     RampAlarm_5.ToString("0.0")           == other.RampAlarm_5.ToString("0.0")           &&
-                                                     RampAlarm_6.ToString("0.0")           == other.RampAlarm_6.ToString("0.0")           &&
-                                                     RampAlarm_7.ToString("0.0")           == other.RampAlarm_7.ToString("0.0")           &&
-                                                     RampAlarm_8.ToString("0.0")           == other.RampAlarm_8.ToString("0.0")           &&
-                                                     InflatingTime.ToString("0.0")         == other.InflatingTime.ToString("0.0")         &&
-                                                     ProgramEndWarningTime.ToString("0.0") == other.ProgramEndWarningTime.ToString("0.0") &&
-                                                     TemperatureSetpoint_1.ToString("0.0") == other.TemperatureSetpoint_1.ToString("0.0") &&
-                                                     TemperatureSetpoint_2.ToString("0.0") == other.TemperatureSetpoint_2.ToString("0.0") &&
-                                                     TemperatureSetpoint_3.ToString("0.0") == other.TemperatureSetpoint_3.ToString("0.0") &&
-                                                     TemperatureSetpoint_4.ToString("0.0") == other.TemperatureSetpoint_4.ToString("0.0") &&
-                                                     TemperatureSetpoint_5.ToString("0.0") == other.TemperatureSetpoint_5.ToString("0.0") &&
-                                                     TemperatureSetpoint_6.ToString("0.0") == other.TemperatureSetpoint_6.ToString("0.0") &&
-                                                     TemperatureSetpoint_7.ToString("0.0") == other.TemperatureSetpoint_7.ToString("0.0") &&
-                                                     TemperatureSetpoint_8.ToString("0.0") == other.TemperatureSetpoint_8.ToString("0.0") &&
-                                                     StepCounts                            == other.StepCounts;
+    public override bool Equals(PLC_Recipe other) =>
+        other                                 != null                                        &&
+        NitrogenMode                          == other.NitrogenMode                          &&
+        OxygenContentSet.ToString("0")        == other.OxygenContentSet.ToString("0")        &&
+        RecipeName                            == other.RecipeName                            &&
+        DwellTemperature_1.ToString("0.0")    == other.DwellTemperature_1.ToString("0.0")    &&
+        DwellTemperature_2.ToString("0.0")    == other.DwellTemperature_2.ToString("0.0")    &&
+        DwellTemperature_3.ToString("0.0")    == other.DwellTemperature_3.ToString("0.0")    &&
+        DwellTemperature_4.ToString("0.0")    == other.DwellTemperature_4.ToString("0.0")    &&
+        DwellTemperature_5.ToString("0.0")    == other.DwellTemperature_5.ToString("0.0")    &&
+        DwellTemperature_6.ToString("0.0")    == other.DwellTemperature_6.ToString("0.0")    &&
+        DwellTemperature_7.ToString("0.0")    == other.DwellTemperature_7.ToString("0.0")    &&
+        DwellTemperature_8.ToString("0.0")    == other.DwellTemperature_8.ToString("0.0")    &&
+        DwellTime_1.ToString("0.0")           == other.DwellTime_1.ToString("0.0")           &&
+        DwellTime_2.ToString("0.0")           == other.DwellTime_2.ToString("0.0")           &&
+        DwellTime_3.ToString("0.0")           == other.DwellTime_3.ToString("0.0")           &&
+        DwellTime_4.ToString("0.0")           == other.DwellTime_4.ToString("0.0")           &&
+        DwellTime_5.ToString("0.0")           == other.DwellTime_5.ToString("0.0")           &&
+        DwellTime_6.ToString("0.0")           == other.DwellTime_6.ToString("0.0")           &&
+        DwellTime_7.ToString("0.0")           == other.DwellTime_7.ToString("0.0")           &&
+        DwellTime_8.ToString("0.0")           == other.DwellTime_8.ToString("0.0")           &&
+        DwellAlarm_1.ToString("0.0")          == other.DwellAlarm_1.ToString("0.0")          &&
+        DwellAlarm_2.ToString("0.0")          == other.DwellAlarm_2.ToString("0.0")          &&
+        DwellAlarm_3.ToString("0.0")          == other.DwellAlarm_3.ToString("0.0")          &&
+        DwellAlarm_4.ToString("0.0")          == other.DwellAlarm_4.ToString("0.0")          &&
+        DwellAlarm_5.ToString("0.0")          == other.DwellAlarm_5.ToString("0.0")          &&
+        DwellAlarm_6.ToString("0.0")          == other.DwellAlarm_6.ToString("0.0")          &&
+        DwellAlarm_7.ToString("0.0")          == other.DwellAlarm_7.ToString("0.0")          &&
+        DwellAlarm_8.ToString("0.0")          == other.DwellAlarm_8.ToString("0.0")          &&
+        CoolingTime.ToString("0.0")           == other.CoolingTime.ToString("0.0")           &&
+        CoolingTemperature.ToString("0.0")    == other.CoolingTemperature.ToString("0.0")    &&
+        RampTime_1.ToString("0.0")            == other.RampTime_1.ToString("0.0")            &&
+        RampTime_2.ToString("0.0")            == other.RampTime_2.ToString("0.0")            &&
+        RampTime_3.ToString("0.0")            == other.RampTime_3.ToString("0.0")            &&
+        RampTime_4.ToString("0.0")            == other.RampTime_4.ToString("0.0")            &&
+        RampTime_5.ToString("0.0")            == other.RampTime_5.ToString("0.0")            &&
+        RampTime_6.ToString("0.0")            == other.RampTime_6.ToString("0.0")            &&
+        RampTime_7.ToString("0.0")            == other.RampTime_7.ToString("0.0")            &&
+        RampTime_8.ToString("0.0")            == other.RampTime_8.ToString("0.0")            &&
+        RampAlarm_1.ToString("0.0")           == other.RampAlarm_1.ToString("0.0")           &&
+        RampAlarm_2.ToString("0.0")           == other.RampAlarm_2.ToString("0.0")           &&
+        RampAlarm_3.ToString("0.0")           == other.RampAlarm_3.ToString("0.0")           &&
+        RampAlarm_4.ToString("0.0")           == other.RampAlarm_4.ToString("0.0")           &&
+        RampAlarm_5.ToString("0.0")           == other.RampAlarm_5.ToString("0.0")           &&
+        RampAlarm_6.ToString("0.0")           == other.RampAlarm_6.ToString("0.0")           &&
+        RampAlarm_7.ToString("0.0")           == other.RampAlarm_7.ToString("0.0")           &&
+        RampAlarm_8.ToString("0.0")           == other.RampAlarm_8.ToString("0.0")           &&
+        InflatingTime.ToString("0")           == other.InflatingTime.ToString("0")           &&
+        ProgramEndWarningTime.ToString("0.0") == other.ProgramEndWarningTime.ToString("0.0") &&
+        TemperatureSetpoint_1.ToString("0.0") == other.TemperatureSetpoint_1.ToString("0.0") &&
+        TemperatureSetpoint_2.ToString("0.0") == other.TemperatureSetpoint_2.ToString("0.0") &&
+        TemperatureSetpoint_3.ToString("0.0") == other.TemperatureSetpoint_3.ToString("0.0") &&
+        TemperatureSetpoint_4.ToString("0.0") == other.TemperatureSetpoint_4.ToString("0.0") &&
+        TemperatureSetpoint_5.ToString("0.0") == other.TemperatureSetpoint_5.ToString("0.0") &&
+        TemperatureSetpoint_6.ToString("0.0") == other.TemperatureSetpoint_6.ToString("0.0") &&
+        TemperatureSetpoint_7.ToString("0.0") == other.TemperatureSetpoint_7.ToString("0.0") &&
+        TemperatureSetpoint_8.ToString("0.0") == other.TemperatureSetpoint_8.ToString("0.0") &&
+        SegmentCounts                         == other.SegmentCounts;
 
     [JsonIgnore]
-    public short StepCounts_Max => 6;
+    public short SegmentCounts_Max => 6;
 
     [JsonIgnore]
-    public short StepCounts_Min => 1;
+    public short SegmentCounts_Min => 1;
 
     [JsonIgnore]
     public double Temperature_Max => 250.0;
@@ -141,18 +144,46 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     [OrderIndex(3)]
     [LanguageTranslator("Used Step Counts", "使用段數", "使用段数")]
-    public short StepCounts
+    public short SegmentCounts
     {
         get => Get<short>();
         set
         {
-            if (value > StepCounts_Max)
+            if (value > SegmentCounts_Max)
             {
-                value = StepCounts_Max;
+                value = SegmentCounts_Max;
             }
-            else if (value < StepCounts_Min)
+            else if (value < SegmentCounts_Min)
             {
-                value = StepCounts_Min;
+                value = SegmentCounts_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [LanguageTranslator("Nitrogen Mode", "氮氣模式", "氮气模式")]
+    public bool NitrogenMode
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    [LanguageTranslator("Oxygen Content", "氧含量", "氧含量")]
+    public double OxygenContentSet
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+
+            if (value > 100)
+            {
+                value = 100;
+            }
+            else if (value < 0)
+            {
+                value = 0;
             }
 
             Set(value);
@@ -186,7 +217,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > CoolingTime_Max)
             {
@@ -251,7 +282,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
 
             if (value > InflatingTime_Max)
             {
@@ -285,7 +316,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
 
             Set(value);
-            TemperatureSetpoint_2 = TemperatureSetpoint_2;
         }
     }
 
@@ -302,13 +332,12 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Temperature_Max;
             }
-            else if (value < TemperatureSetpoint_1)
+            else if (value < Temperature_Min)
             {
-                value = TemperatureSetpoint_1;
+                value = Temperature_Min;
             }
 
             Set(value);
-            TemperatureSetpoint_3 = TemperatureSetpoint_3;
         }
     }
 
@@ -325,13 +354,12 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Temperature_Max;
             }
-            else if (value < TemperatureSetpoint_2)
+            else if (value < Temperature_Min)
             {
-                value = TemperatureSetpoint_2;
+                value = Temperature_Min;
             }
 
             Set(value);
-            TemperatureSetpoint_4 = TemperatureSetpoint_4;
         }
     }
 
@@ -348,13 +376,12 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Temperature_Max;
             }
-            else if (value < TemperatureSetpoint_3)
+            else if (value < Temperature_Min)
             {
-                value = TemperatureSetpoint_3;
+                value = Temperature_Min;
             }
 
             Set(value);
-            TemperatureSetpoint_5 = TemperatureSetpoint_5;
         }
     }
 
@@ -371,13 +398,12 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Temperature_Max;
             }
-            else if (value < TemperatureSetpoint_4)
+            else if (value < Temperature_Min)
             {
-                value = TemperatureSetpoint_4;
+                value = Temperature_Min;
             }
 
             Set(value);
-            TemperatureSetpoint_6 = TemperatureSetpoint_6;
         }
     }
 
@@ -394,13 +420,12 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Temperature_Max;
             }
-            else if (value < TemperatureSetpoint_5)
+            else if (value < Temperature_Min)
             {
-                value = TemperatureSetpoint_5;
+                value = Temperature_Min;
             }
 
             Set(value);
-            TemperatureSetpoint_7 = TemperatureSetpoint_7;
         }
     }
 
@@ -417,13 +442,12 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Temperature_Max;
             }
-            else if (value < TemperatureSetpoint_6)
+            else if (value < Temperature_Min)
             {
-                value = TemperatureSetpoint_6;
+                value = Temperature_Min;
             }
 
             Set(value);
-            TemperatureSetpoint_8 = TemperatureSetpoint_8;
         }
     }
 
@@ -440,9 +464,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Temperature_Max;
             }
-            else if (value < TemperatureSetpoint_7)
+            else if (value < Temperature_Min)
             {
-                value = TemperatureSetpoint_7;
+                value = Temperature_Min;
             }
 
             Set(value);
@@ -456,7 +480,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampTime_Max)
             {
@@ -479,7 +503,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampTime_Max)
             {
@@ -502,7 +526,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampTime_Max)
             {
@@ -525,7 +549,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampTime_Max)
             {
@@ -548,7 +572,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampTime_Max)
             {
@@ -571,7 +595,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampTime_Max)
             {
@@ -595,7 +619,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampTime_Max)
             {
@@ -619,7 +643,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampTime_Max)
             {
@@ -642,7 +666,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampAlarm_Max)
             {
@@ -664,7 +688,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampAlarm_Max)
             {
@@ -686,7 +710,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampAlarm_Max)
             {
@@ -708,7 +732,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampAlarm_Max)
             {
@@ -730,7 +754,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampAlarm_Max)
             {
@@ -752,7 +776,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampAlarm_Max)
             {
@@ -775,7 +799,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampAlarm_Max)
             {
@@ -798,7 +822,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > RampAlarm_Max)
             {
@@ -1004,7 +1028,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellTime_Max)
             {
@@ -1027,7 +1051,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellTime_Max)
             {
@@ -1050,7 +1074,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellTime_Max)
             {
@@ -1073,7 +1097,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellTime_Max)
             {
@@ -1096,7 +1120,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellTime_Max)
             {
@@ -1119,7 +1143,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellTime_Max)
             {
@@ -1143,7 +1167,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellTime_Max)
             {
@@ -1167,7 +1191,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellTime_Max)
             {
@@ -1190,7 +1214,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellAlarm_Max)
             {
@@ -1212,7 +1236,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellAlarm_Max)
             {
@@ -1234,7 +1258,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellAlarm_Max)
             {
@@ -1256,7 +1280,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellAlarm_Max)
             {
@@ -1278,7 +1302,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellAlarm_Max)
             {
@@ -1300,7 +1324,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellAlarm_Max)
             {
@@ -1323,7 +1347,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellAlarm_Max)
             {
@@ -1346,7 +1370,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > DwellAlarm_Max)
             {
@@ -1361,71 +1385,76 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    public override PLC_Recipe Copy(string user, UserLevel level) => new()
-                                                                     {
-                                                                         Updated               = DateTime.Now,
-                                                                         RecipeName            = RecipeName,
-                                                                         DwellTemperature_1    = DwellTemperature_1,
-                                                                         DwellTemperature_2    = DwellTemperature_2,
-                                                                         DwellTemperature_3    = DwellTemperature_3,
-                                                                         DwellTemperature_4    = DwellTemperature_4,
-                                                                         DwellTemperature_5    = DwellTemperature_5,
-                                                                         DwellTemperature_6    = DwellTemperature_6,
-                                                                         DwellTemperature_7    = DwellTemperature_7,
-                                                                         DwellTemperature_8    = DwellTemperature_8,
-                                                                         DwellTime_1           = DwellTime_1,
-                                                                         DwellTime_2           = DwellTime_2,
-                                                                         DwellTime_3           = DwellTime_3,
-                                                                         DwellTime_4           = DwellTime_4,
-                                                                         DwellTime_5           = DwellTime_5,
-                                                                         DwellTime_6           = DwellTime_6,
-                                                                         DwellTime_7           = DwellTime_7,
-                                                                         DwellTime_8           = DwellTime_8,
-                                                                         DwellAlarm_1          = DwellAlarm_1,
-                                                                         DwellAlarm_2          = DwellAlarm_2,
-                                                                         DwellAlarm_3          = DwellAlarm_3,
-                                                                         DwellAlarm_4          = DwellAlarm_4,
-                                                                         DwellAlarm_5          = DwellAlarm_5,
-                                                                         DwellAlarm_6          = DwellAlarm_6,
-                                                                         DwellAlarm_7          = DwellAlarm_7,
-                                                                         DwellAlarm_8          = DwellAlarm_8,
-                                                                         CoolingTime           = CoolingTime,
-                                                                         CoolingTemperature    = CoolingTemperature,
-                                                                         RampTime_1            = RampTime_1,
-                                                                         RampTime_2            = RampTime_2,
-                                                                         RampTime_3            = RampTime_3,
-                                                                         RampTime_4            = RampTime_4,
-                                                                         RampTime_5            = RampTime_5,
-                                                                         RampTime_6            = RampTime_6,
-                                                                         RampTime_7            = RampTime_7,
-                                                                         RampTime_8            = RampTime_8,
-                                                                         RampAlarm_1           = RampAlarm_1,
-                                                                         RampAlarm_2           = RampAlarm_2,
-                                                                         RampAlarm_3           = RampAlarm_3,
-                                                                         RampAlarm_4           = RampAlarm_4,
-                                                                         RampAlarm_5           = RampAlarm_5,
-                                                                         RampAlarm_6           = RampAlarm_6,
-                                                                         RampAlarm_7           = RampAlarm_7,
-                                                                         RampAlarm_8           = RampAlarm_8,
-                                                                         InflatingTime         = InflatingTime,
-                                                                         ProgramEndWarningTime = ProgramEndWarningTime,
-                                                                         TemperatureSetpoint_1 = TemperatureSetpoint_1,
-                                                                         TemperatureSetpoint_2 = TemperatureSetpoint_2,
-                                                                         TemperatureSetpoint_3 = TemperatureSetpoint_3,
-                                                                         TemperatureSetpoint_4 = TemperatureSetpoint_4,
-                                                                         TemperatureSetpoint_5 = TemperatureSetpoint_5,
-                                                                         TemperatureSetpoint_6 = TemperatureSetpoint_6,
-                                                                         TemperatureSetpoint_7 = TemperatureSetpoint_7,
-                                                                         TemperatureSetpoint_8 = TemperatureSetpoint_8,
-                                                                         StepCounts            = StepCounts,
-                                                                         Used_Stations         = Used_Stations,
-                                                                         Editor                = user,
-                                                                         EditorLevel           = level
-                                                                     };
+    public override PLC_Recipe Copy(string user, UserLevel level) =>
+        new()
+        {
+            Updated               = DateTime.Now,
+            RecipeName            = RecipeName,
+            NitrogenMode          = NitrogenMode,
+            OxygenContentSet      = OxygenContentSet,
+            DwellTemperature_1    = DwellTemperature_1,
+            DwellTemperature_2    = DwellTemperature_2,
+            DwellTemperature_3    = DwellTemperature_3,
+            DwellTemperature_4    = DwellTemperature_4,
+            DwellTemperature_5    = DwellTemperature_5,
+            DwellTemperature_6    = DwellTemperature_6,
+            DwellTemperature_7    = DwellTemperature_7,
+            DwellTemperature_8    = DwellTemperature_8,
+            DwellTime_1           = DwellTime_1,
+            DwellTime_2           = DwellTime_2,
+            DwellTime_3           = DwellTime_3,
+            DwellTime_4           = DwellTime_4,
+            DwellTime_5           = DwellTime_5,
+            DwellTime_6           = DwellTime_6,
+            DwellTime_7           = DwellTime_7,
+            DwellTime_8           = DwellTime_8,
+            DwellAlarm_1          = DwellAlarm_1,
+            DwellAlarm_2          = DwellAlarm_2,
+            DwellAlarm_3          = DwellAlarm_3,
+            DwellAlarm_4          = DwellAlarm_4,
+            DwellAlarm_5          = DwellAlarm_5,
+            DwellAlarm_6          = DwellAlarm_6,
+            DwellAlarm_7          = DwellAlarm_7,
+            DwellAlarm_8          = DwellAlarm_8,
+            CoolingTime           = CoolingTime,
+            CoolingTemperature    = CoolingTemperature,
+            RampTime_1            = RampTime_1,
+            RampTime_2            = RampTime_2,
+            RampTime_3            = RampTime_3,
+            RampTime_4            = RampTime_4,
+            RampTime_5            = RampTime_5,
+            RampTime_6            = RampTime_6,
+            RampTime_7            = RampTime_7,
+            RampTime_8            = RampTime_8,
+            RampAlarm_1           = RampAlarm_1,
+            RampAlarm_2           = RampAlarm_2,
+            RampAlarm_3           = RampAlarm_3,
+            RampAlarm_4           = RampAlarm_4,
+            RampAlarm_5           = RampAlarm_5,
+            RampAlarm_6           = RampAlarm_6,
+            RampAlarm_7           = RampAlarm_7,
+            RampAlarm_8           = RampAlarm_8,
+            InflatingTime         = InflatingTime,
+            ProgramEndWarningTime = ProgramEndWarningTime,
+            TemperatureSetpoint_1 = TemperatureSetpoint_1,
+            TemperatureSetpoint_2 = TemperatureSetpoint_2,
+            TemperatureSetpoint_3 = TemperatureSetpoint_3,
+            TemperatureSetpoint_4 = TemperatureSetpoint_4,
+            TemperatureSetpoint_5 = TemperatureSetpoint_5,
+            TemperatureSetpoint_6 = TemperatureSetpoint_6,
+            TemperatureSetpoint_7 = TemperatureSetpoint_7,
+            TemperatureSetpoint_8 = TemperatureSetpoint_8,
+            SegmentCounts         = SegmentCounts,
+            Used_Stations         = Used_Stations,
+            Editor                = user,
+            EditorLevel           = level
+        };
 
     public override void CopyValue(string user, UserLevel level, PLC_Recipe recipe)
     {
         Updated               = DateTime.Now;
+        NitrogenMode          = recipe.NitrogenMode;
+        OxygenContentSet      = recipe.OxygenContentSet;
         DwellTemperature_1    = recipe.DwellTemperature_1;
         DwellTemperature_2    = recipe.DwellTemperature_2;
         DwellTemperature_3    = recipe.DwellTemperature_3;
@@ -1478,7 +1507,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         TemperatureSetpoint_6 = recipe.TemperatureSetpoint_6;
         TemperatureSetpoint_7 = recipe.TemperatureSetpoint_7;
         TemperatureSetpoint_8 = recipe.TemperatureSetpoint_8;
-        StepCounts            = recipe.StepCounts;
+        SegmentCounts         = recipe.SegmentCounts;
         Editor                = user;
         EditorLevel           = level;
     }
@@ -1621,7 +1650,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         TemperatureSetpoint_6 = 200;
         TemperatureSetpoint_7 = 200;
         TemperatureSetpoint_8 = 200;
-        StepCounts            = StepCounts_Max;
+        SegmentCounts         = SegmentCounts_Max;
         Used_Stations         = new bool[20];
     }
 
