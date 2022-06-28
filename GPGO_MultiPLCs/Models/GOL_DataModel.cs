@@ -1159,6 +1159,56 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
+    /// 溫控器電流異常
+    /// </summary>
+    [PLCBit(BitType.M, 707, LogType.Alert)]
+    public bool ThermostatCurrentError
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 升溫中停止
+    /// </summary>
+    [PLCBit(BitType.M, 708, LogType.Alert)]
+    public bool Ramp_Stop
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 恆溫中停止
+    /// </summary>
+    [PLCBit(BitType.M, 710, LogType.Alert)]
+    public bool Dwell_Stop
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 冷卻中停止
+    /// </summary>
+    [PLCBit(BitType.M, 711, LogType.Alert)]
+    public bool Cooling_Stop
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 充氮氣中停止
+    /// </summary>
+    [PLCBit(BitType.M, 712, LogType.Alert)]
+    public bool Inflating_Stop
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
     /// 開門極限
     /// </summary>
     public bool DoorOpeningLimit
@@ -1179,7 +1229,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 含氧儀上限警報
     /// </summary>
-    [PLCBit(BitType.M, 705, LogType.Alarm)]
+    [PLCBit(BitType.M, 705, LogType.Alert)]
     public bool OxygenMeterUpperLimitAlarm
     {
         get => Get<bool>();
@@ -1189,7 +1239,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 超溫警報
     /// </summary>
-    [PLCBit(BitType.M, 302, LogType.Alarm)]
+    [PLCBit(BitType.M, 302, LogType.Alert)]
     public bool OverTemperatureAlarm
     {
         get => Get<bool>();
@@ -1199,6 +1249,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 溫控器通訊異常
     /// </summary>
+    [PLCBit(BitType.M, 723, LogType.Alert)]
     public bool ThermostatCommunicationError
     {
         get => Get<bool>();
@@ -1272,6 +1323,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 空氣壓力不足
     /// </summary>
+    [PLCBit(BitType.M, 701, LogType.Alert)]
     public bool InsufficientAirPressure
     {
         get => Get<bool>();
@@ -1310,7 +1362,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升恆溫逾時
     /// </summary>
-    [PLCBit(BitType.M, 240, LogType.Alarm)]
+    [PLCBit(BitType.M, 240, LogType.Alert)]
     public bool RampTimeExceeded
     {
         get => Get<bool>();
@@ -1413,6 +1465,20 @@ public class GOL_DataModel : PLCDataProvider
     /// </summary>
     [PLCBit(BitType.M, 250, LogType.Alert)]
     public bool DoorNotClosed
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    [PLCBit(BitType.M, 721, LogType.Alert)]
+    public bool DoorNotClosed_Auto
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    [PLCBit(BitType.M, 722, LogType.Alert)]
+    public bool DoorNotClosed_Process
     {
         get => Get<bool>();
         set => Set(value);

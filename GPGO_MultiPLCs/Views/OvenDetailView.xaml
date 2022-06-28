@@ -656,7 +656,7 @@
                         </Border>
                     </StackPanel>
                 </GroupBox.Header>
-                <Grid Background="{StaticResource LightBrush}"
+                <Grid Background="{StaticResource WindowBackgroundBrush6}"
                       ClipToBounds="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -668,6 +668,8 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="4*" />
+                            <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
@@ -685,7 +687,7 @@
                                 Grid.Column="1"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,1">
-                            <views:LevelsProgressBar Margin="-12,-4,-12,-12"
+                            <views:LevelsProgressBar Margin="-12,-2,-12,-12"
                                                      Maximum="260"
                                                      Minimum="0"
                                                      Unit="°C"
@@ -717,16 +719,63 @@
                                 BorderThickness="0,0,1,1">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Text="{DynamicResource 風速}" />
+                                       Text="{DynamicResource 氮氣流量}" />
                         </Border>
                         <Border Grid.Row="1"
                                 Grid.Column="1"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,0,0,1">
-                            <views:RangeProgressBar Unit="m/s"
-                                                    Value="{Binding PV_WindSpeed, Mode=OneWay}" />
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       FontWeight="Bold">
+                                <Run Text="{Binding NitrogenFlow, Mode=OneWay}" />
+                                <Run Text="L/m" />
+                            </TextBlock>
                         </Border>
                         <Border Grid.Row="2"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{DynamicResource 含氧量}" />
+                        </Border>
+                        <Border Grid.Row="2"
+                                Grid.Column="1"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       FontWeight="Bold">
+                                <Run Text="{Binding OxygenContent, Mode=OneWay}" />
+                                <Run Text="%" />
+                            </TextBlock>
+                        </Border>
+                        <Border Grid.Row="3"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,1,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{DynamicResource 風速}" />
+                        </Border>
+                        <Border Grid.Row="3"
+                                Grid.Column="1"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       FontWeight="Bold">
+                                <Run Text="{Binding PV_WindSpeed, Mode=OneWay}" />
+                                <Run Text="m/s" />
+                            </TextBlock>
+                        </Border>
+                        <Border Grid.Row="4"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -735,253 +784,222 @@
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource 耗電量}" />
                         </Border>
-                        <Border Grid.Row="2"
+                        <Border Grid.Row="4"
                                 Grid.Column="1"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,0,0,0">
-                            <views:RangeProgressBar Unit="kWh"
-                                                    Value="{Binding PowerConsumption, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=3}" />
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       FontWeight="Bold">
+                                <Run Text="{Binding PowerConsumption, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=3}" />
+                                <Run Text="kWh" />
+                            </TextBlock>
                         </Border>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="90"/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <views:UniformGridWithOrientation Grid.Column="0"
-                                                          Orientation="Vertical"
-                                                          Rows="9">
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 設備模式}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 生產結束}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 緊急停止}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 電動門}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 風車異常}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 超溫警報}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 低溫警報}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 升恆溫逾時}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,0">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 狀態}" />
-                            </Border>
-                        </views:UniformGridWithOrientation>
-                        <views:UniformGridWithOrientation Grid.Column="1"
-                                                          IsHitTestVisible="False"
-                                                          Orientation="Vertical"
-                                                          Rows="9">
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,1,1">
-                                <UniformGrid Rows="1">
-                                    <!--<Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="0,0,1,0">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize="16"
-                                               FontWeight="Bold"
-                                               Text="{DynamicResource 電腦使用}" />
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
-                                            <Setter Property="TextElement.Foreground" Value="{StaticResource DisabledForegroundBrush}" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding PC_InUse, Mode=OneWay}"
-                                                             Value="True">
-                                                    <Setter Property="Background" Value="{StaticResource OKBrush}" />
-                                                    <Setter Property="TextElement.Foreground" Value="{StaticResource GlyphBrush}" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-                                </Border>-->
-                                    <TabControl views:TabControl.EnableSliding="True"
-                                                SelectedIndex="{Binding AutoMode, Mode=OneWay}">
-                                        <TabItem Width="0"
-                                                 Height="0">
-                                            <Border>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition Height="4*" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,1,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{DynamicResource 設備模式}" />
+                        </Border>
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,0,1,0">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{DynamicResource 設備狀態}" />
+                        </Border>
+                        <Border Grid.Row="0"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,1,0,1">
+                            <UniformGrid Rows="1">
+                                <TabControl views:TabControl.EnableSliding="True"
+                                            SelectedIndex="{Binding AutoMode, Mode=OneWay}">
+                                    <TabItem Width="0"
+                                             Height="0">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Text="{DynamicResource 手動}" />
+                                    </TabItem>
+                                    <TabItem Width="0"
+                                             Height="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="8" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Background="{StaticResource PressedBrush}">
                                                 <TextBlock HorizontalAlignment="Center"
                                                            VerticalAlignment="Center"
                                                            FontSize="16"
                                                            FontWeight="Bold"
-                                                           Text="{DynamicResource 手動}" />
+                                                           Foreground="White"
+                                                           Text="{DynamicResource 自動}" />
                                             </Border>
-                                        </TabItem>
-                                        <TabItem Width="0"
-                                                 Height="0">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition />
-                                                    <ColumnDefinition Width="8" />
-                                                </Grid.ColumnDefinitions>
-                                                <Border Background="{StaticResource PressedBrush}">
-                                                    <TextBlock HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"
-                                                               FontSize="16"
-                                                               FontWeight="Bold"
-                                                               Foreground="White"
-                                                               Text="{DynamicResource 自動}" />
-                                                </Border>
-                                                <Border Grid.Column="1"
-                                                        Background="{StaticResource DisabledBackgroundBrush}"
-                                                        BorderBrush="{StaticResource DisabledBorderBrush}"
-                                                        BorderThickness="1" />
-                                                <Border Grid.Column="1"
-                                                        Background="{StaticResource WorkingBrush}"
-                                                        BorderBrush="{StaticResource WorkingBorderBrush}"
-                                                        BorderThickness="1"
-                                                        Visibility="{Binding AutoMode_Start, Converter={StaticResource BoolVis}, Mode=OneWay}" />
-                                            </Grid>
-                                        </TabItem>
-                                    </TabControl>
-                                </UniformGrid>
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,1">
-                                <CheckBox Width="60"
-                                          Background="Cyan"
-                                          BorderBrush="{StaticResource PressedBrush}"
-                                          Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
-                                          IsChecked="{Binding ProgramStop, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,1">
-                                <CheckBox Width="60"
+                                            <Border Grid.Column="1"
+                                                    Background="{StaticResource DisabledBackgroundBrush}"
+                                                    BorderBrush="{StaticResource DisabledBorderBrush}"
+                                                    BorderThickness="1" />
+                                            <Border Grid.Column="1"
+                                                    Background="{StaticResource WorkingBrush}"
+                                                    BorderBrush="{StaticResource WorkingBorderBrush}"
+                                                    BorderThickness="1"
+                                                    Visibility="{Binding AutoMode_Start, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                        </Grid>
+                                    </TabItem>
+                                </TabControl>
+                            </UniformGrid>
+                        </Border>
+                        <Border Grid.Row="1"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="0,0,0,0">
+                            <ContentControl Content="{Binding Mode=OneWay}"
+                                            ContentTemplate="{StaticResource ProgressDataTemplate}" />
+                        </Border>
+                        <Border Grid.Row="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Background="{StaticResource WindowBackgroundBrush6}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,1,0,0">
+                            <UniformGrid Margin="10,4"
+                                         Rows="8">
+                                <CheckBox HorizontalAlignment="Left"
                                           Background="{StaticResource ErrorBrush}"
                                           BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                          Content="{DynamicResource 緊急停止}"
                                           IsChecked="{Binding EmergencyStop, Mode=OneWay}"
                                           Style="{StaticResource SignalView}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,1">
-                                <CheckBox Width="60"
+                                <CheckBox HorizontalAlignment="Left"
                                           Background="{StaticResource ErrorBrush}"
                                           BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                          Content="{DynamicResource 電源反相}"
+                                          IsChecked="{Binding PowerPhaseError, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource ErrorBrush}"
+                                          BorderBrush="{StaticResource ErrorBorderBrush}"
+                                          Content="{DynamicResource OTP超溫異常}"
+                                          IsChecked="{Binding OTPTemperatureError, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource ErrorBrush}"
+                                          BorderBrush="{StaticResource ErrorBorderBrush}"
+                                          Content="{DynamicResource 循環風車過載}"
+                                          IsChecked="{Binding CirculatingFanCurrentError, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource ErrorBrush}"
+                                          BorderBrush="{StaticResource ErrorBorderBrush}"
+                                          Content="{DynamicResource 電熱ELB跳脫}"
+                                          IsChecked="{Binding ELBtrip, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 升恆溫逾時}"
+                                          IsChecked="{Binding RampTimeExceeded, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 加熱門未關}"
                                           Style="{StaticResource SignalView}">
                                     <CheckBox.IsChecked>
                                         <MultiBinding Converter="{StaticResource MultiAnyTrue}">
                                             <Binding Mode="OneWay"
                                                      Path="DoorNotClosed" />
                                             <Binding Mode="OneWay"
-                                                     Path="DoorOpeningLimit" />
+                                                     Path="DoorNotClosed_Auto" />
                                             <Binding Mode="OneWay"
-                                                     Path="DoorClosingLimit" />
+                                                     Path="DoorNotClosed_Process" />
                                         </MultiBinding>
                                     </CheckBox.IsChecked>
                                 </CheckBox>
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,1">
-                                <CheckBox Width="60"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 超溫警報}"
+                                          IsChecked="{Binding OverTemperatureAlarm, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 氣壓不足}"
+                                          IsChecked="{Binding InsufficientAirPressure, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 含氧儀上限警報}"
+                                          IsChecked="{Binding OxygenMeterUpperLimitAlarm, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 充氮氣逾時}"
+                                          IsChecked="{Binding InflatingTimeExceeded, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 停止後未開門}"
+                                          IsChecked="{Binding DoorNotOpen, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 溫控器電流異常}"
+                                          IsChecked="{Binding ThermostatCurrentError, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 溫控器通訊異常}"
+                                          IsChecked="{Binding ThermostatCommunicationError, Mode=OneWay}"
+                                          Style="{StaticResource SignalView}" />
+                                <CheckBox HorizontalAlignment="Left"
+                                          Background="{StaticResource WorkingBrush}"
+                                          BorderBrush="{StaticResource WorkingBorderBrush}"
+                                          Content="{DynamicResource 生產中停止}"
                                           Style="{StaticResource SignalView}">
                                     <CheckBox.IsChecked>
                                         <MultiBinding Converter="{StaticResource MultiAnyTrue}">
                                             <Binding Mode="OneWay"
-                                                     Path="CirculatingFanCurrentError" />
+                                                     Path="Ramp_Stop" />
                                             <Binding Mode="OneWay"
-                                                     Path="CoolingFanError" />
+                                                     Path="Dwell_Stop" />
                                             <Binding Mode="OneWay"
-                                                     Path="CirculatingFanInverterError" />
+                                                     Path="Cooling_Stop" />
+                                            <Binding Mode="OneWay"
+                                                     Path="Inflating_Stop" />
                                         </MultiBinding>
                                     </CheckBox.IsChecked>
                                 </CheckBox>
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,1">
-                                <CheckBox Width="60"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
-                                          IsChecked="{Binding OverTemperatureAlarm, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,1">
-                                <CheckBox Width="60"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
-                                          IsChecked="{Binding LowTemperature, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,1">
-                                <CheckBox Width="60"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{Binding IsChecked, Mode=OneWay, RelativeSource={RelativeSource Self}, Converter={StaticResource BoolOnOff}}"
-                                          IsChecked="{Binding RampTimeExceeded, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                            </Border>
-                            <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,0">
-                                <ContentControl Content="{Binding Mode=OneWay}"
-                                                ContentTemplate="{StaticResource ProgressDataTemplate}" />
-                            </Border>
-                        </views:UniformGridWithOrientation>
+                            </UniformGrid>
+                        </Border>
                     </Grid>
                 </Grid>
             </GroupBox>

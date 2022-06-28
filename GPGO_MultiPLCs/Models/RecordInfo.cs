@@ -7,7 +7,7 @@ using GPMVVM.Models;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace GPGO_MultiPLCs.Models;
-//!此區是烘烤時的溫度和事件紀錄資料模型
+//! 此區是烘烤時的溫度和事件紀錄資料模型
 
 /// <summary>溫度紀錄</summary>
 [BsonIgnoreExtraElements]
@@ -131,12 +131,12 @@ public class LogEvent : ILogData
     [LanguageTranslator("Event", "事件", "事件")]
     public string Description { get; set; }
 
-    //!當處在生產中時，即烤箱開始生產的時間，若未在生產，則沒有值
+    //! 當處在生產中時，即烤箱開始生產的時間，若未在生產，則沒有值
     [GPIgnore]
     [LanguageTranslator("Started", "開始時間", "开始时间")]
     public DateTime StartTime { get; set; }
 
-    //!站號由1開始
+    //! 站號由1開始
     [GPIgnore]
     [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
     public int StationNumber { get; set; }

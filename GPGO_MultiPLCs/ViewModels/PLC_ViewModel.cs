@@ -491,7 +491,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             return SetRecipeResult.條件不允許;
         }
 
-        //!手動選擇配方時，若配方已相等就不再寫入)
+        //! 手動選擇配方時，若配方已相等就不再寫入)
         if (RecipeCompare(recipe))
         {
             Dialog.Show(new Dictionary<Language, string>
@@ -701,7 +701,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     private async Task StartPP()
     {
-        await StopPP(); //需先確認PP已停止
+        await StopPP(); //! 需先確認PP已停止
 
         ResetStopTokenSource();
         ExecutingTask = StartRecoder(CTS.Token);
@@ -709,7 +709,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                        {
                                            x.Dispose();
 
-                                           //!結束生產，填入資料
+                                           //! 結束生產，填入資料
                                            OvenInfo.EndTime       = DateTime.Now;
                                            OvenInfo.Recipe        = GetRecipePV();
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
@@ -718,7 +718,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                            OvenInfo.Clear();
 
-                                           //!需在引發紀錄完成後才觸發取消投產
+                                           //! 需在引發紀錄完成後才觸發取消投產
                                            CheckInCommand.Result = false;
                                            NotifyPropertyChanged(nameof(IsExecuting));
                                        });
@@ -1149,7 +1149,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         OvenInfo = new BaseInfoWithChart();
         OvenInfo.PropertyChanged += (s, e) =>
                                     {
-                                        //!在機台編號或財產編號變更時需通知儲存
+                                        //! 在機台編號或財產編號變更時需通知儲存
                                         if (e.PropertyName == nameof(BaseInfo.MachineCode))
                                         {
                                             MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
@@ -1253,7 +1253,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     //        return;
                                     //    }
 
-                                    //    //!需在引發紀錄完成後才觸發取消投產
+                                    //    //! 需在引發紀錄完成後才觸發取消投產
                                     //    CheckInCommand.Result = false;
                                     //    InvokeSECSEvent?.Invoke(nameof(RackOutput));
                                     //    OvenInfo.Clear();

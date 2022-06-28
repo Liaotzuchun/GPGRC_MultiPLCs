@@ -102,7 +102,7 @@ public partial class App
                                             //Current.Shutdown();
                                         };
 
-        //!當啟MongoDB服務或進程不存在時動MongoDB
+        //! 當啟MongoDB服務或進程不存在時動MongoDB
         if (Process.GetProcessesByName("mongod").Length == 0)
         {
             var path = GetServiceInstallPath("MongoDB");
@@ -122,8 +122,8 @@ public partial class App
             }
         }
 
-        //!以下方式在win10時，須保證在系統管理員權限下執行才可成功，可在app.config中加入<requestedExecutionLevel level="requireAdministrator" uiAccess="false" />，
-        //!但一旦指定為系統管理員權限，就無法再start menu中自動啟動，須改用工作管理員設定為登入後啟動
+        //! 以下方式在win10時，須保證在系統管理員權限下執行才可成功，可在app.config中加入<requestedExecutionLevel level="requireAdministrator" uiAccess="false" />，
+        //! 但一旦指定為系統管理員權限，就無法再start menu中自動啟動，須改用工作管理員設定為登入後啟動
         //var mongo_service = new ServiceController("MongoDB");
         //if (mongo_service.Status == ServiceControllerStatus.Stopped)
         //{

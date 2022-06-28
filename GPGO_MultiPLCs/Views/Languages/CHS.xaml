@@ -183,6 +183,7 @@
     <sys:String x:Key="循環風車電流異常">循环风车电流异常</sys:String>
     <sys:String x:Key="冷卻進氣風車異常">冷却进气风车异常</sys:String>
     <sys:String x:Key="溫控器訊號異常">温控器讯号异常</sys:String>
+    <sys:String x:Key="溫控器電流異常">温控器电流异常</sys:String>
     <sys:String x:Key="開門極限">开门极限</sys:String>
     <sys:String x:Key="關門極限">关门极限</sys:String>
     <sys:String x:Key="含氧儀上限警報">含氧仪上限警报</sys:String>
@@ -194,7 +195,7 @@
     <sys:String x:Key="汽缸伸出逾時">汽缸伸出逾时</sys:String>
     <sys:String x:Key="汽缸縮回逾時">汽缸缩回逾时</sys:String>
     <sys:String x:Key="循環風車變頻器異常">循环风车变频器异常</sys:String>
-    <sys:String x:Key="空氣壓力不足">空气压力不足</sys:String>
+    <sys:String x:Key="氣壓不足">气压不足</sys:String>
     <sys:String x:Key="EGO超溫">EGO超温</sys:String>
     <sys:String x:Key="充氮氣逾時">充氮气逾时</sys:String>
     <sys:String x:Key="門未關定位異常">门未关定位异常</sys:String>
@@ -219,4 +220,6 @@
     <sys:String x:Key="含氧量">含氧量</sys:String>
     <sys:String x:Key="風速">风速</sys:String>
     <sys:String x:Key="耗電量">耗电量</sys:String>
+    <sys:String x:Key="氮氣流量">氮气流量</sys:String>
+    <sys:String x:Key="生產中停止">生产中停止</sys:String>
 </ResourceDictionary>

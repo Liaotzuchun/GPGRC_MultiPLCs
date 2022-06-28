@@ -362,8 +362,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                             }
 
                                             var created = DateTime.Now;
-                                            var x       = ViewResults.Count / 500;     //!檔案數
-                                            var y       = ViewResults.Count - 500 * x; //!剩餘數
+                                            var x       = ViewResults.Count / 500;     //! 檔案數
+                                            var y       = ViewResults.Count - 500 * x; //! 剩餘數
 
                                             if (x > 0 && y <= 100)
                                             {
@@ -702,7 +702,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                                                              xlwb.Workbook.Names.Add("GPGO", wsht.Cells[1, 1]);
 
-                                                             //!首頁溫度曲線所需的分頁
+                                                             //! 首頁溫度曲線所需的分頁
                                                              var data_sht = xlwb.Workbook.Worksheets.Add("Data");
                                                              data_sht.Hidden = eWorkSheetHidden.VeryHidden;
 
@@ -759,7 +759,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              xlwb.Workbook.Properties.Company  = "Group Up Industrial Co., Ltd.";
                                                              xlwb.Workbook.Properties.Comments = "Made by the Program of GP";
                                                              xlwb.Workbook.Properties.Created  = created;
-                                                             //!活頁簿保護不受web瀏覽支援(會無法開啟)
+                                                             //! 活頁簿保護不受web瀏覽支援(會無法開啟)
                                                              // xlwb.Workbook.Protection.LockRevision = true;
                                                              // xlwb.Workbook.Protection.LockStructure = true;
                                                              // xlwb.Workbook.Protection.SetPassword("23555277");

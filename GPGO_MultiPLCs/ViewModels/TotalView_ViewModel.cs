@@ -72,7 +72,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             Set(value);
             NotifyPropertyChanged(nameof(PLC_All_View));
 
-            Gate.GateStatus.CurrentValue = false; //!重新連線並發送通訊列表
+            Gate.GateStatus.CurrentValue = false; //! 重新連線並發送通訊列表
         }
     }
 
@@ -551,7 +551,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                  EventHappened?.Invoke(eventval);
                              };
 
-        //!依LotID查詢最近一筆資料
+        //! 依LotID查詢最近一筆資料
         secsGem.RetrieveLotData += lotid =>
                                    {
                                        var info = RetrieveLotData?.Invoke(lotid).Result;
@@ -580,7 +580,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         var address = plcaddress.GetAddressBytes();
 
-        //!註冊PLC事件需引發的動作
+        //! 註冊PLC事件需引發的動作
         for (var i = 0; i < count; i++)
         {
             var plc = new PLC_ViewModel(dialog,
@@ -600,15 +600,15 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       {
                                                           { DataType.D, 0 },
                                                           { DataType.W, 0 }
-                                                      })); //!可指定PLC點位位移
+                                                      })); //! 可指定PLC點位位移
 
             PLC_All[i] = plc;
             var index = i;
 
-            //!PLC讀取配方內容時
+            //! PLC讀取配方內容時
             plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke((index, recipeName));
 
-            //!PLC由OP指定變更配方時
+            //! PLC由OP指定變更配方時
             plc.RecipeUsed += recipeName => RecipeUsed?.Invoke((index, recipeName));
 
             plc.ExecutingStarted += () =>
@@ -617,7 +617,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                         Index    = 1;
                                     };
 
-            //!烘烤流程結束時
+            //! 烘烤流程結束時
             plc.ExecutingFinished += async baseInfo =>
                                      {
                                          var product = new ProcessInfo(baseInfo);
@@ -665,19 +665,19 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          Index = 0; //! 烘烤完成，切回投產頁面
                                      };
 
-            //!由OP變更設備代碼時
+            //! 由OP變更設備代碼時
             plc.MachineCodeChanged += code =>
                                       {
                                           SaveMachineCodes(MachineCodesPath);
                                       };
 
-            //!由OP變更財產編號時
+            //! 由OP變更財產編號時
             plc.AssetNumberChanged += code =>
                                       {
                                           SaveAssetNumbers(AssetNumbersPath);
                                       };
 
-            //!PLC配方輸入錯誤時
+            //! PLC配方輸入錯誤時
             plc.RecipeKeyInError += () =>
                                     {
                                         dialog?.Show(new Dictionary<Language, string>
@@ -690,13 +690,13 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                      DialogMsgType.Alarm);
                                     };
 
-            //!PLC事件紀錄
+            //! PLC事件紀錄
             plc.EventHappened += e =>
                                  {
                                      EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
                                  };
 
-            //!取消投產
+            //! 取消投產
             plc.CancelCheckIn += RackID =>
                                  {
                                      CancelCheckIn?.Invoke((index, RackID));
@@ -760,7 +760,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                 {
                                     for (var i = 0; i < OvenCount; i++)
                                     {
-                                        Gate.SetReadListsByDataModels(PLC_All[i]); //!連線並發送訂閱列表
+                                        Gate.SetReadListsByDataModels(PLC_All[i]); //! 連線並發送訂閱列表
                                     }
                                 }
 

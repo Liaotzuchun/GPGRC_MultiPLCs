@@ -207,7 +207,6 @@ public sealed class Mediator : ObservableObject
         LogVM   = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
 
         PlcGate = new JsonRPCPLCGate();
-        //!請勿更動20這個數字，要變更實際烤箱數量需至程式資料夾內修改Settings.json內的OvenCount數字或是設定AuthenticatorVM的Settings.OvenCount
 
         AuthenticatorVM = new Authenticator_ViewModel();
         TotalVM         = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
@@ -250,7 +249,7 @@ public sealed class Mediator : ObservableObject
                                                }
                                            };
 
-        //!當回到主頁時，也將生產總覽回到總覽頁
+        //! 當回到主頁時，也將生產總覽回到總覽頁
         MainVM.IndexChangedEvent += i =>
                                     {
                                         if (i == 0 && !TotalVM.PLC_All[0].IsExecuting)
@@ -262,7 +261,7 @@ public sealed class Mediator : ObservableObject
                                         TraceVM.ShowProducts  = false;
                                     };
 
-        //!當主視窗讀取完成時，再讀取配方和生產履歷資料庫
+        //! 當主視窗讀取完成時，再讀取配方和生產履歷資料庫
         MainVM.LoadedEvent += async dp =>
                               {
                                   TotalVM.StartPLCGate();
@@ -275,7 +274,7 @@ public sealed class Mediator : ObservableObject
                                                        DispatcherPriority.SystemIdle);
                               };
 
-        //!當OP試圖關閉程式時，進行狀態和權限檢查
+        //! 當OP試圖關閉程式時，進行狀態和權限檢查
         MainVM.CheckClosing += async () =>
                                {
                                    if (TotalVM.PLC_All.Any(plc => plc.IsExecuting))
@@ -341,8 +340,8 @@ public sealed class Mediator : ObservableObject
                                };
 
         List<PLC_Recipe> tempRecipeList = null;
-        //!當配方列表更新時，依據使用站別發佈配方
-        RecipeVM.ListUpdatedEvent += async e =>
+        //! 當配方列表更新時，依據使用站別發佈配方
+        RecipeVM.ListUpdatedEvent += e =>
                                      {
                                          var (list, showtip) = e;
 
@@ -501,13 +500,13 @@ public sealed class Mediator : ObservableObject
 
         TotalVM.WantLogin += () => AuthenticatorVM.StartLogin?.Execute(null);
 
-        //!當某站烤箱要求配方時，自資料庫讀取配方並發送
+        //! 當某站烤箱要求配方時，自資料庫讀取配方並發送
         TotalVM.GetRecipe += e => string.IsNullOrEmpty(e.RecipeName) ? null : RecipeVM.GetRecipe(e.RecipeName);
 
-        //!設定配方被該站使用
+        //! 設定配方被該站使用
         TotalVM.RecipeUsed += e => RecipeVM.SetUsed(e.StationIndex, e.RecipeName);
 
-        //!當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
+        //! 當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
         TotalVM.AddRecordToDB += async e =>
                                  {
                                      var (stationIndex, info) = e;
@@ -635,7 +634,7 @@ public sealed class Mediator : ObservableObject
 
         LogVM.GoDetailView += async e =>
                               {
-                                  TraceVM.Standby      = false; //!強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
+                                  TraceVM.Standby      = false; //! 強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
                                   MainVM.ViewIndex     = 2;
                                   var (info, logEvent) = e;
 

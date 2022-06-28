@@ -6,7 +6,7 @@ using GPMVVM.Models;
 namespace GPGO_MultiPLCs.Models;
 
 /// <summary>材料生產資訊</summary>
-public class ProductInfo : ObservableObject //!這是一個批號的資料
+public class ProductInfo : ObservableObject //! 這是一個批號的資料
 {
     [LanguageTranslator("Quantity", "數量", "数量")]
     public int Quantity => PanelIDs.Count;

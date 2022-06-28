@@ -113,13 +113,13 @@ public class SECSThread
         {
             if (val && secsGem.AxQGWrapper.EnableComm() == 0)
             {
-                secsGem.AxQSWrapper.Start(); //!啟用通訊：AxQGWrapper.EnableComm() → AxQSWrapper.Start()
+                secsGem.AxQSWrapper.Start(); //! 啟用通訊：AxQGWrapper.EnableComm() → AxQSWrapper.Start()
                 return true;
             }
 
             if (!val && secsGem.AxQGWrapper.DisableComm() == 0)
             {
-                secsGem.AxQSWrapper.Stop(); //!中斷通訊：AxQGWrapper.DisableComm() → AxQSWrapper.Stop()
+                secsGem.AxQSWrapper.Stop(); //! 中斷通訊：AxQGWrapper.DisableComm() → AxQSWrapper.Stop()
                 return true;
             }
         }
