@@ -1,5 +1,5 @@
-﻿using System.Net;
-using GPMVVM.Models;
+﻿using GPMVVM.Models;
+using System.Net;
 
 namespace GPGO_MultiPLCs.Models;
 

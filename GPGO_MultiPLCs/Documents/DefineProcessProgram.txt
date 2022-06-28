@@ -3,7 +3,9 @@
 //  PParmName, Type, Min.Value, Max.Value, Comment
 
 CCODE: [CCodeID1], 1, 34 , Comment 1
- ProgramEndWarningTime, FT_4, 0, 100,
+ NitrogenMode, BOOLEAN, N/A, N/A,
+ OxygenContentSet, INT_4, 0, 100,
+ InflatingTime, INT_4, 0, 100,
  CoolingTime, FT_4, 1, 120,
  CoolingTemperature, FT_4, 40, 250,
  SegmentCounts, INT_4, 1, 6,

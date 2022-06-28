@@ -375,10 +375,12 @@ public sealed class Mediator : ObservableObject
 
                                              var si = new StreamReaderIni();
                                              var t  = si.AddIniSection("CCodeID1");
-                                             t.AddElement(nameof(PLC_Recipe.ProgramEndWarningTime), recipe.ProgramEndWarningTime.ToString("0.0"));
+                                             t.AddElement(nameof(PLC_Recipe.NitrogenMode),          recipe.NitrogenMode.ToString());
+                                             t.AddElement(nameof(PLC_Recipe.OxygenContentSet),      recipe.OxygenContentSet.ToString("0"));
+                                             t.AddElement(nameof(PLC_Recipe.InflatingTime),         recipe.InflatingTime.ToString("0"));
                                              t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0"));
                                              t.AddElement(nameof(PLC_Recipe.CoolingTemperature),    recipe.CoolingTemperature.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.SegmentCounts),            recipe.SegmentCounts.ToString());
+                                             t.AddElement(nameof(PLC_Recipe.SegmentCounts),         recipe.SegmentCounts.ToString());
                                              t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_1), recipe.TemperatureSetpoint_1.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_2), recipe.TemperatureSetpoint_2.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_3), recipe.TemperatureSetpoint_3.ToString("0.0"));
@@ -424,77 +426,77 @@ public sealed class Mediator : ObservableObject
                                          var _list = list.Select(x => x.RecipeName).ToList();
                                          TotalVM.SetRecipeNames(_list);
 
-                                         var l1 = new List<int>();
-                                         var l2 = new List<int>();
-                                         var l3 = new List<int>();
+                                         //var l1 = new List<int>();
+                                         //var l2 = new List<int>();
+                                         //var l3 = new List<int>();
 
-                                         for (var i = 0; i < TotalVM.PLC_All.Count; i++)
-                                         {
-                                             var j      = i;
-                                             var recipe = list.Find(x => j < x.Used_Stations.Count && x.Used_Stations[j]);
-                                             if (recipe != null)
-                                             {
-                                                 switch (await TotalVM.SetRecipe(i, recipe))
-                                                 {
-                                                     case SetRecipeResult.條件不允許:
-                                                         l1.Add(i + 1);
-                                                         break;
-                                                     case SetRecipeResult.PLC錯誤:
-                                                         l2.Add(i + 1);
-                                                         break;
-                                                     case SetRecipeResult.比對錯誤:
-                                                         l3.Add(i + 1);
-                                                         break;
-                                                 }
-                                             }
-                                         }
+                                         //for (var i = 0; i < TotalVM.PLC_All.Count; i++)
+                                         //{
+                                         //    var j      = i;
+                                         //    var recipe = list.Find(x => j < x.Used_Stations.Count && x.Used_Stations[j]);
+                                         //    if (recipe != null)
+                                         //    {
+                                         //        switch (await TotalVM.SetRecipe(i, recipe))
+                                         //        {
+                                         //            case SetRecipeResult.條件不允許:
+                                         //                l1.Add(i + 1);
+                                         //                break;
+                                         //            case SetRecipeResult.PLC錯誤:
+                                         //                l2.Add(i + 1);
+                                         //                break;
+                                         //            case SetRecipeResult.比對錯誤:
+                                         //                l3.Add(i + 1);
+                                         //                break;
+                                         //        }
+                                         //    }
+                                         //}
 
-                                         if (showtip && (l1.Any() || l2.Any() || l3.Any()))
-                                         {
-                                             //var str1 = string.Join(", ", l1);
-                                             //var str2 = string.Join(", ", l2);
-                                             //var str3 = string.Join(", ", l3);
+                                         //if (showtip && (l1.Any() || l2.Any() || l3.Any()))
+                                         //{
+                                         //    //var str1 = string.Join(", ", l1);
+                                         //    //var str2 = string.Join(", ", l2);
+                                         //    //var str3 = string.Join(", ", l3);
 
-                                             var tw  = new StringBuilder();
-                                             var chs = new StringBuilder();
-                                             var en  = new StringBuilder();
+                                         //    var tw  = new StringBuilder();
+                                         //    var chs = new StringBuilder();
+                                         //    var en  = new StringBuilder();
 
-                                             if (l1.Any())
-                                             {
-                                                 tw.Append("烤箱未符合設定條件！");
-                                                 chs.Append("烤箱未符合设定条件！");
-                                                 en.Append("Not meet the conditions！");
-                                             }
+                                         //    if (l1.Any())
+                                         //    {
+                                         //        tw.Append("烤箱未符合設定條件！");
+                                         //        chs.Append("烤箱未符合设定条件！");
+                                         //        en.Append("Not meet the conditions！");
+                                         //    }
 
-                                             if (l2.Any())
-                                             {
-                                                 tw.AppendLine();
-                                                 chs.AppendLine();
-                                                 en.AppendLine();
-                                                 tw.Append("烤箱配方設定失敗！");
-                                                 chs.Append("烤箱配方设定失败！");
-                                                 en.Append("Recipe set failure！");
-                                             }
+                                         //    if (l2.Any())
+                                         //    {
+                                         //        tw.AppendLine();
+                                         //        chs.AppendLine();
+                                         //        en.AppendLine();
+                                         //        tw.Append("烤箱配方設定失敗！");
+                                         //        chs.Append("烤箱配方设定失败！");
+                                         //        en.Append("Recipe set failure！");
+                                         //    }
 
-                                             if (l3.Any())
-                                             {
-                                                 tw.AppendLine();
-                                                 chs.AppendLine();
-                                                 en.AppendLine();
-                                                 tw.Append("烤箱配方比對錯誤！");
-                                                 chs.Append("烤箱配方比对错误！");
-                                                 en.Append("Recipe check error！");
-                                             }
+                                         //    if (l3.Any())
+                                         //    {
+                                         //        tw.AppendLine();
+                                         //        chs.AppendLine();
+                                         //        en.AppendLine();
+                                         //        tw.Append("烤箱配方比對錯誤！");
+                                         //        chs.Append("烤箱配方比对错误！");
+                                         //        en.Append("Recipe check error！");
+                                         //    }
 
-                                             DialogVM.Show(new Dictionary<Language, string>
-                                                           {
-                                                               { Language.TW, tw.ToString() },
-                                                               { Language.CHS, chs.ToString() },
-                                                               { Language.EN, en.ToString() }
-                                                           },
-                                                           TimeSpan.FromSeconds(3),
-                                                           DialogMsgType.Alert);
-                                         }
+                                         //    DialogVM.Show(new Dictionary<Language, string>
+                                         //                  {
+                                         //                      { Language.TW, tw.ToString() },
+                                         //                      { Language.CHS, chs.ToString() },
+                                         //                      { Language.EN, en.ToString() }
+                                         //                  },
+                                         //                  TimeSpan.FromSeconds(3),
+                                         //                  DialogMsgType.Alert);
+                                         //}
                                      };
 
         TotalVM.WantLogin += () => AuthenticatorVM.StartLogin?.Execute(null);
@@ -530,7 +532,7 @@ public sealed class Mediator : ObservableObject
                                              }
 
                                              var recipe = info.Recipe.ToDictionary(Language);
-                                             var type = typeof(ProcessInfo);
+                                             var type   = typeof(ProcessInfo);
 
                                              //await Task.Run(() =>
                                              //               {
@@ -567,16 +569,16 @@ public sealed class Mediator : ObservableObject
 
                                              using var titles = new[]
                                                                 {
-                                                                type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
-                                                                type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
-                                                                type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
-                                                                type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
-                                                                type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
-                                                                type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
-                                                                type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
-                                                                type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
-                                                                type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
-                                                            }.Concat(recipe.Keys)
+                                                                    type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
+                                                                    type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
+                                                                    type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
+                                                                    type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
+                                                                    type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
+                                                                    type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
+                                                                    type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
+                                                                    type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
+                                                                    type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
+                                                                }.Concat(recipe.Keys)
                                                                  .ToPooledList();
 
                                              var sb = new StringBuilder();
@@ -586,16 +588,16 @@ public sealed class Mediator : ObservableObject
                                              {
                                                  var vals = new[]
                                                             {
-                                                            info.AddedTime.ToString("yy-MM-dd"),
-                                                            info.StartTime.ToString("HH:mm:ss"),
-                                                            info.EndTime.ToString("HH:mm:ss"),
-                                                            product.PartID,
-                                                            product.LotID,
-                                                            product.Quantity.ToString(),
-                                                            info.OvenCode,
-                                                            product.Layer.ToString(),
-                                                            info.OperatorID
-                                                        }.Concat(recipe.Values)
+                                                                info.AddedTime.ToString("yy-MM-dd"),
+                                                                info.StartTime.ToString("HH:mm:ss"),
+                                                                info.EndTime.ToString("HH:mm:ss"),
+                                                                product.PartID,
+                                                                product.LotID,
+                                                                product.Quantity.ToString(),
+                                                                info.OvenCode,
+                                                                product.Layer.ToString(),
+                                                                info.OperatorID
+                                                            }.Concat(recipe.Values)
                                                              .ToPooledList();
 
                                                  sb.AppendLine(string.Join(",", vals));

@@ -595,6 +595,7 @@
                                         </Border.Background>
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
+                                                   FontWeight="Bold" FontSize="16"
                                                    Foreground="{StaticResource DisabledForegroundBrush}"
                                                    Text="{DynamicResource 離線}" />
                                     </Border>

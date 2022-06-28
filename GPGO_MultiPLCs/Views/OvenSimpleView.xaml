@@ -293,27 +293,6 @@
                                                     <Run Text="{DynamicResource 分}" />
                                                 </TextBlock>
                                             </Border>
-                                            <Border Grid.Row="0"
-                                                    Grid.Column="4"
-                                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,0,1,1">
-                                                <TextBlock Margin="4"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           Text="{DynamicResource 程式結束警報}" />
-                                            </Border>
-                                            <Border Grid.Row="0"
-                                                    Grid.Column="5"
-                                                    Background="{StaticResource WindowBackgroundBrush6}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="0,0,1,1">
-                                                <TextBlock HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center">
-                                                    <Run Text="{Binding ProgramEndWarningTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                                                    <Run Text="{DynamicResource 分}" />
-                                                </TextBlock>
-                                            </Border>
                                             <Border Grid.Row="1"
                                                     Grid.Column="0"
                                                     Background="{StaticResource WindowBackgroundBrush2}"

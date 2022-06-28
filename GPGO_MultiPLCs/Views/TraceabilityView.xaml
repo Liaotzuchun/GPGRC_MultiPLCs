@@ -666,7 +666,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -848,7 +848,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -859,7 +859,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -870,7 +870,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -881,7 +881,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -892,7 +892,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -903,7 +903,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -913,7 +913,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -924,7 +924,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -935,7 +935,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -946,7 +946,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -957,7 +957,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -968,7 +968,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding RampAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding RampAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -978,7 +978,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellTime_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -989,7 +989,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellTime_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1000,7 +1000,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellTime_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1011,7 +1011,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellTime_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1022,7 +1022,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellTime_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1033,7 +1033,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellTime_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1043,7 +1043,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1054,7 +1054,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1065,7 +1065,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1076,7 +1076,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1087,7 +1087,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
@@ -1098,7 +1098,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>

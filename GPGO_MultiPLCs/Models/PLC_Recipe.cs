@@ -62,7 +62,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RampAlarm_7.ToString("0.0")           == other.RampAlarm_7.ToString("0.0")           &&
         RampAlarm_8.ToString("0.0")           == other.RampAlarm_8.ToString("0.0")           &&
         InflatingTime.ToString("0")           == other.InflatingTime.ToString("0")           &&
-        ProgramEndWarningTime.ToString("0.0") == other.ProgramEndWarningTime.ToString("0.0") &&
         TemperatureSetpoint_1.ToString("0.0") == other.TemperatureSetpoint_1.ToString("0.0") &&
         TemperatureSetpoint_2.ToString("0.0") == other.TemperatureSetpoint_2.ToString("0.0") &&
         TemperatureSetpoint_3.ToString("0.0") == other.TemperatureSetpoint_3.ToString("0.0") &&
@@ -120,12 +119,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     [JsonIgnore]
     public double DwellAlarm_Min => 1;
-
-    [JsonIgnore]
-    public double ProgramEndWarningTime_Max => 100;
-
-    [JsonIgnore]
-    public double ProgramEndWarningTime_Min => 0;
 
     [JsonIgnore]
     public double InflatingTime_Max => 350;
@@ -226,27 +219,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             else if (value < CoolingTime_Min)
             {
                 value = CoolingTime_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [LanguageTranslator("ProgramEndWarningTime", "程式結束警報時間", "程序结束警报时间")]
-    public double ProgramEndWarningTime
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > ProgramEndWarningTime_Max)
-            {
-                value = ProgramEndWarningTime_Max;
-            }
-            else if (value < ProgramEndWarningTime_Min)
-            {
-                value = ProgramEndWarningTime_Min;
             }
 
             Set(value);
@@ -1435,7 +1407,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             RampAlarm_7           = RampAlarm_7,
             RampAlarm_8           = RampAlarm_8,
             InflatingTime         = InflatingTime,
-            ProgramEndWarningTime = ProgramEndWarningTime,
             TemperatureSetpoint_1 = TemperatureSetpoint_1,
             TemperatureSetpoint_2 = TemperatureSetpoint_2,
             TemperatureSetpoint_3 = TemperatureSetpoint_3,
@@ -1498,7 +1469,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RampAlarm_7           = recipe.RampAlarm_7;
         RampAlarm_8           = recipe.RampAlarm_8;
         InflatingTime         = recipe.InflatingTime;
-        ProgramEndWarningTime = recipe.ProgramEndWarningTime;
         TemperatureSetpoint_1 = recipe.TemperatureSetpoint_1;
         TemperatureSetpoint_2 = recipe.TemperatureSetpoint_2;
         TemperatureSetpoint_3 = recipe.TemperatureSetpoint_3;
@@ -1641,7 +1611,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RampAlarm_7           = 11;
         RampAlarm_8           = 11;
         InflatingTime         = 10;
-        ProgramEndWarningTime = 10;
         TemperatureSetpoint_1 = 200;
         TemperatureSetpoint_2 = 200;
         TemperatureSetpoint_3 = 200;

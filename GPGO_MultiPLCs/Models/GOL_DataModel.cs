@@ -80,16 +80,6 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 程式結束警報時間
-    /// </summary>
-    [PLCData(DataType.D, 157, 0.1, LogType.RecipeSet)]
-    public double ProgramEndWarningTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>
     /// 使用段數
     /// </summary>
     [PLCData(DataType.D, 1075, LogType.RecipeSet)]
@@ -626,16 +616,6 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 配方PV 程式結束警報時間
-    /// </summary>
-    [PLCData(DataType.D, 157, 0.1, LogType.RecipeSet)]
-    public double PV_ProgramEndWarningTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>
     /// 配方PV 使用段數
     /// </summary>
     [PLCData(DataType.D, 775, LogType.StatusVariables)]
@@ -648,7 +628,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 目標溫度1
     /// </summary>
-    [PLCData(DataType.D, 700, LogType.StatusVariables)]
+    [PLCData(DataType.D, 700, 0.1, LogType.StatusVariables)]
     public double PV_TemperatureSetpoint_1
     {
         get => Get<double>();
@@ -658,7 +638,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 目標溫度2
     /// </summary>
-    [PLCData(DataType.D, 701, LogType.StatusVariables)]
+    [PLCData(DataType.D, 701, 0.1, LogType.StatusVariables)]
     public double PV_TemperatureSetpoint_2
     {
         get => Get<double>();
@@ -668,7 +648,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 目標溫度3
     /// </summary>
-    [PLCData(DataType.D, 702, LogType.StatusVariables)]
+    [PLCData(DataType.D, 702, 0.1, LogType.StatusVariables)]
     public double PV_TemperatureSetpoint_3
     {
         get => Get<double>();
@@ -678,7 +658,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 目標溫度4
     /// </summary>
-    [PLCData(DataType.D, 703, LogType.StatusVariables)]
+    [PLCData(DataType.D, 703, 0.1, LogType.StatusVariables)]
     public double PV_TemperatureSetpoint_4
     {
         get => Get<double>();
@@ -688,7 +668,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 目標溫度5
     /// </summary>
-    [PLCData(DataType.D, 704, LogType.StatusVariables)]
+    [PLCData(DataType.D, 704, 0.1, LogType.StatusVariables)]
     public double PV_TemperatureSetpoint_5
     {
         get => Get<double>();
@@ -698,7 +678,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 目標溫度6
     /// </summary>
-    [PLCData(DataType.D, 705, LogType.StatusVariables)]
+    [PLCData(DataType.D, 705, 0.1, LogType.StatusVariables)]
     public double PV_TemperatureSetpoint_6
     {
         get => Get<double>();
@@ -798,7 +778,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫時間1
     /// </summary>
-    [PLCData(DataType.D, 760, LogType.StatusVariables)]
+    [PLCData(DataType.D, 760, 0.1, LogType.StatusVariables)]
     public double PV_RampTime_1
     {
         get => Get<double>();
@@ -808,7 +788,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫時間2
     /// </summary>
-    [PLCData(DataType.D, 761, LogType.StatusVariables)]
+    [PLCData(DataType.D, 761, 0.1, LogType.StatusVariables)]
     public double PV_RampTime_2
     {
         get => Get<double>();
@@ -818,7 +798,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫時間3
     /// </summary>
-    [PLCData(DataType.D, 762, LogType.StatusVariables)]
+    [PLCData(DataType.D, 762, 0.1, LogType.StatusVariables)]
     public double PV_RampTime_3
     {
         get => Get<double>();
@@ -828,7 +808,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫時間4
     /// </summary>
-    [PLCData(DataType.D, 763, LogType.StatusVariables)]
+    [PLCData(DataType.D, 763, 0.1, LogType.StatusVariables)]
     public double PV_RampTime_4
     {
         get => Get<double>();
@@ -838,7 +818,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫時間5
     /// </summary>
-    [PLCData(DataType.D, 764, LogType.StatusVariables)]
+    [PLCData(DataType.D, 764, 0.1, LogType.StatusVariables)]
     public double PV_RampTime_5
     {
         get => Get<double>();
@@ -848,7 +828,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫時間6
     /// </summary>
-    [PLCData(DataType.D, 765, LogType.StatusVariables)]
+    [PLCData(DataType.D, 765, 0.1, LogType.StatusVariables)]
     public double PV_RampTime_6
     {
         get => Get<double>();
@@ -876,7 +856,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫警報時間1
     /// </summary>
-    [PLCData(DataType.D, 730, LogType.StatusVariables)]
+    [PLCData(DataType.D, 730, 0.1, LogType.StatusVariables)]
     public double PV_RampAlarm_1
     {
         get => Get<double>();
@@ -886,7 +866,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫警報時間2
     /// </summary>
-    [PLCData(DataType.D, 731, LogType.StatusVariables)]
+    [PLCData(DataType.D, 731, 0.1, LogType.StatusVariables)]
     public double PV_RampAlarm_2
     {
         get => Get<double>();
@@ -896,7 +876,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫警報時間3
     /// </summary>
-    [PLCData(DataType.D, 732, LogType.StatusVariables)]
+    [PLCData(DataType.D, 732, 0.1, LogType.StatusVariables)]
     public double PV_RampAlarm_3
     {
         get => Get<double>();
@@ -906,7 +886,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫警報時間4
     /// </summary>
-    [PLCData(DataType.D, 733, LogType.StatusVariables)]
+    [PLCData(DataType.D, 733, 0.1, LogType.StatusVariables)]
     public double PV_RampAlarm_4
     {
         get => Get<double>();
@@ -916,7 +896,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫警報時間5
     /// </summary>
-    [PLCData(DataType.D, 734, LogType.StatusVariables)]
+    [PLCData(DataType.D, 734, 0.1, LogType.StatusVariables)]
     public double PV_RampAlarm_5
     {
         get => Get<double>();
@@ -926,7 +906,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 升溫警報時間6
     /// </summary>
-    [PLCData(DataType.D, 735, LogType.StatusVariables)]
+    [PLCData(DataType.D, 735, 0.1, LogType.StatusVariables)]
     public double PV_RampAlarm_6
     {
         get => Get<double>();
@@ -954,7 +934,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫時間1
     /// </summary>
-    [PLCData(DataType.D, 715, LogType.StatusVariables)]
+    [PLCData(DataType.D, 715, 0.1, LogType.StatusVariables)]
     public double PV_DwellTime_1
     {
         get => Get<double>();
@@ -964,7 +944,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫時間2
     /// </summary>
-    [PLCData(DataType.D, 716, LogType.StatusVariables)]
+    [PLCData(DataType.D, 716, 0.1, LogType.StatusVariables)]
     public double PV_DwellTime_2
     {
         get => Get<double>();
@@ -974,7 +954,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫時間3
     /// </summary>
-    [PLCData(DataType.D, 717, LogType.StatusVariables)]
+    [PLCData(DataType.D, 717, 0.1, LogType.StatusVariables)]
     public double PV_DwellTime_3
     {
         get => Get<double>();
@@ -984,7 +964,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫時間4
     /// </summary>
-    [PLCData(DataType.D, 718, LogType.StatusVariables)]
+    [PLCData(DataType.D, 718, 0.1, LogType.StatusVariables)]
     public double PV_DwellTime_4
     {
         get => Get<double>();
@@ -994,7 +974,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫時間5
     /// </summary>
-    [PLCData(DataType.D, 719, LogType.StatusVariables)]
+    [PLCData(DataType.D, 719, 0.1, LogType.StatusVariables)]
     public double PV_DwellTime_5
     {
         get => Get<double>();
@@ -1004,7 +984,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫時間6
     /// </summary>
-    [PLCData(DataType.D, 720, LogType.StatusVariables)]
+    [PLCData(DataType.D, 720, 0.1, LogType.StatusVariables)]
     public double PV_DwellTime_6
     {
         get => Get<double>();
@@ -1032,7 +1012,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫警報時間1
     /// </summary>
-    [PLCData(DataType.D, 745, LogType.StatusVariables)]
+    [PLCData(DataType.D, 745, 0.1, LogType.StatusVariables)]
     public double PV_DwellAlarm_1
     {
         get => Get<double>();
@@ -1042,7 +1022,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫警報時間2
     /// </summary>
-    [PLCData(DataType.D, 746, LogType.StatusVariables)]
+    [PLCData(DataType.D, 746, 0.1, LogType.StatusVariables)]
     public double PV_DwellAlarm_2
     {
         get => Get<double>();
@@ -1052,7 +1032,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫警報時間3
     /// </summary>
-    [PLCData(DataType.D, 747, LogType.StatusVariables)]
+    [PLCData(DataType.D, 747, 0.1, LogType.StatusVariables)]
     public double PV_DwellAlarm_3
     {
         get => Get<double>();
@@ -1062,7 +1042,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫警報時間4
     /// </summary>
-    [PLCData(DataType.D, 748, LogType.StatusVariables)]
+    [PLCData(DataType.D, 748, 0.1, LogType.StatusVariables)]
     public double PV_DwellAlarm_4
     {
         get => Get<double>();
@@ -1072,7 +1052,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫警報時間5
     /// </summary>
-    [PLCData(DataType.D, 749, LogType.StatusVariables)]
+    [PLCData(DataType.D, 749, 0.1, LogType.StatusVariables)]
     public double PV_DwellAlarm_5
     {
         get => Get<double>();
@@ -1082,7 +1062,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 恆溫警報時間6
     /// </summary>
-    [PLCData(DataType.D, 750, LogType.StatusVariables)]
+    [PLCData(DataType.D, 750, 0.1, LogType.StatusVariables)]
     public double PV_DwellAlarm_6
     {
         get => Get<double>();
@@ -1422,7 +1402,6 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 程式結束
     /// </summary>
-    [PLCBitData(DataType.D, 28, 8, LogType.Alarm)]
     public bool ProgramStop
     {
         get => Get<bool>();
@@ -1659,9 +1638,18 @@ public class GOL_DataModel : PLCDataProvider
     //}
 
     /// <summary>
+    /// 程式結束警報時間
+    /// </summary>
+    [PLCData(DataType.D, 157, 0.1, LogType.EquipmentConstants)]
+    public double ProgramEndWarningTime
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
     /// 允許啟動
     /// </summary>
-    [PLCBitData(DataType.D, 60, 0, LogType.StatusVariables)]
     public bool AllowStart
     {
         get => Get<bool>();
@@ -1721,7 +1709,6 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫中
     /// </summary>
-    [PLCBitData(DataType.D, 28, 1, LogType.StatusVariables)]
     public bool IsRamp
     {
         get => Get<bool>();
@@ -1731,7 +1718,6 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫中
     /// </summary>
-    [PLCBitData(DataType.D, 28, 2, LogType.StatusVariables)]
     public bool IsDwell
     {
         get => Get<bool>();
@@ -1741,22 +1727,34 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 降溫中
     /// </summary>
-    [PLCBitData(DataType.D, 28, 7, LogType.StatusVariables)]
     public bool IsCooling
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    [PLCBitData(DataType.D, 28, 9, LogType.StatusVariables)]
+    /// <summary>
+    /// 自動模式
+    /// </summary>
     public bool AutoMode
     {
         get => Get<bool>();
         set => Set(value);
     }
 
-    [PLCBitData(DataType.D, 28, 0, LogType.StatusVariables)]
+    /// <summary>
+    /// 手動模式
+    /// </summary>
     public bool ManualMode
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 充氣中
+    /// </summary>
+    public bool Inflating
     {
         get => Get<bool>();
         set => Set(value);
@@ -1868,6 +1866,16 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
+    /// 耗電量
+    /// </summary>
+    [PLCData(DataType.D, 687, LogType.StatusVariables)]
+    public float PowerConsumption
+    {
+        get => Get<float>();
+        set => Set(value);
+    }
+
+    /// <summary>
     /// 爐內溫度1
     /// </summary>
     [PLCData(DataType.D, 500, 0.1, LogType.StatusVariables)]
@@ -1949,7 +1957,7 @@ public class GOL_DataModel : PLCDataProvider
     /// 目前段數
     /// </summary>
     [PLCData(DataType.D, 22, LogType.StatusVariables)]
-    public short CurrentStep
+    public short CurrentSegment
     {
         get => Get<short>();
         set => Set(value);
@@ -1971,7 +1979,33 @@ public class GOL_DataModel : PLCDataProvider
     public short EquipmentState
     {
         get => Get<short>();
-        set => Set(value);
+        set
+        {
+            Set(value);
+
+            SetWithOutNotifyWhenEquals(value == 0,  nameof(AllowStart));
+        }
+    }
+
+    /// <summary>
+    /// 生產狀態，0=手動，1=升溫中，2=恆溫中，7=冷卻中，8=程式結束，9=自動，10=氮氣充氣中
+    /// </summary>
+    [PLCData(DataType.D, 28, LogType.StatusVariables)]
+    public short ProcessState
+    {
+        get => Get<short>();
+        set
+        {
+            Set(value);
+
+            SetWithOutNotifyWhenEquals(value == 0,  nameof(ManualMode));
+            SetWithOutNotifyWhenEquals(value == 1,  nameof(IsRamp));
+            SetWithOutNotifyWhenEquals(value == 2,  nameof(IsDwell));
+            SetWithOutNotifyWhenEquals(value == 7,  nameof(IsCooling));
+            SetWithOutNotifyWhenEquals(value == 8,  nameof(ProgramStop));
+            SetWithOutNotifyWhenEquals(value == 9,  nameof(AutoMode));
+            SetWithOutNotifyWhenEquals(value == 10, nameof(Inflating));
+        }
     }
 
     public string EquipmentName

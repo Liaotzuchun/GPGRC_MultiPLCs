@@ -217,4 +217,6 @@
     <sys:String x:Key="中止">Stop</sys:String>
     <sys:String x:Key="氮氣模式">N2 Mode</sys:String>
     <sys:String x:Key="氧含量">O2 Content</sys:String>
+    <sys:String x:Key="風速">Wind Speed</sys:String>
+    <sys:String x:Key="耗電量">Power</sys:String>
 </ResourceDictionary>

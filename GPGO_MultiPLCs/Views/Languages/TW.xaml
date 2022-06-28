@@ -218,4 +218,6 @@
     <sys:String x:Key="中止">中止</sys:String>
     <sys:String x:Key="氮氣模式">氮氣模式</sys:String>
     <sys:String x:Key="含氧量">含氧量</sys:String>
+    <sys:String x:Key="風速">風速</sys:String>
+    <sys:String x:Key="耗電量">耗電量</sys:String>
 </ResourceDictionary>

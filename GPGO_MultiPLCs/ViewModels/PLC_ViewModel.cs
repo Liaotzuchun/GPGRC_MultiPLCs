@@ -96,8 +96,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 return 1.0;
             }
 
-            var d   = 1.0                 / SegmentCounts / 2.0;
-            var val = (CurrentStep - 1.0) / SegmentCounts;
+            var d   = 1.0                    / SegmentCounts / 2.0;
+            var val = (CurrentSegment - 1.0) / SegmentCounts;
 
             if (IsDwell)
             {
@@ -293,7 +293,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         RampAlarm_5.ToString("0.0")           == recipe.RampAlarm_5.ToString("0.0")           &&
         RampAlarm_6.ToString("0.0")           == recipe.RampAlarm_6.ToString("0.0")           &&
         InflatingTime.ToString("0")           == recipe.InflatingTime.ToString("0")           &&
-        ProgramEndWarningTime.ToString("0.0") == recipe.ProgramEndWarningTime.ToString("0.0") &&
         TemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
         TemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
         TemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
@@ -351,7 +350,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             RampAlarm_7           = PV_RampAlarm_7,
             RampAlarm_8           = PV_RampAlarm_8,
             InflatingTime         = PV_InflatingTime,
-            ProgramEndWarningTime = PV_ProgramEndWarningTime,
             TemperatureSetpoint_1 = PV_TemperatureSetpoint_1,
             TemperatureSetpoint_2 = PV_TemperatureSetpoint_2,
             TemperatureSetpoint_3 = PV_TemperatureSetpoint_3,
@@ -573,12 +571,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     /// <summary>開始記錄</summary>
-    /// <param name="cycle_ms">紀錄週期，單位為毫秒</param>
     /// <param name="ct">取消任務的token</param>
     /// <returns></returns>
     private async Task StartRecoder(CancellationToken ct)
     {
-        OvenInfo.Clear();
         //OvenInfo.RackID    = RackID;
 
         void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
@@ -1284,7 +1280,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         NotifyPropertyChanged(nameof(Progress));
                                     }
                                 }
-                                else if (name is nameof(CurrentStep))
+                                else if (name is nameof(CurrentSegment))
                                 {
                                     EventHappened?.Invoke(eventval);
                                     if (IsExecuting)
