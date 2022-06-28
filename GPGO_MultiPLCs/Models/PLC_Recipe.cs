@@ -16,9 +16,10 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     public override bool Equals(PLC_Recipe other) =>
         other                                 != null                                        &&
+        RecipeName                            == other.RecipeName                            &&
         NitrogenMode                          == other.NitrogenMode                          &&
         OxygenContentSet.ToString("0")        == other.OxygenContentSet.ToString("0")        &&
-        RecipeName                            == other.RecipeName                            &&
+        InflatingTime.ToString("0")           == other.InflatingTime.ToString("0")           &&
         DwellTemperature_1.ToString("0.0")    == other.DwellTemperature_1.ToString("0.0")    &&
         DwellTemperature_2.ToString("0.0")    == other.DwellTemperature_2.ToString("0.0")    &&
         DwellTemperature_3.ToString("0.0")    == other.DwellTemperature_3.ToString("0.0")    &&
@@ -61,7 +62,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RampAlarm_6.ToString("0.0")           == other.RampAlarm_6.ToString("0.0")           &&
         RampAlarm_7.ToString("0.0")           == other.RampAlarm_7.ToString("0.0")           &&
         RampAlarm_8.ToString("0.0")           == other.RampAlarm_8.ToString("0.0")           &&
-        InflatingTime.ToString("0")           == other.InflatingTime.ToString("0")           &&
         TemperatureSetpoint_1.ToString("0.0") == other.TemperatureSetpoint_1.ToString("0.0") &&
         TemperatureSetpoint_2.ToString("0.0") == other.TemperatureSetpoint_2.ToString("0.0") &&
         TemperatureSetpoint_3.ToString("0.0") == other.TemperatureSetpoint_3.ToString("0.0") &&
@@ -1364,6 +1364,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             RecipeName            = RecipeName,
             NitrogenMode          = NitrogenMode,
             OxygenContentSet      = OxygenContentSet,
+            InflatingTime         = InflatingTime,
             DwellTemperature_1    = DwellTemperature_1,
             DwellTemperature_2    = DwellTemperature_2,
             DwellTemperature_3    = DwellTemperature_3,
@@ -1406,7 +1407,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             RampAlarm_6           = RampAlarm_6,
             RampAlarm_7           = RampAlarm_7,
             RampAlarm_8           = RampAlarm_8,
-            InflatingTime         = InflatingTime,
             TemperatureSetpoint_1 = TemperatureSetpoint_1,
             TemperatureSetpoint_2 = TemperatureSetpoint_2,
             TemperatureSetpoint_3 = TemperatureSetpoint_3,
@@ -1426,6 +1426,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         Updated               = DateTime.Now;
         NitrogenMode          = recipe.NitrogenMode;
         OxygenContentSet      = recipe.OxygenContentSet;
+        InflatingTime         = recipe.InflatingTime;
         DwellTemperature_1    = recipe.DwellTemperature_1;
         DwellTemperature_2    = recipe.DwellTemperature_2;
         DwellTemperature_3    = recipe.DwellTemperature_3;
@@ -1468,7 +1469,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RampAlarm_6           = recipe.RampAlarm_6;
         RampAlarm_7           = recipe.RampAlarm_7;
         RampAlarm_8           = recipe.RampAlarm_8;
-        InflatingTime         = recipe.InflatingTime;
         TemperatureSetpoint_1 = recipe.TemperatureSetpoint_1;
         TemperatureSetpoint_2 = recipe.TemperatureSetpoint_2;
         TemperatureSetpoint_3 = recipe.TemperatureSetpoint_3;
@@ -1568,6 +1568,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     public PLC_Recipe(string name, string user, UserLevel level) : base(name, user, level)
     {
+        InflatingTime         = 10;
         DwellTemperature_1    = 200;
         DwellTemperature_2    = 200;
         DwellTemperature_3    = 200;
@@ -1610,7 +1611,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RampAlarm_6           = 11;
         RampAlarm_7           = 11;
         RampAlarm_8           = 11;
-        InflatingTime         = 10;
         TemperatureSetpoint_1 = 200;
         TemperatureSetpoint_2 = 200;
         TemperatureSetpoint_3 = 200;
