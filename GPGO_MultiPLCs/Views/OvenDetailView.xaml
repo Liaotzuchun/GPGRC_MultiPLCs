@@ -11,12 +11,64 @@
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
-             d:DesignHeight="700"
+             d:DesignHeight="690"
              d:DesignWidth="1024"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <local:DoublesTakeCount x:Key="DoublesTakeCount" />
+        <Style x:Key="SignalView2"
+               TargetType="{x:Type CheckBox}">
+            <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="IsHitTestVisible" Value="True" />
+            <Setter Property="Padding" Value="4,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0"
+                                        Background="{StaticResource DisabledBackgroundBrush}" />
+                                <Border Grid.Column="0"
+                                        Background="{TemplateBinding Background}"
+                                        Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                <Border Grid.Column="1"
+                                        Background="{StaticResource LightBrush}"
+                                        Visibility="{Binding IsChecked, Converter={StaticResource BoolVis}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                <Border Grid.Column="1"
+                                        Background="{StaticResource DisabledBackgroundBrush}"
+                                        Visibility="{Binding IsEnabled, Converter={StaticResource BoolNotVis}, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+                                <Viewbox Grid.Column="1"
+                                         Margin="{TemplateBinding Padding}"
+                                         StretchDirection="DownOnly">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      RecognizesAccessKey="True"
+                                                      Visibility="{Binding Content, Converter={StaticResource NullVis}, RelativeSource={RelativeSource Self}, Mode=OneWay}" />
+                                </Viewbox>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
     </UserControl.Resources>
 
     <i:Interaction.Triggers>
@@ -687,7 +739,7 @@
                                 Grid.Column="1"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,1">
-                            <views:LevelsProgressBar Margin="-12,-2,-12,-12"
+                            <views:LevelsProgressBar Margin="-2,-2,-2,-12"
                                                      Maximum="260"
                                                      Minimum="0"
                                                      Unit="°C"
@@ -799,13 +851,13 @@
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="90" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
-                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="6*" />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0"
                                 Grid.Column="0"
@@ -878,128 +930,111 @@
                             <ContentControl Content="{Binding Mode=OneWay}"
                                             ContentTemplate="{StaticResource ProgressDataTemplate}" />
                         </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Background="{StaticResource WindowBackgroundBrush6}"
-                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,1,0,0">
-                            <UniformGrid Margin="10,4"
-                                         Rows="8">
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{DynamicResource 緊急停止}"
-                                          IsChecked="{Binding EmergencyStop, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{DynamicResource 電源反相}"
-                                          IsChecked="{Binding PowerPhaseError, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{DynamicResource OTP超溫異常}"
-                                          IsChecked="{Binding OTPTemperatureError, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{DynamicResource 循環風車過載}"
-                                          IsChecked="{Binding CirculatingFanCurrentError, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource ErrorBrush}"
-                                          BorderBrush="{StaticResource ErrorBorderBrush}"
-                                          Content="{DynamicResource 電熱ELB跳脫}"
-                                          IsChecked="{Binding ELBtrip, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 升恆溫逾時}"
-                                          IsChecked="{Binding RampTimeExceeded, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 加熱門未關}"
-                                          Style="{StaticResource SignalView}">
-                                    <CheckBox.IsChecked>
-                                        <MultiBinding Converter="{StaticResource MultiAnyTrue}">
-                                            <Binding Mode="OneWay"
-                                                     Path="DoorNotClosed" />
-                                            <Binding Mode="OneWay"
-                                                     Path="DoorNotClosed_Auto" />
-                                            <Binding Mode="OneWay"
-                                                     Path="DoorNotClosed_Process" />
-                                        </MultiBinding>
-                                    </CheckBox.IsChecked>
-                                </CheckBox>
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 超溫警報}"
-                                          IsChecked="{Binding OverTemperatureAlarm, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 氣壓不足}"
-                                          IsChecked="{Binding InsufficientAirPressure, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 含氧儀上限警報}"
-                                          IsChecked="{Binding OxygenMeterUpperLimitAlarm, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 充氮氣逾時}"
-                                          IsChecked="{Binding InflatingTimeExceeded, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 停止後未開門}"
-                                          IsChecked="{Binding DoorNotOpen, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 溫控器電流異常}"
-                                          IsChecked="{Binding ThermostatCurrentError, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 溫控器通訊異常}"
-                                          IsChecked="{Binding ThermostatCommunicationError, Mode=OneWay}"
-                                          Style="{StaticResource SignalView}" />
-                                <CheckBox HorizontalAlignment="Left"
-                                          Background="{StaticResource WorkingBrush}"
-                                          BorderBrush="{StaticResource WorkingBorderBrush}"
-                                          Content="{DynamicResource 生產中停止}"
-                                          Style="{StaticResource SignalView}">
-                                    <CheckBox.IsChecked>
-                                        <MultiBinding Converter="{StaticResource MultiAnyTrue}">
-                                            <Binding Mode="OneWay"
-                                                     Path="Ramp_Stop" />
-                                            <Binding Mode="OneWay"
-                                                     Path="Dwell_Stop" />
-                                            <Binding Mode="OneWay"
-                                                     Path="Cooling_Stop" />
-                                            <Binding Mode="OneWay"
-                                                     Path="Inflating_Stop" />
-                                        </MultiBinding>
-                                    </CheckBox.IsChecked>
-                                </CheckBox>
-                            </UniformGrid>
-                        </Border>
+                        <views:UniformGridWithOrientation Grid.Row="2"
+                                                          Grid.Column="0"
+                                                          Grid.ColumnSpan="2"
+                                                          Orientation="Vertical"
+                                                          Rows="8">
+                            <CheckBox Background="{StaticResource ErrorBrush}"
+                                      BorderThickness="1,1,0,1"
+                                      Content="{DynamicResource 緊急停止}"
+                                      IsChecked="{Binding EmergencyStop, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource ErrorBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 電源反相}"
+                                      IsChecked="{Binding PowerPhaseError, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource ErrorBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource OTP超溫異常}"
+                                      IsChecked="{Binding OTPTemperatureError, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource ErrorBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 循環風車過載}"
+                                      IsChecked="{Binding CirculatingFanCurrentError, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource ErrorBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 電熱ELB跳脫}"
+                                      IsChecked="{Binding ELBtrip, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 升恆溫逾時}"
+                                      IsChecked="{Binding RampTimeExceeded, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 加熱門未關}"
+                                      Style="{StaticResource SignalView2}">
+                                <CheckBox.IsChecked>
+                                    <MultiBinding Converter="{StaticResource MultiAnyTrue}">
+                                        <Binding Mode="OneWay"
+                                                 Path="DoorNotClosed" />
+                                        <Binding Mode="OneWay"
+                                                 Path="DoorNotClosed_Auto" />
+                                        <Binding Mode="OneWay"
+                                                 Path="DoorNotClosed_Process" />
+                                    </MultiBinding>
+                                </CheckBox.IsChecked>
+                            </CheckBox>
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,0"
+                                      Content="{DynamicResource 超溫警報}"
+                                      IsChecked="{Binding OverTemperatureAlarm, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,1,0,1"
+                                      Content="{DynamicResource 氣壓不足}"
+                                      IsChecked="{Binding InsufficientAirPressure, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 含氧儀上限警報}"
+                                      IsChecked="{Binding OxygenMeterUpperLimitAlarm, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 充氮氣逾時}"
+                                      IsChecked="{Binding InflatingTimeExceeded, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 停止後未開門}"
+                                      IsChecked="{Binding DoorNotOpen, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 溫控器電流異常}"
+                                      IsChecked="{Binding ThermostatCurrentError, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 溫控器通訊異常}"
+                                      IsChecked="{Binding ThermostatCommunicationError, Mode=OneWay}"
+                                      Style="{StaticResource SignalView2}" />
+                            <CheckBox Background="{StaticResource WorkingBrush}"
+                                      BorderThickness="1,0,0,1"
+                                      Content="{DynamicResource 生產中停止}"
+                                      Style="{StaticResource SignalView2}">
+                                <CheckBox.IsChecked>
+                                    <MultiBinding Converter="{StaticResource MultiAnyTrue}">
+                                        <Binding Mode="OneWay"
+                                                 Path="Ramp_Stop" />
+                                        <Binding Mode="OneWay"
+                                                 Path="Dwell_Stop" />
+                                        <Binding Mode="OneWay"
+                                                 Path="Cooling_Stop" />
+                                        <Binding Mode="OneWay"
+                                                 Path="Inflating_Stop" />
+                                    </MultiBinding>
+                                </CheckBox.IsChecked>
+                            </CheckBox>
+                            <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,0,0,0" />
+                        </views:UniformGridWithOrientation>
                     </Grid>
                 </Grid>
             </GroupBox>
