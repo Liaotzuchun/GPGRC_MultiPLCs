@@ -2045,12 +2045,7 @@ public class GOL_DataModel : PLCDataProvider
     public short EquipmentState
     {
         get => Get<short>();
-        set
-        {
-            Set(value);
-
-            SetWithOutNotifyWhenEquals(value == 0,  nameof(AllowStart));
-        }
+        set => Set(value);
     }
 
     /// <summary>
@@ -2060,18 +2055,7 @@ public class GOL_DataModel : PLCDataProvider
     public short ProcessState
     {
         get => Get<short>();
-        set
-        {
-            Set(value);
-
-            SetWithOutNotifyWhenEquals(value == 0,  nameof(ManualMode));
-            SetWithOutNotifyWhenEquals(value == 1,  nameof(IsRamp));
-            SetWithOutNotifyWhenEquals(value == 2,  nameof(IsDwell));
-            SetWithOutNotifyWhenEquals(value == 7,  nameof(IsCooling));
-            SetWithOutNotifyWhenEquals(value == 8,  nameof(ProgramStop));
-            SetWithOutNotifyWhenEquals(value == 9,  nameof(AutoMode));
-            SetWithOutNotifyWhenEquals(value == 10, nameof(Inflating));
-        }
+        set => Set(value);
     }
 
     public string EquipmentName

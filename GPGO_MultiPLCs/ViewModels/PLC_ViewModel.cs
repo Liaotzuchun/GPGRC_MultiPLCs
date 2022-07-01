@@ -769,6 +769,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         InputLayer = InputLayerMin;
         Dialog     = dialog;
+        AllowStart = true; //! 預設允許啟動
 
         ConnectionStatus.ValueChanged += status =>
                                          {
@@ -1280,34 +1281,44 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         NotifyPropertyChanged(nameof(Progress));
                                     }
                                 }
-                                else if (name is nameof(CurrentSegment))
+                                else if(value is short sv)
                                 {
-                                    EventHappened?.Invoke(eventval);
-                                    if (IsExecuting)
+                                    if (name is nameof(CurrentSegment))
                                     {
-                                        AddProcessEvent(eventval);
+                                        EventHappened?.Invoke(eventval);
+                                        if (IsExecuting)
+                                        {
+                                            AddProcessEvent(eventval);
+                                        }
+
+                                        NotifyPropertyChanged(nameof(Progress));
                                     }
-
-                                    NotifyPropertyChanged(nameof(Progress));
-                                }
-                                else if (name == nameof(EquipmentState))
-                                {
-                                    InvokeSECSEvent?.Invoke("EqpStatusChanged");
-                                    SV_Changed?.Invoke($"Previous{name}", PreviousEquipmentState);
-                                    PreviousEquipmentState = value;
-
-                                    EventHappened?.Invoke(eventval);
-                                    if (IsExecuting)
+                                    else if (name == nameof(EquipmentState))
                                     {
-                                        AddProcessEvent(eventval);
+                                        SetWithOutNotifyWhenEquals(sv == 0, nameof(AllowStart));
+
+                                        InvokeSECSEvent?.Invoke("EqpStatusChanged");
+                                        SV_Changed?.Invoke($"Previous{name}", PreviousEquipmentState);
+                                        PreviousEquipmentState = sv;
+
+                                        EventHappened?.Invoke(eventval);
+                                        if (IsExecuting)
+                                        {
+                                            AddProcessEvent(eventval);
+                                        }
+
+                                        NotifyPropertyChanged(nameof(ProgressStatus));
                                     }
-
-                                    NotifyPropertyChanged(nameof(ProgressStatus));
-
-                                    //if (EquipmentState == (short)Status.錯誤)
-                                    //{
-                                    //    await StopPP();
-                                    //}
+                                    else if (name == nameof(ProcessState))
+                                    {
+                                        SetWithOutNotifyWhenEquals(sv == 0, nameof(ManualMode));
+                                        SetWithOutNotifyWhenEquals(sv == 1, nameof(IsRamp));
+                                        SetWithOutNotifyWhenEquals(sv == 2, nameof(IsDwell));
+                                        SetWithOutNotifyWhenEquals(sv == 7, nameof(IsCooling));
+                                        SetWithOutNotifyWhenEquals(sv == 8, nameof(ProgramStop));
+                                        SetWithOutNotifyWhenEquals(sv == 9, nameof(AutoMode));
+                                        SetWithOutNotifyWhenEquals(sv == 10, nameof(Inflating));
+                                    }
                                 }
                             }
                             else if (LogType == LogType.Alert)
