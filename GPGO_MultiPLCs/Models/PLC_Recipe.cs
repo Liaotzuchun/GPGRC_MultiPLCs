@@ -79,52 +79,52 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public short SegmentCounts_Min => 1;
 
     [JsonIgnore]
-    public double Temperature_Max => 250.0;
+    public double Temperature_Max => 999.9;
 
     [JsonIgnore]
-    public double Temperature_Min => 50.0;
+    public double Temperature_Min => 0.0;
 
     [JsonIgnore]
-    public double CoolingTemperature_Max => 250.0;
+    public double CoolingTemperature_Max => 999.9;
 
     [JsonIgnore]
-    public double CoolingTemperature_Min => 40.0;
+    public double CoolingTemperature_Min => 0.0;
 
     [JsonIgnore]
-    public double CoolingTime_Max => 120;
+    public double CoolingTime_Max => 99.9;
 
     [JsonIgnore]
-    public double CoolingTime_Min => 1;
+    public double CoolingTime_Min => 0.0;
 
     [JsonIgnore]
-    public double RampTime_Max => 120;
+    public double RampTime_Max => 999.9;
 
     [JsonIgnore]
-    public double RampTime_Min => 1;
+    public double RampTime_Min => 0.0;
 
     [JsonIgnore]
-    public double RampAlarm_Max => 150;
+    public double RampAlarm_Max => 999.9;
 
     [JsonIgnore]
-    public double RampAlarm_Min => 1;
+    public double RampAlarm_Min => 0.0;
 
     [JsonIgnore]
-    public double DwellTime_Max => 300;
+    public double DwellTime_Max => 999.9;
 
     [JsonIgnore]
-    public double DwellTime_Min => 1;
+    public double DwellTime_Min => 0.0;
 
     [JsonIgnore]
-    public double DwellAlarm_Max => 350;
+    public double DwellAlarm_Max => 999.9;
 
     [JsonIgnore]
-    public double DwellAlarm_Min => 1;
+    public double DwellAlarm_Min => 0.0;
 
     [JsonIgnore]
-    public double InflatingTime_Max => 350;
+    public double InflatingTime_Max => 99.0;
 
     [JsonIgnore]
-    public double InflatingTime_Min => 1;
+    public double InflatingTime_Min => 0.0;
 
     [GPIgnore]
     [JsonIgnore]
@@ -170,11 +170,11 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
 
-            if (value > 100)
+            if (value > 99)
             {
-                value = 100;
+                value = 99;
             }
-            else if (value < 0)
+            else if (value < 10)
             {
                 value = 0;
             }
