@@ -1915,7 +1915,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 現在風速
     /// </summary>
-    [PLCData(DataType.D, 670, LogType.StatusVariables)]
+    [PLCData(DataType.D, 670, 0.1, LogType.StatusVariables)]
     public double PV_WindSpeed
     {
         get => Get<double>();
