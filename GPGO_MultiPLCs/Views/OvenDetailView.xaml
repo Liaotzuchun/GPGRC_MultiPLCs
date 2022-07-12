@@ -153,7 +153,7 @@
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
                             <Run Text="{Binding PV_InflatingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                            <Run Text="{DynamicResource 秒}" />
+                            <Run Text="{DynamicResource 分}" />
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="0"
@@ -171,7 +171,7 @@
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
-                            <Run Text="{Binding PV_OxygenContentSet, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                            <Run Text="{Binding PV_OxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}" />
                             <Run Text="%" />
                         </TextBlock>
                     </Border>
@@ -802,7 +802,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        FontWeight="Bold">
-                                <Run Text="{Binding OxygenContent, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=0}" />
+                                <Run Text="{Binding OxygenContent, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1}" />
                                 <Run Text="%" />
                             </TextBlock>
                         </Border>
@@ -844,7 +844,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        FontWeight="Bold">
-                                <Run Text="{Binding PowerConsumption, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=3}" />
+                                <Run Text="{Binding PowerConsumption, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1}" />
                                 <Run Text="kWh" />
                             </TextBlock>
                         </Border>

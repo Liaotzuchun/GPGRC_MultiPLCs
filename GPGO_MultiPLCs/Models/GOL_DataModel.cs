@@ -7,18 +7,15 @@ namespace GPGO_MultiPLCs.Models;
 public class GOL_DataModel : PLCDataProvider
 {
     #region PC=>PLC
-
     [PLCBit(BitType.M, 21, LogType.None)]
     public bool Check
     {
         get => Get<bool>();
         set => Set(value);
     }
-
     #endregion
 
     #region 配方設定值
-
     /// <summary>
     /// 配方名
     /// </summary>
@@ -550,11 +547,9 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<double>();
         set => Set(value);
     }
-
     #endregion
 
     #region 配方運作值(配方PV)
-
     /// <summary>
     /// 配方PV 配方名
     /// </summary>
@@ -608,7 +603,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 含氧量設定
     /// </summary>
-    [PLCData(DataType.D, 797, LogType.StatusVariables)]
+    [PLCData(DataType.D, 797, 0.1, LogType.StatusVariables)]
     public double PV_OxygenContentSet
     {
         get => Get<double>();
@@ -1086,11 +1081,9 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<double>();
         set => Set(value);
     }
-
     #endregion
 
     #region 警報
-
     /// <summary>
     /// 緊急停止
     /// </summary>
@@ -1680,11 +1673,9 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<bool>();
         set => Set(value);
     }
-
     #endregion
 
     #region 機台狀態
-
     //public bool ReadBarcode
     //{
     //    get => Get<bool>();
@@ -1905,7 +1896,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 含氧量
     /// </summary>
-    [PLCData(DataType.D, 404, LogType.StatusVariables)]
+    [PLCData(DataType.D, 404, 0.1, LogType.StatusVariables)]
     public double OxygenContent
     {
         get => Get<double>();
@@ -1934,10 +1925,10 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 耗電量
     /// </summary>
-    [PLCData(DataType.D, 687, LogType.StatusVariables)]
-    public float PowerConsumption
+    [PLCData(DataType.D, 686, 0.1, LogType.StatusVariables)]
+    public double PowerConsumption
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
@@ -2063,7 +2054,6 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<string>();
         set => Set(value);
     }
-
     #endregion
 
     public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) {}

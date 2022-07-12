@@ -62,6 +62,11 @@ public class ProcessChartModel
                 TimeSpanAxis.Title = s1;
             }
 
+            if (element.TryFindResource("溫控器溫度") is string s0)
+            {
+                LineSeries0.Title = s0;
+            }
+
             if (element.TryFindResource("爐內溫度1") is string s2)
             {
                 LineSeries1.Title = s2;
