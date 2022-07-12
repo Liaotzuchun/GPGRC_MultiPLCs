@@ -401,6 +401,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
+    [GPIgnore]
     [OrderIndex(11)]
     [LanguageTranslator("Temp. SP 7", "目標溫度 7", "目标温度 7")]
     public double TemperatureSetpoint_7
@@ -423,6 +424,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
+    [GPIgnore]
     [OrderIndex(12)]
     [LanguageTranslator("Temp. SP 8", "目標溫度 8", "目标温度 8")]
     public double TemperatureSetpoint_8
