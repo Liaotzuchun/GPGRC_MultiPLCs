@@ -34,8 +34,8 @@ public class ProcessChartModel
     private readonly LineSeries     LineSeries4;
     private readonly LineSeries     LineSeries5;
     private readonly LineSeries     LineSeries6;
-    private readonly LineSeries     LineSeries7;
-    private readonly LineSeries     LineSeries8;
+    //private readonly LineSeries     LineSeries7;
+    //private readonly LineSeries     LineSeries8;
     private readonly LineAnnotation LineAnnotation;
     public           PlotModel      ChartView { get; }
 
@@ -92,15 +92,15 @@ public class ProcessChartModel
                 LineSeries6.Title = s7;
             }
 
-            if (element.TryFindResource("爐內溫度7") is string s8)
-            {
-                LineSeries7.Title = s8;
-            }
+            //if (element.TryFindResource("爐內溫度7") is string s8)
+            //{
+            //    LineSeries7.Title = s8;
+            //}
 
-            if (element.TryFindResource("爐內溫度8") is string s9)
-            {
-                LineSeries8.Title = s9;
-            }
+            //if (element.TryFindResource("爐內溫度8") is string s9)
+            //{
+            //    LineSeries8.Title = s9;
+            //}
 
             RefreshView(true);
         }
@@ -196,8 +196,8 @@ public class ProcessChartModel
         LineSeries4.Points.Clear();
         LineSeries5.Points.Clear();
         LineSeries6.Points.Clear();
-        LineSeries7.Points.Clear();
-        LineSeries8.Points.Clear();
+        //LineSeries7.Points.Clear();
+        //LineSeries8.Points.Clear();
 
         RefreshView(true);
     }
@@ -212,8 +212,8 @@ public class ProcessChartModel
         LineSeries4.Points.Add(new DataPoint(t, tp.OvenTemperatures_4));
         LineSeries5.Points.Add(new DataPoint(t, tp.OvenTemperatures_5));
         LineSeries6.Points.Add(new DataPoint(t, tp.OvenTemperatures_6));
-        LineSeries7.Points.Add(new DataPoint(t, tp.OvenTemperatures_7));
-        LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
+        //LineSeries7.Points.Add(new DataPoint(t, tp.OvenTemperatures_7));
+        //LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
 
         RefreshView(true);
     }
@@ -229,8 +229,8 @@ public class ProcessChartModel
             LineSeries4.Points.Clear();
             LineSeries5.Points.Clear();
             LineSeries6.Points.Clear();
-            LineSeries7.Points.Clear();
-            LineSeries8.Points.Clear();
+            //LineSeries7.Points.Clear();
+            //LineSeries8.Points.Clear();
 
             foreach (var tp in tps)
             {
@@ -242,8 +242,8 @@ public class ProcessChartModel
                 LineSeries4.Points.Add(new DataPoint(t, tp.OvenTemperatures_4));
                 LineSeries5.Points.Add(new DataPoint(t, tp.OvenTemperatures_5));
                 LineSeries6.Points.Add(new DataPoint(t, tp.OvenTemperatures_6));
-                LineSeries7.Points.Add(new DataPoint(t, tp.OvenTemperatures_7));
-                LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
+                //LineSeries7.Points.Add(new DataPoint(t, tp.OvenTemperatures_7));
+                //LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
             }
 
             ChartView.InvalidatePlot(true);
@@ -386,25 +386,25 @@ public class ProcessChartModel
                           TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
                       };
 
-        LineSeries7 = new LineSeries
-                      {
-                          LineStyle           = LineStyle.Solid,
-                          MarkerSize          = 3,
-                          MarkerType          = MarkerType.None,
-                          StrokeThickness     = 2,
-                          Decimator           = Decimator.Decimate,
-                          TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-                      };
+        //LineSeries7 = new LineSeries
+        //              {
+        //                  LineStyle           = LineStyle.Solid,
+        //                  MarkerSize          = 3,
+        //                  MarkerType          = MarkerType.None,
+        //                  StrokeThickness     = 2,
+        //                  Decimator           = Decimator.Decimate,
+        //                  TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
+        //              };
 
-        LineSeries8 = new LineSeries
-                      {
-                          LineStyle           = LineStyle.Solid,
-                          MarkerSize          = 3,
-                          MarkerType          = MarkerType.None,
-                          StrokeThickness     = 2,
-                          Decimator           = Decimator.Decimate,
-                          TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
-                      };
+        //LineSeries8 = new LineSeries
+        //              {
+        //                  LineStyle           = LineStyle.Solid,
+        //                  MarkerSize          = 3,
+        //                  MarkerType          = MarkerType.None,
+        //                  StrokeThickness     = 2,
+        //                  Decimator           = Decimator.Decimate,
+        //                  TrackerFormatString = "{0}\n{1}: {2:hh\\:mm\\:ss\\.fff}\n{4:F3}{3}"
+        //              };
 
         LineAnnotation = new LineAnnotation
                          {
@@ -421,8 +421,8 @@ public class ProcessChartModel
 
         ChartView.Axes.Add(LinearAxis);
         ChartView.Axes.Add(TimeSpanAxis);
-        ChartView.Series.Add(LineSeries8);
-        ChartView.Series.Add(LineSeries7);
+        //ChartView.Series.Add(LineSeries8);
+        //ChartView.Series.Add(LineSeries7);
         ChartView.Series.Add(LineSeries6);
         ChartView.Series.Add(LineSeries5);
         ChartView.Series.Add(LineSeries4);
@@ -466,9 +466,9 @@ public class ProcessChartModel
         LineSeries5.Color      = S5color;
         LineSeries6.MarkerFill = S6color;
         LineSeries6.Color      = S6color;
-        LineSeries7.MarkerFill = S7color;
-        LineSeries7.Color      = S7color;
-        LineSeries8.MarkerFill = S8color;
-        LineSeries8.Color      = S8color;
+        //LineSeries7.MarkerFill = S7color;
+        //LineSeries7.Color      = S7color;
+        //LineSeries8.MarkerFill = S8color;
+        //LineSeries8.Color      = S8color;
     }
 }

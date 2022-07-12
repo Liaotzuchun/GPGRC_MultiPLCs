@@ -17,7 +17,7 @@ public class RecordTemperatures
         new[]
             {
                 OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8
+                OvenTemperatures_5, OvenTemperatures_6/*, OvenTemperatures_7, OvenTemperatures_8*/
             }
            .Average();
 
@@ -25,7 +25,7 @@ public class RecordTemperatures
         new[]
             {
                 OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8
+                OvenTemperatures_5, OvenTemperatures_6/*, OvenTemperatures_7, OvenTemperatures_8*/
             }
            .Max();
 
@@ -33,7 +33,7 @@ public class RecordTemperatures
         new[]
             {
                 OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6, OvenTemperatures_7, OvenTemperatures_8
+                OvenTemperatures_5, OvenTemperatures_6/*, OvenTemperatures_7, OvenTemperatures_8*/
             }
            .Min();
 
