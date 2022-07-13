@@ -240,171 +240,176 @@
                                Text="{Binding NowUser.Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2, FallbackValue=GU}" />
                 </Border>
             </Grid>
-            <Grid x:Name="Grid"
-                  Grid.Row="4"
-                  Height="80"
-                  Margin="8,0"
-                  IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
-                  KeyboardNavigation.TabNavigation="Cycle"
-                  TextElement.FontSize="16"
-                  Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="80" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 帳號}" />
-                </Border>
-                <TextBox Grid.Row="0"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         FontSize="14"
-                         GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                         Text="{Binding EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Border Grid.Row="1"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 密碼}" />
-                </Border>
-                <TextBox Grid.Row="1"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         FontSize="14"
-                         GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                         Text="{Binding EditPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Border Grid.Row="2"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 層級}" />
-                </Border>
-                <ComboBox x:Name="ComboBox"
-                          Grid.Row="2"
-                          Grid.Column="1"
-                          ItemsSource="{Binding EditLevels, Mode=OneWay}"
-                          SelectedItem="{Binding EditLevel, Mode=TwoWay}" />
-                <Button Grid.Row="0"
-                        Grid.RowSpan="3"
-                        Grid.Column="2"
-                        Content="{DynamicResource 修改}"
-                        IsEnabled="{Binding UpdateEnable, Mode=OneWay}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding UpdateUser, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-                <Button Grid.Row="0"
-                        Grid.RowSpan="3"
-                        Grid.Column="3"
-                        Content="{DynamicResource 新增}"
-                        IsEnabled="{Binding AddEnable, Mode=OneWay}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding AddUser, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-                <Button Grid.Row="0"
-                        Grid.RowSpan="3"
-                        Grid.Column="4"
-                        Content="{DynamicResource 刪除}"
-                        IsEnabled="{Binding RemoveEnable, Mode=OneWay}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding RemoveUser, Mode=OneTime}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Button>
-            </Grid>
             <TabControl Grid.Row="6"
-                        Margin="8"
+                        Margin="8,0,8,8"
                         views:TabControl.EnableSliding="True"
-                        Visibility="{Binding Visibility, ElementName=Grid, Mode=OneWay}">
+                        IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
+                        Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                 <TabItem Height="40"
                          FontSize="16"
                          Header="{DynamicResource 人員管理}">
-                    <DataGrid Height="200"
-                              AutoGenerateColumns="False"
-                              FontSize="12"
-                              HorizontalScrollBarVisibility="Disabled"
-                              ItemsSource="{Binding ViewUsers, Mode=OneWay, IsAsync=True}"
-                              SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                              VerticalScrollBarVisibility="Visible">
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Width="*">
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{DynamicResource 帳號}" />
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpcoremodels:User">
-                                        <TextBlock Text="{Binding Name, Mode=OneWay}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Width="*">
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{DynamicResource 密碼}" />
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpcoremodels:User">
-                                        <TextBlock Text="{Binding Password, Mode=OneWay}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn MinWidth="40">
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{DynamicResource 層級}" />
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpcoremodels:User">
-                                        <TextBlock Text="{Binding Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{DynamicResource 上次登入}" />
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpcoremodels:User">
-                                        <TextBlock Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{DynamicResource 創建時間}" />
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="gpcoremodels:User">
-                                        <TextBlock Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Grid Height="240">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0"
+                              Height="80"
+                              IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
+                              KeyboardNavigation.TabNavigation="Cycle"
+                              TextElement.FontSize="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 帳號}" />
+                            </Border>
+                            <TextBox Grid.Row="0"
+                                     Grid.Column="1"
+                                     BorderThickness="1,1,1,0"
+                                     FontSize="14"
+                                     GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                                     Text="{Binding EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Border Grid.Row="1"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,0">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 密碼}" />
+                            </Border>
+                            <TextBox Grid.Row="1"
+                                     Grid.Column="1"
+                                     BorderThickness="1,1,1,0"
+                                     FontSize="14"
+                                     GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                                     Text="{Binding EditPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Border Grid.Row="2"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 層級}" />
+                            </Border>
+                            <ComboBox x:Name="ComboBox"
+                                      Grid.Row="2"
+                                      Grid.Column="1"
+                                      ItemsSource="{Binding EditLevels, Mode=OneWay}"
+                                      SelectedItem="{Binding EditLevel, Mode=TwoWay}" />
+                            <Button Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Grid.Column="2"
+                                    Content="{DynamicResource 修改}"
+                                    IsEnabled="{Binding UpdateEnable, Mode=OneWay}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding UpdateUser, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Grid.Column="3"
+                                    Content="{DynamicResource 新增}"
+                                    IsEnabled="{Binding AddEnable, Mode=OneWay}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding AddUser, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Grid.Column="4"
+                                    Content="{DynamicResource 刪除}"
+                                    IsEnabled="{Binding RemoveEnable, Mode=OneWay}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding RemoveUser, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                        <DataGrid Grid.Row="1"
+                                  AutoGenerateColumns="False"
+                                  BorderThickness="1,0,1,1"
+                                  FontSize="12"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  ItemsSource="{Binding ViewUsers, Mode=OneWay, IsAsync=True}"
+                                  SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                                  VerticalScrollBarVisibility="Visible">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 帳號}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="gpcoremodels:User">
+                                            <TextBlock Text="{Binding Name, Mode=OneWay}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 密碼}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="gpcoremodels:User">
+                                            <TextBlock Text="{Binding Password, Mode=OneWay}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn MinWidth="40">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 層級}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="gpcoremodels:User">
+                                            <TextBlock Text="{Binding Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 上次登入}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="gpcoremodels:User">
+                                            <TextBlock Text="{Binding LastLoginTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 創建時間}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="gpcoremodels:User">
+                                            <TextBlock Text="{Binding CreatedTime, StringFormat={}{0:yyyy/MM/dd HH:mm}, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
                 </TabItem>
                 <TabItem Height="40"
                          FontSize="16"
@@ -413,7 +418,7 @@
                          Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="0,0,1,0">
-                        <local:SECSParameterView Height="200">
+                        <local:SECSParameterView Height="240">
                             <local:SECSParameterView.DataContext>
                                 <GPSECS:SECSParameterSet />
                             </local:SECSParameterView.DataContext>
@@ -424,7 +429,7 @@
                          FontSize="16"
                          Header="{DynamicResource 系統設定}"
                          IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}">
-                    <Grid Height="200">
+                    <Grid Height="240">
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
