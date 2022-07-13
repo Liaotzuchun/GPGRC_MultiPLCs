@@ -209,6 +209,7 @@
                     <Border.Style>
                         <Style TargetType="Border">
                             <Setter Property="Background" Value="LightSlateGray" />
+                            <Setter Property="TextElement.Foreground" Value="{StaticResource GlyphBrush}" />
                             <Setter Property="Grid.Column" Value="4" />
                             <Setter Property="Grid.RowSpan" Value="2" />
                             <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
@@ -228,6 +229,7 @@
                                 <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay, FallbackValue=False}"
                                              Value="4">
                                     <Setter Property="Background" Value="{StaticResource EnergyBrush}" />
+                                    <Setter Property="TextElement.Foreground" Value="Red" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -236,7 +238,6 @@
                                VerticalAlignment="Center"
                                FontSize="36"
                                FontWeight="Bold"
-                               Foreground="White"
                                Text="{Binding NowUser.Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2, FallbackValue=GU}" />
                 </Border>
             </Grid>
