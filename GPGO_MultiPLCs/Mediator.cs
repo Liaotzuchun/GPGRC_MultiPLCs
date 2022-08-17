@@ -533,44 +533,12 @@ public sealed class Mediator : ObservableObject
                                              var recipe = info.Recipe.ToDictionary(Language);
                                              var type   = typeof(ProcessInfo);
 
-                                             //await Task.Run(() =>
-                                             //               {
-                                             //                   FastCSV.WriteFile($"{outpath}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv",
-                                             //                                     new[]
-                                             //                                         {
-                                             //                                             type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
-                                             //                                             type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
-                                             //                                             type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
-                                             //                                             type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
-                                             //                                             type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
-                                             //                                             type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
-                                             //                                             type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
-                                             //                                             type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
-                                             //                                             type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
-                                             //                                         }.Concat(recipe.Keys)
-                                             //                                          .ToArray(),
-                                             //                                     ',',
-                                             //                                     info.Products,
-                                             //                                     product => new[]
-                                             //                                                {
-                                             //                                                    info.AddedTime.ToString("yy-MM-dd"),
-                                             //                                                    info.StartTime.ToString("HH:mm:ss"),
-                                             //                                                    info.EndTime.ToString("HH:mm:ss"),
-                                             //                                                    product.PartID,
-                                             //                                                    product.LotID,
-                                             //                                                    product.Quantity.ToString(),
-                                             //                                                    info.OvenCode,
-                                             //                                                    product.Layer.ToString(),
-                                             //                                                    info.OperatorID
-                                             //                                                }.Concat(recipe.Values.Cast<string>())
-                                             //                                                 .ToArray());
-                                             //               });
-
                                              using var titles = new[]
                                                                 {
                                                                     type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
                                                                     type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
                                                                     type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
+                                                                    type.GetProperty(nameof(ProcessInfo.IsFinished))?.GetName(Language) ?? nameof(ProcessInfo.IsFinished),
                                                                     type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
                                                                     type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
                                                                     type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
@@ -587,9 +555,10 @@ public sealed class Mediator : ObservableObject
                                              {
                                                  var vals = new[]
                                                             {
-                                                                info.AddedTime.ToString("yy-MM-dd"),
+                                                                info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
                                                                 info.StartTime.ToString("HH:mm:ss"),
                                                                 info.EndTime.ToString("HH:mm:ss"),
+                                                                info.IsFinished.ToString(),
                                                                 product.PartID,
                                                                 product.LotID,
                                                                 product.Quantity.ToString(),
@@ -602,7 +571,7 @@ public sealed class Mediator : ObservableObject
                                                  sb.AppendLine(string.Join(",", vals));
                                              }
 
-                                             using var outputFile = new StreamWriter($"{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
+                                             using var outputFile = new StreamWriter($"{outpath}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
                                              await outputFile.WriteAsync(sb.ToString());
                                          }
                                      }
@@ -662,7 +631,6 @@ public sealed class Mediator : ObservableObject
                  });
 
         #region 產生測試用生產數據資料庫，務必先建立配方！！
-
         //DialogVM.Show(new Dictionary<Language, string>
         //              {
         //                  { Language.TW, "測試資料產生中，請稍後！" },
@@ -686,7 +654,6 @@ public sealed class Mediator : ObservableObject
         //                                        }
         //                                    }),
         //              TimeSpan.FromMinutes(5));
-
         #endregion
     }
 }
