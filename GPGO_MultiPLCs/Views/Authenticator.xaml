@@ -437,7 +437,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="100" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Border Background="{StaticResource WindowBackgroundBrush2}"
@@ -476,7 +476,7 @@
                                 BorderThickness="1,0,0,1">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Text="Delay" />
+                                       Text="Record Delay" />
                         </Border>
                         <Border Grid.Row="2"
                                 Grid.Column="1"
