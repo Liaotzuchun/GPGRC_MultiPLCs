@@ -178,7 +178,7 @@
                                            FontSize="16"
                                            FontWeight="Bold"
                                            Foreground="{StaticResource GlyphBrush}">
-                                    <Run Text="{DynamicResource 今日}" /><Run Text="{DynamicResource 訊息}" />
+                                    <Run Text="{DynamicResource 本日}" /><Run Text="{DynamicResource 訊息}" />
                                 </TextBlock>
                             </Border>
                         </GroupBox.Header>
