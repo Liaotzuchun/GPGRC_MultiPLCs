@@ -449,6 +449,7 @@
                         </Border>
                         <views:DirectoryPicker Grid.Row="0"
                                                Grid.Column="1"
+                                               BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                                BorderThickness="1,1,1,1"
                                                Directory="{Binding Settings.DataOutputPath, Mode=TwoWay}"
                                                FontSize="16" />
