@@ -434,6 +434,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="90" />
@@ -441,32 +442,46 @@
                         </Grid.ColumnDefinitions>
                         <Border Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,1,1,1">
+                                BorderThickness="1,1,0,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="CSV Output" />
+                        </Border>
+                        <views:DirectoryPicker Grid.Row="0"
+                                               Grid.Column="1"
+                                               BorderThickness="1,1,1,1"
+                                               Directory="{Binding Settings.DataOutputPath, Mode=TwoWay}"
+                                               FontSize="16" />
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,0,0,1">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="PLC IP" />
                         </Border>
                         <TextBox x:Name="IPTextBox"
-                                 Grid.Row="0"
+                                 Grid.Row="1"
                                  Grid.Column="1"
-                                 BorderThickness="0,1,1,1"
+                                 BorderThickness="1,0,1,1"
                                  FontSize="16"
                                  KeyDown="TextBox_KeyDown"
                                  Text="{Binding IPString, Mode=TwoWay}" />
-                        <Border Grid.Row="1"
+                        <Border Grid.Row="2"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,0,1,1">
+                                BorderThickness="1,0,0,1">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="Delay" />
                         </Border>
-                        <Border Grid.Row="1"
+                        <Border Grid.Row="2"
                                 Grid.Column="1"
                                 Background="{StaticResource LightBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="0,0,1,1">
+                                BorderThickness="1,0,1,1">
                             <views:SpinControl Margin="8,0"
                                                VerticalAlignment="Center"
                                                Maximum="60"
