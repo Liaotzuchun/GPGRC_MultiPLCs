@@ -51,6 +51,11 @@ public class SECSThread
         secsGem?.AxQGWrapper.SendTerminalMessage(message);
     }
 
+    public void TerminalMessageConfirm()
+    {
+        secsGem?.AxQGWrapper.EventReportSend(21);
+    }
+
     public void UpdateSV(string name, object value)
     {
         if (secsGem != null && eqpBase != null)

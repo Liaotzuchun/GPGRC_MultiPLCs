@@ -391,7 +391,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       null);
 
         secsGem = new SECSThread(0);
-        secsGem.TerminalMessage += message =>
+        secsGem.TerminalMessage += async message =>
                                    {
                                        if (dialog == null)
                                        {
@@ -401,14 +401,17 @@ public sealed class TotalView_ViewModel : ObservableObject
                                        var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.TerminalMessageEvent), "", message);
                                        EventHappened?.Invoke(eventval);
 
-                                       _ = dialog.Show(new Dictionary<Language, string>
+                                       if (await dialog.Show(new Dictionary<Language, string>
                                                        {
                                                            { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
                                                            { Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}" },
                                                            { Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}" }
                                                        },
                                                        false,
-                                                       TimeSpan.FromDays(1));
+                                                       TimeSpan.FromDays(1)))
+                                       {
+                                           secsGem.TerminalMessageConfirm();
+                                       }
                                    };
 
         secsGem.ECChange += (index, ecid, value) =>
