@@ -377,15 +377,15 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                                                                              },
                                                                                                              new Dictionary<Language, string>
                                                                                                              {
-                                                                                                                 { Language.TW, "Terminal Message" },
-                                                                                                                 { Language.CHS, "Terminal Message" },
+                                                                                                                 { Language.TW, "終端訊息" },
+                                                                                                                 { Language.CHS, "终端讯息" },
                                                                                                                  { Language.EN, "Terminal Message" }
                                                                                                              },
                                                                                                              true);
 
-                                                          if (result1)
+                                                          if (result1 && input1 is string msg)
                                                           {
-                                                              secsGem?.SendTerminalMessage(input1.ToString().Trim());
+                                                              secsGem?.SendTerminalMessage(msg);
                                                           }
                                                       },
                                                       null);
@@ -402,15 +402,35 @@ public sealed class TotalView_ViewModel : ObservableObject
                                        EventHappened?.Invoke(eventval);
 
                                        if (await dialog.Show(new Dictionary<Language, string>
-                                                       {
-                                                           { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
-                                                           { Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}" },
-                                                           { Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}" }
-                                                       },
-                                                       false,
-                                                       TimeSpan.FromDays(1)))
+                                                             {
+                                                                 { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
+                                                                 { Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}" },
+                                                                 { Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}" }
+                                                             },
+                                                             false,
+                                                             TimeSpan.FromDays(1),
+                                                             DialogMsgType.Alert))
                                        {
                                            secsGem.TerminalMessageConfirm();
+
+                                           var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                                              {
+                                                                                                  { Language.TW, "欲回覆之訊息：" },
+                                                                                                  { Language.CHS, "欲回复之讯息：" },
+                                                                                                  { Language.EN, "Please enter the message you want to reply：" }
+                                                                                              },
+                                                                                              new Dictionary<Language, string>
+                                                                                              {
+                                                                                                  { Language.TW, "終端訊息" },
+                                                                                                  { Language.CHS, "终端讯息" },
+                                                                                                  { Language.EN, "Terminal Message" }
+                                                                                              },
+                                                                                              true);
+
+                                           if (result1 && input1 is string msg)
+                                           {
+                                               secsGem?.SendTerminalMessage(msg);
+                                           }
                                        }
                                    };
 
