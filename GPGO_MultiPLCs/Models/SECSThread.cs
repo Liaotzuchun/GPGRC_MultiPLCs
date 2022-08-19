@@ -46,6 +46,11 @@ public class SECSThread
 
     public QGWrapper GemCore => secsGem?.AxQGWrapper;
 
+    public void SendTerminalMessage(string message)
+    {
+        secsGem?.AxQGWrapper.SendTerminalMessage(message);
+    }
+
     public void UpdateSV(string name, object value)
     {
         if (secsGem != null && eqpBase != null)

@@ -222,4 +222,5 @@
     <sys:String x:Key="耗電量">耗电量</sys:String>
     <sys:String x:Key="氮氣流量">氮气流量</sys:String>
     <sys:String x:Key="生產中停止">生产中停止</sys:String>
+    <sys:String x:Key="發送">发送</sys:String>
 </ResourceDictionary>

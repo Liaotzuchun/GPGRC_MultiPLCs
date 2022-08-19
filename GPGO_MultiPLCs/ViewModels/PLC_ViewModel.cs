@@ -17,9 +17,7 @@ namespace GPGO_MultiPLCs.ViewModels;
 public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 {
     #region Interface implement
-
     public void Dispose() { CTS.Dispose(); }
-
     #endregion
 
     private readonly IDialogService Dialog;
@@ -821,7 +819,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                          {
                                              if (InputQuantity <= 0 || string.IsNullOrEmpty(InputPartID) || string.IsNullOrEmpty(InputLotID)) return;
 
-
                                              OvenInfo.OperatorID = InputOperatorID;
 
                                              //! 當PartID、LotID和Layer都相等，數量則直接覆蓋
@@ -1162,7 +1159,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     };
 
         #region 註冊PLC事件
-
         object PreviousEquipmentState = EquipmentState;
         ValueChanged += async (LogType, data) =>
                         {
@@ -1281,7 +1277,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         NotifyPropertyChanged(nameof(Progress));
                                     }
                                 }
-                                else if(value is short sv)
+                                else if (value is short sv)
                                 {
                                     if (name is nameof(CurrentSegment))
                                     {
@@ -1311,12 +1307,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     }
                                     else if (name == nameof(ProcessState))
                                     {
-                                        SetWithOutNotifyWhenEquals(sv == 0, nameof(ManualMode));
-                                        SetWithOutNotifyWhenEquals(sv == 1, nameof(IsRamp));
-                                        SetWithOutNotifyWhenEquals(sv == 2, nameof(IsDwell));
-                                        SetWithOutNotifyWhenEquals(sv == 7, nameof(IsCooling));
-                                        SetWithOutNotifyWhenEquals(sv == 8, nameof(ProgramStop));
-                                        SetWithOutNotifyWhenEquals(sv == 9, nameof(AutoMode));
+                                        SetWithOutNotifyWhenEquals(sv == 0,  nameof(ManualMode));
+                                        SetWithOutNotifyWhenEquals(sv == 1,  nameof(IsRamp));
+                                        SetWithOutNotifyWhenEquals(sv == 2,  nameof(IsDwell));
+                                        SetWithOutNotifyWhenEquals(sv == 7,  nameof(IsCooling));
+                                        SetWithOutNotifyWhenEquals(sv == 8,  nameof(ProgramStop));
+                                        SetWithOutNotifyWhenEquals(sv == 9,  nameof(AutoMode));
                                         SetWithOutNotifyWhenEquals(sv == 10, nameof(Inflating));
                                     }
                                 }
@@ -1368,7 +1364,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                    SV_Changed?.Invoke("PartIDs",  parts.Count  > 0 ? string.Join(",", parts) : string.Empty);
                                                    SV_Changed?.Invoke("PanelIDs", panels.Count > 0 ? string.Join(",", panels) : string.Empty);
                                                };
-
         #endregion 註冊PLC事件
     }
 }

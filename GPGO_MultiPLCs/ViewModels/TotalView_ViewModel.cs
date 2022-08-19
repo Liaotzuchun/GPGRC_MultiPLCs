@@ -51,6 +51,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     /// <summary>回到總覽頁</summary>
     public RelayCommand BackCommand { get; }
 
+    public AsyncCommand SendTerminalMessageCommand { get; }
+
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
 
@@ -364,6 +366,29 @@ public sealed class TotalView_ViewModel : ObservableObject
                                        {
                                            Index = int.TryParse(index.ToString(), out var i) ? i : 0;
                                        });
+
+        SendTerminalMessageCommand = new AsyncCommand(async _ =>
+                                                      {
+                                                          var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                                                             {
+                                                                                                                 { Language.TW, "請輸入欲發送之訊息：" },
+                                                                                                                 { Language.CHS, "请输入欲发送之讯息：" },
+                                                                                                                 { Language.EN, "Please enter the message you want to send：" }
+                                                                                                             },
+                                                                                                             new Dictionary<Language, string>
+                                                                                                             {
+                                                                                                                 { Language.TW, "Terminal Message" },
+                                                                                                                 { Language.CHS, "Terminal Message" },
+                                                                                                                 { Language.EN, "Terminal Message" }
+                                                                                                             },
+                                                                                                             true);
+
+                                                          if (result1)
+                                                          {
+                                                              secsGem?.SendTerminalMessage(input1.ToString().Trim());
+                                                          }
+                                                      },
+                                                      null);
 
         secsGem = new SECSThread(0);
         secsGem.TerminalMessage += message =>
@@ -729,7 +754,6 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
 
         #region PLCGate事件通知
-
         Gate.GateStatus.ValueChanged += status =>
                                         {
                                             if (!status)
@@ -737,7 +761,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                 EventHappened?.Invoke((-1, EventType.Alarm, DateTime.Now, "PLC Gate Offline!", string.Empty, true));
                                             }
                                         };
-
         #endregion
 
         LoadMachineCodes();

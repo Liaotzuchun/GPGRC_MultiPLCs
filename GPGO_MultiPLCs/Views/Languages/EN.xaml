@@ -222,4 +222,5 @@
     <sys:String x:Key="耗電量">Power</sys:String>
     <sys:String x:Key="氮氣流量">N2 Flow</sys:String>
     <sys:String x:Key="生產中停止">Abnormal Stop</sys:String>
+    <sys:String x:Key="發送">Send</sys:String>
 </ResourceDictionary>
