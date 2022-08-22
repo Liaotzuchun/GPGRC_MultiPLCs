@@ -1293,9 +1293,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     {
                                         SetWithOutNotifyWhenEquals(sv == 0, nameof(AllowStart));
 
+                                        PreviousEquipmentState = sv;
                                         InvokeSECSEvent?.Invoke("EqpStatusChanged");
                                         SV_Changed?.Invoke($"Previous{name}", PreviousEquipmentState);
-                                        PreviousEquipmentState = sv;
 
                                         EventHappened?.Invoke(eventval);
                                         if (IsExecuting)

@@ -22,6 +22,13 @@ public class SECSThread
         Delete = 3
     }
 
+    public enum ITRI_SV
+    {
+        GEM_PREVIOUS_PROCESS_STATE = 14,
+        GEM_PROCESS_STATE          = 15,
+        GEM_PP_EXEC_NAME           = 42
+    }
+
     private readonly GOSECS  secsGem;
     private readonly EqpBase eqpBase;
 
@@ -54,6 +61,11 @@ public class SECSThread
     public void TerminalMessageConfirm()
     {
         secsGem?.AxQGWrapper.EventReportSend(21);
+    }
+
+    public void UpdateITRISV(ITRI_SV name, object value)
+    {
+        secsGem?.AxQGWrapper.UpdateSV((int)name, value);
     }
 
     public void UpdateSV(string name, object value)

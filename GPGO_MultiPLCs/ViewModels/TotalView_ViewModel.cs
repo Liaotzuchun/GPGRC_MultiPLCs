@@ -762,9 +762,17 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.SV_Changed += (name, value) =>
                               {
-                                  if (name == "RackID")
+                                  if (name == nameof(PLC_ViewModel.EquipmentState))
                                   {
-                                      value = value.ToString().Trim();
+                                      secsGem.UpdateITRISV(SECSThread.ITRI_SV.GEM_PROCESS_STATE, value);
+                                  }
+                                  else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
+                                  {
+                                      secsGem.UpdateITRISV(SECSThread.ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
+                                  }
+                                  else if (name == nameof(PLC_ViewModel.PV_RecipeName))
+                                  {
+                                      secsGem.UpdateITRISV(SECSThread.ITRI_SV.GEM_PP_EXEC_NAME, value);
                                   }
 
                                   secsGem.UpdateSV($"Oven{index + 1}_{name}", value);
