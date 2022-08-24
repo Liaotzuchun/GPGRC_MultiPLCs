@@ -575,7 +575,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         //OvenInfo.RackID    = RackID;
 
-        void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8)
+        void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8, double oxy)
         {
             var record = new RecordTemperatures
                          {
@@ -589,7 +589,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                              OvenTemperatures_5       = t5,
                              OvenTemperatures_6       = t6,
                              OvenTemperatures_7       = t7,
-                             OvenTemperatures_8       = t8
+                             OvenTemperatures_8       = t8,
+                             OxygenContent            = oxy
                          };
 
             OvenInfo.RecordTemperatures.Add(record);
@@ -609,6 +610,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         var _OvenTemperature_6     = OvenTemperature_6;
         var _OvenTemperature_7     = OvenTemperature_7;
         var _OvenTemperature_8     = OvenTemperature_8;
+        var _OxygenContent         = OxygenContent;
 
         AddTemperatures(OvenInfo.StartTime,
                         OvenInfo.StartTime,
@@ -620,7 +622,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         _OvenTemperature_5,
                         _OvenTemperature_6,
                         _OvenTemperature_7,
-                        _OvenTemperature_8);
+                        _OvenTemperature_8,
+                        OxygenContent);
 
         await OneScheduler.StartNew(() =>
                                     {
@@ -635,6 +638,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             _OvenTemperature_6     = OvenTemperature_6        <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
                                             _OvenTemperature_7     = OvenTemperature_7        <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
                                             _OvenTemperature_8     = OvenTemperature_8        <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+                                            _OxygenContent         = OxygenContent            <= 0 ? _OxygenContent : OxygenContent;
 
                                             if (DateTime.Now - nt >= n)
                                             {
@@ -649,7 +653,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                 _OvenTemperature_5,
                                                                 _OvenTemperature_6,
                                                                 _OvenTemperature_7,
-                                                                _OvenTemperature_8);
+                                                                _OvenTemperature_8,
+                                                                _OxygenContent);
                                             }
                                             else if (ManualRecord)
                                             {
@@ -664,7 +669,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                 _OvenTemperature_5,
                                                                 _OvenTemperature_6,
                                                                 _OvenTemperature_7,
-                                                                _OvenTemperature_8);
+                                                                _OvenTemperature_8,
+                                                                _OxygenContent);
                                             }
                                             else
                                             {
@@ -681,6 +687,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         _OvenTemperature_6     = OvenTemperature_6        <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
                                         _OvenTemperature_7     = OvenTemperature_7        <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
                                         _OvenTemperature_8     = OvenTemperature_8        <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+                                        _OxygenContent         = OxygenContent            <= 0 ? _OxygenContent : OxygenContent;
 
                                         AddTemperatures(OvenInfo.StartTime,
                                                         DateTime.Now,
@@ -692,7 +699,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         _OvenTemperature_5,
                                                         _OvenTemperature_6,
                                                         _OvenTemperature_7,
-                                                        _OvenTemperature_8);
+                                                        _OvenTemperature_8,
+                                                        _OxygenContent);
                                     },
                                     ct);
     }

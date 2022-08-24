@@ -17,7 +17,7 @@ public class RecordTemperatures
         new[]
             {
                 OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6/*, OvenTemperatures_7, OvenTemperatures_8*/
+                OvenTemperatures_5, OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
             }
            .Average();
 
@@ -25,7 +25,7 @@ public class RecordTemperatures
         new[]
             {
                 OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6/*, OvenTemperatures_7, OvenTemperatures_8*/
+                OvenTemperatures_5, OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
             }
            .Max();
 
@@ -33,7 +33,7 @@ public class RecordTemperatures
         new[]
             {
                 OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6/*, OvenTemperatures_7, OvenTemperatures_8*/
+                OvenTemperatures_5, OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
             }
            .Min();
 
@@ -76,6 +76,9 @@ public class RecordTemperatures
     [LanguageTranslator("OvenTemperatures_8", "感溫器溫度8", "感温器温度8")]
     public double OvenTemperatures_8 { get; set; }
 
+    [LanguageTranslator("OOxygenContent", "含氧量", "含氧量")]
+    public double OxygenContent { get; set; }
+
     public Dictionary<string, object> ToDic(Language lng)
     {
         var type = GetType();
@@ -90,6 +93,7 @@ public class RecordTemperatures
                    { type.GetProperty(nameof(OvenTemperatures_4))?.GetName(lng)       ?? nameof(OvenTemperatures_4), OvenTemperatures_4 },
                    { type.GetProperty(nameof(OvenTemperatures_5))?.GetName(lng)       ?? nameof(OvenTemperatures_5), OvenTemperatures_5 },
                    { type.GetProperty(nameof(OvenTemperatures_6))?.GetName(lng)       ?? nameof(OvenTemperatures_6), OvenTemperatures_6 },
+                   { type.GetProperty(nameof(OxygenContent))?.GetName(lng)            ?? nameof(OxygenContent), OxygenContent }
                };
     }
 }
