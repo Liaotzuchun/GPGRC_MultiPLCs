@@ -105,7 +105,7 @@ public sealed class Mediator : ObservableObject
                 var rn = new Random(i                                + j);
                 var st = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), rn.Next(0, 60)); //! 早上8點開始
 
-                for (var k = 0; k < 8; k++) //! 每天每烤箱8筆
+                for (var k = 0; k < 10; k++) //! 每天每烤箱8筆
                 {
                     var info = new ProcessInfo
                                {
@@ -137,20 +137,21 @@ public sealed class Mediator : ObservableObject
                             info.EventList.Add(ev1);
                         }
 
-                        var tempt = 30 * (1 + 5 * 1 / (1 + Math.Exp(-0.12 * cc + 3)));
+                        var tempt = 30 * (1 + 5 / (1 + Math.Exp(-0.12 * cc + 3)));
                         var vals = new RecordTemperatures
                                    {
                                        StartTime                = st,
                                        AddedTime                = st + ttime,
-                                       PV_ThermostatTemperature = tempt,
-                                       OvenTemperatures_1       = tempt + rn.Next(-5, 5),
-                                       OvenTemperatures_2       = tempt + rn.Next(-5, 5),
-                                       OvenTemperatures_3       = tempt + rn.Next(-5, 5),
-                                       OvenTemperatures_4       = tempt + rn.Next(-5, 5),
-                                       OvenTemperatures_5       = tempt + rn.Next(-5, 5),
-                                       OvenTemperatures_6       = tempt + rn.Next(-5, 5),
-                                       OvenTemperatures_7       = tempt + rn.Next(-5, 5),
-                                       OvenTemperatures_8       = tempt + rn.Next(-5, 5)
+                                       PV_ThermostatTemperature = Math.Round(tempt,                                          1),
+                                       OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_2       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_3       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_4       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_5       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_6       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_7       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_8       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OxygenContent            = Math.Round(new Random(i + j + k + m).NextDouble() * 100.0, 1)
                                    };
 
                         cc += 1;
