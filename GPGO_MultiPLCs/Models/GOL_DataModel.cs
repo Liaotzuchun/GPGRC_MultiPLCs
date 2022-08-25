@@ -1884,7 +1884,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 氮氣流量
+    /// 氮氣流量(L/m)
     /// </summary>
     [PLCData(DataType.D, 402, LogType.StatusVariables)]
     public double NitrogenFlow
@@ -1894,7 +1894,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 含氧量
+    /// 含氧量(%)
     /// </summary>
     [PLCData(DataType.D, 404, 0.1, LogType.StatusVariables)]
     public double OxygenContent
@@ -1904,7 +1904,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 現在風速
+    /// 現在風速(m/s)
     /// </summary>
     [PLCData(DataType.D, 670, 0.1, LogType.StatusVariables)]
     public double PV_WindSpeed
@@ -1914,7 +1914,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 設定風速
+    /// 設定風速(m/s)
     /// </summary>
     public double WindSpeed
     {
@@ -1923,7 +1923,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>
-    /// 耗電量
+    /// 耗電量(kWh)
     /// </summary>
     [PLCData(DataType.D, 686, 0.1, LogType.StatusVariables)]
     public double PowerConsumption
