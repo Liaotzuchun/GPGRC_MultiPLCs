@@ -608,16 +608,14 @@ public sealed class Mediator : ObservableObject
                                   MainVM.ViewIndex     = 2;
                                   var (info, logEvent) = e;
 
-                                  await Task.Factory.StartNew(() =>
-                                                              {
-                                                                  SpinWait.SpinUntil(() => TraceVM.Standby);
-                                                              });
+                                  if (await Task.Factory.StartNew(() => SpinWait.SpinUntil(() => TraceVM.Standby, 3000)))
+                                  {
+                                      await Task.Delay(150);
 
-                                  await Task.Delay(150);
-
-                                  TraceVM.SearchResult = info;
-                                  TraceVM.SearchEvent  = logEvent;
-                                  TraceVM.Date1        = info.AddedTime.Date;
+                                      TraceVM.SearchResult = info;
+                                      TraceVM.SearchEvent  = logEvent;
+                                      TraceVM.Date1        = info.AddedTime.Date;
+                                  }
                               };
 
         LogVM.LogAdded += log =>
