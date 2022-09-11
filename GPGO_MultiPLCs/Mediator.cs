@@ -642,7 +642,7 @@ public sealed class Mediator : ObservableObject
         //                                    {
         //                                        try
         //                                        {
-        //                                            Thread.Sleep(1200);
+        //                                            SpinWait.SpinUntil(() => false, 1200);
 
         //                                            MakeTestData(1);
 

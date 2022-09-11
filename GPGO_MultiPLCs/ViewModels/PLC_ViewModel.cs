@@ -674,7 +674,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             }
                                             else
                                             {
-                                                Thread.Sleep(15);
+                                                SpinWait.SpinUntil(() => false, 15);
                                             }
                                         }
 
