@@ -222,10 +222,15 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.8 (x86 和 x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.8"
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 和 x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.8.1 (x86 和 x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.8.1"
                     }
                 }
             }
@@ -940,7 +945,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPGO"
         "ProductCode" = "8:{E16E254A-120C-4DA0-B72B-906BFE05AD19}"
-        "PackageCode" = "8:{47D789A7-6C1A-4B96-8AD2-8291C0247AC9}"
+        "PackageCode" = "8:{37457CEC-5CC4-4EFB-95CC-BE02F3E55A63}"
         "UpgradeCode" = "8:{70B006A8-DE96-46AD-9A55-02B82D36D525}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

@@ -40,6 +40,7 @@ Global
 		{83CCA5D7-9864-498B-84E6-03CC95AC13CD}.Release|Any CPU.ActiveCfg = Release
 		{83CCA5D7-9864-498B-84E6-03CC95AC13CD}.Release|x64.ActiveCfg = Release
 		{83CCA5D7-9864-498B-84E6-03CC95AC13CD}.Release|x86.ActiveCfg = Release
+		{83CCA5D7-9864-498B-84E6-03CC95AC13CD}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,7 @@
+﻿{
+  "$type": "GPMVVM.Models.AuthenticatorModel+Users, GPMVVM",
+  "List": {
+    "$type": "System.Collections.Generic.List`1[[GPMVVM.Models.User, GPMVVM]], mscorlib",
+    "$values": []
+  }
+}
