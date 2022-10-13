@@ -246,7 +246,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [LanguageTranslator("Editor Level", "權限", "权限")]
     public override UserLevel EditorLevel { get; set; }
 
-    [GPIgnore]
     [OrderIndex(4)]
     [LanguageTranslator("Inflating Time", "充氣時間", "充气时间")]
     public double InflatingTime
