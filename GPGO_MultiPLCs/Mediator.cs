@@ -368,7 +368,7 @@ public sealed class Mediator : ObservableObject
                                              var si    = new StreamReaderIni();
                                              var t     = si.AddIniSection("CCodeID1");
                                              t.AddElement(nameof(PLC_Recipe.NitrogenMode),          recipe.NitrogenMode.ToString());
-                                             t.AddElement(nameof(PLC_Recipe.OxygenContentSet),      recipe.OxygenContentSet.ToString("0"));
+                                             t.AddElement(nameof(PLC_Recipe.OxygenContentSet),      recipe.OxygenContentSet.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.InflatingTime),         recipe.InflatingTime.ToString("0"));
                                              t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.CoolingTemperature),    recipe.CoolingTemperature.ToString("0.0"));

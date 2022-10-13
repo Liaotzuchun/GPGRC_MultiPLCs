@@ -4,7 +4,7 @@
 
 CCODE: [CCodeID1], 1, 36 , Comment 1
  NitrogenMode, BOOLEAN, N/A, N/A,
- OxygenContentSet, INT_4, 0, 100,
+ OxygenContentSet, FT_4, 0, 100,
  InflatingTime, INT_4, 0, 100,
  CoolingTime, FT_4, 1, 120,
  CoolingTemperature, FT_4, 40, 250,

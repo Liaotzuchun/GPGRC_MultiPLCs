@@ -629,8 +629,8 @@
                             Grid.Column="5"
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding OxygenContentSet, Mode=OneWay, StringFormat=\{0:F0\}}"
-                                                 Value2="{Binding PV_OxygenContentSet, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                        <local:PairValuesControl Value1="{Binding OxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}"
+                                                 Value2="{Binding PV_OxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="0"

@@ -18,7 +18,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         other                                 != null                                        &&
         RecipeName                            == other.RecipeName                            &&
         NitrogenMode                          == other.NitrogenMode                          &&
-        OxygenContentSet.ToString("0")        == other.OxygenContentSet.ToString("0")        &&
+        OxygenContentSet.ToString("0.1")      == other.OxygenContentSet.ToString("0.1")      &&
         InflatingTime.ToString("0")           == other.InflatingTime.ToString("0")           &&
         DwellTemperature_1.ToString("0.0")    == other.DwellTemperature_1.ToString("0.0")    &&
         DwellTemperature_2.ToString("0.0")    == other.DwellTemperature_2.ToString("0.0")    &&
@@ -168,7 +168,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
             if (value > 99)
             {
@@ -1571,6 +1571,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public PLC_Recipe(string name, string user, UserLevel level) : base(name, user, level)
     {
         InflatingTime         = 10;
+        OxygenContentSet      = 21;
         DwellTemperature_1    = 200;
         DwellTemperature_2    = 200;
         DwellTemperature_3    = 200;

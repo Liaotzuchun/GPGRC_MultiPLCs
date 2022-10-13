@@ -262,7 +262,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     private bool RecipeCompare(PLC_Recipe recipe) =>
         NitrogenMode                          == recipe.NitrogenMode                          &&
-        OxygenContentSet.ToString("0")        == recipe.OxygenContentSet.ToString("0")        &&
+        OxygenContentSet.ToString("0.0")      == recipe.OxygenContentSet.ToString("0.0")      &&
         RecipeName                            == recipe.RecipeName                            &&
         DwellTime_1.ToString("0.0")           == recipe.DwellTime_1.ToString("0.0")           &&
         DwellTime_2.ToString("0.0")           == recipe.DwellTime_2.ToString("0.0")           &&

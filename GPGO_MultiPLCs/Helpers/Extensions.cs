@@ -79,7 +79,7 @@ namespace GPGO_MultiPLCs.Helpers
                                    {
                                        o.RecipeName,
                                        o.NitrogenMode.ToString(),
-                                       o.OxygenContentSet.ToString("0"),
+                                       o.OxygenContentSet.ToString("0.0"),
                                        o.InflatingTime.ToString("0"),
                                        o.SegmentCounts.ToString(),
                                        o.TemperatureSetpoint_1.ToString("0.0"),

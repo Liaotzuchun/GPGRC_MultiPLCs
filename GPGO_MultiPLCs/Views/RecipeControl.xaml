@@ -105,16 +105,15 @@
                                 Grid.Column="5"
                                 BorderThickness="0,1,1,1"
                                 Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="100"
-                                               Minimum="0"
+                            <views:SpinControl Maximum="99"
+                                               Minimum="10"
                                                Value="{Binding OxygenContentSet, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
                                     <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="100"
-                                                      Min="0"
+                                                      Max="99"
+                                                      Min="10"
                                                       Text="{Binding OxygenContentSet, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
@@ -977,16 +976,15 @@
                                     Grid.Column="5"
                                     BorderThickness="0,1,1,1"
                                     Style="{StaticResource ValueBorder}">
-                                <views:SpinControl Maximum="100"
-                                                   Minimum="0"
+                                <views:SpinControl Maximum="99"
+                                                   Minimum="10"
                                                    Value="{Binding OxygenContentSet, Mode=TwoWay}">
                                     <views:SpinControl.SmallChange>
                                         <system:Double>1</system:Double>
                                     </views:SpinControl.SmallChange>
                                     <views:NumericTextBox BorderThickness="0"
-                                                          IntOnly="True"
-                                                          Max="100"
-                                                          Min="0"
+                                                          Max="99"
+                                                          Min="10"
                                                           Text="{Binding OxygenContentSet, Mode=TwoWay}" />
                                 </views:SpinControl>
                             </Border>

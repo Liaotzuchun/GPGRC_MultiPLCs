@@ -610,7 +610,7 @@
                                                             Style="{StaticResource ValueBorder}">
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
-                                                            <Run Text="{Binding OxygenContentSet, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                            <Run Text="{Binding OxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="%" />
                                                         </TextBlock>
                                                     </Border>

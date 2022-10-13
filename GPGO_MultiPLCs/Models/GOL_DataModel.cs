@@ -59,7 +59,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 充氣逾時時間
     /// </summary>
-    [PLCData(DataType.D, 1090, LogType.RecipeSet)]
+    [PLCData(DataType.D, 1090, 1.0, LogType.RecipeSet)]
     public double InflatingTime
     {
         get => Get<double>();
@@ -69,7 +69,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 含氧量設定
     /// </summary>
-    [PLCData(DataType.D, 1097, LogType.RecipeSet)]
+    [PLCData(DataType.D, 1097, 0.1, LogType.RecipeSet)]
     public double OxygenContentSet
     {
         get => Get<double>();
@@ -593,7 +593,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 充氣逾時時間
     /// </summary>
-    [PLCData(DataType.D, 790, LogType.StatusVariables)]
+    [PLCData(DataType.D, 790, 1.0, LogType.StatusVariables)]
     public double PV_InflatingTime
     {
         get => Get<double>();
