@@ -109,7 +109,7 @@
                                                Minimum="10"
                                                Value="{Binding OxygenContentSet, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
+                                    <system:Double>0.1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="99"
@@ -980,7 +980,7 @@
                                                    Minimum="10"
                                                    Value="{Binding OxygenContentSet, Mode=TwoWay}">
                                     <views:SpinControl.SmallChange>
-                                        <system:Double>1</system:Double>
+                                        <system:Double>0.1</system:Double>
                                     </views:SpinControl.SmallChange>
                                     <views:NumericTextBox BorderThickness="0"
                                                           Max="99"
