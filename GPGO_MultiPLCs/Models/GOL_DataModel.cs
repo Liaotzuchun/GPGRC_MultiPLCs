@@ -1141,6 +1141,7 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<double>();
         set => Set(value);
     }
+
     /// <summary>
     /// 配方PV 恆溫時間Offset1
     /// </summary>
