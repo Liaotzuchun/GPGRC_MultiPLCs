@@ -126,6 +126,12 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [JsonIgnore]
     public double InflatingTime_Min => 0.0;
 
+    [JsonIgnore]
+    public double DwellTime_Offset_Max => 999.0;
+
+    [JsonIgnore]
+    public double DwellTime_Offset_Min => -999.0;
+
     [GPIgnore]
     [JsonIgnore]
     [LanguageTranslator("Used Stations", "使用站點", "使用站点")]
@@ -170,13 +176,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
-            if (value > 99)
+            if (value > 21)
             {
-                value = 99;
+                value = 21;
             }
-            else if (value < 10)
+            else if (value < 0.1)
             {
-                value = 0;
+                value = 0.1;
             }
 
             Set(value);
@@ -1358,6 +1364,182 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
+    [OrderIndex(53)]
+    [LanguageTranslator("Warning Time offset 1", "恆溫時間 補償 1", "恒温时间 補償 1")]
+    public double DwellTimeOffset_1
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+
+            if (value > DwellTime_Offset_Max)
+            {
+                value = DwellTime_Offset_Max;
+            }
+            else if (value < DwellTime_Offset_Min)
+            {
+                value = DwellTime_Offset_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(54)]
+    [LanguageTranslator("Warning Time offset 2", "恆溫時間 補償 2", "恒温时间 補償 2")]
+    public double DwellTimeOffset_2
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+
+            if (value > DwellTime_Offset_Max)
+            {
+                value = DwellTime_Offset_Max;
+            }
+            else if (value < DwellTime_Offset_Min)
+            {
+                value = DwellTime_Offset_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(55)]
+    [LanguageTranslator("Warning Time offset 3", "恆溫時間 補償 3", "恒温时间 補償 3")]
+    public double DwellTimeOffset_3
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+
+            if (value > DwellTime_Offset_Max)
+            {
+                value = DwellTime_Offset_Max;
+            }
+            else if (value < DwellTime_Offset_Min)
+            {
+                value = DwellTime_Offset_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(56)]
+    [LanguageTranslator("Warning Time offset 4", "恆溫時間 補償 4", "恒温时间 補償 4")]
+    public double DwellTimeOffset_4
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+
+            if (value > DwellTime_Offset_Max)
+            {
+                value = DwellTime_Offset_Max;
+            }
+            else if (value < DwellTime_Offset_Min)
+            {
+                value = DwellTime_Offset_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(57)]
+    [LanguageTranslator("Warning Time offset 5", "恆溫時間 補償 5", "恒温时间 補償 5")]
+    public double DwellTimeOffset_5
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+
+            if (value > DwellTime_Offset_Max)
+            {
+                value = DwellTime_Offset_Max;
+            }
+            else if (value < DwellTime_Offset_Min)
+            {
+                value = DwellTime_Offset_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(58)]
+    [LanguageTranslator("Warning Time offset 6", "恆溫時間 補償 6", "恒温时间 補償 6")]
+    public double DwellTimeOffset_6
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+
+            if (value > DwellTime_Offset_Max)
+            {
+                value = DwellTime_Offset_Max;
+            }
+            else if (value < DwellTime_Offset_Min)
+            {
+                value = DwellTime_Offset_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(59)]
+    [LanguageTranslator("Warning Time offset 7", "恆溫時間 補償 7", "恒温时间 補償 7")]
+    public double DwellTimeOffset_7
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+
+            if (value > DwellTime_Offset_Max)
+            {
+                value = DwellTime_Offset_Max;
+            }
+            else if (value < DwellTime_Offset_Min)
+            {
+                value = DwellTime_Offset_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(60)]
+    [LanguageTranslator("Warning Time offset 8", "恆溫時間 補償 8", "恒温时间 補償 8")]
+    public double DwellTimeOffset_8
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+
+            if (value > DwellTime_Offset_Max)
+            {
+                value = DwellTime_Offset_Max;
+            }
+            else if (value < DwellTime_Offset_Min)
+            {
+                value = DwellTime_Offset_Min;
+            }
+
+            Set(value);
+        }
+    }
+
     public override PLC_Recipe Copy(string user, UserLevel level) =>
         new()
         {
@@ -1416,6 +1598,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             TemperatureSetpoint_6 = TemperatureSetpoint_6,
             TemperatureSetpoint_7 = TemperatureSetpoint_7,
             TemperatureSetpoint_8 = TemperatureSetpoint_8,
+            DwellTimeOffset_1     = DwellTimeOffset_1,
+            DwellTimeOffset_2     = DwellTimeOffset_2,
+            DwellTimeOffset_3     = DwellTimeOffset_3,
+            DwellTimeOffset_4     = DwellTimeOffset_4,
+            DwellTimeOffset_5     = DwellTimeOffset_5,
+            DwellTimeOffset_6     = DwellTimeOffset_6,
+            DwellTimeOffset_7     = DwellTimeOffset_7,
+            DwellTimeOffset_8     = DwellTimeOffset_8,
             SegmentCounts         = SegmentCounts,
             Used_Stations         = Used_Stations,
             Editor                = user,
@@ -1478,6 +1668,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         TemperatureSetpoint_6 = recipe.TemperatureSetpoint_6;
         TemperatureSetpoint_7 = recipe.TemperatureSetpoint_7;
         TemperatureSetpoint_8 = recipe.TemperatureSetpoint_8;
+        DwellTimeOffset_1     = recipe.DwellTimeOffset_1;
+        DwellTimeOffset_2     = recipe.DwellTimeOffset_2;
+        DwellTimeOffset_3     = recipe.DwellTimeOffset_3;
+        DwellTimeOffset_4     = recipe.DwellTimeOffset_4;
+        DwellTimeOffset_5     = recipe.DwellTimeOffset_5;
+        DwellTimeOffset_6     = recipe.DwellTimeOffset_6;
+        DwellTimeOffset_7     = recipe.DwellTimeOffset_7;
+        DwellTimeOffset_8     = recipe.DwellTimeOffset_8;
         SegmentCounts         = recipe.SegmentCounts;
         Editor                = user;
         EditorLevel           = level;
@@ -1621,6 +1819,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         TemperatureSetpoint_6 = 200;
         TemperatureSetpoint_7 = 200;
         TemperatureSetpoint_8 = 200;
+        DwellTimeOffset_1     = 0;
+        DwellTimeOffset_2     = 0;
+        DwellTimeOffset_3     = 0;
+        DwellTimeOffset_4     = 0;
+        DwellTimeOffset_5     = 0;
+        DwellTimeOffset_6     = 0;
+        DwellTimeOffset_7     = 0;
+        DwellTimeOffset_8     = 0;
         SegmentCounts         = SegmentCounts_Max;
         Used_Stations         = new bool[20];
     }

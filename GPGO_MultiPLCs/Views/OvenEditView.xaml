@@ -569,6 +569,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -604,7 +605,7 @@
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
                             <Run Text="{DynamicResource 充氣逾時}" />
-                            <Run Text="(" /><Run Text="{DynamicResource 秒}" /><Run Text=")" />
+                            <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                         </TextBlock>
                     </Border>
                     <Border Grid.Row="0"
@@ -684,6 +685,12 @@
                         <local:PairValuesControl Value1="{Binding CoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}"
                                                  Value2="{Binding PV_CoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
+                    <Border Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="6"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}" />
                     <Border Grid.Row="2"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -741,6 +748,17 @@
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center">
                             <Run Text="{DynamicResource 恆溫警報}" />
+                            <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
+                        </TextBlock>
+                    </Border>
+                    <Border Grid.Row="2"
+                            Grid.Column="6"
+                            Background="{StaticResource WindowBackgroundBrush2}"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <Run Text="{DynamicResource 恆溫補償時間}" />
                             <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                         </TextBlock>
                     </Border>
@@ -1036,6 +1054,53 @@
                             Style="{StaticResource ValueBorder}">
                         <local:PairValuesControl Value1="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}"
                                                  Value2="{Binding PV_DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                    </Border>
+                    <Border Grid.Row="3"
+                            Grid.Column="6"
+                            BorderThickness="0,0,1,1"
+                            Style="{StaticResource ValueBorder}">
+                        <local:PairValuesControl Value1="{Binding DwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}"
+                                                 Value2="{Binding PV_DwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                    </Border>
+                    <Border Grid.Row="4"
+                            Grid.Column="6"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <local:PairValuesControl Value1="{Binding DwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}"
+                                                 Value2="{Binding PV_DwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                    </Border>
+                    <Border Grid.Row="5"
+                            Grid.Column="6"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <local:PairValuesControl Value1="{Binding DwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}"
+                                                 Value2="{Binding PV_DwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                    </Border>
+                    <Border Grid.Row="6"
+                            Grid.Column="6"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <local:PairValuesControl Value1="{Binding DwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}"
+                                                 Value2="{Binding PV_DwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                    </Border>
+                    <Border Grid.Row="7"
+                            Grid.Column="6"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <local:PairValuesControl Value1="{Binding DwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}"
+                                                 Value2="{Binding PV_DwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                    </Border>
+                    <Border Grid.Row="8"
+                            Grid.Column="6"
+                            BorderThickness="0,0,1,1"
+                            IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                            Style="{StaticResource ValueBorder}">
+                        <local:PairValuesControl Value1="{Binding DwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}"
+                                                 Value2="{Binding PV_DwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                 </Grid>
             </GroupBox>

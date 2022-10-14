@@ -69,7 +69,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 含氧量設定
     /// </summary>
-    [PLCData(DataType.D, 1097, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 1099, 0.1, LogType.RecipeSet)]
     public double OxygenContentSet
     {
         get => Get<double>();
@@ -547,6 +547,66 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<double>();
         set => Set(value);
     }
+
+    /// <summary>
+    /// 恆溫時間Offset1
+    /// </summary>
+    [PLCData(DataType.D, 1093, 0.1, LogType.RecipeSet)]
+    public double DwellTimeOffset_1
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 恆溫時間Offset2
+    /// </summary>
+    [PLCData(DataType.D, 1094, 0.1, LogType.RecipeSet)]
+    public double DwellTimeOffset_2
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 恆溫時間Offset3
+    /// </summary>
+    [PLCData(DataType.D, 1095, 0.1, LogType.RecipeSet)]
+    public double DwellTimeOffset_3
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 恆溫時間Offset4
+    /// </summary>
+    [PLCData(DataType.D, 1096, 0.1, LogType.RecipeSet)]
+    public double DwellTimeOffset_4
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 恆溫時間Offset5
+    /// </summary>
+    [PLCData(DataType.D, 1097, 0.1, LogType.RecipeSet)]
+    public double DwellTimeOffset_5
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 恆溫時間Offset6
+    /// </summary>
+    [PLCData(DataType.D, 1098, 0.1, LogType.RecipeSet)]
+    public double DwellTimeOffset_6
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
     #endregion
 
     #region 配方運作值(配方PV)
@@ -603,7 +663,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方PV 含氧量設定
     /// </summary>
-    [PLCData(DataType.D, 797, 0.1, LogType.StatusVariables)]
+    [PLCData(DataType.D, 799, 0.1, LogType.StatusVariables)]
     public double PV_OxygenContentSet
     {
         get => Get<double>();
@@ -1077,6 +1137,66 @@ public class GOL_DataModel : PLCDataProvider
     /// 配方PV 恆溫警報時間8
     /// </summary>
     public double PV_DwellAlarm_8
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 配方PV 恆溫時間Offset1
+    /// </summary>
+    [PLCData(DataType.D, 793, 0.1, LogType.RecipeSet)]
+    public double PV_DwellTimeOffset_1
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 配方PV 恆溫時間Offset2
+    /// </summary>
+    [PLCData(DataType.D, 794, 0.1, LogType.RecipeSet)]
+    public double PV_DwellTimeOffset_2
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 配方PV 恆溫時間Offset3
+    /// </summary>
+    [PLCData(DataType.D, 795, 0.1, LogType.RecipeSet)]
+    public double PV_DwellTimeOffset_3
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 配方PV 恆溫時間Offset4
+    /// </summary>
+    [PLCData(DataType.D, 796, 0.1, LogType.RecipeSet)]
+    public double PV_DwellTimeOffset_4
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 配方PV 恆溫時間Offset5
+    /// </summary>
+    [PLCData(DataType.D, 797, 0.1, LogType.RecipeSet)]
+    public double PV_DwellTimeOffset_5
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 配方PV 恆溫時間Offset6
+    /// </summary>
+    [PLCData(DataType.D, 798, 0.1, LogType.RecipeSet)]
+    public double PV_DwellTimeOffset_6
     {
         get => Get<double>();
         set => Set(value);

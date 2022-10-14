@@ -67,6 +67,7 @@
     <sys:String x:Key="恆溫溫度">恆溫溫度</sys:String>
     <sys:String x:Key="恆溫時間">恆溫時間</sys:String>
     <sys:String x:Key="恆溫警報">恆溫警報</sys:String>
+    <sys:String x:Key="恆溫補償時間">恆溫補償</sys:String>
     <sys:String x:Key="溫控器溫度">溫控器溫度</sys:String>
     <sys:String x:Key="爐內溫度1">爐內溫度1</sys:String>
     <sys:String x:Key="爐內溫度2">爐內溫度2</sys:String>

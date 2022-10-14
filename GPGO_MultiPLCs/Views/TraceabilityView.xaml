@@ -538,6 +538,7 @@
                                                       ClipToBounds="True"
                                                       DataContext="{Binding Recipe, Mode=OneWay}">
                                                     <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="80" />
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="*" />
@@ -591,7 +592,7 @@
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
                                                             <Run Text="{Binding InflatingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
-                                                            <Run Text="{DynamicResource 秒}" />
+                                                            <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>
                                                     <Border Grid.Row="0"
@@ -724,6 +725,22 @@
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Text="{DynamicResource 恆溫警報}" />
+                                                    </Border>
+                                                    <Border Grid.Row="0"
+                                                            Grid.RowSpan="2"
+                                                            Grid.Column="6"
+                                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                                            BorderThickness="0,1,1,1"
+                                                            Style="{StaticResource ValueBorder}" />
+                                                    <Border Grid.Row="2"
+                                                            Grid.Column="6"
+                                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                                            BorderThickness="0,0,1,1"
+                                                            Style="{StaticResource ValueBorder}">
+                                                        <TextBlock Margin="2"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   Text="{DynamicResource 恆溫補償時間}" />
                                                     </Border>
                                                     <Border Grid.Row="3"
                                                             Grid.Column="0"
@@ -1099,6 +1116,71 @@
                                                         <TextBlock HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center">
                                                             <Run Text="{Binding DwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                            <Run Text="{DynamicResource 分}" />
+                                                        </TextBlock>
+                                                    </Border>
+                                                    <Border Grid.Row="3"
+                                                            Grid.Column="6"
+                                                            BorderThickness="0,0,1,1"
+                                                            Style="{StaticResource ValueBorder}">
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center">
+                                                            <Run Text="{Binding DwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                            <Run Text="{DynamicResource 分}" />
+                                                        </TextBlock>
+                                                    </Border>
+                                                    <Border Grid.Row="4"
+                                                            Grid.Column="6"
+                                                            BorderThickness="0,0,1,1"
+                                                            IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                                                            Style="{StaticResource ValueBorder}">
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center">
+                                                            <Run Text="{Binding DwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                            <Run Text="{DynamicResource 分}" />
+                                                        </TextBlock>
+                                                    </Border>
+                                                    <Border Grid.Row="5"
+                                                            Grid.Column="6"
+                                                            BorderThickness="0,0,1,1"
+                                                            IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                                                            Style="{StaticResource ValueBorder}">
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center">
+                                                            <Run Text="{Binding DwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                            <Run Text="{DynamicResource 分}" />
+                                                        </TextBlock>
+                                                    </Border>
+                                                    <Border Grid.Row="6"
+                                                            Grid.Column="6"
+                                                            BorderThickness="0,0,1,1"
+                                                            IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                                                            Style="{StaticResource ValueBorder}">
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center">
+                                                            <Run Text="{Binding DwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                            <Run Text="{DynamicResource 分}" />
+                                                        </TextBlock>
+                                                    </Border>
+                                                    <Border Grid.Row="7"
+                                                            Grid.Column="6"
+                                                            BorderThickness="0,0,1,1"
+                                                            IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                                                            Style="{StaticResource ValueBorder}">
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center">
+                                                            <Run Text="{Binding DwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                                                            <Run Text="{DynamicResource 分}" />
+                                                        </TextBlock>
+                                                    </Border>
+                                                    <Border Grid.Row="8"
+                                                            Grid.Column="6"
+                                                            BorderThickness="0,0,1,1"
+                                                            IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                                                            Style="{StaticResource ValueBorder}">
+                                                        <TextBlock HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center">
+                                                            <Run Text="{Binding DwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                                                             <Run Text="{DynamicResource 分}" />
                                                         </TextBlock>
                                                     </Border>

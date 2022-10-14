@@ -66,6 +66,7 @@
     <sys:String x:Key="恆溫溫度">Dwell Temp.</sys:String>
     <sys:String x:Key="恆溫時間">Dwell</sys:String>
     <sys:String x:Key="恆溫警報">Dwell Alarm</sys:String>
+    <sys:String x:Key="恆溫補償時間">Dwell Offset</sys:String>
     <sys:String x:Key="溫控器溫度">Thermostat</sys:String>
     <sys:String x:Key="爐內溫度1">Sensor 1</sys:String>
     <sys:String x:Key="爐內溫度2">Sensor 2</sys:String>

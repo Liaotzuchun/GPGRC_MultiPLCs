@@ -43,6 +43,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -70,7 +71,7 @@
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center">
                                 <Run Text="{DynamicResource 充氣逾時}" />
-                                <Run Text="(" /><Run Text="{DynamicResource 秒}" /><Run Text=")" />
+                                <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                             </TextBlock>
                         </Border>
                         <Border Grid.Row="0"
@@ -105,15 +106,15 @@
                                 Grid.Column="5"
                                 BorderThickness="0,1,1,1"
                                 Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="99"
-                                               Minimum="10"
+                            <views:SpinControl Maximum="21"
+                                               Minimum="0.1"
                                                Value="{Binding OxygenContentSet, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
                                     <system:Double>0.1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
-                                                      Max="99"
-                                                      Min="10"
+                                                      Max="21"
+                                                      Min="0.1"
                                                       Text="{Binding OxygenContentSet, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
@@ -197,6 +198,12 @@
                                                       Text="{Binding CoolingTime, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
+                        <Border Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="6"
+                                Background="Transparent"
+                                BorderThickness="0,1,1,1"
+                                Style="{StaticResource ValueBorder}" />
                         <Border Grid.Row="2"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
@@ -254,6 +261,17 @@
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center">
                                 <Run Text="{DynamicResource 恆溫警報}" />
+                                <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
+                            </TextBlock>
+                        </Border>
+                        <Border Grid.Row="2"
+                                Grid.Column="6"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderThickness="0,0,1,1"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <Run Text="{DynamicResource 恆溫補償時間}" />
                                 <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                             </TextBlock>
                         </Border>
@@ -820,6 +838,107 @@
                                                       Text="{Binding DwellAlarm_6, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
+                        <Border Grid.Row="3"
+                                Grid.Column="6"
+                                BorderThickness="0,0,1,1"
+                                Style="{StaticResource ValueBorder}">
+                            <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                               Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                               Value="{Binding DwellTimeOffset_1, Mode=TwoWay}">
+                                <views:SpinControl.SmallChange>
+                                    <system:Double>0.1</system:Double>
+                                </views:SpinControl.SmallChange>
+                                <views:NumericTextBox BorderThickness="0"
+                                                      Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                      Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                      Text="{Binding DwellTimeOffset_1, Mode=TwoWay}" />
+                            </views:SpinControl>
+                        </Border>
+                        <Border Grid.Row="4"
+                                Grid.Column="6"
+                                BorderThickness="0,0,1,1"
+                                IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                                Style="{StaticResource ValueBorder}">
+                            <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                               Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                               Value="{Binding DwellTimeOffset_2, Mode=TwoWay}">
+                                <views:SpinControl.SmallChange>
+                                    <system:Double>0.1</system:Double>
+                                </views:SpinControl.SmallChange>
+                                <views:NumericTextBox BorderThickness="0"
+                                                      Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                      Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                      Text="{Binding DwellTimeOffset_2, Mode=TwoWay}" />
+                            </views:SpinControl>
+                        </Border>
+                        <Border Grid.Row="5"
+                                Grid.Column="6"
+                                BorderThickness="0,0,1,1"
+                                IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                                Style="{StaticResource ValueBorder}">
+                            <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                               Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                               Value="{Binding DwellTimeOffset_3, Mode=TwoWay}">
+                                <views:SpinControl.SmallChange>
+                                    <system:Double>0.1</system:Double>
+                                </views:SpinControl.SmallChange>
+                                <views:NumericTextBox BorderThickness="0"
+                                                      Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                      Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                      Text="{Binding DwellTimeOffset_3, Mode=TwoWay}" />
+                            </views:SpinControl>
+                        </Border>
+                        <Border Grid.Row="6"
+                                Grid.Column="6"
+                                BorderThickness="0,0,1,1"
+                                IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                                Style="{StaticResource ValueBorder}">
+                            <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                               Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                               Value="{Binding DwellTimeOffset_4, Mode=TwoWay}">
+                                <views:SpinControl.SmallChange>
+                                    <system:Double>0.1</system:Double>
+                                </views:SpinControl.SmallChange>
+                                <views:NumericTextBox BorderThickness="0"
+                                                      Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                      Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                      Text="{Binding DwellTimeOffset_4, Mode=TwoWay}" />
+                            </views:SpinControl>
+                        </Border>
+                        <Border Grid.Row="7"
+                                Grid.Column="6"
+                                BorderThickness="0,0,1,1"
+                                IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                                Style="{StaticResource ValueBorder}">
+                            <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                               Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                               Value="{Binding DwellTimeOffset_5, Mode=TwoWay}">
+                                <views:SpinControl.SmallChange>
+                                    <system:Double>0.1</system:Double>
+                                </views:SpinControl.SmallChange>
+                                <views:NumericTextBox BorderThickness="0"
+                                                      Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                      Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                      Text="{Binding DwellTimeOffset_5, Mode=TwoWay}" />
+                            </views:SpinControl>
+                        </Border>
+                        <Border Grid.Row="8"
+                                Grid.Column="6"
+                                BorderThickness="0,0,1,1"
+                                IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                                Style="{StaticResource ValueBorder}">
+                            <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                               Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                               Value="{Binding DwellTimeOffset_6, Mode=TwoWay}">
+                                <views:SpinControl.SmallChange>
+                                    <system:Double>0.1</system:Double>
+                                </views:SpinControl.SmallChange>
+                                <views:NumericTextBox BorderThickness="0"
+                                                      Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                      Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                      Text="{Binding DwellTimeOffset_6, Mode=TwoWay}" />
+                            </views:SpinControl>
+                        </Border>
                     </Grid>
                 </TabItem>
                 <TabItem Height="44"
@@ -914,6 +1033,7 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -976,15 +1096,15 @@
                                     Grid.Column="5"
                                     BorderThickness="0,1,1,1"
                                     Style="{StaticResource ValueBorder}">
-                                <views:SpinControl Maximum="99"
-                                                   Minimum="10"
+                                <views:SpinControl Maximum="21"
+                                                   Minimum="0.1"
                                                    Value="{Binding OxygenContentSet, Mode=TwoWay}">
                                     <views:SpinControl.SmallChange>
                                         <system:Double>0.1</system:Double>
                                     </views:SpinControl.SmallChange>
                                     <views:NumericTextBox BorderThickness="0"
-                                                          Max="99"
-                                                          Min="10"
+                                                          Max="21"
+                                                          Min="0.1"
                                                           Text="{Binding OxygenContentSet, Mode=TwoWay}" />
                                 </views:SpinControl>
                             </Border>
@@ -1068,10 +1188,11 @@
                                                           Text="{Binding CoolingTime, Mode=TwoWay}" />
                                 </views:SpinControl>
                             </Border>
-                            <Border Grid.Row="2"
-                                    Grid.Column="0"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderThickness="1,0,1,1"
+                            <Border Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="6"
+                                    Background="Transparent"
+                                    BorderThickness="0,1,1,1"
                                     Style="{StaticResource ValueBorder}" />
                             <Border Grid.Row="2"
                                     Grid.Column="1"
@@ -1127,6 +1248,19 @@
                                     <Run Text="{DynamicResource 恆溫警報}" />
                                     <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                                 </TextBlock>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <Viewbox StretchDirection="DownOnly">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center">
+                                        <Run Text="{DynamicResource 恆溫補償時間}" />
+                                        <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
+                                    </TextBlock>
+                                </Viewbox>
                             </Border>
                             <Border Grid.Row="3"
                                     Grid.Column="0"
@@ -1689,6 +1823,107 @@
                                                           Max="{Binding DwellAlarm_Max, Mode=OneWay}"
                                                           Min="{Binding DwellAlarm_Min, Mode=OneWay}"
                                                           Text="{Binding DwellAlarm_6, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="6"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                   Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                   Value="{Binding DwellTimeOffset_1, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>0.1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                          Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                          Text="{Binding DwellTimeOffset_1, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="6"
+                                    BorderThickness="0,0,1,1"
+                                    IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                   Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                   Value="{Binding DwellTimeOffset_2, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>0.1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                          Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                          Text="{Binding DwellTimeOffset_2, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="6"
+                                    BorderThickness="0,0,1,1"
+                                    IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                   Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                   Value="{Binding DwellTimeOffset_3, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>0.1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                          Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                          Text="{Binding DwellTimeOffset_3, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="6"
+                                    Grid.Column="6"
+                                    BorderThickness="0,0,1,1"
+                                    IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                   Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                   Value="{Binding DwellTimeOffset_4, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>0.1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                          Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                          Text="{Binding DwellTimeOffset_4, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="7"
+                                    Grid.Column="6"
+                                    BorderThickness="0,0,1,1"
+                                    IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                   Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                   Value="{Binding DwellTimeOffset_5, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>0.1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                          Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                          Text="{Binding DwellTimeOffset_5, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="8"
+                                    Grid.Column="6"
+                                    BorderThickness="0,0,1,1"
+                                    IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                   Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                   Value="{Binding DwellTimeOffset_6, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>0.1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
+                                                          Min="{Binding DwellTime_Offset_Min, Mode=OneWay}"
+                                                          Text="{Binding DwellTimeOffset_6, Mode=TwoWay}" />
                                 </views:SpinControl>
                             </Border>
                         </Grid>
