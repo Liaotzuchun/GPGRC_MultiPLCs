@@ -508,8 +508,7 @@
                                              Orientation="Horizontal">
                         <Button Content="{DynamicResource 啟動}"
                                 FontSize="20"
-                                FontWeight="Bold"
-                                IsEnabled="{Binding AllowStart, Mode=OneWay}">
+                                FontWeight="Bold">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding StartCommand, Mode=OneTime}" />

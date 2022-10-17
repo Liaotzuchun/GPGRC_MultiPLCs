@@ -469,7 +469,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                          {
                              var result = HCACKValule.CantPerform;
 
-                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AllowStart)
+                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AutoMode)
                              {
                                  return result;
                              }
@@ -487,7 +487,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                         {
                             var result = HCACKValule.CantPerform;
 
-                            if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AllowStop)
+                            if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].ProcessComplete)
                             {
                                 return result;
                             }

@@ -430,6 +430,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
 
         //RemoteCommandSelectPP = false;
+        AutoMode = true;
 
         return SetRecipeResult.成功;
     }
@@ -470,6 +471,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
 
         //RemoteCommandSelectPP = false;
+        AutoMode = true;
 
         return SetRecipeResult.成功;
     }
@@ -502,6 +504,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             RecipeUsed?.Invoke(recipe.RecipeName);
             Set(recipe.RecipeName, nameof(Selected_Name));
             Intput_Name = Selected_Name;
+            AutoMode    = true;
             return SetRecipeResult.成功;
         }
 
@@ -564,6 +567,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
 
         //RemoteCommandSelectPP = false;
+        AutoMode = true;
 
         return SetRecipeResult.成功;
     }
@@ -775,7 +779,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         InputLayer = InputLayerMin;
         Dialog     = dialog;
-        AllowStart = true; //! 預設允許啟動
 
         ConnectionStatus.ValueChanged += status =>
                                          {
@@ -1068,11 +1071,30 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                              if (GetRecipe?.Invoke(Selected_Name) is {} recipe)
                                                              {
                                                                  await ManualSetByProperties(recipe.ToDictionary());
+
+                                                                 await Task.Delay(900).ConfigureAwait(false);
+                                                                 if (!RecipeCompare(recipe))
+                                                                 {
+                                                                     Dialog.Show(new Dictionary<Language, string>
+                                                                                 {
+                                                                                     { Language.TW, "配方比對錯誤！" },
+                                                                                     { Language.CHS, "配方比对错误！" },
+                                                                                     { Language.EN, "Recipe comparison error!" }
+                                                                                 },
+                                                                                 TimeSpan.FromSeconds(3),
+                                                                                 DialogMsgType.Alarm);
+
+                                                                     //RemoteCommandSelectPP = false;
+                                                                     RecipeChangeError = true;
+                                                                     Checking          = false;
+                                                                     return false;
+                                                                 }
                                                              }
 
                                                              //RemoteCommandSelectPP = true;
                                                          }
 
+                                                         AutoMode = true;
                                                          Checking = false;
                                                          return true;
                                                      });
@@ -1088,17 +1110,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         StartCommand = new AsyncCommand(async _ =>
                                         {
-                                            if (!AllowStart)
+                                            if (!AutoMode)
                                             {
-                                                dialog.Show(new Dictionary<Language, string>
-                                                            {
-                                                                { Language.TW, "不允許啟動" },
-                                                                { Language.CHS, "不允许启动" },
-                                                                { Language.EN, "Not allowed to start." }
-                                                            },
-                                                            DialogMsgType.Alert);
-
-                                                return;
+                                                AutoMode = true;
                                             }
 
                                             if (!await dialog.Show(new Dictionary<Language, string>
@@ -1299,8 +1313,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     }
                                     else if (name == nameof(EquipmentState))
                                     {
-                                        SetWithOutNotifyWhenEquals(sv == 0, nameof(AllowStart));
-
                                         PreviousEquipmentState = sv;
                                         InvokeSECSEvent?.Invoke("EqpStatusChanged");
                                         SV_Changed?.Invoke($"Previous{name}", PreviousEquipmentState);

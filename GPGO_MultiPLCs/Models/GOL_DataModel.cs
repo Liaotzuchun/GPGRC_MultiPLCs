@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GPMVVM.Models;
+using MongoDB.Bson.Serialization.Attributes;
 using PLCService;
 
 namespace GPGO_MultiPLCs.Models;
@@ -1827,6 +1828,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 允許啟動
     /// </summary>
+    [PLCBit(BitType.M, 50, LogType.StatusVariables)]
     public bool AllowStart
     {
         get => Get<bool>();
@@ -1913,6 +1915,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 自動模式
     /// </summary>
+    [PLCBit(BitType.M, 50, LogType.StatusVariables)]
     public bool AutoMode
     {
         get => Get<bool>();
@@ -1922,6 +1925,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 手動模式
     /// </summary>
+    [PLCBit(BitType.M, 60, LogType.StatusVariables)]
     public bool ManualMode
     {
         get => Get<bool>();
@@ -1941,7 +1945,13 @@ public class GOL_DataModel : PLCDataProvider
     public bool AutoMode_Start
     {
         get => Get<bool>();
-        set => Set(value);
+        set
+        {
+            if (AutoMode)
+            {
+                Set(value);
+            }
+        }
     }
 
     [PLCBit(BitType.M, 209, LogType.StatusVariables)]
