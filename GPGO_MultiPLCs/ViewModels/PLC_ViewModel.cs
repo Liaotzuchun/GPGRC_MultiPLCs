@@ -1181,10 +1181,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     };
 
         #region 註冊PLC事件
-        object PreviousEquipmentState = EquipmentState;
         ValueChanged += async (LogType, data) =>
                         {
-                            var (name, value, _, type, Subscriptions, SubPosition) = data;
+                            var (name, value, oldvalue, type, Subscriptions, SubPosition) = data;
 
                             //var typeEnum = type is null ? "" : value is bool && SubPosition == -1 ? ((BitType)type).ToString() : ((DataType)type).ToString();
 
@@ -1313,9 +1312,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     }
                                     else if (name == nameof(EquipmentState))
                                     {
-                                        PreviousEquipmentState = sv;
                                         InvokeSECSEvent?.Invoke("EqpStatusChanged");
-                                        SV_Changed?.Invoke($"Previous{name}", PreviousEquipmentState);
+                                        SV_Changed?.Invoke($"Previous{name}", oldvalue);
 
                                         EventHappened?.Invoke(eventval);
                                         if (IsExecuting)

@@ -469,7 +469,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                          {
                              var result = HCACKValule.CantPerform;
 
-                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AutoMode)
+                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AutoMode || PLC_All[index].IsExecuting)
                              {
                                  return result;
                              }

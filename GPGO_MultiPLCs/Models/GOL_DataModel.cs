@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using GPMVVM.Models;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using GPMVVM.Models;
 using PLCService;
+using System.Collections.Generic;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -20,7 +19,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 配方名
     /// </summary>
-    [PLCData(DataType.D, 1080, 16, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2980, 16, LogType.RecipeSet)]
     public string RecipeName
     {
         get => Get<string>();
@@ -30,7 +29,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 降溫溫度
     /// </summary>
-    [PLCData(DataType.D, 1092, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2992, 0.1, LogType.RecipeSet)]
     public double CoolingTemperature
     {
         get => Get<double>();
@@ -40,7 +39,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 降溫時間
     /// </summary>
-    [PLCData(DataType.D, 1076, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2976, 0.1, LogType.RecipeSet)]
     public double CoolingTime
     {
         get => Get<double>();
@@ -50,7 +49,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 氮氣模式
     /// </summary>
-    [PLCBitData(DataType.D, 1089, 0, LogType.RecipeSet)]
+    [PLCBitData(DataType.D, 2989, 0, LogType.RecipeSet)]
     public bool NitrogenMode
     {
         get => Get<bool>();
@@ -60,7 +59,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 充氣逾時時間
     /// </summary>
-    [PLCData(DataType.D, 1090, 1.0, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2990, 1.0, LogType.RecipeSet)]
     public double InflatingTime
     {
         get => Get<double>();
@@ -70,7 +69,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 含氧量設定
     /// </summary>
-    [PLCData(DataType.D, 1099, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2999, 0.1, LogType.RecipeSet)]
     public double OxygenContentSet
     {
         get => Get<double>();
@@ -80,7 +79,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 使用段數
     /// </summary>
-    [PLCData(DataType.D, 1075, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2975, LogType.RecipeSet)]
     public short SegmentCounts
     {
         get => Get<short>();
@@ -90,7 +89,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 目標溫度1
     /// </summary>
-    [PLCData(DataType.D, 1000, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2900, 0.1, LogType.RecipeSet)]
     public double TemperatureSetpoint_1
     {
         get => Get<double>();
@@ -100,7 +99,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 目標溫度2
     /// </summary>
-    [PLCData(DataType.D, 1001, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2901, 0.1, LogType.RecipeSet)]
     public double TemperatureSetpoint_2
     {
         get => Get<double>();
@@ -110,7 +109,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 目標溫度3
     /// </summary>
-    [PLCData(DataType.D, 1002, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2902, 0.1, LogType.RecipeSet)]
     public double TemperatureSetpoint_3
     {
         get => Get<double>();
@@ -120,7 +119,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 目標溫度4
     /// </summary>
-    [PLCData(DataType.D, 1003, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2903, 0.1, LogType.RecipeSet)]
     public double TemperatureSetpoint_4
     {
         get => Get<double>();
@@ -130,7 +129,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 目標溫度5
     /// </summary>
-    [PLCData(DataType.D, 1004, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2904, 0.1, LogType.RecipeSet)]
     public double TemperatureSetpoint_5
     {
         get => Get<double>();
@@ -140,7 +139,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 目標溫度6
     /// </summary>
-    [PLCData(DataType.D, 1005, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2905, 0.1, LogType.RecipeSet)]
     public double TemperatureSetpoint_6
     {
         get => Get<double>();
@@ -240,7 +239,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫時間1
     /// </summary>
-    [PLCData(DataType.D, 1060, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2960, 0.1, LogType.RecipeSet)]
     public double RampTime_1
     {
         get => Get<double>();
@@ -250,7 +249,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫時間2
     /// </summary>
-    [PLCData(DataType.D, 1061, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2961, 0.1, LogType.RecipeSet)]
     public double RampTime_2
     {
         get => Get<double>();
@@ -260,7 +259,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫時間3
     /// </summary>
-    [PLCData(DataType.D, 1062, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2962, 0.1, LogType.RecipeSet)]
     public double RampTime_3
     {
         get => Get<double>();
@@ -270,7 +269,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫時間4
     /// </summary>
-    [PLCData(DataType.D, 1063, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2963, 0.1, LogType.RecipeSet)]
     public double RampTime_4
     {
         get => Get<double>();
@@ -280,7 +279,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫時間5
     /// </summary>
-    [PLCData(DataType.D, 1064, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2964, 0.1, LogType.RecipeSet)]
     public double RampTime_5
     {
         get => Get<double>();
@@ -290,7 +289,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫時間6
     /// </summary>
-    [PLCData(DataType.D, 1065, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2965, 0.1, LogType.RecipeSet)]
     public double RampTime_6
     {
         get => Get<double>();
@@ -318,7 +317,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫警報時間1
     /// </summary>
-    [PLCData(DataType.D, 1030, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2930, 0.1, LogType.RecipeSet)]
     public double RampAlarm_1
     {
         get => Get<double>();
@@ -328,7 +327,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫警報時間2
     /// </summary>
-    [PLCData(DataType.D, 1031, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2931, 0.1, LogType.RecipeSet)]
     public double RampAlarm_2
     {
         get => Get<double>();
@@ -338,7 +337,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫警報時間3
     /// </summary>
-    [PLCData(DataType.D, 1032, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2932, 0.1, LogType.RecipeSet)]
     public double RampAlarm_3
     {
         get => Get<double>();
@@ -348,7 +347,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫警報時間4
     /// </summary>
-    [PLCData(DataType.D, 1033, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2933, 0.1, LogType.RecipeSet)]
     public double RampAlarm_4
     {
         get => Get<double>();
@@ -358,7 +357,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫警報時間5
     /// </summary>
-    [PLCData(DataType.D, 1034, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2934, 0.1, LogType.RecipeSet)]
     public double RampAlarm_5
     {
         get => Get<double>();
@@ -368,7 +367,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 升溫警報時間6
     /// </summary>
-    [PLCData(DataType.D, 1035, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2935, 0.1, LogType.RecipeSet)]
     public double RampAlarm_6
     {
         get => Get<double>();
@@ -396,7 +395,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間1
     /// </summary>
-    [PLCData(DataType.D, 1015, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2915, 0.1, LogType.RecipeSet)]
     public double DwellTime_1
     {
         get => Get<double>();
@@ -406,7 +405,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間2
     /// </summary>
-    [PLCData(DataType.D, 1016, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2916, 0.1, LogType.RecipeSet)]
     public double DwellTime_2
     {
         get => Get<double>();
@@ -416,7 +415,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間3
     /// </summary>
-    [PLCData(DataType.D, 1017, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2917, 0.1, LogType.RecipeSet)]
     public double DwellTime_3
     {
         get => Get<double>();
@@ -426,7 +425,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間4
     /// </summary>
-    [PLCData(DataType.D, 1018, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2918, 0.1, LogType.RecipeSet)]
     public double DwellTime_4
     {
         get => Get<double>();
@@ -436,7 +435,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間5
     /// </summary>
-    [PLCData(DataType.D, 1019, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2919, 0.1, LogType.RecipeSet)]
     public double DwellTime_5
     {
         get => Get<double>();
@@ -446,7 +445,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間6
     /// </summary>
-    [PLCData(DataType.D, 1020, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2920, 0.1, LogType.RecipeSet)]
     public double DwellTime_6
     {
         get => Get<double>();
@@ -474,7 +473,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫警報時間1
     /// </summary>
-    [PLCData(DataType.D, 1045, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2945, 0.1, LogType.RecipeSet)]
     public double DwellAlarm_1
     {
         get => Get<double>();
@@ -484,7 +483,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫警報時間2
     /// </summary>
-    [PLCData(DataType.D, 1046, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2946, 0.1, LogType.RecipeSet)]
     public double DwellAlarm_2
     {
         get => Get<double>();
@@ -494,7 +493,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫警報時間3
     /// </summary>
-    [PLCData(DataType.D, 1047, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2947, 0.1, LogType.RecipeSet)]
     public double DwellAlarm_3
     {
         get => Get<double>();
@@ -504,7 +503,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫警報時間4
     /// </summary>
-    [PLCData(DataType.D, 1048, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2948, 0.1, LogType.RecipeSet)]
     public double DwellAlarm_4
     {
         get => Get<double>();
@@ -514,7 +513,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫警報時間5
     /// </summary>
-    [PLCData(DataType.D, 1049, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2949, 0.1, LogType.RecipeSet)]
     public double DwellAlarm_5
     {
         get => Get<double>();
@@ -524,7 +523,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫警報時間6
     /// </summary>
-    [PLCData(DataType.D, 1050, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2950, 0.1, LogType.RecipeSet)]
     public double DwellAlarm_6
     {
         get => Get<double>();
@@ -552,7 +551,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間Offset1
     /// </summary>
-    [PLCData(DataType.D, 1093, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2993, 0.1, LogType.RecipeSet)]
     public double DwellTimeOffset_1
     {
         get => Get<double>();
@@ -562,7 +561,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間Offset2
     /// </summary>
-    [PLCData(DataType.D, 1094, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2994, 0.1, LogType.RecipeSet)]
     public double DwellTimeOffset_2
     {
         get => Get<double>();
@@ -572,7 +571,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間Offset3
     /// </summary>
-    [PLCData(DataType.D, 1095, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2995, 0.1, LogType.RecipeSet)]
     public double DwellTimeOffset_3
     {
         get => Get<double>();
@@ -582,7 +581,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間Offset4
     /// </summary>
-    [PLCData(DataType.D, 1096, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2996, 0.1, LogType.RecipeSet)]
     public double DwellTimeOffset_4
     {
         get => Get<double>();
@@ -592,7 +591,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間Offset5
     /// </summary>
-    [PLCData(DataType.D, 1097, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2997, 0.1, LogType.RecipeSet)]
     public double DwellTimeOffset_5
     {
         get => Get<double>();
@@ -602,7 +601,7 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>
     /// 恆溫時間Offset6
     /// </summary>
-    [PLCData(DataType.D, 1098, 0.1, LogType.RecipeSet)]
+    [PLCData(DataType.D, 2998, 0.1, LogType.RecipeSet)]
     public double DwellTimeOffset_6
     {
         get => Get<double>();
@@ -2186,5 +2185,5 @@ public class GOL_DataModel : PLCDataProvider
     }
     #endregion
 
-    public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) {}
+    public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) { }
 }
