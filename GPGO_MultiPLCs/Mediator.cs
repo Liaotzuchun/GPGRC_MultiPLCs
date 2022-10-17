@@ -403,6 +403,12 @@ public sealed class Mediator : ObservableObject
                                              t.AddElement(nameof(PLC_Recipe.DwellAlarm_4),          recipe.DwellAlarm_4.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.DwellAlarm_5),          recipe.DwellAlarm_5.ToString("0.0"));
                                              t.AddElement(nameof(PLC_Recipe.DwellAlarm_6),          recipe.DwellAlarm_6.ToString("0.0"));
+                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_1),     recipe.DwellTimeOffset_1.ToString("0.0"));
+                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_2),     recipe.DwellTimeOffset_2.ToString("0.0"));
+                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_3),     recipe.DwellTimeOffset_3.ToString("0.0"));
+                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_4),     recipe.DwellTimeOffset_4.ToString("0.0"));
+                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_5),     recipe.DwellTimeOffset_5.ToString("0.0"));
+                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_6),     recipe.DwellTimeOffset_6.ToString("0.0"));
                                              try
                                              {
                                                  if (File.Exists(fpath))
