@@ -718,6 +718,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         _ = ExecutingTask.ContinueWith(x =>
                                        {
                                            x.Dispose();
+                                           AutoMode_Start = false;
 
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime       = DateTime.Now;

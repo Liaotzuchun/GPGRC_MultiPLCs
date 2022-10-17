@@ -1953,6 +1953,9 @@ public class GOL_DataModel : PLCDataProvider
         }
     }
 
+    /// <summary>
+    /// 程式結束(程式結束會早於AutoMode_Stop)
+    /// </summary>
     [PLCBit(BitType.M, 209, LogType.StatusVariables)]
     public bool ProcessComplete
     {
@@ -1960,6 +1963,9 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
+    /// <summary>
+    /// 自動模式停止(需要手動按)
+    /// </summary>
     [PLCBit(BitType.M, 52, LogType.StatusVariables)]
     public bool AutoMode_Stop
     {
