@@ -18,7 +18,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         other                                 != null                                        &&
         RecipeName                            == other.RecipeName                            &&
         NitrogenMode                          == other.NitrogenMode                          &&
-        OxygenContentSet.ToString("0.1")      == other.OxygenContentSet.ToString("0.1")      &&
+        OxygenContentSet.ToString("0.0")      == other.OxygenContentSet.ToString("0.0")      &&
         InflatingTime.ToString("0")           == other.InflatingTime.ToString("0")           &&
         DwellTemperature_1.ToString("0.0")    == other.DwellTemperature_1.ToString("0.0")    &&
         DwellTemperature_2.ToString("0.0")    == other.DwellTemperature_2.ToString("0.0")    &&
@@ -44,6 +44,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         DwellAlarm_6.ToString("0.0")          == other.DwellAlarm_6.ToString("0.0")          &&
         DwellAlarm_7.ToString("0.0")          == other.DwellAlarm_7.ToString("0.0")          &&
         DwellAlarm_8.ToString("0.0")          == other.DwellAlarm_8.ToString("0.0")          &&
+        DwellTimeOffset_1.ToString("0.0")     == other.DwellTimeOffset_1.ToString("0.0")     &&
+        DwellTimeOffset_2.ToString("0.0")     == other.DwellTimeOffset_2.ToString("0.0")     &&
+        DwellTimeOffset_3.ToString("0.0")     == other.DwellTimeOffset_3.ToString("0.0")     &&
+        DwellTimeOffset_4.ToString("0.0")     == other.DwellTimeOffset_4.ToString("0.0")     &&
+        DwellTimeOffset_5.ToString("0.0")     == other.DwellTimeOffset_5.ToString("0.0")     &&
+        DwellTimeOffset_6.ToString("0.0")     == other.DwellTimeOffset_6.ToString("0.0")     &&
+        DwellTimeOffset_7.ToString("0.0")     == other.DwellTimeOffset_7.ToString("0.0")     &&
+        DwellTimeOffset_8.ToString("0.0")     == other.DwellTimeOffset_8.ToString("0.0")     &&
         CoolingTime.ToString("0.0")           == other.CoolingTime.ToString("0.0")           &&
         CoolingTemperature.ToString("0.0")    == other.CoolingTemperature.ToString("0.0")    &&
         RampTime_1.ToString("0.0")            == other.RampTime_1.ToString("0.0")            &&
@@ -127,10 +135,10 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public double InflatingTime_Min => 0.0;
 
     [JsonIgnore]
-    public double DwellTime_Offset_Max => 999.0;
+    public double DwellTime_Offset_Max => 999.9;
 
     [JsonIgnore]
-    public double DwellTime_Offset_Min => -999.0;
+    public double DwellTime_Offset_Min => -999.9;
 
     [GPIgnore]
     [JsonIgnore]
