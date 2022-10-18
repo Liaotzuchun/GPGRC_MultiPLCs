@@ -76,8 +76,20 @@ public class RecordTemperatures
     [LanguageTranslator("OvenTemperatures_8", "感溫器溫度8", "感温器温度8")]
     public double OvenTemperatures_8 { get; set; }
 
-    [LanguageTranslator("OOxygenContent", "含氧量", "含氧量")]
+    [LanguageTranslator("OxygenContent", "含氧量", "含氧量")]
     public double OxygenContent { get; set; }
+
+    [LanguageTranslator("NitrogenFlow", "氮氣流量", "氮气流量")]
+    public double NitrogenFlow { get; set; }
+
+    [LanguageTranslator("WindSpeed", "風速", "风速")]
+    public double PV_WindSpeed { get; set; }
+
+    [LanguageTranslator("CurrentSegment", "目前階段", "目前阶段")]
+    public short CurrentSegment { get; set; }
+
+    [LanguageTranslator("CurrentState", "目前狀態", "目前状态")]
+    public RecordState CurrentState { get; set; }
 
     public Dictionary<string, object> ToDic(Language lng)
     {
@@ -93,7 +105,11 @@ public class RecordTemperatures
                    { type.GetProperty(nameof(OvenTemperatures_4))?.GetName(lng)       ?? nameof(OvenTemperatures_4), OvenTemperatures_4 },
                    { type.GetProperty(nameof(OvenTemperatures_5))?.GetName(lng)       ?? nameof(OvenTemperatures_5), OvenTemperatures_5 },
                    { type.GetProperty(nameof(OvenTemperatures_6))?.GetName(lng)       ?? nameof(OvenTemperatures_6), OvenTemperatures_6 },
-                   { type.GetProperty(nameof(OxygenContent))?.GetName(lng)            ?? nameof(OxygenContent), OxygenContent }
+                   { type.GetProperty(nameof(OxygenContent))?.GetName(lng)            ?? nameof(OxygenContent), OxygenContent },
+                   { type.GetProperty(nameof(NitrogenFlow))?.GetName(lng)             ?? nameof(NitrogenFlow), NitrogenFlow },
+                   { type.GetProperty(nameof(PV_WindSpeed))?.GetName(lng)             ?? nameof(PV_WindSpeed), PV_WindSpeed },
+                   { type.GetProperty(nameof(CurrentSegment))?.GetName(lng)           ?? nameof(CurrentSegment), CurrentSegment },
+                   { type.GetProperty(nameof(CurrentState))?.GetName(lng)             ?? nameof(CurrentState), CurrentState }
                };
     }
 }

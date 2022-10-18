@@ -1,5 +1,13 @@
 ﻿namespace GPGO_MultiPLCs.Models;
 
+public enum RecordState
+{
+    待命,
+    升溫中,
+    恆溫中,
+    降溫中
+}
+
 public enum CodeType
 {
     Panel,

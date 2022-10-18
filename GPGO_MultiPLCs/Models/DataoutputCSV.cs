@@ -12,7 +12,10 @@ namespace GPGO_MultiPLCs.Models;
 
 public class DataoutputCSV
 {
-    private string   Titles;
+    private string   DataTitles;
+    private string   RecordTitles;
+    private string   EventTitles;
+    private string   AlarmTitles;
     private Language Language = Language.TW;
 
     private async Task DataMethod(ProcessInfo info, string folder, string filename)
@@ -35,7 +38,7 @@ public class DataoutputCSV
 
         if (!File.Exists(datapath))
         {
-            sb.AppendLine(Titles);
+            sb.AppendLine(DataTitles);
         }
 
         var recipe = info.Recipe.ToDictionary(Language);
@@ -63,7 +66,7 @@ public class DataoutputCSV
         await outputFile.WriteAsync(sb.ToString());
     }
 
-    private async Task RecordMethod(ProcessInfo info, string folder, string filename)
+    private async Task RecordMethod(BaseInfo info, string folder, string filename)
     {
         if (!Directory.Exists(folder))
         {
@@ -83,10 +86,17 @@ public class DataoutputCSV
 
         if (!File.Exists(datapath))
         {
-            sb.AppendLine(Titles);
+            sb.AppendLine(RecordTitles);
         }
 
-        //todo
+        foreach (var temp in info.RecordTemperatures)
+        {
+            var _temp = temp.ToDic(Language);
+            sb.AppendLine(string.Join(",", _temp.Values));
+        }
+
+        using var outputFile = new StreamWriter(datapath, true, Encoding.UTF8);
+        await outputFile.WriteAsync(sb.ToString());
     }
 
     private async Task EventMethod(ProcessInfo info, string folder, string filename)
@@ -109,7 +119,7 @@ public class DataoutputCSV
 
         if (!File.Exists(datapath))
         {
-            sb.AppendLine(Titles);
+            sb.AppendLine(EventTitles);
         }
 
         //todo
@@ -135,7 +145,7 @@ public class DataoutputCSV
 
         if (!File.Exists(datapath))
         {
-            sb.AppendLine(Titles);
+            sb.AppendLine(AlarmTitles);
         }
 
         //todo
@@ -146,8 +156,6 @@ public class DataoutputCSV
         var outpath      = folderpath.Trim().TrimEnd('\\');
         var datafolder   = $"{outpath}\\Data\\";
         var recordfolder = $"{outpath}\\Record\\";
-        var eventfolder  = $"{outpath}\\Event\\";
-        var alarmfolder  = $"{outpath}\\Alarm\\";
 
         if (!Directory.Exists(outpath))
         {
@@ -165,8 +173,6 @@ public class DataoutputCSV
         var d = $"{DateTime.Now:yyyy-MM-dd}";
         await DataMethod(info, datafolder, d);
         await RecordMethod(info, recordfolder, d);
-        await EventMethod(info, eventfolder, d);
-        await AlarmMethod(info, alarmfolder, d);
     }
 
     public void UpdateLanguage(Language lng)
@@ -175,8 +181,9 @@ public class DataoutputCSV
 
         var type   = typeof(ProcessInfo);
         var recipe = new PLC_Recipe().ToDictionary(Language);
+        var record = new RecordTemperatures().ToDic(Language);
 
-        Titles = string.Join(",",
+        DataTitles = string.Join(",",
                              new[]
                              {
                                  type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
@@ -190,6 +197,8 @@ public class DataoutputCSV
                                  type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID),
                                  type.GetProperty(nameof(ProcessInfo.IsFinished))?.GetName(Language) ?? nameof(ProcessInfo.IsFinished)
                              }.Concat(recipe.Keys));
+
+        RecordTitles = $"{string.Join(",", record.Keys)}";
     }
 
     public DataoutputCSV()
