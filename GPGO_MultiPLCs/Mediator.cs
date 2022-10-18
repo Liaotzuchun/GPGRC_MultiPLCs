@@ -69,7 +69,8 @@ public sealed class Mediator : ObservableObject
         }
     }
 
-    private readonly AsyncLock lockobj = new();
+    private readonly AsyncLock     lockobj    = new();
+    private readonly DataoutputCSV CsvCreator = new();
 
     public Authenticator_ViewModel    AuthenticatorVM { get; }
     public GlobalDialog_ViewModel     DialogVM        { get; }
@@ -552,67 +553,9 @@ public sealed class Mediator : ObservableObject
                                      using (await lockobj.LockAsync())
                                      {
                                          await TraceVM.AddToDBAsync(stationIndex, info);
-                                         if (info.IsFinished)
-                                         {
-                                             //! 輸出欣興CSV紀錄
-                                             var outpath = AuthenticatorVM.Settings.DataOutputPath.Trim().TrimEnd('\\');
 
-                                             if (!Directory.Exists(outpath))
-                                             {
-                                                 try
-                                                 {
-                                                     Directory.CreateDirectory(outpath);
-                                                 }
-                                                 catch (Exception ex)
-                                                 {
-                                                     Log.Error(ex, "上傳資料夾不存在且無法創建");
-                                                 }
-                                             }
-
-                                             var recipe = info.Recipe.ToDictionary(Language);
-                                             var type   = typeof(ProcessInfo);
-
-                                             using var titles = new[]
-                                                                {
-                                                                    type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
-                                                                    type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
-                                                                    type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
-                                                                    type.GetProperty(nameof(ProcessInfo.IsFinished))?.GetName(Language) ?? nameof(ProcessInfo.IsFinished),
-                                                                    type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
-                                                                    type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
-                                                                    type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
-                                                                    type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
-                                                                    type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
-                                                                    type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
-                                                                }.Concat(recipe.Keys)
-                                                                 .ToPooledList();
-
-                                             var sb = new StringBuilder();
-                                             sb.AppendLine(string.Join(",", titles));
-
-                                             foreach (var product in info.Products)
-                                             {
-                                                 var vals = new[]
-                                                            {
-                                                                info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                                                info.StartTime.ToString("HH:mm:ss"),
-                                                                info.EndTime.ToString("HH:mm:ss"),
-                                                                info.IsFinished.ToString(),
-                                                                product.PartID,
-                                                                product.LotID,
-                                                                product.Quantity.ToString(),
-                                                                info.OvenCode,
-                                                                product.Layer.ToString(),
-                                                                info.OperatorID
-                                                            }.Concat(recipe.Values)
-                                                             .ToPooledList();
-
-                                                 sb.AppendLine(string.Join(",", vals));
-                                             }
-
-                                             using var outputFile = new StreamWriter($"{outpath}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
-                                             await outputFile.WriteAsync(sb.ToString());
-                                         }
+                                         //! 輸出欣興CSV紀錄
+                                         await CsvCreator.AddInfo(info, AuthenticatorVM.Settings.DataOutputPath);
                                      }
 
                                      return await TraceVM.CheckProductions(stationIndex);

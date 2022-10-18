@@ -413,14 +413,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         InvokeSECSEvent?.Invoke("RecipeChanged");
         //RemoteCommandSelectPP = true;
 
-        //TCS = new TaskCompletionSource<bool>();
-        //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
-        //{
-        //    RemoteCommandSelectPP = false;
-        //    RecipeChangeError     = true;
-        //    return SetRecipeResult.PLC錯誤;
-        //}
-
         await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
         {
@@ -453,14 +445,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
         InvokeSECSEvent?.Invoke("RecipeChanged");
         //RemoteCommandSelectPP = true;
-
-        //TCS = new TaskCompletionSource<bool>();
-        //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
-        //{
-        //    RemoteCommandSelectPP = false;
-        //    RecipeChangeError     = true;
-        //    return SetRecipeResult.PLC錯誤;
-        //}
 
         await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
@@ -531,23 +515,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         await ManualSetByProperties(recipe.ToDictionary());
         InvokeSECSEvent?.Invoke("RecipeChanged");
         //RemoteCommandSelectPP = true;
-
-        //TCS = new TaskCompletionSource<bool>();
-        //if (!await TCS.TimeoutAfter(TimeSpan.FromSeconds(Delay)).ConfigureAwait(false))
-        //{
-        //    Dialog.Show(new Dictionary<Language, string>
-        //                {
-        //                    { Language.TW, "配方設定失敗！" },
-        //                    { Language.CHS, "配方设定失败！" },
-        //                    { Language.EN, "Failed to set recipe!" }
-        //                },
-        //                TimeSpan.FromSeconds(3),
-        //                DialogMsgType.Alarm);
-
-        //    RemoteCommandSelectPP = false;
-        //    RecipeChangeError     = true;
-        //    return SetRecipeResult.PLC錯誤;
-        //}
 
         await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))

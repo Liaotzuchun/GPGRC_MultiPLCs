@@ -633,8 +633,8 @@ public sealed class TotalView_ViewModel : ObservableObject
         {
             var plc = new PLC_ViewModel(dialog,
                                         Gate,
-                                        //BitConverter.ToInt32(new[] { address[0], address[1], address[2], (byte)(address[3] + i) }, 0),
-                                        i,
+                                        BitConverter.ToInt32(new[] { address[0], address[1], address[2], (byte)(address[3] + i) }, 0),
+                                        //i,
                                         "GOL",
                                         (bits_shift: new Dictionary<BitType, int>
                                                      {

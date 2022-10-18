@@ -144,6 +144,7 @@
                     <TextBox x:Name="PartTextBox"
                              Grid.Row="1"
                              Grid.Column="1"
+                             views:TextBoxExtensions.HideScreenKeyboard="True"
                              BorderThickness="1,0,1,1"
                              GotKeyboardFocus="TextBox_GotKeyboardFocus"
                              KeyDown="PartTextBox_KeyDown"
@@ -160,6 +161,7 @@
                     <TextBox x:Name="LotTextBox"
                              Grid.Row="2"
                              Grid.Column="1"
+                             views:TextBoxExtensions.HideScreenKeyboard="True"
                              BorderThickness="1,0,1,1"
                              GotKeyboardFocus="TextBox_GotKeyboardFocus"
                              KeyDown="LotTextBox_KeyDown"
@@ -173,32 +175,18 @@
                                    VerticalAlignment="Center"
                                    Text="{DynamicResource 配方}" />
                     </Border>
-                    <ComboBox x:Name="RecipeComboBox"
-                              Grid.Row="3"
-                              Grid.Column="1"
-                              BorderThickness="1,0,1,1"
-                              GotKeyboardFocus="CB_GotKeyboardFocus"
-                              IsEditable="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                              IsHitTestVisible="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                              IsTextSearchEnabled="False"
-                              ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
-                              KeyDown="RecipeComboBox_KeyDown"
-                              LostKeyboardFocus="CB_LostKeyboardFocus"
-                              SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
-                              Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox x:Name="RecipeComboBox"
+                             Grid.Row="3"
+                             Grid.Column="1"
+                             views:TextBoxExtensions.HideScreenKeyboard="True"
+                             BorderThickness="1,0,1,1"
+                             Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Triggers>
-                            <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->
                             <i:EventTrigger EventName="KeyUp">
                                 <gpmodels:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Mode=OneWay}"
-                                           TextTrimming="CharacterEllipsis" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                    </TextBox>
                     <Border Grid.Row="4"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"
