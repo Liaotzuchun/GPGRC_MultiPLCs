@@ -99,7 +99,7 @@ public class DataoutputCSV
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Record資料夾不存在且無法創建");
+                Log.Error(ex, "Event資料夾不存在且無法創建");
                 return;
             }
         }
@@ -125,7 +125,7 @@ public class DataoutputCSV
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Record資料夾不存在且無法創建");
+                Log.Error(ex, "Alarm資料夾不存在且無法創建");
                 return;
             }
         }
