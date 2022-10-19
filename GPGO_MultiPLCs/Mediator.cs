@@ -126,7 +126,6 @@ public sealed class Mediator : ObservableObject
                             var ev1 = new LogEvent
                                       {
                                           StationNumber = i + 1,
-                                          StartTime     = st,
                                           AddedTime     = st + ttime,
                                           Description   = $"{i}{j}{m}",
                                           TagCode       = $"ooxx{m}",
@@ -141,7 +140,6 @@ public sealed class Mediator : ObservableObject
                         var tempt = 30 * (1 + 5 / (1 + Math.Exp(-0.12 * cc + 3)));
                         var vals = new RecordTemperatures
                                    {
-                                       StartTime                = st,
                                        AddedTime                = st + ttime,
                                        PV_ThermostatTemperature = Math.Round(tempt,                                          1),
                                        OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),                         1),

@@ -6,7 +6,6 @@ using OxyPlot.Series;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
-using HorizontalAlignment = OxyPlot.HorizontalAlignment;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -25,7 +24,7 @@ public class ProcessChartModel
     private readonly OxyColor S7color = OxyColors.Brown;
     private readonly OxyColor S8color = OxyColors.BurlyWood;
 
-    private readonly TimeSpanAxis TimeSpanAxis;
+    private readonly DateTimeAxis DateTimeAxis;
     private readonly LinearAxis   LinearAxis;
     private readonly LinearAxis   LinearAxis2;
     private readonly LineSeries   LineSeries0;
@@ -60,7 +59,7 @@ public class ProcessChartModel
         {
             if (element.TryFindResource("時間") is string s1)
             {
-                TimeSpanAxis.Title = s1;
+                DateTimeAxis.Title = s1;
             }
 
             if (element.TryFindResource("溫控器溫度") is string s0)
@@ -131,13 +130,13 @@ public class ProcessChartModel
                 Fontcolor = OxyColor.FromRgb(bf.R, bf.G, bf.B);
             }
 
-            TimeSpanAxis.TitleColor               = Fontcolor;
-            TimeSpanAxis.AxislineColor            = Bordercolor;
-            TimeSpanAxis.MajorGridlineColor       = Bordercolor;
-            TimeSpanAxis.MinorGridlineColor       = Bordercolor;
-            TimeSpanAxis.TicklineColor            = Bordercolor;
-            TimeSpanAxis.ExtraGridlineColor       = Bordercolor;
-            TimeSpanAxis.TextColor                = Fontcolor;
+            DateTimeAxis.TitleColor               = Fontcolor;
+            DateTimeAxis.AxislineColor            = Bordercolor;
+            DateTimeAxis.MajorGridlineColor       = Bordercolor;
+            DateTimeAxis.MinorGridlineColor       = Bordercolor;
+            DateTimeAxis.TicklineColor            = Bordercolor;
+            DateTimeAxis.ExtraGridlineColor       = Bordercolor;
+            DateTimeAxis.TextColor                = Fontcolor;
             LinearAxis.TitleColor                 = Fontcolor;
             LinearAxis.MajorGridlineColor         = Bordercolor;
             LinearAxis.MinorGridlineColor         = Bordercolor;
@@ -176,10 +175,10 @@ public class ProcessChartModel
                 ChartView.Annotations.Add(LineAnnotation);
             }
 
-            LineAnnotation.X = TimeSpanAxis.ToDouble(ev.Time);
+            LineAnnotation.X = DateTimeAxis.ToDouble(ev.AddedTime);
 
-            var m = (TimeSpanAxis.ActualMaximum - TimeSpanAxis.ActualMinimum) / 2.0;
-            LineAnnotation.TextHorizontalAlignment = LineAnnotation.X > m ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+            var m = (DateTimeAxis.ActualMaximum - DateTimeAxis.ActualMinimum) / 2.0;
+            LineAnnotation.TextHorizontalAlignment = LineAnnotation.X > m ? OxyPlot.HorizontalAlignment.Right : OxyPlot.HorizontalAlignment.Left;
 
             LineAnnotation.Color = ev.Type switch
                                    {
@@ -217,7 +216,7 @@ public class ProcessChartModel
 
     public void AddDate(RecordTemperatures tp)
     {
-        var t = TimeSpanAxis.ToDouble(tp.Time);
+        var t = DateTimeAxis.ToDouble(tp.AddedTime);
         LineSeries0.Points.Add(new DataPoint(t, tp.PV_ThermostatTemperature));
         LineSeries1.Points.Add(new DataPoint(t, tp.OvenTemperatures_1));
         LineSeries2.Points.Add(new DataPoint(t, tp.OvenTemperatures_2));
@@ -247,7 +246,7 @@ public class ProcessChartModel
 
             foreach (var tp in tps)
             {
-                var t = TimeSpanAxis.ToDouble(tp.Time);
+                var t = DateTimeAxis.ToDouble(tp.AddedTime);
                 LineSeries0.Points.Add(new DataPoint(t, tp.PV_ThermostatTemperature));
                 LineSeries1.Points.Add(new DataPoint(t, tp.OvenTemperatures_1));
                 LineSeries2.Points.Add(new DataPoint(t, tp.OvenTemperatures_2));
@@ -272,7 +271,7 @@ public class ProcessChartModel
         ChartView = new PlotModel
                     {
                         DefaultFont             = "Microsoft JhengHei",
-                        PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 0),
+                        PlotAreaBorderThickness = new OxyThickness(0,  1, 1,  0),
                         PlotMargins             = new OxyThickness(40, 0, 40, 35)
                     };
 
@@ -292,7 +291,7 @@ public class ProcessChartModel
                                   LegendLineSpacing     = 2
                               });
 
-        TimeSpanAxis = new TimeSpanAxis
+        DateTimeAxis = new DateTimeAxis
                        {
                            AxislineStyle          = LineStyle.Solid,
                            ExtraGridlineStyle     = LineStyle.Solid,
@@ -454,7 +453,7 @@ public class ProcessChartModel
 
         ChartView.Axes.Add(LinearAxis);
         ChartView.Axes.Add(LinearAxis2);
-        ChartView.Axes.Add(TimeSpanAxis);
+        ChartView.Axes.Add(DateTimeAxis);
         //ChartView.Series.Add(LineSeries8);
         ChartView.Series.Add(LineSeries7);
         ChartView.Series.Add(LineSeries6);
@@ -465,13 +464,13 @@ public class ProcessChartModel
         ChartView.Series.Add(LineSeries1);
         ChartView.Series.Add(LineSeries0);
 
-        TimeSpanAxis.TitleColor               = Fontcolor;
-        TimeSpanAxis.AxislineColor            = Bordercolor;
-        TimeSpanAxis.MajorGridlineColor       = Bordercolor;
-        TimeSpanAxis.MinorGridlineColor       = Bordercolor;
-        TimeSpanAxis.TicklineColor            = Bordercolor;
-        TimeSpanAxis.ExtraGridlineColor       = Bordercolor;
-        TimeSpanAxis.TextColor                = Fontcolor;
+        DateTimeAxis.TitleColor               = Fontcolor;
+        DateTimeAxis.AxislineColor            = Bordercolor;
+        DateTimeAxis.MajorGridlineColor       = Bordercolor;
+        DateTimeAxis.MinorGridlineColor       = Bordercolor;
+        DateTimeAxis.TicklineColor            = Bordercolor;
+        DateTimeAxis.ExtraGridlineColor       = Bordercolor;
+        DateTimeAxis.TextColor                = Fontcolor;
         LinearAxis.TitleColor                 = Fontcolor;
         LinearAxis.MajorGridlineColor         = Bordercolor;
         LinearAxis.MinorGridlineColor         = Bordercolor;

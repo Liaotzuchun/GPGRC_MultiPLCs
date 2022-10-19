@@ -370,7 +370,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         OvenInfo.EventList.Add(new LogEvent
                                {
                                    Type        = type,
-                                   StartTime   = OvenInfo.StartTime,
                                    AddedTime   = addtime,
                                    Description = note,
                                    TagCode     = tag,
@@ -546,11 +545,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         //OvenInfo.RackID    = RackID;
 
-        void AddTemperatures(DateTime start, DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8, double oxy)
+        void AddTemperatures(DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8, double oxy)
         {
             var record = new RecordTemperatures
                          {
-                             StartTime                = start,
                              AddedTime                = addtime,
                              PV_ThermostatTemperature = t0,
                              OvenTemperatures_1       = t1,
@@ -584,7 +582,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         var _OxygenContent         = OxygenContent;
 
         AddTemperatures(OvenInfo.StartTime,
-                        OvenInfo.StartTime,
                         _ThermostatTemperature,
                         _OvenTemperature_1,
                         _OvenTemperature_2,
@@ -614,8 +611,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             if (DateTime.Now - nt >= n)
                                             {
                                                 nt = DateTime.Now;
-                                                AddTemperatures(OvenInfo.StartTime,
-                                                                nt,
+                                                AddTemperatures(nt,
                                                                 _ThermostatTemperature,
                                                                 _OvenTemperature_1,
                                                                 _OvenTemperature_2,
@@ -630,8 +626,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             else if (ManualRecord)
                                             {
                                                 ManualRecord = false;
-                                                AddTemperatures(OvenInfo.StartTime,
-                                                                DateTime.Now,
+                                                AddTemperatures(DateTime.Now,
                                                                 _ThermostatTemperature,
                                                                 _OvenTemperature_1,
                                                                 _OvenTemperature_2,
@@ -660,8 +655,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         _OvenTemperature_8     = OvenTemperature_8        <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
                                         _OxygenContent         = OxygenContent            <= 0 ? _OxygenContent : OxygenContent;
 
-                                        AddTemperatures(OvenInfo.StartTime,
-                                                        DateTime.Now,
+                                        AddTemperatures(DateTime.Now,
                                                         _ThermostatTemperature,
                                                         _OvenTemperature_1,
                                                         _OvenTemperature_2,

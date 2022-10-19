@@ -48,8 +48,8 @@ public class DataoutputCSV
             var vals = new[]
                        {
                            info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                           info.StartTime.ToString("HH:mm:ss"),
-                           info.EndTime.ToString("HH:mm:ss"),
+                           info.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                           info.EndTime.ToString("yyyy-MM-dd HH:mm:ss"),
                            product.PartID,
                            product.LotID,
                            product.Quantity.ToString(),

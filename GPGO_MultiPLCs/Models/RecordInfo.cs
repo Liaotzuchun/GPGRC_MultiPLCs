@@ -37,13 +37,6 @@ public class RecordTemperatures
             }
            .Min();
 
-    [GPIgnore]
-    [LanguageTranslator("Started", "開始時間", "开始时间")]
-    public DateTime StartTime { get; set; }
-
-    [LanguageTranslator("Duration", "歷時", "历时")]
-    public TimeSpan Time => AddedTime - StartTime;
-
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
 
@@ -97,7 +90,7 @@ public class RecordTemperatures
 
         return new Dictionary<string, object>
                {
-                   { type.GetProperty(nameof(Time))?.GetName(lng)                     ?? nameof(Time), Time },
+                   { type.GetProperty(nameof(AddedTime))?.GetName(lng)                ?? nameof(AddedTime), AddedTime },
                    { type.GetProperty(nameof(PV_ThermostatTemperature))?.GetName(lng) ?? nameof(PV_ThermostatTemperature), PV_ThermostatTemperature },
                    { type.GetProperty(nameof(OvenTemperatures_1))?.GetName(lng)       ?? nameof(OvenTemperatures_1), OvenTemperatures_1 },
                    { type.GetProperty(nameof(OvenTemperatures_2))?.GetName(lng)       ?? nameof(OvenTemperatures_2), OvenTemperatures_2 },
@@ -134,10 +127,6 @@ public class LogEvent : ILogData
     public DateTime AddedTime { get; set; }
 
     [GPIgnore]
-    [LanguageTranslator("Duration", "歷時", "历时")]
-    public TimeSpan Time => AddedTime - StartTime;
-
-    [GPIgnore]
     [LanguageTranslator("Event", "事件", "事件")]
     public string Description2
     {
@@ -151,11 +140,6 @@ public class LogEvent : ILogData
 
     [LanguageTranslator("Event", "事件", "事件")]
     public string Description { get; set; }
-
-    //! 當處在生產中時，即烤箱開始生產的時間，若未在生產，則沒有值
-    [GPIgnore]
-    [LanguageTranslator("Started", "開始時間", "开始时间")]
-    public DateTime StartTime { get; set; }
 
     //! 站號由1開始
     [GPIgnore]

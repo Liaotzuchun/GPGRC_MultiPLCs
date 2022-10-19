@@ -161,14 +161,14 @@ public class ProcessInfo : BaseInfo, ILogData
         return new Dictionary<string, object>
                {
                    { type.GetProperty(nameof(AddedTime))?.GetName(lng)          ?? nameof(AddedTime), AddedTime },
-                   { type.GetProperty(nameof(OperatorID))?.GetName(lng)         ?? nameof(OperatorID), OperatorID },
-                   { type.GetProperty(nameof(IsFinished))?.GetName(lng)         ?? nameof(IsFinished), IsFinished },
                    { type.GetProperty(nameof(StartTime))?.GetName(lng)          ?? nameof(StartTime), StartTime },
                    { type.GetProperty(nameof(EndTime))?.GetName(lng)            ?? nameof(EndTime), EndTime },
+                   { type.GetProperty(nameof(OperatorID))?.GetName(lng)         ?? nameof(OperatorID), OperatorID },
                    { type.GetProperty(nameof(Recipe))?.GetName(lng)             ?? nameof(Recipe), Recipe },
                    { type.GetProperty(nameof(Products))?.GetName(lng)           ?? nameof(Products), Products },
                    { type.GetProperty(nameof(RecordTemperatures))?.GetName(lng) ?? nameof(RecordTemperatures), RecordTemperatures },
-                   { type.GetProperty(nameof(EventList))?.GetName(lng)          ?? nameof(EventList), EventList }
+                   { type.GetProperty(nameof(EventList))?.GetName(lng)          ?? nameof(EventList), EventList },
+                   { type.GetProperty(nameof(IsFinished))?.GetName(lng)         ?? nameof(IsFinished), IsFinished }
                };
     }
 

@@ -828,7 +828,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                        type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
                                                                        type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
                                                                        type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
-                                                                       type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID)
+                                                                       type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID),
+                                                                       type.GetProperty(nameof(ProcessInfo.IsFinished))?.GetName(Language) ?? nameof(ProcessInfo.IsFinished)
                                                                    }.Concat(recipe.Keys)
                                                                     .ToPooledList();
 
@@ -843,15 +844,16 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                     {
                                                         var vals = new[]
                                                                    {
-                                                                       info.AddedTime.ToString("yy-MM-dd"),
-                                                                       info.StartTime.ToString("HH:mm:ss"),
-                                                                       info.EndTime.ToString("HH:mm:ss"),
+                                                                       info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                                                       info.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                                                       info.EndTime.ToString("yyyy-MM-dd HH:mm:ss"),
                                                                        product.PartID,
                                                                        product.LotID,
                                                                        product.Quantity.ToString(),
                                                                        info.OvenCode,
                                                                        product.Layer.ToString(),
-                                                                       info.OperatorID
+                                                                       info.OperatorID,
+                                                                       info.IsFinished.ToString()
                                                                    }.Concat(recipe.Values)
                                                                     .ToPooledList();
 
