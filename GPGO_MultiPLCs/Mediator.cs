@@ -343,9 +343,10 @@ public sealed class Mediator : ObservableObject
 
         List<PLC_Recipe> tempRecipeList = null;
         //! 當配方列表更新時，依據使用站別發佈配方
-        RecipeVM.ListUpdatedEvent += e =>
+        RecipeVM.ListUpdatedEvent += async e =>
                                      {
-                                         var (list, showtip) = e;
+                                         var (list, added, removed, updated, showtip) = e;
+
                                          var _list = list.Select(x => x.RecipeName).ToList();
                                          TotalVM.SetRecipeNames(_list);
 
@@ -417,7 +418,7 @@ public sealed class Mediator : ObservableObject
                                                      File.Delete(fpath);
                                                  }
 
-                                                 si.EncodindIni(fpath);
+                                                 await si.EncodindIni(fpath);
                                              }
                                              catch
                                              {
@@ -464,6 +465,9 @@ public sealed class Mediator : ObservableObject
                                          }
 
                                          tempRecipeList = list;
+
+                                         //! 輸出欣興Recipe CSV
+                                         await CsvCreator.AddRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
                                      };
 
         TotalVM.WantLogin += () => AuthenticatorVM.StartLogin?.Execute(null);
@@ -492,15 +496,19 @@ public sealed class Mediator : ObservableObject
         TotalVM.EventHappened += async e =>
                                  {
                                      var (stationIndex, type, time, note, tag, value) = e;
-                                     await LogVM.AddToDBAsync(new LogEvent
-                                                              {
-                                                                  StationNumber = stationIndex + 1,
-                                                                  AddedTime     = time,
-                                                                  Type          = type,
-                                                                  Description   = note,
-                                                                  TagCode       = tag,
-                                                                  Value         = value
-                                                              });
+                                     var logevent = new LogEvent
+                                                    {
+                                                        StationNumber = stationIndex + 1,
+                                                        AddedTime     = time,
+                                                        Type          = type,
+                                                        Description   = note,
+                                                        TagCode       = tag,
+                                                        Value         = value
+                                                    };
+                                     await LogVM.AddToDBAsync(logevent);
+
+                                     //! 輸出欣興CSV紀錄
+                                     await CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
                                  };
 
         TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe);

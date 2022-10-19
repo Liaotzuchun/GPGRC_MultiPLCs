@@ -650,6 +650,8 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                           { DataType.W, 0 }
                                                       })); //! 可指定PLC點位位移
 
+            plc.OvenInfo.OvenCode = $"Oven{i + 1}";
+
             PLC_All[i] = plc;
             var index = i;
 

@@ -1,5 +1,12 @@
 ﻿namespace GPGO_MultiPLCs.Models;
 
+public enum RecipeState
+{
+    新增,
+    修改,
+    刪除
+}
+
 public enum RecordState
 {
     待命,

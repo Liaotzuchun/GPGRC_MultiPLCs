@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using GPMVVM.Helpers;
 using GPMVVM.PooledCollections;
 
@@ -97,28 +98,28 @@ public class StreamReaderIni
     }
 
     /// <summary> 輸出Ini </summary>
-    public void EncodindIni(string Path)
+    public Task EncodindIni(string Path)
     {
-        EncodindIni(Path, Encoding.ASCII);
+        return EncodindIni(Path, Encoding.ASCII);
     }
 
     /// <summary> 輸出Ini </summary>
-    public void EncodindIni(string Path, Encoding Encoding)
+    public async Task EncodindIni(string Path, Encoding Encoding)
     {
-        using var sw = new StreamWriter(File.Create(Path), Encoding);
+        var sb = new StringBuilder();
 
         foreach (var section in Sections)
         {
-            sw.WriteLine($"[{section.Key}]");
+            sb.AppendLine($"[{section.Key}]");
 
             foreach (var item in section.Value.ItemElements)
             {
-                sw.WriteLine($"{item.Key} = {item.Value}");
+                sb.AppendLine($"{item.Key} = {item.Value}");
             }
         }
 
-        sw.Flush();
-        sw.Close();
+        using var outputFile = new StreamWriter(Path, false, Encoding.UTF8);
+        await outputFile.WriteAsync(sb.ToString());
     }
 }
 
