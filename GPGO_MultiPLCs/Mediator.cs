@@ -465,7 +465,7 @@ public sealed class Mediator : ObservableObject
                                          tempRecipeList = list;
 
                                          //! 輸出欣興Recipe CSV
-                                         await CsvCreator.AddRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
+                                         await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
                                      };
 
         TotalVM.WantLogin += () => AuthenticatorVM.StartLogin?.Execute(null);
