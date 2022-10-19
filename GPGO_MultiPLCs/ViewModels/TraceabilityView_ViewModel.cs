@@ -42,7 +42,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         Color.Lime,
         Color.DodgerBlue,
         Color.DarkOrchid,
-        Color.Magenta
+        Color.Magenta,
+        Color.Brown
     };
 
     private const int main_chart_row    = 1;
@@ -627,7 +628,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  record_chart.SetSize(500, 200);
 
                                                                  var jj = temps.Count + log_name_row;
-                                                                 for (var j = 2; j <= temp_keys.Count; j++) //! 插入繪圖溫度資料點
+                                                                 for (var j = 2; j <= 8; j++) //! 插入繪圖溫度資料點
                                                                  {
                                                                      var record_s = record_chart.Series.Add(record_sht.Cells[log_value_row, j, jj, j],  //! 溫度資料 
                                                                                                             record_sht.Cells[log_value_row, 1, jj, 1]); //! 紀錄時間
@@ -641,8 +642,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                  record_chart.XAxis.MinorTickMark = eAxisTickMark.None;
                                                                  record_chart.XAxis.Font.SetFromFont("Calibri", 10);
                                                                  record_chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
-                                                                 //record_chart.XAxis.Format            = "HH:mm:ss";
-                                                                 record_chart.YAxis.Title.Text = "Temperature (°C)";
+                                                                 record_chart.XAxis.Format            = "HH:mm:ss";
+                                                                 record_chart.YAxis.Title.Text        = "Temperature (°C)";
                                                                  record_chart.YAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
                                                                  record_chart.YAxis.Title.Rotation = 270;
                                                                  record_chart.YAxis.MajorTickMark  = eAxisTickMark.In;
@@ -719,7 +720,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                              var chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
                                                              chart.SetSize(900, 300);
 
-                                                             for (var j = 2; j <= temp_keys.Count; j++)
+                                                             for (var j = 2; j <= 8; j++)
                                                              {
                                                                  var record_s = chart.Series.Add(data_sht.Cells[1, j, max_count, j],
                                                                                                  data_sht.Cells[1, 1, max_count, 1]);

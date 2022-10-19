@@ -138,7 +138,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     /// <summary>OP輸入的配方名稱</summary>
-    public string Intput_Name
+    public string IntputRecipeName
     {
         get => Get<string>();
         set => Set(value);
@@ -397,13 +397,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         if (recipe == null || IsExecuting || !RemoteMode)
         {
-            Intput_Name = Selected_Name;
+            IntputRecipeName = Selected_Name;
             return SetRecipeResult.條件不允許;
         }
 
         RecipeUsed?.Invoke(recipe.RecipeName);
         Set(recipe.RecipeName, nameof(Selected_Name));
-        Intput_Name = Selected_Name;
+        IntputRecipeName = Selected_Name;
 
         //TCS?.TrySetResult(false);
 
@@ -430,13 +430,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !RemoteMode)
         {
-            Intput_Name = Selected_Name;
+            IntputRecipeName = Selected_Name;
             return SetRecipeResult.條件不允許;
         }
 
         RecipeUsed?.Invoke(recipe.RecipeName);
         Set(recipe.RecipeName, nameof(Selected_Name));
-        Intput_Name = Selected_Name;
+        IntputRecipeName = Selected_Name;
 
         //TCS?.TrySetResult(false);
 
@@ -470,7 +470,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             { Language.EN, "Fail conditions" }
                         });
 
-            Intput_Name = Selected_Name;
+            IntputRecipeName = Selected_Name;
             return SetRecipeResult.條件不允許;
         }
 
@@ -486,8 +486,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
             RecipeUsed?.Invoke(recipe.RecipeName);
             Set(recipe.RecipeName, nameof(Selected_Name));
-            Intput_Name = Selected_Name;
-            AutoMode    = true;
+            IntputRecipeName = Selected_Name;
+            AutoMode         = true;
             return SetRecipeResult.成功;
         }
 
@@ -500,13 +500,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                recipe,
                                true))
         {
-            Intput_Name = Selected_Name;
+            IntputRecipeName = Selected_Name;
             return SetRecipeResult.條件不允許;
         }
 
         RecipeUsed?.Invoke(recipe.RecipeName);
         Set(recipe.RecipeName, nameof(Selected_Name));
-        Intput_Name = Selected_Name;
+        IntputRecipeName = Selected_Name;
 
         //TCS?.TrySetResult(false);
 
@@ -543,7 +543,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     /// <returns></returns>
     private async Task StartRecoder(CancellationToken ct)
     {
-        //OvenInfo.RackID    = RackID;
+        OvenInfo.Clear();
+
+        foreach (var product in OvenInfo.TempProducts)
+        {
+            OvenInfo.Products.Add(product);
+        }
 
         void AddTemperatures(DateTime addtime, double t0, double t1, double t2, double t3, double t4, double t5, double t6, double t7, double t8, double oxy)
         {
@@ -567,7 +572,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
 
         OvenInfo.StartTime = DateTime.Now;
-        OvenInfo.EndTime   = OvenInfo.StartTime;
         var nt                     = OvenInfo.StartTime;
         var n                      = TimeSpan.FromSeconds(Delay); //! 每delay週期紀錄一次
         var _ThermostatTemperature = PV_ThermostatTemperature;
@@ -688,8 +692,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                            ExecutingFinished?.Invoke(OvenInfo.Copy());
 
-                                           OvenInfo.Clear();
-
                                            //! 需在引發紀錄完成後才觸發取消投產
                                            CheckInCommand.Result = false;
                                            NotifyPropertyChanged(nameof(IsExecuting));
@@ -709,9 +711,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
     }
 
+    public void ClearInput()
+    {
+        OvenInfo.TempProducts.Clear();
+        Set(string.Empty, nameof(InputOperatorID));
+        Set(string.Empty, nameof(InputPartID));
+        Set(string.Empty, nameof(InputLotID));
+        Set(string.Empty, nameof(IntputRecipeName));
+        Set(0,            nameof(InputQuantity));
+        Set(0,            nameof(InputLayer));
+    }
+
     public void AddLOT(string PartID, string LotID, IEnumerable<string> panels)
     {
-        if (OvenInfo.Products.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is {} product)
+        if (OvenInfo.TempProducts.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is {} product)
         {
             foreach (var panel in panels)
             {
@@ -733,7 +746,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 info.PanelIDs.Add(panel);
             }
 
-            OvenInfo.Products.Add(info);
+            OvenInfo.TempProducts.Add(info);
         }
     }
 
@@ -772,20 +785,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                             return;
                                                         }
 
-                                                        if (Recipe_Names.FirstOrDefault(x => x.Contains(Intput_Name.Trim())) is {} foundname)
+                                                        if (Recipe_Names.FirstOrDefault(x => x.Contains(IntputRecipeName.Trim())) is {} foundname)
                                                         {
                                                             await SetRecipeDialog(foundname);
                                                         }
                                                         else
                                                         {
-                                                            Intput_Name = Selected_Name;
+                                                            IntputRecipeName = Selected_Name;
                                                             RecipeKeyInError?.Invoke();
                                                         }
                                                     });
 
         CheckRecipeCommand_KeyLeave = new RelayCommand(_ =>
                                                        {
-                                                           Intput_Name = Selected_Name;
+                                                           IntputRecipeName = Selected_Name;
                                                        });
 
         AddLotCommand = new RelayCommand(_ =>
@@ -795,7 +808,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              OvenInfo.OperatorID = InputOperatorID;
 
                                              //! 當PartID、LotID和Layer都相等，數量則直接覆蓋
-                                             var same = OvenInfo.Products.FirstOrDefault(x => x.PartID == InputPartID && x.LotID == InputLotID && x.Layer == InputLayer);
+                                             var same = OvenInfo.TempProducts.FirstOrDefault(x => x.PartID == InputPartID && x.LotID == InputLotID && x.Layer == InputLayer);
                                              if (same != null)
                                              {
                                                  same.PanelIDs.Clear();
@@ -820,7 +833,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                      info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
                                                  }
 
-                                                 OvenInfo.Products.Add(info);
+                                                 OvenInfo.TempProducts.Add(info);
                                              }
                                          });
 
@@ -828,11 +841,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             {
                                                 if (lot is ProductInfo info)
                                                 {
-                                                    using var list = OvenInfo.Products.ToPooledList();
+                                                    using var list = OvenInfo.TempProducts.ToPooledList();
                                                     list.Remove(info);
 
-                                                    OvenInfo.Products.Clear();
-                                                    list.ForEach(x => OvenInfo.Products.Add(x));
+                                                    ClearInput();
+                                                    list.ForEach(x => OvenInfo.TempProducts.Add(x));
                                                 }
                                             });
 
@@ -996,7 +1009,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                                          OvenInfo.OperatorID = opId.ToString().Trim();
 
-                                                         OvenInfo.Products.Clear();
+                                                         OvenInfo.TempProducts.Clear();
                                                          foreach (var lot in lots)
                                                          {
                                                              var info = new ProductInfo
@@ -1009,7 +1022,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                  info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
                                                              }
 
-                                                             OvenInfo.Products.Add(info);
+                                                             OvenInfo.TempProducts.Add(info);
                                                          }
 
                                                          if (!RemoteMode)
@@ -1067,6 +1080,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                                     CheckInCommand.Result = false;
                                                     CancelCheckIn?.Invoke(OvenInfo.RackID);
+                                                    ClearInput();
                                                     OvenInfo.Clear();
                                                 });
 

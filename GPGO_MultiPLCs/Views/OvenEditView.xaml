@@ -180,7 +180,7 @@
                              Grid.Column="1"
                              views:TextBoxExtensions.HideScreenKeyboard="True"
                              BorderThickness="1,0,1,1"
-                             Text="{Binding Intput_Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                             Text="{Binding IntputRecipeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="KeyUp">
                                 <gpmodels:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
@@ -291,7 +291,7 @@
                                Foreground="{StaticResource GlyphBrush}">
                         <Run Text="{DynamicResource 總數量}" />
                         <Run Text=":" />
-                        <Run Text="{Binding OvenInfo.Quantity, Mode=OneWay}" />
+                        <Run Text="{Binding OvenInfo.TempQuantity, Mode=OneWay}" />
                     </TextBlock>
                 </GroupBox.Header>
                 <Grid>
@@ -307,7 +307,7 @@
                               FontSize="14"
                               FontWeight="Bold"
                               HorizontalScrollBarVisibility="Disabled"
-                              ItemsSource="{Binding OvenInfo.Products, Mode=OneWay}"
+                              ItemsSource="{Binding OvenInfo.TempProducts, Mode=OneWay}"
                               Loaded="DataGrid_Loaded"
                               VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>

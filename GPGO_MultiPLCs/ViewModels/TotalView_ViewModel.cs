@@ -543,12 +543,11 @@ public sealed class TotalView_ViewModel : ObservableObject
                                   return HCACKValule.CantPerform;
                               }
 
-                              PLC_All[index].OvenInfo.Products.Clear();
-
                               var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOSECS.CANCELCommand), "", index);
                               EventHappened?.Invoke(eventval);
-
                               CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
+
+                              PLC_All[index].ClearInput();
                               PLC_All[index].OvenInfo.Clear();
                               secsGem.InvokeEvent($"Oven{index + 1}_LotRemoved");
                               return HCACKValule.Acknowledge;

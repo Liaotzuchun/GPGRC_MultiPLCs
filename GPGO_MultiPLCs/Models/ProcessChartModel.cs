@@ -301,7 +301,6 @@ public class ProcessChartModel
                            MajorGridlineStyle     = LineStyle.Dot,
                            MajorTickSize          = 0,
                            MaximumPadding         = 0,
-                           Minimum                = 0,
                            MinimumPadding         = 0,
                            MinorGridlineStyle     = LineStyle.None,
                            MinorTickSize          = 0,

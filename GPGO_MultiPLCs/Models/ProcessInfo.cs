@@ -92,6 +92,13 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
+    [GPIgnore]
+    public ObservableConcurrentCollection<ProductInfo> TempProducts
+    {
+        get => Get<ObservableConcurrentCollection<ProductInfo>>();
+        set => Set(value);
+    }
+
     [LanguageTranslator("Products", "產品", "产品")]
     public ObservableConcurrentCollection<ProductInfo> Products
     {
@@ -99,7 +106,8 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    public int Quantity => Products.Sum(x => x.PanelIDs.Count);
+    public int TempQuantity => TempProducts.Sum(x => x.PanelIDs.Count);
+    public int Quantity     => Products.Sum(x => x.PanelIDs.Count);
 
     [GPIgnore]
     [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
@@ -127,8 +135,10 @@ public class BaseInfo : ObservableObject
         EventList          = new ObservableConcurrentCollection<LogEvent>();
         RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
         Products           = new ObservableConcurrentCollection<ProductInfo>();
+        TempProducts       = new ObservableConcurrentCollection<ProductInfo>();
 
-        Products.CollectionChanged += (_, _) => { NotifyPropertyChanged(nameof(Quantity)); };
+        Products.CollectionChanged     += (_, _) => { NotifyPropertyChanged(nameof(Quantity)); };
+        TempProducts.CollectionChanged += (_, _) => { NotifyPropertyChanged(nameof(TempQuantity)); };
     }
 }
 
@@ -182,7 +192,6 @@ public class ProcessInfo : BaseInfo, ILogData
     }
 
     #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
-
     /// <summary>新增至資料庫的時間</summary>
     [OrderIndex(-10)]
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
@@ -193,7 +202,6 @@ public class ProcessInfo : BaseInfo, ILogData
     [OrderIndex(-9)]
     [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
     public int StationNumber { get; set; }
-
     #endregion 此區由TraceabilityView_ViewModel新增至資料庫時填入
 
     public IEnumerable<(DateTime AddedTime, int StationNumber, ProductInfo Product)> GetFlatInfos() => Products.Select(x => (AddedTime, StationNumber, x));
