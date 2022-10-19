@@ -134,6 +134,13 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                              Standby = false;
 
                                              var path    = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
+
+                                             if (!Directory.Exists(path))
+                                             {
+                                                 Standby = true;
+                                                 return;
+                                             }
+
                                              var files   = new DirectoryInfo(path).GetFiles("*.json");
                                              var updates = 0;
                                              var adds    = 0;
