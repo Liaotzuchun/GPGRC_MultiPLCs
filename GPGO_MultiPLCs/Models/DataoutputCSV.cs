@@ -13,12 +13,11 @@ namespace GPGO_MultiPLCs.Models;
 
 public class DataoutputCSV
 {
-    private string                  DataTitles;
-    private string                  RecordTitles;
-    private Dictionary<string, int> _RecipeTitles;
-    private string                  RecipeTitles;
-    private string                  AlarmTitles;
-    private Language                Language = Language.TW;
+    private string   DataTitles;
+    private string   RecordTitles;
+    private string   RecipeTitles;
+    private string   AlarmTitles;
+    private Language Language = Language.TW;
 
     private async Task DataMethod(ProcessInfo info, string folder, string filename)
     {
@@ -238,32 +237,6 @@ public class DataoutputCSV
         }
     }
 
-    public List<PLC_Recipe> ImportRecipe(string csvfilepath)
-    {
-        if (File.Exists(csvfilepath))
-        {
-            var results = FastCSV.ReadFile<PLC_Recipe>(csvfilepath,
-                                                       ',',
-                                                       (recipe, col) =>
-                                                       {
-                                                           try
-                                                           {
-                                                               var dic = _RecipeTitles.ToDictionary(x => x.Key, x => col[x.Value]);
-                                                               return recipe.SetByDictionary(dic);
-                                                           }
-                                                           catch (Exception ex)
-                                                           {
-                                                               Log.Error(ex, "ImportRecipe失敗");
-                                                               return false;
-                                                           }
-                                                       });
-
-            return results;
-        }
-
-        return new List<PLC_Recipe>();
-    }
-
     public void UpdateLanguage(Language lng)
     {
         Language = lng;
@@ -289,10 +262,8 @@ public class DataoutputCSV
                                  }.Concat(recipe.Keys));
 
         RecordTitles = $"{string.Join(",", record.Keys)}";
-        var i = -1;
-        _RecipeTitles = recipe.Keys.ToDictionary(x => x, _ => i++);
-        RecipeTitles  = $"{string.Join(",", recipe.Keys)}";
-        AlarmTitles   = $"{string.Join(",", logevent.Keys)}";
+        RecipeTitles = $"{string.Join(",", recipe.Keys)}";
+        AlarmTitles  = $"{string.Join(",", logevent.Keys)}";
     }
 
     public DataoutputCSV()

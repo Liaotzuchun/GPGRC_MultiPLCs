@@ -1758,10 +1758,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                         return false;
                     }
                 }
-                else
-                {
-                    return false;
-                }
             }
             else
             {

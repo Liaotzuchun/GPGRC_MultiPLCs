@@ -49,9 +49,16 @@ public sealed class Mediator : ObservableObject
         get => Get<User>();
         private set
         {
-            Set(value);
+            value ??= new User
+                      {
+                          Name     = "Guest",
+                          Password = "",
+                          Level    = UserLevel.Guest
+                      };
 
-            RecipeVM.UserName = value.Name ?? string.Empty;
+            Set(value);
+            RecipeVM.UserName  = value.Name ?? string.Empty;
+            RecipeVM.UserLevel = value.Level;
         }
     }
 

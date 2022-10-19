@@ -18,6 +18,12 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         set => Set(value);
     }
 
+    public string RecipeImportPath
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+
     /// <summary>介面語言</summary>
     public Language Lng
     {
@@ -49,10 +55,11 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
 
     public GlobalSettings() : base("Settings")
     {
-        PLCIP          = new IPAddress(new byte[] { 192, 168, 3, 39 }).ToString();
-        DataOutputPath = "C:\\GPOutput";
-        Lng            = Language.TW;
-        OvenCount      = 1;
-        RecordDelay    = 1;
+        PLCIP            = new IPAddress(new byte[] { 192, 168, 3, 39 }).ToString();
+        DataOutputPath   = "C:\\GPOutput";
+        RecipeImportPath = "C:\\GPOutput\\Recipe.csv";
+        Lng              = Language.TW;
+        OvenCount        = 1;
+        RecordDelay      = 1;
     }
 }

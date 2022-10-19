@@ -13,6 +13,8 @@ namespace GPGO_MultiPLCs.ViewModels;
 /// <summary>配方管理</summary>
 public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
 {
+    private Dictionary<string, int> RecipeTitles;
+
     public override RelayCommand ExprotCommand { get; }
     public override RelayCommand ImportCommand { get; }
 
@@ -113,6 +115,9 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
 
     public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDataBase<PLC_Recipe> db_history, IDialogService dialog) : base(db, db_history, dialog)
     {
+        var i = 0;
+        RecipeTitles = new PLC_Recipe().ToDictionary().Keys.ToDictionary(x => x, _ => i++);
+
         ExprotCommand = new RelayCommand(_ =>
                                          {
                                              var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
@@ -129,36 +134,48 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                              }
                                          });
 
-        ImportCommand = new RelayCommand(async _ =>
+        ImportCommand = new RelayCommand(async path =>
                                          {
                                              Standby = false;
 
-                                             var path    = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Recipes";
-
-                                             if (!Directory.Exists(path))
+                                             if (path is not string filepath || !File.Exists(filepath))
                                              {
                                                  Standby = true;
                                                  return;
                                              }
 
-                                             var files   = new DirectoryInfo(path).GetFiles("*.json");
+                                             var recipies = FastCSV.ReadFile<PLC_Recipe>(filepath,
+                                                                                        ',',
+                                                                                        (recipe, col) =>
+                                                                                        {
+                                                                                            try
+                                                                                            {
+                                                                                                var dic    = RecipeTitles.ToDictionary(x => x.Key, x => col[x.Value]);
+                                                                                                var result = recipe.SetByDictionary(dic);
+                                                                                                return result;
+                                                                                            }
+                                                                                            catch (Exception ex)
+                                                                                            {
+                                                                                                Log.Error(ex, "ImportRecipe失敗");
+                                                                                                return false;
+                                                                                            }
+                                                                                        });
+
                                              var updates = 0;
                                              var adds    = 0;
 
-                                             foreach (var file in files)
+                                             foreach (var recipe in recipies)
                                              {
                                                  try
                                                  {
-                                                     var recipe = file.FullName.ReadFromJsonFile<PLC_Recipe>();
                                                      if (recipe != null)
                                                      {
-                                                         recipe.RecipeName = Path.GetFileNameWithoutExtension(file.Name);
-                                                         var old_recipe = Recipes.Find(x => x.RecipeName == recipe.RecipeName);
+                                                         var old_recipe = Recipes?.FirstOrDefault(x => x.RecipeName == recipe.RecipeName);
                                                          var new_recipe = recipe.Copy(UserName, UserLevel);
 
                                                          if (old_recipe != null)
                                                          {
-                                                             if (old_recipe.Equals(recipe))
+                                                             if (old_recipe.Equals(new_recipe))
                                                              {
                                                                  continue;
                                                              }
