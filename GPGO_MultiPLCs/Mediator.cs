@@ -378,7 +378,10 @@ public sealed class Mediator : ObservableObject
                                              var t       = si.AddIniSection(ccode.CCodeName);
                                              foreach (var parm in ccode.PParmStructs)
                                              {
-                                                 t.AddElement(parm.PParamName, _recipe[parm.PParamName].ToString());
+                                                 if (_recipe.TryGetValue(parm.PParamName, out var val))
+                                                 {
+                                                     t.AddElement(parm.PParamName, val.ToString().ToUpper());
+                                                 }
                                              }
 
                                              try

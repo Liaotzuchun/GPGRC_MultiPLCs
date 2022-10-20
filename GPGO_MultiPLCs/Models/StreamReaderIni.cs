@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using GPMVVM.Helpers;
-using GPMVVM.PooledCollections;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -65,7 +62,7 @@ public class StreamReaderIni
         Sections = new Dictionary<string, IniElementConstruct>();
 
         IniElementConstruct iniElementConstruct = null;
-        while (sr.ReadLine() is {} s)
+        while (sr.ReadLine() is { } s)
         {
             //string s = sr.ReadLine();
             //空值或空字串判斷
@@ -100,7 +97,7 @@ public class StreamReaderIni
     /// <summary> 輸出Ini </summary>
     public Task EncodindIni(string Path)
     {
-        return EncodindIni(Path, Encoding.ASCII);
+        return EncodindIni(Path, new UTF8Encoding(false));
     }
 
     /// <summary> 輸出Ini </summary>
@@ -118,7 +115,7 @@ public class StreamReaderIni
             }
         }
 
-        using var outputFile = new StreamWriter(Path, false, Encoding.UTF8);
+        using var outputFile = new StreamWriter(Path, false, Encoding);
         await outputFile.WriteAsync(sb.ToString());
     }
 }
