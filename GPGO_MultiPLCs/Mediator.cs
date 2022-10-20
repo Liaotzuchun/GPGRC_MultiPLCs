@@ -371,51 +371,16 @@ public sealed class Mediator : ObservableObject
 
                                          foreach (var recipe in list)
                                          {
-                                             var fpath = $"{path}\\{recipe.RecipeName}.pjb";
-                                             var si    = new StreamReaderIni();
-                                             var t     = si.AddIniSection("CCodeID1");
-                                             t.AddElement(nameof(PLC_Recipe.NitrogenMode),          recipe.NitrogenMode.ToString());
-                                             t.AddElement(nameof(PLC_Recipe.OxygenContentSet),      recipe.OxygenContentSet.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.InflatingTime),         recipe.InflatingTime.ToString("0"));
-                                             t.AddElement(nameof(PLC_Recipe.CoolingTime),           recipe.CoolingTime.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.CoolingTemperature),    recipe.CoolingTemperature.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.SegmentCounts),         recipe.SegmentCounts.ToString());
-                                             t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_1), recipe.TemperatureSetpoint_1.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_2), recipe.TemperatureSetpoint_2.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_3), recipe.TemperatureSetpoint_3.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_4), recipe.TemperatureSetpoint_4.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_5), recipe.TemperatureSetpoint_5.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.TemperatureSetpoint_6), recipe.TemperatureSetpoint_6.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampTime_1),            recipe.RampTime_1.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampTime_2),            recipe.RampTime_2.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampTime_3),            recipe.RampTime_3.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampTime_4),            recipe.RampTime_4.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampTime_5),            recipe.RampTime_5.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampTime_6),            recipe.RampTime_6.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampAlarm_1),           recipe.RampAlarm_1.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampAlarm_2),           recipe.RampAlarm_2.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampAlarm_3),           recipe.RampAlarm_3.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampAlarm_4),           recipe.RampAlarm_4.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampAlarm_5),           recipe.RampAlarm_5.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.RampAlarm_6),           recipe.RampAlarm_6.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTime_1),           recipe.DwellTime_1.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTime_2),           recipe.DwellTime_2.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTime_3),           recipe.DwellTime_3.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTime_4),           recipe.DwellTime_4.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTime_5),           recipe.DwellTime_5.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTime_6),           recipe.DwellTime_6.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellAlarm_1),          recipe.DwellAlarm_1.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellAlarm_2),          recipe.DwellAlarm_2.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellAlarm_3),          recipe.DwellAlarm_3.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellAlarm_4),          recipe.DwellAlarm_4.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellAlarm_5),          recipe.DwellAlarm_5.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellAlarm_6),          recipe.DwellAlarm_6.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_1),     recipe.DwellTimeOffset_1.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_2),     recipe.DwellTimeOffset_2.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_3),     recipe.DwellTimeOffset_3.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_4),     recipe.DwellTimeOffset_4.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_5),     recipe.DwellTimeOffset_5.ToString("0.0"));
-                                             t.AddElement(nameof(PLC_Recipe.DwellTimeOffset_6),     recipe.DwellTimeOffset_6.ToString("0.0"));
+                                             var _recipe = recipe.ToDictionary();
+                                             var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
+                                             var si      = new StreamReaderIni();
+                                             var ccode   = TotalVM.secsGem.secsGem.CCodeDocument.CCodeStructs[0];
+                                             var t       = si.AddIniSection(ccode.CCodeName);
+                                             foreach (var parm in ccode.PParmStructs)
+                                             {
+                                                 t.AddElement(parm.PParamName, _recipe[parm.PParamName].ToString());
+                                             }
+
                                              try
                                              {
                                                  if (File.Exists(fpath))

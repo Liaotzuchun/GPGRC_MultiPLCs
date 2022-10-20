@@ -29,7 +29,7 @@ public class SECSThread
         GEM_PP_EXEC_NAME           = 42
     }
 
-    private readonly GOSECS  secsGem;
+    public readonly GOSECS  secsGem;
     private readonly EqpBase eqpBase;
 
     /// <summary> GPSECS服務設定檔案</summary>

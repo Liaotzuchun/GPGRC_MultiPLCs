@@ -19,7 +19,7 @@ namespace GPGO_MultiPLCs.ViewModels;
 public sealed class TotalView_ViewModel : ObservableObject
 {
     private readonly IDialogService Dialog;
-    private readonly SECSThread     secsGem;
+    public readonly SECSThread     secsGem;
 
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";

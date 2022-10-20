@@ -2,7 +2,7 @@
 // CCODE: [command code name], command Code(CCODE), process parameter number , Comment
 //  PParmName, Type, Min.Value, Max.Value, Comment
 
-CCODE: [CCodeID1], 1, 42 , Comment 1
+CCODE: [1], 1, 42 , Comment 1
  NitrogenMode, BOOLEAN, N/A, N/A,
  OxygenContentSet, FT_4, 0.1, 21,
  InflatingTime, INT_4, 0, 100,
