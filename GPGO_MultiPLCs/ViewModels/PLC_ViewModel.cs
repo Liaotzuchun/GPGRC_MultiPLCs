@@ -201,6 +201,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             value = value.Trim();
             if (value.Length < 10)
             {
+                Set(string.Empty);
                 Dialog.Show(new Dictionary<Language, string>
                             {
                                 { Language.TW, "需至少10個字元" },
@@ -785,7 +786,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                             return;
                                                         }
 
-                                                        if (Recipe_Names.FirstOrDefault(x => x.Contains(IntputRecipeName.Trim())) is {} foundname)
+                                                        if (!string.IsNullOrEmpty(IntputRecipeName) && Recipe_Names.FirstOrDefault(x => x.Contains(IntputRecipeName.Trim())) is {} foundname)
                                                         {
                                                             await SetRecipeDialog(foundname);
                                                         }

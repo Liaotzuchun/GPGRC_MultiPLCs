@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,6 +12,9 @@ namespace GPGO_MultiPLCs.Views;
 /// </summary>
 public partial class OvenEditView : UserControl
 {
+    private DateTime tempTime;
+    private Key     tempKey;
+
     private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
     {
         ((TextBox)sender).SelectAll();
@@ -35,6 +39,9 @@ public partial class OvenEditView : UserControl
 
     private void PartTextBox_KeyDown(object sender, KeyEventArgs e)
     {
+        tempTime = DateTime.Now;
+        tempKey  = e.Key;
+
         if (e.Key == Key.Enter)
         {
             Keyboard.Focus(LotTextBox);
@@ -43,10 +50,30 @@ public partial class OvenEditView : UserControl
 
     private void LotTextBox_KeyDown(object sender, KeyEventArgs e)
     {
+        tempTime = DateTime.Now;
+        tempKey  = e.Key;
+
         if (e.Key == Key.Enter)
         {
             Keyboard.Focus(NumericTextBox);
         }
+    }
+
+    private void RecipeTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        tempTime = DateTime.Now;
+        tempKey  = e.Key;
+    }
+
+    private void TextBox_KeyUp(object sender, KeyEventArgs e)
+    {
+        if (tempKey != e.Key || (DateTime.Now - tempTime).TotalMilliseconds > 17.0)
+        {
+            ((TextBox)sender).Clear();
+            return;
+        }
+
+        tempTime = DateTime.Now;
     }
 
     public OvenEditView()
