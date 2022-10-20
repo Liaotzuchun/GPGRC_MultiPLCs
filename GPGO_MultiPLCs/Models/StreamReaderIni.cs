@@ -23,7 +23,7 @@ public class StreamReaderIni
     /// <param name="Path"> 檔案位置</param>
     public StreamReaderIni(string Path)
     {
-        DecodingIni(Path, Encoding.ASCII);
+        DecodingIni(Path, new UTF8Encoding(false));
     }
 
     /// <summary>
