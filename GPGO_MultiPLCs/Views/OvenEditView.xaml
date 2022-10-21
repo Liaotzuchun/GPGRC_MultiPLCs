@@ -159,8 +159,18 @@
                              BorderThickness="1,0,1,1"
                              GotKeyboardFocus="TextBox_GotKeyboardFocus"
                              KeyDown="PartTextBox_KeyDown"
-                             KeyUp="TextBox_KeyUp"
                              Text="{Binding InputPartID, Mode=TwoWay}" />
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Background="{DynamicResource ErrorBrush}"
+                            Visibility="{Binding IsKeyboardFocused, ElementName=PartTextBox, Mode=OneWay, Converter={StaticResource BoolVis}}">
+                        <TextBlock Margin="2"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource GlyphBrush}"
+                                   Text="{StaticResource 僅限讀碼器}" />
+                    </Border>
                     <Border Grid.Row="2"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -177,8 +187,18 @@
                              BorderThickness="1,0,1,1"
                              GotKeyboardFocus="TextBox_GotKeyboardFocus"
                              KeyDown="LotTextBox_KeyDown"
-                             KeyUp="TextBox_KeyUp"
                              Text="{Binding InputLotID, Mode=TwoWay}" />
+                    <Border Grid.Row="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Background="{DynamicResource ErrorBrush}"
+                            Visibility="{Binding IsKeyboardFocused, ElementName=LotTextBox, Mode=OneWay, Converter={StaticResource BoolVis}}">
+                        <TextBlock Margin="2"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource GlyphBrush}"
+                                   Text="{StaticResource 僅限讀碼器}" />
+                    </Border>
                     <Border Grid.Row="3"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -193,15 +213,27 @@
                              Grid.Column="1"
                              views:TextBoxExtensions.HideScreenKeyboard="True"
                              BorderThickness="1,0,1,1"
+                             GotKeyboardFocus="TextBox_GotKeyboardFocus"
                              KeyDown="RecipeTextBox_KeyDown"
-                             KeyUp="TextBox_KeyUp"
-                             Text="{Binding IntputRecipeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                             Text="{Binding InputRecipeName, Mode=TwoWay}">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="KeyUp">
-                                <gpmodels:InteractiveCommand Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}" />
+                            <i:EventTrigger EventName="LostKeyboardFocus">
+                                <i:InvokeCommandAction Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}"
+                                                       CommandParameter="{Binding Text, ElementName=RecipeTextBox, Mode=OneWay}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </TextBox>
+                    <Border Grid.Row="3"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Background="{DynamicResource ErrorBrush}"
+                            Visibility="{Binding IsKeyboardFocused, ElementName=RecipeTextBox, Mode=OneWay, Converter={StaticResource BoolVis}}">
+                        <TextBlock Margin="2"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource GlyphBrush}"
+                                   Text="{StaticResource 僅限讀碼器}" />
+                    </Border>
                     <Border Grid.Row="4"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"

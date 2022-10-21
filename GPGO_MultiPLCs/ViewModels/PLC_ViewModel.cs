@@ -141,7 +141,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     /// <summary>OP輸入的配方名稱</summary>
-    public string IntputRecipeName
+    public string InputRecipeName
     {
         get => Get<string>();
         set => Set(value);
@@ -158,13 +158,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         get => Get<Task>();
         private set => Set(value);
-    }
-
-    /// <summary>OP選擇的配方名稱</summary>
-    public string Selected_Name
-    {
-        get => Get<string>();
-        set => _ = SetRecipeDialog(value);
     }
 
     /// <summary>
@@ -401,13 +394,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         if (recipe == null || IsExecuting || !RemoteMode)
         {
-            IntputRecipeName = Selected_Name;
             return SetRecipeResult.條件不允許;
         }
 
         RecipeUsed?.Invoke(recipe.RecipeName);
-        Set(recipe.RecipeName, nameof(Selected_Name));
-        IntputRecipeName = Selected_Name;
 
         //TCS?.TrySetResult(false);
 
@@ -434,13 +424,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         if (GetRecipe?.Invoke(recipeName) is not {} recipe || IsExecuting || !RemoteMode)
         {
-            IntputRecipeName = Selected_Name;
             return SetRecipeResult.條件不允許;
         }
 
         RecipeUsed?.Invoke(recipe.RecipeName);
-        Set(recipe.RecipeName, nameof(Selected_Name));
-        IntputRecipeName = Selected_Name;
 
         //TCS?.TrySetResult(false);
 
@@ -474,7 +461,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             { Language.EN, "Fail conditions" }
                         });
 
-            IntputRecipeName = Selected_Name;
             return SetRecipeResult.條件不允許;
         }
 
@@ -489,8 +475,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         });
 
             RecipeUsed?.Invoke(recipe.RecipeName);
-            Set(recipe.RecipeName, nameof(Selected_Name));
-            IntputRecipeName = Selected_Name;
             AutoMode         = true;
             return SetRecipeResult.成功;
         }
@@ -504,13 +488,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                recipe,
                                true))
         {
-            IntputRecipeName = Selected_Name;
             return SetRecipeResult.條件不允許;
         }
 
         RecipeUsed?.Invoke(recipe.RecipeName);
-        Set(recipe.RecipeName, nameof(Selected_Name));
-        IntputRecipeName = Selected_Name;
 
         //TCS?.TrySetResult(false);
 
@@ -721,7 +702,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         Set(string.Empty, nameof(InputOperatorID));
         Set(string.Empty, nameof(InputPartID));
         Set(string.Empty, nameof(InputLotID));
-        Set(string.Empty, nameof(IntputRecipeName));
+        Set(string.Empty, nameof(InputRecipeName));
         Set(0,            nameof(InputQuantity));
         Set(0,            nameof(InputLayer));
     }
@@ -782,27 +763,21 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              }
                                          });
 
-        CheckRecipeCommand_KeyIn = new RelayCommand(async e =>
+        CheckRecipeCommand_KeyIn = new RelayCommand(async text =>
                                                     {
-                                                        if (((KeyEventArgs)e).Key != Key.Enter)
-                                                        {
-                                                            return;
-                                                        }
-
-                                                        if (!string.IsNullOrEmpty(IntputRecipeName) && Recipe_Names.FirstOrDefault(x => x.Contains(IntputRecipeName.Trim())) is {} foundname)
+                                                        if (text is string _text && Recipe_Names.FirstOrDefault(x => x.Equals(_text.Trim())) is {} foundname)
                                                         {
                                                             await SetRecipeDialog(foundname);
                                                         }
                                                         else
                                                         {
-                                                            IntputRecipeName = Selected_Name;
+                                                            InputRecipeName = string.Empty;
                                                             RecipeKeyInError?.Invoke();
                                                         }
                                                     });
 
         CheckRecipeCommand_KeyLeave = new RelayCommand(_ =>
                                                        {
-                                                           IntputRecipeName = Selected_Name;
                                                        });
 
         AddLotCommand = new RelayCommand(_ =>
@@ -1047,7 +1022,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                          {
                                                              //RemoteCommandSelectPP = false;
 
-                                                             if (GetRecipe?.Invoke(Selected_Name) is {} recipe)
+                                                             if (GetRecipe?.Invoke(InputRecipeName.Trim()) is {} recipe)
                                                              {
                                                                  await ManualSetByProperties(recipe.ToDictionary());
 

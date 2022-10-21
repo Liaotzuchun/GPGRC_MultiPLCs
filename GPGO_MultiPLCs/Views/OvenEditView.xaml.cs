@@ -68,10 +68,6 @@ public partial class OvenEditView : UserControl
         }
     }
 
-    private void TextBox_KeyUp(object sender, KeyEventArgs e)
-    {
-    }
-
     public OvenEditView()
     {
         InitializeComponent();
