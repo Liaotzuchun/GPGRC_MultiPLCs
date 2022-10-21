@@ -30,6 +30,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <views:UniformStackPanel Orientation="Vertical">
                 <Border Height="24"
@@ -86,6 +87,16 @@
                                Text="{DynamicResource 離線}" />
                 </Viewbox>
             </Border>
+            <Button Grid.Row="2">
+                <ItemsControl FontSize="22"
+                              FontWeight="Bold"
+                              ItemsSource="{DynamicResource 設備狀態}" />
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding FocusCommand, Mode=OneTime}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
         </Grid>
         <Grid Grid.Column="2">
             <Grid.ColumnDefinitions>
@@ -177,7 +188,7 @@
                                    VerticalAlignment="Center"
                                    Text="{DynamicResource 配方}" />
                     </Border>
-                    <TextBox x:Name="RecipeComboBox"
+                    <TextBox x:Name="RecipeTextBox"
                              Grid.Row="3"
                              Grid.Column="1"
                              views:TextBoxExtensions.HideScreenKeyboard="True"

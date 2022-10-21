@@ -24,55 +24,8 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="224" />
                 </Grid.ColumnDefinitions>
-                <ListBox Margin="0,4,4,0"
-                         AlternationCount="2147483647"
-                         ItemsSource="{Binding PLC_All_View, Mode=OneWay}"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                         SelectedIndex="{Binding PLCIndex, Mode=TwoWay}">
-                    <!--<ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <views:UniformGridWithOrientation x:Name="UniformGridWithOrientation"
-                                                                  Orientation="Horizontal">
-                                    <views:UniformGridWithOrientation.Columns>
-                                        <MultiBinding Converter="{StaticResource IfElse}">
-                                            <Binding Converter="{StaticResource IsLessThanValue}"
-                                                     ConverterParameter="10"
-                                                     Mode="OneWay"
-                                                     Path="OvenCount" />
-                                            <Binding>
-                                                <Binding.Source>
-                                                    <system:Int32>1</system:Int32>
-                                                </Binding.Source>
-                                            </Binding>
-                                            <Binding>
-                                                <Binding.Source>
-                                                    <system:Int32>2</system:Int32>
-                                                </Binding.Source>
-                                            </Binding>
-                                        </MultiBinding>
-                                    </views:UniformGridWithOrientation.Columns>
-                                </views:UniformGridWithOrientation>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>-->
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <ContentPresenter />
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="vm:PLC_ViewModel">
-                            <local:OvenEditView DataContext="{Binding Mode=OneWay}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <local:OvenEditView Margin="0,4,4,0"
+                                    DataContext="{Binding PLC_All_View[0], Mode=OneWay}" />
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="4" />

@@ -132,7 +132,7 @@ public sealed class Mediator : ObservableObject
                         {
                             var ev1 = new LogEvent
                                       {
-                                          StationNumber = i + 1,
+                                          StationNumber = i  + 1,
                                           AddedTime     = st + ttime,
                                           Description   = $"{i}{j}{m}",
                                           TagCode       = $"ooxx{m}",
@@ -225,12 +225,16 @@ public sealed class Mediator : ObservableObject
                                       Password = "",
                                       Level    = UserLevel.Guest
                                   };
-        User = AuthenticatorVM.NowUser;
+        User                          = AuthenticatorVM.NowUser;
+        Helpers.Extensions.ReaderName = AuthenticatorVM.Settings.CodeReaderName;
 
         AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
                                                     {
                                                         switch (e.PropertyName)
                                                         {
+                                                            case nameof(GlobalSettings.CodeReaderName):
+                                                                Helpers.Extensions.ReaderName = ((GlobalSettings)s).CodeReaderName;
+                                                                break;
                                                             case nameof(GlobalSettings.PLCIP):
                                                                 DialogVM.Show(new Dictionary<Language, string>
                                                                               {

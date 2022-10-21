@@ -45,6 +45,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action                                                                         RecipeKeyInError;
     public event Action<string>                                                                 RecipeUsed;
     public event Action                                                                         ExecutingStarted;
+    public event Action                                                                         WantFocus;
 
     public event Func<BaseInfo, ValueTask> ExecutingFinished;
     //public event Action<PLC_Recipe>                                                           RecipeChangedbyPLC;
@@ -70,6 +71,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public RelayCommand AddLotCommand { get; }
 
     public RelayCommand DeleteLotCommand { get; }
+
+    public RelayCommand FocusCommand { get; }
 
     /// <summary>機台資訊</summary>
     public BaseInfoWithChart OvenInfo { get; }
@@ -1142,6 +1145,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            AutoMode_Stop  = true;
                                        },
                                        null);
+
+        FocusCommand = new RelayCommand(_ =>
+                                        {
+                                            WantFocus?.Invoke();
+                                        });
 
         OvenInfo = new BaseInfoWithChart();
         OvenInfo.PropertyChanged += (s, e) =>

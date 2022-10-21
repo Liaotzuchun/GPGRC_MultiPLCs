@@ -56,7 +56,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
 
-    public IEnumerable<PLC_ViewModel> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount);
+    public IList<PLC_ViewModel> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount).ToList();
 
     /// <summary>檢視詳細資訊的PLC</summary>
     public PLC_ViewModel PLC_In_Focused => PLCIndex > -1 ? PLC_All[PLCIndex] : null;
@@ -632,8 +632,8 @@ public sealed class TotalView_ViewModel : ObservableObject
         {
             var plc = new PLC_ViewModel(dialog,
                                         Gate,
-                                        //BitConverter.ToInt32(new[] { address[0], address[1], address[2], (byte)(address[3] + i) }, 0),
-                                        i,
+                                        BitConverter.ToInt32(new[] { address[0], address[1], address[2], (byte)(address[3] + i) }, 0),
+                                        //i,
                                         "GOL",
                                         (bits_shift: new Dictionary<BitType, int>
                                                      {
@@ -653,6 +653,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             PLC_All[i] = plc;
             var index = i;
+
+            plc.WantFocus += () => PLCIndex = index;
 
             //! PLC讀取配方內容時
             plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke((index, recipeName));

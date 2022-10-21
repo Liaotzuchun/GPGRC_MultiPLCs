@@ -6,6 +6,12 @@ namespace GPGO_MultiPLCs.Models;
 /// <summary>PC程式參數</summary>
 public class GlobalSettings : RecipeFileBase<GlobalSettings>
 {
+    public string CodeReaderName
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+
     public string PLCIP
     {
         get => Get<string>();
@@ -55,6 +61,7 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
 
     public GlobalSettings() : base("Settings")
     {
+        CodeReaderName   = "Symbol Bar Code Scanner";
         PLCIP            = new IPAddress(new byte[] { 192, 168, 3, 39 }).ToString();
         DataOutputPath   = "C:\\GPOutput";
         RecipeImportPath = "C:\\GPOutput\\Recipe.csv";
