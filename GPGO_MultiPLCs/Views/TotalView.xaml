@@ -277,6 +277,10 @@
                                                      Value="SECSCommnd">
                                             <Setter TargetName="Border" Property="Background" Value="Magenta" />
                                         </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
+                                                     Value="RecipeChanged">
+                                            <Setter TargetName="Border" Property="Background" Value="Gold" />
+                                        </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </DataGrid.RowHeaderTemplate>

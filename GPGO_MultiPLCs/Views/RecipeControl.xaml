@@ -2181,7 +2181,8 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <views:FilePicker Grid.Column="0"
-                                  FilePath="{Binding AuthenticatorVM.Settings.RecipeImportPath, Source={StaticResource Mediator}, Mode=TwoWay}" />
+                                  FilePath="{Binding AuthenticatorVM.Settings.RecipeImportPath, Source={StaticResource Mediator}, Mode=TwoWay}"
+                                  Filter="CSV files (*.csv)|*.csv;*.CSV" />
                 <Button Grid.Column="1"
                         Content="{DynamicResource 匯入}">
                     <i:Interaction.Triggers>

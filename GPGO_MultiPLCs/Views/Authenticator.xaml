@@ -435,9 +435,10 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="120" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Border Background="{StaticResource WindowBackgroundBrush2}"
@@ -476,9 +477,23 @@
                                 BorderThickness="1,0,0,1">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Text="Record Delay" />
+                                       Text="Reader Name" />
                         </Border>
-                        <Border Grid.Row="2"
+                        <TextBox Grid.Row="2"
+                                 Grid.Column="1"
+                                 BorderThickness="1,0,1,1"
+                                 FontSize="16"
+                                 Text="{Binding Settings.CodeReaderName, Mode=TwoWay}" />
+                        <Border Grid.Row="3"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                BorderThickness="1,0,0,1">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="Record Interval" />
+                        </Border>
+                        <Border Grid.Row="3"
                                 Grid.Column="1"
                                 Background="{StaticResource LightBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"

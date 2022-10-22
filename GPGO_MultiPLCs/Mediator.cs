@@ -350,14 +350,38 @@ public sealed class Mediator : ObservableObject
                                    }
                                };
 
-        List<PLC_Recipe> tempRecipeList = null;
         //! 當配方列表更新時，依據使用站別發佈配方
         RecipeVM.ListUpdatedEvent += async e =>
                                      {
                                          var (list, added, removed, updated, showtip) = e;
-
                                          var _list = list.Select(x => x.RecipeName).ToList();
                                          TotalVM.SetRecipeNames(_list);
+
+                                         var sb = new StringBuilder();
+                                         if (added?.Count > 0)
+                                         {
+                                             sb.AppendLine($"Added:{string.Join(",", added.Select(x => x.RecipeName))}");
+                                         }
+                                         if (removed?.Count > 0)
+                                         {
+                                             sb.AppendLine($"Removed:{string.Join(",", removed.Select(x => x.RecipeName))}");
+                                         }
+                                         if (updated?.Count > 0)
+                                         {
+                                             sb.AppendLine($"Updated:{string.Join(",", updated.Select(x => x.RecipeName))}");
+                                         }
+
+                                         if (sb.Length > 0)
+                                         {
+                                             await LogVM.AddToDBAsync(new LogEvent
+                                                                      {
+                                                                          AddedTime     = DateTime.Now,
+                                                                          StationNumber = 0,
+                                                                          Type          = EventType.RecipeChanged,
+                                                                          Description   = sb.ToString().TrimEnd('\r','\n'),
+                                                                          Value         = true
+                                                                      });
+                                         }
 
                                          const string path = "C:\\ITRIinit\\0\\ProcessJob";
 
@@ -378,14 +402,22 @@ public sealed class Mediator : ObservableObject
                                              var _recipe = recipe.ToDictionary();
                                              var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
                                              var si      = new StreamReaderIni();
-                                             var ccode   = TotalVM.secsGem.secsGem.CCodeDocument.CCodeStructs[0];
-                                             var t       = si.AddIniSection(ccode.CCodeName);
-                                             foreach (var parm in ccode.PParmStructs)
+
+                                             try
                                              {
-                                                 if (_recipe.TryGetValue(parm.PParamName, out var val))
+                                                 var ccode = TotalVM.secsGem.secsGem.CCodeDocument.CCodeStructs[0];
+                                                 var t     = si.AddIniSection(ccode.CCodeName);
+                                                 foreach (var parm in ccode.PParmStructs)
                                                  {
-                                                     t.AddElement(parm.PParamName, val.ToString().ToUpper());
+                                                     if (_recipe.TryGetValue(parm.PParamName, out var val))
+                                                     {
+                                                         t.AddElement(parm.PParamName, val.ToString().ToUpper());
+                                                     }
                                                  }
+                                             }
+                                             catch (Exception ex)
+                                             {
+                                                 Log.Error(ex, "pjb code錯誤");
                                              }
 
                                              try
@@ -397,51 +429,26 @@ public sealed class Mediator : ObservableObject
 
                                                  await si.EncodindIni(fpath);
                                              }
-                                             catch
+                                             catch(Exception ex)
                                              {
-                                                 continue;
-                                             }
-
-                                             if (tempRecipeList != null)
-                                             {
-                                                 var result = tempRecipeList.FirstOrDefault(x => x.RecipeName == recipe.RecipeName);
-                                                 if (result != null)
-                                                 {
-                                                     if (!result.Equals(recipe))
-                                                     {
-                                                         TotalVM.InvokeRecipe(recipe.RecipeName, SECSThread.PPStatus.Change);
-                                                     }
-
-                                                     tempRecipeList.RemoveAll(x => x.RecipeName == recipe.RecipeName);
-                                                 }
-                                                 else
-                                                 {
-                                                     TotalVM.InvokeRecipe(recipe.RecipeName, SECSThread.PPStatus.Create);
-                                                 }
+                                                 Log.Error(ex, "pjb寫入失敗");
                                              }
                                          }
 
-                                         if (tempRecipeList != null)
+                                         foreach (var add in added)
                                          {
-                                             foreach (var recipe in tempRecipeList)
-                                             {
-                                                 var fpath = $"{path}\\{recipe.RecipeName}.pjb";
-                                                 try
-                                                 {
-                                                     if (File.Exists(fpath))
-                                                     {
-                                                         File.Delete(fpath);
-                                                         TotalVM.InvokeRecipe(recipe.RecipeName, SECSThread.PPStatus.Delete);
-                                                     }
-                                                 }
-                                                 catch
-                                                 {
-                                                     // ignored
-                                                 }
-                                             }
+                                             TotalVM.InvokeRecipe(add.RecipeName, SECSThread.PPStatus.Create);
                                          }
 
-                                         tempRecipeList = list;
+                                         foreach (var remove in removed)
+                                         {
+                                             TotalVM.InvokeRecipe(remove.RecipeName, SECSThread.PPStatus.Delete);
+                                         }
+
+                                         foreach (var update in updated)
+                                         {
+                                             TotalVM.InvokeRecipe(update.RecipeName, SECSThread.PPStatus.Change);
+                                         }
 
                                          //! 輸出欣興Recipe CSV
                                          await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);

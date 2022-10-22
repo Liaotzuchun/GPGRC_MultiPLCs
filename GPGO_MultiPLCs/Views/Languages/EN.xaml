@@ -158,6 +158,8 @@
     <sys:String x:Key="Operator">Operator</sys:String>
     <sys:String x:Key="Alarm">Alarm</sys:String>
     <sys:String x:Key="Alert">Alert</sys:String>
+    <sys:String x:Key="SECSCommnd">SECSCommnd</sys:String>
+    <sys:String x:Key="RecipeChanged">RecipeChanged</sys:String>
     <sys:String x:Key="歷時">Duration</sys:String>
     <sys:String x:Key="詳情">Details</sys:String>
     <sys:String x:Key="剩餘">Remaining</sys:String>
