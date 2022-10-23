@@ -8,7 +8,6 @@ namespace GPGO_MultiPLCs.Helpers;
 
 public static class Extensions
 {
-    public static string ReaderName;
     public static bool IsReaderInput;
 
     public static void UsersToCSVFILE(this IEnumerable<User> users, string path)

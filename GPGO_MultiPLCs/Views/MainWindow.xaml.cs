@@ -36,8 +36,9 @@ public partial class MainWindow
     {
         if (msg == 0x00FF)
         {
-            var data = RawInputData.FromHandle(lparam);
-            Extensions.IsReaderInput = !string.IsNullOrEmpty(Extensions.ReaderName) && data.Device.ProductName.Contains(Extensions.ReaderName);
+            var data    = RawInputData.FromHandle(lparam);
+            var device = data.Device.ProductName;
+            Extensions.IsReaderInput = !device.ToLower().Contains("keyboard");
         }
 
         return IntPtr.Zero;

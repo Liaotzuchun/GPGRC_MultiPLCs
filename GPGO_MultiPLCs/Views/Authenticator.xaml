@@ -470,7 +470,7 @@
                                  FontSize="16"
                                  KeyDown="TextBox_KeyDown"
                                  Text="{Binding IPString, Mode=TwoWay}" />
-                        <Border Grid.Row="2"
+                        <!--<Border Grid.Row="2"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -483,8 +483,8 @@
                                  Grid.Column="1"
                                  BorderThickness="1,0,1,1"
                                  FontSize="16"
-                                 Text="{Binding Settings.CodeReaderName, Mode=TwoWay}" />
-                        <Border Grid.Row="3"
+                                 Text="{Binding Settings.CodeReaderName, Mode=TwoWay}" />-->
+                        <Border Grid.Row="2"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -493,7 +493,7 @@
                                        VerticalAlignment="Center"
                                        Text="Record Interval" />
                         </Border>
-                        <Border Grid.Row="3"
+                        <Border Grid.Row="2"
                                 Grid.Column="1"
                                 Background="{StaticResource LightBrush}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
