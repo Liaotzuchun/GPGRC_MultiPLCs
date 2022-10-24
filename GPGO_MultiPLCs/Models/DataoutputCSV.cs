@@ -21,6 +21,7 @@ public class DataoutputCSV
 
     private async Task DataMethod(ProcessInfo info, string folder, string filename)
     {
+        folder = folder.Trim().TrimEnd('\\');
         if (!Directory.Exists(folder))
         {
             try
@@ -31,6 +32,24 @@ public class DataoutputCSV
             {
                 Log.Error(ex, "Data資料夾不存在且無法創建");
                 return;
+            }
+        }
+        else
+        {
+            foreach (var file in Directory.GetFiles(folder))
+            {
+                var fi = new FileInfo(file);
+                if (fi.CreationTime < DateTime.Now.AddMonths(-3))
+                {
+                    try
+                    {
+                        fi.Delete();
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
             }
         }
 
@@ -76,6 +95,7 @@ public class DataoutputCSV
 
     private async Task RecordMethod(BaseInfo info, string folder, string filename)
     {
+        folder = folder.Trim().TrimEnd('\\');
         if (!Directory.Exists(folder))
         {
             try
@@ -86,6 +106,24 @@ public class DataoutputCSV
             {
                 Log.Error(ex, "Record資料夾不存在且無法創建");
                 return;
+            }
+        }
+        else
+        {
+            foreach (var file in Directory.GetFiles(folder))
+            {
+                var fi = new FileInfo(file);
+                if (fi.CreationTime < DateTime.Now.AddMonths(-3))
+                {
+                    try
+                    {
+                        fi.Delete();
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
             }
         }
 
@@ -116,6 +154,7 @@ public class DataoutputCSV
 
     private async Task AlarmMethod(LogEvent logEvent, string folder, string filename)
     {
+        folder = folder.Trim().TrimEnd('\\');
         if (!Directory.Exists(folder))
         {
             try
@@ -126,6 +165,24 @@ public class DataoutputCSV
             {
                 Log.Error(ex, "Alarm資料夾不存在且無法創建");
                 return;
+            }
+        }
+        else
+        {
+            foreach (var file in Directory.GetFiles(folder))
+            {
+                var fi = new FileInfo(file);
+                if (fi.CreationTime < DateTime.Now.AddMonths(-3))
+                {
+                    try
+                    {
+                        fi.Delete();
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
             }
         }
 
@@ -167,6 +224,24 @@ public class DataoutputCSV
                 return;
             }
         }
+        else
+        {
+            foreach (var file in Directory.GetFiles(outpath))
+            {
+                var fi = new FileInfo(file);
+                if (fi.CreationTime < DateTime.Now.AddMonths(-3))
+                {
+                    try
+                    {
+                        fi.Delete();
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
+            }
+        }
 
         if (logEvent.Type is EventType.Alarm or EventType.Alert)
         {
@@ -189,6 +264,24 @@ public class DataoutputCSV
             {
                 Log.Error(ex, "CSV資料夾不存在且無法創建");
                 return;
+            }
+        }
+        else
+        {
+            foreach (var file in Directory.GetFiles(outpath))
+            {
+                var fi = new FileInfo(file);
+                if (fi.CreationTime < DateTime.Now.AddMonths(-3))
+                {
+                    try
+                    {
+                        fi.Delete();
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+                }
             }
         }
 
