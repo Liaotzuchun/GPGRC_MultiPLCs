@@ -55,77 +55,133 @@ public class SECSThread
 
     public void SendTerminalMessage(string message)
     {
-        secsGem?.AxQGWrapper.SendTerminalMessage(message);
+        if(secsGem == null) return;
+
+        var result = secsGem.AxQGWrapper.SendTerminalMessage(message);
+        if (result != 0)
+        {
+            Log.Error($"SECS SendTerminalMessage Error. Message={message}.");
+        }
     }
 
     public void TerminalMessageConfirm()
     {
-        secsGem?.AxQGWrapper.EventReportSend(21);
+        if (secsGem == null) return;
+
+        var result = secsGem.AxQGWrapper.EventReportSend(21);
+        if (result != 0)
+        {
+            Log.Error("SECS TerminalMessageConfirm Error.");
+        }
     }
 
     public void UpdateITRISV(ITRI_SV name, object value)
     {
-        secsGem?.AxQGWrapper.UpdateSV((int)name, value);
+        if (secsGem == null) return;
+
+        var result = secsGem.AxQGWrapper.UpdateSV((int)name, value);
+        if (result != 0)
+        {
+            Log.Error($"SECS UpdateITRISV Error. Name={name}. Value={value}.");
+        }
     }
 
     public void UpdateSV(string name, object value)
     {
-        if (secsGem != null && eqpBase != null)
+        if (secsGem == null || eqpBase == null)
         {
-            secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, name, value);
+            return;
+        }
+
+        var result = secsGem.GemSVDataUpdateNew(eqpBase.EqpSVViewModel, name, value);
+        if (result != 0)
+        {
+            Log.Error($"SECS UpdateSV Error. Name={name}. Value={value}. Code={result}.");
         }
     }
 
     public void UpdateDV(string name, object value)
     {
-        if (secsGem == null)
+        if (secsGem == null || eqpBase == null)
         {
             return;
         }
 
+        var result = -1;
         switch (name)
         {
             case "GemPPChangeName":
-                secsGem.AxQGWrapper.UpdateSV(9, value);
+                result = secsGem.AxQGWrapper.UpdateSV(9, value);
                 break;
             case "GemPPChangeStatus":
-                secsGem.AxQGWrapper.UpdateSV(10, value);
+                result = secsGem.AxQGWrapper.UpdateSV(10, value);
                 break;
             default:
-                if (eqpBase != null)
-                {
-                    secsGem.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
-                }
+                result = secsGem.GemDVDataUpdateNew(eqpBase.EqpDVViewModel, name, value);
 
                 break;
+        }
+
+        if (result != 0)
+        {
+            Log.Error($"SECS UpdateDV Error. Name={name}. Value={value}. Code={result}.");
         }
     }
 
     public void UpdateEC(string name, object value)
     {
-        if (eqpBase?.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ec && int.TryParse(ec.ID, out var ECID))
+        if (secsGem == null || eqpBase == null)
         {
-            secsGem?.AxQGWrapper.UpdateEC(ECID, value);
+            return;
+        }
+
+        if (eqpBase.EqpECViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ec && int.TryParse(ec.ID, out var ECID))
+        {
+            var result = secsGem.AxQGWrapper.UpdateEC(ECID, value);
+            if (result != 0)
+            {
+                Log.Error($"SECS UpdateEC Error. Name={name}. Value={value}. Code={result}.");
+            }
         }
     }
 
     public void InvokeEvent(string name)
     {
+        if (secsGem == null || eqpBase == null)
+        {
+            return;
+        }
+
+        var result = 1;
         if (name == "GemProcessProgramChange")
         {
-            secsGem?.AxQGWrapper.EventReportSend(3);
+            result = secsGem.AxQGWrapper.EventReportSend(3);
         }
-        else if (eqpBase?.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ce && int.TryParse(ce.ID, out var CEID))
+        else if (eqpBase.EqpEventViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ce && int.TryParse(ce.ID, out var CEID))
         {
-            secsGem?.AxQGWrapper.EventReportSend(CEID);
+            result = secsGem.AxQGWrapper.EventReportSend(CEID);
+        }
+
+        if (result != 0)
+        {
+            Log.Error($"SECS EventReportSend Error. Name={name}. Code={result}.");
         }
     }
 
-    public void InvokeAlarm(string name, bool val)
+    public void InvokeAlarm(string name, bool value)
     {
-        if (eqpBase?.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ae && int.TryParse(ae.ID, out var ALID))
+        if (secsGem == null || eqpBase == null)
         {
-            secsGem?.AxQGWrapper.AlarmReportSend(ALID, val ? 255 : 0);
+            return;
+        }
+
+        if (eqpBase.EqpAlarmViewModel.DataCollection.FirstOrDefault(o => o.Name.Equals(name)) is {} ae && int.TryParse(ae.ID, out var ALID))
+        {
+            var result = secsGem.AxQGWrapper.AlarmReportSend(ALID, value ? 255 : 0);
+            if (result != 0)
+            {
+                Log.Error($"SECS AlarmReportSend Error. Name={name}. Value={value}. Code={result}.");
+            }
         }
     }
 
