@@ -1,4 +1,5 @@
 ﻿using GP_SECS_GEM;
+using GPMVVM.PooledCollections;
 using QGACTIVEXLib;
 using Serilog;
 using System;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using GPMVVM.PooledCollections;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -29,7 +29,7 @@ public class SECSThread
         GEM_PP_EXEC_NAME           = 42
     }
 
-    public readonly GOSECS  secsGem;
+    public readonly  GOSECS  secsGem;
     private readonly EqpBase eqpBase;
 
     /// <summary> GPSECS服務設定檔案</summary>
@@ -55,7 +55,7 @@ public class SECSThread
 
     public void SendTerminalMessage(string message)
     {
-        if(secsGem == null) return;
+        if (secsGem == null) return;
 
         var result = secsGem.AxQGWrapper.SendTerminalMessage(message);
         if (result != 0)
