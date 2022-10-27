@@ -14,26 +14,6 @@
 		<Prefer32Bit>true</Prefer32Bit>
 		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
 	</PropertyGroup>
-	<ItemGroup>
-		<COMReference Include="QGACTIVEXLib">
-			<WrapperTool>tlbimp</WrapperTool>
-			<VersionMinor>0</VersionMinor>
-			<VersionMajor>1</VersionMajor>
-			<Guid>dcf453ea-d30f-47d6-a916-cfd254b85739</Guid>
-			<Lcid>0</Lcid>
-			<Isolated>false</Isolated>
-			<EmbedInteropTypes>true</EmbedInteropTypes>
-		</COMReference>
-		<COMReference Include="QSACTIVEXLib">
-			<WrapperTool>tlbimp</WrapperTool>
-			<VersionMinor>0</VersionMinor>
-			<VersionMajor>1</VersionMajor>
-			<Guid>b25f3585-0060-40de-b95f-80146b9365e6</Guid>
-			<Lcid>0</Lcid>
-			<Isolated>false</Isolated>
-			<EmbedInteropTypes>true</EmbedInteropTypes>
-		</COMReference>
-	</ItemGroup>
 
 	<ItemGroup>
 		<Resource Include="GP.ico" />
