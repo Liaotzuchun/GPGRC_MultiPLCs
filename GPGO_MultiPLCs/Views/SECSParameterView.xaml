@@ -1,15 +1,15 @@
 ﻿<UserControl x:Class="GPGO_MultiPLCs.Views.SECSParameterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:GPSECSGEM="clr-namespace:GP_SECS_GEM;assembly=GP_SECS_GEM"
-             xmlns:QSACTIVEXLib="clr-namespace:QSACTIVEXLib;assembly=GP_SECS_GEM"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:qsactivexLib="clr-namespace:QSACTIVEXLib;assembly=GPMVVM.SECSGEM"
+             xmlns:secsgem="clr-namespace:GPMVVM.SECSGEM;assembly=GPMVVM.SECSGEM"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,
-                                              Type=GPSECSGEM:SECSParameterSet}"
+                                              Type=secsgem:SECSParameter}"
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
@@ -19,7 +19,7 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <ScrollViewer HorizontalScrollBarVisibility="Hidden">
-            <Grid DataContext="{Binding SECSParameter, Mode=OneWay}">
+            <Grid DataContext="{Binding Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -190,7 +190,7 @@
                 <ComboBox Grid.Row="8"
                           Grid.Column="1"
                           BorderThickness="1,1,1,0"
-                          ItemsSource="{views:EnumValues {x:Type QSACTIVEXLib:HSMS_COMM_MODE}}"
+                          ItemsSource="{views:EnumValues {x:Type qsactivexLib:HSMS_COMM_MODE}}"
                           SelectedItem="{Binding HSMS_Connect_Mode, Mode=TwoWay}" />
                 <TextBox Grid.Row="9"
                          Grid.Column="1"
@@ -215,7 +215,7 @@
                 FontSize="16">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding ButtonSave, Mode=OneWay}" />
+                    <i:InvokeCommandAction Command="{Binding SaveCommand, Mode=OneWay}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>

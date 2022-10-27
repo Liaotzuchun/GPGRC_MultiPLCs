@@ -43,7 +43,7 @@
 		<PackageReference Include="EPPlus" Version="6.0.8" />
 		<PackageReference Include="GPMVVM" Version="22.10.22.10" />
 		<PackageReference Include="GPMVVM.MongoDB" Version="22.10.18.15" />
-		<PackageReference Include="GP_SECS_GEM.WunmaoEdited" Version="22.6.9.22" />
+		<PackageReference Include="GPMVVM.SECSGEM" Version="22.10.27.17" />
 		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.0" />
 		<PackageReference Include="RawInput.Sharp" Version="0.0.4" />
 	</ItemGroup>

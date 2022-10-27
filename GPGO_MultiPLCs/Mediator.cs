@@ -1,4 +1,12 @@
-﻿using System;
+﻿using GPGO_MultiPLCs.Models;
+using GPGO_MultiPLCs.ViewModels;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using GPMVVM.PooledCollections;
+using GPMVVM.SECSGEM;
+using MongoDB.Driver;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,13 +16,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using GPGO_MultiPLCs.Models;
-using GPGO_MultiPLCs.ViewModels;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using GPMVVM.PooledCollections;
-using MongoDB.Driver;
-using Serilog;
 
 namespace GPGO_MultiPLCs;
 
@@ -225,7 +226,7 @@ public sealed class Mediator : ObservableObject
                                       Password = "",
                                       Level    = UserLevel.Guest
                                   };
-        User                          = AuthenticatorVM.NowUser;
+        User = AuthenticatorVM.NowUser;
         //Helpers.Extensions.ReaderName = AuthenticatorVM.Settings.CodeReaderName;
 
         AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
@@ -378,7 +379,7 @@ public sealed class Mediator : ObservableObject
                                                                           AddedTime     = DateTime.Now,
                                                                           StationNumber = 0,
                                                                           Type          = EventType.RecipeChanged,
-                                                                          Description   = sb.ToString().TrimEnd('\r','\n'),
+                                                                          Description   = sb.ToString().TrimEnd('\r', '\n'),
                                                                           Value         = true
                                                                       });
                                          }
@@ -429,7 +430,7 @@ public sealed class Mediator : ObservableObject
 
                                                  await si.EncodindIni(fpath);
                                              }
-                                             catch(Exception ex)
+                                             catch (Exception ex)
                                              {
                                                  Log.Error(ex, "pjb寫入失敗");
                                              }
