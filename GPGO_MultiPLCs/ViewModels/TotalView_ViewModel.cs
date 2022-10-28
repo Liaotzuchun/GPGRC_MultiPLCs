@@ -19,7 +19,6 @@ namespace GPGO_MultiPLCs.ViewModels;
 public sealed class TotalView_ViewModel : ObservableObject
 {
     private readonly IDialogService Dialog;
-    public readonly  SECSThread     secsGem;
 
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
@@ -42,22 +41,16 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public Language Language = Language.TW;
 
-    public IGate Gate { get; }
-
-    public ObservableConcurrentQueue<LogEvent> QueueMessages { get; } = new();
-
-    public RelayCommand WantLoginCommand { get; }
-
+    public SECSThread                          secsGem          { get; }
+    public IGate                               Gate             { get; }
+    public ObservableConcurrentQueue<LogEvent> QueueMessages    { get; } = new();
+    public RelayCommand                        WantLoginCommand { get; }
     /// <summary>回到總覽頁</summary>
     public RelayCommand BackCommand { get; }
-
     public AsyncCommand SendTerminalMessageCommand { get; }
-
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
-
     public IList<PLC_ViewModel> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount).ToList();
-
     /// <summary>檢視詳細資訊的PLC</summary>
     public PLC_ViewModel PLC_In_Focused => PLCIndex > -1 ? PLC_All[PLCIndex] : null;
 
@@ -398,7 +391,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                            return;
                                        }
 
-                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.TerminalMessageEvent), "", message);
+                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.TerminalMessageEvent), "", message);
                                        EventHappened?.Invoke(eventval);
 
                                        if (await dialog.Show(new Dictionary<Language, string>
@@ -450,7 +443,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         secsGem.UpsertRecipe += (name, recipeini) =>
                                 {
                                     var recipe   = new PLC_Recipe(name, "SECSGEM-HOST", UserLevel.Manager);
-                                    var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.InsertPPEvent), "", recipe.RecipeName);
+                                    var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.InsertPPEvent), "", recipe.RecipeName);
                                     EventHappened?.Invoke(eventval);
 
                                     return recipe.SetByDictionary(recipeini.ItemElements) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe).Result;
@@ -458,7 +451,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         secsGem.DeleteRecipe += async recipeName =>
                                 {
-                                    var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.DeletePPEvent), "", recipeName);
+                                    var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.DeletePPEvent), "", recipeName);
                                     EventHappened?.Invoke(eventval);
 
                                     return DeleteRecipe != null && await DeleteRecipe.Invoke(recipeName);
@@ -474,7 +467,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                              }
 
                              result = HCACKValule.Acknowledge;
-                             var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.STARTCommand), "", index);
+                             var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.STARTCommand), "", index);
                              EventHappened?.Invoke(eventval);
                              PLC_All[index].AutoMode_Stop  = false;
                              PLC_All[index].AutoMode_Start = true;
@@ -492,7 +485,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                             }
 
                             result = HCACKValule.Acknowledge;
-                            var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.STOPCommand), "", index);
+                            var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.STOPCommand), "", index);
                             EventHappened?.Invoke(eventval);
                             PLC_All[index].AutoMode_Start = false;
                             PLC_All[index].AutoMode_Stop  = true;
@@ -510,7 +503,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                  }
 
                                  result = PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
-                                 var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.PP_SELECTCommand), "", $"{index}-{name}");
+                                 var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.PP_SELECTCommand), "", $"{index}-{name}");
                                  EventHappened?.Invoke(eventval);
 
                                  return result;
@@ -528,7 +521,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                               PLC_All[index].AddLOT(lotID, partID, panels);
 
                               var unit     = panels.Count > 1 ? "pcs" : "pc";
-                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.ADDLOTCommand), "", $"{index}-{lotID}-{partID}-{layer}-{panels.Count}{unit}");
+                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.ADDLOTCommand), "", $"{index}-{lotID}-{partID}-{layer}-{panels.Count}{unit}");
                               EventHappened?.Invoke(eventval);
 
                               secsGem.InvokeEvent($"Oven{index + 1}_LotAdded");
@@ -542,7 +535,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                   return HCACKValule.CantPerform;
                               }
 
-                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.CANCELCommand), "", index);
+                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.CANCELCommand), "", index);
                               EventHappened?.Invoke(eventval);
                               CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
 
@@ -602,7 +595,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                    {
                                        var info = RetrieveLotData?.Invoke(lotid).Result;
 
-                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GP_GEM.RetrieveLotDataCommand), "", lotid);
+                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GPGEM.RetrieveLotDataCommand), "", lotid);
                                        EventHappened?.Invoke(eventval);
 
                                        if (info != null)
