@@ -406,7 +406,7 @@ public sealed class Mediator : ObservableObject
 
                                              try
                                              {
-                                                 var ccode = TotalVM.secsGem.secsGem.CCodeDocument.CCodeStructs[0];
+                                                 var ccode = TotalVM.SecsGemEquipment.SecsGem.CCodeDocument.CCodeStructs[0];
                                                  var t     = si.AddIniSection(ccode.CCodeName);
                                                  foreach (var parm in ccode.PParmStructs)
                                                  {
@@ -438,17 +438,17 @@ public sealed class Mediator : ObservableObject
 
                                          foreach (var add in added)
                                          {
-                                             TotalVM.InvokeRecipe(add.RecipeName, SECSThread.PPStatus.Create);
+                                             TotalVM.InvokeRecipe(add.RecipeName, SECSGEM_Equipment.PPStatus.Create);
                                          }
 
                                          foreach (var remove in removed)
                                          {
-                                             TotalVM.InvokeRecipe(remove.RecipeName, SECSThread.PPStatus.Delete);
+                                             TotalVM.InvokeRecipe(remove.RecipeName, SECSGEM_Equipment.PPStatus.Delete);
                                          }
 
                                          foreach (var update in updated)
                                          {
-                                             TotalVM.InvokeRecipe(update.RecipeName, SECSThread.PPStatus.Change);
+                                             TotalVM.InvokeRecipe(update.RecipeName, SECSGEM_Equipment.PPStatus.Change);
                                          }
 
                                          //! 輸出欣興Recipe CSV

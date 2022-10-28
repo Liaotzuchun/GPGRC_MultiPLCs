@@ -7,7 +7,6 @@ using Serilog;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -71,7 +70,11 @@ public partial class App
                          }
                      });
 
-        Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt", rollingInterval: RollingInterval.Day, shared: true, encoding: Encoding.UTF8).CreateLogger();
+        Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt", 
+                                                            rollingInterval: RollingInterval.Day, 
+                                                            shared: true, 
+                                                            encoding: Encoding.UTF8, 
+                                                            retainedFileTimeLimit: TimeSpan.FromDays(180)).CreateLogger();
 
         AppDomain.CurrentDomain.UnhandledException += (_, e) =>
                                                       {
