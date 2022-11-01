@@ -686,9 +686,9 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                              dialog?.Show(new Dictionary<Language, string>
                                                           {
-                                                              { Language.TW, $"第{index       + 1}站已完成烘烤！" },
-                                                              { Language.CHS, $"第{index      + 1}站已完成烘烤！" },
-                                                              { Language.EN, $"Oven No{index + 1}has been finished!" }
+                                                              { Language.TW, "已完成烘烤！" },
+                                                              { Language.CHS, "已完成烘烤！" },
+                                                              { Language.EN, "Finished!" }
                                                           },
                                                           TimeSpan.FromSeconds(2));
                                          }
@@ -698,9 +698,9 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                              dialog?.Show(new Dictionary<Language, string>
                                                           {
-                                                              { Language.TW, $"第{index       + 1}站已取消烘烤！" },
-                                                              { Language.CHS, $"第{index      + 1}站已取消烘烤！" },
-                                                              { Language.EN, $"Oven No{index + 1}has been canceled!" }
+                                                              { Language.TW, "已取消烘烤！" },
+                                                              { Language.CHS, "已取消烘烤！" },
+                                                              { Language.EN, "Canceled!" }
                                                           },
                                                           TimeSpan.FromSeconds(2));
                                          }
@@ -730,9 +730,9 @@ public sealed class TotalView_ViewModel : ObservableObject
                                     {
                                         dialog?.Show(new Dictionary<Language, string>
                                                      {
-                                                         { Language.TW, $"第{index       + 1}站配方輸入錯誤！" },
-                                                         { Language.CHS, $"第{index      + 1}站配方输入错误！" },
-                                                         { Language.EN, $"Oven No{index + 1} recipe input error!" }
+                                                         { Language.TW, "配方輸入錯誤！" },
+                                                         { Language.CHS, "配方输入错误！" },
+                                                         { Language.EN, "Recipe input error!" }
                                                      },
                                                      TimeSpan.FromSeconds(1),
                                                      DialogMsgType.Alarm);

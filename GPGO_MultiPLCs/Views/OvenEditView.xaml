@@ -136,13 +136,39 @@
                                    VerticalAlignment="Center"
                                    Text="{DynamicResource 操作員}" />
                     </Border>
-                    <TextBox x:Name="OPTextBox"
-                             Grid.Row="0"
-                             Grid.Column="1"
-                             BorderThickness="1,1,1,1"
-                             GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                             KeyDown="OPTextBox_KeyDown"
-                             Text="{Binding InputOperatorID, Mode=TwoWay}" />
+                    <DockPanel Grid.Row="0"
+                               Grid.Column="1"
+                               LastChildFill="True">
+                        <Button Width="30"
+                                DockPanel.Dock="Right"
+                                Visibility="{Binding InputOperatorID, Mode=OneWay, Converter={StaticResource NullVis}}">
+                            <Path HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
+                                  StrokeLineJoin="Round"
+                                  StrokeThickness="2">
+                                <Path.Data>
+                                    <GeometryGroup>
+                                        <LineGeometry StartPoint="0,0"
+                                                      EndPoint="10,10" />
+                                        <LineGeometry StartPoint="10,0"
+                                                      EndPoint="0,10" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ClearOPTextCommand, Mode=OneTime}"
+                                                           CommandParameter="{Binding ElementName=OPTextBox, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <TextBox x:Name="OPTextBox"
+                                 BorderThickness="1,1,1,1"
+                                 GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                                 KeyDown="OPTextBox_KeyDown"
+                                 Text="{Binding InputOperatorID, Mode=TwoWay}" />
+                    </DockPanel>
                     <Border Grid.Row="1"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"
@@ -152,14 +178,40 @@
                                    VerticalAlignment="Center"
                                    Text="{DynamicResource 料號}" />
                     </Border>
-                    <TextBox x:Name="PartTextBox"
-                             Grid.Row="1"
-                             Grid.Column="1"
-                             views:TextBoxExtensions.HideScreenKeyboard="True"
-                             BorderThickness="1,0,1,1"
-                             GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                             KeyDown="PartTextBox_KeyDown"
-                             Text="{Binding InputPartID, Mode=TwoWay}" />
+                    <DockPanel Grid.Row="1"
+                               Grid.Column="1"
+                               LastChildFill="True">
+                        <Button Width="30"
+                                DockPanel.Dock="Right"
+                                Visibility="{Binding InputPartID, Mode=OneWay, Converter={StaticResource NullVis}}">
+                            <Path HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
+                                  StrokeLineJoin="Round"
+                                  StrokeThickness="2">
+                                <Path.Data>
+                                    <GeometryGroup>
+                                        <LineGeometry StartPoint="0,0"
+                                                      EndPoint="10,10" />
+                                        <LineGeometry StartPoint="10,0"
+                                                      EndPoint="0,10" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ClearPartTextCommand, Mode=OneTime}"
+                                                           CommandParameter="{Binding ElementName=PartTextBox, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <TextBox x:Name="PartTextBox"
+                                 views:TextBoxExtensions.HideScreenKeyboard="True"
+                                 BorderThickness="1,0,1,1"
+                                 GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                                 KeyDown="PartTextBox_KeyDown"
+                                 Text="{Binding InputPartID, Mode=TwoWay}" />
+                    </DockPanel>
                     <Border Grid.Row="1"
                             Grid.Column="1"
                             HorizontalAlignment="Left"
@@ -180,14 +232,40 @@
                                    VerticalAlignment="Center"
                                    Text="{DynamicResource 批號}" />
                     </Border>
-                    <TextBox x:Name="LotTextBox"
-                             Grid.Row="2"
-                             Grid.Column="1"
-                             views:TextBoxExtensions.HideScreenKeyboard="True"
-                             BorderThickness="1,0,1,1"
-                             GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                             KeyDown="LotTextBox_KeyDown"
-                             Text="{Binding InputLotID, Mode=TwoWay}" />
+                    <DockPanel Grid.Row="2"
+                               Grid.Column="1"
+                               LastChildFill="True">
+                        <Button Width="30"
+                                DockPanel.Dock="Right"
+                                Visibility="{Binding InputLotID, Mode=OneWay, Converter={StaticResource NullVis}}">
+                            <Path HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
+                                  StrokeLineJoin="Round"
+                                  StrokeThickness="2">
+                                <Path.Data>
+                                    <GeometryGroup>
+                                        <LineGeometry StartPoint="0,0"
+                                                      EndPoint="10,10" />
+                                        <LineGeometry StartPoint="10,0"
+                                                      EndPoint="0,10" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ClearLotTextCommand, Mode=OneTime}"
+                                                           CommandParameter="{Binding ElementName=LotTextBox, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <TextBox x:Name="LotTextBox"
+                                 views:TextBoxExtensions.HideScreenKeyboard="True"
+                                 BorderThickness="1,0,1,1"
+                                 GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                                 KeyDown="LotTextBox_KeyDown"
+                                 Text="{Binding InputLotID, Mode=TwoWay}" />
+                    </DockPanel>
                     <Border Grid.Row="2"
                             Grid.Column="1"
                             HorizontalAlignment="Left"
@@ -208,21 +286,47 @@
                                    VerticalAlignment="Center"
                                    Text="{DynamicResource 配方}" />
                     </Border>
-                    <TextBox x:Name="RecipeTextBox"
-                             Grid.Row="3"
-                             Grid.Column="1"
-                             views:TextBoxExtensions.HideScreenKeyboard="True"
-                             BorderThickness="1,0,1,1"
-                             GotKeyboardFocus="TextBox_GotKeyboardFocus"
-                             KeyDown="RecipeTextBox_KeyDown"
-                             Text="{Binding InputRecipeName, Mode=TwoWay}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="LostKeyboardFocus">
-                                <i:InvokeCommandAction Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}"
-                                                       CommandParameter="{Binding Text, ElementName=RecipeTextBox, Mode=OneWay}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </TextBox>
+                    <DockPanel Grid.Row="3"
+                               Grid.Column="1"
+                               LastChildFill="True">
+                        <Button Width="30"
+                                DockPanel.Dock="Right"
+                                Visibility="{Binding InputRecipeName, Mode=OneWay, Converter={StaticResource NullVis}}">
+                            <Path HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
+                                  StrokeLineJoin="Round"
+                                  StrokeThickness="2">
+                                <Path.Data>
+                                    <GeometryGroup>
+                                        <LineGeometry StartPoint="0,0"
+                                                      EndPoint="10,10" />
+                                        <LineGeometry StartPoint="10,0"
+                                                      EndPoint="0,10" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ClearRecipeTextCommand, Mode=OneTime}"
+                                                           CommandParameter="{Binding ElementName=RecipeTextBox, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <TextBox x:Name="RecipeTextBox"
+                                 views:TextBoxExtensions.HideScreenKeyboard="True"
+                                 BorderThickness="1,0,1,1"
+                                 GotKeyboardFocus="TextBox_GotKeyboardFocus"
+                                 KeyDown="RecipeTextBox_KeyDown"
+                                 Text="{Binding InputRecipeName, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LostKeyboardFocus">
+                                    <i:InvokeCommandAction Command="{Binding CheckRecipeCommand_KeyIn, Mode=OneTime}"
+                                                           CommandParameter="{Binding Text, ElementName=RecipeTextBox, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </DockPanel>
                     <Border Grid.Row="3"
                             Grid.Column="1"
                             HorizontalAlignment="Left"
@@ -243,42 +347,68 @@
                                    VerticalAlignment="Center"
                                    Text="{DynamicResource 數量}" />
                     </Border>
-                    <Border Grid.Row="4"
-                            Grid.Column="1"
-                            BorderThickness="1,0,1,1">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="{StaticResource LightBrush}" />
-                                <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
-                                        <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" />
-                                    </Trigger>
-                                    <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=NumericTextBox, Mode=OneWay}"
-                                                 Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource LightColorBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <views:SpinControl Margin="8,0"
-                                           VerticalAlignment="Center"
-                                           Maximum="{Binding InputQuantityMax, Mode=OneTime}"
-                                           Minimum="{Binding InputQuantityMin, Mode=OneTime}"
-                                           Value="{Binding InputQuantity, Mode=TwoWay}">
-                            <views:SpinControl.SmallChange>
-                                <system:Double>1</system:Double>
-                            </views:SpinControl.SmallChange>
-                            <views:NumericTextBox x:Name="NumericTextBox"
-                                                  Background="Transparent"
-                                                  BorderThickness="0"
-                                                  IntOnly="True"
-                                                  Max="{Binding InputQuantityMax, Mode=OneTime}"
-                                                  Min="{Binding InputQuantityMin, Mode=OneTime}"
-                                                  Text="{Binding InputQuantity, Mode=TwoWay}" />
-                        </views:SpinControl>
-                    </Border>
+                    <DockPanel Grid.Row="4"
+                               Grid.Column="1"
+                               LastChildFill="True">
+                        <Button Width="30"
+                                DockPanel.Dock="Right"
+                                Visibility="{Binding InputQuantity, Mode=OneWay, Converter={StaticResource IsNotEqualValueVis}, ConverterParameter=0}">
+                            <Path HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
+                                  StrokeLineJoin="Round"
+                                  StrokeThickness="2">
+                                <Path.Data>
+                                    <GeometryGroup>
+                                        <LineGeometry StartPoint="0,0"
+                                                      EndPoint="10,10" />
+                                        <LineGeometry StartPoint="10,0"
+                                                      EndPoint="0,10" />
+                                    </GeometryGroup>
+                                </Path.Data>
+                            </Path>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding ClearQuantityCommand, Mode=OneTime}"
+                                                           CommandParameter="{Binding ElementName=NumericTextBox, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Border BorderThickness="1,0,1,1">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="{StaticResource LightBrush}" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
+                                            <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" />
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=NumericTextBox, Mode=OneWay}"
+                                                     Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource LightColorBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <views:SpinControl Margin="8,0"
+                                               VerticalAlignment="Center"
+                                               Maximum="{Binding InputQuantityMax, Mode=OneTime}"
+                                               Minimum="{Binding InputQuantityMin, Mode=OneTime}"
+                                               Value="{Binding InputQuantity, Mode=TwoWay}">
+                                <views:SpinControl.SmallChange>
+                                    <system:Double>1</system:Double>
+                                </views:SpinControl.SmallChange>
+                                <views:NumericTextBox x:Name="NumericTextBox"
+                                                      Background="Transparent"
+                                                      BorderThickness="0"
+                                                      IntOnly="True"
+                                                      Max="{Binding InputQuantityMax, Mode=OneTime}"
+                                                      Min="{Binding InputQuantityMin, Mode=OneTime}"
+                                                      Text="{Binding InputQuantity, Mode=TwoWay}" />
+                            </views:SpinControl>
+                        </Border>
+                    </DockPanel>
                     <Border Grid.Row="5"
                             Grid.Column="0"
                             Background="{StaticResource WindowBackgroundBrush2}"

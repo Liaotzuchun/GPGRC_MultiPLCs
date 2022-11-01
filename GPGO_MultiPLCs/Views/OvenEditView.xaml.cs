@@ -66,6 +66,11 @@ public partial class OvenEditView : UserControl
         {
             e.Handled = true;
         }
+
+        if (e.Key == Key.Enter)
+        {
+            Keyboard.Focus(NumericTextBox);
+        }
     }
 
     public OvenEditView()
