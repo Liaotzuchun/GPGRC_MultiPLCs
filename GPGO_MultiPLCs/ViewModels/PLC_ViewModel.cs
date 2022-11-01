@@ -667,7 +667,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         _ = ExecutingTask.ContinueWith(x =>
                                        {
                                            x.Dispose();
-                                           AutoMode_Start = false;
+                                           //AutoMode_Start = false;
 
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime = DateTime.Now;
@@ -1180,6 +1180,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             return;
                                         }
 
+                                        AutoMode_Start = false;
                                         await StopPP();
                                     }
                                     else if (name == nameof(ProcessComplete))
@@ -1191,6 +1192,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                         InvokeSECSEvent?.Invoke("ProcessComplete");
                                         OvenInfo.IsFinished = true;
+                                        AutoMode_Start      = false;
                                         await StopPP();
                                     }
                                     else if (name == nameof(AutoMode_Stop))
@@ -1201,6 +1203,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         }
 
                                         InvokeSECSEvent?.Invoke("ProcessStopped");
+                                        AutoMode_Start = false;
                                         await StopPP();
                                     }
                                     //else if (name == nameof(ReadBarcode))
@@ -1284,12 +1287,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     }
                                     else if (name == nameof(ProcessState))
                                     {
-                                        SetWithOutNotifyWhenEquals(sv == 0, nameof(ManualMode));
+                                        //SetWithOutNotifyWhenEquals(sv == 0, nameof(ManualMode));
                                         SetWithOutNotifyWhenEquals(sv == 1, nameof(IsRamp));
                                         SetWithOutNotifyWhenEquals(sv == 2, nameof(IsDwell));
                                         SetWithOutNotifyWhenEquals(sv == 7, nameof(IsCooling));
                                         SetWithOutNotifyWhenEquals(sv == 8, nameof(ProgramStop));
-                                        SetWithOutNotifyWhenEquals(sv == 9, nameof(AutoMode));
+                                        //SetWithOutNotifyWhenEquals(sv == 9, nameof(AutoMode));
                                         SetWithOutNotifyWhenEquals(sv == 10, nameof(Inflating));
                                     }
                                 }
