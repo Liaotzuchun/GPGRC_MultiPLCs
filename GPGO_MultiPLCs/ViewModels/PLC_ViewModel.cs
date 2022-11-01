@@ -761,6 +761,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              InvokeSECSEvent?.Invoke("OnlineStatusChanged");
                                          };
 
+        OvenInfo = new BaseInfoWithChart();
+        OvenInfo.PropertyChanged += (s, e) =>
+                                    {
+                                        //! 在機台編號或財產編號變更時需通知儲存
+                                        if (e.PropertyName == nameof(BaseInfo.MachineCode))
+                                        {
+                                            MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
+                                        }
+                                        else if (e.PropertyName == nameof(BaseInfo.AssetNumber))
+                                        {
+                                            AssetNumberChanged?.Invoke((s as BaseInfo)?.AssetNumber);
+                                        }
+                                    };
+
         LoadedCommand = new RelayCommand(e =>
                                          {
                                              if (e is FrameworkElement el)
@@ -771,14 +785,17 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         CheckRecipeCommand_KeyIn = new RelayCommand(async text =>
                                                     {
-                                                        if (text is string _text && Recipe_Names.FirstOrDefault(x => x.Equals(_text.Trim())) is {} foundname)
+                                                        if (text is string _text && _text != string.Empty)
                                                         {
-                                                            await SetRecipeDialog(foundname);
-                                                        }
-                                                        else
-                                                        {
-                                                            InputRecipeName = string.Empty;
-                                                            RecipeKeyInError?.Invoke();
+                                                            if (Recipe_Names.FirstOrDefault(x => x.Equals(_text.Trim())) is {} foundname)
+                                                            {
+                                                                await SetRecipeDialog(foundname);
+                                                            }
+                                                            else
+                                                            {
+                                                                InputRecipeName = string.Empty;
+                                                                RecipeKeyInError?.Invoke();
+                                                            }
                                                         }
                                                     });
 
@@ -1161,20 +1178,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     Set(0, nameof(InputQuantity));
                                                     if (e is TextBox tb) Keyboard.Focus(tb);
                                                 });
-
-        OvenInfo = new BaseInfoWithChart();
-        OvenInfo.PropertyChanged += (s, e) =>
-                                    {
-                                        //! 在機台編號或財產編號變更時需通知儲存
-                                        if (e.PropertyName == nameof(BaseInfo.MachineCode))
-                                        {
-                                            MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
-                                        }
-                                        else if (e.PropertyName == nameof(BaseInfo.AssetNumber))
-                                        {
-                                            AssetNumberChanged?.Invoke((s as BaseInfo)?.AssetNumber);
-                                        }
-                                    };
 
         #region 註冊PLC事件
         ValueChanged += async (LogType, data) =>
