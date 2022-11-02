@@ -40,8 +40,8 @@ public partial class MainWindow
             Extensions.IsReaderInput = true;
 #else
             var data = RawInputData.FromHandle(lparam);
-            var device = data.Device.ProductName;
-            Extensions.IsReaderInput = !device.ToLower().Contains("keyboard");
+            var device = data.Device.ProductName.ToLower();
+            Extensions.IsReaderInput = !(device.Contains("keyboard") || device.Contains("鍵盤") || device.Contains("键盘"));
 #endif
         }
 
