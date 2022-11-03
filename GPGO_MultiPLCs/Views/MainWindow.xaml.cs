@@ -36,13 +36,21 @@ public partial class MainWindow
     {
         if (msg == 0x00FF)
         {
-#if DEBUG
-            Extensions.IsReaderInput = true;
-#else
+//#if DEBUG
+//            Extensions.IsReaderInput = true;
+//#else
             var data = RawInputData.FromHandle(lparam);
-            var device = data.Device.ProductName.ToLower();
-            Extensions.IsReaderInput = !(device.Contains("keyboard") || device.Contains("鍵盤") || device.Contains("键盘"));
-#endif
+
+            if (data.Device == null)
+            {
+                Extensions.IsReaderInput = false;
+            }
+            else
+            {
+                var device = data.Device.ProductName.ToLower();
+                Extensions.IsReaderInput = device.Contains("reader") || device.Contains("scanner");
+            }
+//#endif
         }
 
         return IntPtr.Zero;
