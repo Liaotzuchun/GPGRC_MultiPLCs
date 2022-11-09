@@ -23,6 +23,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     private readonly IDialogService Dialog;
     private          bool           ManualRecord;
+    private          DateTime       OfflineTime = DateTime.MaxValue;
 
     private readonly TaskFactory OneScheduler = new(new StaTaskScheduler(1));
     //private          TaskCompletionSource<bool> TCS;
@@ -592,6 +593,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     {
                                         while (!ct.IsCancellationRequested)
                                         {
+                                            if ((DateTime.Now - OfflineTime).TotalSeconds > 30.0)
+                                            {
+                                                CTS?.Cancel();
+                                                var eventval = (EventType.Alarm, DateTime.Now, "OffLine. The recoding has been aborted.", string.Empty, true);
+                                                EventHappened?.Invoke(eventval);
+                                                AddProcessEvent(eventval);
+                                            }
+
                                             _ThermostatTemperature = PV_ThermostatTemperature <= 0 ? _ThermostatTemperature : PV_ThermostatTemperature;
                                             _OvenTemperature_1     = OvenTemperature_1        <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
                                             _OvenTemperature_2     = OvenTemperature_2        <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
@@ -754,11 +763,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              if (IsExecuting)
                                              {
                                                  AddProcessEvent((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
-                                                 CTS?.Cancel();
                                              }
 
                                              SV_Changed?.Invoke("OnlineStatus", status);
                                              InvokeSECSEvent?.Invoke("OnlineStatusChanged");
+                                             OfflineTime = status ? DateTime.MaxValue : DateTime.Now;
                                          };
 
         OvenInfo = new BaseInfoWithChart();
