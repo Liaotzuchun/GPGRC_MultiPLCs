@@ -612,7 +612,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             _OvenTemperature_8     = OvenTemperature_8        <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
                                             _OxygenContent         = OxygenContent            <= 0 ? _OxygenContent : OxygenContent;
 
-                                            if (DateTime.Now - nt >= n)
+                                            if (DateTime.Now - nt >= n && ConnectionStatus.CurrentValue)
                                             {
                                                 nt = DateTime.Now;
                                                 AddTemperatures(nt,
