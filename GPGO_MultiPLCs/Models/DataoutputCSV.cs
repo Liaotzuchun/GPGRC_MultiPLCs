@@ -64,20 +64,20 @@ public class DataoutputCSV
         var recipe = info.Recipe.ToDictionary(Language);
         foreach (var product in info.Products)
         {
-            var vals = new[]
-                       {
-                           info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                           info.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                           info.EndTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                           product.PartID,
-                           product.LotID,
-                           product.Quantity.ToString(),
-                           info.OvenCode,
-                           product.Layer.ToString(),
-                           info.OperatorID,
-                           info.IsFinished.ToString()
-                       }.Concat(recipe.Values)
-                        .ToPooledList();
+            using var vals = new[]
+                             {
+                                 info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                 info.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                 info.EndTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                 product.PartID,
+                                 product.LotID,
+                                 product.Quantity.ToString(),
+                                 info.OvenCode,
+                                 product.Layer.ToString(),
+                                 info.OperatorID,
+                                 info.IsFinished.ToString()
+                             }.Concat(recipe.Values)
+                              .ToPooledList();
 
             sb.AppendLine(string.Join(",", vals));
         }
