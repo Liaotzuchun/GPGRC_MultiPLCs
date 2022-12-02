@@ -45,7 +45,7 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
         }
     }
 
-    public async ValueTask<bool> Upsert(PLC_Recipe recipe)
+    public async Task<bool> Upsert(PLC_Recipe recipe)
     {
         Standby = false;
 
@@ -88,7 +88,7 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
         return result;
     }
 
-    public async ValueTask<bool> Delete(string recipeName)
+    public async Task<bool> Delete(string recipeName)
     {
         Standby = false;
 
@@ -145,21 +145,21 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                              }
 
                                              var recipies = FastCSV.ReadFile<PLC_Recipe>(filepath,
-                                                                                        ',',
-                                                                                        (recipe, col) =>
-                                                                                        {
-                                                                                            try
-                                                                                            {
-                                                                                                var dic    = RecipeTitles.ToDictionary(x => x.Key, x => col[x.Value]);
-                                                                                                var result = recipe.SetByDictionary(dic);
-                                                                                                return result;
-                                                                                            }
-                                                                                            catch (Exception ex)
-                                                                                            {
-                                                                                                Log.Error(ex, "ImportRecipe失敗");
-                                                                                                return false;
-                                                                                            }
-                                                                                        });
+                                                                                         ',',
+                                                                                         (recipe, col) =>
+                                                                                         {
+                                                                                             try
+                                                                                             {
+                                                                                                 var dic    = RecipeTitles.ToDictionary(x => x.Key, x => col[x.Value]);
+                                                                                                 var result = recipe.SetByDictionary(dic);
+                                                                                                 return result;
+                                                                                             }
+                                                                                             catch (Exception ex)
+                                                                                             {
+                                                                                                 Log.Error(ex, "ImportRecipe失敗");
+                                                                                                 return false;
+                                                                                             }
+                                                                                         });
 
                                              var updates = 0;
                                              var adds    = 0;

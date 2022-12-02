@@ -184,7 +184,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     /// <param name="info">紀錄資訊</param>
     /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
     /// <param name="UpdateResult">決定是否更新Ram Data</param>
-    public async ValueTask<bool> AddToDBAsync(int index, ProcessInfo info, DateTime dateTime = default, bool UpdateResult = false)
+    public async Task<bool> AddToDBAsync(int index, ProcessInfo info, DateTime dateTime = default, bool UpdateResult = false)
     {
         info.StationNumber = index + 1;
         info.AddedTime     = dateTime == default ? DateTime.Now : dateTime;
@@ -235,7 +235,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     /// <param name="infos">紀錄資訊</param>
     /// <param name="dateTime">紀錄時間，預設為當下時間，帶入default(DateTime)同樣為當下時間</param>
     /// <param name="UpdateResult">決定是否更新Ram Data</param>
-    public async ValueTask<bool> AddToDBAsync(int index, ICollection<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
+    public async Task<bool> AddToDBAsync(int index, ICollection<ProcessInfo> infos, DateTime dateTime = default, bool UpdateResult = false)
     {
         var dt = dateTime == default ? DateTime.Now : dateTime;
 
@@ -309,9 +309,9 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         }
     }
 
-    public ValueTask<ProcessInfo> FindInfo(int station, DateTime time) => DataCollection.FindOneAsync(x => x.StationNumber == station && x.StartTime < time && x.EndTime > time);
+    public Task<ProcessInfo> FindInfo(int station, DateTime time) => DataCollection.FindOneAsync(x => x.StationNumber == station && x.StartTime < time && x.EndTime > time);
 
-    public ValueTask<List<ProcessInfo>> FindInfo(string lotid) => DataCollection.FindAsync(x => x.Products.Any(y => y.LotID == lotid));
+    public Task<List<ProcessInfo>> FindInfo(string lotid) => DataCollection.FindAsync(x => x.Products.Any(y => y.LotID == lotid));
 
     private void CellLink(ExcelRangeBase cells)
     {

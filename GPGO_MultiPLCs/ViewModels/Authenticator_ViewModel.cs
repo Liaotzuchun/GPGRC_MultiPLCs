@@ -23,7 +23,6 @@ public class Authenticator_ViewModel : AuthenticatorModel
     /// <summary>系統參數</summary>
     public GlobalSettings Settings { get; }
 
-
     public Authenticator_ViewModel()
     {
         Settings = new GlobalSettings();

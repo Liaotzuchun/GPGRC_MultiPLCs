@@ -30,14 +30,14 @@ public sealed class TotalView_ViewModel : ObservableObject
     private readonly Timer Checker;
 
     public event Action                                                                                           WantLogin;
-    public event Func<(int StationIndex, ProcessInfo Info), ValueTask<int>>                                       AddRecordToDB;
+    public event Func<(int StationIndex, ProcessInfo Info), Task<int>>                                            AddRecordToDB;
     public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
     public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
     public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
     public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
-    public event Func<PLC_Recipe, ValueTask<bool>>                                                                UpsertRecipe;
-    public event Func<string, ValueTask<bool>>                                                                    DeleteRecipe;
-    public event Func<string, ValueTask<ProcessInfo>>                                                             RetrieveLotData;
+    public event Func<PLC_Recipe, Task<bool>>                                                                     UpsertRecipe;
+    public event Func<string, Task<bool>>                                                                         DeleteRecipe;
+    public event Func<string, Task<ProcessInfo>>                                                                  RetrieveLotData;
 
     public Language Language = Language.TW;
 

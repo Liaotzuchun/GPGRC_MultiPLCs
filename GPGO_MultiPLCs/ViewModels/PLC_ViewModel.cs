@@ -49,7 +49,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action                                                                         ExecutingStarted;
     public event Action                                                                         WantFocus;
 
-    public event Func<BaseInfo, ValueTask> ExecutingFinished;
+    public event Func<BaseInfo, Task> ExecutingFinished;
     //public event Action<PLC_Recipe>                                                           RecipeChangedbyPLC;
 
     public double Delay { get; set; } = 1;

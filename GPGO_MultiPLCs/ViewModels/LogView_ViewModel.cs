@@ -9,7 +9,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using MongoDB.Driver;
 
 namespace GPGO_MultiPLCs.ViewModels;
 
@@ -103,12 +102,12 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
 
     public event Action<(ProcessInfo info, LogEvent _event)> GoDetailView;
 
-    public event Func<(int station, DateTime time), ValueTask<ProcessInfo>> WantInfo;
+    public event Func<(int station, DateTime time), Task<ProcessInfo>> WantInfo;
 
     /// <summary>新增至資料庫</summary>
     /// <param name="ev">紀錄資訊</param>
     /// <param name="UpdateResult">決定是否更新Ram Data</param>
-    public async ValueTask<bool> AddToDBAsync(LogEvent ev, bool UpdateResult = false)
+    public async Task<bool> AddToDBAsync(LogEvent ev, bool UpdateResult = false)
     {
         try
         {
@@ -150,7 +149,7 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
         }
     }
 
-    public ValueTask<List<LogEvent>> FindLog(Expression<Func<LogEvent, bool>> findact) => DataCollection.FindAsync(findact);
+    public Task<List<LogEvent>> FindLog(Expression<Func<LogEvent, bool>> findact) => DataCollection.FindAsync(findact);
 
     public async void FindNextOFF(int index)
     {
