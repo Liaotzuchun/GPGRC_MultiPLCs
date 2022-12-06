@@ -770,7 +770,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                   {
                                       SecsGemEquipment.UpdateITRISV(SECSGEM_Equipment.ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
                                   }
-                                  else if (name == nameof(PLC_ViewModel.PV_RecipeName))
+                                  else if (name == nameof(PLC_ViewModel.SV_RecipeName))
                                   {
                                       SecsGemEquipment.UpdateITRISV(SECSGEM_Equipment.ITRI_SV.GEM_PP_EXEC_NAME, value);
                                   }
