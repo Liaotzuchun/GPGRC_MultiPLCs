@@ -455,7 +455,7 @@ public sealed class Mediator : ObservableObject
                                          await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
                                      };
 
-        TotalVM.WantLogin += () => AuthenticatorVM.StartLogin?.Execute(null);
+        TotalVM.WantLogin += () => AuthenticatorVM.StartLogin.Execute(null);
 
         //! 當某站烤箱要求配方時，自資料庫讀取配方並發送
         TotalVM.GetRecipe += e => string.IsNullOrEmpty(e.RecipeName) ? null : RecipeVM.GetRecipe(e.RecipeName);
