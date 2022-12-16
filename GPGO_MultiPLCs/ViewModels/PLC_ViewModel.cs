@@ -1420,8 +1420,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     #region Interface Implementations
-    #region Interface implement
     public void Dispose() { CTS.Dispose(); }
-    #endregion
     #endregion
 }
