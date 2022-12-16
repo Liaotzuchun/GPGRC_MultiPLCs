@@ -13,29 +13,38 @@ namespace GPGO_MultiPLCs.Models;
 [BsonIgnoreExtraElements]
 public class RecordTemperatures
 {
-    public double Avg =>
-        new[]
-            {
-                OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
-            }
-           .Average();
+    public double Avg => new[]
+                         {
+                             OvenTemperatures_1,
+                             OvenTemperatures_2,
+                             OvenTemperatures_3,
+                             OvenTemperatures_4,
+                             OvenTemperatures_5,
+                             OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
+                         }
+       .Average();
 
-    public double Max =>
-        new[]
-            {
-                OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
-            }
-           .Max();
+    public double Max => new[]
+                         {
+                             OvenTemperatures_1,
+                             OvenTemperatures_2,
+                             OvenTemperatures_3,
+                             OvenTemperatures_4,
+                             OvenTemperatures_5,
+                             OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
+                         }
+       .Max();
 
-    public double Min =>
-        new[]
-            {
-                OvenTemperatures_1, OvenTemperatures_2, OvenTemperatures_3, OvenTemperatures_4,
-                OvenTemperatures_5, OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
-            }
-           .Min();
+    public double Min => new[]
+                         {
+                             OvenTemperatures_1,
+                             OvenTemperatures_2,
+                             OvenTemperatures_3,
+                             OvenTemperatures_4,
+                             OvenTemperatures_5,
+                             OvenTemperatures_6 /*, OvenTemperatures_7, OvenTemperatures_8*/
+                         }
+       .Min();
 
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
@@ -123,9 +132,6 @@ public enum EventType
 [BsonIgnoreExtraElements]
 public class LogEvent : ILogData
 {
-    [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
-    public DateTime AddedTime { get; set; }
-
     [GPIgnore]
     [LanguageTranslator("Event", "事件", "事件")]
     public string Description2
@@ -155,4 +161,9 @@ public class LogEvent : ILogData
 
     [LanguageTranslator("Value", "值", "值")]
     public object Value { get; set; }
+
+    #region Interface Implementations
+    [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
+    public DateTime AddedTime { get; set; }
+    #endregion
 }

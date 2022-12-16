@@ -117,6 +117,24 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
+    public BaseInfo()
+    {
+        Recipe             = new PLC_Recipe();
+        EventList          = new ObservableConcurrentCollection<LogEvent>();
+        RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
+        Products           = new ObservableConcurrentCollection<ProductInfo>();
+        TempProducts       = new ObservableConcurrentCollection<ProductInfo>();
+
+        Products.CollectionChanged += (_, _) =>
+                                      {
+                                          NotifyPropertyChanged(nameof(Quantity));
+                                      };
+        TempProducts.CollectionChanged += (_, _) =>
+                                          {
+                                              NotifyPropertyChanged(nameof(TempQuantity));
+                                          };
+    }
+
     /// <summary>初始化清除資訊</summary>
     public virtual void Clear()
     {
@@ -128,39 +146,28 @@ public class BaseInfo : ObservableObject
         EndTime    = new DateTime();
         IsFinished = false;
     }
-
-    public BaseInfo()
-    {
-        Recipe             = new PLC_Recipe();
-        EventList          = new ObservableConcurrentCollection<LogEvent>();
-        RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
-        Products           = new ObservableConcurrentCollection<ProductInfo>();
-        TempProducts       = new ObservableConcurrentCollection<ProductInfo>();
-
-        Products.CollectionChanged     += (_, _) => { NotifyPropertyChanged(nameof(Quantity)); };
-        TempProducts.CollectionChanged += (_, _) => { NotifyPropertyChanged(nameof(TempQuantity)); };
-    }
 }
 
 public class BaseInfoWithChart : BaseInfo
 {
     public ProcessChartModel ChartModel { get; }
 
+    public BaseInfoWithChart() => ChartModel = new ProcessChartModel();
+
     public override void Clear()
     {
         base.Clear();
         ChartModel.Clear();
-    }
-
-    public BaseInfoWithChart()
-    {
-        ChartModel = new ProcessChartModel();
     }
 }
 
 [BsonIgnoreExtraElements]
 public class ProcessInfo : BaseInfo, ILogData
 {
+    public ProcessInfo() { }
+
+    public ProcessInfo(BaseInfo baseInfo) { baseInfo.CopyTo(this); }
+
     /// <summary>匯出成Dictionary</summary>
     /// <param name="lng">語系</param>
     /// <returns></returns>
@@ -182,14 +189,7 @@ public class ProcessInfo : BaseInfo, ILogData
                };
     }
 
-    public ProcessInfo()
-    {
-    }
-
-    public ProcessInfo(BaseInfo baseInfo)
-    {
-        baseInfo.CopyTo(this);
-    }
+    public IEnumerable<(DateTime AddedTime, int StationNumber, ProductInfo Product)> GetFlatInfos() => Products.Select(x => (AddedTime, StationNumber, x));
 
     #region 此區由TraceabilityView_ViewModel新增至資料庫時填入
     /// <summary>新增至資料庫的時間</summary>
@@ -203,6 +203,4 @@ public class ProcessInfo : BaseInfo, ILogData
     [LanguageTranslator("Oven No.", "烤箱序號", "烤箱序号")]
     public int StationNumber { get; set; }
     #endregion 此區由TraceabilityView_ViewModel新增至資料庫時填入
-
-    public IEnumerable<(DateTime AddedTime, int StationNumber, ProductInfo Product)> GetFlatInfos() => Products.Select(x => (AddedTime, StationNumber, x));
 }

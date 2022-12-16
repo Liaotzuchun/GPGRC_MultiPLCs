@@ -13,6 +13,8 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>Authenticator.xaml 的互動邏輯</summary>
 public partial class Authenticator
 {
+    public Authenticator() { InitializeComponent(); }
+
     private void Folder_Expanded(object sender, RoutedEventArgs e)
     {
         var item = (TreeViewItem)sender;
@@ -111,10 +113,5 @@ public partial class Authenticator
         }
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    public Authenticator() { InitializeComponent(); }
+    private void UserControl_Loaded(object sender, RoutedEventArgs e) { }
 }

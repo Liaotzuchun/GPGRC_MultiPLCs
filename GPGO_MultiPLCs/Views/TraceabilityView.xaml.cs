@@ -10,6 +10,7 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>TraceabilityView.xaml 的互動邏輯</summary>
 public partial class TraceabilityView
 {
+    public TraceabilityView() { InitializeComponent(); }
     private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e) { Keyboard.ClearFocus(); }
 
     private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -36,6 +37,4 @@ public partial class TraceabilityView
             products.SortDescriptions.Add(new SortDescription("Layer", ListSortDirection.Ascending));
         }
     }
-
-    public TraceabilityView() { InitializeComponent(); }
 }

@@ -1,12 +1,4 @@
-﻿using GPGO_MultiPLCs.Models;
-using GPGO_MultiPLCs.ViewModels;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using GPMVVM.PooledCollections;
-using GPMVVM.SECSGEM;
-using MongoDB.Driver;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,11 +8,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using GPGO_MultiPLCs.Models;
+using GPGO_MultiPLCs.ViewModels;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using GPMVVM.PooledCollections;
+using GPMVVM.SECSGEM;
+using MongoDB.Driver;
+using Serilog;
 
 namespace GPGO_MultiPLCs;
 
 public sealed class Mediator : ObservableObject
 {
+    private readonly AsyncLock     lockobj    = new();
+    private readonly DataoutputCSV CsvCreator = new();
+
     public Language Language
     {
         get => Get<Language>();
@@ -77,9 +80,6 @@ public sealed class Mediator : ObservableObject
         }
     }
 
-    private readonly AsyncLock     lockobj    = new();
-    private readonly DataoutputCSV CsvCreator = new();
-
     public Authenticator_ViewModel    AuthenticatorVM { get; }
     public GlobalDialog_ViewModel     DialogVM        { get; }
     public LogView_ViewModel          LogVM           { get; }
@@ -88,118 +88,6 @@ public sealed class Mediator : ObservableObject
     public TotalView_ViewModel        TotalVM         { get; }
     public TraceabilityView_ViewModel TraceVM         { get; }
     public IGate                      PlcGate         { get; }
-
-    /// <summary>產生測試資料至資料庫</summary>
-    /// <param name="PLC_Count"></param>
-    public void MakeTestData(int PLC_Count)
-    {
-        var partnum = new[]
-                      {
-                          "ooxx", "abc", "zzz", "qoo",
-                          "boom", "xxx", "wunmao"
-                      };
-
-        var lotid = new[]
-                    {
-                        "111", "222", "333", "444",
-                        "555", "666", "777"
-                    };
-
-        var time = DateTime.Now;
-
-        for (var j = 1; j <= DateTime.DaysInMonth(time.Year, time.Month); j++) //! 產生一個月的資料
-        {
-            for (var i = 0; i < PLC_Count; i++)
-            {
-                var rn = new Random(i                                + j);
-                var st = new DateTime(time.Year, time.Month, j, 8, i + rn.Next(0, 10), rn.Next(0, 60)); //! 早上8點開始
-
-                for (var k = 0; k < 10; k++) //! 每天每烤箱8筆
-                {
-                    var info = new ProcessInfo
-                               {
-                                   StartTime  = st,
-                                   RackID     = rn.Next(1, 10000).ToString("00000"),
-                                   OperatorID = rn.Next(1, 10).ToString("000"),
-                                   Recipe     = RecipeVM.Recipes == null || RecipeVM.Recipes.Count == 0 ? new PLC_Recipe { RecipeName = "NoName" } : RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)]
-                               };
-
-                    var ttime = new TimeSpan(0, 0, 1);
-                    var cc    = 0;
-
-                    for (var m = 0; m < 100; m++) //! 產生100筆溫度資料，間隔1分鐘
-                    {
-                        if (m % 10 == 0) //! 每10分鐘產生一筆事件
-                        {
-                            var ev1 = new LogEvent
-                                      {
-                                          StationNumber = i  + 1,
-                                          AddedTime     = st + ttime,
-                                          Description   = $"{i}{j}{m}",
-                                          TagCode       = $"ooxx{m}",
-                                          Type          = (EventType)new Random(DateTime.Now.Millisecond + m).Next(0, 6),
-                                          Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
-                                      };
-
-                            LogVM.DataCollection.Add(ev1);
-                            info.EventList.Add(ev1);
-                        }
-
-                        var tempt = 30 * (1 + 5 / (1 + Math.Exp(-0.12 * cc + 3)));
-                        var vals = new RecordTemperatures
-                                   {
-                                       AddedTime                = st + ttime,
-                                       PV_ThermostatTemperature = Math.Round(tempt,                                          1),
-                                       OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_2       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_3       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_4       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_5       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_6       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_7       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_8       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OxygenContent            = Math.Round(new Random(i + j + k + m).NextDouble() * 100.0, 1)
-                                   };
-
-                        cc += 1;
-                        info.RecordTemperatures.Add(vals);
-
-                        ttime = ttime.Add(TimeSpan.FromMinutes(1)); //! 間隔1分鐘
-                    }
-
-                    info.EndTime       = info.StartTime + ttime;
-                    info.IsFinished    = new Random().NextDouble() > 0.5;
-                    info.TotalRampTime = (info.EndTime - info.StartTime).Minutes;
-
-                    st = info.EndTime + TimeSpan.FromHours(2);
-
-                    var n = rn.Next(0, 8) + 1; //! 階層
-                    for (var p = 1; p <= n; p++)
-                    {
-                        var product = new ProductInfo
-                                      {
-                                          PartID = partnum[rn.Next(0, partnum.Length)],
-                                          LotID  = lotid[rn.Next(0,   lotid.Length)],
-                                          Layer  = p
-                                      };
-
-                        var count = rn.Next(10, 20);
-                        for (var m = 1; m <= count; m++)
-                        {
-                            product.PanelIDs.Add($"{product.PartID}-{product.LotID}-{product.Layer}-{m}");
-                        }
-
-                        info.Products.Add(product);
-                    }
-
-                    info.StationNumber = i + 1;
-                    info.AddedTime     = info.EndTime.AddSeconds(10);
-
-                    TraceVM.DataCollection.Add(info);
-                }
-            }
-        }
-    }
 
     public Mediator()
     {
@@ -556,5 +444,132 @@ public sealed class Mediator : ObservableObject
         //                                    }),
         //              TimeSpan.FromMinutes(5));
         #endregion
+    }
+
+    /// <summary>產生測試資料至資料庫</summary>
+    /// <param name="PLC_Count"></param>
+    public void MakeTestData(int PLC_Count)
+    {
+        var partnum = new[]
+                      {
+                          "ooxx",
+                          "abc",
+                          "zzz",
+                          "qoo",
+                          "boom",
+                          "xxx",
+                          "wunmao"
+                      };
+
+        var lotid = new[]
+                    {
+                        "111",
+                        "222",
+                        "333",
+                        "444",
+                        "555",
+                        "666",
+                        "777"
+                    };
+
+        var time = DateTime.Now;
+
+        for (var j = 1; j <= DateTime.DaysInMonth(time.Year, time.Month); j++) //! 產生一個月的資料
+        {
+            for (var i = 0; i < PLC_Count; i++)
+            {
+                var rn = new Random(i + j);
+                var st = new DateTime(time.Year,
+                                      time.Month,
+                                      j,
+                                      8,
+                                      i + rn.Next(0, 10),
+                                      rn.Next(0, 60)); //! 早上8點開始
+
+                for (var k = 0; k < 10; k++) //! 每天每烤箱8筆
+                {
+                    var info = new ProcessInfo
+                               {
+                                   StartTime  = st,
+                                   RackID     = rn.Next(1, 10000).ToString("00000"),
+                                   OperatorID = rn.Next(1, 10).ToString("000"),
+                                   Recipe     = RecipeVM.Recipes == null || RecipeVM.Recipes.Count == 0 ? new PLC_Recipe { RecipeName = "NoName" } : RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)]
+                               };
+
+                    var ttime = new TimeSpan(0, 0, 1);
+                    var cc    = 0;
+
+                    for (var m = 0; m < 100; m++) //! 產生100筆溫度資料，間隔1分鐘
+                    {
+                        if (m % 10 == 0) //! 每10分鐘產生一筆事件
+                        {
+                            var ev1 = new LogEvent
+                                      {
+                                          StationNumber = i  + 1,
+                                          AddedTime     = st + ttime,
+                                          Description   = $"{i}{j}{m}",
+                                          TagCode       = $"ooxx{m}",
+                                          Type          = (EventType)new Random(DateTime.Now.Millisecond + m).Next(0, 6),
+                                          Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
+                                      };
+
+                            LogVM.DataCollection.Add(ev1);
+                            info.EventList.Add(ev1);
+                        }
+
+                        var tempt = 30 * (1 + 5 / (1 + Math.Exp(-0.12 * cc + 3)));
+                        var vals = new RecordTemperatures
+                                   {
+                                       AddedTime                = st + ttime,
+                                       PV_ThermostatTemperature = Math.Round(tempt,                                          1),
+                                       OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_2       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_3       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_4       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_5       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_6       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_7       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OvenTemperatures_8       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                                       OxygenContent            = Math.Round(new Random(i + j + k + m).NextDouble() * 100.0, 1)
+                                   };
+
+                        cc += 1;
+                        info.RecordTemperatures.Add(vals);
+
+                        ttime = ttime.Add(TimeSpan.FromMinutes(1)); //! 間隔1分鐘
+                    }
+
+                    info.EndTime       = info.StartTime + ttime;
+                    info.IsFinished    = new Random().NextDouble() > 0.5;
+                    info.TotalRampTime = (info.EndTime - info.StartTime).Minutes;
+
+                    st = info.EndTime + TimeSpan.FromHours(2);
+
+                    var n = rn.Next(0, 8) + 1; //! 階層
+                    for (var p = 1; p <= n; p++)
+                    {
+                        var product = new ProductInfo
+                                      {
+                                          PartID = partnum[rn.Next(0, partnum.Length)],
+                                          LotID  = lotid[rn.Next(0,   lotid.Length)],
+                                          Layer  = p
+                                      };
+
+                        var count = rn.Next(10, 20);
+                        for (var m = 1; m <= count; m++)
+                        {
+                            product.PanelIDs.Add($"{product.PartID}-{product.LotID}-{product.Layer}-{m}");
+                        }
+
+                        info.Products.Add(product);
+                    }
+
+                    info.StationNumber = i + 1;
+                    info.AddedTime     = info.EndTime.AddSeconds(10);
+
+                    TraceVM.DataCollection.Add(info);
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
-﻿using GPMVVM.Models;
-using System.Net;
+﻿using System.Net;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Models;
 
@@ -62,7 +62,13 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
     public GlobalSettings() : base("Settings")
     {
         //CodeReaderName   = "Symbol Bar Code Scanner";
-        PLCIP            = new IPAddress(new byte[] { 192, 168, 3, 39 }).ToString();
+        PLCIP = new IPAddress(new byte[]
+                              {
+                                  192,
+                                  168,
+                                  3,
+                                  39
+                              }).ToString();
         DataOutputPath   = "C:\\GPOutput";
         RecipeImportPath = "C:\\GPOutput\\Recipe.csv";
         Lng              = Language.TW;

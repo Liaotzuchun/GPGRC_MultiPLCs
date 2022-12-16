@@ -1,63 +1,21 @@
-﻿using GPGO_MultiPLCs.Views;
-using GPMVVM.Helpers;
-using Microsoft.Win32;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
-using Serilog;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GPGO_MultiPLCs.Views;
+using GPMVVM.Helpers;
+using Microsoft.Win32;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using Serilog;
 
 namespace GPGO_MultiPLCs;
 
 /// <summary>App.xaml 的互動邏輯</summary>
 public partial class App
 {
-    public string GetServiceInstallPath(string serviceName)
-    {
-        var imagePath = (string)Registry.LocalMachine.OpenSubKey($"SYSTEM\\CurrentControlSet\\services\\{serviceName}")?.GetValue("ImagePath");
-        if (string.IsNullOrEmpty(imagePath))
-        {
-            return imagePath;
-        }
-
-        if (imagePath[0] == '"')
-        {
-            return imagePath.Substring(1, imagePath.IndexOf('"', 1) - 1);
-        }
-
-        var indexOfParameters = imagePath.IndexOf(' ');
-
-        return indexOfParameters >= 0 ? imagePath.Remove(indexOfParameters) : imagePath;
-    }
-
-    private void Application_Exit(object sender, ExitEventArgs e)
-    {
-        if (e.ApplicationExitCode != 23555277)
-        {
-            Log.Error("程序未經授權中止");
-        }
-    }
-
-    private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e) { Log.Error("程序未正常中止"); }
-
-    private void Application_Startup(object sender, StartupEventArgs e)
-    {
-        var splash = new SplashWindow();
-        splash.Show();
-
-        var main = new MainWindow();
-        main.Loaded += (_, _) =>
-                       {
-                           splash.Close();
-                       };
-
-        main.Show();
-    }
-
     public App()
     {
         var temp = Process.GetProcesses();
@@ -70,11 +28,12 @@ public partial class App
                          }
                      });
 
-        Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt", 
-                                                            rollingInterval: RollingInterval.Day, 
-                                                            shared: true, 
-                                                            encoding: Encoding.UTF8, 
-                                                            retainedFileTimeLimit: TimeSpan.FromDays(180)).CreateLogger();
+        Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt",
+                                                            rollingInterval: RollingInterval.Day,
+                                                            shared: true,
+                                                            encoding: Encoding.UTF8,
+                                                            retainedFileTimeLimit: TimeSpan.FromDays(180))
+                                              .CreateLogger();
 
         AppDomain.CurrentDomain.UnhandledException += (_, e) =>
                                                       {
@@ -143,5 +102,47 @@ public partial class App
 
         BsonSerializer.RegisterSerializer(typeof(DateTime), DateTimeSerializer.LocalInstance);
         BsonSerializer.RegisterSerializationProvider(new ValueTupleSerializerProvider());
+    }
+
+    private void Application_Exit(object sender, ExitEventArgs e)
+    {
+        if (e.ApplicationExitCode != 23555277)
+        {
+            Log.Error("程序未經授權中止");
+        }
+    }
+
+    private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e) { Log.Error("程序未正常中止"); }
+
+    private void Application_Startup(object sender, StartupEventArgs e)
+    {
+        var splash = new SplashWindow();
+        splash.Show();
+
+        var main = new MainWindow();
+        main.Loaded += (_, _) =>
+                       {
+                           splash.Close();
+                       };
+
+        main.Show();
+    }
+
+    public string GetServiceInstallPath(string serviceName)
+    {
+        var imagePath = (string)Registry.LocalMachine.OpenSubKey($"SYSTEM\\CurrentControlSet\\services\\{serviceName}")?.GetValue("ImagePath");
+        if (string.IsNullOrEmpty(imagePath))
+        {
+            return imagePath;
+        }
+
+        if (imagePath[0] == '"')
+        {
+            return imagePath.Substring(1, imagePath.IndexOf('"', 1) - 1);
+        }
+
+        var indexOfParameters = imagePath.IndexOf(' ');
+
+        return indexOfParameters >= 0 ? imagePath.Remove(indexOfParameters) : imagePath;
     }
 }

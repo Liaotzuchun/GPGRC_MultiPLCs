@@ -1,23 +1,26 @@
-﻿using GPGO_MultiPLCs.Models;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using Serilog;
 
 namespace GPGO_MultiPLCs.ViewModels;
 
 /// <summary>紀錄/檢視系統事件</summary>
 public class LogView_ViewModel : DataCollectionByDate<LogEvent>
 {
-    public Language Language = Language.TW;
+    public event Action<(ProcessInfo info, LogEvent _event)> GoDetailView;
 
     public event Action<LogEvent> LogAdded;
+
+    public event Func<(int station, DateTime time), Task<ProcessInfo>> WantInfo;
+    public Language                                                    Language = Language.TW;
 
     /// <summary>執行詳情顯示</summary>
     public RelayCommand GoCommand { get; }
@@ -100,9 +103,78 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
         set => Set(value);
     }
 
-    public event Action<(ProcessInfo info, LogEvent _event)> GoDetailView;
+    public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService dialog) : base(db)
+    {
+        ToFileCommand = new RelayCommand(async _ =>
+                                         {
+                                             var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\EventLogs";
+                                             if (await SaveToCSV(path))
+                                             {
+                                                 dialog?.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, $"檔案已輸出至\n{path}" },
+                                                                  { Language.CHS, $"档案已输出至\n{path}" },
+                                                                  { Language.EN, $"The file has been output to\n{path}" }
+                                                              },
+                                                              TimeSpan.FromSeconds(6));
+                                             }
+                                         });
 
-    public event Func<(int station, DateTime time), Task<ProcessInfo>> WantInfo;
+        GoCommand = new RelayCommand(_ =>
+                                     {
+                                         if (SelectedProcessInfo == null)
+                                         {
+                                             return;
+                                         }
+
+                                         GoDetailView?.Invoke((SelectedProcessInfo, SelectedIndex1 > -1 ? ViewResults_On[SelectedIndex1] : ViewResults_Off[SelectedIndex2]));
+                                     });
+
+        OvenFilter = new FilterGroup(UpdateViewResult);
+        TypeFilter = new FilterGroup(UpdateViewResult);
+
+        ResultsChanged += e =>
+                          {
+                              if (e == null)
+                              {
+                                  return;
+                              }
+
+                              OvenFilter.Filter = e.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+                              TypeFilter.Filter = e.Select(x => x.Type).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
+
+                              UpdateViewResult();
+                          };
+
+        BeginIndexChanged += _ =>
+                             {
+                                 UpdateViewResult();
+                             };
+
+        EndIndexChanged += _ =>
+                           {
+                               UpdateViewResult();
+                           };
+    }
+
+    private void UpdateViewResult()
+    {
+        if (Results == null || Results.Count == 0 || EndIndex < BeginIndex)
+        {
+            ViewResults = null;
+        }
+        else
+        {
+            var min = Math.Max(0, BeginIndex);
+            var max = Math.Min(Results.Count - 1, EndIndex);
+
+            ViewResults = Results.GetRange(min, max - min + 1)
+                                 .Where(x => OvenFilter.Check(x.StationNumber) &&
+                                             TypeFilter.Check(x.Type))
+                                 .OrderByDescending(x => x.AddedTime)
+                                 .ToList();
+        }
+    }
 
     /// <summary>新增至資料庫</summary>
     /// <param name="ev">紀錄資訊</param>
@@ -111,7 +183,10 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     {
         try
         {
-            if (!await DataCollection.AddAsync(ev)) return false;
+            if (!await DataCollection.AddAsync(ev))
+            {
+                return false;
+            }
             LogAdded?.Invoke(ev);
 
             if (UpdateResult)
@@ -132,7 +207,10 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     {
         try
         {
-            if (!DataCollection.Add(ev)) return false;
+            if (!DataCollection.Add(ev))
+            {
+                return false;
+            }
             LogAdded?.Invoke(ev);
 
             if (UpdateResult)
@@ -251,78 +329,5 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
         Standby = true;
 
         return true;
-    }
-
-    private void UpdateViewResult()
-    {
-        if (Results == null || Results.Count == 0 || EndIndex < BeginIndex)
-        {
-            ViewResults = null;
-        }
-        else
-        {
-            var min = Math.Max(0, BeginIndex);
-            var max = Math.Min(Results.Count - 1, EndIndex);
-
-            ViewResults = Results.GetRange(min, max - min + 1)
-                                 .Where(x => OvenFilter.Check(x.StationNumber) &&
-                                             TypeFilter.Check(x.Type))
-                                 .OrderByDescending(x => x.AddedTime)
-                                 .ToList();
-        }
-    }
-
-    public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService dialog) : base(db)
-    {
-        ToFileCommand = new RelayCommand(async _ =>
-                                         {
-                                             var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\EventLogs";
-                                             if (await SaveToCSV(path))
-                                             {
-                                                 dialog?.Show(new Dictionary<Language, string>
-                                                              {
-                                                                  { Language.TW, $"檔案已輸出至\n{path}" },
-                                                                  { Language.CHS, $"档案已输出至\n{path}" },
-                                                                  { Language.EN, $"The file has been output to\n{path}" }
-                                                              },
-                                                              TimeSpan.FromSeconds(6));
-                                             }
-                                         });
-
-        GoCommand = new RelayCommand(_ =>
-                                     {
-                                         if (SelectedProcessInfo == null)
-                                         {
-                                             return;
-                                         }
-
-                                         GoDetailView?.Invoke((SelectedProcessInfo, SelectedIndex1 > -1 ? ViewResults_On[SelectedIndex1] : ViewResults_Off[SelectedIndex2]));
-                                     });
-
-        OvenFilter = new FilterGroup(UpdateViewResult);
-        TypeFilter = new FilterGroup(UpdateViewResult);
-
-        ResultsChanged += e =>
-                          {
-                              if (e == null)
-                              {
-                                  return;
-                              }
-
-                              OvenFilter.Filter = e.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-                              TypeFilter.Filter = e.Select(x => x.Type).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList();
-
-                              UpdateViewResult();
-                          };
-
-        BeginIndexChanged += _ =>
-                             {
-                                 UpdateViewResult();
-                             };
-
-        EndIndexChanged += _ =>
-                           {
-                               UpdateViewResult();
-                           };
     }
 }

@@ -1,270 +1,44 @@
-﻿using OxyPlot;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Media;
+using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Axes;
 using OxyPlot.Legends;
 using OxyPlot.Series;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
+using HorizontalAlignment = OxyPlot.HorizontalAlignment;
+using VerticalAlignment = OxyPlot.VerticalAlignment;
 
 namespace GPGO_MultiPLCs.Models;
 
 public class ProcessChartModel
 {
-    private          OxyColor Bgcolor;
-    private          OxyColor Bordercolor;
-    private          OxyColor Fontcolor;
-    private readonly OxyColor S0color = OxyColors.Red;
-    private readonly OxyColor S1color = OxyColors.DarkOrange;
-    private readonly OxyColor S2color = OxyColors.Gold;
-    private readonly OxyColor S3color = OxyColors.Lime;
-    private readonly OxyColor S4color = OxyColors.DodgerBlue;
-    private readonly OxyColor S5color = OxyColors.DarkOrchid;
-    private readonly OxyColor S6color = OxyColors.Magenta;
-    private readonly OxyColor S7color = OxyColors.Brown;
-    private readonly OxyColor S8color = OxyColors.BurlyWood;
-
     private readonly DateTimeAxis DateTimeAxis;
-    private readonly LinearAxis   LinearAxis;
-    private readonly LinearAxis   LinearAxis2;
-    private readonly LineSeries   LineSeries0;
-    private readonly LineSeries   LineSeries1;
-    private readonly LineSeries   LineSeries2;
-    private readonly LineSeries   LineSeries3;
-    private readonly LineSeries   LineSeries4;
-    private readonly LineSeries   LineSeries5;
-    private readonly LineSeries   LineSeries6;
-    private readonly LineSeries   LineSeries7;
     //private readonly LineSeries     LineSeries8;
     private readonly LineAnnotation LineAnnotation;
+    private readonly LinearAxis     LinearAxis;
+    private readonly LinearAxis     LinearAxis2;
+    private readonly LineSeries     LineSeries0;
+    private readonly LineSeries     LineSeries1;
+    private readonly LineSeries     LineSeries2;
+    private readonly LineSeries     LineSeries3;
+    private readonly LineSeries     LineSeries4;
+    private readonly LineSeries     LineSeries5;
+    private readonly LineSeries     LineSeries6;
+    private readonly LineSeries     LineSeries7;
+    private readonly OxyColor       S0color = OxyColors.Red;
+    private readonly OxyColor       S1color = OxyColors.DarkOrange;
+    private readonly OxyColor       S2color = OxyColors.Gold;
+    private readonly OxyColor       S3color = OxyColors.Lime;
+    private readonly OxyColor       S4color = OxyColors.DodgerBlue;
+    private readonly OxyColor       S5color = OxyColors.DarkOrchid;
+    private readonly OxyColor       S6color = OxyColors.Magenta;
+    private readonly OxyColor       S7color = OxyColors.Brown;
+    private readonly OxyColor       S8color = OxyColors.BurlyWood;
+    private          OxyColor       Bgcolor;
+    private          OxyColor       Bordercolor;
+    private          OxyColor       Fontcolor;
     public           PlotModel      ChartView { get; }
-
-    public void RefreshView(bool UpdateData)
-    {
-        lock (ChartView.SyncRoot)
-        {
-            ChartView.InvalidatePlot(UpdateData);
-        }
-    }
-
-    public void SetFrameworkElement(FrameworkElement el)
-    {
-        UpdateTitle(el);
-        UpdateColor(el);
-    }
-
-    public void UpdateTitle(FrameworkElement element)
-    {
-        if (element != null)
-        {
-            if (element.TryFindResource("時間") is string s1)
-            {
-                DateTimeAxis.Title = s1;
-            }
-
-            if (element.TryFindResource("溫控器溫度") is string s0)
-            {
-                LineSeries0.Title = s0;
-            }
-
-            if (element.TryFindResource("爐內溫度1") is string s2)
-            {
-                LineSeries1.Title = s2;
-            }
-
-            if (element.TryFindResource("爐內溫度2") is string s3)
-            {
-                LineSeries2.Title = s3;
-            }
-
-            if (element.TryFindResource("爐內溫度3") is string s4)
-            {
-                LineSeries3.Title = s4;
-            }
-
-            if (element.TryFindResource("爐內溫度4") is string s5)
-            {
-                LineSeries4.Title = s5;
-            }
-
-            if (element.TryFindResource("爐內溫度5") is string s6)
-            {
-                LineSeries5.Title = s6;
-            }
-
-            if (element.TryFindResource("爐內溫度6") is string s7)
-            {
-                LineSeries6.Title = s7;
-            }
-
-            if (element.TryFindResource("含氧量") is string s8)
-            {
-                LineSeries7.Title = s8;
-            }
-
-            //if (element.TryFindResource("爐內溫度8") is string s9)
-            //{
-            //    LineSeries8.Title = s9;
-            //}
-
-            RefreshView(true);
-        }
-    }
-
-    public void UpdateColor(FrameworkElement element)
-    {
-        if (element != null)
-        {
-            if (element.TryFindResource("LightColor") is Color lc)
-            {
-                Bgcolor = OxyColor.FromRgb(lc.R, lc.G, lc.B);
-            }
-
-            if (element.TryFindResource("WindowBackgroundColor4") is Color wb4)
-            {
-                Bordercolor = OxyColor.FromRgb(wb4.R, wb4.G, wb4.B);
-            }
-
-            if (element.TryFindResource("BaseForegroundColor") is Color bf)
-            {
-                Fontcolor = OxyColor.FromRgb(bf.R, bf.G, bf.B);
-            }
-
-            DateTimeAxis.TitleColor               = Fontcolor;
-            DateTimeAxis.AxislineColor            = Bordercolor;
-            DateTimeAxis.MajorGridlineColor       = Bordercolor;
-            DateTimeAxis.MinorGridlineColor       = Bordercolor;
-            DateTimeAxis.TicklineColor            = Bordercolor;
-            DateTimeAxis.ExtraGridlineColor       = Bordercolor;
-            DateTimeAxis.TextColor                = Fontcolor;
-            LinearAxis.TitleColor                 = Fontcolor;
-            LinearAxis.MajorGridlineColor         = Bordercolor;
-            LinearAxis.MinorGridlineColor         = Bordercolor;
-            LinearAxis.TicklineColor              = Bordercolor;
-            LinearAxis.ExtraGridlineColor         = Bordercolor;
-            LinearAxis.TextColor                  = Fontcolor;
-            LinearAxis.AxislineColor              = Bordercolor;
-            LinearAxis2.TitleColor                = S7color;
-            LinearAxis2.MajorGridlineColor        = S8color;
-            LinearAxis2.MinorGridlineColor        = S8color;
-            LinearAxis2.TicklineColor             = S8color;
-            LinearAxis2.ExtraGridlineColor        = S8color;
-            LinearAxis2.TextColor                 = S7color;
-            LinearAxis2.AxislineColor             = S8color;
-            ChartView.PlotAreaBackground          = Bgcolor;
-            ChartView.PlotAreaBorderColor         = Bordercolor;
-            ChartView.Legends[0].LegendTitleColor = Fontcolor;
-            ChartView.Legends[0].LegendTextColor  = Fontcolor;
-            ChartView.Legends[0].LegendBorder     = Bordercolor;
-            ChartView.Legends[0].LegendBackground = Bgcolor;
-
-            RefreshView(true);
-        }
-    }
-
-    public void SetAnnotation(LogEvent ev)
-    {
-        if (ev == null)
-        {
-            ChartView.Annotations.Clear();
-        }
-        else
-        {
-            if (ChartView.Annotations.Count <= 0)
-            {
-                ChartView.Annotations.Add(LineAnnotation);
-            }
-
-            LineAnnotation.X = DateTimeAxis.ToDouble(ev.AddedTime);
-
-            var m = (DateTimeAxis.ActualMaximum - DateTimeAxis.ActualMinimum) / 2.0;
-            LineAnnotation.TextHorizontalAlignment = LineAnnotation.X > m ? OxyPlot.HorizontalAlignment.Right : OxyPlot.HorizontalAlignment.Left;
-
-            LineAnnotation.Color = ev.Type switch
-                                   {
-                                       EventType.Normal        => OxyColors.Green,
-                                       EventType.StatusChanged => OxyColors.DodgerBlue,
-                                       EventType.Trigger       => OxyColors.Blue,
-                                       EventType.Operator      => OxyColors.DarkOrange,
-                                       EventType.Alert         => OxyColors.Magenta,
-                                       EventType.Alarm         => OxyColors.Red,
-                                       _                       => OxyColors.Gray
-                                   };
-
-            LineAnnotation.TextColor = LineAnnotation.Color;
-            var value = ev.Value is bool b ? b ? "ON" : "OFF" : ev.Value.ToString();
-            LineAnnotation.Text = $"{ev.Description}: {value}";
-        }
-
-        RefreshView(true);
-    }
-
-    public void Clear()
-    {
-        LineSeries0.Points.Clear();
-        LineSeries1.Points.Clear();
-        LineSeries2.Points.Clear();
-        LineSeries3.Points.Clear();
-        LineSeries4.Points.Clear();
-        LineSeries5.Points.Clear();
-        LineSeries6.Points.Clear();
-        LineSeries7.Points.Clear();
-        //LineSeries8.Points.Clear();
-
-        RefreshView(true);
-    }
-
-    public void AddDate(RecordTemperatures tp)
-    {
-        var t = DateTimeAxis.ToDouble(tp.AddedTime);
-        LineSeries0.Points.Add(new DataPoint(t, tp.PV_ThermostatTemperature));
-        LineSeries1.Points.Add(new DataPoint(t, tp.OvenTemperatures_1));
-        LineSeries2.Points.Add(new DataPoint(t, tp.OvenTemperatures_2));
-        LineSeries3.Points.Add(new DataPoint(t, tp.OvenTemperatures_3));
-        LineSeries4.Points.Add(new DataPoint(t, tp.OvenTemperatures_4));
-        LineSeries5.Points.Add(new DataPoint(t, tp.OvenTemperatures_5));
-        LineSeries6.Points.Add(new DataPoint(t, tp.OvenTemperatures_6));
-        LineSeries7.Points.Add(new DataPoint(t, tp.OxygenContent));
-        //LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
-
-        RefreshView(true);
-    }
-
-    public void SetData(IEnumerable<RecordTemperatures> tps)
-    {
-        if (tps != null)
-        {
-            LineSeries0.Points.Clear();
-            LineSeries1.Points.Clear();
-            LineSeries2.Points.Clear();
-            LineSeries3.Points.Clear();
-            LineSeries4.Points.Clear();
-            LineSeries5.Points.Clear();
-            LineSeries6.Points.Clear();
-            LineSeries7.Points.Clear();
-            //LineSeries8.Points.Clear();
-
-            foreach (var tp in tps)
-            {
-                var t = DateTimeAxis.ToDouble(tp.AddedTime);
-                LineSeries0.Points.Add(new DataPoint(t, tp.PV_ThermostatTemperature));
-                LineSeries1.Points.Add(new DataPoint(t, tp.OvenTemperatures_1));
-                LineSeries2.Points.Add(new DataPoint(t, tp.OvenTemperatures_2));
-                LineSeries3.Points.Add(new DataPoint(t, tp.OvenTemperatures_3));
-                LineSeries4.Points.Add(new DataPoint(t, tp.OvenTemperatures_4));
-                LineSeries5.Points.Add(new DataPoint(t, tp.OvenTemperatures_5));
-                LineSeries6.Points.Add(new DataPoint(t, tp.OvenTemperatures_6));
-                LineSeries7.Points.Add(new DataPoint(t, tp.OxygenContent));
-                //LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
-            }
-
-            ChartView.InvalidatePlot(true);
-        }
-        else
-        {
-            Clear();
-        }
-    }
 
     public ProcessChartModel()
     {
@@ -441,9 +215,9 @@ public class ProcessChartModel
                          {
                              FontSize                = 12,
                              StrokeThickness         = 1,
-                             TextHorizontalAlignment = OxyPlot.HorizontalAlignment.Left,
+                             TextHorizontalAlignment = HorizontalAlignment.Left,
                              TextOrientation         = AnnotationTextOrientation.Horizontal,
-                             TextVerticalAlignment   = OxyPlot.VerticalAlignment.Top,
+                             TextVerticalAlignment   = VerticalAlignment.Top,
                              TextMargin              = 0,
                              TextPadding             = 2,
                              Type                    = LineAnnotationType.Vertical,
@@ -509,5 +283,232 @@ public class ProcessChartModel
         LineSeries7.Color      = S7color;
         //LineSeries8.MarkerFill = S8color;
         //LineSeries8.Color      = S8color;
+    }
+
+    public void RefreshView(bool UpdateData)
+    {
+        lock (ChartView.SyncRoot)
+        {
+            ChartView.InvalidatePlot(UpdateData);
+        }
+    }
+
+    public void SetFrameworkElement(FrameworkElement el)
+    {
+        UpdateTitle(el);
+        UpdateColor(el);
+    }
+
+    public void UpdateTitle(FrameworkElement element)
+    {
+        if (element != null)
+        {
+            if (element.TryFindResource("時間") is string s1)
+            {
+                DateTimeAxis.Title = s1;
+            }
+
+            if (element.TryFindResource("溫控器溫度") is string s0)
+            {
+                LineSeries0.Title = s0;
+            }
+
+            if (element.TryFindResource("爐內溫度1") is string s2)
+            {
+                LineSeries1.Title = s2;
+            }
+
+            if (element.TryFindResource("爐內溫度2") is string s3)
+            {
+                LineSeries2.Title = s3;
+            }
+
+            if (element.TryFindResource("爐內溫度3") is string s4)
+            {
+                LineSeries3.Title = s4;
+            }
+
+            if (element.TryFindResource("爐內溫度4") is string s5)
+            {
+                LineSeries4.Title = s5;
+            }
+
+            if (element.TryFindResource("爐內溫度5") is string s6)
+            {
+                LineSeries5.Title = s6;
+            }
+
+            if (element.TryFindResource("爐內溫度6") is string s7)
+            {
+                LineSeries6.Title = s7;
+            }
+
+            if (element.TryFindResource("含氧量") is string s8)
+            {
+                LineSeries7.Title = s8;
+            }
+
+            //if (element.TryFindResource("爐內溫度8") is string s9)
+            //{
+            //    LineSeries8.Title = s9;
+            //}
+
+            RefreshView(true);
+        }
+    }
+
+    public void UpdateColor(FrameworkElement element)
+    {
+        if (element != null)
+        {
+            if (element.TryFindResource("LightColor") is Color lc)
+            {
+                Bgcolor = OxyColor.FromRgb(lc.R, lc.G, lc.B);
+            }
+
+            if (element.TryFindResource("WindowBackgroundColor4") is Color wb4)
+            {
+                Bordercolor = OxyColor.FromRgb(wb4.R, wb4.G, wb4.B);
+            }
+
+            if (element.TryFindResource("BaseForegroundColor") is Color bf)
+            {
+                Fontcolor = OxyColor.FromRgb(bf.R, bf.G, bf.B);
+            }
+
+            DateTimeAxis.TitleColor               = Fontcolor;
+            DateTimeAxis.AxislineColor            = Bordercolor;
+            DateTimeAxis.MajorGridlineColor       = Bordercolor;
+            DateTimeAxis.MinorGridlineColor       = Bordercolor;
+            DateTimeAxis.TicklineColor            = Bordercolor;
+            DateTimeAxis.ExtraGridlineColor       = Bordercolor;
+            DateTimeAxis.TextColor                = Fontcolor;
+            LinearAxis.TitleColor                 = Fontcolor;
+            LinearAxis.MajorGridlineColor         = Bordercolor;
+            LinearAxis.MinorGridlineColor         = Bordercolor;
+            LinearAxis.TicklineColor              = Bordercolor;
+            LinearAxis.ExtraGridlineColor         = Bordercolor;
+            LinearAxis.TextColor                  = Fontcolor;
+            LinearAxis.AxislineColor              = Bordercolor;
+            LinearAxis2.TitleColor                = S7color;
+            LinearAxis2.MajorGridlineColor        = S8color;
+            LinearAxis2.MinorGridlineColor        = S8color;
+            LinearAxis2.TicklineColor             = S8color;
+            LinearAxis2.ExtraGridlineColor        = S8color;
+            LinearAxis2.TextColor                 = S7color;
+            LinearAxis2.AxislineColor             = S8color;
+            ChartView.PlotAreaBackground          = Bgcolor;
+            ChartView.PlotAreaBorderColor         = Bordercolor;
+            ChartView.Legends[0].LegendTitleColor = Fontcolor;
+            ChartView.Legends[0].LegendTextColor  = Fontcolor;
+            ChartView.Legends[0].LegendBorder     = Bordercolor;
+            ChartView.Legends[0].LegendBackground = Bgcolor;
+
+            RefreshView(true);
+        }
+    }
+
+    public void SetAnnotation(LogEvent ev)
+    {
+        if (ev == null)
+        {
+            ChartView.Annotations.Clear();
+        }
+        else
+        {
+            if (ChartView.Annotations.Count <= 0)
+            {
+                ChartView.Annotations.Add(LineAnnotation);
+            }
+
+            LineAnnotation.X = DateTimeAxis.ToDouble(ev.AddedTime);
+
+            var m = (DateTimeAxis.ActualMaximum - DateTimeAxis.ActualMinimum) / 2.0;
+            LineAnnotation.TextHorizontalAlignment = LineAnnotation.X > m ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+
+            LineAnnotation.Color = ev.Type switch
+                                   {
+                                       EventType.Normal        => OxyColors.Green,
+                                       EventType.StatusChanged => OxyColors.DodgerBlue,
+                                       EventType.Trigger       => OxyColors.Blue,
+                                       EventType.Operator      => OxyColors.DarkOrange,
+                                       EventType.Alert         => OxyColors.Magenta,
+                                       EventType.Alarm         => OxyColors.Red,
+                                       _                       => OxyColors.Gray
+                                   };
+
+            LineAnnotation.TextColor = LineAnnotation.Color;
+            var value = ev.Value is bool b ? b ? "ON" : "OFF" : ev.Value.ToString();
+            LineAnnotation.Text = $"{ev.Description}: {value}";
+        }
+
+        RefreshView(true);
+    }
+
+    public void Clear()
+    {
+        LineSeries0.Points.Clear();
+        LineSeries1.Points.Clear();
+        LineSeries2.Points.Clear();
+        LineSeries3.Points.Clear();
+        LineSeries4.Points.Clear();
+        LineSeries5.Points.Clear();
+        LineSeries6.Points.Clear();
+        LineSeries7.Points.Clear();
+        //LineSeries8.Points.Clear();
+
+        RefreshView(true);
+    }
+
+    public void AddDate(RecordTemperatures tp)
+    {
+        var t = DateTimeAxis.ToDouble(tp.AddedTime);
+        LineSeries0.Points.Add(new DataPoint(t, tp.PV_ThermostatTemperature));
+        LineSeries1.Points.Add(new DataPoint(t, tp.OvenTemperatures_1));
+        LineSeries2.Points.Add(new DataPoint(t, tp.OvenTemperatures_2));
+        LineSeries3.Points.Add(new DataPoint(t, tp.OvenTemperatures_3));
+        LineSeries4.Points.Add(new DataPoint(t, tp.OvenTemperatures_4));
+        LineSeries5.Points.Add(new DataPoint(t, tp.OvenTemperatures_5));
+        LineSeries6.Points.Add(new DataPoint(t, tp.OvenTemperatures_6));
+        LineSeries7.Points.Add(new DataPoint(t, tp.OxygenContent));
+        //LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
+
+        RefreshView(true);
+    }
+
+    public void SetData(IEnumerable<RecordTemperatures> tps)
+    {
+        if (tps != null)
+        {
+            LineSeries0.Points.Clear();
+            LineSeries1.Points.Clear();
+            LineSeries2.Points.Clear();
+            LineSeries3.Points.Clear();
+            LineSeries4.Points.Clear();
+            LineSeries5.Points.Clear();
+            LineSeries6.Points.Clear();
+            LineSeries7.Points.Clear();
+            //LineSeries8.Points.Clear();
+
+            foreach (var tp in tps)
+            {
+                var t = DateTimeAxis.ToDouble(tp.AddedTime);
+                LineSeries0.Points.Add(new DataPoint(t, tp.PV_ThermostatTemperature));
+                LineSeries1.Points.Add(new DataPoint(t, tp.OvenTemperatures_1));
+                LineSeries2.Points.Add(new DataPoint(t, tp.OvenTemperatures_2));
+                LineSeries3.Points.Add(new DataPoint(t, tp.OvenTemperatures_3));
+                LineSeries4.Points.Add(new DataPoint(t, tp.OvenTemperatures_4));
+                LineSeries5.Points.Add(new DataPoint(t, tp.OvenTemperatures_5));
+                LineSeries6.Points.Add(new DataPoint(t, tp.OvenTemperatures_6));
+                LineSeries7.Points.Add(new DataPoint(t, tp.OxygenContent));
+                //LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
+            }
+
+            ChartView.InvalidatePlot(true);
+        }
+        else
+        {
+            Clear();
+        }
     }
 }

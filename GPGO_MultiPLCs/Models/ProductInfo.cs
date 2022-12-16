@@ -39,25 +39,7 @@ public class ProductInfo : ObservableObject //! 這是一個批號的資料
     [LanguageTranslator("Layer", "階層", "阶层")]
     public int Layer { get; set; }
 
-    public Dictionary<string, object> ToDic(Language lng)
-    {
-        var type = GetType();
-
-        return new Dictionary<string, object>
-               {
-                   { type.GetProperty(nameof(Layer))?.GetName(lng)    ?? nameof(Layer), Layer },
-                   { type.GetProperty(nameof(PartID))?.GetName(lng)   ?? nameof(PartID), PartID },
-                   { type.GetProperty(nameof(LotID))?.GetName(lng)    ?? nameof(LotID), LotID },
-                   { type.GetProperty(nameof(Quantity))?.GetName(lng) ?? nameof(Quantity), Quantity }
-               };
-    }
-
-    public void NotifyPanels()
-    {
-        NotifyPropertyChanged(nameof(PanelIDs));
-    }
-
-    public ProductInfo() {}
+    public ProductInfo() { }
 
     /// <summary></summary>
     /// <param name="code">工單條碼</param>
@@ -74,4 +56,19 @@ public class ProductInfo : ObservableObject //! 這是一個批號的資料
         OrderCode     = orderCode;
         ProcessNumber = processNumber;
     }
+
+    public Dictionary<string, object> ToDic(Language lng)
+    {
+        var type = GetType();
+
+        return new Dictionary<string, object>
+               {
+                   { type.GetProperty(nameof(Layer))?.GetName(lng)    ?? nameof(Layer), Layer },
+                   { type.GetProperty(nameof(PartID))?.GetName(lng)   ?? nameof(PartID), PartID },
+                   { type.GetProperty(nameof(LotID))?.GetName(lng)    ?? nameof(LotID), LotID },
+                   { type.GetProperty(nameof(Quantity))?.GetName(lng) ?? nameof(Quantity), Quantity }
+               };
+    }
+
+    public void NotifyPanels() { NotifyPropertyChanged(nameof(PanelIDs)); }
 }

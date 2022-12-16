@@ -1,8 +1,8 @@
 ﻿using System;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
 using System.Collections.Generic;
 using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
 
 namespace GPGO_MultiPLCs.Helpers;
 
@@ -12,7 +12,21 @@ public static class Extensions
 
     public static void UsersToCSVFILE(this IEnumerable<User> users, string path)
     {
-        FastCSV.WriteFile(path, new[] { "名稱", "密碼", "層級" }, ',', users, o => new[] { o.Name, o.Password, o.Level.ToString() });
+        FastCSV.WriteFile(path,
+                          new[]
+                          {
+                              "名稱",
+                              "密碼",
+                              "層級"
+                          },
+                          ',',
+                          users,
+                          o => new[]
+                               {
+                                   o.Name,
+                                   o.Password,
+                                   o.Level.ToString()
+                               });
     }
 
     public static List<User> UsersFromCSVFILE(string path)
@@ -130,11 +144,11 @@ public static class Extensions
                                                 o.OxygenContentSet      = double.TryParse(c[2], out var i2) ? i2 : 0;
                                                 o.InflatingTime         = double.TryParse(c[3], out var i3) ? i3 : 0;
                                                 o.SegmentCounts         = short.TryParse(c[4], out var i4) ? i4 : (short)1;
-                                                o.TemperatureSetpoint_1 = double.TryParse(c[5],  out var i5) ? i5 : 0;
-                                                o.TemperatureSetpoint_2 = double.TryParse(c[6],  out var i6) ? i6 : 0;
-                                                o.TemperatureSetpoint_3 = double.TryParse(c[7],  out var i7) ? i7 : 0;
-                                                o.TemperatureSetpoint_4 = double.TryParse(c[8],  out var i8) ? i8 : 0;
-                                                o.TemperatureSetpoint_5 = double.TryParse(c[9],  out var i9) ? i9 : 0;
+                                                o.TemperatureSetpoint_1 = double.TryParse(c[5], out var i5) ? i5 : 0;
+                                                o.TemperatureSetpoint_2 = double.TryParse(c[6], out var i6) ? i6 : 0;
+                                                o.TemperatureSetpoint_3 = double.TryParse(c[7], out var i7) ? i7 : 0;
+                                                o.TemperatureSetpoint_4 = double.TryParse(c[8], out var i8) ? i8 : 0;
+                                                o.TemperatureSetpoint_5 = double.TryParse(c[9], out var i9) ? i9 : 0;
                                                 o.TemperatureSetpoint_6 = double.TryParse(c[10], out var i10) ? i10 : 0;
                                                 o.RampTime_1            = double.TryParse(c[11], out var i11) ? i11 : 0;
                                                 o.RampTime_2            = double.TryParse(c[12], out var i12) ? i12 : 0;

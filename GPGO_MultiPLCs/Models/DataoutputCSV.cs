@@ -1,23 +1,25 @@
-﻿using GPMVVM.Helpers;
-using GPMVVM.Models;
-using GPMVVM.PooledCollections;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using GPMVVM.PooledCollections;
+using Serilog;
 
 namespace GPGO_MultiPLCs.Models;
 
 public class DataoutputCSV
 {
-    private string   DataTitles;
-    private string   RecordTitles;
-    private string   RecipeTitles;
-    private string   AlarmTitles;
     private Language Language = Language.TW;
+    private string   AlarmTitles;
+    private string   DataTitles;
+    private string   RecipeTitles;
+    private string   RecordTitles;
+
+    public DataoutputCSV() { UpdateLanguage(Language.TW); }
 
     private async Task DataMethod(ProcessInfo info, string folder, string filename)
     {
@@ -357,10 +359,5 @@ public class DataoutputCSV
         RecordTitles = $"{string.Join(",", record.Keys)}";
         RecipeTitles = $"{string.Join(",", recipe.Keys)}";
         AlarmTitles  = $"{string.Join(",", logevent.Keys)}";
-    }
-
-    public DataoutputCSV()
-    {
-        UpdateLanguage(Language.TW);
     }
 }

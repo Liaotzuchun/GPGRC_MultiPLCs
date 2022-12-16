@@ -8,6 +8,7 @@ namespace GPGO_MultiPLCs.Views;
 
 public class DoublesTakeCount : IMultiValueConverter
 {
+    #region Interface Implementations
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
         if (values.Length > 1 && int.TryParse(values.First().ToString(), out var count) && count > 0)
@@ -19,28 +20,29 @@ public class DoublesTakeCount : IMultiValueConverter
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    #endregion
 }
 
 public class IsEqual : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-    {
-        return values.Length > 1     &&
-               values[0]     != null &&
-               values[1]     != null &&
-               values[0].ToString().Trim().Equals(values[1].ToString().Trim());
-    }
+    #region Interface Implementations
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) => values.Length > 1 &&
+                                                                                                      values[0] != null &&
+                                                                                                      values[1] != null &&
+                                                                                                      values[0].ToString().Trim().Equals(values[1].ToString().Trim());
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    #endregion
 }
 
 public class EqualBrush : IMultiValueConverter
 {
+    #region Interface Implementations
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length > 1 && 
-            values[0] != null && 
-            values[1] != null && 
+        if (values.Length > 1     &&
+            values[0]     != null &&
+            values[1]     != null &&
             values[0].ToString().Trim().Equals(values[1].ToString().Trim()))
         {
             return Brushes.Green;
@@ -50,4 +52,5 @@ public class EqualBrush : IMultiValueConverter
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    #endregion
 }

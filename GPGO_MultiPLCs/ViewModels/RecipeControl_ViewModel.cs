@@ -1,12 +1,12 @@
-﻿using GPGO_MultiPLCs.Models;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using Serilog;
 
 namespace GPGO_MultiPLCs.ViewModels;
 
@@ -20,98 +20,6 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
 
     /// <summary>辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)</summary>
     public override bool DeleteEnable => SelectedRecipe != null && !SelectedRecipe.Used_Stations.Any(x => x);
-
-    public async void SetUsed(int index, string name)
-    {
-        var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
-
-        if (result != null)
-        {
-            try
-            {
-                foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
-                {
-                    recipe.Used_Stations[index] = false;
-                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), nameof(PLC_Recipe.Used_Stations), recipe.Used_Stations).ConfigureAwait(false);
-                }
-
-                result.Used_Stations[index] = true;
-                await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), nameof(PLC_Recipe.Used_Stations), result.Used_Stations).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "配方資料庫更新使用站點資訊失敗");
-            }
-        }
-    }
-
-    public async Task<bool> Upsert(PLC_Recipe recipe)
-    {
-        Standby = false;
-
-        var result = false;
-        if (recipe != null)
-        {
-            var name = recipe.RecipeName;
-            if (!string.IsNullOrEmpty(recipe.RecipeName))
-            {
-                try
-                {
-                    var TempSet = await RecipeCollection.FindAsync(x => x.RecipeName.Equals(name)).ConfigureAwait(false);
-
-                    if (TempSet.Any())
-                    {
-                        if (!TempSet[0].Equals(recipe))
-                        {
-                            await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(name), recipe).ConfigureAwait(false);
-                            await RecipeCollection_History.AddAsync(TempSet[0]).ConfigureAwait(false);
-                        }
-                    }
-                    else
-                    {
-                        await RecipeCollection.AddAsync(recipe).ConfigureAwait(false);
-                    }
-
-                    result = true;
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "");
-                }
-
-                await RefreshList(true).ConfigureAwait(false);
-            }
-        }
-
-        Standby = true;
-
-        return result;
-    }
-
-    public async Task<bool> Delete(string recipeName)
-    {
-        Standby = false;
-
-        var result = false;
-
-        try
-        {
-            await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(recipeName)).ConfigureAwait(false);
-            await RecipeCollection_History.DeleteOneAsync(x => x.RecipeName.Equals(recipeName)).ConfigureAwait(false);
-
-            result = true;
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "");
-        }
-
-        await RefreshList(true).ConfigureAwait(false);
-
-        Standby = true;
-
-        return result;
-    }
 
     public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDataBase<PLC_Recipe> db_history, IDialogService dialog) : base(db, db_history, dialog)
     {
@@ -209,5 +117,97 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                                           },
                                                           TimeSpan.FromSeconds(6));
                                          });
+    }
+
+    public async void SetUsed(int index, string name)
+    {
+        var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
+
+        if (result != null)
+        {
+            try
+            {
+                foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
+                {
+                    recipe.Used_Stations[index] = false;
+                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), nameof(PLC_Recipe.Used_Stations), recipe.Used_Stations).ConfigureAwait(false);
+                }
+
+                result.Used_Stations[index] = true;
+                await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), nameof(PLC_Recipe.Used_Stations), result.Used_Stations).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "配方資料庫更新使用站點資訊失敗");
+            }
+        }
+    }
+
+    public async Task<bool> Upsert(PLC_Recipe recipe)
+    {
+        Standby = false;
+
+        var result = false;
+        if (recipe != null)
+        {
+            var name = recipe.RecipeName;
+            if (!string.IsNullOrEmpty(recipe.RecipeName))
+            {
+                try
+                {
+                    var TempSet = await RecipeCollection.FindAsync(x => x.RecipeName.Equals(name)).ConfigureAwait(false);
+
+                    if (TempSet.Any())
+                    {
+                        if (!TempSet[0].Equals(recipe))
+                        {
+                            await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(name), recipe).ConfigureAwait(false);
+                            await RecipeCollection_History.AddAsync(TempSet[0]).ConfigureAwait(false);
+                        }
+                    }
+                    else
+                    {
+                        await RecipeCollection.AddAsync(recipe).ConfigureAwait(false);
+                    }
+
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "");
+                }
+
+                await RefreshList(true).ConfigureAwait(false);
+            }
+        }
+
+        Standby = true;
+
+        return result;
+    }
+
+    public async Task<bool> Delete(string recipeName)
+    {
+        Standby = false;
+
+        var result = false;
+
+        try
+        {
+            await RecipeCollection.DeleteOneAsync(x => x.RecipeName.Equals(recipeName)).ConfigureAwait(false);
+            await RecipeCollection_History.DeleteOneAsync(x => x.RecipeName.Equals(recipeName)).ConfigureAwait(false);
+
+            result = true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "");
+        }
+
+        await RefreshList(true).ConfigureAwait(false);
+
+        Standby = true;
+
+        return result;
     }
 }

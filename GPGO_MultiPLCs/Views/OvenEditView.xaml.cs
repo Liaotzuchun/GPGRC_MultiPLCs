@@ -1,23 +1,21 @@
-﻿using GPGO_MultiPLCs.Helpers;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Views;
 
-/// <summary>
-/// OvenEditView.xaml 的互動邏輯
-/// </summary>
+/// <summary>OvenEditView.xaml 的互動邏輯</summary>
 public partial class OvenEditView : UserControl
 {
-    private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-    {
-        ((TextBox)sender).SelectAll();
-    }
+    public OvenEditView() { InitializeComponent(); }
 
-    private void DataGrid_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { ((TextBox)sender).SelectAll(); }
+
+    private void DataGrid_Loaded(object sender, RoutedEventArgs e)
     {
         var products = CollectionViewSource.GetDefaultView(((DataGrid)sender).ItemsSource);
         if (products is { CanSort: true } && !products.SortDescriptions.Any())
@@ -71,10 +69,5 @@ public partial class OvenEditView : UserControl
         {
             Keyboard.Focus(NumericTextBox);
         }
-    }
-
-    public OvenEditView()
-    {
-        InitializeComponent();
     }
 }

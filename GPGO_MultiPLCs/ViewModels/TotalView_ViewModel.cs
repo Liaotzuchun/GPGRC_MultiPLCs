@@ -1,43 +1,42 @@
-﻿using GPGO_MultiPLCs.Models;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using GPMVVM.PooledCollections;
-using GPMVVM.SECSGEM;
-using Newtonsoft.Json;
-using PLCService;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using GPGO_MultiPLCs.Models;
+using GPMVVM.Helpers;
+using GPMVVM.Models;
+using GPMVVM.PooledCollections;
+using GPMVVM.SECSGEM;
+using Newtonsoft.Json;
+using PLCService;
 
 namespace GPGO_MultiPLCs.ViewModels;
 
 /// <summary>所有烤箱的生產總覽</summary>
 public sealed class TotalView_ViewModel : ObservableObject
 {
-    private readonly IDialogService Dialog;
+    public event Action                                                                                           WantLogin;
+    public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
+    public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
+    public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
+    public event Func<(int StationIndex, ProcessInfo Info), Task<int>>                                            AddRecordToDB;
+    public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
+    public event Func<PLC_Recipe, Task<bool>>                                                                     UpsertRecipe;
+    public event Func<string, Task<bool>>                                                                         DeleteRecipe;
+    public event Func<string, Task<ProcessInfo>>                                                                  RetrieveLotData;
 
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
 
     /// <summary>設備碼儲存位置</summary>
     private const string MachineCodesPath = "MachineCodes";
+    private readonly IDialogService Dialog;
 
     /// <summary>保持PLC Gate連線</summary>
     private readonly Timer Checker;
-
-    public event Action                                                                                           WantLogin;
-    public event Func<(int StationIndex, ProcessInfo Info), Task<int>>                                            AddRecordToDB;
-    public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
-    public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
-    public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
-    public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
-    public event Func<PLC_Recipe, Task<bool>>                                                                     UpsertRecipe;
-    public event Func<string, Task<bool>>                                                                         DeleteRecipe;
-    public event Func<string, Task<ProcessInfo>>                                                                  RetrieveLotData;
 
     public Language Language = Language.TW;
 
@@ -182,169 +181,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                 plc.RemoteMode = value;
             }
         }
-    }
-
-    /// <summary>讀取財產編號</summary>
-    public void LoadAssetNumbers()
-    {
-        if (File.Exists(AssetNumbersPath))
-        {
-            try
-            {
-                var vals = AssetNumbersPath.ReadFromJsonFile<string[]>();
-
-                for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
-                {
-                    PLC_All[i].OvenInfo.AssetNumber = vals[i];
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        //foreach (var plc in PLC_All)
-        //{
-        //    plc.OvenInfo.AssetNumber = "";
-        //}
-    }
-
-    /// <summary>讀取設備碼</summary>
-    public void LoadMachineCodes()
-    {
-        if (File.Exists(MachineCodesPath))
-        {
-            try
-            {
-                var vals = MachineCodesPath.ReadFromJsonFile<string[]>();
-
-                for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
-                {
-                    PLC_All[i].OvenInfo.MachineCode = vals[i];
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        //for (var i = 0; i < PLC_All.Count; i++)
-        //{
-        //    PLC_All[i].OvenInfo.MachineCode = $"Machine{i + 1:00}";
-        //}
-    }
-
-    /// <summary>儲存財產編號</summary>
-    public void SaveAssetNumbers(string path)
-    {
-        try
-        {
-            using var AssetNumbers = PLC_All.Select(x => x.OvenInfo.AssetNumber).ToPooledList();
-            AssetNumbers.WriteToJsonFile(path);
-        }
-        catch
-        {
-            // ignored
-        }
-    }
-
-    /// <summary>儲存設備碼</summary>
-    public void SaveMachineCodes(string path)
-    {
-        try
-        {
-            using var MachineCodes = PLC_All.Select(x => x.OvenInfo.MachineCode).ToPooledList();
-            MachineCodes.WriteToJsonFile(path);
-        }
-        catch
-        {
-            // ignored
-        }
-    }
-
-    /// <summary>將配方寫入PLC</summary>
-    /// <param name="index">PLC序號</param>
-    /// <param name="recipe">配方</param>
-    /// <returns>是否成功寫入PLC</returns>
-    public Task<SetRecipeResult> SetRecipe(int index, PLC_Recipe recipe) => PLC_All[index].SetRecipe(recipe);
-
-    /// <summary>設定使用的PLC配方(透過配方名)</summary>
-    /// <param name="names">配方名列表</param>
-    public void SetRecipeNames(ICollection<string> names)
-    {
-        foreach (var plc in PLC_All)
-        {
-            if (plc.Recipe_Names == null || plc.Recipe_Names.Count != names.Count || plc.Recipe_Names.Except(names).Any())
-            {
-                plc.Recipe_Names = names;
-            }
-        }
-    }
-
-    public void InvokeRecipe(string name, SECSGEM_Equipment.PPStatus status)
-    {
-        SecsGemEquipment?.UpdateDV("GemPPChangeName",   name);
-        SecsGemEquipment?.UpdateDV("GemPPChangeStatus", (int)status);
-        SecsGemEquipment?.InvokeEvent("GemProcessProgramChange");
-    }
-
-    public void InsertMessage(params LogEvent[] evs)
-    {
-        if (evs.Length == 0) return;
-
-        evs.OrderBy(x => x.AddedTime)
-           .ForEach(ev =>
-                    {
-                        if (ev.Type > EventType.StatusChanged)
-                        {
-                            try
-                            {
-                                QueueMessages.Enqueue(ev);
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
-                        }
-                    });
-
-        while (QueueMessages.Count > 50)
-        {
-            QueueMessages.TryDequeue(out _);
-        }
-    }
-
-    public void InsertMessage(IList<LogEvent> evs)
-    {
-        if (evs.Count == 0) return;
-
-        evs.OrderBy(x => x.AddedTime)
-           .ForEach(ev =>
-                    {
-                        if (ev.Type > EventType.StatusChanged)
-                        {
-                            try
-                            {
-                                QueueMessages.Enqueue(ev);
-                            }
-                            catch
-                            {
-                                // ignored
-                            }
-                        }
-                    });
-
-        while (QueueMessages.Count > 50)
-        {
-            QueueMessages.TryDequeue(out _);
-        }
-    }
-
-    public void StartPLCGate()
-    {
-        Checker?.Change(0, Timeout.Infinite);
     }
 
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
@@ -552,8 +388,11 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.CommEnable_Changed += boolval =>
                                                {
-                                                   if (SECS_ENABLE == boolval) return; //! 確定值變
-                                                   Set(boolval, nameof(SECS_ENABLE));  //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+                                                   if (SECS_ENABLE == boolval)
+                                                   {
+                                                       return; //! 確定值變
+                                                   }
+                                                   Set(boolval, nameof(SECS_ENABLE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
 
                                                    var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ENABLE), "", boolval);
                                                    EventHappened?.Invoke(eventval);
@@ -561,8 +400,11 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.Communicating_Changed += boolval =>
                                                   {
-                                                      if (SECS_Communicating == boolval) return; //! 確定值變
-                                                      Set(boolval, nameof(SECS_Communicating));  //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+                                                      if (SECS_Communicating == boolval)
+                                                      {
+                                                          return; //! 確定值變
+                                                      }
+                                                      Set(boolval, nameof(SECS_Communicating)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
 
                                                       var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_Communicating), "", boolval);
                                                       EventHappened?.Invoke(eventval);
@@ -570,8 +412,11 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.ONLINE_Changed += online =>
                                            {
-                                               if (SECS_ONLINE == online) return; //! 確定值變
-                                               Set(online, nameof(SECS_ONLINE));  //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+                                               if (SECS_ONLINE == online)
+                                               {
+                                                   return; //! 確定值變
+                                               }
+                                               Set(online, nameof(SECS_ONLINE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
 
                                                var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ONLINE), "", online);
                                                EventHappened?.Invoke(eventval);
@@ -579,7 +424,10 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.GO_Local += () =>
                                      {
-                                         if (!SECS_REMOTE) return;        //! 確定值變
+                                         if (!SECS_REMOTE)
+                                         {
+                                             return; //! 確定值變
+                                         }
                                          Set(false, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
 
                                          var eventval = (-1, EventType.StatusChanged, DateTime.Now, "SECS_LOCAL", "", true);
@@ -588,7 +436,10 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.GO_Remote += () =>
                                       {
-                                          if (SECS_REMOTE) return;        //! 確定值變
+                                          if (SECS_REMOTE)
+                                          {
+                                              return; //! 確定值變
+                                          }
                                           Set(true, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
 
                                           var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_REMOTE), "", true);
@@ -824,4 +675,170 @@ public sealed class TotalView_ViewModel : ObservableObject
                             Timeout.Infinite,
                             Timeout.Infinite);
     }
+
+    /// <summary>讀取財產編號</summary>
+    public void LoadAssetNumbers()
+    {
+        if (File.Exists(AssetNumbersPath))
+        {
+            try
+            {
+                var vals = AssetNumbersPath.ReadFromJsonFile<string[]>();
+
+                for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
+                {
+                    PLC_All[i].OvenInfo.AssetNumber = vals[i];
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        //foreach (var plc in PLC_All)
+        //{
+        //    plc.OvenInfo.AssetNumber = "";
+        //}
+    }
+
+    /// <summary>讀取設備碼</summary>
+    public void LoadMachineCodes()
+    {
+        if (File.Exists(MachineCodesPath))
+        {
+            try
+            {
+                var vals = MachineCodesPath.ReadFromJsonFile<string[]>();
+
+                for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
+                {
+                    PLC_All[i].OvenInfo.MachineCode = vals[i];
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        //for (var i = 0; i < PLC_All.Count; i++)
+        //{
+        //    PLC_All[i].OvenInfo.MachineCode = $"Machine{i + 1:00}";
+        //}
+    }
+
+    /// <summary>儲存財產編號</summary>
+    public void SaveAssetNumbers(string path)
+    {
+        try
+        {
+            using var AssetNumbers = PLC_All.Select(x => x.OvenInfo.AssetNumber).ToPooledList();
+            AssetNumbers.WriteToJsonFile(path);
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+    /// <summary>儲存設備碼</summary>
+    public void SaveMachineCodes(string path)
+    {
+        try
+        {
+            using var MachineCodes = PLC_All.Select(x => x.OvenInfo.MachineCode).ToPooledList();
+            MachineCodes.WriteToJsonFile(path);
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+    /// <summary>將配方寫入PLC</summary>
+    /// <param name="index">PLC序號</param>
+    /// <param name="recipe">配方</param>
+    /// <returns>是否成功寫入PLC</returns>
+    public Task<SetRecipeResult> SetRecipe(int index, PLC_Recipe recipe) => PLC_All[index].SetRecipe(recipe);
+
+    /// <summary>設定使用的PLC配方(透過配方名)</summary>
+    /// <param name="names">配方名列表</param>
+    public void SetRecipeNames(ICollection<string> names)
+    {
+        foreach (var plc in PLC_All)
+        {
+            if (plc.Recipe_Names == null || plc.Recipe_Names.Count != names.Count || plc.Recipe_Names.Except(names).Any())
+            {
+                plc.Recipe_Names = names;
+            }
+        }
+    }
+
+    public void InvokeRecipe(string name, SECSGEM_Equipment.PPStatus status)
+    {
+        SecsGemEquipment?.UpdateDV("GemPPChangeName",   name);
+        SecsGemEquipment?.UpdateDV("GemPPChangeStatus", (int)status);
+        SecsGemEquipment?.InvokeEvent("GemProcessProgramChange");
+    }
+
+    public void InsertMessage(params LogEvent[] evs)
+    {
+        if (evs.Length == 0)
+        {
+            return;
+        }
+
+        evs.OrderBy(x => x.AddedTime)
+           .ForEach(ev =>
+                    {
+                        if (ev.Type > EventType.StatusChanged)
+                        {
+                            try
+                            {
+                                QueueMessages.Enqueue(ev);
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+                    });
+
+        while (QueueMessages.Count > 50)
+        {
+            QueueMessages.TryDequeue(out _);
+        }
+    }
+
+    public void InsertMessage(IList<LogEvent> evs)
+    {
+        if (evs.Count == 0)
+        {
+            return;
+        }
+
+        evs.OrderBy(x => x.AddedTime)
+           .ForEach(ev =>
+                    {
+                        if (ev.Type > EventType.StatusChanged)
+                        {
+                            try
+                            {
+                                QueueMessages.Enqueue(ev);
+                            }
+                            catch
+                            {
+                                // ignored
+                            }
+                        }
+                    });
+
+        while (QueueMessages.Count > 50)
+        {
+            QueueMessages.TryDequeue(out _);
+        }
+    }
+
+    public void StartPLCGate() { Checker?.Change(0, Timeout.Infinite); }
 }
