@@ -14,19 +14,19 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
 
     public string PLCIP
     {
-        get => Get<string>();
+        get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
 
     public string DataOutputPath
     {
-        get => Get<string>();
+        get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
 
     public string RecipeImportPath
     {
-        get => Get<string>();
+        get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
 
@@ -49,11 +49,11 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         set
         {
             value = value switch
-                    {
-                        < 1  => 1,
-                        > 60 => 60,
-                        _    => value
-                    };
+            {
+                < 1 => 1,
+                > 60 => 60,
+                _ => value
+            };
 
             Set(value);
         }

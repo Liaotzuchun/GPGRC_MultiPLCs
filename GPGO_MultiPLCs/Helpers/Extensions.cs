@@ -23,8 +23,8 @@ public static class Extensions
                           users,
                           o => new[]
                                {
-                                   o.Name,
-                                   o.Password,
+                                   o.Name     ?? string.Empty,
+                                   o.Password ?? string.Empty,
                                    o.Level.ToString()
                                });
     }

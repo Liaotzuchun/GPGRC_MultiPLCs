@@ -18,13 +18,13 @@ public class ProductInfo : ObservableObject //! 這是一個批號的資料
     public bool FirstPanel { get; set; } = false;
 
     [LanguageTranslator("Order", "工單", "工单")]
-    public string OrderCode { get; set; }
+    public string OrderCode { get; set; } = string.Empty;
 
     [LanguageTranslator("PartID", "料號", "料号")]
-    public string PartID { get; set; }
+    public string PartID { get; set; } = string.Empty;
 
     [LanguageTranslator("LotID", "批號", "批号")]
-    public string LotID { get; set; }
+    public string LotID { get; set; } = string.Empty;
 
     [GPIgnore]
     public List<string> PanelIDs { get; set; } = new();

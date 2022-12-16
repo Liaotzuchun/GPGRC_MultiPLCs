@@ -176,7 +176,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [JsonIgnore] //匯出時檔名已是名稱，此處用JsonIgnore是用來做配方比較需忽略此項
     [OrderIndex(-1)]
     [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
-    public override string RecipeName { get; set; }
+    public override string RecipeName { get; set; } = string.Empty;
 
     [JsonIgnore]
     [OrderIndex(0)]
@@ -186,7 +186,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [JsonIgnore]
     [OrderIndex(1)]
     [LanguageTranslator("Editor", "修改者", "修改者")]
-    public override string Editor { get; set; }
+    public override string Editor { get; set; } = string.Empty;
 
     [JsonIgnore]
     [OrderIndex(2)]

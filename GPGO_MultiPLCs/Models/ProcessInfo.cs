@@ -15,7 +15,7 @@ public class BaseInfo : ObservableObject
     [LanguageTranslator("Asset No.", "財產編號", "财产编号")]
     public string AssetNumber
     {
-        get => Get<string>();
+        get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
 
@@ -23,7 +23,7 @@ public class BaseInfo : ObservableObject
     [LanguageTranslator("Device", "設備編號", "设备编号")]
     public string MachineCode
     {
-        get => Get<string>();
+        get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
 
@@ -31,19 +31,19 @@ public class BaseInfo : ObservableObject
     [LanguageTranslator("Oven", "機台別", "机台别")]
     public string OvenCode
     {
-        get => Get<string>();
+        get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
 
     [LanguageTranslator("Operator", "操作員", "操作员")]
     public string OperatorID
     {
-        get => Get<string>();
+        get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
 
     [LanguageTranslator("Recipe", "配方", "配方")]
-    public PLC_Recipe Recipe
+    public PLC_Recipe? Recipe
     {
         get => Get<PLC_Recipe>();
         set => Set(value);
@@ -53,7 +53,7 @@ public class BaseInfo : ObservableObject
     [LanguageTranslator("RackID", "板架", "台车")]
     public string RackID
     {
-        get => Get<string>();
+        get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
 
@@ -81,33 +81,33 @@ public class BaseInfo : ObservableObject
     [LanguageTranslator("Temps", "溫度紀錄", "温度纪录")]
     public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
     {
-        get => Get<ObservableConcurrentCollection<RecordTemperatures>>();
+        get => Get<ObservableConcurrentCollection<RecordTemperatures>>()!;
         set => Set(value);
     }
 
     [LanguageTranslator("Events", "事件紀錄", "事件纪录")]
     public ObservableConcurrentCollection<LogEvent> EventList
     {
-        get => Get<ObservableConcurrentCollection<LogEvent>>();
+        get => Get<ObservableConcurrentCollection<LogEvent>>()!;
         set => Set(value);
     }
 
     [GPIgnore]
     public ObservableConcurrentCollection<ProductInfo> TempProducts
     {
-        get => Get<ObservableConcurrentCollection<ProductInfo>>();
+        get => Get<ObservableConcurrentCollection<ProductInfo>>()!;
         set => Set(value);
     }
 
     [LanguageTranslator("Products", "產品", "产品")]
     public ObservableConcurrentCollection<ProductInfo> Products
     {
-        get => Get<ObservableConcurrentCollection<ProductInfo>>();
+        get => Get<ObservableConcurrentCollection<ProductInfo>>()!;
         set => Set(value);
     }
 
     public int TempQuantity => TempProducts.Sum(x => x.PanelIDs.Count);
-    public int Quantity     => Products.Sum(x => x.PanelIDs.Count);
+    public int Quantity => Products.Sum(x => x.PanelIDs.Count);
 
     [GPIgnore]
     [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
@@ -171,11 +171,11 @@ public class ProcessInfo : BaseInfo, ILogData
     /// <summary>匯出成Dictionary</summary>
     /// <param name="lng">語系</param>
     /// <returns></returns>
-    public Dictionary<string, object> ToDic(Language lng)
+    public Dictionary<string, object?> ToDic(Language lng)
     {
         var type = GetType();
 
-        return new Dictionary<string, object>
+        return new Dictionary<string, object?>
                {
                    { type.GetProperty(nameof(AddedTime))?.GetName(lng)          ?? nameof(AddedTime), AddedTime },
                    { type.GetProperty(nameof(StartTime))?.GetName(lng)          ?? nameof(StartTime), StartTime },

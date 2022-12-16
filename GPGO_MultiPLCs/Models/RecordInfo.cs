@@ -145,7 +145,7 @@ public class LogEvent : ILogData
     }
 
     [LanguageTranslator("Event", "事件", "事件")]
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 
     //! 站號由1開始
     [GPIgnore]
@@ -154,13 +154,13 @@ public class LogEvent : ILogData
 
     [GPIgnore]
     [LanguageTranslator("Tag", "標籤", "标签")]
-    public string TagCode { get; set; }
+    public string TagCode { get; set; } = string.Empty;
 
     [LanguageTranslator("Type", "類型", "类型")]
     public EventType Type { get; set; }
 
     [LanguageTranslator("Value", "值", "值")]
-    public object Value { get; set; }
+    public object Value { get; set; } = string.Empty;
 
     #region Interface Implementations
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]

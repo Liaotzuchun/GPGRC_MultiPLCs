@@ -13,11 +13,11 @@ namespace GPGO_MultiPLCs.Models;
 
 public class DataoutputCSV
 {
-    private Language Language = Language.TW;
-    private string   AlarmTitles;
-    private string   DataTitles;
-    private string   RecipeTitles;
-    private string   RecordTitles;
+    private Language Language     = Language.TW;
+    private string   AlarmTitles  = string.Empty;
+    private string   DataTitles   = string.Empty;
+    private string   RecipeTitles = string.Empty;
+    private string   RecordTitles = string.Empty;
 
     public DataoutputCSV() { UpdateLanguage(Language.TW); }
 

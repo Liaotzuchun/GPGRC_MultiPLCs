@@ -15,12 +15,12 @@ namespace GPGO_MultiPLCs.ViewModels;
 /// <summary>紀錄/檢視系統事件</summary>
 public class LogView_ViewModel : DataCollectionByDate<LogEvent>
 {
-    public event Action<(ProcessInfo info, LogEvent _event)> GoDetailView;
+    public event Action<(ProcessInfo info, LogEvent _event)>? GoDetailView;
 
-    public event Action<LogEvent> LogAdded;
+    public event Action<LogEvent>? LogAdded;
 
-    public event Func<(int station, DateTime time), Task<ProcessInfo>> WantInfo;
-    public Language                                                    Language = Language.TW;
+    public event Func<(int station, DateTime time), Task<ProcessInfo>>? WantInfo;
+    public Language                                                     Language = Language.TW;
 
     /// <summary>執行詳情顯示</summary>
     public RelayCommand GoCommand { get; }
@@ -72,14 +72,14 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
         }
     }
 
-    public ProcessInfo SelectedProcessInfo
+    public ProcessInfo? SelectedProcessInfo
     {
         get => Get<ProcessInfo>();
         set => Set(value);
     }
 
     /// <summary>顯示的資料列表</summary>
-    public IList<LogEvent> ViewResults
+    public IList<LogEvent>? ViewResults
     {
         get => Get<IList<LogEvent>>();
         set
@@ -91,19 +91,19 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
         }
     }
 
-    public IList<LogEvent> ViewResults_Off
+    public IList<LogEvent>? ViewResults_Off
     {
         get => Get<IList<LogEvent>>();
         set => Set(value);
     }
 
-    public IList<LogEvent> ViewResults_On
+    public IList<LogEvent>? ViewResults_On
     {
         get => Get<IList<LogEvent>>();
         set => Set(value);
     }
 
-    public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService dialog) : base(db)
+    public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService? dialog) : base(db)
     {
         ToFileCommand = new RelayCommand(async _ =>
                                          {
