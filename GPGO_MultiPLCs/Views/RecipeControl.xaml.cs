@@ -8,8 +8,8 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>RecipeControl.xaml 的互動邏輯</summary>
 public partial class RecipeControl
 {
-    public RecipeControl() { InitializeComponent(); }
-    private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e) { TC.SelectedIndex = 0; }
+    public RecipeControl() => InitializeComponent();
+    private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e) => TC.SelectedIndex = 0;
 
     private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
     {

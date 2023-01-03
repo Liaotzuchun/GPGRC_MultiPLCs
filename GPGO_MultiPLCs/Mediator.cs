@@ -48,7 +48,7 @@ public sealed class Mediator : ObservableObject
         }
     }
 
-    public User User
+    public User? User
     {
         get => Get<User>();
         private set
@@ -162,16 +162,21 @@ public sealed class Mediator : ObservableObject
                                     };
 
         //! 當主視窗讀取完成時，再讀取配方和生產履歷資料庫
-        MainVM.LoadedEvent += async dp =>
+        MainVM.LoadedEvent += dp =>
                               {
+                                  if (dp == null)
+                                  {
+                                      return;
+                                  }
+
                                   TotalVM.StartPLCGate();
 
-                                  await dp.InvokeAsync(() =>
-                                                       {
-                                                           RecipeVM.InitialLoadCommand.Execute(null);
-                                                           TraceVM.TodayCommand.Execute(null);
-                                                       },
-                                                       DispatcherPriority.SystemIdle);
+                                  _ = dp.InvokeAsync(() =>
+                                                     {
+                                                         RecipeVM.InitialLoadCommand.Execute(null);
+                                                         TraceVM.TodayCommand.Execute(null);
+                                                     },
+                                                     DispatcherPriority.SystemIdle);
                               };
 
         //! 當OP試圖關閉程式時，進行狀態和權限檢查
@@ -188,7 +193,7 @@ public sealed class Mediator : ObservableObject
                                    }
                                    else if (User.Level > UserLevel.Operator)
                                    {
-                                       var user = User.Copy();
+                                       var user = User.Copy()!;
                                        var result = await DialogVM.CheckCondition(new Dictionary<Language, string>
                                                                                   {
                                                                                       { Language.TW, "請輸入權限密碼：" },
@@ -366,7 +371,7 @@ public sealed class Mediator : ObservableObject
                                      return await TraceVM.CheckProductions(stationIndex);
                                  };
 
-        TotalVM.EventHappened += async e =>
+        TotalVM.EventHappened += e =>
                                  {
                                      var (stationIndex, type, time, note, tag, value) = e;
                                      var logevent = new LogEvent
@@ -378,10 +383,10 @@ public sealed class Mediator : ObservableObject
                                                         TagCode       = tag,
                                                         Value         = value
                                                     };
-                                     await LogVM.AddToDBAsync(logevent);
+                                     _ = LogVM.AddToDBAsync(logevent);
 
                                      //! 輸出欣興CSV紀錄
-                                     await CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
+                                     _ = CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
                                  };
 
         TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe);
@@ -398,7 +403,10 @@ public sealed class Mediator : ObservableObject
                                   MainVM.ViewIndex     = 2;
                                   var (info, logEvent) = e;
 
-                                  if (await Task.Factory.StartNew(() => SpinWait.SpinUntil(() => TraceVM.Standby, 3000)))
+                                  if (await Task.Factory.StartNew(() => SpinWait.SpinUntil(() => TraceVM.Standby, 3000),
+                                                                  CancellationToken.None,
+                                                                  TaskCreationOptions.None,
+                                                                  TaskScheduler.Default))
                                   {
                                       await Task.Delay(150);
 
@@ -408,16 +416,13 @@ public sealed class Mediator : ObservableObject
                                   }
                               };
 
-        LogVM.LogAdded += log =>
-                          {
-                              TotalVM.InsertMessage(log);
-                          };
+        LogVM.LogAdded += log => TotalVM.InsertMessage(log);
 
-        Task.Run(() =>
-                 {
-                     using var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1) && x.AddedTime <= DateTime.Now && x.Type > EventType.StatusChanged).OrderByDescending(x => x.AddedTime).Take(50).ToPooledList();
-                     TotalVM.InsertMessage(evs);
-                 });
+        _ = Task.Run(() =>
+                     {
+                         using var evs = LogVM.DataCollection.Find(x => x.AddedTime > DateTime.Now.AddDays(-1) && x.AddedTime <= DateTime.Now && x.Type > EventType.StatusChanged).OrderByDescending(x => x.AddedTime).Take(50).ToPooledList();
+                         TotalVM.InsertMessage(evs);
+                     });
 
         #region 產生測試用生產數據資料庫，務必先建立配方！！
         //DialogVM.Show(new Dictionary<Language, string>

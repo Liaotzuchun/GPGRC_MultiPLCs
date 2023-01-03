@@ -13,7 +13,7 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>Authenticator.xaml 的互動邏輯</summary>
 public partial class Authenticator
 {
-    public Authenticator() { InitializeComponent(); }
+    public Authenticator() => InitializeComponent();
 
     private void Folder_Expanded(object sender, RoutedEventArgs e)
     {
@@ -61,7 +61,7 @@ public partial class Authenticator
                                                                          };
     }
 
-    private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) { NameBox.Clear(); }
+    private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => NameBox.Clear();
 
     private void NameBox_KeyDown(object sender, KeyEventArgs e)
     {

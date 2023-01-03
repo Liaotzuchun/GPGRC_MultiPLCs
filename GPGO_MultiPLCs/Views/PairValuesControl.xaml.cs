@@ -6,7 +6,7 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>PairValuesControl.xaml 的互動邏輯</summary>
 public partial class PairValuesControl : UserControl
 {
-    public PairValuesControl() { InitializeComponent(); }
+    public PairValuesControl() => InitializeComponent();
 
     #region Dependency Properties
     public static readonly DependencyProperty Value1Property =

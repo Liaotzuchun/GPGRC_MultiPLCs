@@ -49,11 +49,11 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         set
         {
             value = value switch
-            {
-                < 1 => 1,
-                > 60 => 60,
-                _ => value
-            };
+                    {
+                        < 1  => 1,
+                        > 60 => 60,
+                        _    => value
+                    };
 
             Set(value);
         }

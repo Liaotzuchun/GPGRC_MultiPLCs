@@ -7,7 +7,7 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>SplashWindow.xaml 的互動邏輯</summary>
 public partial class SplashWindow
 {
-    public SplashWindow() { InitializeComponent(); }
+    public SplashWindow() => InitializeComponent();
 
     private void Window_Closing(object sender, CancelEventArgs e)
     {

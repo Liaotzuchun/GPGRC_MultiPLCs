@@ -10,7 +10,7 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>MainWindow.xaml 的互動邏輯</summary>
 public partial class MainWindow
 {
-    public MainWindow() { InitializeComponent(); }
+    public MainWindow() => InitializeComponent();
 
     private void GlobalDialog_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {

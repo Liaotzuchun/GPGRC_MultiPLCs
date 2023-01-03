@@ -10,9 +10,9 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>TotalView.xaml 的互動邏輯</summary>
 public partial class TotalView
 {
-    public TotalView() { InitializeComponent(); }
+    public TotalView() => InitializeComponent();
 
-    private void Border_MouseDown(object sender, MouseButtonEventArgs e) { MessageDataGrid.UnselectAll(); }
+    private void Border_MouseDown(object sender, MouseButtonEventArgs e) => MessageDataGrid.UnselectAll();
 
     private void MessageDataGrid_Loaded(object sender, RoutedEventArgs e)
     {

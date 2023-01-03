@@ -45,8 +45,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public int InputQuantityMin => 0;
     public int InputQuantityMax => 99;
-    public int InputLayerMin => 1;
-    public int InputLayerMax => 8;
+    public int InputLayerMin    => 1;
+    public int InputLayerMax    => 8;
     //public event Action<PLC_Recipe> RecipeChangedbyPLC;
 
     public double Delay { get; set; } = 1;
@@ -71,12 +71,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public RelayCommand DeleteLotCommand { get; }
 
-    public RelayCommand FocusCommand { get; }
-    public RelayCommand ClearOPTextCommand { get; }
-    public RelayCommand ClearPartTextCommand { get; }
-    public RelayCommand ClearLotTextCommand { get; }
+    public RelayCommand FocusCommand           { get; }
+    public RelayCommand ClearOPTextCommand     { get; }
+    public RelayCommand ClearPartTextCommand   { get; }
+    public RelayCommand ClearLotTextCommand    { get; }
     public RelayCommand ClearRecipeTextCommand { get; }
-    public RelayCommand ClearQuantityCommand { get; }
+    public RelayCommand ClearQuantityCommand   { get; }
 
     /// <summary>機台資訊</summary>
     public BaseInfoWithChart OvenInfo { get; }
@@ -253,10 +253,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         set => OvenInfo.ChartModel?.SetAnnotation(value);
     }
 
-    public PLC_ViewModel(IDialogService dialog,
-                         IGate gate,
-                         int plcindex,
-                         string plctag,
+    public PLC_ViewModel(IDialogService                                                               dialog,
+                         IGate                                                                        gate,
+                         int                                                                          plcindex,
+                         string                                                                       plctag,
                          (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
     {
         InputLayer = InputLayerMin;
@@ -343,11 +343,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              else
                                              {
                                                  var info = new ProductInfo
-                                                 {
-                                                     PartID = InputPartID,
-                                                     LotID  = InputLotID,
-                                                     Layer  = InputLayer
-                                                 };
+                                                            {
+                                                                PartID = InputPartID,
+                                                                LotID  = InputLotID,
+                                                                Layer  = InputLayer
+                                                            };
 
                                                  for (var i = 1; i <= InputQuantity; i++)
                                                  {
@@ -537,10 +537,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                          foreach (var lot in lots)
                                                          {
                                                              var info = new ProductInfo
-                                                             {
-                                                                 PartID = PartID.ToString().Trim(),
-                                                                 LotID  = lot.Key.Trim()
-                                                             };
+                                                                        {
+                                                                            PartID = PartID.ToString().Trim(),
+                                                                            LotID  = lot.Key.Trim()
+                                                                        };
                                                              for (var i = 1; i <= lot.Value; i++)
                                                              {
                                                                  info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
@@ -920,8 +920,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                    using var parts  = OvenInfo.Products.Select(x => x.PartID).Distinct().ToPooledList();
                                                    using var panels = OvenInfo.Products.SelectMany(x => x.PanelIDs).Distinct().ToPooledList();
 
-                                                   SV_Changed?.Invoke("LotIDs", lots.Count   > 0 ? string.Join(",", lots) : string.Empty);
-                                                   SV_Changed?.Invoke("PartIDs", parts.Count  > 0 ? string.Join(",", parts) : string.Empty);
+                                                   SV_Changed?.Invoke("LotIDs",   lots.Count   > 0 ? string.Join(",", lots) : string.Empty);
+                                                   SV_Changed?.Invoke("PartIDs",  parts.Count  > 0 ? string.Join(",", parts) : string.Empty);
                                                    SV_Changed?.Invoke("PanelIDs", panels.Count > 0 ? string.Join(",", panels) : string.Empty);
                                                };
         #endregion 註冊PLC事件
@@ -966,63 +966,63 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                      SegmentCounts                         == recipe.SegmentCounts;
 
     private PLC_Recipe GetRecipePV() => new()
-    {
-        NitrogenMode          = SV_NitrogenMode,
-        OxygenContentSet      = SV_OxygenContentSet,
-        RecipeName            = SV_RecipeName,
-        DwellTemperature_1    = SV_DwellTemperature_1,
-        DwellTemperature_2    = SV_DwellTemperature_2,
-        DwellTemperature_3    = SV_DwellTemperature_3,
-        DwellTemperature_4    = SV_DwellTemperature_4,
-        DwellTemperature_5    = SV_DwellTemperature_5,
-        DwellTemperature_6    = SV_DwellTemperature_6,
-        DwellTemperature_7    = SV_DwellTemperature_7,
-        DwellTemperature_8    = SV_DwellTemperature_8,
-        DwellTime_1           = SV_DwellTime_1,
-        DwellTime_2           = SV_DwellTime_2,
-        DwellTime_3           = SV_DwellTime_3,
-        DwellTime_4           = SV_DwellTime_4,
-        DwellTime_5           = SV_DwellTime_5,
-        DwellTime_6           = SV_DwellTime_6,
-        DwellTime_7           = SV_DwellTime_7,
-        DwellTime_8           = SV_DwellTime_8,
-        DwellAlarm_1          = SV_DwellAlarm_1,
-        DwellAlarm_2          = SV_DwellAlarm_2,
-        DwellAlarm_3          = SV_DwellAlarm_3,
-        DwellAlarm_4          = SV_DwellAlarm_4,
-        DwellAlarm_5          = SV_DwellAlarm_5,
-        DwellAlarm_6          = SV_DwellAlarm_6,
-        DwellAlarm_7          = SV_DwellAlarm_7,
-        DwellAlarm_8          = SV_DwellAlarm_8,
-        CoolingTime           = SV_CoolingTime,
-        CoolingTemperature    = SV_CoolingTemperature,
-        RampTime_1            = SV_RampTime_1,
-        RampTime_2            = SV_RampTime_2,
-        RampTime_3            = SV_RampTime_3,
-        RampTime_4            = SV_RampTime_4,
-        RampTime_5            = SV_RampTime_5,
-        RampTime_6            = SV_RampTime_6,
-        RampTime_7            = SV_RampTime_7,
-        RampTime_8            = SV_RampTime_8,
-        RampAlarm_1           = SV_RampAlarm_1,
-        RampAlarm_2           = SV_RampAlarm_2,
-        RampAlarm_3           = SV_RampAlarm_3,
-        RampAlarm_4           = SV_RampAlarm_4,
-        RampAlarm_5           = SV_RampAlarm_5,
-        RampAlarm_6           = SV_RampAlarm_6,
-        RampAlarm_7           = SV_RampAlarm_7,
-        RampAlarm_8           = SV_RampAlarm_8,
-        InflatingTime         = SV_InflatingTime,
-        TemperatureSetpoint_1 = SV_TemperatureSetpoint_1,
-        TemperatureSetpoint_2 = SV_TemperatureSetpoint_2,
-        TemperatureSetpoint_3 = SV_TemperatureSetpoint_3,
-        TemperatureSetpoint_4 = SV_TemperatureSetpoint_4,
-        TemperatureSetpoint_5 = SV_TemperatureSetpoint_5,
-        TemperatureSetpoint_6 = SV_TemperatureSetpoint_6,
-        TemperatureSetpoint_7 = SV_TemperatureSetpoint_7,
-        TemperatureSetpoint_8 = SV_TemperatureSetpoint_8,
-        SegmentCounts         = SV_SegmentCounts
-    };
+                                        {
+                                            NitrogenMode          = SV_NitrogenMode,
+                                            OxygenContentSet      = SV_OxygenContentSet,
+                                            RecipeName            = SV_RecipeName,
+                                            DwellTemperature_1    = SV_DwellTemperature_1,
+                                            DwellTemperature_2    = SV_DwellTemperature_2,
+                                            DwellTemperature_3    = SV_DwellTemperature_3,
+                                            DwellTemperature_4    = SV_DwellTemperature_4,
+                                            DwellTemperature_5    = SV_DwellTemperature_5,
+                                            DwellTemperature_6    = SV_DwellTemperature_6,
+                                            DwellTemperature_7    = SV_DwellTemperature_7,
+                                            DwellTemperature_8    = SV_DwellTemperature_8,
+                                            DwellTime_1           = SV_DwellTime_1,
+                                            DwellTime_2           = SV_DwellTime_2,
+                                            DwellTime_3           = SV_DwellTime_3,
+                                            DwellTime_4           = SV_DwellTime_4,
+                                            DwellTime_5           = SV_DwellTime_5,
+                                            DwellTime_6           = SV_DwellTime_6,
+                                            DwellTime_7           = SV_DwellTime_7,
+                                            DwellTime_8           = SV_DwellTime_8,
+                                            DwellAlarm_1          = SV_DwellAlarm_1,
+                                            DwellAlarm_2          = SV_DwellAlarm_2,
+                                            DwellAlarm_3          = SV_DwellAlarm_3,
+                                            DwellAlarm_4          = SV_DwellAlarm_4,
+                                            DwellAlarm_5          = SV_DwellAlarm_5,
+                                            DwellAlarm_6          = SV_DwellAlarm_6,
+                                            DwellAlarm_7          = SV_DwellAlarm_7,
+                                            DwellAlarm_8          = SV_DwellAlarm_8,
+                                            CoolingTime           = SV_CoolingTime,
+                                            CoolingTemperature    = SV_CoolingTemperature,
+                                            RampTime_1            = SV_RampTime_1,
+                                            RampTime_2            = SV_RampTime_2,
+                                            RampTime_3            = SV_RampTime_3,
+                                            RampTime_4            = SV_RampTime_4,
+                                            RampTime_5            = SV_RampTime_5,
+                                            RampTime_6            = SV_RampTime_6,
+                                            RampTime_7            = SV_RampTime_7,
+                                            RampTime_8            = SV_RampTime_8,
+                                            RampAlarm_1           = SV_RampAlarm_1,
+                                            RampAlarm_2           = SV_RampAlarm_2,
+                                            RampAlarm_3           = SV_RampAlarm_3,
+                                            RampAlarm_4           = SV_RampAlarm_4,
+                                            RampAlarm_5           = SV_RampAlarm_5,
+                                            RampAlarm_6           = SV_RampAlarm_6,
+                                            RampAlarm_7           = SV_RampAlarm_7,
+                                            RampAlarm_8           = SV_RampAlarm_8,
+                                            InflatingTime         = SV_InflatingTime,
+                                            TemperatureSetpoint_1 = SV_TemperatureSetpoint_1,
+                                            TemperatureSetpoint_2 = SV_TemperatureSetpoint_2,
+                                            TemperatureSetpoint_3 = SV_TemperatureSetpoint_3,
+                                            TemperatureSetpoint_4 = SV_TemperatureSetpoint_4,
+                                            TemperatureSetpoint_5 = SV_TemperatureSetpoint_5,
+                                            TemperatureSetpoint_6 = SV_TemperatureSetpoint_6,
+                                            TemperatureSetpoint_7 = SV_TemperatureSetpoint_7,
+                                            TemperatureSetpoint_8 = SV_TemperatureSetpoint_8,
+                                            SegmentCounts         = SV_SegmentCounts
+                                        };
 
     private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
     {
@@ -1033,13 +1033,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         var (type, addtime, note, tag, value) = eventdata;
         OvenInfo.EventList.Add(new LogEvent
-        {
-            Type        = type,
-            AddedTime   = addtime,
-            Description = note,
-            TagCode     = tag,
-            Value       = value
-        });
+                               {
+                                   Type        = type,
+                                   AddedTime   = addtime,
+                                   Description = note,
+                                   TagCode     = tag,
+                                   Value       = value
+                               });
     }
 
     /// <summary>重設CancellationTokenSource狀態</summary>
@@ -1142,31 +1142,31 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
 
         void AddTemperatures(DateTime addtime,
-                             double t0,
-                             double t1,
-                             double t2,
-                             double t3,
-                             double t4,
-                             double t5,
-                             double t6,
-                             double t7,
-                             double t8,
-                             double oxy)
+                             double   t0,
+                             double   t1,
+                             double   t2,
+                             double   t3,
+                             double   t4,
+                             double   t5,
+                             double   t6,
+                             double   t7,
+                             double   t8,
+                             double   oxy)
         {
             var record = new RecordTemperatures
-            {
-                AddedTime                = addtime,
-                PV_ThermostatTemperature = t0,
-                OvenTemperatures_1       = t1,
-                OvenTemperatures_2       = t2,
-                OvenTemperatures_3       = t3,
-                OvenTemperatures_4       = t4,
-                OvenTemperatures_5       = t5,
-                OvenTemperatures_6       = t6,
-                OvenTemperatures_7       = t7,
-                OvenTemperatures_8       = t8,
-                OxygenContent            = oxy
-            };
+                         {
+                             AddedTime                = addtime,
+                             PV_ThermostatTemperature = t0,
+                             OvenTemperatures_1       = t1,
+                             OvenTemperatures_2       = t2,
+                             OvenTemperatures_3       = t3,
+                             OvenTemperatures_4       = t4,
+                             OvenTemperatures_5       = t5,
+                             OvenTemperatures_6       = t6,
+                             OvenTemperatures_7       = t7,
+                             OvenTemperatures_8       = t8,
+                             OxygenContent            = oxy
+                         };
 
             OvenInfo.RecordTemperatures.Add(record);
             OvenInfo.ChartModel.AddDate(record);
@@ -1387,8 +1387,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         Set(string.Empty, nameof(InputPartID));
         Set(string.Empty, nameof(InputLotID));
         Set(string.Empty, nameof(InputRecipeName));
-        Set(0, nameof(InputQuantity));
-        Set(0, nameof(InputLayer));
+        Set(0,            nameof(InputQuantity));
+        Set(0,            nameof(InputLayer));
     }
 
     public void AddLOT(string PartID, string LotID, IEnumerable<string> panels)
@@ -1405,10 +1405,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         else
         {
             var info = new ProductInfo
-            {
-                PartID = PartID.Trim(),
-                LotID  = LotID.Trim()
-            };
+                       {
+                           PartID = PartID.Trim(),
+                           LotID  = LotID.Trim()
+                       };
 
             foreach (var panel in panels)
             {
@@ -1420,6 +1420,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     #region Interface Implementations
-    public void Dispose() { CTS.Dispose(); }
+    public void Dispose() => CTS.Dispose();
     #endregion
 }

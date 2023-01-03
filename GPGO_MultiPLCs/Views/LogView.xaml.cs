@@ -7,7 +7,7 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>LogView.xaml 的互動邏輯</summary>
 public partial class LogView
 {
-    public LogView() { InitializeComponent(); }
+    public LogView() => InitializeComponent();
 
     private void dg1_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
     {
@@ -25,5 +25,5 @@ public partial class LogView
         }
     }
 
-    private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e) { Keyboard.ClearFocus(); }
+    private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e) => Keyboard.ClearFocus();
 }

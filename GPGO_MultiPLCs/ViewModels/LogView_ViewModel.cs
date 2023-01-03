@@ -15,11 +15,10 @@ namespace GPGO_MultiPLCs.ViewModels;
 /// <summary>紀錄/檢視系統事件</summary>
 public class LogView_ViewModel : DataCollectionByDate<LogEvent>
 {
-    public event Action<(ProcessInfo info, LogEvent _event)>? GoDetailView;
-
     public event Action<LogEvent>? LogAdded;
 
     public event Func<(int station, DateTime time), Task<ProcessInfo>>? WantInfo;
+    public event Func<(ProcessInfo info, LogEvent _event), Task>?       GoDetailView;
     public Language                                                     Language = Language.TW;
 
     /// <summary>執行詳情顯示</summary>
@@ -29,7 +28,7 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     public FilterGroup OvenFilter { get; }
 
     /// <summary>輸出Excel報表</summary>
-    public RelayCommand ToFileCommand { get; }
+    public AsyncCommand ToFileCommand { get; }
 
     /// <summary>基於事件類型的Filter</summary>
     public FilterGroup TypeFilter { get; }
@@ -105,7 +104,7 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
 
     public LogView_ViewModel(IDataBase<LogEvent> db, IDialogService? dialog) : base(db)
     {
-        ToFileCommand = new RelayCommand(async _ =>
+        ToFileCommand = new AsyncCommand(async _ =>
                                          {
                                              var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\EventLogs";
                                              if (await SaveToCSV(path))
@@ -120,14 +119,17 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
                                              }
                                          });
 
-        GoCommand = new RelayCommand(_ =>
+        GoCommand = new RelayCommand(e =>
                                      {
                                          if (SelectedProcessInfo == null)
                                          {
                                              return;
                                          }
 
-                                         GoDetailView?.Invoke((SelectedProcessInfo, SelectedIndex1 > -1 ? ViewResults_On[SelectedIndex1] : ViewResults_Off[SelectedIndex2]));
+                                         if (GoDetailView != null && ViewResults_On?.Count > SelectedIndex1 && ViewResults_Off?.Count > SelectedIndex2)
+                                         {
+                                             _ = GoDetailView.Invoke((SelectedProcessInfo, SelectedIndex1 > -1 ? ViewResults_On[SelectedIndex1] : ViewResults_Off[SelectedIndex2]));
+                                         }
                                      });
 
         OvenFilter = new FilterGroup(UpdateViewResult);
@@ -146,15 +148,9 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
                               UpdateViewResult();
                           };
 
-        BeginIndexChanged += _ =>
-                             {
-                                 UpdateViewResult();
-                             };
+        BeginIndexChanged += _ => UpdateViewResult();
 
-        EndIndexChanged += _ =>
-                           {
-                               UpdateViewResult();
-                           };
+        EndIndexChanged += _ => UpdateViewResult();
     }
 
     private void UpdateViewResult()

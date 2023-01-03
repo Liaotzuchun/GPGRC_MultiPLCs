@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
@@ -10,12 +11,10 @@ namespace GPGO_MultiPLCs.ViewModels;
 /// <summary>主視窗</summary>
 public class MainWindow_ViewModel : ObservableObject
 {
-    public event Action CheckClosing;
-
-    public event Action<Dispatcher> LoadedEvent;
-
-    public event Action<int> IndexChangedEvent;
-    public string            Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+    public event Action<Dispatcher?>? LoadedEvent;
+    public event Action<int>?         IndexChangedEvent;
+    public event Func<Task>?          CheckClosing;
+    public string                     Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
     public RelayCommand ClosingCommand { get; }
     public RelayCommand LoadedCommand  { get; }
@@ -32,10 +31,7 @@ public class MainWindow_ViewModel : ObservableObject
 
     public MainWindow_ViewModel()
     {
-        LoadedCommand = new RelayCommand(e =>
-                                         {
-                                             LoadedEvent?.Invoke(e as Dispatcher);
-                                         });
+        LoadedCommand = new RelayCommand(e => LoadedEvent?.Invoke(e as Dispatcher));
 
         ClosingCommand = new RelayCommand(e =>
                                           {
@@ -45,7 +41,11 @@ public class MainWindow_ViewModel : ObservableObject
                                               }
 
                                               ce.Cancel = true;
-                                              CheckClosing?.Invoke();
+
+                                              if (CheckClosing != null)
+                                              {
+                                                  _ = CheckClosing.Invoke();
+                                              }
                                           });
     }
 }

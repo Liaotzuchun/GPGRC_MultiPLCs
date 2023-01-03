@@ -9,7 +9,7 @@ namespace GPGO_MultiPLCs.Views;
 /// <summary>OvenDetailView.xaml 的互動邏輯</summary>
 public partial class OvenDetailView
 {
-    public OvenDetailView() { InitializeComponent(); }
+    public OvenDetailView() => InitializeComponent();
 
     private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
     {

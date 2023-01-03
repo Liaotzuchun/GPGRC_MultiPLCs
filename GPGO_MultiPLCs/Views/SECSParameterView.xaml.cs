@@ -3,5 +3,5 @@
 /// <summary>SECSParameterView.xaml 的互動邏輯</summary>
 public partial class SECSParameterView
 {
-    public SECSParameterView() { InitializeComponent(); }
+    public SECSParameterView() => InitializeComponent();
 }

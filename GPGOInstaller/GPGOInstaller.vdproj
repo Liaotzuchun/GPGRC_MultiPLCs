@@ -190,10 +190,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    "Name" = "8:Microsoft .NET Framework 4.8 (x86 和 x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.8"
                     }
                 }
             }
@@ -1522,7 +1522,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3182431B3E4B4768A0CD6FF00A9B439C"
             {
-            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Release\\net48\\GPGO_MultiPLCs.exe"
+            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Debug\\net48\\GPGO_MultiPLCs.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"

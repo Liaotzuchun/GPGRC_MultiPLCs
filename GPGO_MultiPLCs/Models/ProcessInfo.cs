@@ -107,7 +107,7 @@ public class BaseInfo : ObservableObject
     }
 
     public int TempQuantity => TempProducts.Sum(x => x.PanelIDs.Count);
-    public int Quantity => Products.Sum(x => x.PanelIDs.Count);
+    public int Quantity     => Products.Sum(x => x.PanelIDs.Count);
 
     [GPIgnore]
     [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
@@ -166,7 +166,7 @@ public class ProcessInfo : BaseInfo, ILogData
 {
     public ProcessInfo() { }
 
-    public ProcessInfo(BaseInfo baseInfo) { baseInfo.CopyTo(this); }
+    public ProcessInfo(BaseInfo baseInfo) => baseInfo.CopyTo(this);
 
     /// <summary>匯出成Dictionary</summary>
     /// <param name="lng">語系</param>

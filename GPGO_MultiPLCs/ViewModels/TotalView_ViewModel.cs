@@ -23,10 +23,10 @@ public sealed class TotalView_ViewModel : ObservableObject
     public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
     public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
     public event Func<(int StationIndex, ProcessInfo Info), Task<int>>                                            AddRecordToDB;
-    public event Func<(int StationIndex, string RecipeName), PLC_Recipe>                                          GetRecipe;
+    public event Func<(int StationIndex, string RecipeName), PLC_Recipe?>                                         GetRecipe;
     public event Func<PLC_Recipe, Task<bool>>                                                                     UpsertRecipe;
     public event Func<string, Task<bool>>                                                                         DeleteRecipe;
-    public event Func<string, Task<ProcessInfo>>                                                                  RetrieveLotData;
+    public event Func<string, Task<ProcessInfo?>>                                                                 RetrieveLotData;
 
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
@@ -840,5 +840,5 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
     }
 
-    public void StartPLCGate() { Checker?.Change(0, Timeout.Infinite); }
+    public void StartPLCGate() => Checker?.Change(0, Timeout.Infinite);
 }

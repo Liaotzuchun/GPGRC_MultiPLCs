@@ -112,7 +112,7 @@ public partial class App
         }
     }
 
-    private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e) { Log.Error("程序未正常中止"); }
+    private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e) => Log.Error("程序未正常中止");
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {

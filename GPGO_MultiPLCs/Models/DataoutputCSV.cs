@@ -19,7 +19,7 @@ public class DataoutputCSV
     private string   RecipeTitles = string.Empty;
     private string   RecordTitles = string.Empty;
 
-    public DataoutputCSV() { UpdateLanguage(Language.TW); }
+    public DataoutputCSV() => UpdateLanguage(Language.TW);
 
     private async Task DataMethod(ProcessInfo info, string folder, string filename)
     {

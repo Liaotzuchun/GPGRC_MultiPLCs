@@ -70,5 +70,5 @@ public class ProductInfo : ObservableObject //! 這是一個批號的資料
                };
     }
 
-    public void NotifyPanels() { NotifyPropertyChanged(nameof(PanelIDs)); }
+    public void NotifyPanels() => NotifyPropertyChanged(nameof(PanelIDs));
 }
