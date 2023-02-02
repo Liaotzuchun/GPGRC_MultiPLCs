@@ -32,6 +32,7 @@ public partial class App
                                                             rollingInterval: RollingInterval.Day,
                                                             shared: true,
                                                             encoding: Encoding.UTF8,
+                                                            retainedFileCountLimit: 200,
                                                             retainedFileTimeLimit: TimeSpan.FromDays(180))
                                               .CreateLogger();
 
