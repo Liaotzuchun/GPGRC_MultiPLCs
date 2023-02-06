@@ -224,7 +224,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       },
                                                       null);
 
-        SecsGemEquipment = new SECSGEM_Equipment(0);
+        SecsGemEquipment = new SECSGEM_Equipment("0");
         SecsGemEquipment.TerminalMessage += async message =>
                                             {
                                                 if (dialog == null)
