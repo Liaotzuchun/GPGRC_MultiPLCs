@@ -21,9 +21,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EPPlus" Version="6.1.1" />
-		<PackageReference Include="GPMVVM" Version="22.12.24.10" />
-		<PackageReference Include="GPMVVM.MongoDB" Version="22.12.24.10" />
+		<PackageReference Include="EPPlus" Version="6.1.2" />
+		<PackageReference Include="GPMVVM" Version="23.1.31.10" />
+		<PackageReference Include="GPMVVM.MongoDB" Version="23.1.31.10" />
 		<PackageReference Include="GPMVVM.SECSGEM" Version="22.12.24.10" />
 		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.2" />
 		<PackageReference Include="RawInput.Sharp" Version="0.0.4" />

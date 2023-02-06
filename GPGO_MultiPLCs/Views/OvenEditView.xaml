@@ -63,8 +63,11 @@
                     </LinearGradientBrush>
                 </Border.Background>
                 <Viewbox Margin="6"
-                         VerticalAlignment="Center">
-                    <TextBlock Foreground="{StaticResource BaseForeground}"
+                         VerticalAlignment="Center"
+                         StretchDirection="DownOnly">
+                    <TextBlock FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource BaseForeground}"
                                Text="{Binding PV_ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
                 </Viewbox>
             </Border>
@@ -72,8 +75,11 @@
                     Background="{StaticResource WorkingBrush}"
                     Visibility="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolVis}}">
                 <Viewbox Margin="6"
-                         VerticalAlignment="Center">
-                    <TextBlock Foreground="{StaticResource ErrorBrush}"
+                         VerticalAlignment="Center"
+                         StretchDirection="DownOnly">
+                    <TextBlock FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource ErrorBrush}"
                                Text="{Binding PV_ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
                 </Viewbox>
             </Border>
@@ -82,15 +88,22 @@
                     Background="{StaticResource DisabledBackgroundBrush}"
                     Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                 <Viewbox Margin="6"
-                         VerticalAlignment="Center">
-                    <TextBlock Foreground="{StaticResource DisabledForegroundBrush}"
-                               Text="{DynamicResource 離線}" />
+                         VerticalAlignment="Center"
+                         StretchDirection="DownOnly">
+                    <ItemsControl FontSize="24"
+                                  FontWeight="Bold"
+                                  Foreground="{StaticResource DisabledForegroundBrush}"
+                                  ItemsSource="{DynamicResource 離線}" />
                 </Viewbox>
             </Border>
             <Button Grid.Row="2">
-                <ItemsControl FontSize="22"
-                              FontWeight="Bold"
-                              ItemsSource="{DynamicResource 設備狀態}" />
+                <Viewbox Margin="6"
+                         VerticalAlignment="Center"
+                         StretchDirection="DownOnly">
+                    <ItemsControl FontSize="24"
+                                  FontWeight="Bold"
+                                  ItemsSource="{DynamicResource 設備狀態}" />
+                </Viewbox>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction Command="{Binding FocusCommand, Mode=OneTime}" />
