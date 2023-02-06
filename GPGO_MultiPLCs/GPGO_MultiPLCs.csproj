@@ -15,6 +15,28 @@
 		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
+	<ItemGroup>
+	  <COMReference Include="QGACTIVEXLib">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>0</VersionMinor>
+	    <VersionMajor>1</VersionMajor>
+	    <Guid>dcf453ea-d30f-47d6-a916-cfd254b85739</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>False</EmbedInteropTypes>
+	    <Private>True</Private>
+	  </COMReference>
+	  <COMReference Include="QSACTIVEXLib">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>0</VersionMinor>
+	    <VersionMajor>1</VersionMajor>
+	    <Guid>b25f3585-0060-40de-b95f-80146b9365e6</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>False</EmbedInteropTypes>
+	    <Private>True</Private>
+	  </COMReference>
+	</ItemGroup>
 
 	<ItemGroup>
 		<Resource Include="GP.ico" />
@@ -24,7 +46,7 @@
 		<PackageReference Include="EPPlus" Version="6.1.2" />
 		<PackageReference Include="GPMVVM" Version="23.2.6.10" />
 		<PackageReference Include="GPMVVM.MongoDB" Version="23.2.6.10" />
-		<PackageReference Include="GPMVVM.SECSGEM" Version="23.2.6.10" />
+		<PackageReference Include="GPMVVM.SECSGEM" Version="23.2.6.18" />
 		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.2" />
 		<PackageReference Include="RawInput.Sharp" Version="0.0.4" />
 	</ItemGroup>

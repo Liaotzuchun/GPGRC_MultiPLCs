@@ -40,7 +40,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public Language Language = Language.TW;
 
-    public SECSGEM_Equipment                   SecsGemEquipment { get; }
+    public GOL_SecsGem                         SecsGemEquipment { get; }
     public IGate                               Gate             { get; }
     public ObservableConcurrentQueue<LogEvent> QueueMessages    { get; } = new();
     public RelayCommand                        WantLoginCommand { get; }
@@ -224,7 +224,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       },
                                                       null);
 
-        SecsGemEquipment = new SECSGEM_Equipment("0");
+        SecsGemEquipment = new GOL_SecsGem("0");
         SecsGemEquipment.TerminalMessage += async message =>
                                             {
                                                 if (dialog == null)
@@ -308,7 +308,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                       }
 
                                       result = HCACKValule.Acknowledge;
-                                      var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.STARTCommand), "", index);
+                                      var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.Start), "", index);
                                       EventHappened?.Invoke(eventval);
                                       PLC_All[index].AutoMode_Stop  = false;
                                       PLC_All[index].AutoMode_Start = true;
@@ -326,7 +326,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      }
 
                                      result = HCACKValule.Acknowledge;
-                                     var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.STOPCommand), "", index);
+                                     var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.Stop), "", index);
                                      EventHappened?.Invoke(eventval);
                                      PLC_All[index].AutoMode_Start = false;
                                      PLC_All[index].AutoMode_Stop  = true;
@@ -344,7 +344,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                           }
 
                                           result = PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
-                                          var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.PP_SELECTCommand), "", $"{index}-{name}");
+                                          var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.SetRecipe), "", $"{index}-{name}");
                                           EventHappened?.Invoke(eventval);
 
                                           return result;
@@ -362,7 +362,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                        PLC_All[index].AddLOT(lotID, partID, panels);
 
                                        var unit     = panels.Count > 1 ? "pcs" : "pc";
-                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.ADDLOTCommand), "", $"{index}-{lotID}-{partID}-{layer}-{panels.Count}{unit}");
+                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.AddLOT), "", $"{index}-{lotID}-{partID}-{layer}-{panels.Count}{unit}");
                                        EventHappened?.Invoke(eventval);
 
                                        SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
@@ -376,7 +376,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                            return HCACKValule.CantPerform;
                                        }
 
-                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.CANCELCommand), "", index);
+                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.CANCEL), "", index);
                                        EventHappened?.Invoke(eventval);
                                        CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
 
@@ -451,14 +451,14 @@ public sealed class TotalView_ViewModel : ObservableObject
                                             {
                                                 var info = RetrieveLotData?.Invoke(lotid).Result;
 
-                                                var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.RetrieveLotDataCommand), "", lotid);
+                                                var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.RetrieveLotData), "", lotid);
                                                 EventHappened?.Invoke(eventval);
 
                                                 if (info != null)
                                                 {
                                                     try
                                                     {
-                                                        SecsGemEquipment?.UpdateDV("RetrieveLotData", JsonConvert.SerializeObject(info));
+                                                        SecsGemEquipment?.UpdateDV(nameof(GOL_SecsGem.RetrieveLotData), JsonConvert.SerializeObject(info));
                                                     }
                                                     catch
                                                     {

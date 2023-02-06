@@ -148,16 +148,16 @@
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
                                     <Setter Property="Background" Value="{DynamicResource WorkingBrush}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
                                 </Trigger>
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
                                     <Setter Property="Background" Value="{DynamicResource WorkingBrush}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
                                     <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -201,14 +201,14 @@
                                            Template="{StaticResource BooleanDataTemplate}" />
             <Style x:Key="ValueBorder"
                    TargetType="Border">
-                <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                 <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush6}" />
+                <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="TextElement.Foreground" Value="{StaticResource BaseForeground}" />
                 <Style.Triggers>
                     <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                         <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
                         <Setter Property="TextElement.Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                     </Trigger>
                 </Style.Triggers>
