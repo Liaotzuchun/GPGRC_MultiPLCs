@@ -300,58 +300,70 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.Start += index =>
                                   {
-                                      var result = HCACKValule.CantPerform;
+                                      if (index >= PLC_All.Count)
+                                      {
+                                          return HCACKValule.ParameterInvalid;
+                                      }
 
                                       if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AutoMode || PLC_All[index].IsExecuting)
                                       {
-                                          return result;
+                                          return HCACKValule.CantPerform;
                                       }
 
-                                      result = HCACKValule.Acknowledge;
                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.Start), "", index);
                                       EventHappened?.Invoke(eventval);
                                       PLC_All[index].AutoMode_Stop  = false;
                                       PLC_All[index].AutoMode_Start = true;
 
-                                      return result;
+                                      return HCACKValule.Acknowledge;
                                   };
 
         SecsGemEquipment.Stop += index =>
                                  {
-                                     var result = HCACKValule.CantPerform;
+                                     if (index >= PLC_All.Count)
+                                     {
+                                         return HCACKValule.ParameterInvalid;
+                                     }
 
                                      if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].ProcessComplete)
                                      {
-                                         return result;
+                                         return HCACKValule.CantPerform;
                                      }
 
-                                     result = HCACKValule.Acknowledge;
                                      var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.Stop), "", index);
                                      EventHappened?.Invoke(eventval);
                                      PLC_All[index].AutoMode_Start = false;
                                      PLC_All[index].AutoMode_Stop  = true;
 
-                                     return result;
+                                     return HCACKValule.Acknowledge;
                                  };
 
         SecsGemEquipment.SetRecipe += (index, name) =>
                                       {
-                                          var result = HCACKValule.CantPerform;
+                                          if (index >= PLC_All.Count)
+                                          {
+                                              return HCACKValule.ParameterInvalid;
+                                          }
 
                                           if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
                                           {
-                                              return result;
+                                              return HCACKValule.CantPerform;
                                           }
 
-                                          result = PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
                                           var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.SetRecipe), "", $"{index}-{name}");
                                           EventHappened?.Invoke(eventval);
 
-                                          return result;
+                                          return PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
+                                          ;
                                       };
 
         SecsGemEquipment.AddLOT += (index, lot) =>
                                    {
+                                       if (index >= PLC_All.Count)
+                                       {
+                                           return HCACKValule.ParameterInvalid;
+                                       }
+
                                        if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || PLC_All[index].IsExecuting)
                                        {
                                            return HCACKValule.CantPerform;
@@ -371,6 +383,11 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.CANCEL += index =>
                                    {
+                                       if (index >= PLC_All.Count)
+                                       {
+                                           return HCACKValule.ParameterInvalid;
+                                       }
+
                                        if (PLC_All[index].IsExecuting)
                                        {
                                            return HCACKValule.CantPerform;

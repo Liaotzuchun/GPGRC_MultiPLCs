@@ -30,11 +30,9 @@ public class GOL_SecsGem : SECSGEM_Equipment
                                                                                       r.RemoteCommandParameter[3]?.CPVAL?.ObjectData is int[] layers                   &&
                                                                                       r.RemoteCommandParameter[4]?.CPVAL is SECSMessageBranches { SECSMessageObjects: { } objs })
                                                                                   {
-                                                                                      var       i      = indexes[0];
-                                                                                      var       l      = layers[0];
                                                                                       using var panels = objs.Select(x => x?.ObjectData?.ToString() ?? string.Empty).ToPooledList();
 
-                                                                                      return AddLOT?.Invoke(i, (lot, part, l, panels)) ?? HCACKValule.ParameterInvalid;
+                                                                                      return AddLOT?.Invoke(indexes[0], (lot, part, layers[0], panels)) ?? HCACKValule.ParameterInvalid;
                                                                                   }
 
                                                                                   return HCACKValule.CantPerform;
@@ -48,9 +46,7 @@ public class GOL_SecsGem : SECSGEM_Equipment
 
                                                                                   if (r.RemoteCommandParameter?[0]?.CPVAL?.ObjectData is int[] { Length: > 0 } indexes)
                                                                                   {
-                                                                                      var i = indexes[0];
-
-                                                                                      return CANCEL?.Invoke(i) ?? HCACKValule.ParameterInvalid;
+                                                                                      return CANCEL?.Invoke(indexes[0]) ?? HCACKValule.ParameterInvalid;
                                                                                   }
 
                                                                                   return HCACKValule.CantPerform;
@@ -59,24 +55,25 @@ public class GOL_SecsGem : SECSGEM_Equipment
                                                                               {
                                                                                   return r.RemoteCommandParameter is { Count: < 2 } ?
                                                                                              HCACKValule.ParameterInvalid :
-                                                                                             r.RemoteCommandParameter?[0]?.CPVAL?.ObjectData is int[] o1 &&
-                                                                                             r.RemoteCommandParameter?[1]?.CPVAL?.ObjectData is int[] o2 &&
-                                                                                             int.TryParse(o1[0].ToString(), out var i) ?
-                                                                                                 SetRecipe?.Invoke(i, o2.ToString()) ?? HCACKValule.ParameterInvalid :
+                                                                                             r.RemoteCommandParameter?[0]?.CPVAL?.ObjectData is int[] { Length: > 0 } indexes &&
+                                                                                             r.RemoteCommandParameter?[1]?.CPVAL?.ObjectData is int[] o2 ?
+                                                                                                 SetRecipe?.Invoke(indexes[0], o2.ToString()) ?? HCACKValule.ParameterInvalid :
                                                                                                  HCACKValule.CantPerform;
                                                                               }
                                                                               if (r.RCMD == "START")
                                                                               {
                                                                                   return r.RemoteCommandParameter is { Count: < 1 } ?
                                                                                              HCACKValule.ParameterInvalid :
-                                                                                             r.RemoteCommandParameter?[0]?.CPVAL?.ObjectData is int[] o && int.TryParse(o[0].ToString(), out var i) ? Start?.Invoke(i) ?? HCACKValule.ParameterInvalid : HCACKValule.CantPerform;
+                                                                                             r.RemoteCommandParameter?[0]?.CPVAL?.ObjectData is int[] { Length: > 0 } indexes ?
+                                                                                                 Start?.Invoke(indexes[0]) ?? HCACKValule.ParameterInvalid :
+                                                                                                 HCACKValule.CantPerform;
                                                                               }
                                                                               if (r.RCMD == "STOP")
                                                                               {
                                                                                   return r.RemoteCommandParameter is { Count: < 1 } ?
                                                                                              HCACKValule.ParameterInvalid :
-                                                                                             r.RemoteCommandParameter?[0]?.CPVAL?.ObjectData is int[] o && int.TryParse(o[0].ToString(), out var i) ?
-                                                                                                 Stop?.Invoke(i) ?? HCACKValule.ParameterInvalid :
+                                                                                             r.RemoteCommandParameter?[0]?.CPVAL?.ObjectData is int[] { Length: > 0 } indexes ?
+                                                                                                 Stop?.Invoke(indexes[0]) ?? HCACKValule.ParameterInvalid :
                                                                                                  HCACKValule.CantPerform;
                                                                               }
                                                                               if (r.RCMD == "RETRIEVELOTDATA")

@@ -862,7 +862,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        FontWeight="Bold">
-                                <Run Text="{Binding NitrogenFlow, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=0}" />
+                                <Run Text="{Binding NitrogenFlow, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=0, StringFormat=\{0:F0\}}" />
                                 <Run Text="L/m" />
                             </TextBlock>
                         </Border>
@@ -883,7 +883,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        FontWeight="Bold">
-                                <Run Text="{Binding OxygenContent, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1}" />
+                                <Run Text="{Binding OxygenContent, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="%" />
                             </TextBlock>
                         </Border>
@@ -904,7 +904,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        FontWeight="Bold">
-                                <Run Text="{Binding PV_WindSpeed, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1}" />
+                                <Run Text="{Binding PV_WindSpeed, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="m/s" />
                             </TextBlock>
                         </Border>
@@ -925,7 +925,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        FontWeight="Bold">
-                                <Run Text="{Binding PowerConsumption, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1}" />
+                                <Run Text="{Binding PowerConsumption, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="kWh" />
                             </TextBlock>
                         </Border>
