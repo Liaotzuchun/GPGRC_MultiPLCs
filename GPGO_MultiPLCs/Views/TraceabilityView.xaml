@@ -492,7 +492,7 @@
                                 <Grid>
                                     <ToggleButton x:Name="ToggleButton"
                                                   Padding="8,0"
-                                                  Content="{Binding Recipe.RecipeName, Mode=OneWay}"
+                                                  Content="{Binding Recipe.RecipeName, Mode=OneWay, FallbackValue={x:Null}}"
                                                   Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridCell}}}"
                                                   Style="{StaticResource ArrowToggle}">
                                         <ToggleButton.IsChecked>
@@ -1280,7 +1280,7 @@
                   Height="222"
                   Visibility="{Binding SelectedIndex, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter=0}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="320" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TabControl SelectedIndex="{Binding ShowProducts, Mode=OneWay}">
@@ -1401,36 +1401,13 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn Width="Auto"
+                                                        MinWidth="60"
+                                                        MaxWidth="240"
+                                                        CellTemplateSelector="{StaticResource LogTypeTemplateSelector}">
                                     <DataGridTemplateColumn.Header>
                                         <TextBlock Text="{DynamicResource 值}" />
                                     </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate DataType="models:LogEvent">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="24" />
-                                                </Grid.ColumnDefinitions>
-                                                <Ellipse x:Name="Ellipse"
-                                                         Width="10"
-                                                         Height="10"
-                                                         Margin="0,0,4,0"
-                                                         Fill="{StaticResource DisabledBackgroundBrush}"
-                                                         Stroke="{StaticResource DisabledBorderBrush}"
-                                                         StrokeThickness="1" />
-                                                <TextBlock Grid.Column="1"
-                                                           Text="{Binding Value, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
-                                            </Grid>
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding Value, Mode=OneWay}"
-                                                             Value="True">
-                                                    <Setter TargetName="Ellipse" Property="Fill" Value="{StaticResource WorkingBrush}" />
-                                                    <Setter TargetName="Ellipse" Property="Stroke" Value="{StaticResource WorkingBorderBrush}" />
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Width="*">
                                     <DataGridTemplateColumn.Header>

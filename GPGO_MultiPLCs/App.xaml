@@ -30,6 +30,8 @@
                     <TextBlock x:Name="ProgressString"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               FontSize="16"
+                               FontWeight="Bold"
                                Foreground="{StaticResource BaseForeground}" />
                 </Grid>
                 <DataTemplate.Triggers>

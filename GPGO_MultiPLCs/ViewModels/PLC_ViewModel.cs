@@ -720,7 +720,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 });
 
         #region 註冊PLC事件
-        ValueChanged += async (LogType, data) =>
+        ValueChanged += (LogType, data) =>
                         {
                             var (name, value, oldvalue, type, Subscriptions, SubPosition) = data;
 
@@ -730,16 +730,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                             if (LogType == LogType.StatusVariables)
                             {
-                                var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
+                                var eventval = (EventType.StatusChanged, nowtime, name, $"{(DataType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
 
-                                SV_Changed?.Invoke(name, value);
+                                SV_Changed?.Invoke(name, value!);
 
                                 if (value is bool val)
                                 {
-                                    EventHappened?.Invoke(eventval);
+                                    EventHappened?.Invoke(eventval!);
                                     if (IsExecuting)
                                     {
-                                        AddProcessEvent(eventval);
+                                        AddProcessEvent(eventval!);
                                     }
 
                                     if (name == nameof(AutoMode_Start))
@@ -751,7 +751,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                         InvokeSECSEvent?.Invoke("ProcessStarted");
 
-                                        await StartPP();
+                                        _ = StartPP();
                                     }
                                     else if (name == nameof(ProgramStop))
                                     {
@@ -761,7 +761,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         }
 
                                         AutoMode_Start = false;
-                                        await StopPP();
+                                        _ = StopPP();
                                     }
                                     else if (name == nameof(ProcessComplete))
                                     {
@@ -773,7 +773,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         InvokeSECSEvent?.Invoke("ProcessComplete");
                                         OvenInfo.IsFinished = true;
                                         AutoMode_Start      = false;
-                                        await StopPP();
+                                        _ = StopPP();
                                     }
                                     else if (name == nameof(AutoMode_Stop))
                                     {
@@ -784,7 +784,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                         InvokeSECSEvent?.Invoke("ProcessStopped");
                                         AutoMode_Start = false;
-                                        await StopPP();
+                                        _ = StopPP();
                                     }
                                     //else if (name == nameof(ReadBarcode))
                                     //{
@@ -844,10 +844,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                 {
                                     if (name is nameof(CurrentSegment))
                                     {
-                                        EventHappened?.Invoke(eventval);
+                                        EventHappened?.Invoke(eventval!);
                                         if (IsExecuting)
                                         {
-                                            AddProcessEvent(eventval);
+                                            AddProcessEvent(eventval!);
                                         }
 
                                         NotifyPropertyChanged(nameof(Progress));
@@ -855,18 +855,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     else if (name == nameof(EquipmentState))
                                     {
                                         InvokeSECSEvent?.Invoke("EqpStatusChanged");
-                                        SV_Changed?.Invoke($"Previous{name}", oldvalue);
+                                        SV_Changed?.Invoke($"Previous{name}", oldvalue!);
 
-                                        EventHappened?.Invoke(eventval);
+                                        EventHappened?.Invoke(eventval!);
                                         if (IsExecuting)
                                         {
-                                            AddProcessEvent(eventval);
+                                            AddProcessEvent(eventval!);
                                         }
 
                                         NotifyPropertyChanged(nameof(ProgressStatus));
                                     }
                                     else if (name == nameof(ProcessState))
                                     {
+                                        EventHappened?.Invoke(eventval!);
+
                                         //SetWithOutNotifyWhenEquals(sv == 0, nameof(ManualMode));
                                         SetWithOutNotifyWhenEquals(sv == 1, nameof(IsRamp));
                                         SetWithOutNotifyWhenEquals(sv == 2, nameof(IsDwell));
@@ -879,11 +881,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             }
                             else if (LogType == LogType.Alert)
                             {
-                                var eventval = (EventType.Alert, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
-                                EventHappened?.Invoke(eventval);
+                                var eventval = (EventType.Alert, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
+                                EventHappened?.Invoke(eventval!);
                                 if (IsExecuting)
                                 {
-                                    AddProcessEvent(eventval);
+                                    AddProcessEvent(eventval!);
                                 }
 
                                 if (value is bool boolval)
@@ -893,11 +895,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             }
                             else if (LogType == LogType.Alarm)
                             {
-                                var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type}{Subscriptions.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
-                                EventHappened?.Invoke(eventval);
+                                var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
+                                EventHappened?.Invoke(eventval!);
                                 if (IsExecuting)
                                 {
-                                    AddProcessEvent(eventval);
+                                    AddProcessEvent(eventval!);
                                 }
 
                                 if (value is bool boolval)
@@ -907,7 +909,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                             }
                             else if (LogType == LogType.RecipeSet) //PLC配方"設定值"改變時
                             {
-                                SV_Changed?.Invoke(name, value);
+                                SV_Changed?.Invoke(name, value!);
                             }
                             else if (LogType == LogType.Trigger)
                             {

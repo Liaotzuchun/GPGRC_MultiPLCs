@@ -190,6 +190,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         OvenCount = count;
         PLC_All   = new PLC_ViewModel[count];
         PLCIndex  = -1;
+        SecsGemEquipment = new GOL_SecsGem("0");
 
         WantLoginCommand = new RelayCommand(_ =>
                                             {
@@ -219,12 +220,11 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                                           if (result1 && input1 is string msg)
                                                           {
-                                                              SecsGemEquipment?.SendTerminalMessage(msg);
+                                                              SecsGemEquipment.SendTerminalMessage(msg);
                                                           }
                                                       },
                                                       null);
 
-        SecsGemEquipment = new GOL_SecsGem("0");
         SecsGemEquipment.TerminalMessage += async message =>
                                             {
                                                 if (dialog == null)
@@ -263,7 +263,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                                     if (result1 && input1 is string msg)
                                                     {
-                                                        SecsGemEquipment?.SendTerminalMessage(msg);
+                                                        SecsGemEquipment.SendTerminalMessage(msg);
                                                     }
                                                 }
                                             };
@@ -490,7 +490,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                 return HCACKValule.Acknowledge;
                                             };
 
-        var address = plcaddress.GetAddressBytes();
+        //var address = plcaddress.GetAddressBytes();
 
         //! 註冊PLC事件需引發的動作
         for (var i = 0; i < count; i++)
