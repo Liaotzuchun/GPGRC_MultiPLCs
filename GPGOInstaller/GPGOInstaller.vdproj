@@ -945,7 +945,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPGO"
         "ProductCode" = "8:{E16E254A-120C-4DA0-B72B-906BFE05AD19}"
-        "PackageCode" = "8:{37457CEC-5CC4-4EFB-95CC-BE02F3E55A63}"
+        "PackageCode" = "8:{EE487ECE-A7CF-42C9-95DA-5065AEB0C688}"
         "UpgradeCode" = "8:{70B006A8-DE96-46AD-9A55-02B82D36D525}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1075,20 +1075,6 @@
             "Transitive" = "11:FALSE"
             "Target" = "8:_3182431B3E4B4768A0CD6FF00A9B439C"
             "Folder" = "8:_1B1ABD4A76B54604BFA10DF40F5B4A90"
-            "WorkingFolder" = "8:_CA831586DEBD430999B0ABF706D868F8"
-            "Icon" = "8:_9575E6F7C0E74E0DB9078CBB7C4A0C9C"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9DB0CE21C9B54DB1B0DDA7B5B7312B4E"
-            {
-            "Name" = "8:GPGO"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_3182431B3E4B4768A0CD6FF00A9B439C"
-            "Folder" = "8:_CA432767E98C4BD2BA791BF9D3DA6FD3"
             "WorkingFolder" = "8:_CA831586DEBD430999B0ABF706D868F8"
             "Icon" = "8:_9575E6F7C0E74E0DB9078CBB7C4A0C9C"
             "Feature" = "8:"
@@ -1522,7 +1508,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3182431B3E4B4768A0CD6FF00A9B439C"
             {
-            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Debug\\net48\\GPGO_MultiPLCs.exe"
+            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Release\\net48\\GPGO_MultiPLCs.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"

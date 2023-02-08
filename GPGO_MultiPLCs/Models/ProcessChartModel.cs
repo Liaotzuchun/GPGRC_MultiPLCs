@@ -46,7 +46,7 @@ public class ProcessChartModel
                     {
                         DefaultFont             = "Microsoft JhengHei",
                         PlotAreaBorderThickness = new OxyThickness(0,  1, 1,  0),
-                        PlotMargins             = new OxyThickness(40, 0, 40, 35)
+                        PlotMargins             = new OxyThickness(40, 0, 50, 35)
                     };
 
         ChartView.Legends.Add(new Legend
@@ -293,13 +293,13 @@ public class ProcessChartModel
         }
     }
 
-    public void SetFrameworkElement(FrameworkElement el)
+    public void SetFrameworkElement(FrameworkElement? el)
     {
         UpdateTitle(el);
         UpdateColor(el);
     }
 
-    public void UpdateTitle(FrameworkElement element)
+    public void UpdateTitle(FrameworkElement? element)
     {
         if (element != null)
         {
@@ -357,7 +357,7 @@ public class ProcessChartModel
         }
     }
 
-    public void UpdateColor(FrameworkElement element)
+    public void UpdateColor(FrameworkElement? element)
     {
         if (element != null)
         {
@@ -408,7 +408,7 @@ public class ProcessChartModel
         }
     }
 
-    public void SetAnnotation(LogEvent ev)
+    public void SetAnnotation(LogEvent? ev)
     {
         if (ev == null)
         {
@@ -476,7 +476,7 @@ public class ProcessChartModel
         RefreshView(true);
     }
 
-    public void SetData(IEnumerable<RecordTemperatures> tps)
+    public void SetData(IEnumerable<RecordTemperatures>? tps)
     {
         if (tps != null)
         {

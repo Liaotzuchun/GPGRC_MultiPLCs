@@ -13,7 +13,6 @@
              d:DataContext="{d:DesignInstance vm:PLC_ViewModel}"
              d:DesignHeight="800"
              d:DesignWidth="900"
-             IsEnabled="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolNot}}"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -111,7 +110,8 @@
                 </i:Interaction.Triggers>
             </Button>
         </Grid>
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="2"
+              IsEnabled="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolNot}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

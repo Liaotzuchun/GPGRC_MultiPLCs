@@ -17,30 +17,27 @@ namespace GPGO_MultiPLCs.ViewModels;
 
 public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 {
-    public event Action                                                                         ExecutingStarted;
-    public event Action                                                                         RecipeKeyInError;
-    public event Action                                                                         WantFocus;
-    public event Action<(EventType type, DateTime time, string note, string tag, object value)> EventHappened;
-    public event Action<string, bool>                                                           InvokeSECSAlarm;
-    public event Action<string, object>                                                         SV_Changed;
-    public event Action<string>                                                                 AssetNumberChanged;
-    public event Action<string>                                                                 CancelCheckIn;
-
-    public event Action<string> InvokeSECSEvent;
-    public event Action<string> MachineCodeChanged;
-    public event Action<string> RecipeUsed;
-
-    public event Func<BaseInfo, Task>     ExecutingFinished;
-    public event Func<string, PLC_Recipe> GetRecipe;
+    public event Action?                                                                         ExecutingStarted;
+    public event Action?                                                                         RecipeKeyInError;
+    public event Action?                                                                         WantFocus;
+    public event Action<(EventType type, DateTime time, string note, string tag, object value)>? EventHappened;
+    public event Action<string, bool>?                                                           InvokeSECSAlarm;
+    public event Action<string, object>?                                                         SV_Changed;
+    public event Action<string>?                                                                 AssetNumberChanged;
+    public event Action<string>?                                                                 CancelCheckIn;
+    public event Action<string>?                                                                 InvokeSECSEvent;
+    public event Action<string>?                                                                 MachineCodeChanged;
+    public event Action<string>?                                                                 RecipeUsed;
+    public event Func<BaseInfo, Task>?                                                           ExecutingFinished;
+    public event Func<string, PLC_Recipe>?                                                       GetRecipe;
 
     private readonly IDialogService Dialog;
-
-    private readonly TaskFactory OneScheduler = new(new StaTaskScheduler(1));
-    private          bool        ManualRecord;
-    private          DateTime    OfflineTime = DateTime.MaxValue;
+    private readonly TaskFactory    OneScheduler = new(new StaTaskScheduler(1));
+    private          bool           ManualRecord;
+    private          DateTime       OfflineTime = DateTime.MaxValue;
 
     /// <summary>控制紀錄任務結束</summary>
-    public CancellationTokenSource CTS;
+    public CancellationTokenSource CTS = new();
     //private TaskCompletionSource<bool> TCS;
 
     public int InputQuantityMin => 0;
@@ -48,35 +45,24 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public int InputLayerMin    => 1;
     public int InputLayerMax    => 8;
     //public event Action<PLC_Recipe> RecipeChangedbyPLC;
-
-    public double Delay { get; set; } = 1;
-
+    public double       Delay         { get; set; } = 1;
     public RelayCommand LoadedCommand { get; }
-
-    public AsyncCommand StartCommand { get; }
-
-    public AsyncCommand StopCommand { get; }
-
+    public AsyncCommand StartCommand  { get; }
+    public AsyncCommand StopCommand   { get; }
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
-
     /// <summary>投產</summary>
     public CommandWithResult<bool> CheckInCommand { get; }
-
-    public RelayCommand CheckRecipeCommand_KeyIn { get; }
-
+    public RelayCommand CheckRecipeCommand_KeyIn    { get; }
     public RelayCommand CheckRecipeCommand_KeyLeave { get; }
-
-    public RelayCommand AddLotCommand { get; }
-
-    public RelayCommand DeleteLotCommand { get; }
-
-    public RelayCommand FocusCommand           { get; }
-    public RelayCommand ClearOPTextCommand     { get; }
-    public RelayCommand ClearPartTextCommand   { get; }
-    public RelayCommand ClearLotTextCommand    { get; }
-    public RelayCommand ClearRecipeTextCommand { get; }
-    public RelayCommand ClearQuantityCommand   { get; }
+    public RelayCommand AddLotCommand               { get; }
+    public RelayCommand DeleteLotCommand            { get; }
+    public RelayCommand FocusCommand                { get; }
+    public RelayCommand ClearOPTextCommand          { get; }
+    public RelayCommand ClearPartTextCommand        { get; }
+    public RelayCommand ClearLotTextCommand         { get; }
+    public RelayCommand ClearRecipeTextCommand      { get; }
+    public RelayCommand ClearQuantityCommand        { get; }
 
     /// <summary>機台資訊</summary>
     public BaseInfoWithChart OvenInfo { get; }
@@ -119,30 +105,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     /// <summary>進度狀態</summary>
-    public Status ProgressStatus
-    {
-        get
-        {
-            if (!ConnectionStatus.CurrentValue)
-            {
-                return Status.離線;
-            }
-
-            switch (EquipmentState)
-            {
-                case 0:
-                    return Status.待命;
-                case 1:
-                    return Status.運轉中;
-                case 2:
-                    return Status.停止;
-                case 3:
-                    return Status.錯誤;
-            }
-
-            return Status.未知;
-        }
-    }
+    public Status ProgressStatus => !ConnectionStatus.CurrentValue ?
+                                        Status.離線 :
+                                        EquipmentState switch
+                                        {
+                                            0 => Status.待命,
+                                            1 => Status.運轉中,
+                                            2 => Status.停止,
+                                            3 => Status.錯誤,
+                                            _ => Status.未知
+                                        };
 
     /// <summary>OP輸入的配方名稱</summary>
     public string InputRecipeName
@@ -158,7 +130,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     /// <summary>用來紀錄的任務，可追蹤狀態</summary>
-    public Task ExecutingTask
+    public Task? ExecutingTask
     {
         get => Get<Task>();
         private set => Set(value);
@@ -250,7 +222,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public LogEvent SelectedLogEvent
     {
-        set => OvenInfo.ChartModel?.SetAnnotation(value);
+        set => OvenInfo.ChartModel.SetAnnotation(value);
     }
 
     public PLC_ViewModel(IDialogService                                                               dialog,
@@ -761,7 +733,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         }
 
                                         AutoMode_Start = false;
-                                        _ = StopPP();
+                                        _              = StopPP();
                                     }
                                     else if (name == nameof(ProcessComplete))
                                     {
@@ -773,7 +745,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         InvokeSECSEvent?.Invoke("ProcessComplete");
                                         OvenInfo.IsFinished = true;
                                         AutoMode_Start      = false;
-                                        _ = StopPP();
+                                        _                   = StopPP();
                                     }
                                     else if (name == nameof(AutoMode_Stop))
                                     {
@@ -784,7 +756,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                         InvokeSECSEvent?.Invoke("ProcessStopped");
                                         AutoMode_Start = false;
-                                        _ = StopPP();
+                                        _              = StopPP();
                                     }
                                     //else if (name == nameof(ReadBarcode))
                                     //{
@@ -1048,7 +1020,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     /// <param name="act">取消動作時執行的委派</param>
     private void ResetStopTokenSource(Action? act = null)
     {
-        CTS?.Dispose();
+        CTS.Dispose();
 
         CTS = new CancellationTokenSource();
 
@@ -1206,7 +1178,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         {
                                             if ((DateTime.Now - OfflineTime).TotalSeconds > 30.0)
                                             {
-                                                CTS?.Cancel();
+                                                CTS.Cancel();
                                                 var eventval = (EventType.Alarm, DateTime.Now, "OffLine. The recoding has been aborted.", string.Empty, true);
                                                 EventHappened?.Invoke(eventval);
                                                 AddProcessEvent(eventval);
@@ -1316,13 +1288,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         if (ExecutingTask != null && IsExecuting)
         {
-            CTS?.Cancel();
+            CTS.Cancel();
 
             await ExecutingTask;
         }
     }
 
-    public async Task<SetRecipeResult> SetRecipe(PLC_Recipe recipe)
+    public async Task<SetRecipeResult> SetRecipe(PLC_Recipe? recipe)
     {
         if (recipe == null || IsExecuting || !RemoteMode)
         {
