@@ -555,16 +555,11 @@ public sealed class Mediator : ObservableObject
                     {
                         var product = new ProductInfo
                                       {
-                                          PartID = partnum[rn.Next(0, partnum.Length)],
-                                          LotID  = lotid[rn.Next(0,   lotid.Length)],
-                                          Layer  = p
+                                          PartID   = partnum[rn.Next(0, partnum.Length)],
+                                          LotID    = lotid[rn.Next(0,   lotid.Length)],
+                                          Layer    = p,
+                                          Quantity = rn.Next(10, 20)
                                       };
-
-                        var count = rn.Next(10, 20);
-                        for (var m = 1; m <= count; m++)
-                        {
-                            product.PanelIDs.Add($"{product.PartID}-{product.LotID}-{product.Layer}-{m}");
-                        }
 
                         info.Products.Add(product);
                     }

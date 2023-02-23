@@ -823,32 +823,10 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Width="Auto">
-                                                <DataGridTemplateColumn.Header>
-                                                    <TextBlock Text="{DynamicResource 數量}" />
-                                                </DataGridTemplateColumn.Header>
-                                                <DataGridTemplateColumn.CellStyle>
-                                                    <Style TargetType="{x:Type DataGridCell}">
-                                                        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                                                    <ContentPresenter />
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </DataGridTemplateColumn.CellStyle>
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate DataType="models:ProductInfo">
-                                                        <TextBlock Margin="4"
-                                                                   HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Center"
-                                                                   Text="{Binding PanelIDs.Count, Mode=OneWay}"
-                                                                   TextTrimming="CharacterEllipsis" />
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Width="Auto"
+                                                                MinWidth="60"
+                                                                Binding="{Binding Quantity, Mode=OneWay}"
+                                                                Header="{DynamicResource 數量}" />
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </Border>

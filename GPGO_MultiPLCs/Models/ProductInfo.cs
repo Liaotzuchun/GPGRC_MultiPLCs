@@ -9,7 +9,7 @@ namespace GPGO_MultiPLCs.Models;
 public class ProductInfo : ObservableObject //! 這是一個批號的資料
 {
     [LanguageTranslator("Quantity", "數量", "数量")]
-    public int Quantity => PanelIDs.Count;
+    public int Quantity { get; set; }
 
     [LanguageTranslator("Code Type", "條碼類型", "条码类型")]
     public CodeType CodeType { get; set; } = CodeType.Panel;
@@ -25,9 +25,6 @@ public class ProductInfo : ObservableObject //! 這是一個批號的資料
 
     [LanguageTranslator("LotID", "批號", "批号")]
     public string LotID { get; set; } = string.Empty;
-
-    [GPIgnore]
-    public List<string> PanelIDs { get; set; } = new();
 
     [LanguageTranslator("SN", "序號", "序号")]
     public int ProcessNumber { get; set; }
@@ -69,6 +66,4 @@ public class ProductInfo : ObservableObject //! 這是一個批號的資料
                    { type.GetProperty(nameof(Quantity))?.GetName(lng) ?? nameof(Quantity), Quantity }
                };
     }
-
-    public void NotifyPanels() => NotifyPropertyChanged(nameof(PanelIDs));
 }

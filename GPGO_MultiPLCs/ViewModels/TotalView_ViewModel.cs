@@ -369,12 +369,11 @@ public sealed class TotalView_ViewModel : ObservableObject
                                            return HCACKValule.CantPerform;
                                        }
 
-                                       var (lotID, partID, layer, panels) = lot;
+                                       var (lotID, partID, layer, quantity) = lot;
 
-                                       PLC_All[index].AddLOT(lotID, partID, panels);
-
-                                       var unit     = panels.Count > 1 ? "pcs" : "pc";
-                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.AddLOT), "", $"{index}-{lotID}-{partID}-{layer}-{panels.Count}{unit}");
+                                       PLC_All[index].AddLOT(lotID, partID, layer, quantity);
+                                       var unit     = quantity > 1 ? "pcs" : "pc";
+                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.AddLOT), "", $"{index}-{lotID}-{partID}-{layer}-{quantity}{unit}");
                                        EventHappened?.Invoke(eventval);
 
                                        SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");

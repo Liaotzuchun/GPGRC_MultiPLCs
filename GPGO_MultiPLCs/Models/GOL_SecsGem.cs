@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GPMVVM.PooledCollections;
 using GPMVVM.SECSGEM;
 
 namespace GPGO_MultiPLCs.Models;
 
 public class GOL_SecsGem : SECSGEM_Equipment
 {
-    public event Func<int, (string LotID, string PartID, int layer, IList<string> Panels), HCACKValule>? AddLOT;
-    public event Func<int, HCACKValule>?                                                                 CANCEL;
-    public event Func<int, HCACKValule>?                                                                 Start;
-    public event Func<int, HCACKValule>?                                                                 Stop;
-    public event Func<int, string, HCACKValule>?                                                         SetRecipe;
-    public event Func<string, HCACKValule>?                                                              RetrieveLotData;
+    public event Func<int, (string LotID, string PartID, int layer, int quantity), HCACKValule>? AddLOT;
+    public event Func<int, HCACKValule>?                                                         CANCEL;
+    public event Func<int, HCACKValule>?                                                         Start;
+    public event Func<int, HCACKValule>?                                                         Stop;
+    public event Func<int, string, HCACKValule>?                                                 SetRecipe;
+    public event Func<string, HCACKValule>?                                                      RetrieveLotData;
 
     public GOL_SecsGem(string id) : base(id, "GP_GO") => RemoteCommand += r =>
                                                                           {
@@ -28,11 +25,9 @@ public class GOL_SecsGem : SECSGEM_Equipment
                                                                                       r.RemoteCommandParameter[1]?.CPVAL?.ObjectData is string lot                     &&
                                                                                       r.RemoteCommandParameter[2]?.CPVAL?.ObjectData is string part                    &&
                                                                                       r.RemoteCommandParameter[3]?.CPVAL?.ObjectData is int[] layers                   &&
-                                                                                      r.RemoteCommandParameter[4]?.CPVAL is SECSMessageBranches { SECSMessageObjects: { } objs })
+                                                                                      r.RemoteCommandParameter[4]?.CPVAL?.ObjectData is int[] quantities)
                                                                                   {
-                                                                                      using var panels = objs.Select(x => x?.ObjectData?.ToString() ?? string.Empty).ToPooledList();
-
-                                                                                      return AddLOT?.Invoke(indexes[0], (lot, part, layers[0], panels)) ?? HCACKValule.ParameterInvalid;
+                                                                                      return AddLOT?.Invoke(indexes[0], (lot, part, layers[0], quantities[0])) ?? HCACKValule.ParameterInvalid;
                                                                                   }
 
                                                                                   return HCACKValule.CantPerform;

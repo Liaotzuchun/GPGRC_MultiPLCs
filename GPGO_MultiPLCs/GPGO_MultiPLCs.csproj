@@ -4,8 +4,8 @@
 		<UseWPF>true</UseWPF>
 		<LangVersion>latest</LangVersion>
 		<OutputType>WinExe</OutputType>
-		<AssemblyVersion>23.2.8.15</AssemblyVersion>
-		<FileVersion>23.2.8.15</FileVersion>
+		<AssemblyVersion>23.2.23.10</AssemblyVersion>
+		<FileVersion>23.2.23.10</FileVersion>
 		<Authors>wunmao</Authors>
 		<Company>GroupUp</Company>
 		<ApplicationIcon>GP.ico</ApplicationIcon>

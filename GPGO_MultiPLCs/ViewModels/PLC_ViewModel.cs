@@ -41,7 +41,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     //private TaskCompletionSource<bool> TCS;
 
     public int InputQuantityMin => 0;
-    public int InputQuantityMax => 99;
+    public int InputQuantityMax => 99999;
     public int InputLayerMin    => 1;
     public int InputLayerMax    => 8;
     //public event Action<PLC_Recipe> RecipeChangedbyPLC;
@@ -304,27 +304,17 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              var same = OvenInfo.TempProducts.FirstOrDefault(x => x.PartID == InputPartID && x.LotID == InputLotID && x.Layer == InputLayer);
                                              if (same != null)
                                              {
-                                                 same.PanelIDs.Clear();
-                                                 for (var i = 1; i <= InputQuantity; i++)
-                                                 {
-                                                     same.PanelIDs.Add($"{InputPartID}-{InputLotID}-{InputLayer}-{i}");
-                                                 }
-
-                                                 same.NotifyPanels();
+                                                 same.Quantity += InputQuantity;
                                              }
                                              else
                                              {
                                                  var info = new ProductInfo
                                                             {
-                                                                PartID = InputPartID,
-                                                                LotID  = InputLotID,
-                                                                Layer  = InputLayer
+                                                                PartID   = InputPartID,
+                                                                LotID    = InputLotID,
+                                                                Layer    = InputLayer,
+                                                                Quantity = InputQuantity
                                                             };
-
-                                                 for (var i = 1; i <= InputQuantity; i++)
-                                                 {
-                                                     info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
-                                                 }
 
                                                  OvenInfo.TempProducts.Add(info);
                                              }
@@ -417,7 +407,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                              return false;
                                                          }
 
-                                                         var lots = new Dictionary<string, int>();
+                                                         var lots = new Dictionary<string, (int layer, int quantity)>();
 
                                                          do
                                                          {
@@ -459,6 +449,40 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                  continue;
                                                              }
 
+                                                             var layer = 0;
+                                                             var (result_layer, _) =
+                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 { Language.TW, "輸入層別" },
+                                                                                                 { Language.CHS, "输入层别" },
+                                                                                                 { Language.EN, "Enter the layer number" }
+                                                                                             },
+                                                                                             new Dictionary<Language, string>
+                                                                                             {
+                                                                                                 { Language.TW, "1 ~ 8" },
+                                                                                                 { Language.CHS, "1 ~ 8" },
+                                                                                                 { Language.EN, "1 ~ 8" }
+                                                                                             },
+                                                                                             true,
+                                                                                             x =>
+                                                                                             {
+                                                                                                 var str = x.ToString().Trim();
+
+                                                                                                 return (int.TryParse(str, out layer) && layer is > 0 and <= 8,
+                                                                                                         new Dictionary<Language, string>
+                                                                                                         {
+                                                                                                             { Language.TW, "層別錯誤！" },
+                                                                                                             { Language.CHS, "层别错误！" },
+                                                                                                             { Language.EN, "Wrong layer!" }
+                                                                                                         });
+                                                                                             });
+
+                                                             if (!result_layer)
+                                                             {
+                                                                 Checking = false;
+                                                                 return false;
+                                                             }
+
                                                              var counts = 0;
                                                              var (result4, _) =
                                                                  await Dialog.CheckCondition(new Dictionary<Language, string>
@@ -493,7 +517,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                  return false;
                                                              }
 
-                                                             lots[lotID.ToString().Trim()] = counts;
+                                                             lots[lotID.ToString().Trim()] =  (layer, counts);
                                                          } while (await Dialog.Show(new Dictionary<Language, string>
                                                                                     {
                                                                                         { Language.TW, $"料號：{PartID.ToString().Trim()}\n是否要繼續新增批號？" },
@@ -511,12 +535,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                              var info = new ProductInfo
                                                                         {
                                                                             PartID = PartID.ToString().Trim(),
-                                                                            LotID  = lot.Key.Trim()
+                                                                            LotID  = lot.Key.Trim(),
+                                                                            Layer =  lot.Value.layer,
+                                                                            Quantity = lot.Value.quantity
                                                                         };
-                                                             for (var i = 1; i <= lot.Value; i++)
-                                                             {
-                                                                 info.PanelIDs.Add($"{info.PartID}-{info.LotID}-{info.Layer}-{i}");
-                                                             }
 
                                                              OvenInfo.TempProducts.Add(info);
                                                          }
@@ -892,11 +914,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                {
                                                    using var lots   = OvenInfo.Products.Select(x => x.LotID).Distinct().ToPooledList();
                                                    using var parts  = OvenInfo.Products.Select(x => x.PartID).Distinct().ToPooledList();
-                                                   using var panels = OvenInfo.Products.SelectMany(x => x.PanelIDs).Distinct().ToPooledList();
+                                                   var panels = OvenInfo.Products.Sum(x => x.Quantity);
 
                                                    SV_Changed?.Invoke("LotIDs",   lots.Count   > 0 ? string.Join(",", lots) : string.Empty);
                                                    SV_Changed?.Invoke("PartIDs",  parts.Count  > 0 ? string.Join(",", parts) : string.Empty);
-                                                   SV_Changed?.Invoke("PanelIDs", panels.Count > 0 ? string.Join(",", panels) : string.Empty);
+                                                   SV_Changed?.Invoke("PanelIDs", panels);
                                                };
         #endregion 註冊PLC事件
     }
@@ -1032,13 +1054,37 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     private async Task<SetRecipeResult> SetRecipeDialog(string recipeName)
     {
-        if (GetRecipe?.Invoke(recipeName) is not { } recipe || IsExecuting || !RemoteMode)
+        if (GetRecipe?.Invoke(recipeName) is not { } recipe)
         {
             Dialog.Show(new Dictionary<Language, string>
                         {
-                            { Language.TW, "條件未通過" },
-                            { Language.CHS, "条件未通过" },
-                            { Language.EN, "Fail conditions" }
+                            { Language.TW, "配方讀取錯誤" },
+                            { Language.CHS, "配方读取错误" },
+                            { Language.EN, "Recipe loaded Fail" }
+                        });
+
+            return SetRecipeResult.條件不允許;
+        }
+
+        if (IsExecuting)
+        {
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "烤箱仍在烘烤`" },
+                            { Language.CHS, "烤箱仍在烘烤" },
+                            { Language.EN, "Oven is still executing" }
+                        });
+
+            return SetRecipeResult.條件不允許;
+        }
+
+        if (!RemoteMode)
+        {
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "烤箱未在Remote模式" },
+                            { Language.CHS, "烤箱未在Remote模式" },
+                            { Language.EN, "Oven is not in Remote Mode" }
                         });
 
             return SetRecipeResult.條件不允許;
@@ -1365,29 +1411,21 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         Set(0,            nameof(InputLayer));
     }
 
-    public void AddLOT(string PartID, string LotID, IEnumerable<string> panels)
+    public void AddLOT(string PartID, string LotID, int layer, int quantity)
     {
-        if (OvenInfo.TempProducts.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim()) is { } product)
+        if (OvenInfo.TempProducts.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim() && x.Layer == layer) is { } product)
         {
-            foreach (var panel in panels)
-            {
-                product.PanelIDs.Add(panel);
-            }
-
-            product.NotifyPanels();
+            product.Quantity += quantity;
         }
         else
         {
             var info = new ProductInfo
                        {
                            PartID = PartID.Trim(),
-                           LotID  = LotID.Trim()
+                           LotID  = LotID.Trim(),
+                           Layer = layer,
+                           Quantity = quantity
                        };
-
-            foreach (var panel in panels)
-            {
-                info.PanelIDs.Add(panel);
-            }
 
             OvenInfo.TempProducts.Add(info);
         }

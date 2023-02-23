@@ -106,8 +106,8 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    public int TempQuantity => TempProducts.Sum(x => x.PanelIDs.Count);
-    public int Quantity     => Products.Sum(x => x.PanelIDs.Count);
+    public int TempQuantity => TempProducts.Sum(x => x.Quantity);
+    public int Quantity     => Products.Sum(x => x.Quantity);
 
     [GPIgnore]
     [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
