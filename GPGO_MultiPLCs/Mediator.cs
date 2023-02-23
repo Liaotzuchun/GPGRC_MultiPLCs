@@ -61,7 +61,7 @@ public sealed class Mediator : ObservableObject
                       };
 
             Set(value);
-            RecipeVM.UserName  = value.Name ?? string.Empty;
+            RecipeVM.UserName  = value.Name;
             RecipeVM.UserLevel = value.Level;
         }
     }

@@ -7,6 +7,7 @@ using System.Threading.Tasks.Schedulers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
@@ -713,12 +714,44 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     }
                                                 });
 
+        PropertyChanged += (s, e) =>
+                           {
+                               if (e.PropertyName == nameof(ProgramStop))
+                               {
+                                   if (ProgramStop)
+                                   {
+                                       AutoMode_Start = false;
+                                       _ = StopPP();
+                                   }
+
+                                   SV_Changed?.Invoke(nameof(ProgramStop), ProgramStop);
+                               }
+                               else if (e.PropertyName == nameof(IsRamp))
+                               {
+                                   NotifyPropertyChanged(nameof(Progress));
+                                   SV_Changed?.Invoke(nameof(IsRamp), IsRamp);
+                               }
+                               else if (e.PropertyName == nameof(IsDwell))
+                               {
+                                   NotifyPropertyChanged(nameof(Progress));
+                                   SV_Changed?.Invoke(nameof(IsDwell), IsDwell);
+                               }
+                               else if (e.PropertyName == nameof(IsCooling))
+                               {
+                                   NotifyPropertyChanged(nameof(Progress));
+                                   SV_Changed?.Invoke(nameof(IsCooling), IsCooling);
+                               }
+                               else if (e.PropertyName == nameof(Inflating))
+                               {
+                                   SV_Changed?.Invoke(nameof(Inflating), Inflating);
+                               }
+                           };
+
         #region 註冊PLC事件
+        //! 只有有註冊PLC點位的值變事件
         ValueChanged += (LogType, data) =>
                         {
                             var (name, value, oldvalue, type, Subscriptions, SubPosition) = data;
-
-                            //var typeEnum = type is null ? "" : value is bool && SubPosition == -1 ? ((BitType)type).ToString() : ((DataType)type).ToString();
 
                             var nowtime = DateTime.Now;
 
@@ -747,16 +780,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                         _ = StartPP();
                                     }
-                                    else if (name == nameof(ProgramStop))
-                                    {
-                                        if (!val)
-                                        {
-                                            return;
-                                        }
-
-                                        AutoMode_Start = false;
-                                        _              = StopPP();
-                                    }
                                     else if (name == nameof(ProcessComplete))
                                     {
                                         if (!val)
@@ -779,59 +802,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         InvokeSECSEvent?.Invoke("ProcessStopped");
                                         AutoMode_Start = false;
                                         _              = StopPP();
-                                    }
-                                    //else if (name == nameof(ReadBarcode))
-                                    //{
-                                    //    if (!val)
-                                    //    {
-                                    //        return;
-                                    //    }
-
-                                    //    SV_Changed?.Invoke("RackID", RackID);
-                                    //    ReadBarcode = false; //清訊號
-                                    //}
-                                    //else if (name == nameof(RackInput))
-                                    //{
-                                    //    if (!val)
-                                    //    {
-                                    //        return;
-                                    //    }
-
-                                    //    InvokeSECSEvent?.Invoke(nameof(RackInput));
-                                    //    RackInput = false; //清訊號
-                                    //}
-                                    //else if (name == nameof(RackOutput))
-                                    //{
-                                    //    if (!val)
-                                    //    {
-                                    //        return;
-                                    //    }
-
-                                    //    //! 需在引發紀錄完成後才觸發取消投產
-                                    //    CheckInCommand.Result = false;
-                                    //    InvokeSECSEvent?.Invoke(nameof(RackOutput));
-                                    //    OvenInfo.Clear();
-                                    //    ProductInfos.Clear();
-                                    //    RackOutput = false; //清訊號
-                                    //}
-                                    //else if (name == nameof(RecipeChanged))
-                                    //{
-                                    //    if (!val || string.IsNullOrEmpty(RecipeName))
-                                    //    {
-                                    //        return;
-                                    //    }
-
-                                    //    var recipe = new PLC_Recipe();
-                                    //    this.CopyTo(recipe);
-                                    //    recipe.Updated = DateTime.Now;
-                                    //    recipe.Editor = "PLC";
-                                    //    recipe.EditorLevel = UserLevel.Operator;
-
-                                    //    RecipeChangedbyPLC?.Invoke(recipe);
-                                    //}
-                                    else if (name is nameof(IsRamp) or nameof(IsDwell) or nameof(IsCooling))
-                                    {
-                                        NotifyPropertyChanged(nameof(Progress));
                                     }
                                 }
                                 else if (value is short sv)
