@@ -7,7 +7,6 @@ using System.Threading.Tasks.Schedulers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Xml.Linq;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
@@ -106,16 +105,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     /// <summary>進度狀態</summary>
-    public Status ProgressStatus => !ConnectionStatus.CurrentValue ?
-                                        Status.離線 :
-                                        EquipmentState switch
-                                        {
-                                            0 => Status.待命,
-                                            1 => Status.運轉中,
-                                            2 => Status.停止,
-                                            3 => Status.錯誤,
-                                            _ => Status.未知
-                                        };
+    public Status EquipmentStatus => !ConnectionStatus.CurrentValue ?
+                                         Status.離線 :
+                                         EquipmentState switch
+                                         {
+                                             0 => Status.待命,
+                                             1 => Status.運轉中,
+                                             2 => Status.停止,
+                                             3 => Status.錯誤,
+                                             _ => Status.未知
+                                         };
 
     /// <summary>OP輸入的配方名稱</summary>
     public string InputRecipeName
@@ -237,7 +236,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         ConnectionStatus.ValueChanged += status =>
                                          {
-                                             NotifyPropertyChanged(nameof(ProgressStatus));
+                                             NotifyPropertyChanged(nameof(EquipmentStatus));
 
                                              EventHappened?.Invoke((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
                                              if (IsExecuting)
@@ -518,7 +517,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                  return false;
                                                              }
 
-                                                             lots[lotID.ToString().Trim()] =  (layer, counts);
+                                                             lots[lotID.ToString().Trim()] = (layer, counts);
                                                          } while (await Dialog.Show(new Dictionary<Language, string>
                                                                                     {
                                                                                         { Language.TW, $"料號：{PartID.ToString().Trim()}\n是否要繼續新增批號？" },
@@ -535,9 +534,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                          {
                                                              var info = new ProductInfo
                                                                         {
-                                                                            PartID = PartID.ToString().Trim(),
-                                                                            LotID  = lot.Key.Trim(),
-                                                                            Layer =  lot.Value.layer,
+                                                                            PartID   = PartID.ToString().Trim(),
+                                                                            LotID    = lot.Key.Trim(),
+                                                                            Layer    = lot.Value.layer,
                                                                             Quantity = lot.Value.quantity
                                                                         };
 
@@ -721,7 +720,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                    if (ProgramStop)
                                    {
                                        AutoMode_Start = false;
-                                       _ = StopPP();
+                                       _              = StopPP();
                                    }
 
                                    SV_Changed?.Invoke(nameof(ProgramStop), ProgramStop);
@@ -827,11 +826,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             AddProcessEvent(eventval!);
                                         }
 
-                                        NotifyPropertyChanged(nameof(ProgressStatus));
+                                        NotifyPropertyChanged(nameof(EquipmentStatus));
                                     }
                                     else if (name == nameof(ProcessState))
                                     {
                                         EventHappened?.Invoke(eventval!);
+                                        if (IsExecuting)
+                                        {
+                                            AddProcessEvent(eventval!);
+                                        }
 
                                         //SetWithOutNotifyWhenEquals(sv == 0, nameof(ManualMode));
                                         SetWithOutNotifyWhenEquals(sv == 1, nameof(IsRamp));
@@ -884,10 +887,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                {
                                                    using var lots   = OvenInfo.Products.Select(x => x.LotID).Distinct().ToPooledList();
                                                    using var parts  = OvenInfo.Products.Select(x => x.PartID).Distinct().ToPooledList();
-                                                   var panels = OvenInfo.Products.Sum(x => x.Quantity);
+                                                   var       panels = OvenInfo.Products.Sum(x => x.Quantity);
 
-                                                   SV_Changed?.Invoke("LotIDs",   lots.Count   > 0 ? string.Join(",", lots) : string.Empty);
-                                                   SV_Changed?.Invoke("PartIDs",  parts.Count  > 0 ? string.Join(",", parts) : string.Empty);
+                                                   SV_Changed?.Invoke("LotIDs",   lots.Count  > 0 ? string.Join(",", lots) : string.Empty);
+                                                   SV_Changed?.Invoke("PartIDs",  parts.Count > 0 ? string.Join(",", parts) : string.Empty);
                                                    SV_Changed?.Invoke("PanelIDs", panels);
                                                };
         #endregion 註冊PLC事件
@@ -1391,9 +1394,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         {
             var info = new ProductInfo
                        {
-                           PartID = PartID.Trim(),
-                           LotID  = LotID.Trim(),
-                           Layer = layer,
+                           PartID   = PartID.Trim(),
+                           LotID    = LotID.Trim(),
+                           Layer    = layer,
                            Quantity = quantity
                        };
 
