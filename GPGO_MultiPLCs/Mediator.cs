@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Threading;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
+using GPMVVM.Core.Helpers;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
@@ -248,8 +249,7 @@ public sealed class Mediator : ObservableObject
         RecipeVM.ListUpdatedEvent += async e =>
                                      {
                                          var (list, added, removed, updated, showtip) = e;
-                                         var _list = list.Select(x => x.RecipeName).ToList();
-                                         TotalVM.SetRecipeNames(_list);
+                                         TotalVM.SetRecipeNames(list!.Select(x => x.RecipeName).ToList());
 
                                          var sb = new StringBuilder();
                                          if (added?.Count > 0)
@@ -291,37 +291,24 @@ public sealed class Mediator : ObservableObject
                                              }
                                          }
 
-                                         foreach (var recipe in list)
+                                         var ccode = TotalVM.SecsGemEquipment.SecsGem!.CCodeDocument.CCodeItems[0];
+                                         foreach (var recipe in list!)
                                          {
                                              var _recipe = recipe.ToDictionary();
                                              var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
-                                             var si      = new StreamReaderIni();
+                                             var ini      = new IniParser(fpath);
 
-                                             try
+                                             foreach (var parm in ccode.ParameterItems)
                                              {
-                                                 var ccode = TotalVM.SecsGemEquipment.SecsGem.CCodeDocument.CCodeStructs[0];
-                                                 var t     = si.AddIniSection(ccode.CCodeName);
-                                                 foreach (var parm in ccode.PParmStructs)
+                                                 if (_recipe.TryGetValue(parm.PParameterName, out var val))
                                                  {
-                                                     if (_recipe.TryGetValue(parm.PParamName, out var val))
-                                                     {
-                                                         t.AddElement(parm.PParamName, val.ToString().ToUpper());
-                                                     }
+                                                     ini[ccode.CCodeName][parm.PParameterName] = val.ToString().ToUpper();
                                                  }
-                                             }
-                                             catch (Exception ex)
-                                             {
-                                                 Log.Error(ex, "pjb code錯誤");
                                              }
 
                                              try
                                              {
-                                                 if (File.Exists(fpath))
-                                                 {
-                                                     File.Delete(fpath);
-                                                 }
-
-                                                 await si.EncodindIni(fpath);
+                                                 await ini.SaveAsync();
                                              }
                                              catch (Exception ex)
                                              {
@@ -329,19 +316,28 @@ public sealed class Mediator : ObservableObject
                                              }
                                          }
 
-                                         foreach (var add in added)
+                                         if (added != null)
                                          {
-                                             TotalVM.InvokeRecipe(add.RecipeName, SECSGEM_Equipment.PPStatus.Create);
+                                             foreach (var add in added)
+                                             {
+                                                 TotalVM.InvokeRecipe(add.RecipeName, PPStatus.Create);
+                                             }
                                          }
 
-                                         foreach (var remove in removed)
+                                         if (removed != null)
                                          {
-                                             TotalVM.InvokeRecipe(remove.RecipeName, SECSGEM_Equipment.PPStatus.Delete);
+                                             foreach (var remove in removed)
+                                             {
+                                                 TotalVM.InvokeRecipe(remove.RecipeName, PPStatus.Delete);
+                                             }
                                          }
 
-                                         foreach (var update in updated)
+                                         if (updated != null)
                                          {
-                                             TotalVM.InvokeRecipe(update.RecipeName, SECSGEM_Equipment.PPStatus.Change);
+                                             foreach (var update in updated)
+                                             {
+                                                 TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
+                                             }
                                          }
 
                                          //! 輸出欣興Recipe CSV
@@ -389,9 +385,9 @@ public sealed class Mediator : ObservableObject
                                      _ = CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
                                  };
 
-        TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe);
+        TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe).Result;
 
-        TotalVM.DeleteRecipe += recipeName => RecipeVM.Delete(recipeName);
+        TotalVM.DeleteRecipe += recipe => RecipeVM.Delete(recipe).Result;
 
         TotalVM.RetrieveLotData += async lotid => (await TraceVM.FindInfo(lotid)).OrderByDescending(x => x.EndTime).FirstOrDefault();
 

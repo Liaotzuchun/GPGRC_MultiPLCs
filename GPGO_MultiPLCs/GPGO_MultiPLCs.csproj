@@ -4,8 +4,7 @@
 		<UseWPF>true</UseWPF>
 		<LangVersion>latest</LangVersion>
 		<OutputType>WinExe</OutputType>
-		<AssemblyVersion>23.2.23.10</AssemblyVersion>
-		<FileVersion>23.2.23.10</FileVersion>
+    <Version>23.3.8.16</Version>
 		<Authors>wunmao</Authors>
 		<Company>GroupUp</Company>
 		<ApplicationIcon>GP.ico</ApplicationIcon>
@@ -44,9 +43,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="EPPlus" Version="6.1.2" />
-		<PackageReference Include="GPMVVM" Version="23.2.6.10" />
-		<PackageReference Include="GPMVVM.MongoDB" Version="23.2.6.10" />
-		<PackageReference Include="GPMVVM.SECSGEM" Version="23.2.6.18" />
+		<PackageReference Include="GPMVVM" Version="23.3.7.14" />
+		<PackageReference Include="GPMVVM.MongoDB" Version="23.3.7.14" />
+		<PackageReference Include="GPMVVM.SECSGEM" Version="23.3.8.16" />
 		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.2" />
 		<PackageReference Include="RawInput.Sharp" Version="0.0.4" />
 	</ItemGroup>

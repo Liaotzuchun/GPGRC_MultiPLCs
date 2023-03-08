@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
+using GPMVVM.Models.SECS;
 using GPMVVM.PooledCollections;
 using GPMVVM.SECSGEM;
 using Newtonsoft.Json;
@@ -24,8 +26,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
     public event Func<(int StationIndex, ProcessInfo Info), Task<int>>                                            AddRecordToDB;
     public event Func<(int StationIndex, string RecipeName), PLC_Recipe?>                                         GetRecipe;
-    public event Func<PLC_Recipe, Task<bool>>                                                                     UpsertRecipe;
-    public event Func<string, Task<bool>>                                                                         DeleteRecipe;
+    public event Func<PLC_Recipe, bool>                                                                           UpsertRecipe;
+    public event Func<string, bool>                                                                               DeleteRecipe;
     public event Func<string, Task<ProcessInfo?>>                                                                 RetrieveLotData;
 
     /// <summary>財產編號儲存位置</summary>
@@ -41,6 +43,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     public Language Language = Language.TW;
 
     public GOL_SecsGem                         SecsGemEquipment { get; }
+    public HSMSParameters                      HSMSParameters   { get; }
     public IGate                               Gate             { get; }
     public ObservableConcurrentQueue<LogEvent> QueueMessages    { get; } = new();
     public RelayCommand                        WantLoginCommand { get; }
@@ -190,17 +193,14 @@ public sealed class TotalView_ViewModel : ObservableObject
         OvenCount = count;
         PLC_All   = new PLC_ViewModel[count];
         PLCIndex  = -1;
-        SecsGemEquipment = new GOL_SecsGem("0");
+        var v = Assembly.GetExecutingAssembly().GetName().Version;
+        SecsGemEquipment = new GOL_SecsGem("0", "GPGO", $"{v.Major}.{v.Minor}.{v.Build}");
 
-        WantLoginCommand = new RelayCommand(_ =>
-                                            {
-                                                WantLogin?.Invoke();
-                                            });
+        SecsGemEquipment.SecsGem.HSMSParameters.PropertyChanged += (_, _) => SecsGemEquipment.SecsGem.SaveHSMSParameters();
 
-        BackCommand = new RelayCommand(index =>
-                                       {
-                                           Index = int.TryParse(index.ToString(), out var i) ? i : 0;
-                                       });
+        WantLoginCommand = new RelayCommand(_ => WantLogin?.Invoke());
+
+        BackCommand = new RelayCommand(index => Index = int.TryParse(index.ToString(), out var i) ? i : 0);
 
         SendTerminalMessageCommand = new AsyncCommand(async _ =>
                                                       {
@@ -268,7 +268,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                 }
                                             };
 
-        SecsGemEquipment.ECChange += (index, ecid, value) =>
+        SecsGemEquipment.ECChange += (ecid, value) =>
                                      {
                                          switch (ecid)
                                          {
@@ -281,21 +281,21 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          }
                                      };
 
-        SecsGemEquipment.UpsertRecipe += (name, recipeini) =>
+        SecsGemEquipment.UpsertRecipe += (name, recipedic) =>
                                          {
                                              var recipe   = new PLC_Recipe(name, "SECSGEM-HOST", UserLevel.Manager);
                                              var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.InsertPPEvent), "", recipe.RecipeName);
                                              EventHappened?.Invoke(eventval);
 
-                                             return recipe.SetByDictionary(recipeini.ItemElements) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe).Result;
+                                             return recipe.SetByDictionary(recipedic) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
                                          };
 
-        SecsGemEquipment.DeleteRecipe += async recipeName =>
+        SecsGemEquipment.DeleteRecipe += recipeName =>
                                          {
                                              var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.DeletePPEvent), "", recipeName);
                                              EventHappened?.Invoke(eventval);
 
-                                             return DeleteRecipe != null && await DeleteRecipe.Invoke(recipeName);
+                                             return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
                                          };
 
         SecsGemEquipment.Start += index =>
@@ -581,16 +581,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      };
 
             //! 由OP變更設備代碼時
-            plc.MachineCodeChanged += code =>
-                                      {
-                                          SaveMachineCodes(MachineCodesPath);
-                                      };
+            plc.MachineCodeChanged += code => SaveMachineCodes(MachineCodesPath);
 
             //! 由OP變更財產編號時
-            plc.AssetNumberChanged += code =>
-                                      {
-                                          SaveAssetNumbers(AssetNumbersPath);
-                                      };
+            plc.AssetNumberChanged += code => SaveAssetNumbers(AssetNumbersPath);
 
             //! PLC配方輸入錯誤時
             plc.RecipeKeyInError += () =>
@@ -606,40 +600,28 @@ public sealed class TotalView_ViewModel : ObservableObject
                                     };
 
             //! PLC事件紀錄
-            plc.EventHappened += e =>
-                                 {
-                                     EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
-                                 };
+            plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
 
             //! 取消投產
-            plc.CancelCheckIn += RackID =>
-                                 {
-                                     CancelCheckIn?.Invoke((index, RackID));
-                                 };
+            plc.CancelCheckIn += RackID => CancelCheckIn?.Invoke((index, RackID));
 
-            plc.InvokeSECSEvent += EventName =>
-                                   {
-                                       SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
-                                   };
+            plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
 
-            plc.InvokeSECSAlarm += (AlarmName, val) =>
-                                   {
-                                       SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
-                                   };
+            plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
 
             plc.SV_Changed += (name, value) =>
                               {
                                   if (name == nameof(PLC_ViewModel.EquipmentState))
                                   {
-                                      SecsGemEquipment.UpdateITRISV(SECSGEM_Equipment.ITRI_SV.GEM_PROCESS_STATE, value);
+                                      SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
                                   }
                                   else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
                                   {
-                                      SecsGemEquipment.UpdateITRISV(SECSGEM_Equipment.ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
+                                      SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
                                   }
                                   else if (name == nameof(PLC_ViewModel.SV_RecipeName))
                                   {
-                                      SecsGemEquipment.UpdateITRISV(SECSGEM_Equipment.ITRI_SV.GEM_PP_EXEC_NAME, value);
+                                      SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
                                   }
 
                                   SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
@@ -727,9 +709,12 @@ public sealed class TotalView_ViewModel : ObservableObject
             {
                 var vals = MachineCodesPath.ReadFromJsonFile<string[]>();
 
-                for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
+                if (vals != null)
                 {
-                    PLC_All[i].OvenInfo.MachineCode = vals[i];
+                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
+                    {
+                        PLC_All[i].OvenInfo.MachineCode = vals[i];
+                    }
                 }
             }
             catch
@@ -791,7 +776,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
     }
 
-    public void InvokeRecipe(string name, SECSGEM_Equipment.PPStatus status)
+    public void InvokeRecipe(string name, PPStatus status)
     {
         SecsGemEquipment?.UpdateDV("GemPPChangeName",   name);
         SecsGemEquipment?.UpdateDV("GemPPChangeStatus", (int)status);

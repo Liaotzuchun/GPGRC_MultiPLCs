@@ -417,7 +417,7 @@
                          Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="0,0,1,0">
-                        <local:SECSParameterView Height="240" DataContext="{Binding TotalVM.SecsGemEquipment.SECSParameter, Source={StaticResource Mediator}, Mode=OneWay}"/>
+                        <local:SECSParameterView Height="240" DataContext="{Binding TotalVM.SecsGemEquipment.SecsGem.HSMSParameters, Source={StaticResource Mediator}, Mode=OneWay}"/>
                     </Border>
                 </TabItem>
                 <TabItem Height="40"

@@ -1292,7 +1292,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            OvenInfo.Recipe        = GetRecipePV();
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
 
-                                           ExecutingFinished?.Invoke(OvenInfo.Copy());
+                                           _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
 
                                            //! 需在引發紀錄完成後才觸發取消投產
                                            CheckInCommand.Result = false;
