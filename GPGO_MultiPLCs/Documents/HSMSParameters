@@ -1,0 +1,16 @@
+﻿{
+  "HSMS_Connect_Mode": 1,
+  "T3": 30,
+  "T5": 10,
+  "T6": 35,
+  "T7": 10,
+  "T8": 5,
+  "LocalIP": "127.0.0.1",
+  "LocalPort": 5001,
+  "RemoteIP": "127.0.0.1",
+  "RemotePort": 5001,
+  "DeviceID": 0,
+  "LinkTestPeriod": 60,
+  "LogEnable": 1,
+  "FlowControlEnable": 0
+}

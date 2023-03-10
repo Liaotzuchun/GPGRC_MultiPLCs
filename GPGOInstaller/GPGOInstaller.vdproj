@@ -69,12 +69,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_49DD95B4AF5348C2A094961C0F4A6529"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4E09B0FE8B434888B7DB6C95F1816F34"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -94,6 +88,12 @@
         "Entry"
         {
         "MsmKey" = "8:_5D0C2622AEAD47CAA12AE6CCA527B7AC"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_696F45EE16D74DE48AA1E6EA9EC07653"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -423,26 +423,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_49DD95B4AF5348C2A094961C0F4A6529"
-            {
-            "SourcePath" = "8:..\\GPGO_MultiPLCs\\Documents\\SECSConfig.ini"
-            "TargetName" = "8:SECSConfig.ini"
-            "Tag" = "8:"
-            "Folder" = "8:_1D9592FF165C498A8E20CE0DAFCD0AB6"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4E09B0FE8B434888B7DB6C95F1816F34"
             {
             "SourcePath" = "8:..\\GPGO_MultiPLCs\\Documents\\EqpAlarm.csv"
@@ -509,6 +489,26 @@
             "TargetName" = "8:ALarmDisable.txt"
             "Tag" = "8:"
             "Folder" = "8:_3D14649E85F64FB9B38EC107FE62143E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_696F45EE16D74DE48AA1E6EA9EC07653"
+            {
+            "SourcePath" = "8:..\\GPGO_MultiPLCs\\Documents\\HSMSParameters"
+            "TargetName" = "8:HSMSParameters"
+            "Tag" = "8:"
+            "Folder" = "8:_1D9592FF165C498A8E20CE0DAFCD0AB6"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1508,7 +1508,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3182431B3E4B4768A0CD6FF00A9B439C"
             {
-            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Release\\net48\\GPGO_MultiPLCs.exe"
+            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Debug\\net48\\GPGO_MultiPLCs.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"
