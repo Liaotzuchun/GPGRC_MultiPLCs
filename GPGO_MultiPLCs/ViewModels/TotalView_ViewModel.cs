@@ -489,6 +489,9 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                 return HCACKValule.Acknowledge;
                                             };
 
+        SecsGemEquipment.Enable(true);
+        SecsGemEquipment.Online(true);
+
         //var address = plcaddress.GetAddressBytes();
 
         //! 註冊PLC事件需引發的動作

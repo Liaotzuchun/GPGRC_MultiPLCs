@@ -249,7 +249,52 @@ public sealed class Mediator : ObservableObject
         RecipeVM.ListUpdatedEvent += async e =>
                                      {
                                          var (list, added, removed, updated, showtip) = e;
-                                         TotalVM.SetRecipeNames(list!.Select(x => x.RecipeName).ToList());
+                                         if (list != null)
+                                         {
+                                             TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToList());
+
+                                             const string path = "C:\\ITRIinit\\0\\ProcessJob";
+
+                                             if (!Directory.Exists(path))
+                                             {
+                                                 try
+                                                 {
+                                                     Directory.CreateDirectory(path);
+                                                 }
+                                                 catch (Exception ex)
+                                                 {
+                                                     Log.Error(ex, "ProcessJob資料夾無法創建");
+                                                 }
+                                             }
+
+                                             var ccode = TotalVM.SecsGemEquipment.SecsGem.CCodeDocument.CCodeItems[0];
+                                             foreach (var recipe in list)
+                                             {
+                                                 var _recipe = recipe.ToDictionary();
+                                                 var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
+                                                 var ini      = new IniParser(fpath);
+
+                                                 foreach (var parm in ccode.ParameterItems)
+                                                 {
+                                                     if (_recipe.TryGetValue(parm.PParameterName, out var val))
+                                                     {
+                                                         ini[ccode.CCodeName][parm.PParameterName] = val.ToString().ToUpper();
+                                                     }
+                                                 }
+
+                                                 try
+                                                 {
+                                                     await ini.SaveAsync();
+                                                 }
+                                                 catch (Exception ex)
+                                                 {
+                                                     Log.Error(ex, "pjb寫入失敗");
+                                                 }
+                                             }
+
+                                             //! 輸出欣興Recipe CSV
+                                             await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
+                                         }
 
                                          var sb = new StringBuilder();
                                          if (added?.Count > 0)
@@ -277,45 +322,6 @@ public sealed class Mediator : ObservableObject
                                                                       });
                                          }
 
-                                         const string path = "C:\\ITRIinit\\0\\ProcessJob";
-
-                                         if (!Directory.Exists(path))
-                                         {
-                                             try
-                                             {
-                                                 Directory.CreateDirectory(path);
-                                             }
-                                             catch (Exception ex)
-                                             {
-                                                 Log.Error(ex, "ProcessJob資料夾無法創建");
-                                             }
-                                         }
-
-                                         var ccode = TotalVM.SecsGemEquipment.SecsGem!.CCodeDocument.CCodeItems[0];
-                                         foreach (var recipe in list!)
-                                         {
-                                             var _recipe = recipe.ToDictionary();
-                                             var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
-                                             var ini      = new IniParser(fpath);
-
-                                             foreach (var parm in ccode.ParameterItems)
-                                             {
-                                                 if (_recipe.TryGetValue(parm.PParameterName, out var val))
-                                                 {
-                                                     ini[ccode.CCodeName][parm.PParameterName] = val.ToString().ToUpper();
-                                                 }
-                                             }
-
-                                             try
-                                             {
-                                                 await ini.SaveAsync();
-                                             }
-                                             catch (Exception ex)
-                                             {
-                                                 Log.Error(ex, "pjb寫入失敗");
-                                             }
-                                         }
-
                                          if (added != null)
                                          {
                                              foreach (var add in added)
@@ -339,9 +345,6 @@ public sealed class Mediator : ObservableObject
                                                  TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
                                              }
                                          }
-
-                                         //! 輸出欣興Recipe CSV
-                                         await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
                                      };
 
         TotalVM.WantLogin += () => AuthenticatorVM.StartLogin.Execute(null);
