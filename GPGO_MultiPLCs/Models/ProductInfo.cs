@@ -9,34 +9,77 @@ namespace GPGO_MultiPLCs.Models;
 public class ProductInfo : ObservableObject //! 這是一個批號的資料
 {
     [LanguageTranslator("Quantity", "數量", "数量")]
-    public int Quantity { get; set; }
+    public int Quantity
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
 
     [LanguageTranslator("Code Type", "條碼類型", "条码类型")]
-    public CodeType CodeType { get; set; } = CodeType.Panel;
+    public CodeType CodeType
+    {
+        get => Get<CodeType>();
+        set => Set(value);
+    }
 
     [LanguageTranslator("First Article", "首件", "首件")]
-    public bool FirstPanel { get; set; } = false;
+    public bool FirstPanel
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
 
     [LanguageTranslator("Order", "工單", "工单")]
-    public string OrderCode { get; set; } = string.Empty;
+    public string OrderCode
+    {
+        get => Get<string>()!;
+        set => Set(value);
+    }
 
     [LanguageTranslator("PartID", "料號", "料号")]
-    public string PartID { get; set; } = string.Empty;
+    public string PartID
+    {
+        get => Get<string>()!;
+        set => Set(value);
+    }
 
     [LanguageTranslator("LotID", "批號", "批号")]
-    public string LotID { get; set; } = string.Empty;
+    public string LotID
+    {
+        get => Get<string>()!;
+        set => Set(value);
+    }
 
     [LanguageTranslator("SN", "序號", "序号")]
-    public int ProcessNumber { get; set; }
+    public int ProcessNumber
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
 
     [LanguageTranslator("Side", "面", "面")]
-    public string Side { get; set; } = "A";
+    public string Side
+    {
+        get => Get<string>()!;
+        set => Set(value);
+    }
 
     /// <summary>放在第幾層</summary>
     [LanguageTranslator("Layer", "階層", "阶层")]
-    public int Layer { get; set; }
+    public int Layer
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
 
-    public ProductInfo() { }
+    public ProductInfo()
+    {
+        CodeType  = CodeType.Panel;
+        OrderCode = string.Empty;
+        PartID    = string.Empty;
+        LotID     = string.Empty;
+        Side      = "A";
+    }
 
     /// <summary></summary>
     /// <param name="code">工單條碼</param>

@@ -39,7 +39,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public double CoolingTime_Min => 0.0;
 
     [JsonIgnore]
-    public double RampTime_Max => 999.9;
+    public double RampTime_Max => 999.8;
 
     [JsonIgnore]
     public double RampTime_Min => 0.0;
@@ -51,13 +51,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public double RampAlarm_Min => 0.0;
 
     [JsonIgnore]
-    public double DwellTime_Max => 999.9;
+    public double DwellTime_Max => 9999.8;
 
     [JsonIgnore]
     public double DwellTime_Min => 0.0;
 
     [JsonIgnore]
-    public double DwellAlarm_Max => 999.9;
+    public double DwellAlarm_Max => 9999.9;
 
     [JsonIgnore]
     public double DwellAlarm_Min => 0.0;
@@ -594,7 +594,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_1)
             {
-                value = RampTime_1 + 1;
+                value = RampTime_1 + 0.1;
             }
 
             Set(value);
@@ -616,7 +616,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_2)
             {
-                value = RampTime_2 + 1;
+                value = RampTime_2 + 0.1;
             }
 
             Set(value);
@@ -638,7 +638,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_3)
             {
-                value = RampTime_3 + 1;
+                value = RampTime_3 + 0.1;
             }
 
             Set(value);
@@ -660,7 +660,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_4)
             {
-                value = RampTime_4 + 1;
+                value = RampTime_4 + 0.1;
             }
 
             Set(value);
@@ -682,7 +682,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_5)
             {
-                value = RampTime_5 + 1;
+                value = RampTime_5 + 0.1;
             }
 
             Set(value);
@@ -704,7 +704,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_6)
             {
-                value = RampTime_6 + 1;
+                value = RampTime_6 + 0.1;
             }
 
             Set(value);
@@ -727,7 +727,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_7)
             {
-                value = RampTime_7 + 1;
+                value = RampTime_7 + 0.1;
             }
 
             Set(value);
@@ -750,7 +750,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_8)
             {
-                value = RampTime_8 + 1;
+                value = RampTime_8 + 0.1;
             }
 
             Set(value);
@@ -1142,7 +1142,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_1)
             {
-                value = DwellTime_1 + 1;
+                value = DwellTime_1 + 0.1;
             }
 
             Set(value);
@@ -1164,7 +1164,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_2)
             {
-                value = DwellTime_2 + 1;
+                value = DwellTime_2 + 0.1;
             }
 
             Set(value);
@@ -1186,7 +1186,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_3)
             {
-                value = DwellTime_3 + 1;
+                value = DwellTime_3 + 0.1;
             }
 
             Set(value);
@@ -1208,7 +1208,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_4)
             {
-                value = DwellTime_4 + 1;
+                value = DwellTime_4 + 0.1;
             }
 
             Set(value);
@@ -1230,7 +1230,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_5)
             {
-                value = DwellTime_5 + 1;
+                value = DwellTime_5 + 0.1;
             }
 
             Set(value);
@@ -1252,7 +1252,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_6)
             {
-                value = DwellTime_6 + 1;
+                value = DwellTime_6 + 0.1;
             }
 
             Set(value);
@@ -1275,7 +1275,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_7)
             {
-                value = DwellTime_7 + 1;
+                value = DwellTime_7 + 0.1;
             }
 
             Set(value);
@@ -1298,7 +1298,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_8)
             {
-                value = DwellTime_8 + 1;
+                value = DwellTime_8 + 0.1;
             }
 
             Set(value);
@@ -1437,6 +1437,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
+    [GPIgnore]
     [OrderIndex(59)]
     [LanguageTranslator("Warning Time offset 7", "恆溫時間 補償 7", "恒温时间 補償 7")]
     public double DwellTimeOffset_7
@@ -1459,6 +1460,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
+    [GPIgnore]
     [OrderIndex(60)]
     [LanguageTranslator("Warning Time offset 8", "恆溫時間 補償 8", "恒温时间 補償 8")]
     public double DwellTimeOffset_8
@@ -1753,6 +1755,71 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         Editor                = user;
         EditorLevel           = level;
     }
+
+    public Dictionary<string, object> ToDictionary() => new()
+                                                        {
+                                                            { nameof(RecipeName), RecipeName },
+                                                            { nameof(NitrogenMode), NitrogenMode },
+                                                            { nameof(OxygenContentSet), OxygenContentSet },
+                                                            { nameof(InflatingTime), InflatingTime },
+                                                            { nameof(DwellTemperature_1), DwellTemperature_1 },
+                                                            { nameof(DwellTemperature_2), DwellTemperature_2 },
+                                                            { nameof(DwellTemperature_3), DwellTemperature_3 },
+                                                            { nameof(DwellTemperature_4), DwellTemperature_4 },
+                                                            { nameof(DwellTemperature_5), DwellTemperature_5 },
+                                                            { nameof(DwellTemperature_6), DwellTemperature_6 },
+                                                            { nameof(DwellTemperature_7), DwellTemperature_7 },
+                                                            { nameof(DwellTemperature_8), DwellTemperature_8 },
+                                                            { nameof(DwellTime_1), (float)DwellTime_1 },
+                                                            { nameof(DwellTime_2), (float)DwellTime_2 },
+                                                            { nameof(DwellTime_3), (float)DwellTime_3 },
+                                                            { nameof(DwellTime_4), (float)DwellTime_4 },
+                                                            { nameof(DwellTime_5), (float)DwellTime_5 },
+                                                            { nameof(DwellTime_6), (float)DwellTime_6 },
+                                                            { nameof(DwellTime_7), (float)DwellTime_7 },
+                                                            { nameof(DwellTime_8), (float)DwellTime_8 },
+                                                            { nameof(DwellAlarm_1), (float)DwellAlarm_1 },
+                                                            { nameof(DwellAlarm_2), (float)DwellAlarm_2 },
+                                                            { nameof(DwellAlarm_3), (float)DwellAlarm_3 },
+                                                            { nameof(DwellAlarm_4), (float)DwellAlarm_4 },
+                                                            { nameof(DwellAlarm_5), (float)DwellAlarm_5 },
+                                                            { nameof(DwellAlarm_6), (float)DwellAlarm_6 },
+                                                            { nameof(DwellAlarm_7), (float)DwellAlarm_7 },
+                                                            { nameof(DwellAlarm_8), (float)DwellAlarm_8 },
+                                                            { nameof(CoolingTime), CoolingTime },
+                                                            { nameof(CoolingTemperature), CoolingTemperature },
+                                                            { nameof(RampTime_1), (float)RampTime_1 },
+                                                            { nameof(RampTime_2), (float)RampTime_2 },
+                                                            { nameof(RampTime_3), (float)RampTime_3 },
+                                                            { nameof(RampTime_4), (float)RampTime_4 },
+                                                            { nameof(RampTime_5), (float)RampTime_5 },
+                                                            { nameof(RampTime_6), (float)RampTime_6 },
+                                                            { nameof(RampTime_7), (float)RampTime_7 },
+                                                            { nameof(RampTime_8), (float)RampTime_8 },
+                                                            { nameof(RampAlarm_1), (float)RampAlarm_1 },
+                                                            { nameof(RampAlarm_2), (float)RampAlarm_2 },
+                                                            { nameof(RampAlarm_3), (float)RampAlarm_3 },
+                                                            { nameof(RampAlarm_4), (float)RampAlarm_4 },
+                                                            { nameof(RampAlarm_5), (float)RampAlarm_5 },
+                                                            { nameof(RampAlarm_6), (float)RampAlarm_6 },
+                                                            { nameof(RampAlarm_7), (float)RampAlarm_7 },
+                                                            { nameof(RampAlarm_8), (float)RampAlarm_8 },
+                                                            { nameof(TemperatureSetpoint_1), TemperatureSetpoint_1 },
+                                                            { nameof(TemperatureSetpoint_2), TemperatureSetpoint_2 },
+                                                            { nameof(TemperatureSetpoint_3), TemperatureSetpoint_3 },
+                                                            { nameof(TemperatureSetpoint_4), TemperatureSetpoint_4 },
+                                                            { nameof(TemperatureSetpoint_5), TemperatureSetpoint_5 },
+                                                            { nameof(TemperatureSetpoint_6), TemperatureSetpoint_6 },
+                                                            { nameof(TemperatureSetpoint_7), TemperatureSetpoint_7 },
+                                                            { nameof(TemperatureSetpoint_8), TemperatureSetpoint_8 },
+                                                            { nameof(DwellTimeOffset_1), DwellTimeOffset_1 },
+                                                            { nameof(DwellTimeOffset_2), DwellTimeOffset_2 },
+                                                            { nameof(DwellTimeOffset_3), DwellTimeOffset_3 },
+                                                            { nameof(DwellTimeOffset_4), DwellTimeOffset_4 },
+                                                            { nameof(DwellTimeOffset_5), DwellTimeOffset_5 },
+                                                            { nameof(DwellTimeOffset_6), DwellTimeOffset_6 },
+                                                            { nameof(SegmentCounts), SegmentCounts }
+                                                        };
 
     public bool SetByDictionary(Dictionary<string, string> dic)
     {

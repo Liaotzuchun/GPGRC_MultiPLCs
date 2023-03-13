@@ -194,249 +194,249 @@ public class GOL_DataModel : PLCDataProvider
 
     /// <summary>升溫時間1</summary>
     [PLCData(DataType.D, 2960, 0.1, LogType.RecipeSet)]
-    public double RampTime_1
+    public float RampTime_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫時間2</summary>
-    [PLCData(DataType.D, 2961, 0.1, LogType.RecipeSet)]
-    public double RampTime_2
+    [PLCData(DataType.D, 2962, 0.1, LogType.RecipeSet)]
+    public float RampTime_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫時間3</summary>
-    [PLCData(DataType.D, 2962, 0.1, LogType.RecipeSet)]
-    public double RampTime_3
+    [PLCData(DataType.D, 2964, 0.1, LogType.RecipeSet)]
+    public float RampTime_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫時間4</summary>
-    [PLCData(DataType.D, 2963, 0.1, LogType.RecipeSet)]
-    public double RampTime_4
+    [PLCData(DataType.D, 2966, 0.1, LogType.RecipeSet)]
+    public float RampTime_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫時間5</summary>
-    [PLCData(DataType.D, 2964, 0.1, LogType.RecipeSet)]
-    public double RampTime_5
+    [PLCData(DataType.D, 2968, 0.1, LogType.RecipeSet)]
+    public float RampTime_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫時間6</summary>
-    [PLCData(DataType.D, 2965, 0.1, LogType.RecipeSet)]
-    public double RampTime_6
+    [PLCData(DataType.D, 2970, 0.1, LogType.RecipeSet)]
+    public float RampTime_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫時間7</summary>
-    public double RampTime_7
+    public float RampTime_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫時間8</summary>
-    public double RampTime_8
+    public float RampTime_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間1</summary>
     [PLCData(DataType.D, 2930, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_1
+    public float RampAlarm_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間2</summary>
-    [PLCData(DataType.D, 2931, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_2
+    [PLCData(DataType.D, 2932, 0.1, LogType.RecipeSet)]
+    public float RampAlarm_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間3</summary>
-    [PLCData(DataType.D, 2932, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_3
+    [PLCData(DataType.D, 2934, 0.1, LogType.RecipeSet)]
+    public float RampAlarm_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間4</summary>
-    [PLCData(DataType.D, 2933, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_4
+    [PLCData(DataType.D, 2936, 0.1, LogType.RecipeSet)]
+    public float RampAlarm_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間5</summary>
-    [PLCData(DataType.D, 2934, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_5
+    [PLCData(DataType.D, 2938, 0.1, LogType.RecipeSet)]
+    public float RampAlarm_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間6</summary>
-    [PLCData(DataType.D, 2935, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_6
+    [PLCData(DataType.D, 2940, 0.1, LogType.RecipeSet)]
+    public float RampAlarm_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間7</summary>
-    public double RampAlarm_7
+    public float RampAlarm_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間8</summary>
-    public double RampAlarm_8
+    public float RampAlarm_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間1</summary>
     [PLCData(DataType.D, 2915, 0.1, LogType.RecipeSet)]
-    public double DwellTime_1
+    public float DwellTime_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間2</summary>
-    [PLCData(DataType.D, 2916, 0.1, LogType.RecipeSet)]
-    public double DwellTime_2
+    [PLCData(DataType.D, 2917, 0.1, LogType.RecipeSet)]
+    public float DwellTime_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間3</summary>
-    [PLCData(DataType.D, 2917, 0.1, LogType.RecipeSet)]
-    public double DwellTime_3
+    [PLCData(DataType.D, 2919, 0.1, LogType.RecipeSet)]
+    public float DwellTime_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間4</summary>
-    [PLCData(DataType.D, 2918, 0.1, LogType.RecipeSet)]
-    public double DwellTime_4
+    [PLCData(DataType.D, 2921, 0.1, LogType.RecipeSet)]
+    public float DwellTime_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間5</summary>
-    [PLCData(DataType.D, 2919, 0.1, LogType.RecipeSet)]
-    public double DwellTime_5
+    [PLCData(DataType.D, 2923, 0.1, LogType.RecipeSet)]
+    public float DwellTime_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間6</summary>
-    [PLCData(DataType.D, 2920, 0.1, LogType.RecipeSet)]
-    public double DwellTime_6
+    [PLCData(DataType.D, 2925, 0.1, LogType.RecipeSet)]
+    public float DwellTime_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間7</summary>
-    public double DwellTime_7
+    public float DwellTime_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間8</summary>
-    public double DwellTime_8
+    public float DwellTime_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間1</summary>
     [PLCData(DataType.D, 2945, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_1
+    public float DwellAlarm_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間2</summary>
-    [PLCData(DataType.D, 2946, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_2
+    [PLCData(DataType.D, 2947, 0.1, LogType.RecipeSet)]
+    public float DwellAlarm_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間3</summary>
-    [PLCData(DataType.D, 2947, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_3
+    [PLCData(DataType.D, 2949, 0.1, LogType.RecipeSet)]
+    public float DwellAlarm_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間4</summary>
-    [PLCData(DataType.D, 2948, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_4
+    [PLCData(DataType.D, 2951, 0.1, LogType.RecipeSet)]
+    public float DwellAlarm_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間5</summary>
-    [PLCData(DataType.D, 2949, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_5
+    [PLCData(DataType.D, 2953, 0.1, LogType.RecipeSet)]
+    public float DwellAlarm_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間6</summary>
-    [PLCData(DataType.D, 2950, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_6
+    [PLCData(DataType.D, 2955, 0.1, LogType.RecipeSet)]
+    public float DwellAlarm_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間7</summary>
-    public double DwellAlarm_7
+    public float DwellAlarm_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間8</summary>
-    public double DwellAlarm_8
+    public float DwellAlarm_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
@@ -666,249 +666,249 @@ public class GOL_DataModel : PLCDataProvider
 
     /// <summary>配方SV 升溫時間1</summary>
     [PLCData(DataType.D, 760, 0.1, LogType.StatusVariables)]
-    public double SV_RampTime_1
+    public float SV_RampTime_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫時間2</summary>
-    [PLCData(DataType.D, 761, 0.1, LogType.StatusVariables)]
-    public double SV_RampTime_2
+    [PLCData(DataType.D, 762, 0.1, LogType.StatusVariables)]
+    public float SV_RampTime_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫時間3</summary>
-    [PLCData(DataType.D, 762, 0.1, LogType.StatusVariables)]
-    public double SV_RampTime_3
+    [PLCData(DataType.D, 764, 0.1, LogType.StatusVariables)]
+    public float SV_RampTime_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫時間4</summary>
-    [PLCData(DataType.D, 763, 0.1, LogType.StatusVariables)]
-    public double SV_RampTime_4
+    [PLCData(DataType.D, 766, 0.1, LogType.StatusVariables)]
+    public float SV_RampTime_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫時間5</summary>
-    [PLCData(DataType.D, 764, 0.1, LogType.StatusVariables)]
-    public double SV_RampTime_5
+    [PLCData(DataType.D, 768, 0.1, LogType.StatusVariables)]
+    public float SV_RampTime_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫時間6</summary>
-    [PLCData(DataType.D, 765, 0.1, LogType.StatusVariables)]
-    public double SV_RampTime_6
+    [PLCData(DataType.D, 770, 0.1, LogType.StatusVariables)]
+    public float SV_RampTime_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫時間7</summary>
-    public double SV_RampTime_7
+    public float SV_RampTime_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫時間8</summary>
-    public double SV_RampTime_8
+    public float SV_RampTime_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫警報時間1</summary>
     [PLCData(DataType.D, 730, 0.1, LogType.StatusVariables)]
-    public double SV_RampAlarm_1
+    public float SV_RampAlarm_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫警報時間2</summary>
-    [PLCData(DataType.D, 731, 0.1, LogType.StatusVariables)]
-    public double SV_RampAlarm_2
+    [PLCData(DataType.D, 732, 0.1, LogType.StatusVariables)]
+    public float SV_RampAlarm_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫警報時間3</summary>
-    [PLCData(DataType.D, 732, 0.1, LogType.StatusVariables)]
-    public double SV_RampAlarm_3
+    [PLCData(DataType.D, 734, 0.1, LogType.StatusVariables)]
+    public float SV_RampAlarm_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫警報時間4</summary>
-    [PLCData(DataType.D, 733, 0.1, LogType.StatusVariables)]
-    public double SV_RampAlarm_4
+    [PLCData(DataType.D, 736, 0.1, LogType.StatusVariables)]
+    public float SV_RampAlarm_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫警報時間5</summary>
-    [PLCData(DataType.D, 734, 0.1, LogType.StatusVariables)]
-    public double SV_RampAlarm_5
+    [PLCData(DataType.D, 738, 0.1, LogType.StatusVariables)]
+    public float SV_RampAlarm_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫警報時間6</summary>
-    [PLCData(DataType.D, 735, 0.1, LogType.StatusVariables)]
-    public double SV_RampAlarm_6
+    [PLCData(DataType.D, 740, 0.1, LogType.StatusVariables)]
+    public float SV_RampAlarm_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫警報時間7</summary>
-    public double SV_RampAlarm_7
+    public float SV_RampAlarm_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 升溫警報時間8</summary>
-    public double SV_RampAlarm_8
+    public float SV_RampAlarm_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫時間1</summary>
     [PLCData(DataType.D, 715, 0.1, LogType.StatusVariables)]
-    public double SV_DwellTime_1
+    public float SV_DwellTime_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫時間2</summary>
-    [PLCData(DataType.D, 716, 0.1, LogType.StatusVariables)]
-    public double SV_DwellTime_2
+    [PLCData(DataType.D, 717, 0.1, LogType.StatusVariables)]
+    public float SV_DwellTime_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫時間3</summary>
-    [PLCData(DataType.D, 717, 0.1, LogType.StatusVariables)]
-    public double SV_DwellTime_3
+    [PLCData(DataType.D, 719, 0.1, LogType.StatusVariables)]
+    public float SV_DwellTime_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫時間4</summary>
-    [PLCData(DataType.D, 718, 0.1, LogType.StatusVariables)]
-    public double SV_DwellTime_4
+    [PLCData(DataType.D, 721, 0.1, LogType.StatusVariables)]
+    public float SV_DwellTime_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫時間5</summary>
-    [PLCData(DataType.D, 719, 0.1, LogType.StatusVariables)]
-    public double SV_DwellTime_5
+    [PLCData(DataType.D, 723, 0.1, LogType.StatusVariables)]
+    public float SV_DwellTime_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫時間6</summary>
-    [PLCData(DataType.D, 720, 0.1, LogType.StatusVariables)]
-    public double SV_DwellTime_6
+    [PLCData(DataType.D, 725, 0.1, LogType.StatusVariables)]
+    public float SV_DwellTime_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫時間7</summary>
-    public double SV_DwellTime_7
+    public float SV_DwellTime_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫時間8</summary>
-    public double SV_DwellTime_8
+    public float SV_DwellTime_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫警報時間1</summary>
     [PLCData(DataType.D, 745, 0.1, LogType.StatusVariables)]
-    public double SV_DwellAlarm_1
+    public float SV_DwellAlarm_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫警報時間2</summary>
-    [PLCData(DataType.D, 746, 0.1, LogType.StatusVariables)]
-    public double SV_DwellAlarm_2
+    [PLCData(DataType.D, 747, 0.1, LogType.StatusVariables)]
+    public float SV_DwellAlarm_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫警報時間3</summary>
-    [PLCData(DataType.D, 747, 0.1, LogType.StatusVariables)]
-    public double SV_DwellAlarm_3
+    [PLCData(DataType.D, 749, 0.1, LogType.StatusVariables)]
+    public float SV_DwellAlarm_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫警報時間4</summary>
-    [PLCData(DataType.D, 748, 0.1, LogType.StatusVariables)]
-    public double SV_DwellAlarm_4
+    [PLCData(DataType.D, 751, 0.1, LogType.StatusVariables)]
+    public float SV_DwellAlarm_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫警報時間5</summary>
-    [PLCData(DataType.D, 749, 0.1, LogType.StatusVariables)]
-    public double SV_DwellAlarm_5
+    [PLCData(DataType.D, 753, 0.1, LogType.StatusVariables)]
+    public float SV_DwellAlarm_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫警報時間6</summary>
-    [PLCData(DataType.D, 750, 0.1, LogType.StatusVariables)]
-    public double SV_DwellAlarm_6
+    [PLCData(DataType.D, 755, 0.1, LogType.StatusVariables)]
+    public float SV_DwellAlarm_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫警報時間7</summary>
-    public double SV_DwellAlarm_7
+    public float SV_DwellAlarm_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方SV 恆溫警報時間8</summary>
-    public double SV_DwellAlarm_8
+    public float SV_DwellAlarm_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
@@ -1793,134 +1793,134 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>配方PV 升溫時間1</summary>
-    [PLCData(DataType.D, 140, 0.1, LogType.StatusVariables)]
-    public double PV_RampTime_1
+    [PLCData(DataType.D, 370, 0.1, LogType.StatusVariables)]
+    public float PV_RampTime_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 升溫時間2</summary>
-    [PLCData(DataType.D, 141, 0.1, LogType.StatusVariables)]
-    public double PV_RampTime_2
+    [PLCData(DataType.D, 372, 0.1, LogType.StatusVariables)]
+    public float PV_RampTime_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 升溫時間3</summary>
-    [PLCData(DataType.D, 142, 0.1, LogType.StatusVariables)]
-    public double PV_RampTime_3
+    [PLCData(DataType.D, 374, 0.1, LogType.StatusVariables)]
+    public float PV_RampTime_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 升溫時間4</summary>
-    [PLCData(DataType.D, 143, 0.1, LogType.StatusVariables)]
-    public double PV_RampTime_4
+    [PLCData(DataType.D, 376, 0.1, LogType.StatusVariables)]
+    public float PV_RampTime_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 升溫時間5</summary>
-    [PLCData(DataType.D, 144, 0.1, LogType.StatusVariables)]
-    public double PV_RampTime_5
+    [PLCData(DataType.D, 378, 0.1, LogType.StatusVariables)]
+    public float PV_RampTime_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 升溫時間6</summary>
-    [PLCData(DataType.D, 145, 0.1, LogType.StatusVariables)]
-    public double PV_RampTime_6
+    [PLCData(DataType.D, 380, 0.1, LogType.StatusVariables)]
+    public float PV_RampTime_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 升溫時間7</summary>
-    public double PV_RampTime_7
+    public float PV_RampTime_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 升溫時間8</summary>
-    public double PV_RampTime_8
+    public float PV_RampTime_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 恆溫時間1</summary>
-    [PLCData(DataType.D, 131, 0.1, LogType.StatusVariables)]
-    public double PV_DwellTime_1
+    [PLCData(DataType.D, 386, 0.1, LogType.StatusVariables)]
+    public float PV_DwellTime_1
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 恆溫時間2</summary>
-    [PLCData(DataType.D, 132, 0.1, LogType.StatusVariables)]
-    public double PV_DwellTime_2
+    [PLCData(DataType.D, 388, 0.1, LogType.StatusVariables)]
+    public float PV_DwellTime_2
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 恆溫時間3</summary>
-    [PLCData(DataType.D, 133, 0.1, LogType.StatusVariables)]
-    public double PV_DwellTime_3
+    [PLCData(DataType.D, 390, 0.1, LogType.StatusVariables)]
+    public float PV_DwellTime_3
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 恆溫時間4</summary>
-    [PLCData(DataType.D, 134, 0.1, LogType.StatusVariables)]
-    public double PV_DwellTime_4
+    [PLCData(DataType.D, 392, 0.1, LogType.StatusVariables)]
+    public float PV_DwellTime_4
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 恆溫時間5</summary>
-    [PLCData(DataType.D, 135, 0.1, LogType.StatusVariables)]
-    public double PV_DwellTime_5
+    [PLCData(DataType.D, 394, 0.1, LogType.StatusVariables)]
+    public float PV_DwellTime_5
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 恆溫時間6</summary>
-    [PLCData(DataType.D, 136, 0.1, LogType.StatusVariables)]
-    public double PV_DwellTime_6
+    [PLCData(DataType.D, 396, 0.1, LogType.StatusVariables)]
+    public float PV_DwellTime_6
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 恆溫時間7</summary>
-    public double PV_DwellTime_7
+    public float PV_DwellTime_7
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 恆溫時間8</summary>
-    public double PV_DwellTime_8
+    public float PV_DwellTime_8
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
 
     /// <summary>配方PV 降溫時間</summary>
     [PLCData(DataType.D, 137, 0.1, LogType.StatusVariables)]
-    public double PV_CoolingTime
+    public float PV_CoolingTime
     {
-        get => Get<double>();
+        get => Get<float>();
         set => Set(value);
     }
     #endregion
