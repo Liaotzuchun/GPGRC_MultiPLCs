@@ -35,33 +35,33 @@
                                Foreground="{StaticResource BaseForeground}" />
                 </Grid>
                 <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    <DataTrigger Binding="{Binding EquipmentStatus, Mode=OneWay}"
                                  Value="-1">
                         <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
                         <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 離線}" />
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    <DataTrigger Binding="{Binding EquipmentStatus, Mode=OneWay}"
                                  Value="2">
                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                         <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
                         <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 待命}" />
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    <DataTrigger Binding="{Binding EquipmentStatus, Mode=OneWay}"
                                  Value="4">
                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                         <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
                         <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 錯誤}" />
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    <DataTrigger Binding="{Binding EquipmentStatus, Mode=OneWay}"
                                  Value="8">
                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
                         <Setter TargetName="ProgressString" Property="Foreground" Value="{StaticResource BaseForeground}" />
                         <Setter TargetName="ProgressString" Property="Text" Value="{DynamicResource 維修}" />
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding ProgressStatus, Mode=OneWay}"
+                    <DataTrigger Binding="{Binding EquipmentStatus, Mode=OneWay}"
                                  Value="16">
                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource WindowBackgroundBrush2}" />
                         <Setter TargetName="Progress" Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
