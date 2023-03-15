@@ -515,7 +515,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          //! 更新ProcessData以供上報
                                          try
                                          {
-                                             SecsGemEquipment.UpdateDVbyName($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
+                                             SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
                                          }
                                          catch
                                          {
@@ -599,7 +599,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                       SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
                                   }
 
-                                  SecsGemEquipment.UpdateSVbyName($"Oven{index + 1}_{name}", value);
+                                  SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
                               };
 
             //plc.RecipeChangedbyPLC += recipe =>
@@ -753,8 +753,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public void InvokeRecipe(string name, PPStatus status)
     {
-        SecsGemEquipment.UpdateDVbyName("GemPPChangeName",   name);
-        SecsGemEquipment.UpdateDVbyName("GemPPChangeStatus", (int)status);
+        SecsGemEquipment.UpdateDV("GemPPChangeName",   name);
+        SecsGemEquipment.UpdateDV("GemPPChangeStatus", (int)status);
         SecsGemEquipment.InvokeEvent("GemProcessProgramChange");
     }
 
