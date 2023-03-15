@@ -76,11 +76,11 @@ public class GOL_SecsGem : SECSGEM_Equipment
                                                                                                                  }
                                                                                                                  if (r.CommandName == "GO_LOCAL")
                                                                                                                  {
-                                                                                                                     return new RemoteCommandResponse(SecsGem?.AxQGWrapper.OnLineLocal() == 0 ? HCACKValule.CantPerform : HCACKValule.Acknowledge);
+                                                                                                                     return new RemoteCommandResponse(AxQGWrapper.OnLineLocal() == 0 ? HCACKValule.CantPerform : HCACKValule.Acknowledge);
                                                                                                                  }
                                                                                                                  if (r.CommandName == "GO_REMOTE")
                                                                                                                  {
-                                                                                                                     new RemoteCommandResponse(SecsGem?.AxQGWrapper.OnLineRemote() == 0 ? HCACKValule.CantPerform : HCACKValule.Acknowledge);
+                                                                                                                     new RemoteCommandResponse(AxQGWrapper.OnLineRemote() == 0 ? HCACKValule.CantPerform : HCACKValule.Acknowledge);
                                                                                                                  }
 
                                                                                                                  return new RemoteCommandResponse(HCACKValule.CmdNotExist);

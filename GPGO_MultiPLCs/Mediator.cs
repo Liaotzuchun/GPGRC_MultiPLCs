@@ -267,12 +267,12 @@ public sealed class Mediator : ObservableObject
                                                  }
                                              }
 
-                                             var ccode = TotalVM.SecsGemEquipment.SecsGem.CCodeDocument.CCodeItems[0];
+                                             var ccode = TotalVM.SecsGemEquipment.CCodeDocument.CCodeItems[0];
                                              foreach (var recipe in list)
                                              {
                                                  var _recipe = recipe.ToDictionary();
                                                  var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
-                                                 var ini      = new IniParser(fpath);
+                                                 var ini     = new IniParser(fpath);
 
                                                  foreach (var parm in ccode.ParameterItems)
                                                  {

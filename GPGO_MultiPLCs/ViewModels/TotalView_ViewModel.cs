@@ -35,7 +35,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     /// <summary>設備碼儲存位置</summary>
     private const string MachineCodesPath = "MachineCodes";
-    private readonly IDialogService Dialog;
+    private readonly IDialogService? Dialog;
 
     /// <summary>保持PLC Gate連線</summary>
     private readonly Timer Checker;
@@ -196,7 +196,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         var v = Assembly.GetExecutingAssembly().GetName().Version;
         SecsGemEquipment = new GOL_SecsGem("0", "GPGO", $"{v.Major}.{v.Minor}.{v.Build}");
 
-        SecsGemEquipment.SecsGem.HSMSParameters.PropertyChanged += (_, _) => SecsGemEquipment.SecsGem.SaveHSMSParameters();
+        SecsGemEquipment.HSMSParameters.PropertyChanged += (_, _) => SecsGemEquipment.SaveHSMSParameters();
 
         WantLoginCommand = new RelayCommand(_ => WantLogin?.Invoke());
 
@@ -225,48 +225,48 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       },
                                                       null);
 
-        SecsGemEquipment.TerminalMessage += async message =>
-                                            {
-                                                if (dialog == null)
-                                                {
-                                                    return;
-                                                }
+        SecsGemEquipment.TerminalMessageRecived += async message =>
+                                                   {
+                                                       if (Dialog == null)
+                                                       {
+                                                           return;
+                                                       }
 
-                                                var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.TerminalMessageEvent), "", message);
-                                                EventHappened?.Invoke(eventval);
+                                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.TerminalMessageRecived), "", message);
+                                                       EventHappened?.Invoke(eventval);
 
-                                                if (await dialog.Show(new Dictionary<Language, string>
-                                                                      {
-                                                                          { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
-                                                                          { Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}" },
-                                                                          { Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}" }
-                                                                      },
-                                                                      false,
-                                                                      TimeSpan.FromDays(1),
-                                                                      DialogMsgType.Alert))
-                                                {
-                                                    SecsGemEquipment.TerminalMessageConfirm();
+                                                       if (await dialog.Show(new Dictionary<Language, string>
+                                                                             {
+                                                                                 { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
+                                                                                 { Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}" },
+                                                                                 { Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}" }
+                                                                             },
+                                                                             false,
+                                                                             TimeSpan.FromDays(1),
+                                                                             DialogMsgType.Alert))
+                                                       {
+                                                           SecsGemEquipment.TerminalMessageConfirm();
 
-                                                    var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
-                                                                                                       {
-                                                                                                           { Language.TW, "欲回覆之訊息：" },
-                                                                                                           { Language.CHS, "欲回复之讯息：" },
-                                                                                                           { Language.EN, "Please enter the message you want to reply：" }
-                                                                                                       },
-                                                                                                       new Dictionary<Language, string>
-                                                                                                       {
-                                                                                                           { Language.TW, "終端訊息" },
-                                                                                                           { Language.CHS, "终端讯息" },
-                                                                                                           { Language.EN, "Terminal Message" }
-                                                                                                       },
-                                                                                                       true);
+                                                           var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                                                              {
+                                                                                                                  { Language.TW, "欲回覆之訊息：" },
+                                                                                                                  { Language.CHS, "欲回复之讯息：" },
+                                                                                                                  { Language.EN, "Please enter the message you want to reply：" }
+                                                                                                              },
+                                                                                                              new Dictionary<Language, string>
+                                                                                                              {
+                                                                                                                  { Language.TW, "終端訊息" },
+                                                                                                                  { Language.CHS, "终端讯息" },
+                                                                                                                  { Language.EN, "Terminal Message" }
+                                                                                                              },
+                                                                                                              true);
 
-                                                    if (result1 && input1 is string msg)
-                                                    {
-                                                        SecsGemEquipment.SendTerminalMessage(msg);
-                                                    }
-                                                }
-                                            };
+                                                           if (result1 && input1 is string msg)
+                                                           {
+                                                               SecsGemEquipment.SendTerminalMessage(msg);
+                                                           }
+                                                       }
+                                                   };
 
         SecsGemEquipment.ECChange += (ecid, value) =>
                                      {
@@ -284,7 +284,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         SecsGemEquipment.UpsertRecipe += (name, recipedic) =>
                                          {
                                              var recipe   = new PLC_Recipe(name, "SECSGEM-HOST", UserLevel.Manager);
-                                             var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.InsertPPEvent), "", recipe.RecipeName);
+                                             var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.UpsertRecipe), "", recipe.RecipeName);
                                              EventHappened?.Invoke(eventval);
 
                                              return recipe.SetByDictionary(recipedic) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
@@ -292,7 +292,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.DeleteRecipe += recipeName =>
                                          {
-                                             var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.DeletePPEvent), "", recipeName);
+                                             var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.DeleteRecipe), "", recipeName);
                                              EventHappened?.Invoke(eventval);
 
                                              return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
@@ -474,7 +474,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                 {
                                                     try
                                                     {
-                                                        SecsGemEquipment?.UpdateDV(nameof(GOL_SecsGem.RetrieveLotData), JsonConvert.SerializeObject(info));
+                                                        SecsGemEquipment.UpdateDV(nameof(GOL_SecsGem.RetrieveLotData), JsonConvert.SerializeObject(info));
                                                     }
                                                     catch
                                                     {
@@ -543,7 +543,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          //! 更新ProcessData以供上報
                                          try
                                          {
-                                             SecsGemEquipment?.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
+                                             SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
                                          }
                                          catch
                                          {
@@ -552,7 +552,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                          if (baseInfo.IsFinished)
                                          {
-                                             SecsGemEquipment?.InvokeEvent($"Oven{index + 1}_ProcessComplete");
+                                             SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
 
                                              dialog?.Show(new Dictionary<Language, string>
                                                           {
@@ -564,7 +564,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          }
                                          else
                                          {
-                                             SecsGemEquipment?.InvokeEvent($"Oven{index + 1}_ProcessAborted");
+                                             SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
                                              dialog?.Show(new Dictionary<Language, string>
                                                           {
@@ -686,7 +686,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             {
                 var vals = AssetNumbersPath.ReadFromJsonFile<string[]>();
 
-                for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
+                for (var i = 0; i < Math.Min(vals?.Length ?? 0, PLC_All.Count); i++)
                 {
                     PLC_All[i].OvenInfo.AssetNumber = vals[i];
                 }
@@ -781,9 +781,9 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public void InvokeRecipe(string name, PPStatus status)
     {
-        SecsGemEquipment?.UpdateDV("GemPPChangeName",   name);
-        SecsGemEquipment?.UpdateDV("GemPPChangeStatus", (int)status);
-        SecsGemEquipment?.InvokeEvent("GemProcessProgramChange");
+        SecsGemEquipment.UpdateDV("GemPPChangeName",   name);
+        SecsGemEquipment.UpdateDV("GemPPChangeStatus", (int)status);
+        SecsGemEquipment.InvokeEvent("GemProcessProgramChange");
     }
 
     public void InsertMessage(params LogEvent[] evs)
