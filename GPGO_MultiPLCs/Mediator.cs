@@ -392,8 +392,6 @@ public sealed class Mediator : ObservableObject
 
         TotalVM.DeleteRecipe += recipe => RecipeVM.Delete(recipe).Result;
 
-        TotalVM.RetrieveLotData += async lotid => (await TraceVM.FindInfo(lotid)).OrderByDescending(x => x.EndTime).FirstOrDefault();
-
         LogVM.WantInfo += e => TraceVM.FindInfo(e.station, e.time);
 
         LogVM.GoDetailView += async e =>

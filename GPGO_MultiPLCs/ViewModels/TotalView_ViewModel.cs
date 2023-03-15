@@ -28,7 +28,6 @@ public sealed class TotalView_ViewModel : ObservableObject
     public event Func<(int StationIndex, string RecipeName), PLC_Recipe?>                                         GetRecipe;
     public event Func<PLC_Recipe, bool>                                                                           UpsertRecipe;
     public event Func<string, bool>                                                                               DeleteRecipe;
-    public event Func<string, Task<ProcessInfo?>>                                                                 RetrieveLotData;
 
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
@@ -298,109 +297,109 @@ public sealed class TotalView_ViewModel : ObservableObject
                                              return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
                                          };
 
-        SecsGemEquipment.Start += index =>
-                                  {
-                                      if (index >= PLC_All.Count)
-                                      {
-                                          return HCACKValule.ParameterInvalid;
-                                      }
-
-                                      if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AutoMode || PLC_All[index].IsExecuting)
-                                      {
-                                          return HCACKValule.CantPerform;
-                                      }
-
-                                      var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.Start), "", index);
-                                      EventHappened?.Invoke(eventval);
-                                      PLC_All[index].AutoMode_Stop  = false;
-                                      PLC_All[index].AutoMode_Start = true;
-
-                                      return HCACKValule.Acknowledge;
-                                  };
-
-        SecsGemEquipment.Stop += index =>
-                                 {
-                                     if (index >= PLC_All.Count)
-                                     {
-                                         return HCACKValule.ParameterInvalid;
-                                     }
-
-                                     if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].ProcessComplete)
-                                     {
-                                         return HCACKValule.CantPerform;
-                                     }
-
-                                     var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.Stop), "", index);
-                                     EventHappened?.Invoke(eventval);
-                                     PLC_All[index].AutoMode_Start = false;
-                                     PLC_All[index].AutoMode_Stop  = true;
-
-                                     return HCACKValule.Acknowledge;
-                                 };
-
-        SecsGemEquipment.SetRecipe += (index, name) =>
-                                      {
-                                          if (index >= PLC_All.Count)
+        SecsGemEquipment.START_Command += index =>
                                           {
-                                              return HCACKValule.ParameterInvalid;
-                                          }
+                                              if (index >= PLC_All.Count)
+                                              {
+                                                  return HCACKValule.ParameterInvalid;
+                                              }
 
-                                          if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
-                                          {
-                                              return HCACKValule.CantPerform;
-                                          }
+                                              if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AutoMode || PLC_All[index].IsExecuting)
+                                              {
+                                                  return HCACKValule.CantPerform;
+                                              }
 
-                                          var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.SetRecipe), "", $"{index}-{name}");
-                                          EventHappened?.Invoke(eventval);
+                                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.START_Command), "", index);
+                                              EventHappened?.Invoke(eventval);
+                                              PLC_All[index].AutoMode_Stop  = false;
+                                              PLC_All[index].AutoMode_Start = true;
 
-                                          return PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
-                                          ;
-                                      };
+                                              return HCACKValule.Acknowledge;
+                                          };
 
-        SecsGemEquipment.AddLOT += (index, lot) =>
-                                   {
-                                       if (index >= PLC_All.Count)
-                                       {
-                                           return HCACKValule.ParameterInvalid;
-                                       }
+        SecsGemEquipment.STOP_Command += index =>
+                                         {
+                                             if (index >= PLC_All.Count)
+                                             {
+                                                 return HCACKValule.ParameterInvalid;
+                                             }
 
-                                       if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || PLC_All[index].IsExecuting)
-                                       {
-                                           return HCACKValule.CantPerform;
-                                       }
+                                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].ProcessComplete)
+                                             {
+                                                 return HCACKValule.CantPerform;
+                                             }
 
-                                       var (lotID, partID, layer, quantity) = lot;
+                                             var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.STOP_Command), "", index);
+                                             EventHappened?.Invoke(eventval);
+                                             PLC_All[index].AutoMode_Start = false;
+                                             PLC_All[index].AutoMode_Stop  = true;
 
-                                       PLC_All[index].AddLOT(lotID, partID, layer, quantity);
-                                       var unit     = quantity > 1 ? "pcs" : "pc";
-                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.AddLOT), "", $"{index}-{lotID}-{partID}-{layer}-{quantity}{unit}");
-                                       EventHappened?.Invoke(eventval);
+                                             return HCACKValule.Acknowledge;
+                                         };
 
-                                       SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
-                                       return HCACKValule.Acknowledge;
-                                   };
+        SecsGemEquipment.PPSELECT_Command += (index, name) =>
+                                             {
+                                                 if (index >= PLC_All.Count)
+                                                 {
+                                                     return HCACKValule.ParameterInvalid;
+                                                 }
 
-        SecsGemEquipment.CANCEL += index =>
-                                   {
-                                       if (index >= PLC_All.Count)
-                                       {
-                                           return HCACKValule.ParameterInvalid;
-                                       }
+                                                 if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
+                                                 {
+                                                     return HCACKValule.CantPerform;
+                                                 }
 
-                                       if (PLC_All[index].IsExecuting)
-                                       {
-                                           return HCACKValule.CantPerform;
-                                       }
+                                                 var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.PPSELECT_Command), "", $"{index}-{name}");
+                                                 EventHappened?.Invoke(eventval);
 
-                                       var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.CANCEL), "", index);
-                                       EventHappened?.Invoke(eventval);
-                                       CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
+                                                 return PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
+                                                 ;
+                                             };
 
-                                       PLC_All[index].ClearInput();
-                                       PLC_All[index].OvenInfo.Clear();
-                                       SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotRemoved");
-                                       return HCACKValule.Acknowledge;
-                                   };
+        SecsGemEquipment.ADDLOT_Command += (index, lot) =>
+                                           {
+                                               if (index >= PLC_All.Count)
+                                               {
+                                                   return HCACKValule.ParameterInvalid;
+                                               }
+
+                                               if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || PLC_All[index].IsExecuting)
+                                               {
+                                                   return HCACKValule.CantPerform;
+                                               }
+
+                                               var (lotID, partID, layer, quantity) = lot;
+
+                                               PLC_All[index].AddLOT(lotID, partID, layer, quantity);
+                                               var unit     = quantity > 1 ? "pcs" : "pc";
+                                               var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.ADDLOT_Command), "", $"{index}-{lotID}-{partID}-{layer}-{quantity}{unit}");
+                                               EventHappened?.Invoke(eventval);
+
+                                               SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
+                                               return HCACKValule.Acknowledge;
+                                           };
+
+        SecsGemEquipment.CANCEL_Command += index =>
+                                           {
+                                               if (index >= PLC_All.Count)
+                                               {
+                                                   return HCACKValule.ParameterInvalid;
+                                               }
+
+                                               if (PLC_All[index].IsExecuting)
+                                               {
+                                                   return HCACKValule.CantPerform;
+                                               }
+
+                                               var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.CANCEL_Command), "", index);
+                                               EventHappened?.Invoke(eventval);
+                                               CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
+
+                                               PLC_All[index].ClearInput();
+                                               PLC_All[index].OvenInfo.Clear();
+                                               SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotRemoved");
+                                               return HCACKValule.Acknowledge;
+                                           };
 
         SecsGemEquipment.CommEnable_Changed += boolval =>
                                                {
@@ -462,33 +461,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                           EventHappened?.Invoke(eventval);
                                       };
 
-        //! 依LotID查詢最近一筆資料
-        SecsGemEquipment.RetrieveLotData += lotid =>
-                                            {
-                                                var info = RetrieveLotData?.Invoke(lotid).Result;
-
-                                                var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.RetrieveLotData), "", lotid);
-                                                EventHappened?.Invoke(eventval);
-
-                                                if (info != null)
-                                                {
-                                                    try
-                                                    {
-                                                        SecsGemEquipment.UpdateDV(nameof(GOL_SecsGem.RetrieveLotData), JsonConvert.SerializeObject(info));
-                                                    }
-                                                    catch
-                                                    {
-                                                        // ignored
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    return HCACKValule.NoObjectExists;
-                                                }
-
-                                                return HCACKValule.Acknowledge;
-                                            };
-
         SecsGemEquipment.Enable(true);
         SecsGemEquipment.Online(true);
 
@@ -543,7 +515,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          //! 更新ProcessData以供上報
                                          try
                                          {
-                                             SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
+                                             SecsGemEquipment.UpdateDVbyName($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
                                          }
                                          catch
                                          {
@@ -627,7 +599,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                       SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
                                   }
 
-                                  SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
+                                  SecsGemEquipment.UpdateSVbyName($"Oven{index + 1}_{name}", value);
                               };
 
             //plc.RecipeChangedbyPLC += recipe =>
@@ -781,8 +753,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public void InvokeRecipe(string name, PPStatus status)
     {
-        SecsGemEquipment.UpdateDV("GemPPChangeName",   name);
-        SecsGemEquipment.UpdateDV("GemPPChangeStatus", (int)status);
+        SecsGemEquipment.UpdateDVbyName("GemPPChangeName",   name);
+        SecsGemEquipment.UpdateDVbyName("GemPPChangeStatus", (int)status);
         SecsGemEquipment.InvokeEvent("GemProcessProgramChange");
     }
 
