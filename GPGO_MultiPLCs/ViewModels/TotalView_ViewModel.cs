@@ -128,11 +128,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      { Language.CHS, "无法中止联机" },
                                      { Language.EN, "Unable to disable connection" }
                                  });
-
-                value = !value;
             }
-
-            Set(value);
         }
     }
 
@@ -152,12 +148,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                 return;
             }
 
-            if (!SecsGemEquipment.Online(value))
-            {
-                value = !value;
-            }
-
-            Set(value);
+            SecsGemEquipment.Online(value);
         }
     }
 
@@ -171,17 +162,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                 return;
             }
 
-            if (!SecsGemEquipment.Remote(value))
-            {
-                value = !value;
-            }
-
-            Set(value);
-
-            foreach (var plc in PLC_All)
-            {
-                plc.RemoteMode = value;
-            }
+            SecsGemEquipment.Remote(value);
         }
     }
 
@@ -444,6 +425,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                              return; //! 確定值變
                                          }
                                          Set(false, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+                                         foreach (var plc in PLC_All)
+                                         {
+                                             plc.RemoteMode = false;
+                                         }
 
                                          var eventval = (-1, EventType.StatusChanged, DateTime.Now, "SECS_LOCAL", "", true);
                                          EventHappened?.Invoke(eventval);
@@ -456,6 +441,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                               return; //! 確定值變
                                           }
                                           Set(true, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+                                          foreach (var plc in PLC_All)
+                                          {
+                                              plc.RemoteMode = true;
+                                          }
 
                                           var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_REMOTE), "", true);
                                           EventHappened?.Invoke(eventval);
