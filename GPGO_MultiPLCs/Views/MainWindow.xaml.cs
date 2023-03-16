@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -54,6 +55,7 @@ public partial class MainWindow
             else
             {
                 var device = data.Device.ProductName.ToLower();
+                Debug.WriteLine(device);
                 Extensions.IsReaderInput = device.Contains("reader") || device.Contains("scanner");
             }
 //#endif
