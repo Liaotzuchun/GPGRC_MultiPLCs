@@ -129,15 +129,15 @@ public partial class App
         main.Show();
     }
 
-    public string GetServiceInstallPath(string serviceName)
+    public string? GetServiceInstallPath(string serviceName)
     {
-        var imagePath = (string)Registry.LocalMachine.OpenSubKey($"SYSTEM\\CurrentControlSet\\services\\{serviceName}")?.GetValue("ImagePath");
+        var imagePath = Registry.LocalMachine.OpenSubKey($"SYSTEM\\CurrentControlSet\\services\\{serviceName}")?.GetValue("ImagePath") as string;
         if (string.IsNullOrEmpty(imagePath))
         {
             return imagePath;
         }
 
-        if (imagePath[0] == '"')
+        if (imagePath![0] == '"')
         {
             return imagePath.Substring(1, imagePath.IndexOf('"', 1) - 1);
         }
