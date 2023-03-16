@@ -253,13 +253,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         OvenInfo.PropertyChanged += (s, e) =>
                                     {
                                         //! 在機台編號或財產編號變更時需通知儲存
-                                        if (e.PropertyName == nameof(BaseInfo.MachineCode))
+                                        if (s is BaseInfo bi)
                                         {
-                                            MachineCodeChanged?.Invoke((s as BaseInfo)?.MachineCode);
-                                        }
-                                        else if (e.PropertyName == nameof(BaseInfo.AssetNumber))
-                                        {
-                                            AssetNumberChanged?.Invoke((s as BaseInfo)?.AssetNumber);
+                                            if (e.PropertyName == nameof(BaseInfo.MachineCode))
+                                            {
+                                                MachineCodeChanged?.Invoke(bi.MachineCode);
+                                            }
+                                            else if (e.PropertyName == nameof(BaseInfo.AssetNumber))
+                                            {
+                                                AssetNumberChanged?.Invoke(bi.AssetNumber);
+                                            }
                                         }
                                     };
 
@@ -934,7 +937,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                      TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
                                                      SegmentCounts                         == recipe.SegmentCounts;
 
-    private PLC_Recipe GetRecipePV() => new()
+    private bool RecipeCompareSV() => RecipeCompare(GetRecipeSV());
+
+    private PLC_Recipe GetRecipeSV() => new()
                                         {
                                             NitrogenMode          = SV_NitrogenMode,
                                             OxygenContentSet      = SV_OxygenContentSet,
@@ -1289,7 +1294,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime       = DateTime.Now;
-                                           OvenInfo.Recipe        = GetRecipePV();
+                                           OvenInfo.Recipe        = GetRecipeSV();
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
 
                                            _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);

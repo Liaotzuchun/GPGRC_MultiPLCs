@@ -146,7 +146,8 @@ public sealed class Mediator : ObservableObject
                                            {
                                                if (e.PropertyName == nameof(Authenticator_ViewModel.NowUser))
                                                {
-                                                   User = ((Authenticator_ViewModel)s).NowUser;
+                                                   User                         = ((Authenticator_ViewModel)s).NowUser;
+                                                   Helpers.Extensions.IsGodMode = User?.Level >= UserLevel.Administrator;
                                                }
                                            };
 

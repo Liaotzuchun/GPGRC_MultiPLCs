@@ -48,7 +48,11 @@ public partial class MainWindow
 //#else
             var data = RawInputData.FromHandle(lparam);
 
-            if (data.Device == null || string.IsNullOrEmpty(data.Device.ProductName))
+            if (Extensions.IsGodMode)
+            {
+                Extensions.IsReaderInput = true;
+            }
+            else if (data.Device == null || string.IsNullOrEmpty(data.Device.ProductName))
             {
                 Extensions.IsReaderInput = false;
             }

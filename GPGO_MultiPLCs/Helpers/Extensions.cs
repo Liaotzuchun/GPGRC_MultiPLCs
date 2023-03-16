@@ -9,6 +9,7 @@ namespace GPGO_MultiPLCs.Helpers;
 public static class Extensions
 {
     public static bool IsReaderInput;
+    public static bool IsGodMode;
 
     public static void UsersToCSVFILE(this IEnumerable<User> users, string path) => FastCSV.WriteFile(path,
                                                                                                       new[]
