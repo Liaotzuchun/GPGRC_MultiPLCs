@@ -899,6 +899,18 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         #endregion 註冊PLC事件
     }
 
+    private async Task<bool> WriteRecipeToPlcAsync(PLC_Recipe recipe)
+    {
+        if (AutoMode)
+        {
+            AutoMode = false;
+            await Task.Delay(900).ConfigureAwait(false);
+        }
+        var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary());
+        AutoMode = true;
+        return errs.Count == 0;
+    }
+
     private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode                          == recipe.NitrogenMode                          &&
                                                      OxygenContentSet.ToString("0.0")      == recipe.OxygenContentSet.ToString("0.0")      &&
                                                      RecipeName                            == recipe.RecipeName                            &&
