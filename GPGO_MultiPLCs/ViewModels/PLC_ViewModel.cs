@@ -567,7 +567,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                              if (GetRecipe?.Invoke(InputRecipeName.Trim()) is { } recipe)
                                                              {
                                                                  await ManualSetByProperties(recipe.ToDictionary());
-
+                                                                 AutoMode = false;
                                                                  await Task.Delay(900).ConfigureAwait(false);
                                                                  if (!RecipeCompare(recipe))
                                                                  {
@@ -1079,6 +1079,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         });
 
             RecipeUsed?.Invoke(recipe.RecipeName);
+            AutoMode = false;
+            await Task.Delay(900).ConfigureAwait(false);
             AutoMode = true;
             return SetRecipeResult.成功;
         }
@@ -1103,7 +1105,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         await ManualSetByProperties(recipe.ToDictionary());
         InvokeSECSEvent?.Invoke("RecipeChanged");
         //RemoteCommandSelectPP = true;
-
+        AutoMode = false;
         await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
         {
@@ -1333,7 +1335,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
         InvokeSECSEvent?.Invoke("RecipeChanged");
         //RemoteCommandSelectPP = true;
-
+        AutoMode = false;
         await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
         {
@@ -1363,7 +1365,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
         InvokeSECSEvent?.Invoke("RecipeChanged");
         //RemoteCommandSelectPP = true;
-
+        AutoMode = false;
         await Task.Delay(900).ConfigureAwait(false);
         if (!RecipeCompare(recipe))
         {
