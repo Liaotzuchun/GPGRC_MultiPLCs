@@ -280,7 +280,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         {
                                                             if (Recipe_Names.FirstOrDefault(x => x.Equals(_text.Trim())) is { } foundname)
                                                             {
-                                                                await SetRecipeDialog(foundname);
+                                                                _ = await SetRecipeDialog(foundname);
                                                             }
                                                             else
                                                             {
@@ -562,14 +562,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                          }
                                                          else
                                                          {
-                                                             //RemoteCommandSelectPP = false;
-
                                                              if (GetRecipe?.Invoke(InputRecipeName.Trim()) is { } recipe)
                                                              {
-                                                                 await ManualSetByProperties(recipe.ToDictionary());
-                                                                 AutoMode = false;
-                                                                 await Task.Delay(900).ConfigureAwait(false);
-                                                                 if (!RecipeCompare(recipe))
+                                                                 if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
                                                                  {
                                                                      Dialog.Show(new Dictionary<Language, string>
                                                                                  {
@@ -580,17 +575,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                                  TimeSpan.FromSeconds(3),
                                                                                  DialogMsgType.Alarm);
 
-                                                                     //RemoteCommandSelectPP = false;
                                                                      RecipeChangeError = true;
                                                                      Checking          = false;
                                                                      return false;
                                                                  }
                                                              }
-
-                                                             //RemoteCommandSelectPP = true;
                                                          }
 
-                                                         AutoMode = true;
                                                          Checking = false;
                                                          return true;
                                                      });
@@ -899,16 +890,30 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         #endregion 註冊PLC事件
     }
 
-    private async Task<bool> WriteRecipeToPlcAsync(PLC_Recipe recipe)
+    private async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe)
     {
         if (AutoMode)
         {
             AutoMode = false;
             await Task.Delay(900).ConfigureAwait(false);
         }
+
+        if (RecipeCompare(recipe))
+        {
+            AutoMode = true;
+            return SetRecipeResult.無需變更;
+        }
+
         var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary());
-        AutoMode = true;
-        return errs.Count == 0;
+
+        InvokeSECSEvent?.Invoke("RecipeChanged");
+
+        var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
+        if (result == SetRecipeResult.成功)
+        {
+            AutoMode = true;
+        }
+        return result;
     }
 
     private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode                          == recipe.NitrogenMode                          &&
@@ -1080,23 +1085,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             return SetRecipeResult.條件不允許;
         }
 
-        //! 手動選擇配方時，若配方已相等就不再寫入)
-        if (RecipeCompare(recipe))
-        {
-            Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, "配方無變更" },
-                            { Language.CHS, "配方无变更" },
-                            { Language.EN, "No change." }
-                        });
-
-            RecipeUsed?.Invoke(recipe.RecipeName);
-            AutoMode = false;
-            await Task.Delay(900).ConfigureAwait(false);
-            AutoMode = true;
-            return SetRecipeResult.成功;
-        }
-
         if (!await Dialog.Show(new Dictionary<Language, string>
                                {
                                    { Language.TW, "請確認配方內容：" },
@@ -1111,15 +1099,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         RecipeUsed?.Invoke(recipe.RecipeName);
 
-        //TCS?.TrySetResult(false);
-
-        //RemoteCommandSelectPP = false;
-        await ManualSetByProperties(recipe.ToDictionary());
-        InvokeSECSEvent?.Invoke("RecipeChanged");
-        //RemoteCommandSelectPP = true;
-        AutoMode = false;
-        await Task.Delay(900).ConfigureAwait(false);
-        if (!RecipeCompare(recipe))
+        if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
         {
             Dialog.Show(new Dictionary<Language, string>
                         {
@@ -1130,13 +1110,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         TimeSpan.FromSeconds(3),
                         DialogMsgType.Alarm);
 
-            //RemoteCommandSelectPP = false;
             RecipeChangeError = true;
-            return SetRecipeResult.比對錯誤;
+            return SetRecipeResult.比對不相符;
         }
-
-        //RemoteCommandSelectPP = false;
-        AutoMode = true;
 
         return SetRecipeResult.成功;
     }
@@ -1304,7 +1280,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         _ = ExecutingTask.ContinueWith(x =>
                                        {
                                            x.Dispose();
-                                           //AutoMode_Start = false;
 
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime       = DateTime.Now;
@@ -1341,23 +1316,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         RecipeUsed?.Invoke(recipe.RecipeName);
 
-        //TCS?.TrySetResult(false);
-
-        //RemoteCommandSelectPP = false;
-        await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
-        InvokeSECSEvent?.Invoke("RecipeChanged");
-        //RemoteCommandSelectPP = true;
-        AutoMode = false;
-        await Task.Delay(900).ConfigureAwait(false);
-        if (!RecipeCompare(recipe))
+        if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
         {
-            //RemoteCommandSelectPP = false;
             RecipeChangeError = true;
-            return SetRecipeResult.比對錯誤;
+            return SetRecipeResult.比對不相符;
         }
 
-        //RemoteCommandSelectPP = false;
-        AutoMode = true;
+        InvokeSECSEvent?.Invoke("RecipeChanged");
 
         return SetRecipeResult.成功;
     }
@@ -1371,23 +1336,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         RecipeUsed?.Invoke(recipe.RecipeName);
 
-        //TCS?.TrySetResult(false);
-
-        //RemoteCommandSelectPP = false;
-        await ManualSetByProperties(recipe.ToDictionary()).ConfigureAwait(false);
-        InvokeSECSEvent?.Invoke("RecipeChanged");
-        //RemoteCommandSelectPP = true;
-        AutoMode = false;
-        await Task.Delay(900).ConfigureAwait(false);
-        if (!RecipeCompare(recipe))
+        if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
         {
-            //RemoteCommandSelectPP = false;
             RecipeChangeError = true;
-            return SetRecipeResult.比對錯誤;
+            return SetRecipeResult.比對不相符;
         }
-
-        //RemoteCommandSelectPP = false;
-        AutoMode = true;
 
         return SetRecipeResult.成功;
     }

@@ -39,5 +39,6 @@ public enum SetRecipeResult
     成功,
     條件不允許,
     PLC錯誤,
-    比對錯誤
+    比對不相符,
+    無需變更
 }

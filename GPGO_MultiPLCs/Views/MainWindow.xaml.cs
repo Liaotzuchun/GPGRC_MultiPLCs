@@ -60,7 +60,8 @@ public partial class MainWindow
             {
                 var device = data.Device.ProductName.ToLower();
                 Debug.WriteLine(device);
-                Extensions.IsReaderInput = device.Contains("reader") || device.Contains("scanner");
+                Extensions.IsReaderInput = !device.Contains("keyboard");
+                Debug.WriteLine(Extensions.IsReaderInput);
             }
 //#endif
         }
