@@ -279,7 +279,18 @@ public sealed class Mediator : ObservableObject
                                                  {
                                                      if (_recipe.TryGetValue(parm.PParameterName, out var val))
                                                      {
-                                                         ini[ccode.CCodeName][parm.PParameterName] = val.ToString().ToUpper();
+                                                         if (val is double d)
+                                                         {
+                                                             ini[ccode.CCodeName][parm.PParameterName] = d.ToString("0.0").ToUpper();
+                                                         }
+                                                         else if (val is float f)
+                                                         {
+                                                             ini[ccode.CCodeName][parm.PParameterName] = f.ToString("0.0").ToUpper();
+                                                         }
+                                                         else
+                                                         {
+                                                             ini[ccode.CCodeName][parm.PParameterName] = val.ToString().ToUpper();
+                                                         }
                                                      }
                                                  }
 
