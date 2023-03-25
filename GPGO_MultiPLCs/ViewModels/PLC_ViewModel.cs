@@ -606,16 +606,33 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 AutoMode = true;
                                             }
 
-                                            if (!await dialog.Show(new Dictionary<Language, string>
-                                                                   {
-                                                                       { Language.TW, "確定啟動烘烤？" },
-                                                                       { Language.CHS, "确定启动烘烤？" },
-                                                                       { Language.EN, "Are you sure you want to start baking?" }
-                                                                   },
-                                                                   true,
-                                                                   TimeSpan.FromSeconds(15),
-                                                                   DialogMsgType.Alert))
+                                            if (!RecipeCompareSV())
                                             {
+                                                if (!await dialog.Show(new Dictionary<Language, string>
+                                                                       {
+                                                                           { Language.TW, "執行配方比對異常！\n確定啟動烘烤？" },
+                                                                           { Language.CHS, "执行配方比对异常！\n确定启动烘烤？" },
+                                                                           { Language.EN, "Executing recipe is abnormal!\nAre you sure you want to start baking?" }
+                                                                       },
+                                                                       true,
+                                                                       TimeSpan.FromSeconds(15),
+                                                                       DialogMsgType.Alarm))
+                                                {
+                                                    AutoMode = false;
+                                                    return;
+                                                }
+                                            }
+                                            else if (!await dialog.Show(new Dictionary<Language, string>
+                                                                        {
+                                                                            { Language.TW, "確定啟動烘烤？" },
+                                                                            { Language.CHS, "确定启动烘烤？" },
+                                                                            { Language.EN, "Are you sure you want to start baking?" }
+                                                                        },
+                                                                        true,
+                                                                        TimeSpan.FromSeconds(15),
+                                                                        DialogMsgType.Alert))
+                                            {
+                                                AutoMode = false;
                                                 return;
                                             }
 
@@ -954,67 +971,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                      TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
                                                      SegmentCounts                         == recipe.SegmentCounts;
 
-    private bool RecipeCompareSV() => RecipeCompare(GetRecipeSV());
-
-    private PLC_Recipe GetRecipeSV() => new()
-                                        {
-                                            NitrogenMode          = SV_NitrogenMode,
-                                            OxygenContentSet      = SV_OxygenContentSet,
-                                            RecipeName            = SV_RecipeName,
-                                            DwellTemperature_1    = SV_DwellTemperature_1,
-                                            DwellTemperature_2    = SV_DwellTemperature_2,
-                                            DwellTemperature_3    = SV_DwellTemperature_3,
-                                            DwellTemperature_4    = SV_DwellTemperature_4,
-                                            DwellTemperature_5    = SV_DwellTemperature_5,
-                                            DwellTemperature_6    = SV_DwellTemperature_6,
-                                            DwellTemperature_7    = SV_DwellTemperature_7,
-                                            DwellTemperature_8    = SV_DwellTemperature_8,
-                                            DwellTime_1           = SV_DwellTime_1,
-                                            DwellTime_2           = SV_DwellTime_2,
-                                            DwellTime_3           = SV_DwellTime_3,
-                                            DwellTime_4           = SV_DwellTime_4,
-                                            DwellTime_5           = SV_DwellTime_5,
-                                            DwellTime_6           = SV_DwellTime_6,
-                                            DwellTime_7           = SV_DwellTime_7,
-                                            DwellTime_8           = SV_DwellTime_8,
-                                            DwellAlarm_1          = SV_DwellAlarm_1,
-                                            DwellAlarm_2          = SV_DwellAlarm_2,
-                                            DwellAlarm_3          = SV_DwellAlarm_3,
-                                            DwellAlarm_4          = SV_DwellAlarm_4,
-                                            DwellAlarm_5          = SV_DwellAlarm_5,
-                                            DwellAlarm_6          = SV_DwellAlarm_6,
-                                            DwellAlarm_7          = SV_DwellAlarm_7,
-                                            DwellAlarm_8          = SV_DwellAlarm_8,
-                                            CoolingTime           = SV_CoolingTime,
-                                            CoolingTemperature    = SV_CoolingTemperature,
-                                            RampTime_1            = SV_RampTime_1,
-                                            RampTime_2            = SV_RampTime_2,
-                                            RampTime_3            = SV_RampTime_3,
-                                            RampTime_4            = SV_RampTime_4,
-                                            RampTime_5            = SV_RampTime_5,
-                                            RampTime_6            = SV_RampTime_6,
-                                            RampTime_7            = SV_RampTime_7,
-                                            RampTime_8            = SV_RampTime_8,
-                                            RampAlarm_1           = SV_RampAlarm_1,
-                                            RampAlarm_2           = SV_RampAlarm_2,
-                                            RampAlarm_3           = SV_RampAlarm_3,
-                                            RampAlarm_4           = SV_RampAlarm_4,
-                                            RampAlarm_5           = SV_RampAlarm_5,
-                                            RampAlarm_6           = SV_RampAlarm_6,
-                                            RampAlarm_7           = SV_RampAlarm_7,
-                                            RampAlarm_8           = SV_RampAlarm_8,
-                                            InflatingTime         = SV_InflatingTime,
-                                            TemperatureSetpoint_1 = SV_TemperatureSetpoint_1,
-                                            TemperatureSetpoint_2 = SV_TemperatureSetpoint_2,
-                                            TemperatureSetpoint_3 = SV_TemperatureSetpoint_3,
-                                            TemperatureSetpoint_4 = SV_TemperatureSetpoint_4,
-                                            TemperatureSetpoint_5 = SV_TemperatureSetpoint_5,
-                                            TemperatureSetpoint_6 = SV_TemperatureSetpoint_6,
-                                            TemperatureSetpoint_7 = SV_TemperatureSetpoint_7,
-                                            TemperatureSetpoint_8 = SV_TemperatureSetpoint_8,
-                                            SegmentCounts         = SV_SegmentCounts
-                                        };
-
     private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
     {
         if (!IsExecuting)
@@ -1306,6 +1262,67 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             await ExecutingTask;
         }
     }
+
+    public bool RecipeCompareSV() => RecipeCompare(GetRecipeSV());
+
+    public PLC_Recipe GetRecipeSV() => new()
+                                       {
+                                           NitrogenMode          = SV_NitrogenMode,
+                                           OxygenContentSet      = SV_OxygenContentSet,
+                                           RecipeName            = SV_RecipeName,
+                                           DwellTemperature_1    = SV_DwellTemperature_1,
+                                           DwellTemperature_2    = SV_DwellTemperature_2,
+                                           DwellTemperature_3    = SV_DwellTemperature_3,
+                                           DwellTemperature_4    = SV_DwellTemperature_4,
+                                           DwellTemperature_5    = SV_DwellTemperature_5,
+                                           DwellTemperature_6    = SV_DwellTemperature_6,
+                                           DwellTemperature_7    = SV_DwellTemperature_7,
+                                           DwellTemperature_8    = SV_DwellTemperature_8,
+                                           DwellTime_1           = SV_DwellTime_1,
+                                           DwellTime_2           = SV_DwellTime_2,
+                                           DwellTime_3           = SV_DwellTime_3,
+                                           DwellTime_4           = SV_DwellTime_4,
+                                           DwellTime_5           = SV_DwellTime_5,
+                                           DwellTime_6           = SV_DwellTime_6,
+                                           DwellTime_7           = SV_DwellTime_7,
+                                           DwellTime_8           = SV_DwellTime_8,
+                                           DwellAlarm_1          = SV_DwellAlarm_1,
+                                           DwellAlarm_2          = SV_DwellAlarm_2,
+                                           DwellAlarm_3          = SV_DwellAlarm_3,
+                                           DwellAlarm_4          = SV_DwellAlarm_4,
+                                           DwellAlarm_5          = SV_DwellAlarm_5,
+                                           DwellAlarm_6          = SV_DwellAlarm_6,
+                                           DwellAlarm_7          = SV_DwellAlarm_7,
+                                           DwellAlarm_8          = SV_DwellAlarm_8,
+                                           CoolingTime           = SV_CoolingTime,
+                                           CoolingTemperature    = SV_CoolingTemperature,
+                                           RampTime_1            = SV_RampTime_1,
+                                           RampTime_2            = SV_RampTime_2,
+                                           RampTime_3            = SV_RampTime_3,
+                                           RampTime_4            = SV_RampTime_4,
+                                           RampTime_5            = SV_RampTime_5,
+                                           RampTime_6            = SV_RampTime_6,
+                                           RampTime_7            = SV_RampTime_7,
+                                           RampTime_8            = SV_RampTime_8,
+                                           RampAlarm_1           = SV_RampAlarm_1,
+                                           RampAlarm_2           = SV_RampAlarm_2,
+                                           RampAlarm_3           = SV_RampAlarm_3,
+                                           RampAlarm_4           = SV_RampAlarm_4,
+                                           RampAlarm_5           = SV_RampAlarm_5,
+                                           RampAlarm_6           = SV_RampAlarm_6,
+                                           RampAlarm_7           = SV_RampAlarm_7,
+                                           RampAlarm_8           = SV_RampAlarm_8,
+                                           InflatingTime         = SV_InflatingTime,
+                                           TemperatureSetpoint_1 = SV_TemperatureSetpoint_1,
+                                           TemperatureSetpoint_2 = SV_TemperatureSetpoint_2,
+                                           TemperatureSetpoint_3 = SV_TemperatureSetpoint_3,
+                                           TemperatureSetpoint_4 = SV_TemperatureSetpoint_4,
+                                           TemperatureSetpoint_5 = SV_TemperatureSetpoint_5,
+                                           TemperatureSetpoint_6 = SV_TemperatureSetpoint_6,
+                                           TemperatureSetpoint_7 = SV_TemperatureSetpoint_7,
+                                           TemperatureSetpoint_8 = SV_TemperatureSetpoint_8,
+                                           SegmentCounts         = SV_SegmentCounts
+                                       };
 
     public async Task<SetRecipeResult> SetRecipe(PLC_Recipe? recipe)
     {

@@ -290,6 +290,11 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                   return HCACKValule.CantPerform;
                                               }
 
+                                              if (!PLC_All[index].RecipeCompareSV()) //! 執行前檢查執行配方是否與設定配方相同
+                                              {
+                                                  return HCACKValule.CantPerform;
+                                              }
+
                                               var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.START_Command), "", index);
                                               EventHappened?.Invoke(eventval);
                                               PLC_All[index].AutoMode_Stop  = false;
