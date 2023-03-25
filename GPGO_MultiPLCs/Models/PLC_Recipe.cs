@@ -1823,10 +1823,12 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     public bool SetByDictionary(Dictionary<string, string> dic)
     {
+        var type = GetType();
+
         foreach (var kv in dic)
         {
-            var p = GetType().GetProperty(kv.Key);
-            if (p != null)
+            var p = type.GetProperty(kv.Key);
+            if (p != null && p.CanWrite)
             {
                 if (p.PropertyType == typeof(bool) && bool.TryParse(kv.Value, out var bo))
                 {
