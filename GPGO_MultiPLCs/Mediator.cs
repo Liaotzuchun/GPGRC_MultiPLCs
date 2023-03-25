@@ -275,21 +275,21 @@ public sealed class Mediator : ObservableObject
                                                  var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
                                                  var ini     = new IniParser(fpath);
 
-                                                 foreach (var parm in ccode.ParameterItems)
+                                                 foreach (var param in ccode.ParameterItems)
                                                  {
-                                                     if (_recipe.TryGetValue(parm.PParameterName, out var val))
+                                                     if (_recipe.TryGetValue(param.PParameterName, out var val))
                                                      {
                                                          if (val is double d)
                                                          {
-                                                             ini[ccode.CCodeName][parm.PParameterName] = d.ToString("0.0").ToUpper();
+                                                             ini[ccode.CCodeName][param.PParameterName] = d.ToString("0.0").ToUpper();
                                                          }
                                                          else if (val is float f)
                                                          {
-                                                             ini[ccode.CCodeName][parm.PParameterName] = f.ToString("0.0").ToUpper();
+                                                             ini[ccode.CCodeName][param.PParameterName] = f.ToString("0.0").ToUpper();
                                                          }
                                                          else
                                                          {
-                                                             ini[ccode.CCodeName][parm.PParameterName] = val.ToString().ToUpper();
+                                                             ini[ccode.CCodeName][param.PParameterName] = val.ToString().ToUpper();
                                                          }
                                                      }
                                                  }
