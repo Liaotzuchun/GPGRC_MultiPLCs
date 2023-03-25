@@ -261,10 +261,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          }
                                      };
 
-        SecsGemEquipment.UpsertRecipe += (name, recipedic) =>
+        SecsGemEquipment.UpsertFormattedRecipe += (name, recipedic) =>
                                          {
                                              var recipe   = new PLC_Recipe(name, "SECSGEM-HOST", UserLevel.Manager);
-                                             var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.UpsertRecipe), "", recipe.RecipeName);
+                                             var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.UpsertFormattedRecipe), "", recipe.RecipeName);
                                              EventHappened?.Invoke(eventval);
 
                                              return recipe.SetByDictionary(recipedic) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe);

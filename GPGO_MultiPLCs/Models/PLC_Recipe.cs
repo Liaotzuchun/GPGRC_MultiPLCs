@@ -1902,4 +1902,86 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
         return true;
     }
+
+    public bool SetByDictionary(Dictionary<string, object> dic)
+    {
+        var type = GetType();
+
+        foreach (var kv in dic)
+        {
+            var p = type.GetProperty(kv.Key);
+            if (p != null && p.CanWrite)
+            {
+                if (p.PropertyType == typeof(bool) && kv.Value is bool bo)
+                {
+                    p.SetValue(this, bo);
+
+                    if ((bool)p.GetValue(this) != bo)
+                    {
+                        return false;
+                    }
+                }
+                else if (p.PropertyType == typeof(byte) && kv.Value is byte b)
+                {
+                    p.SetValue(this, b);
+
+                    if ((byte)p.GetValue(this) != b)
+                    {
+                        return false;
+                    }
+                }
+                else if (p.PropertyType == typeof(short) && kv.Value is short s)
+                {
+                    p.SetValue(this, s);
+
+                    if ((short)p.GetValue(this) != s)
+                    {
+                        return false;
+                    }
+                }
+                else if (p.PropertyType == typeof(int) && kv.Value is int i)
+                {
+                    p.SetValue(this, i);
+
+                    if ((int)p.GetValue(this) != i)
+                    {
+                        return false;
+                    }
+                }
+                else if (p.PropertyType == typeof(float) && kv.Value is float f)
+                {
+                    p.SetValue(this, f);
+
+                    if (((float)p.GetValue(this)).ToString("0.0") != f.ToString("0.0"))
+                    {
+                        return false;
+                    }
+                }
+                else if (p.PropertyType == typeof(double) && kv.Value is double d)
+                {
+                    p.SetValue(this, d);
+
+                    if (((double)p.GetValue(this)).ToString("0.0") != d.ToString("0.0"))
+                    {
+                        return false;
+                    }
+                }
+                else if (p.PropertyType == typeof(string) && kv.Value is string str)
+                {
+                    p.SetValue(this, str);
+
+                    if ((string)p.GetValue(this) != str)
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
