@@ -10,13 +10,13 @@ using System.Windows;
 using System.Windows.Threading;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
-using GPMVVM.Core.Helpers;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
 using GPMVVM.SECSGEM;
 using MongoDB.Driver;
 using Serilog;
+using Extensions = GPGO_MultiPLCs.Helpers.Extensions;
 
 namespace GPGO_MultiPLCs;
 
@@ -146,8 +146,8 @@ public sealed class Mediator : ObservableObject
                                            {
                                                if (e.PropertyName == nameof(Authenticator_ViewModel.NowUser))
                                                {
-                                                   User                         = ((Authenticator_ViewModel)s).NowUser;
-                                                   Helpers.Extensions.IsGodMode = User?.Level >= UserLevel.Administrator;
+                                                   User                 = ((Authenticator_ViewModel)s).NowUser;
+                                                   Extensions.IsGodMode = User?.Level >= UserLevel.Administrator;
                                                }
                                            };
 
