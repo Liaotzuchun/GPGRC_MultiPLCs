@@ -11,8 +11,8 @@ _GEM_OFF_LINE_SUB_STATE_SV_,12,UINT_1,,,GemOffLineSubState,"1:Eqp OffLine, 2:Att
 _GEM_PREVIOUS_CONTROL_STATE_,13,UINT_1,,,GemPreviousControlState,"1:Eqp OffLine, 2:OnLine Local, 3:OnLine Remote"
 _GEM_PREVIOUS_PROCESS_STATE_,14,UINT_1,,,GemPreviousProcessState,(Set by AP)
 _GEM_PROCESS_STATE_,15,UINT_1,,,GemProcessState,(Set by AP)
-_GEM_MDLN_,24,ASCII,6,,GemMDLN,(Set by AP)
-_GEM_SOFTREV_,25,ASCII,6,,GemSOFTREV,(Set by AP)
+_GEM_MDLN_,24,ASCII,20,,GemMDLN,(Set by AP)
+_GEM_SOFTREV_,25,ASCII,20,,GemSOFTREV,(Set by AP)
 _GEM_ALARM_ENABLED_,39,LIST,,,List GemAlarmsEnabled,
 _GEM_ALARM_SET_,40,LIST,,,List GemAlarmSet,
 _GEM_EVENT_ENABLED_,41,LIST,,,List GemEventsEnabled,
