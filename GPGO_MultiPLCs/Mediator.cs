@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,7 @@ using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
+using GPMVVM.MongoDB.Helpers;
 using GPMVVM.PooledCollections;
 using GPMVVM.SECSGEM;
 using MongoDB.Driver;
@@ -371,6 +373,16 @@ public sealed class Mediator : ObservableObject
         TotalVM.AddRecordToDB += async e =>
                                  {
                                      var (stationIndex, info) = e;
+
+                                     //! 確認資料是否小於bson限制，否則直接將溫度記錄每2筆移除1筆(砍半)
+                                     await Task.Run(() =>
+                                                    {
+                                                        while (!info.CheckBosnSizeIsOK())
+                                                        {
+                                                            info.RecordTemperatures.RemoveEvery(2);
+                                                        }
+                                                    });
+
                                      using (await lockobj.LockAsync())
                                      {
                                          await TraceVM.AddToDBAsync(stationIndex, info);
@@ -580,5 +592,105 @@ public sealed class Mediator : ObservableObject
                 }
             }
         }
+    }
+
+    public ProcessInfo MakeSingleTest(DateTime st, int stationNumber, int tempcount)
+    {
+        var partnum = new[]
+                      {
+                          "ooxx",
+                          "abc",
+                          "zzz",
+                          "qoo",
+                          "boom",
+                          "xxx",
+                          "wunmao"
+                      };
+
+        var lotid = new[]
+                    {
+                        "111",
+                        "222",
+                        "333",
+                        "444",
+                        "555",
+                        "666",
+                        "777"
+                    };
+
+        var rn = new Random((int)st.Ticks);
+        var info = new ProcessInfo
+                   {
+                       StartTime  = st,
+                       RackID     = rn.Next(1, 10000).ToString("00000"),
+                       OperatorID = rn.Next(1, 10).ToString("000"),
+                       Recipe     = RecipeVM.Recipes == null || RecipeVM.Recipes.Count == 0 ? new PLC_Recipe { RecipeName = "NoName" } : RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)]
+                   };
+
+        var ttime = new TimeSpan(0, 0, 1);
+        var cc    = 0;
+
+        for (var m = 0; m < tempcount; m++) //! 產生100筆溫度資料，間隔1分鐘
+        {
+            if (m % 10 == 0) //! 每10分鐘產生一筆事件
+            {
+                var ev1 = new LogEvent
+                          {
+                              StationNumber = stationNumber,
+                              AddedTime     = st + ttime,
+                              Description   = $"{stationNumber}-{m}",
+                              TagCode       = $"ooxx{m}",
+                              Type          = (EventType)new Random(DateTime.Now.Millisecond + m).Next(0, 6),
+                              Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
+                          };
+
+                LogVM.DataCollection.Add(ev1);
+                info.EventList.Add(ev1);
+            }
+
+            var tempt = 30 * (1 + 5 / (1 + Math.Exp(-0.12 * cc + 3)));
+            var vals = new RecordTemperatures
+                       {
+                           AddedTime                = st + ttime,
+                           PV_ThermostatTemperature = Math.Round(tempt,                   1),
+                           OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                           OvenTemperatures_2       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                           OvenTemperatures_3       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                           OvenTemperatures_4       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                           OvenTemperatures_5       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                           OvenTemperatures_6       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                           OvenTemperatures_7       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                           OvenTemperatures_8       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                           OxygenContent            = Math.Round(rn.NextDouble() * 100.0, 1)
+                       };
+
+            cc += 1;
+            info.RecordTemperatures.Add(vals);
+
+            ttime = ttime.Add(TimeSpan.FromSeconds(1)); //! 間隔1秒
+        }
+
+        info.EndTime       = info.StartTime + ttime;
+        info.IsFinished    = new Random().NextDouble() > 0.5;
+        info.TotalRampTime = (info.EndTime - info.StartTime).Minutes;
+
+        var n = rn.Next(0, 8) + 1; //! 階層
+        for (var p = 1; p <= n; p++)
+        {
+            var product = new ProductInfo
+                          {
+                              PartID   = partnum[rn.Next(0, partnum.Length)],
+                              LotID    = lotid[rn.Next(0,   lotid.Length)],
+                              Layer    = p,
+                              Quantity = rn.Next(10, 20)
+                          };
+
+            info.Products.Add(product);
+        }
+
+        info.StationNumber = stationNumber;
+        info.AddedTime     = info.EndTime.AddSeconds(10);
+
+        return info;
     }
 }

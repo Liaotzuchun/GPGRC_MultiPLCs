@@ -79,9 +79,9 @@ public class BaseInfo : ObservableObject
     }
 
     [LanguageTranslator("Temps", "溫度紀錄", "温度纪录")]
-    public ObservableConcurrentCollection<RecordTemperatures> RecordTemperatures
+    public List<RecordTemperatures> RecordTemperatures
     {
-        get => Get<ObservableConcurrentCollection<RecordTemperatures>>()!;
+        get => Get<List<RecordTemperatures>>()!;
         set => Set(value);
     }
 
@@ -121,7 +121,7 @@ public class BaseInfo : ObservableObject
     {
         Recipe             = new PLC_Recipe();
         EventList          = new ObservableConcurrentCollection<LogEvent>();
-        RecordTemperatures = new ObservableConcurrentCollection<RecordTemperatures>();
+        RecordTemperatures = new List<RecordTemperatures>();
         Products           = new ObservableConcurrentCollection<ProductInfo>();
         TempProducts       = new ObservableConcurrentCollection<ProductInfo>();
 
