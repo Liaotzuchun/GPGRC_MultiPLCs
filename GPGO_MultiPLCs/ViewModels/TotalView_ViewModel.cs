@@ -248,35 +248,27 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                        }
                                                    };
 
-        SecsGemEquipment.ECChange += (ecid, value) =>
+        SecsGemEquipment.ECChange += _ =>
                                      {
-                                         switch (ecid)
-                                         {
-                                             case "EqpName":
-
-                                                 break;
-                                             case "ReAlarmInterval":
-
-                                                 break;
-                                         }
                                      };
 
-        SecsGemEquipment.UpsertFormattedPP += (ppid, ccode, recipedic) =>
-                                         {
-                                             var recipe   = new PLC_Recipe(ppid, "SECSGEM-HOST", UserLevel.Manager);
-                                             var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.UpsertFormattedPP), "", recipe.RecipeName);
-                                             EventHappened?.Invoke(eventval);
+        SecsGemEquipment.UpsertFormattedPP += e =>
+                                              {
+                                                  var (ppid, ccode, recipedic) = e;
+                                                  var recipe   = new PLC_Recipe(ppid, "SECSGEM-HOST", UserLevel.Manager);
+                                                  var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.UpsertFormattedPP), "", recipe.RecipeName);
+                                                  EventHappened?.Invoke(eventval);
 
-                                             return recipe.SetByDictionary(recipedic) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
-                                         };
+                                                  return recipe.SetByDictionary(recipedic) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
+                                              };
 
         SecsGemEquipment.DeletePP += recipeName =>
-                                         {
-                                             var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.DeletePP), "", recipeName);
-                                             EventHappened?.Invoke(eventval);
+                                     {
+                                         var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.DeletePP), "", recipeName);
+                                         EventHappened?.Invoke(eventval);
 
-                                             return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
-                                         };
+                                         return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
+                                     };
 
         SecsGemEquipment.START_Command += index =>
                                           {
