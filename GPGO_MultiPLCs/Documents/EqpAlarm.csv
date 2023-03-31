@@ -1,3 +1,4 @@
+Name,ID,CD,Enabled,Text
 Oven1_EmergencyStop,1000,,1,Oven1_EmergencyStop
 Oven1_LowTemperature,1001,,1,Oven1_LowTemperature
 Oven1_PowerPhaseError,1002,,1,Oven1_PowerPhaseError

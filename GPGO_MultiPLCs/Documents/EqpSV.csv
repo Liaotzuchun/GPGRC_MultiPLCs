@@ -1,4 +1,4 @@
-//Name,ID,Type,Length,Unit,Definition
+Name,ID,Type,Length,Unit,Definition
 Oven1_PreviousEquipmentState,1000,UINT_1,1,,Oven1_PreviousEquipmentState
 Oven1_EquipmentState,1001,UINT_1,1,,Oven1_EquipmentState
 Oven1_EquipmentName,1002,ASCII,65535,,Oven1_EquipmentName

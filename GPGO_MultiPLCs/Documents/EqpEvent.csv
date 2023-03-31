@@ -1,4 +1,4 @@
-//Name,ID,Definition
+Name,ID,Definition
 Oven1_RackInput,1000,Oven1_RackInput
 Oven1_LotAdded,1001,Oven1_LotAdded
 Oven1_LotRemoved,1002,Oven1_LotRemoved
