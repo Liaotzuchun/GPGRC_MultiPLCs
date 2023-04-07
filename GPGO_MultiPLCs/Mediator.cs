@@ -364,10 +364,7 @@ public sealed class Mediator : ObservableObject
         TotalVM.WantLogin += () => AuthenticatorVM.StartLogin.Execute(null);
 
         //! 當某站烤箱要求配方時，自資料庫讀取配方並發送
-        TotalVM.GetRecipe += e => string.IsNullOrEmpty(e.RecipeName) ? null : RecipeVM.GetRecipe(e.RecipeName);
-
-        //! 設定配方被該站使用
-        TotalVM.RecipeUsed += e => RecipeVM.SetUsed(e.StationIndex, e.RecipeName);
+        TotalVM.GetRecipe += recipename => string.IsNullOrEmpty(recipename) ? null : RecipeVM.GetRecipe(recipename);
 
         //! 當某站烤箱完成烘烤程序時，將生產資訊寫入資料庫並輸出至上傳資料夾，並回傳當日產量
         TotalVM.AddRecordToDB += async e =>

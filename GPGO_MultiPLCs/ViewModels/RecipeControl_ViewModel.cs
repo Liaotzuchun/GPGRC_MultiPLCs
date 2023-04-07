@@ -19,7 +19,7 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
     public override RelayCommand ImportCommand { get; }
 
     /// <summary>辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)</summary>
-    public override bool DeleteEnable => SelectedRecipe != null && !SelectedRecipe.Used_Stations.Any(x => x);
+    public override bool DeleteEnable => SelectedRecipe != null;
 
     public RecipeControl_ViewModel(IDataBase<PLC_Recipe> db, IDataBase<PLC_Recipe> db_history, IDialogService dialog) : base(db, db_history, dialog)
     {
@@ -88,7 +88,6 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                                                  continue;
                                                              }
 
-                                                             new_recipe.Used_Stations = old_recipe.Used_Stations;
                                                              await RecipeCollection_History.AddAsync(old_recipe);
                                                              updates += 1;
                                                          }
@@ -117,30 +116,6 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                                           },
                                                           TimeSpan.FromSeconds(6));
                                          });
-    }
-
-    public async void SetUsed(int index, string name)
-    {
-        var result = Recipes.FirstOrDefault(x => x.RecipeName == name);
-
-        if (result != null)
-        {
-            try
-            {
-                foreach (var recipe in Recipes.Where(x => x.Used_Stations[index]))
-                {
-                    recipe.Used_Stations[index] = false;
-                    await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(recipe.RecipeName), nameof(PLC_Recipe.Used_Stations), recipe.Used_Stations).ConfigureAwait(false);
-                }
-
-                result.Used_Stations[index] = true;
-                await RecipeCollection.UpdateOneAsync(x => x.RecipeName.Equals(result.RecipeName), nameof(PLC_Recipe.Used_Stations), result.Used_Stations).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "配方資料庫更新使用站點資訊失敗");
-            }
-        }
     }
 
     public async Task<bool> Upsert(PLC_Recipe recipe)

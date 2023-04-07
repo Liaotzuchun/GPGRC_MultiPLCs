@@ -74,15 +74,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [JsonIgnore]
     public double DwellTime_Offset_Min => -999.9;
 
-    [GPIgnore]
-    [JsonIgnore]
-    [LanguageTranslator("Used Stations", "使用站點", "使用站点")]
-    public IList<bool>? Used_Stations
-    {
-        get => Get<IList<bool>>();
-        set => Set(value);
-    }
-
     [OrderIndex(3)]
     [LanguageTranslator("Used Step Counts", "使用段數", "使用段数")]
     public short SegmentCounts
@@ -1546,10 +1537,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         DwellTimeOffset_7     = 0;
         DwellTimeOffset_8     = 0;
         SegmentCounts         = SegmentCounts_Max;
-        Used_Stations         = new bool[20];
     }
 
-    public PLC_Recipe() => Used_Stations = new bool[20];
+    public PLC_Recipe() { }
 
     public override bool Equals(PLC_Recipe? other) => other                                 != null                                        &&
                                                       RecipeName                            == other.RecipeName                            &&
@@ -1682,7 +1672,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                                          DwellTimeOffset_7     = DwellTimeOffset_7,
                                                                          DwellTimeOffset_8     = DwellTimeOffset_8,
                                                                          SegmentCounts         = SegmentCounts,
-                                                                         Used_Stations         = Used_Stations,
                                                                          Editor                = user,
                                                                          EditorLevel           = level
                                                                      };

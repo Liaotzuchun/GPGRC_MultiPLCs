@@ -54,7 +54,7 @@ public partial class OvenEditView : UserControl
 
         if (e.Key == Key.Enter)
         {
-            Keyboard.Focus(RecipeTextBox);
+            Keyboard.Focus(RecipeTextBox.IsEnabled ? RecipeTextBox : NumericTextBox);
         }
     }
 
@@ -68,6 +68,14 @@ public partial class OvenEditView : UserControl
         if (e.Key == Key.Enter)
         {
             Keyboard.Focus(NumericTextBox);
+        }
+    }
+
+    private void Button_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (sender is Button { Visibility: Visibility.Visible })
+        {
+            CheckInTB.IsChecked = false;
         }
     }
 }

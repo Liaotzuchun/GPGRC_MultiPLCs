@@ -25,9 +25,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action<string, object>?                                                         SV_Changed;
     public event Action<string>?                                                                 AssetNumberChanged;
     public event Action<string>?                                                                 CancelCheckIn;
+    public event Action<string>?                                                                 CheckIn;
     public event Action<string>?                                                                 InvokeSECSEvent;
     public event Action<string>?                                                                 MachineCodeChanged;
-    public event Action<string>?                                                                 RecipeUsed;
     public event Func<BaseInfo, Task>?                                                           ExecutingFinished;
     public event Func<string, PLC_Recipe>?                                                       GetRecipe;
 
@@ -52,7 +52,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
     /// <summary>投產</summary>
-    public CommandWithResult<bool> CheckInCommand { get; }
+    public RelayCommand CheckInCommand { get; }
     public RelayCommand CheckRecipeCommand_KeyIn    { get; }
     public RelayCommand CheckRecipeCommand_KeyLeave { get; }
     public RelayCommand AddLotCommand               { get; }
@@ -220,6 +220,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
     }
 
+    public bool IsRemoteOnline
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
     public LogEvent SelectedLogEvent
     {
         set => OvenInfo.ChartModel.SetAnnotation(value);
@@ -335,256 +341,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 }
                                             });
 
-        var Checking = false;
-        CheckInCommand = new CommandWithResult<bool>(async _ =>
-                                                     {
-                                                         if (Checking)
-                                                         {
-                                                             return false;
-                                                         }
-                                                         Checking = true;
-
-                                                         var (result0, opId) =
-                                                             await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                         {
-                                                                                             { Language.TW, "輸入人員ID" },
-                                                                                             { Language.CHS, "输入人员ID" },
-                                                                                             { Language.EN, "Enter the Operator's Id" }
-                                                                                         },
-                                                                                         new Dictionary<Language, string>
-                                                                                         {
-                                                                                             { Language.TW, "5 ~ 14個英數字" },
-                                                                                             { Language.CHS, "5 ~ 14个英数字" },
-                                                                                             { Language.EN, "5 ~ 14 alphanumerics" }
-                                                                                         },
-                                                                                         true,
-                                                                                         x =>
-                                                                                         {
-                                                                                             var str = x.ToString().Trim();
-
-                                                                                             return (str.Length is > 4 and < 15,
-                                                                                                     new Dictionary<Language, string>
-                                                                                                     {
-                                                                                                         { Language.TW, "字數錯誤！" },
-                                                                                                         { Language.CHS, "字数错误！" },
-                                                                                                         { Language.EN, "Input error!" }
-                                                                                                     });
-                                                                                         });
-
-                                                         if (!result0)
-                                                         {
-                                                             Checking = false;
-                                                             return false;
-                                                         }
-
-                                                         var (result1, PartID) =
-                                                             await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                         {
-                                                                                             { Language.TW, "輸入料號" },
-                                                                                             { Language.CHS, "输入料号" },
-                                                                                             { Language.EN, "Enter the Part Number" }
-                                                                                         },
-                                                                                         new Dictionary<Language, string>
-                                                                                         {
-                                                                                             { Language.TW, "5 ~ 14個英數字" },
-                                                                                             { Language.CHS, "5 ~ 14个英数字" },
-                                                                                             { Language.EN, "5 ~ 14 alphanumerics" }
-                                                                                         },
-                                                                                         true,
-                                                                                         x =>
-                                                                                         {
-                                                                                             var str = x.ToString().Trim();
-
-                                                                                             return (str.Length is > 4 and < 15,
-                                                                                                     new Dictionary<Language, string>
-                                                                                                     {
-                                                                                                         { Language.TW, "字數錯誤！" },
-                                                                                                         { Language.CHS, "字数错误！" },
-                                                                                                         { Language.EN, "Input error!" }
-                                                                                                     });
-                                                                                         });
-
-                                                         if (!result1)
-                                                         {
-                                                             Checking = false;
-                                                             return false;
-                                                         }
-
-                                                         var lots = new Dictionary<string, (int layer, int quantity)>();
-
-                                                         do
-                                                         {
-                                                             var (result2, lotID) =
-                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 { Language.TW, "輸入批號" },
-                                                                                                 { Language.CHS, "输入批号" },
-                                                                                                 { Language.EN, "Enter the LotID" }
-                                                                                             },
-                                                                                             new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 { Language.TW, "5 ~ 14個英數字" },
-                                                                                                 { Language.CHS, "5 ~ 14个英数字" },
-                                                                                                 { Language.EN, "5 ~ 14 alphanumerics" }
-                                                                                             },
-                                                                                             true,
-                                                                                             x =>
-                                                                                             {
-                                                                                                 var str = x.ToString().Trim();
-
-                                                                                                 return (str.Length is > 4 and < 15,
-                                                                                                         new Dictionary<Language, string>
-                                                                                                         {
-                                                                                                             { Language.TW, "字數錯誤！" },
-                                                                                                             { Language.CHS, "字数错误！" },
-                                                                                                             { Language.EN, "Input error!" }
-                                                                                                         });
-                                                                                             });
-
-                                                             if (!result2)
-                                                             {
-                                                                 if (lots.Count == 0)
-                                                                 {
-                                                                     Checking = false;
-                                                                     return false;
-                                                                 }
-
-                                                                 continue;
-                                                             }
-
-                                                             var layer = 0;
-                                                             var (result_layer, _) =
-                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 { Language.TW, "輸入層別" },
-                                                                                                 { Language.CHS, "输入层别" },
-                                                                                                 { Language.EN, "Enter the layer number" }
-                                                                                             },
-                                                                                             new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 { Language.TW, "1 ~ 8" },
-                                                                                                 { Language.CHS, "1 ~ 8" },
-                                                                                                 { Language.EN, "1 ~ 8" }
-                                                                                             },
-                                                                                             true,
-                                                                                             x =>
-                                                                                             {
-                                                                                                 var str = x.ToString().Trim();
-
-                                                                                                 return (int.TryParse(str, out layer) && layer is > 0 and <= 8,
-                                                                                                         new Dictionary<Language, string>
-                                                                                                         {
-                                                                                                             { Language.TW, "層別錯誤！" },
-                                                                                                             { Language.CHS, "层别错误！" },
-                                                                                                             { Language.EN, "Wrong layer!" }
-                                                                                                         });
-                                                                                             });
-
-                                                             if (!result_layer)
-                                                             {
-                                                                 Checking = false;
-                                                                 return false;
-                                                             }
-
-                                                             var counts = 0;
-                                                             var (result4, _) =
-                                                                 await Dialog.CheckCondition(new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 { Language.TW, "輸入數量" },
-                                                                                                 { Language.CHS, "输入数量" },
-                                                                                                 { Language.EN, "Enter the quantity" }
-                                                                                             },
-                                                                                             new Dictionary<Language, string>
-                                                                                             {
-                                                                                                 { Language.TW, "1 ~ 100" },
-                                                                                                 { Language.CHS, "1 ~ 100" },
-                                                                                                 { Language.EN, "1 ~ 100" }
-                                                                                             },
-                                                                                             true,
-                                                                                             x =>
-                                                                                             {
-                                                                                                 var str = x.ToString().Trim();
-
-                                                                                                 return (int.TryParse(str, out counts) && counts is > 0 and <= 100,
-                                                                                                         new Dictionary<Language, string>
-                                                                                                         {
-                                                                                                             { Language.TW, "數量錯誤！" },
-                                                                                                             { Language.CHS, "数量错误！" },
-                                                                                                             { Language.EN, "Wrong quantity!" }
-                                                                                                         });
-                                                                                             });
-
-                                                             if (!result4 && lots.Count == 0)
-                                                             {
-                                                                 Checking = false;
-                                                                 return false;
-                                                             }
-
-                                                             lots[lotID.ToString().Trim()] = (layer, counts);
-                                                         } while (await Dialog.Show(new Dictionary<Language, string>
-                                                                                    {
-                                                                                        { Language.TW, $"料號：{PartID.ToString().Trim()}\n是否要繼續新增批號？" },
-                                                                                        { Language.CHS, $"料号：{PartID.ToString().Trim()}\n是否要继续新增批号？" },
-                                                                                        { Language.EN, $"PartID：{PartID.ToString().Trim()}\nContinue to add LotID?" }
-                                                                                    },
-                                                                                    lots,
-                                                                                    true));
-
-                                                         OvenInfo.OperatorID = opId.ToString().Trim();
-
-                                                         OvenInfo.TempProducts.Clear();
-                                                         foreach (var lot in lots)
-                                                         {
-                                                             var info = new ProductInfo
-                                                                        {
-                                                                            PartID   = PartID.ToString().Trim(),
-                                                                            LotID    = lot.Key.Trim(),
-                                                                            Layer    = lot.Value.layer,
-                                                                            Quantity = lot.Value.quantity
-                                                                        };
-
-                                                             OvenInfo.TempProducts.Add(info);
-                                                         }
-
-                                                         if (!RemoteMode)
-                                                         {
-                                                             if (!await Dialog.Show(new Dictionary<Language, string>
-                                                                                    {
-                                                                                        { Language.TW, "目前烤箱處於\"Local\"模式，無法由PC設定配方\n確定投產嗎？" },
-                                                                                        { Language.CHS, "目前烤箱处于\"Local\"模式，无法由PC设定配方\n确定投产吗？" },
-                                                                                        { Language.EN, "The oven is in \"Local\" mode, can't set recipe by PC.\nAre you sure to execute?" }
-                                                                                    },
-                                                                                    true))
-                                                             {
-                                                                 Checking = false;
-                                                                 return false;
-                                                             }
-                                                         }
-                                                         else
-                                                         {
-                                                             if (GetRecipe?.Invoke(InputRecipeName.Trim()) is { } recipe)
-                                                             {
-                                                                 if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
-                                                                 {
-                                                                     Dialog.Show(new Dictionary<Language, string>
-                                                                                 {
-                                                                                     { Language.TW, "配方比對錯誤！" },
-                                                                                     { Language.CHS, "配方比对错误！" },
-                                                                                     { Language.EN, "Recipe comparison error!" }
-                                                                                 },
-                                                                                 TimeSpan.FromSeconds(3),
-                                                                                 DialogMsgType.Alarm);
-
-                                                                     RecipeChangeError = true;
-                                                                     Checking          = false;
-                                                                     return false;
-                                                                 }
-                                                             }
-                                                         }
-
-                                                         Checking = false;
-                                                         return true;
-                                                     });
+        CheckInCommand = new RelayCommand(_ =>
+                                          {
+                                              if (OvenInfo.TempProducts.Count > 0)
+                                              {
+                                                  RackID = OvenInfo.TempProducts.First().LotID;
+                                                  CheckIn?.Invoke(RackID);
+                                              }
+                                          });
 
         CancelCheckInCommand = new RelayCommand(_ =>
                                                 {
@@ -593,7 +357,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         return;
                                                     }
 
-                                                    CheckInCommand.Result = false;
                                                     CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                     ClearInput();
                                                     OvenInfo.Clear();
@@ -604,6 +367,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             if (!AutoMode)
                                             {
                                                 AutoMode = true;
+                                            }
+
+                                            if (OvenInfo.TempProducts.Count > 0)
+                                            {
+                                                RackID = OvenInfo.TempProducts.First().LotID;
                                             }
 
                                             if (!RecipeCompareSV())
@@ -1053,8 +821,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             return SetRecipeResult.條件不允許;
         }
 
-        RecipeUsed?.Invoke(recipe.RecipeName);
-
         if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
         {
             Dialog.Show(new Dictionary<Language, string>
@@ -1244,8 +1010,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                            _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
 
-                                           //! 需在引發紀錄完成後才觸發取消投產
-                                           CheckInCommand.Result = false;
                                            NotifyPropertyChanged(nameof(IsExecuting));
                                        });
 
@@ -1324,36 +1088,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            SegmentCounts         = SV_SegmentCounts
                                        };
 
-    public async Task<SetRecipeResult> SetRecipe(PLC_Recipe? recipe)
+    public async Task<SetRecipeResult> SetRecipeAsync(PLC_Recipe? recipe)
     {
         if (recipe == null || IsExecuting || !RemoteMode)
         {
             return SetRecipeResult.條件不允許;
         }
 
-        RecipeUsed?.Invoke(recipe.RecipeName);
-
-        if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
-        {
-            RecipeChangeError = true;
-            return SetRecipeResult.比對不相符;
-        }
-
-        InvokeSECSEvent?.Invoke("RecipeChanged");
-
-        return SetRecipeResult.成功;
-    }
-
-    public async Task<SetRecipeResult> SetRecipe(string recipeName)
-    {
-        if (GetRecipe?.Invoke(recipeName) is not { } recipe || IsExecuting || !RemoteMode)
-        {
-            return SetRecipeResult.條件不允許;
-        }
-
-        RecipeUsed?.Invoke(recipe.RecipeName);
-
-        if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
+        if (await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
         {
             RecipeChangeError = true;
             return SetRecipeResult.比對不相符;

@@ -20,14 +20,13 @@ namespace GPGO_MultiPLCs.ViewModels;
 /// <summary>所有烤箱的生產總覽</summary>
 public sealed class TotalView_ViewModel : ObservableObject
 {
-    public event Action                                                                                           WantLogin;
-    public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)> EventHappened;
-    public event Action<(int StationIndex, string RackID)>                                                        CancelCheckIn;
-    public event Action<(int StationIndex, string RecipeName)>                                                    RecipeUsed;
-    public event Func<(int StationIndex, ProcessInfo Info), Task<int>>                                            AddRecordToDB;
-    public event Func<(int StationIndex, string RecipeName), PLC_Recipe?>                                         GetRecipe;
-    public event Func<PLC_Recipe, bool>                                                                           UpsertRecipe;
-    public event Func<string, bool>                                                                               DeleteRecipe;
+    public event Action?                                                                                           WantLogin;
+    public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)>? EventHappened;
+    public event Action<(int StationIndex, string RackID)>?                                                        CancelCheckIn;
+    public event Func<(int StationIndex, ProcessInfo Info), Task<int>>?                                            AddRecordToDB;
+    public event Func<string, PLC_Recipe?>?                                         GetRecipe;
+    public event Func<PLC_Recipe, bool>?                                                                           UpsertRecipe;
+    public event Func<string, bool>?                                                                               DeleteRecipe;
 
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
@@ -205,6 +204,18 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       },
                                                       null);
 
+        PropertyChanged += (s, e) =>
+                           {
+                               if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
+                               {
+                                   var val = SECS_ENABLE && SECS_Communicating && SECS_ONLINE && SECS_REMOTE;
+                                   foreach (var plc in PLC_All)
+                                   {
+                                       plc.IsRemoteOnline = val;
+                                   }
+                               }
+                           };
+
         SecsGemEquipment.TerminalMessageRecived += async message =>
                                                    {
                                                        if (Dialog == null)
@@ -330,7 +341,14 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                  var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.PPSELECT_Command), "", $"{index}-{name}");
                                                  EventHappened?.Invoke(eventval);
 
-                                                 return PLC_All[index].SetRecipe(name).Result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
+                                                 if (GetRecipe?.Invoke(name) is not { } recipe)
+                                                 {
+                                                     return HCACKValule.NoObjectExists;
+                                                 }
+
+                                                 var result = PLC_All[index].SetRecipeAsync(recipe).Result;
+
+                                                 return result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
                                                  ;
                                              };
 
@@ -481,11 +499,22 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.WantFocus += () => PLCIndex = index;
 
-            //! PLC讀取配方內容時
-            plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke((index, recipeName));
+            plc.CheckIn += rackid =>
+                           {
+                               try
+                               {
+                                   SecsGemEquipment.UpdateSV($"Oven{index + 1}_RackID", rackid);
+                               }
+                               catch
+                               {
+                                   // ignored
+                               }
 
-            //! PLC由OP指定變更配方時
-            plc.RecipeUsed += recipeName => RecipeUsed?.Invoke((index, recipeName));
+                               SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackInput");
+                           };
+
+            //! PLC讀取配方內容時
+            plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke(recipeName);
 
             plc.ExecutingStarted += () =>
                                     {
@@ -512,19 +541,19 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          {
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
 
-                                             dialog?.Show(new Dictionary<Language, string>
-                                                          {
-                                                              { Language.TW, "已完成烘烤！" },
-                                                              { Language.CHS, "已完成烘烤！" },
-                                                              { Language.EN, "Finished!" }
-                                                          },
-                                                          TimeSpan.FromSeconds(2));
+                                             dialog.Show(new Dictionary<Language, string>
+                                                         {
+                                                             { Language.TW, "已完成烘烤！" },
+                                                             { Language.CHS, "已完成烘烤！" },
+                                                             { Language.EN, "Finished!" }
+                                                         },
+                                                         TimeSpan.FromSeconds(2));
                                          }
                                          else
                                          {
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
-                                             dialog?.Show(new Dictionary<Language, string>
+                                             dialog.Show(new Dictionary<Language, string>
                                                           {
                                                               { Language.TW, "已取消烘烤！" },
                                                               { Language.CHS, "已取消烘烤！" },
@@ -550,7 +579,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             //! PLC配方輸入錯誤時
             plc.RecipeKeyInError += () =>
                                     {
-                                        dialog?.Show(new Dictionary<Language, string>
+                                        dialog.Show(new Dictionary<Language, string>
                                                      {
                                                          { Language.TW, "配方輸入錯誤！" },
                                                          { Language.CHS, "配方输入错误！" },
@@ -717,12 +746,6 @@ public sealed class TotalView_ViewModel : ObservableObject
             // ignored
         }
     }
-
-    /// <summary>將配方寫入PLC</summary>
-    /// <param name="index">PLC序號</param>
-    /// <param name="recipe">配方</param>
-    /// <returns>是否成功寫入PLC</returns>
-    public Task<SetRecipeResult> SetRecipe(int index, PLC_Recipe recipe) => PLC_All[index].SetRecipe(recipe);
 
     /// <summary>設定使用的PLC配方(透過配方名)</summary>
     /// <param name="names">配方名列表</param>

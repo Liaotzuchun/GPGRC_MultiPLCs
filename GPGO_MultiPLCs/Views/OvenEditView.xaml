@@ -125,7 +125,8 @@
                       FontWeight="Bold"
                       Header="{DynamicResource 投產}"
                       IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
-                <Grid TextElement.FontSize="20"
+                <Grid IsEnabled="{Binding IsEnabled, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource BoolNot}}"
+                      TextElement.FontSize="20"
                       TextElement.FontWeight="Bold">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="90" />
@@ -153,8 +154,7 @@
                                Grid.Column="1"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right"
-                                Visibility="{Binding InputOperatorID, Mode=OneWay, Converter={StaticResource NullVis}}">
+                                DockPanel.Dock="Right">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -195,8 +195,7 @@
                                Grid.Column="1"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right"
-                                Visibility="{Binding InputPartID, Mode=OneWay, Converter={StaticResource NullVis}}">
+                                DockPanel.Dock="Right">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -249,8 +248,7 @@
                                Grid.Column="1"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right"
-                                Visibility="{Binding InputLotID, Mode=OneWay, Converter={StaticResource NullVis}}">
+                                DockPanel.Dock="Right">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -301,10 +299,10 @@
                     </Border>
                     <DockPanel Grid.Row="3"
                                Grid.Column="1"
+                               IsEnabled="{Binding IsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolNot}}"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right"
-                                Visibility="{Binding InputRecipeName, Mode=OneWay, Converter={StaticResource NullVis}}">
+                                DockPanel.Dock="Right">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -364,8 +362,7 @@
                                Grid.Column="1"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right"
-                                Visibility="{Binding InputQuantity, Mode=OneWay, Converter={StaticResource IsNotEqualValueVis}, ConverterParameter=0}">
+                                DockPanel.Dock="Right">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -497,6 +494,7 @@
                               FontSize="14"
                               FontWeight="Bold"
                               HorizontalScrollBarVisibility="Disabled"
+                              IsEnabled="{Binding IsChecked, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource BoolNot}}"
                               ItemsSource="{Binding OvenInfo.TempProducts, Mode=OneWay}"
                               Loaded="DataGrid_Loaded"
                               VerticalScrollBarVisibility="Auto">
@@ -571,18 +569,38 @@
                                                 Header="{DynamicResource 數量}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <views:UniformStackPanel Grid.Row="1"
-                                             Orientation="Horizontal">
+                    <Grid Grid.Row="1">
+                        <ToggleButton x:Name="CheckInTB"
+                                      Content="{DynamicResource 投產}"
+                                      FontSize="20"
+                                      FontWeight="Bold"
+                                      IsEnabled="{Binding OvenInfo.TempProducts.Count, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                      Visibility="{Binding IsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolVis}}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Checked">
+                                    <i:ChangePropertyAction PropertyName="Content"
+                                                            Value="{DynamicResource 取消}" />
+                                    <i:InvokeCommandAction Command="{Binding CheckInCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="Unchecked">
+                                    <i:ChangePropertyAction PropertyName="Content"
+                                                            Value="{DynamicResource 投產}" />
+                                    <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ToggleButton>
                         <Button Content="{DynamicResource 啟動}"
                                 FontSize="20"
-                                FontWeight="Bold">
+                                FontWeight="Bold"
+                                IsVisibleChanged="Button_IsVisibleChanged"
+                                Visibility="{Binding IsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding StartCommand, Mode=OneTime}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
-                    </views:UniformStackPanel>
+                    </Grid>
                 </Grid>
             </GroupBox>
             <GroupBox Grid.Row="1"
