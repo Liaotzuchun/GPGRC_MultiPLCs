@@ -9,6 +9,7 @@ Oven1_RecipeChanged,1009,Oven1_RecipeChanged
 Oven1_OnlineStatusChanged,1011,Oven1_OnlineStatusChanged
 Oven1_EqpStatusChanged,1012,Oven1_EqpStatusChanged
 Oven1_RackOutput,1013,Oven1_RackOutput
+Oven1_CancelCheckIn,1014,Oven1_CancelCheckIn
 Oven2_RackInput,2000,Oven2_RackInput
 Oven2_LotAdded,2001,Oven2_LotAdded
 Oven2_LotRemoved,2002,Oven2_LotRemoved
@@ -19,3 +20,4 @@ Oven2_RecipeChanged,2009,Oven2_RecipeChanged
 Oven2_OnlineStatusChanged,2011,Oven2_OnlineStatusChanged
 Oven2_EqpStatusChanged,2012,Oven2_EqpStatusChanged
 Oven2_RackOutput,2013,Oven2_RackOutput
+Oven2_CancelCheckIn,2014,Oven2_CancelCheckIn

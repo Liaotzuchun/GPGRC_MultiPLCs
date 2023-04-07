@@ -22,11 +22,10 @@ public sealed class TotalView_ViewModel : ObservableObject
 {
     public event Action?                                                                                           WantLogin;
     public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)>? EventHappened;
-    public event Action<(int StationIndex, string RackID)>?                                                        CancelCheckIn;
     public event Func<(int StationIndex, ProcessInfo Info), Task<int>>?                                            AddRecordToDB;
-    public event Func<string, PLC_Recipe?>?                                         GetRecipe;
     public event Func<PLC_Recipe, bool>?                                                                           UpsertRecipe;
     public event Func<string, bool>?                                                                               DeleteRecipe;
+    public event Func<string, PLC_Recipe?>?                                                                        GetRecipe;
 
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
@@ -389,7 +388,6 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                                var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.CANCEL_Command), "", index);
                                                EventHappened?.Invoke(eventval);
-                                               CancelCheckIn?.Invoke((index, PLC_All[index].OvenInfo.RackID));
 
                                                PLC_All[index].ClearInput();
                                                PLC_All[index].OvenInfo.Clear();
@@ -501,17 +499,28 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.CheckIn += rackid =>
                            {
-                               try
-                               {
-                                   SecsGemEquipment.UpdateSV($"Oven{index + 1}_RackID", rackid);
-                               }
-                               catch
-                               {
-                                   // ignored
-                               }
-
+                               SecsGemEquipment.UpdateSV($"Oven{index    + 1}_RackID", rackid);
                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackInput");
                            };
+
+            //! 取消投產
+            plc.CancelCheckIn += _ =>
+                                 {
+                                     SecsGemEquipment.UpdateSV($"Oven{index    + 1}_RackID", string.Empty);
+                                     SecsGemEquipment.InvokeEvent($"Oven{index + 1}_CancelCheckIn");
+                                 };
+
+            plc.LotAdded += lotid =>
+                            {
+                                SecsGemEquipment.UpdateSV($"Oven{index    + 1}_LotIDs", lotid);
+                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
+                            };
+
+            plc.LotRemoved += lotid =>
+                              {
+                                  SecsGemEquipment.UpdateSV($"Oven{index    + 1}_LotIDs", lotid);
+                                  SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotRemoved");
+                              };
 
             //! PLC讀取配方內容時
             plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke(recipeName);
@@ -554,12 +563,12 @@ public sealed class TotalView_ViewModel : ObservableObject
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
                                              dialog.Show(new Dictionary<Language, string>
-                                                          {
-                                                              { Language.TW, "已取消烘烤！" },
-                                                              { Language.CHS, "已取消烘烤！" },
-                                                              { Language.EN, "Canceled!" }
-                                                          },
-                                                          TimeSpan.FromSeconds(2));
+                                                         {
+                                                             { Language.TW, "已取消烘烤！" },
+                                                             { Language.CHS, "已取消烘烤！" },
+                                                             { Language.EN, "Canceled!" }
+                                                         },
+                                                         TimeSpan.FromSeconds(2));
                                          }
 
                                          if (AddRecordToDB != null)
@@ -580,20 +589,17 @@ public sealed class TotalView_ViewModel : ObservableObject
             plc.RecipeKeyInError += () =>
                                     {
                                         dialog.Show(new Dictionary<Language, string>
-                                                     {
-                                                         { Language.TW, "配方輸入錯誤！" },
-                                                         { Language.CHS, "配方输入错误！" },
-                                                         { Language.EN, "Recipe input error!" }
-                                                     },
-                                                     TimeSpan.FromSeconds(1),
-                                                     DialogMsgType.Alarm);
+                                                    {
+                                                        { Language.TW, "配方輸入錯誤！" },
+                                                        { Language.CHS, "配方输入错误！" },
+                                                        { Language.EN, "Recipe input error!" }
+                                                    },
+                                                    TimeSpan.FromSeconds(1),
+                                                    DialogMsgType.Alarm);
                                     };
 
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
-
-            //! 取消投產
-            plc.CancelCheckIn += RackID => CancelCheckIn?.Invoke((index, RackID));
 
             plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
 

@@ -27,6 +27,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action<string>?                                                                 CancelCheckIn;
     public event Action<string>?                                                                 CheckIn;
     public event Action<string>?                                                                 InvokeSECSEvent;
+    public event Action<string>?                                                                 LotAdded;
+    public event Action<string>?                                                                 LotRemoved;
     public event Action<string>?                                                                 MachineCodeChanged;
     public event Func<BaseInfo, Task>?                                                           ExecutingFinished;
     public event Func<string, PLC_Recipe>?                                                       GetRecipe;
@@ -327,6 +329,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                                  OvenInfo.TempProducts.Add(info);
                                              }
+
+                                             LotAdded?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                          });
 
         DeleteLotCommand = new RelayCommand(lot =>
@@ -335,6 +339,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 {
                                                     using var list = OvenInfo.TempProducts.ToPooledList();
                                                     list.Remove(info);
+
+                                                    LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
 
                                                     ClearInput();
                                                     list.ForEach(x => OvenInfo.TempProducts.Add(x));
@@ -360,6 +366,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                     ClearInput();
                                                     OvenInfo.Clear();
+
+                                                    LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                                 });
 
         StartCommand = new AsyncCommand(async _ =>

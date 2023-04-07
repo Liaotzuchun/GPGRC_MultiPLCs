@@ -125,7 +125,7 @@
                       FontWeight="Bold"
                       Header="{DynamicResource 投產}"
                       IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
-                <Grid IsEnabled="{Binding IsEnabled, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource BoolNot}}"
+                <Grid IsEnabled="{Binding IsChecked, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource BoolNot}}"
                       TextElement.FontSize="20"
                       TextElement.FontWeight="Bold">
                     <Grid.ColumnDefinitions>
