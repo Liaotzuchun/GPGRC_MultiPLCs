@@ -31,7 +31,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action<string>?                                                                 LotRemoved;
     public event Action<string>?                                                                 MachineCodeChanged;
     public event Func<BaseInfo, Task>?                                                           ExecutingFinished;
-    public event Func<string, PLC_Recipe>?                                                       GetRecipe;
+    public event Func<string, PLC_Recipe?>?                                                      GetRecipe;
 
     private readonly IDialogService Dialog;
     private readonly TaskFactory    OneScheduler = new(new StaTaskScheduler(1));
