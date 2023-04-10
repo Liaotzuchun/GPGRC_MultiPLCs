@@ -63,7 +63,7 @@ public class DataoutputCSV
             sb.AppendLine(DataTitles);
         }
 
-        var recipe = info.Recipe.ToDictionary(Language);
+        var recipe = info.Recipe?.ToDictionary() ?? new Dictionary<string, object>();
         foreach (var product in info.Products)
         {
             using var vals = new[]
@@ -196,7 +196,7 @@ public class DataoutputCSV
             sb.AppendLine(AlarmTitles);
         }
 
-        var _temp = logEvent.ToDictionary();
+        var _temp = logEvent.ToDictionary(Language);
         sb.AppendLine(string.Join(",", _temp.Values));
 
         try
@@ -337,7 +337,7 @@ public class DataoutputCSV
         Language = lng;
 
         var type     = typeof(ProcessInfo);
-        var recipe   = new PLC_Recipe().ToDictionary(Language);
+        var recipe   = new PLC_Recipe().ToDictionary();
         var record   = new RecordTemperatures().ToDic(Language);
         var logevent = new LogEvent().ToDictionary(Language);
 
