@@ -834,5 +834,5 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
     }
 
-    public void StartPLCGate() => Checker?.Change(0, Timeout.Infinite);
+    public void StartPLCGate() => Checker.Change(0, Timeout.Infinite);
 }
