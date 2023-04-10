@@ -21,11 +21,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action?                                                                         RecipeKeyInError;
     public event Action?                                                                         WantFocus;
     public event Action<(EventType type, DateTime time, string note, string tag, object value)>? EventHappened;
+    public event Action<(string opid, string rackid)>?                                           CheckIn;
     public event Action<string, bool>?                                                           InvokeSECSAlarm;
     public event Action<string, object>?                                                         SV_Changed;
     public event Action<string>?                                                                 AssetNumberChanged;
     public event Action<string>?                                                                 CancelCheckIn;
-    public event Action<string>?                                                                 CheckIn;
     public event Action<string>?                                                                 InvokeSECSEvent;
     public event Action<string>?                                                                 LotAdded;
     public event Action<string>?                                                                 LotRemoved;
@@ -352,7 +352,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                               if (OvenInfo.TempProducts.Count > 0)
                                               {
                                                   RackID = OvenInfo.TempProducts.First().LotID;
-                                                  CheckIn?.Invoke(RackID);
+                                                  CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
                                               }
                                           });
 

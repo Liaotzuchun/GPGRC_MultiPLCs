@@ -497,15 +497,18 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.WantFocus += () => PLCIndex = index;
 
-            plc.CheckIn += rackid =>
+            plc.CheckIn += e =>
                            {
-                               SecsGemEquipment.UpdateSV($"Oven{index    + 1}_RackID", rackid);
+                               var (opid, rackid) = e;
+                               SecsGemEquipment.UpdateSV($"Oven{index    + 1}_OperatorID", opid);
+                               SecsGemEquipment.UpdateSV($"Oven{index    + 1}_RackID",     rackid);
                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackInput");
                            };
 
             //! 取消投產
             plc.CancelCheckIn += _ =>
                                  {
+                                     //SecsGemEquipment.UpdateSV($"Oven{index    + 1}_OperatorID", string.Empty);
                                      SecsGemEquipment.UpdateSV($"Oven{index    + 1}_RackID", string.Empty);
                                      SecsGemEquipment.InvokeEvent($"Oven{index + 1}_CancelCheckIn");
                                  };
