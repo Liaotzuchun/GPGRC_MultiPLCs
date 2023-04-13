@@ -320,7 +320,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              }
                                              else
                                              {
-                                                 PartID   = InputLotID;
+                                                 PartID   = InputPartID;
                                                  LotID    = InputLotID;
                                                  Quantity = (short)InputQuantity;
 
