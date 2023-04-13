@@ -316,9 +316,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              if (same != null)
                                              {
                                                  same.Quantity += InputQuantity;
+                                                 Quantity = (short)same.Quantity;
                                              }
                                              else
                                              {
+                                                 PartID   = InputLotID;
+                                                 LotID    = InputLotID;
+                                                 Quantity = (short)InputQuantity;
+
                                                  var info = new ProductInfo
                                                             {
                                                                 PartID   = InputPartID,

@@ -13,6 +13,27 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<bool>();
         set => Set(value);
     }
+
+    [PLCData(DataType.D, 4100, 16, LogType.None)]
+    public string? PartID
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+
+    [PLCData(DataType.D, 4120, 16, LogType.None)]
+    public string? LotID
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+
+    [PLCData(DataType.D, 4140, LogType.None)]
+    public short Quantity
+    {
+        get => Get<short>();
+        set => Set(value);
+    }
     #endregion
 
     public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) { }
