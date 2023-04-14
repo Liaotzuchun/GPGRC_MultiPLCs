@@ -552,26 +552,33 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          if (baseInfo.IsFinished)
                                          {
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
+                                             plc.BeepSilince = false;
+                                             await dialog.Show(new Dictionary<Language, string>
+                                                               {
+                                                                   { Language.TW, "已完成烘烤！" },
+                                                                   { Language.CHS, "已完成烘烤！" },
+                                                                   { Language.EN, "Finished!" }
+                                                               },
+                                                               false,
+                                                               TimeSpan.FromDays(1));
 
-                                             dialog.Show(new Dictionary<Language, string>
-                                                         {
-                                                             { Language.TW, "已完成烘烤！" },
-                                                             { Language.CHS, "已完成烘烤！" },
-                                                             { Language.EN, "Finished!" }
-                                                         },
-                                                         TimeSpan.FromSeconds(2));
+                                             plc.BeepSilince = true;
+                                             SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
                                          }
                                          else
                                          {
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
-                                             dialog.Show(new Dictionary<Language, string>
-                                                         {
-                                                             { Language.TW, "已取消烘烤！" },
-                                                             { Language.CHS, "已取消烘烤！" },
-                                                             { Language.EN, "Canceled!" }
-                                                         },
-                                                         TimeSpan.FromSeconds(2));
+                                             await dialog.Show(new Dictionary<Language, string>
+                                                               {
+                                                                   { Language.TW, "已取消烘烤！" },
+                                                                   { Language.CHS, "已取消烘烤！" },
+                                                                   { Language.EN, "Canceled!" }
+                                                               },
+                                                               false,
+                                                               TimeSpan.FromDays(1));
+
+                                             SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
                                          }
 
                                          if (AddRecordToDB != null)
@@ -579,6 +586,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                              await AddRecordToDB.Invoke((index, product));
                                          }
 
+                                         plc.ClearInput();
                                          Index = 0; //! 烘烤完成，切回投產頁面
                                      };
 

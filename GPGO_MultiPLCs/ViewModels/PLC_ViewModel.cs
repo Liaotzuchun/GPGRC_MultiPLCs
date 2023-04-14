@@ -356,7 +356,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                           {
                                               if (OvenInfo.TempProducts.Count > 0)
                                               {
-                                                  RackID = OvenInfo.TempProducts.First().LotID;
+                                                  RackID   = OvenInfo.TempProducts.First().LotID;
+                                                  DoorLock = true;
                                                   CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
                                               }
                                           });
@@ -371,7 +372,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                     ClearInput();
                                                     OvenInfo.Clear();
-
+                                                    DoorLock = false;
                                                     LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                                 });
 
@@ -1016,6 +1017,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                        {
                                            x.Dispose();
 
+                                           DoorLock = false;
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime       = DateTime.Now;
                                            OvenInfo.Recipe        = GetRecipeSV();

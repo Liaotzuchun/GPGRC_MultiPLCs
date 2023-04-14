@@ -14,6 +14,26 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
+    /// <summary>
+    /// 門鎖開關
+    /// </summary>
+    [PLCBit(BitType.M, 350, LogType.None)]
+    public bool DoorLock
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>
+    /// 警報器靜音
+    /// </summary>
+    [PLCBit(BitType.M, 351, LogType.None)]
+    public bool BeepSilince
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
     [PLCData(DataType.D, 4100, 16, LogType.None)]
     public string? PartID
     {
