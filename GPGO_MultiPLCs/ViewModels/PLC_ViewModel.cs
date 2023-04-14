@@ -569,8 +569,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         }
 
                                         InvokeSECSEvent?.Invoke("ProcessStarted");
-
-                                        _ = StartPP();
+                                        AutoMode_Stop = false;
+                                        _             = StartPP();
                                     }
                                     else if (name == nameof(ProcessComplete))
                                     {
