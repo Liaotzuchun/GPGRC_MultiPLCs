@@ -1031,6 +1031,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            x.Dispose();
 
                                            DoorLock = false;
+                                           BeepSilince = false;
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime       = DateTime.Now;
                                            OvenInfo.Recipe        = GetRecipeSV();

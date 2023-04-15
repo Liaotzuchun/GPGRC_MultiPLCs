@@ -1358,10 +1358,10 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
-                            <DataGridTextColumn Width="Auto"
-                                                MinWidth="50"
-                                                Binding="{Binding Quantity, Mode=OneWay}"
-                                                Header="{DynamicResource 數量}" />
+                                <DataGridTextColumn Width="Auto"
+                                                    MinWidth="50"
+                                                    Binding="{Binding Quantity, Mode=OneWay}"
+                                                    Header="{DynamicResource 數量}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </TabItem>
