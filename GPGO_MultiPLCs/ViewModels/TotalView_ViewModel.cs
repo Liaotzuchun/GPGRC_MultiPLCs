@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Models;
@@ -12,6 +13,7 @@ using GPMVVM.Models;
 using GPMVVM.Models.SECS;
 using GPMVVM.PooledCollections;
 using GPMVVM.SECSGEM;
+using Linearstar.Windows.RawInput.Native;
 using Newtonsoft.Json;
 using PLCService;
 
@@ -508,10 +510,14 @@ public sealed class TotalView_ViewModel : ObservableObject
             //! 取消投產
             plc.CancelCheckIn += _ =>
                                  {
-                                     //SecsGemEquipment.UpdateSV($"Oven{index    + 1}_OperatorID", string.Empty);
                                      SecsGemEquipment.UpdateSV($"Oven{index    + 1}_RackID", string.Empty);
                                      SecsGemEquipment.InvokeEvent($"Oven{index + 1}_CancelCheckIn");
                                  };
+
+            plc.CheckOut += _ =>
+            {
+                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
+            };
 
             plc.LotAdded += lotid =>
                             {
@@ -552,33 +558,23 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          if (baseInfo.IsFinished)
                                          {
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
-                                             plc.BeepSilince = false;
-                                             await dialog.Show(new Dictionary<Language, string>
+                                             dialog.Show(new Dictionary<Language, string>
                                                                {
                                                                    { Language.TW, "已完成烘烤！" },
                                                                    { Language.CHS, "已完成烘烤！" },
                                                                    { Language.EN, "Finished!" }
-                                                               },
-                                                               false,
-                                                               TimeSpan.FromDays(1));
-
-                                             plc.BeepSilince = true;
-                                             SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
+                                                               });
                                          }
                                          else
                                          {
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
-                                             await dialog.Show(new Dictionary<Language, string>
+                                             dialog.Show(new Dictionary<Language, string>
                                                                {
                                                                    { Language.TW, "已取消烘烤！" },
                                                                    { Language.CHS, "已取消烘烤！" },
                                                                    { Language.EN, "Canceled!" }
-                                                               },
-                                                               false,
-                                                               TimeSpan.FromDays(1));
-
-                                             SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
+                                                               });
                                          }
 
                                          if (AddRecordToDB != null)
@@ -586,7 +582,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                              await AddRecordToDB.Invoke((index, product));
                                          }
 
-                                         plc.ClearInput();
                                          Index = 0; //! 烘烤完成，切回投產頁面
                                      };
 

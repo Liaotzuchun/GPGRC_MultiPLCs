@@ -71,11 +71,11 @@ public partial class OvenEditView : UserControl
         }
     }
 
-    private void Button_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    private void Grid_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (sender is Button { Visibility: Visibility.Visible })
+        if (sender is Grid { IsEnabled: false } && CheckInTB.IsChecked == true && CheckInTB.TryFindResource("完成烘烤") is string s)
         {
-            CheckInTB.IsChecked = false;
+            CheckInTB.Content = s;
         }
     }
 }

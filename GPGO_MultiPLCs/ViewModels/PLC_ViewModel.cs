@@ -26,6 +26,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action<string, object>?                                                         SV_Changed;
     public event Action<string>?                                                                 AssetNumberChanged;
     public event Action<string>?                                                                 CancelCheckIn;
+    public event Action<string>?                                                                 CheckOut;
     public event Action<string>?                                                                 InvokeSECSEvent;
     public event Action<string>?                                                                 LotAdded;
     public event Action<string>?                                                                 LotRemoved;
@@ -316,7 +317,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              if (same != null)
                                              {
                                                  same.Quantity += InputQuantity;
-                                                 Quantity = (short)same.Quantity;
+                                                 Quantity      =  (short)same.Quantity;
                                              }
                                              else
                                              {
@@ -369,11 +370,23 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         return;
                                                     }
 
-                                                    CancelCheckIn?.Invoke(OvenInfo.RackID);
-                                                    ClearInput();
-                                                    OvenInfo.Clear();
+                                                    if (OvenInfo.IsFinished)
+                                                    {
+                                                        CheckOut?.Invoke(OvenInfo.RackID);
+                                                        ClearInput();
+                                                        OvenInfo.Clear();
+
+                                                        BeepSilince = true;
+                                                    }
+                                                    else
+                                                    {
+                                                        CancelCheckIn?.Invoke(OvenInfo.RackID);
+                                                        ClearInput();
+                                                        OvenInfo.Clear();
+                                                        LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
+                                                    }
+
                                                     DoorLock = false;
-                                                    LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                                 });
 
         StartCommand = new AsyncCommand(async _ =>
