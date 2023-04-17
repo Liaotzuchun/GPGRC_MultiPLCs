@@ -38,6 +38,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     private readonly TaskFactory    OneScheduler = new(new StaTaskScheduler(1));
     private          bool           ManualRecord;
     private          DateTime       OfflineTime = DateTime.MaxValue;
+    private          bool           isCheckin;
 
     /// <summary>控制紀錄任務結束</summary>
     public CancellationTokenSource CTS = new();
@@ -355,18 +356,27 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         CheckInCommand = new RelayCommand(_ =>
                                           {
+                                              isCheckin = true;
+
                                               if (OvenInfo.TempProducts.Count > 0)
                                               {
                                                   RackID   = OvenInfo.TempProducts.First().LotID;
-                                                  DoorLock = true;
-                                                  CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
                                               }
+
+                                              DoorLock = true;
+                                              CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
                                           });
 
-        CancelCheckInCommand = new RelayCommand(_ =>
+        CancelCheckInCommand = new RelayCommand(e =>
                                                 {
+                                                    isCheckin = false;
+
                                                     if (IsExecuting)
                                                     {
+                                                        if (e is RoutedEventArgs args)
+                                                        {
+                                                            args.Handled = true;
+                                                        }
                                                         return;
                                                     }
 
@@ -374,7 +384,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     {
                                                         CheckOut?.Invoke(OvenInfo.RackID);
                                                         ClearInput();
-                                                        OvenInfo.Clear();
 
                                                         BeepSilince = true;
                                                     }
@@ -382,7 +391,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     {
                                                         CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                         ClearInput();
-                                                        OvenInfo.Clear();
                                                         LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                                     }
 
@@ -1036,6 +1044,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            OvenInfo.EndTime       = DateTime.Now;
                                            OvenInfo.Recipe        = GetRecipeSV();
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
+
+                                           if (!isCheckin)
+                                           {
+                                               ClearInput();
+                                           }
 
                                            _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
 

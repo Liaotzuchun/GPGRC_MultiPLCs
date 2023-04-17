@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:GPGO_MultiPLCs.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -125,7 +124,7 @@
                       FontSize="16"
                       FontWeight="Bold"
                       Header="{DynamicResource 投產}"
-                      IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                      IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay, FallbackValue=False}">
                 <Grid IsEnabled="{Binding IsChecked, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource BoolNot}}"
                       TextElement.FontSize="20"
                       TextElement.FontWeight="Bold">
@@ -586,7 +585,8 @@
                                 <i:EventTrigger EventName="Unchecked">
                                     <i:ChangePropertyAction PropertyName="Content"
                                                             Value="{DynamicResource 投產}" />
-                                    <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}" />
+                                    <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}"
+                                                           PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ToggleButton>

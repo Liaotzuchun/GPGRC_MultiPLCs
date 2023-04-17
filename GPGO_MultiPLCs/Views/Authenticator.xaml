@@ -207,9 +207,9 @@
                     <Border.Style>
                         <Style TargetType="Border">
                             <Setter Property="Background" Value="LightSlateGray" />
-                            <Setter Property="TextElement.Foreground" Value="{StaticResource GlyphBrush}" />
                             <Setter Property="Grid.Column" Value="4" />
                             <Setter Property="Grid.RowSpan" Value="2" />
+                            <Setter Property="TextElement.Foreground" Value="{StaticResource GlyphBrush}" />
                             <Setter Property="Width" Value="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding NowUser.Level, Mode=OneWay, FallbackValue=False}"
@@ -417,7 +417,8 @@
                          Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
                     <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="0,0,1,0">
-                        <local:SECSParameterView Height="240" DataContext="{Binding TotalVM.SecsGemEquipment.HSMSParameters, Source={StaticResource Mediator}, Mode=OneWay}"/>
+                        <local:SECSParameterView Height="240"
+                                                 DataContext="{Binding TotalVM.SecsGemEquipment.HSMSParameters, Source={StaticResource Mediator}, Mode=OneWay}" />
                     </Border>
                 </TabItem>
                 <TabItem Height="40"
