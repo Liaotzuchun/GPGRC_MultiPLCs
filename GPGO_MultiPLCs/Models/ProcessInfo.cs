@@ -142,9 +142,10 @@ public class BaseInfo : ObservableObject
         RecordTemperatures.Clear();
         Products.Clear();
 
-        StartTime  = new DateTime();
-        EndTime    = new DateTime();
-        IsFinished = false;
+        StartTime     = new DateTime();
+        EndTime       = new DateTime();
+        TotalRampTime = 0.0;
+        IsFinished    = false;
     }
 }
 

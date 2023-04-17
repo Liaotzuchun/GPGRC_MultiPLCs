@@ -575,6 +575,7 @@
                                       FontSize="20"
                                       FontWeight="Bold"
                                       IsEnabled="{Binding OvenInfo.TempProducts.Count, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
+                                      Tag="{x:Null}"
                                       Visibility="{Binding IsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolVis}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Checked">
@@ -586,6 +587,12 @@
                                     <i:ChangePropertyAction PropertyName="Content"
                                                             Value="{DynamicResource 投產}" />
                                     <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}"
+                                                           CommandParameter="{Binding Tag, ElementName=CheckInTB, Mode=OneWay}" />
+                                    <i:ChangePropertyAction PropertyName="Tag"
+                                                            Value="{x:Null}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="PreviewMouseDown">
+                                    <i:InvokeCommandAction Command="{Binding CheckIsExecutingCommand, Mode=OneTime}"
                                                            PassEventArgsToCommand="True" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>

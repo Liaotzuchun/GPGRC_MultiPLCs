@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
@@ -36,9 +37,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     private readonly IDialogService Dialog;
     private readonly TaskFactory    OneScheduler = new(new StaTaskScheduler(1));
+    private          bool           isCheckin;
     private          bool           ManualRecord;
     private          DateTime       OfflineTime = DateTime.MaxValue;
-    private          bool           isCheckin;
 
     /// <summary>控制紀錄任務結束</summary>
     public CancellationTokenSource CTS = new();
@@ -67,6 +68,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public RelayCommand ClearLotTextCommand         { get; }
     public RelayCommand ClearRecipeTextCommand      { get; }
     public RelayCommand ClearQuantityCommand        { get; }
+
+    public RelayCommand CheckIsExecutingCommand { get; }
 
     /// <summary>機台資訊</summary>
     public BaseInfoWithChart OvenInfo { get; }
@@ -360,7 +363,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                               if (OvenInfo.TempProducts.Count > 0)
                                               {
-                                                  RackID   = OvenInfo.TempProducts.First().LotID;
+                                                  RackID = OvenInfo.TempProducts.First().LotID;
                                               }
 
                                               DoorLock = true;
@@ -371,19 +374,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 {
                                                     isCheckin = false;
 
-                                                    if (IsExecuting)
-                                                    {
-                                                        if (e is RoutedEventArgs args)
-                                                        {
-                                                            args.Handled = true;
-                                                        }
-                                                        return;
-                                                    }
-
-                                                    if (OvenInfo.IsFinished)
+                                                    if (e != null)
                                                     {
                                                         CheckOut?.Invoke(OvenInfo.RackID);
                                                         ClearInput();
+                                                        OvenInfo.Clear();
 
                                                         BeepSilince = true;
                                                     }
@@ -391,11 +386,21 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     {
                                                         CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                         ClearInput();
+                                                        OvenInfo.Clear();
                                                         LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                                     }
 
                                                     DoorLock = false;
                                                 });
+
+        CheckIsExecutingCommand = new RelayCommand(e =>
+                                                   {
+                                                       //! 避免烘烤中意外中止
+                                                       if (IsExecuting && e is MouseButtonEventArgs { Source: ToggleButton { IsChecked: true } } args)
+                                                       {
+                                                           args.Handled = true;
+                                                       }
+                                                   });
 
         StartCommand = new AsyncCommand(async _ =>
                                         {
@@ -1038,7 +1043,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                        {
                                            x.Dispose();
 
-                                           DoorLock = false;
+                                           DoorLock    = false;
                                            BeepSilince = false;
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime       = DateTime.Now;
