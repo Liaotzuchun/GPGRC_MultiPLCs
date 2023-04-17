@@ -783,6 +783,39 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_B5F62385D22E4B9EA9CAFC701240FD47"
+            {
+            "Name" = "8:#1921"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:StartMenuFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_AEB70DC2BE66436485E2FFFC2A0064A2"
+                    {
+                    "Name" = "8:Programs"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_674222D1804240559A0E7701EB5F0EB0"
+                        "Folders"
+                        {
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_BDC0EF4AA2CC4923B17F0258ADEBFA67"
+                            {
+                            "Name" = "8:Startup"
+                            "AlwaysCreate" = "11:FALSE"
+                            "Condition" = "8:"
+                            "Transitive" = "11:FALSE"
+                            "Property" = "8:_7FC0EB0171B94FB9969AF200681AE7D4"
+                                "Folders"
+                                {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             "{994432C3-9487-495D-8656-3E829A8DBDDE}:_B9B008C45BB845C68935B99A6BFC1AC7"
             {
             "DefaultLocation" = "8:C:\\ITRIinit"
@@ -894,17 +927,6 @@
                     }
                 }
             }
-            "{1525181F-901A-416C-8A58-119130FE478E}:_CA432767E98C4BD2BA791BF9D3DA6FD3"
-            {
-            "Name" = "8:#1928"
-            "AlwaysCreate" = "11:FALSE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Property" = "8:StartupFolder"
-                "Folders"
-                {
-                }
-            }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_CA831586DEBD430999B0ABF706D868F8"
             {
             "DefaultLocation" = "8:C:\\GP\\GO"
@@ -934,7 +956,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPGO"
         "ProductCode" = "8:{81F7C5E4-B3AF-478C-8B84-2419A8B597EC}"
-        "PackageCode" = "8:{C768DBA6-D806-45AA-958F-E0596B77ABF3}"
+        "PackageCode" = "8:{EC0364E2-A717-4DA8-8449-E6A9B54BD1E6}"
         "UpgradeCode" = "8:{70B006A8-DE96-46AD-9A55-02B82D36D525}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1056,7 +1078,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_38FA3FC970FC4321BF5FB7DEAD033AAF"
             {
-            "Name" = "8:GPGO"
+            "Name" = "8:GPGO_MultiPLCs"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -1064,6 +1086,20 @@
             "Transitive" = "11:FALSE"
             "Target" = "8:_3182431B3E4B4768A0CD6FF00A9B439C"
             "Folder" = "8:_1B1ABD4A76B54604BFA10DF40F5B4A90"
+            "WorkingFolder" = "8:_CA831586DEBD430999B0ABF706D868F8"
+            "Icon" = "8:_9575E6F7C0E74E0DB9078CBB7C4A0C9C"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4297E15CF7064839A5B597CA22B2F202"
+            {
+            "Name" = "8:GPGO_MultiPLCs"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_3182431B3E4B4768A0CD6FF00A9B439C"
+            "Folder" = "8:_BDC0EF4AA2CC4923B17F0258ADEBFA67"
             "WorkingFolder" = "8:_CA831586DEBD430999B0ABF706D868F8"
             "Icon" = "8:_9575E6F7C0E74E0DB9078CBB7C4A0C9C"
             "Feature" = "8:"
@@ -1489,6 +1525,34 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:LocalizedResourceDlls"
+            "OutputProjectGuid" = "8:{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2EECE5ED051E48A1B15A882CB4C55BE7"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Documentation"
             "OutputProjectGuid" = "8:{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
