@@ -361,11 +361,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                           {
                                               isCheckin = true;
 
-                                              if (OvenInfo.TempProducts.Count > 0)
-                                              {
-                                                  RackID = OvenInfo.TempProducts.First().LotID;
-                                              }
-
+                                              RackID   = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
                                               DoorLock = true;
                                               CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
                                           });
@@ -409,10 +405,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 AutoMode = true;
                                             }
 
-                                            if (OvenInfo.TempProducts.Count > 0)
-                                            {
-                                                RackID = OvenInfo.TempProducts.First().LotID;
-                                            }
+                                            RackID   = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
+                                            DoorLock = true;
 
                                             if (!RecipeCompareSV())
                                             {

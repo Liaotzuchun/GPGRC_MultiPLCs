@@ -574,7 +574,6 @@
                                       Content="{DynamicResource 投產}"
                                       FontSize="20"
                                       FontWeight="Bold"
-                                      IsEnabled="{Binding OvenInfo.TempProducts.Count, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1}"
                                       Tag="{x:Null}"
                                       Visibility="{Binding IsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolVis}}">
                             <i:Interaction.Triggers>

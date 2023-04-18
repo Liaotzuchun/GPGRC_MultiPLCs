@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using GPGO_MultiPLCs.Models;
@@ -13,7 +12,6 @@ using GPMVVM.Models;
 using GPMVVM.Models.SECS;
 using GPMVVM.PooledCollections;
 using GPMVVM.SECSGEM;
-using Linearstar.Windows.RawInput.Native;
 using Newtonsoft.Json;
 using PLCService;
 
@@ -355,7 +353,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.ADDLOT_Command += (index, lot) =>
                                            {
-                                               if (index >= PLC_All.Count)
+                                               if (index >= PLC_All.Count || lot is { layer: <= 0 or > 8 } or { quantity: <= 0 })
                                                {
                                                    return HCACKValule.ParameterInvalid;
                                                }
@@ -516,9 +514,9 @@ public sealed class TotalView_ViewModel : ObservableObject
                                  };
 
             plc.CheckOut += _ =>
-            {
-                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
-            };
+                            {
+                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
+                            };
 
             plc.LotAdded += lotid =>
                             {
@@ -560,22 +558,22 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          {
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
                                              dialog.Show(new Dictionary<Language, string>
-                                                               {
-                                                                   { Language.TW, "已完成烘烤！" },
-                                                                   { Language.CHS, "已完成烘烤！" },
-                                                                   { Language.EN, "Finished!" }
-                                                               });
+                                                         {
+                                                             { Language.TW, "已完成烘烤！" },
+                                                             { Language.CHS, "已完成烘烤！" },
+                                                             { Language.EN, "Finished!" }
+                                                         });
                                          }
                                          else
                                          {
                                              SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
                                              dialog.Show(new Dictionary<Language, string>
-                                                               {
-                                                                   { Language.TW, "已取消烘烤！" },
-                                                                   { Language.CHS, "已取消烘烤！" },
-                                                                   { Language.EN, "Canceled!" }
-                                                               });
+                                                         {
+                                                             { Language.TW, "已取消烘烤！" },
+                                                             { Language.CHS, "已取消烘烤！" },
+                                                             { Language.EN, "Canceled!" }
+                                                         });
                                          }
 
                                          if (AddRecordToDB != null)
