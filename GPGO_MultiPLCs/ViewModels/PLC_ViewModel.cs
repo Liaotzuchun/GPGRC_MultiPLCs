@@ -389,7 +389,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     DoorLock = false;
                                                 });
 
-        CheckIsExecutingCommand = new RelayCommand(e =>
+        CheckIsExecutingCommand = new RelayCommand(async e =>
                                                    {
                                                        //! 避免烘烤中意外中止
                                                        if (IsExecuting && e is MouseButtonEventArgs { Source: ToggleButton { IsChecked: true } } args)

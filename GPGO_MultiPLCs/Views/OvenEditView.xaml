@@ -84,6 +84,32 @@
             <Border Grid.Row="0"
                     Grid.RowSpan="2"
                     Background="{StaticResource DisabledBackgroundBrush}"
+                    Visibility="{Binding RemoteMode, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                <Viewbox Margin="6"
+                         VerticalAlignment="Center"
+                         StretchDirection="DownOnly">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource DisabledForegroundBrush}"
+                                   Text="PC" />
+                        <ItemsControl HorizontalAlignment="Center"
+                                      FontSize="24"
+                                      FontWeight="Bold"
+                                      Foreground="{StaticResource DisabledForegroundBrush}"
+                                      ItemsSource="{DynamicResource 模式}" />
+                        <ItemsControl HorizontalAlignment="Center"
+                                      FontSize="24"
+                                      FontWeight="Bold"
+                                      Foreground="{StaticResource DisabledForegroundBrush}"
+                                      ItemsSource="{DynamicResource 停用}" />
+                    </StackPanel>
+                </Viewbox>
+            </Border>
+            <Border Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Background="{StaticResource DisabledBackgroundBrush}"
                     Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                 <Viewbox Margin="6"
                          VerticalAlignment="Center"
@@ -123,8 +149,19 @@
             <GroupBox Margin="0,0,2,2"
                       FontSize="16"
                       FontWeight="Bold"
-                      Header="{DynamicResource 投產}"
-                      IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay, FallbackValue=False}">
+                      Header="{DynamicResource 投產}">
+                <GroupBox.IsEnabled>
+                    <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                        <Binding Mode="OneWay"
+                                 Path="RemoteMode" />
+                        <Binding Converter="{StaticResource IsMoreThanValue}"
+                                 ConverterParameter="1"
+                                 FallbackValue="False"
+                                 Mode="OneWay"
+                                 Path="User.Level"
+                                 Source="{StaticResource Mediator}" />
+                    </MultiBinding>
+                </GroupBox.IsEnabled>
                 <Grid IsEnabled="{Binding IsChecked, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource BoolNot}}"
                       TextElement.FontSize="20"
                       TextElement.FontWeight="Bold">
@@ -468,8 +505,19 @@
             </GroupBox>
             <GroupBox Grid.Row="0"
                       Grid.Column="1"
-                      Margin="2,0,0,2"
-                      IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                      Margin="2,0,0,2">
+                <GroupBox.IsEnabled>
+                    <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                        <Binding Mode="OneWay"
+                                 Path="RemoteMode" />
+                        <Binding Converter="{StaticResource IsMoreThanValue}"
+                                 ConverterParameter="1"
+                                 FallbackValue="False"
+                                 Mode="OneWay"
+                                 Path="User.Level"
+                                 Source="{StaticResource Mediator}" />
+                    </MultiBinding>
+                </GroupBox.IsEnabled>
                 <GroupBox.Header>
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
@@ -526,6 +574,7 @@
                                                  StretchDirection="DownOnly">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
+                                                       FontSize="16"
                                                        Text="{Binding Layer, Mode=OneWay}" />
                                         </Viewbox>
                                     </DataTemplate>
@@ -537,13 +586,11 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate DataType="models:ProductInfo">
-                                        <Viewbox Margin="4"
-                                                 StretchDirection="DownOnly">
-                                            <TextBlock HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Text="{Binding PartID, Mode=OneWay}"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </Viewbox>
+                                        <TextBlock Margin="4"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding PartID, Mode=OneWay}"
+                                                   TextWrapping="Wrap" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -553,13 +600,11 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate DataType="models:ProductInfo">
-                                        <Viewbox Margin="4"
-                                                 StretchDirection="DownOnly">
-                                            <TextBlock HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Text="{Binding LotID, Mode=OneWay}"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </Viewbox>
+                                        <TextBlock Margin="4"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding LotID, Mode=OneWay}"
+                                                   TextWrapping="Wrap" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

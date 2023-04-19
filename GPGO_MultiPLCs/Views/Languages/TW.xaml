@@ -230,4 +230,6 @@
     <sys:String x:Key="僅限讀碼器">僅限讀碼器</sys:String>
     <sys:String x:Key="登記">登記</sys:String>
     <sys:String x:Key="結帳">結帳</sys:String>
+    <sys:String x:Key="模式">模式</sys:String>
+    <sys:String x:Key="停用">停用</sys:String>
 </ResourceDictionary>

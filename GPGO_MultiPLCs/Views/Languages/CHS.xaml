@@ -229,4 +229,7 @@
     <sys:String x:Key="僅限讀碼器">仅限读码器</sys:String>
     <sys:String x:Key="登記">登记</sys:String>
     <sys:String x:Key="結帳">结账</sys:String>
+    <sys:String x:Key="模式">模式</sys:String>
+    <sys:String x:Key="非">非</sys:String>
+    <sys:String x:Key="停用">停用</sys:String>
 </ResourceDictionary>

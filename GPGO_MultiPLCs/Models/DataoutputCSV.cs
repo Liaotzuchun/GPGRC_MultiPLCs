@@ -56,7 +56,7 @@ public class DataoutputCSV
         }
 
         var sb       = new StringBuilder();
-        var datapath = $"{folder}{filename}.csv";
+        var datapath = $"{folder}\\{filename}.csv";
 
         if (!File.Exists(datapath))
         {
@@ -130,7 +130,7 @@ public class DataoutputCSV
         }
 
         var sb       = new StringBuilder();
-        var datapath = $"{folder}{filename}.csv";
+        var datapath = $"{folder}\\{filename}.csv";
 
         if (!File.Exists(datapath))
         {
@@ -189,7 +189,7 @@ public class DataoutputCSV
         }
 
         var sb       = new StringBuilder();
-        var datapath = $"{folder}{filename}.csv";
+        var datapath = $"{folder}\\{filename}.csv";
 
         if (!File.Exists(datapath))
         {
