@@ -228,4 +228,6 @@
     <sys:String x:Key="生產中停止">生產中停止</sys:String>
     <sys:String x:Key="發送">發送</sys:String>
     <sys:String x:Key="僅限讀碼器">僅限讀碼器</sys:String>
+    <sys:String x:Key="登記">登記</sys:String>
+    <sys:String x:Key="結帳">結帳</sys:String>
 </ResourceDictionary>

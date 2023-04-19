@@ -227,4 +227,6 @@
     <sys:String x:Key="生產中停止">Abnormal Stop</sys:String>
     <sys:String x:Key="發送">Send</sys:String>
     <sys:String x:Key="僅限讀碼器">Code Reader Only</sys:String>
+    <sys:String x:Key="登記">Check In</sys:String>
+    <sys:String x:Key="結帳">Check Out</sys:String>
 </ResourceDictionary>

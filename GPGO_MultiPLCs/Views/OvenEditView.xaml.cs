@@ -73,7 +73,7 @@ public partial class OvenEditView : UserControl
 
     private void Grid_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (sender is Grid { IsEnabled: false } && CheckInTB.IsChecked == true && CheckInTB.TryFindResource("完成烘烤") is string s)
+        if (sender is Grid { IsEnabled: false } && CheckInTB.IsChecked == true && CheckInTB.TryFindResource("結帳") is string s)
         {
             CheckInTB.Content = s;
             CheckInTB.Tag     = true;

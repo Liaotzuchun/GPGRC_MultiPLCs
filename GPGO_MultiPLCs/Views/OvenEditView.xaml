@@ -571,7 +571,7 @@
                     </DataGrid>
                     <Grid Grid.Row="1">
                         <ToggleButton x:Name="CheckInTB"
-                                      Content="{DynamicResource 投產}"
+                                      Content="{DynamicResource 登記}"
                                       FontSize="20"
                                       FontWeight="Bold"
                                       Tag="{x:Null}"
@@ -584,7 +584,7 @@
                                 </i:EventTrigger>
                                 <i:EventTrigger EventName="Unchecked">
                                     <i:ChangePropertyAction PropertyName="Content"
-                                                            Value="{DynamicResource 投產}" />
+                                                            Value="{DynamicResource 登記}" />
                                     <i:InvokeCommandAction Command="{Binding CancelCheckInCommand, Mode=OneTime}"
                                                            CommandParameter="{Binding Tag, ElementName=CheckInTB, Mode=OneWay}" />
                                     <i:ChangePropertyAction PropertyName="Tag"
