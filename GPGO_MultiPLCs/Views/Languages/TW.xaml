@@ -233,4 +233,5 @@
     <sys:String x:Key="結帳">結帳</sys:String>
     <sys:String x:Key="模式">模式</sys:String>
     <sys:String x:Key="停用">停用</sys:String>
+    <sys:String x:Key="目前段數">目前段數</sys:String>
 </ResourceDictionary>

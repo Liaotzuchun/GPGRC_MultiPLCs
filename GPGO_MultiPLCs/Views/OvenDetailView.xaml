@@ -1118,7 +1118,8 @@
                         <Run Text=":" />
                         <Run Text="{Binding RackID, Mode=OneWay}" />
                     </TextBlock>-->
-                    <TextBlock Grid.Column="1"
+                    <TextBlock x:Name="StartTime"
+                               Grid.Column="0"
                                Margin="8,0"
                                FontSize="16"
                                FontWeight="Bold"
@@ -1128,19 +1129,8 @@
                         <Run Text=":" />
                         <Run Text="{Binding OvenInfo.StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
                     </TextBlock>
-                    <TextBlock Grid.Column="2"
-                               Margin="8,0"
-                               FontSize="16"
-                               FontWeight="Bold"
-                               Foreground="{StaticResource GlyphBrush}"
-                               Visibility="{Binding Visibility, ElementName=EndTime, Converter={StaticResource InverseVis}, Mode=OneWay}">
-                        <Run Text="{DynamicResource 剩餘時間}" />
-                        <Run Text=":" />
-                        <Run Text="{Binding RemainTime, Mode=OneWay}" />
-                        <Run Text="{DynamicResource 分}" />
-                    </TextBlock>
                     <TextBlock x:Name="EndTime"
-                               Grid.Column="2"
+                               Grid.Column="1"
                                Margin="8,0"
                                FontSize="16"
                                FontWeight="Bold"
@@ -1149,6 +1139,26 @@
                         <Run Text="{DynamicResource 結束時間}" />
                         <Run Text=":" />
                         <Run Text="{Binding OvenInfo.EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                    </TextBlock>
+                    <TextBlock Grid.Column="2"
+                               Margin="8,0"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource GlyphBrush}">
+                        <TextBlock.Visibility>
+                            <MultiBinding Converter="{StaticResource MultiAllVisible}">
+                                <Binding ElementName="StartTime"
+                                         Mode="OneWay"
+                                         Path="Visibility" />
+                                <Binding Converter="{StaticResource InverseVis}"
+                                         ElementName="EndTime"
+                                         Mode="OneWay"
+                                         Path="Visibility" />
+                            </MultiBinding>
+                        </TextBlock.Visibility>
+                        <Run Text="{DynamicResource 目前段數}" />
+                        <Run Text=":" />
+                        <Run Text="{Binding CurrentSegment, Mode=OneWay}" />
                     </TextBlock>
                 </Grid>
             </GroupBox.Header>

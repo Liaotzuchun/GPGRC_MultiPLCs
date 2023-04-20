@@ -376,7 +376,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     {
                                                         CheckOut?.Invoke(OvenInfo.RackID);
                                                         ClearInput();
-                                                        OvenInfo.Clear();
 
                                                         BeepSilince = true;
                                                     }
@@ -384,7 +383,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     {
                                                         CancelCheckIn?.Invoke(OvenInfo.RackID);
                                                         ClearInput();
-                                                        OvenInfo.Clear();
                                                         LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                                     }
 

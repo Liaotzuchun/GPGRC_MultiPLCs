@@ -387,7 +387,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                EventHappened?.Invoke(eventval);
 
                                                PLC_All[index].ClearInput();
-                                               PLC_All[index].OvenInfo.Clear();
                                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotRemoved");
                                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_CancelCheckIn");
                                                return HCACKValule.Acknowledge;
