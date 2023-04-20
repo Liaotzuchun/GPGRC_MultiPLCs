@@ -376,7 +376,7 @@ public sealed class Mediator : ObservableObject
                                                     {
                                                         while (!info.CheckBosnSizeIsOK())
                                                         {
-                                                            info.RecordTemperatures.RemoveEvery(2);
+                                                            info.RecordTemperatures.RemoveEvery(2, 0, x => x.KeyPoint);
                                                         }
                                                     });
 

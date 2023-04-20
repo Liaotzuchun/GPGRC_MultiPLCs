@@ -962,45 +962,27 @@
                                 Background="{StaticResource WindowBackgroundBrush6}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,1">
-                            <UniformGrid Rows="1">
-                                <TabControl views:TabControl.EnableSliding="True"
-                                            SelectedIndex="{Binding AutoMode, Mode=OneWay}">
-                                    <TabItem Width="0"
-                                             Height="0">
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   Text="{DynamicResource 手動}" />
-                                    </TabItem>
-                                    <TabItem Width="0"
-                                             Height="0">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
-                                                <ColumnDefinition Width="8" />
-                                            </Grid.ColumnDefinitions>
-                                            <Border Background="{StaticResource PressedBrush}">
-                                                <TextBlock HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           FontSize="16"
-                                                           FontWeight="Bold"
-                                                           Foreground="White"
-                                                           Text="{DynamicResource 自動}" />
-                                            </Border>
-                                            <Border Grid.Column="1"
-                                                    Background="{StaticResource DisabledBackgroundBrush}"
-                                                    BorderBrush="{StaticResource DisabledBorderBrush}"
-                                                    BorderThickness="1" />
-                                            <Border Grid.Column="1"
-                                                    Background="{StaticResource WorkingBrush}"
-                                                    BorderBrush="{StaticResource WorkingBorderBrush}"
-                                                    BorderThickness="1"
-                                                    Visibility="{Binding AutoMode_Start, Converter={StaticResource BoolVis}, Mode=OneWay}" />
-                                        </Grid>
-                                    </TabItem>
-                                </TabControl>
-                            </UniformGrid>
+                            <Grid>
+                                <Border Background="{StaticResource WorkingBrush}"
+                                        Visibility="{Binding AutoMode_Start, Converter={StaticResource BoolVis}, Mode=OneWay}" />
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           FontWeight="Bold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                            <Setter Property="Text" Value="{DynamicResource 手動}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding AutoMode, Mode=OneWay}"
+                                                             Value="True">
+                                                    <Setter Property="Text" Value="{DynamicResource 自動}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
                         </Border>
                         <Border Grid.Row="1"
                                 Grid.Column="1"
@@ -1147,6 +1129,18 @@
                         <Run Text="{Binding OvenInfo.StartTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
                     </TextBlock>
                     <TextBlock Grid.Column="2"
+                               Margin="8,0"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource GlyphBrush}"
+                               Visibility="{Binding Visibility, ElementName=EndTime, Converter={StaticResource InverseVis}, Mode=OneWay}">
+                        <Run Text="{DynamicResource 剩餘時間}" />
+                        <Run Text=":" />
+                        <Run Text="{Binding RemainTime, Mode=OneWay}" />
+                        <Run Text="{DynamicResource 分}" />
+                    </TextBlock>
+                    <TextBlock x:Name="EndTime"
+                               Grid.Column="2"
                                Margin="8,0"
                                FontSize="16"
                                FontWeight="Bold"

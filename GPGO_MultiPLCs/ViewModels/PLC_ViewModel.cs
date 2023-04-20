@@ -87,27 +87,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 return 0.0;
             }
 
-            ManualRecord = true; //! 狀態變更強制紀錄溫度
-
-            if (IsCooling)
-            {
-                return 1.0;
-            }
-
-            var d   = 1.0                    / SegmentCounts / 2.0;
-            var val = (CurrentSegment - 1.0) / SegmentCounts;
-
-            if (IsDwell)
-            {
-                val += d;
-            }
-
-            if (double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0)
-            {
-                return 0.0;
-            }
-
-            return val >= 1.0 ? 1.0 : val;
+            var val = RemainTime / TotalTime;
+            return double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0 ? 0.0 :
+                   val >= 1.0                                                ? 1.0 : val;
         }
     }
 
@@ -250,6 +232,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         ConnectionStatus.ValueChanged += status =>
                                          {
                                              NotifyPropertyChanged(nameof(EquipmentStatus));
+                                             NotifyPropertyChanged(nameof(Progress));
 
                                              EventHappened?.Invoke((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
                                              if (IsExecuting)
@@ -389,7 +372,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     DoorLock = false;
                                                 });
 
-        CheckIsExecutingCommand = new RelayCommand(async e =>
+        CheckIsExecutingCommand = new RelayCommand(e =>
                                                    {
                                                        //! 避免烘烤中意外中止
                                                        if (IsExecuting && e is MouseButtonEventArgs { Source: ToggleButton { IsChecked: true } } args)
@@ -540,22 +523,26 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                }
                                else if (e.PropertyName == nameof(IsRamp))
                                {
-                                   NotifyPropertyChanged(nameof(Progress));
+                                   ManualRecord = true; //! 狀態變更強制紀錄溫度
                                    SV_Changed?.Invoke(nameof(IsRamp), IsRamp);
                                }
                                else if (e.PropertyName == nameof(IsDwell))
                                {
-                                   NotifyPropertyChanged(nameof(Progress));
+                                   ManualRecord = true; //! 狀態變更強制紀錄溫度
                                    SV_Changed?.Invoke(nameof(IsDwell), IsDwell);
                                }
                                else if (e.PropertyName == nameof(IsCooling))
                                {
-                                   NotifyPropertyChanged(nameof(Progress));
+                                   ManualRecord = true; //! 狀態變更強制紀錄溫度
                                    SV_Changed?.Invoke(nameof(IsCooling), IsCooling);
                                }
                                else if (e.PropertyName == nameof(Inflating))
                                {
                                    SV_Changed?.Invoke(nameof(Inflating), Inflating);
+                               }
+                               else if (e.PropertyName is nameof(RemainTime) or nameof(TotalTime))
+                               {
+                                   NotifyPropertyChanged(nameof(Progress));
                                }
                            };
 
@@ -625,8 +612,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         {
                                             AddProcessEvent(eventval!);
                                         }
-
-                                        NotifyPropertyChanged(nameof(Progress));
                                     }
                                     else if (name == nameof(EquipmentState))
                                     {
@@ -780,6 +765,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             return;
         }
 
+        ManualRecord                          = true;
         var (type, addtime, note, tag, value) = eventdata;
         OvenInfo.EventList.Add(new LogEvent
                                {
@@ -885,7 +871,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             OvenInfo.Products.Add(product);
         }
 
-        void AddTemperatures(DateTime addtime,
+        void AddTemperatures(bool     keypoint,
+                             DateTime addtime,
                              double   t0,
                              double   t1,
                              double   t2,
@@ -930,7 +917,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         var _OvenTemperature_8     = OvenTemperature_8;
         var _OxygenContent         = OxygenContent;
 
-        AddTemperatures(OvenInfo.StartTime,
+        AddTemperatures(true,
+                        OvenInfo.StartTime,
                         _ThermostatTemperature,
                         _OvenTemperature_1,
                         _OvenTemperature_2,
@@ -968,7 +956,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             if (DateTime.Now - nt >= n && ConnectionStatus.CurrentValue)
                                             {
                                                 nt = DateTime.Now;
-                                                AddTemperatures(nt,
+                                                AddTemperatures(false,
+                                                                nt,
                                                                 _ThermostatTemperature,
                                                                 _OvenTemperature_1,
                                                                 _OvenTemperature_2,
@@ -983,7 +972,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             else if (ManualRecord)
                                             {
                                                 ManualRecord = false;
-                                                AddTemperatures(DateTime.Now,
+                                                AddTemperatures(true,
+                                                                DateTime.Now,
                                                                 _ThermostatTemperature,
                                                                 _OvenTemperature_1,
                                                                 _OvenTemperature_2,
@@ -1012,7 +1002,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         _OvenTemperature_8     = OvenTemperature_8        <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
                                         _OxygenContent         = OxygenContent            <= 0 ? _OxygenContent : OxygenContent;
 
-                                        AddTemperatures(DateTime.Now,
+                                        AddTemperatures(true,
+                                                        DateTime.Now,
                                                         _ThermostatTemperature,
                                                         _OvenTemperature_1,
                                                         _OvenTemperature_2,

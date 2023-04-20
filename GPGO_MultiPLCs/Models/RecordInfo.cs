@@ -13,6 +13,9 @@ namespace GPGO_MultiPLCs.Models;
 [BsonIgnoreExtraElements]
 public class RecordTemperatures
 {
+    [BsonIgnore]
+    public bool KeyPoint;
+
     public double Avg => new[]
                          {
                              OvenTemperatures_1,

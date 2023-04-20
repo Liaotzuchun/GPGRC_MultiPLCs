@@ -52,6 +52,7 @@
     <sys:String x:Key="設備狀態">Device Statuses</sys:String>
     <sys:String x:Key="開始時間">Starting Time</sys:String>
     <sys:String x:Key="結束時間">Closing Time</sys:String>
+    <sys:String x:Key="剩餘時間">Remain Time</sys:String>
     <sys:String x:Key="時間">Time</sys:String>
     <sys:String x:Key="事件">Event</sys:String>
     <sys:String x:Key="返回總覽">Back to Main</sys:String>

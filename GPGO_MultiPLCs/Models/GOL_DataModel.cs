@@ -6,6 +6,8 @@ namespace GPGO_MultiPLCs.Models;
 
 public class GOL_DataModel : PLCDataProvider
 {
+    public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) { }
+
     #region PC=>PLC
     [PLCBit(BitType.M, 21, LogType.None)]
     public bool Check
@@ -14,9 +16,7 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>
-    /// 門鎖開關
-    /// </summary>
+    /// <summary>門鎖開關</summary>
     [PLCBit(BitType.M, 350, LogType.None)]
     public bool DoorLock
     {
@@ -24,9 +24,7 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>
-    /// 警報器靜音
-    /// </summary>
+    /// <summary>警報器靜音</summary>
     [PLCBit(BitType.M, 351, LogType.None)]
     public bool BeepSilince
     {
@@ -55,8 +53,6 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
     #endregion
-
-    public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) { }
 
     #region 配方設定值
     /// <summary>配方名</summary>
@@ -1652,12 +1648,6 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    //public bool PC_InUse //! 不需要
-    //{
-    //    get => Get<bool>();
-    //    set => Set(value);
-    //}
-
     [PLCBit(BitType.M, 341, LogType.StatusVariables)]
     public bool RemoteMode
     {
@@ -1802,9 +1792,7 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>
-    /// RackID
-    /// </summary>
+    /// <summary>RackID</summary>
     public string RackID
     {
         get => Get<string>();
@@ -1960,6 +1948,21 @@ public class GOL_DataModel : PLCDataProvider
     /// <summary>配方PV 降溫時間</summary>
     [PLCData(DataType.D, 137, 0.1, LogType.StatusVariables)]
     public float PV_CoolingTime
+    {
+        get => Get<float>();
+        set => Set(value);
+    }
+
+    /// <summary>烘烤剩餘時間</summary>
+    [PLCData(DataType.D, 414, 0.1, LogType.StatusVariables)]
+    public float RemainTime
+    {
+        get => Get<float>();
+        set => Set(value);
+    }
+
+    [PLCData(DataType.D, 412, 0.1, LogType.StatusVariables)]
+    public float TotalTime
     {
         get => Get<float>();
         set => Set(value);

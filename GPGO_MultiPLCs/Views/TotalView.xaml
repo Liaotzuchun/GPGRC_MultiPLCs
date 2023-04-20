@@ -150,17 +150,25 @@
                                   HorizontalScrollBarVisibility="Disabled"
                                   ItemsSource="{Binding QueueMessages, Mode=OneWay}"
                                   Loaded="MessageDataGrid_Loaded"
-                                  VerticalScrollBarVisibility="Auto">
+                                  VerticalScrollBarVisibility="Visible">
                             <DataGrid.CellStyle>
                                 <Style TargetType="{x:Type DataGridCell}">
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="BorderBrush" Value="{x:Null}" />
-                                    <Setter Property="BorderThickness" Value="0" />
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                                    <Setter Property="MinHeight" Value="24" />
-                                    <Setter Property="Padding" Value="4" />
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="BorderBrush"
+                                            Value="{x:Null}" />
+                                    <Setter Property="BorderThickness"
+                                            Value="0" />
+                                    <Setter Property="FocusVisualStyle"
+                                            Value="{x:Null}" />
+                                    <Setter Property="HorizontalContentAlignment"
+                                            Value="Center" />
+                                    <Setter Property="KeyboardNavigation.TabNavigation"
+                                            Value="None" />
+                                    <Setter Property="MinHeight"
+                                            Value="24" />
+                                    <Setter Property="Padding"
+                                            Value="4" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -174,20 +182,26 @@
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
-                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="VerticalContentAlignment"
+                                            Value="Center" />
                                     <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource BaseForeground}" />
+                                        <Trigger Property="IsSelected"
+                                                 Value="True">
+                                            <Setter Property="Foreground"
+                                                    Value="{DynamicResource BaseForeground}" />
                                         </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Foreground" Value="{DynamicResource DisabledBorderBrush}" />
+                                        <Trigger Property="IsEnabled"
+                                                 Value="False">
+                                            <Setter Property="Foreground"
+                                                    Value="{DynamicResource DisabledBorderBrush}" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.CellStyle>
                             <DataGrid.RowHeaderStyle>
                                 <Style TargetType="DataGridRowHeader">
-                                    <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                                    <Setter Property="KeyboardNavigation.TabNavigation"
+                                            Value="None" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
@@ -200,14 +214,20 @@
                             </DataGrid.RowHeaderStyle>
                             <DataGrid.RowStyle>
                                 <Style TargetType="{x:Type DataGridRow}">
-                                    <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush6}" />
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                    <Setter Property="Background"
+                                            Value="{DynamicResource WindowBackgroundBrush6}" />
+                                    <Setter Property="FocusVisualStyle"
+                                            Value="{x:Null}" />
                                     <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="{DynamicResource LightBrush}" />
                                         </Trigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                                        <Trigger Property="IsSelected"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="{DynamicResource LightBrush}" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -221,23 +241,33 @@
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Normal">
-                                            <Setter TargetName="Border" Property="Background" Value="Green" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Green" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="StatusChanged">
-                                            <Setter TargetName="Border" Property="Background" Value="DodgerBlue" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="DodgerBlue" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Trigger">
-                                            <Setter TargetName="Border" Property="Background" Value="Blue" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Blue" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Operator">
-                                            <Setter TargetName="Border" Property="Background" Value="DarkOrange" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="DarkOrange" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Alert">
-                                            <Setter TargetName="Border" Property="Background" Value="Lime" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Lime" />
                                         </DataTrigger>
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
@@ -252,11 +282,15 @@
                                                                                              AncestorType={x:Type DataGridRowHeader}}" />
                                                 </MultiBinding>
                                             </DataTrigger.Binding>
-                                            <Setter TargetName="Border" Property="Background" Value="OrangeRed" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="OrangeRed" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Alarm">
-                                            <Setter TargetName="Border" Property="Background" Value="Lime" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Lime" />
                                         </DataTrigger>
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
@@ -271,15 +305,21 @@
                                                                                              AncestorType={x:Type DataGridRowHeader}}" />
                                                 </MultiBinding>
                                             </DataTrigger.Binding>
-                                            <Setter TargetName="Border" Property="Background" Value="Red" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Red" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="SECSCommnd">
-                                            <Setter TargetName="Border" Property="Background" Value="Magenta" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Magenta" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="RecipeChanged">
-                                            <Setter TargetName="Border" Property="Background" Value="Gold" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Gold" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
@@ -373,13 +413,18 @@
         <TabItem Width="0"
                  Height="0">
             <Grid Background="{StaticResource WindowBackgroundBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="13*" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
-                <local:OvenDetailView DataContext="{Binding PLC_In_Focused, Mode=OneWay}" />
+                <local:OvenDetailView DataContext="{Binding PLC_In_Focused, Mode=OneWay}"
+                                      Grid.ColumnSpan="2" />
                 <Grid Grid.Row="1"
-                      Margin="0">
+                      Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120" />
                         <ColumnDefinition />
@@ -434,15 +479,19 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
-                                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                <Setter Property="FocusVisualStyle"
+                                        Value="{x:Null}" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
                                             <Grid>
                                                 <Grid.Background>
-                                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                        <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
-                                                        <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                                                    <LinearGradientBrush StartPoint="0.5,0"
+                                                                         EndPoint="0.5,1">
+                                                        <GradientStop Offset="0"
+                                                                      Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                        <GradientStop Offset="1"
+                                                                      Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                                                     </LinearGradientBrush>
                                                 </Grid.Background>
                                                 <Grid.ColumnDefinitions>
@@ -451,9 +500,12 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Border>
                                                     <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                            <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
-                                                            <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}" />
+                                                        <LinearGradientBrush StartPoint="0.5,0"
+                                                                             EndPoint="0.5,1">
+                                                            <GradientStop Offset="0"
+                                                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                                                            <GradientStop Offset="1"
+                                                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush4}}" />
                                                         </LinearGradientBrush>
                                                     </Border.Background>
                                                     <Grid>
@@ -471,9 +523,12 @@
                                                         Grid.Column="1"
                                                         Opacity="0">
                                                     <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                            <GradientStop Offset="0.25" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
-                                                            <GradientStop Offset="1.25" Color="{Binding Color, Source={StaticResource WorkingBrush}}" />
+                                                        <LinearGradientBrush StartPoint="0.5,0"
+                                                                             EndPoint="0.5,1">
+                                                            <GradientStop Offset="0.25"
+                                                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                            <GradientStop Offset="1.25"
+                                                                          Color="{Binding Color, Source={StaticResource WorkingBrush}}" />
                                                         </LinearGradientBrush>
                                                     </Border.Background>
                                                 </Border>
@@ -481,9 +536,12 @@
                                                         Grid.Column="1"
                                                         Opacity="0">
                                                     <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                            <GradientStop Offset="0.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
-                                                            <GradientStop Offset="1.5" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
+                                                        <LinearGradientBrush StartPoint="0.5,0"
+                                                                             EndPoint="0.5,1">
+                                                            <GradientStop Offset="0.5"
+                                                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
+                                                            <GradientStop Offset="1.5"
+                                                                          Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
                                                         </LinearGradientBrush>
                                                     </Border.Background>
                                                 </Border>
@@ -555,9 +613,12 @@
                                     <Border Grid.Column="0"
                                             Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                         <Border.Background>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
-                                                <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource DisabledBorderBrush}}" />
+                                            <LinearGradientBrush StartPoint="0.5,0"
+                                                                 EndPoint="0.5,1">
+                                                <GradientStop Offset="0"
+                                                              Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
+                                                <GradientStop Offset="1"
+                                                              Color="{Binding Color, Source={StaticResource DisabledBorderBrush}}" />
                                             </LinearGradientBrush>
                                         </Border.Background>
                                         <TextBlock HorizontalAlignment="Center"
@@ -592,15 +653,21 @@
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsRamp, Mode=OneWay}"
                                                  Value="True">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource EnergyBrush}" />
+                                        <Setter TargetName="Progress"
+                                                Property="Background"
+                                                Value="{StaticResource EnergyBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsDwell, Mode=OneWay}"
                                                  Value="True">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource OKBrush}" />
+                                        <Setter TargetName="Progress"
+                                                Property="Background"
+                                                Value="{StaticResource OKBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsCooling, Mode=OneWay}"
                                                  Value="True">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
+                                        <Setter TargetName="Progress"
+                                                Property="Background"
+                                                Value="{StaticResource PressedBrush}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
