@@ -33,6 +33,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action<string>?                                                                 LotRemoved;
     public event Action<string>?                                                                 MachineCodeChanged;
     public event Func<BaseInfo, Task>?                                                           ExecutingFinished;
+    public event Func<string, bool>                                                              CheckUser;
     public event Func<string, PLC_Recipe?>?                                                      GetRecipe;
 
     private readonly IDialogService Dialog;
@@ -131,8 +132,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<string>();
         set
         {
-            value = value.Trim();
-            Set(value.Length > 5 ? value.Substring(0, 5) : value);
+            value = value.Trim().ToUpper();
+            Set(value.Length > 12 ? value.Substring(0, 12) : value);
         }
     }
 
@@ -142,7 +143,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<string>();
         set
         {
-            value = value.Trim();
+            value = value.Trim().ToUpper();
             Set(value.Length > 16 ? value.Substring(0, 16) : value);
         }
     }
@@ -153,7 +154,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<string>();
         set
         {
-            value = value.Trim();
+            value = value.Trim().ToUpper();
             if (value.Length < 10)
             {
                 Set(string.Empty);
@@ -272,11 +273,28 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         CheckRecipeCommand_KeyIn = new RelayCommand(async text =>
                                                     {
-                                                        if (text is string _text && _text != string.Empty)
+                                                        if (text is string name && name != string.Empty)
                                                         {
-                                                            if (Recipe_Names.FirstOrDefault(x => x.Equals(_text.Trim())) is { } foundname)
+                                                            name = name.Trim();
+                                                            using var matches = new PooledList<string>();
+
+                                                            foreach (var r in Recipe_Names)
                                                             {
-                                                                _ = await SetRecipeDialog(foundname);
+                                                                if (r == name) //! 100%符合的優先
+                                                                {
+                                                                    _ = await SetRecipeDialogAsync(name);
+                                                                    return;
+                                                                }
+
+                                                                if (r.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                                                                {
+                                                                    matches.Add(r);
+                                                                }
+                                                            }
+
+                                                            if (matches.Count > 0)
+                                                            {
+                                                                _ = await SetRecipeDialogAsync(matches[0]);
                                                             }
                                                             else
                                                             {
@@ -344,8 +362,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                           {
                                               isCheckin = true;
 
-                                              RackID   = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
-                                              DoorLock = true;
+                                              OvenInfo.OperatorID = InputOperatorID;
+                                              RackID              = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
+                                              DoorLock            = true;
                                               CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
                                           });
 
@@ -375,21 +394,51 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         CheckIsExecutingCommand = new RelayCommand(e =>
                                                    {
                                                        //! 避免烘烤中意外中止
-                                                       if (IsExecuting && e is MouseButtonEventArgs { Source: ToggleButton { IsChecked: true } } args)
+                                                       if (e is MouseButtonEventArgs { Source: ToggleButton tb } args)
                                                        {
-                                                           args.Handled = true;
+                                                           if (IsExecuting && tb.IsChecked == true)
+                                                           {
+                                                               args.Handled = true;
+                                                           }
+
+                                                           if (tb.IsChecked == false && CheckUser != null && !CheckUser.Invoke(InputOperatorID))
+                                                           {
+                                                               dialog.Show(new Dictionary<Language, string>
+                                                                           {
+                                                                               { Language.TW, "OP權限不符" },
+                                                                               { Language.CHS, "OP权限不符" },
+                                                                               { Language.EN, "OP permissions error." }
+                                                                           },
+                                                                           DialogMsgType.Alert);
+
+                                                               args.Handled = true;
+                                                           }
                                                        }
                                                    });
 
         StartCommand = new AsyncCommand(async _ =>
                                         {
+                                            if (CheckUser != null && !CheckUser.Invoke(InputOperatorID))
+                                            {
+                                                dialog.Show(new Dictionary<Language, string>
+                                                            {
+                                                                { Language.TW, "OP權限不符" },
+                                                                { Language.CHS, "OP权限不符" },
+                                                                { Language.EN, "OP permissions error." }
+                                                            },
+                                                            DialogMsgType.Alert);
+
+                                                return;
+                                            }
+
                                             if (!AutoMode)
                                             {
                                                 AutoMode = true;
                                             }
 
-                                            RackID   = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
-                                            DoorLock = true;
+                                            OvenInfo.OperatorID = InputOperatorID;
+                                            RackID              = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
+                                            DoorLock            = true;
 
                                             if (!RecipeCompareSV())
                                             {
@@ -791,7 +840,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
     }
 
-    private async Task<SetRecipeResult> SetRecipeDialog(string recipeName)
+    private async Task<SetRecipeResult> SetRecipeDialogAsync(string recipeName)
     {
         if (GetRecipe?.Invoke(recipeName) is not { } recipe)
         {
@@ -827,6 +876,18 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         });
 
             return SetRecipeResult.條件不允許;
+        }
+
+        if (RecipeCompare(recipe)) //! 配方相同就不再確認
+        {
+            if (AutoMode)
+            {
+                AutoMode = false;
+                await Task.Delay(900).ConfigureAwait(false);
+            }
+
+            AutoMode = true;
+            return SetRecipeResult.無需變更;
         }
 
         if (!await Dialog.Show(new Dictionary<Language, string>
@@ -1139,12 +1200,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public void ClearInput()
     {
         OvenInfo.TempProducts.Clear();
-        Set(string.Empty, nameof(InputOperatorID));
-        Set(string.Empty, nameof(InputPartID));
-        Set(string.Empty, nameof(InputLotID));
-        Set(string.Empty, nameof(InputRecipeName));
-        Set(0,            nameof(InputQuantity));
-        Set(0,            nameof(InputLayer));
+        Set(string.Empty,     nameof(InputOperatorID));
+        Set(string.Empty,     nameof(InputPartID));
+        Set(string.Empty,     nameof(InputLotID));
+        Set(string.Empty,     nameof(InputRecipeName));
+        Set(InputQuantityMin, nameof(InputQuantity));
+        Set(InputLayerMin,    nameof(InputLayer));
     }
 
     public void AddLOT(string PartID, string LotID, int layer, int quantity)

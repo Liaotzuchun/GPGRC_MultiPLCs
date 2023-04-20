@@ -20,10 +20,10 @@ namespace GPGO_MultiPLCs.ViewModels;
 /// <summary>所有烤箱的生產總覽</summary>
 public sealed class TotalView_ViewModel : ObservableObject
 {
-    public event Action?                                                                                           WantLogin;
     public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)>? EventHappened;
     public event Func<(int StationIndex, ProcessInfo Info), Task<int>>?                                            AddRecordToDB;
     public event Func<PLC_Recipe, bool>?                                                                           UpsertRecipe;
+    public event Func<string, bool>                                                                                CheckUser;
     public event Func<string, bool>?                                                                               DeleteRecipe;
     public event Func<string, PLC_Recipe?>?                                                                        GetRecipe;
 
@@ -43,7 +43,6 @@ public sealed class TotalView_ViewModel : ObservableObject
     public HSMSParameters                      HSMSParameters   { get; }
     public IGate                               Gate             { get; }
     public ObservableConcurrentQueue<LogEvent> QueueMessages    { get; } = new();
-    public RelayCommand                        WantLoginCommand { get; }
 
     /// <summary>回到總覽頁</summary>
     public RelayCommand BackCommand { get; }
@@ -175,8 +174,6 @@ public sealed class TotalView_ViewModel : ObservableObject
         SecsGemEquipment = new GOL_SecsGem("0", "GPGO", $"{v.Major}.{v.Minor}.{v.Build}");
 
         SecsGemEquipment.HSMSParameters.PropertyChanged += (_, _) => SecsGemEquipment.SaveHSMSParameters();
-
-        WantLoginCommand = new RelayCommand(_ => WantLogin?.Invoke());
 
         BackCommand = new RelayCommand(index => Index = int.TryParse(index.ToString(), out var i) ? i : 0);
 
@@ -497,6 +494,8 @@ public sealed class TotalView_ViewModel : ObservableObject
             var index = i;
 
             plc.WantFocus += () => PLCIndex = index;
+
+            plc.CheckUser += op => CheckUser != null && CheckUser.Invoke(op);
 
             plc.CheckIn += e =>
                            {

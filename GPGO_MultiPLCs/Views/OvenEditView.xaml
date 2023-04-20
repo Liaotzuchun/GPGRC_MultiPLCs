@@ -88,21 +88,17 @@
                 <Viewbox Margin="6"
                          VerticalAlignment="Center"
                          StretchDirection="DownOnly">
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical"
+                                TextElement.FontWeight="Bold"
+                                TextElement.Foreground="{StaticResource ErrorBrush}">
                         <TextBlock HorizontalAlignment="Center"
                                    FontSize="20"
-                                   FontWeight="Bold"
-                                   Foreground="{StaticResource ErrorBrush}"
                                    Text="PC" />
                         <ItemsControl HorizontalAlignment="Center"
                                       FontSize="24"
-                                      FontWeight="Bold"
-                                      Foreground="{StaticResource ErrorBrush}"
                                       ItemsSource="{DynamicResource 模式}" />
                         <ItemsControl HorizontalAlignment="Center"
                                       FontSize="24"
-                                      FontWeight="Bold"
-                                      Foreground="{StaticResource ErrorBrush}"
                                       ItemsSource="{DynamicResource 停用}" />
                     </StackPanel>
                 </Viewbox>
