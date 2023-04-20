@@ -88,7 +88,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 return 0.0;
             }
 
-            var val = RemainTime / TotalTime;
+            var val = 1.0 - RemainTime / TotalTime;
             return double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0 ? 0.0 :
                    val >= 1.0                                                ? 1.0 : val;
         }
