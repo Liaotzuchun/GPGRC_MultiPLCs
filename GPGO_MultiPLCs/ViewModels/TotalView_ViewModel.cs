@@ -451,10 +451,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                               return; //! 確定值變
                                           }
                                           Set(true, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
-                                          //foreach (var plc in PLC_All)
-                                          //{
-                                          //    plc.RemoteMode = true;
-                                          //}
+                                          foreach (var plc in PLC_All)
+                                          {
+                                              plc.RemoteMode = true;
+                                          }
 
                                           var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_REMOTE), "", true);
                                           EventHappened?.Invoke(eventval);

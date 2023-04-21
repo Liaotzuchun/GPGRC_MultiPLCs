@@ -796,7 +796,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="80" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -931,7 +931,7 @@
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="80" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -963,25 +963,76 @@
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,1,0,1">
                             <Grid>
-                                <Border Background="{StaticResource WorkingBrush}"
-                                        Visibility="{Binding AutoMode_Start, Converter={StaticResource BoolVis}, Mode=OneWay}" />
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           FontWeight="Bold">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
-                                            <Setter Property="Text" Value="{DynamicResource 手動}" />
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="0,0,1,0">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding AutoMode, Mode=OneWay}"
+                                                <DataTrigger Binding="{Binding RemoteMode, Mode=OneWay}"
                                                              Value="True">
-                                                    <Setter Property="Text" Value="{DynamicResource 自動}" />
+                                                    <Setter Property="Background" Value="{StaticResource OKBrush}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                    </Border.Style>
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="16"
+                                               FontWeight="Bold">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RemoteMode, Mode=OneWay}"
+                                                                 Value="True">
+                                                        <Setter Property="Foreground" Value="{StaticResource GlyphBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                        <Run Text="PC" />
+                                        <Run Text="{DynamicResource 模式}" />
+                                    </TextBlock>
+                                </Border>
+                                <Border Grid.Column="1">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="Transparent" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding AutoMode_Start, Mode=OneWay}"
+                                                             Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource WorkingBrush}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="16"
+                                               FontWeight="Bold">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                                <Setter Property="Text" Value="{DynamicResource 手動}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding AutoMode_Start, Mode=OneWay}"
+                                                                 Value="True">
+                                                        <Setter Property="Foreground" Value="{StaticResource ErrorBrush}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding AutoMode, Mode=OneWay}"
+                                                                 Value="True">
+                                                        <Setter Property="Text" Value="{DynamicResource 自動}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
                             </Grid>
                         </Border>
                         <Border Grid.Row="1"
