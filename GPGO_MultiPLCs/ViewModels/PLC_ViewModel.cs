@@ -36,11 +36,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Func<string, bool>                                                              CheckUser;
     public event Func<string, PLC_Recipe?>?                                                      GetRecipe;
 
-    private readonly IDialogService Dialog;
-    private readonly TaskFactory    OneScheduler = new(new StaTaskScheduler(1));
-    private          bool           isCheckin;
-    private          bool           ManualRecord;
-    private          DateTime       OfflineTime = DateTime.MaxValue;
+    private readonly IDialogService          Dialog;
+    private readonly TaskFactory             OneScheduler = new(new StaTaskScheduler(1));
+    private          bool                    isCheckin;
+    private          bool                    ManualRecord;
+    private          DateTime                OfflineTime    = DateTime.MaxValue;
+    public           CancellationTokenSource CheckRecipeCTS = new();
 
     /// <summary>控制紀錄任務結束</summary>
     public CancellationTokenSource CTS = new();
@@ -391,14 +392,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         CheckIsExecutingCommand = new RelayCommand(e =>
                                                    {
-                                                       //! 避免烘烤中意外中止
                                                        if (e is MouseButtonEventArgs { Source: ToggleButton tb } args)
                                                        {
+                                                           //! 避免烘烤中意外中止
                                                            if (IsExecuting && tb.IsChecked == true)
                                                            {
                                                                args.Handled = true;
                                                            }
 
+                                                           //! 避免CheckIn的OP權限不符
                                                            if (tb.IsChecked == false && CheckUser != null && !CheckUser.Invoke(InputOperatorID))
                                                            {
                                                                dialog.Show(new Dictionary<Language, string>
@@ -888,6 +890,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             return SetRecipeResult.無需變更;
         }
 
+        CheckRecipeCTS.Dispose();
+        CheckRecipeCTS = new CancellationTokenSource();
         if (!await Dialog.Show(new Dictionary<Language, string>
                                {
                                    { Language.TW, "請確認配方內容：" },
@@ -895,7 +899,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                    { Language.EN, "Please confirm this recipe:" }
                                },
                                recipe,
-                               true))
+                               true,
+                               TimeSpan.FromMilliseconds(int.MaxValue),
+                               DialogMsgType.Alert,
+                               CheckRecipeCTS.Token))
         {
             return SetRecipeResult.條件不允許;
         }
@@ -924,6 +931,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     private async Task StartRecoder(CancellationToken ct)
     {
         OvenInfo.Clear();
+        CheckRecipeCTS.Cancel();
 
         foreach (var product in OvenInfo.TempProducts)
         {

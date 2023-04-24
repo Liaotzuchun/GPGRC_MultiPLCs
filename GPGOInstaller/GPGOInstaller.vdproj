@@ -929,7 +929,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_CA831586DEBD430999B0ABF706D868F8"
             {
-            "DefaultLocation" = "8:C:\\GP\\GO"
+            "DefaultLocation" = "8:C:\\GP\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
