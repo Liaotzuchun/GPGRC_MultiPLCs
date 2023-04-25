@@ -45,7 +45,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     /// <summary>控制紀錄任務結束</summary>
     public CancellationTokenSource CTS = new();
-    //private TaskCompletionSource<bool> TCS;
 
     public int InputQuantityMin => 0;
     public int InputQuantityMax => 99999;
