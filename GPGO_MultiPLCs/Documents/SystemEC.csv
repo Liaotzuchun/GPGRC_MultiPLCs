@@ -8,7 +8,7 @@ _GEM_WBIT_S10_,23,UINT_1,0,1,1,,GemWBitS10,"0:Not Set, 1:Set (for send S10F1)"
 //_GEM_POLL_DELAY_,26,UINT_2,0,65535,0,,GemPollDelay,"0:no S1F1 sent, >0: delay"
 _GEM_ESTAB_COMM_DELAY_,44,UINT_2,1,10000,5,Sec,GemEstabCommDelay,
 _GEM_OFF_LINE_SUBSTATE_,49,UINT_1,1,3,2,,GemOffLineSubstate,"1:Eqp. OFF-line , 2:Attempt On-line , 3:Host Off-line"
-_GEM_ON_LINE_FAILED_,50,UINT_1,1,3,1,,GemOnlineFailed,"1:Eqp. OFF-line , 3:Host Off-line"
+_GEM_ON_LINE_FAILED_,50,UINT_1,1,3,3,,GemOnlineFailed,"1:Eqp. OFF-line , 3:Host Off-line"
 _GEM_ON_LINE_SUBSTATE_,51,UINT_1,4,5,5,,GemOnLineSubstate,"4:On-line/Local, 5:ON-line/Remote"
 _GEM_MAX_SPOOL_TRANSMIT_,52,UINT_4,1,200000000,100,,GemMaxSpoolTransmit,
 //_GEM_LIMIT_DELAY_,65,UINT_2,1,65535,10,Sec,GemLimitDelay,
