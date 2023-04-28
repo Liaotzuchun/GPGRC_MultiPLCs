@@ -10,198 +10,196 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
-    <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Hidden">
-            <Grid DataContext="{Binding Mode=OneWay}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                    <RowDefinition MinHeight="30" />
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="Remote IP" />
-                </Border>
-                <Border Grid.Row="1"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="Remote Port" />
-                </Border>
-                <Border Grid.Row="2"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="Local IP" />
-                </Border>
-                <Border Grid.Row="3"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="Local Port" />
-                </Border>
-                <Border Grid.Row="4"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="T5" />
-                </Border>
-                <Border Grid.Row="5"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="T6" />
-                </Border>
-                <Border Grid.Row="6"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="T7" />
-                </Border>
-                <Border Grid.Row="7"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="T8" />
-                </Border>
-                <Border Grid.Row="8"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="Role" />
-                </Border>
-                <Border Grid.Row="9"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,0">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="Retry Time" />
-                </Border>
-                <Border Grid.Row="10"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="1,1,0,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontWeight="Bold"
-                               Text="Device ID" />
-                </Border>
-                <TextBox Grid.Row="0"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding RemoteIP, Mode=TwoWay}" />
-                <TextBox Grid.Row="1"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding RemotePort, Mode=TwoWay}" />
-                <TextBox Grid.Row="2"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding LocalIP, Mode=TwoWay}" />
-                <TextBox Grid.Row="3"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding LocalPort, Mode=TwoWay}" />
-                <TextBox Grid.Row="4"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding T5, Mode=TwoWay}" />
-                <TextBox Grid.Row="5"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding T6, Mode=TwoWay}" />
-                <TextBox Grid.Row="6"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding T7, Mode=TwoWay}" />
-                <TextBox Grid.Row="7"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding T8, Mode=TwoWay}" />
-                <ComboBox Grid.Row="8"
-                          Grid.Column="1"
-                          BorderThickness="1,1,1,0"
-                          ItemsSource="{views:EnumValues {x:Type qsactivexLib:HSMS_COMM_MODE}}"
-                          SelectedItem="{Binding HSMS_Connect_Mode, Mode=TwoWay}" />
-                <TextBox Grid.Row="9"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,0"
-                         IsUndoEnabled="False"
-                         Text="{Binding LinkTestPeriod, Mode=TwoWay}" />
-                <TextBox Grid.Row="10"
-                         Grid.Column="1"
-                         BorderThickness="1,1,1,1"
-                         IsUndoEnabled="False"
-                         Text="{Binding DeviceID, Mode=TwoWay}" />
-                <!--<Border Grid.Row="0"
+    <ScrollViewer HorizontalScrollBarVisibility="Hidden">
+        <Grid DataContext="{Binding Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+                <RowDefinition MinHeight="30" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="Remote IP" />
+            </Border>
+            <Border Grid.Row="1"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="Remote Port" />
+            </Border>
+            <Border Grid.Row="2"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="Local IP" />
+            </Border>
+            <Border Grid.Row="3"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="Local Port" />
+            </Border>
+            <Border Grid.Row="4"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="T5" />
+            </Border>
+            <Border Grid.Row="5"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="T6" />
+            </Border>
+            <Border Grid.Row="6"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="T7" />
+            </Border>
+            <Border Grid.Row="7"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="T8" />
+            </Border>
+            <Border Grid.Row="8"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="Role" />
+            </Border>
+            <Border Grid.Row="9"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,0">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="Retry Time" />
+            </Border>
+            <Border Grid.Row="10"
+                    Grid.Column="0"
+                    Background="{StaticResource WindowBackgroundBrush2}"
+                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                    BorderThickness="1,1,0,1">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontWeight="Bold"
+                           Text="Device ID" />
+            </Border>
+            <TextBox Grid.Row="0"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding RemoteIP, Mode=TwoWay}" />
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding RemotePort, Mode=TwoWay}" />
+            <TextBox Grid.Row="2"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding LocalIP, Mode=TwoWay}" />
+            <TextBox Grid.Row="3"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding LocalPort, Mode=TwoWay}" />
+            <TextBox Grid.Row="4"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding T5, Mode=TwoWay}" />
+            <TextBox Grid.Row="5"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding T6, Mode=TwoWay}" />
+            <TextBox Grid.Row="6"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding T7, Mode=TwoWay}" />
+            <TextBox Grid.Row="7"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding T8, Mode=TwoWay}" />
+            <ComboBox Grid.Row="8"
+                      Grid.Column="1"
+                      BorderThickness="1,1,1,0"
+                      ItemsSource="{views:EnumValues {x:Type qsactivexLib:HSMS_COMM_MODE}}"
+                      SelectedItem="{Binding HSMS_Connect_Mode, Mode=TwoWay}" />
+            <TextBox Grid.Row="9"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,0"
+                     IsUndoEnabled="False"
+                     Text="{Binding LinkTestPeriod, Mode=TwoWay}" />
+            <TextBox Grid.Row="10"
+                     Grid.Column="1"
+                     BorderThickness="1,1,1,1"
+                     IsUndoEnabled="False"
+                     Text="{Binding DeviceID, Mode=TwoWay}" />
+            <!--<Border Grid.Row="0"
                         Grid.RowSpan="11"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="1,1,0,1" />-->
-            </Grid>
-        </ScrollViewer>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

@@ -78,7 +78,21 @@ public sealed class Mediator : ObservableObject
 
             foreach (var plc in TotalVM.PLC_All)
             {
-                plc.Delay = value;
+                plc.RecordDelay = value;
+            }
+        }
+    }
+
+    public int ClearInputDelay
+    {
+        get => Get<int>();
+        private set
+        {
+            Set(value);
+
+            foreach (var plc in TotalVM.PLC_All)
+            {
+                plc.ClearInputDelay = value;
             }
         }
     }
@@ -140,6 +154,12 @@ public sealed class Mediator : ObservableObject
                                                                 break;
                                                             case nameof(GlobalSettings.OvenCount):
                                                                 OvenCount = ((GlobalSettings)s).OvenCount;
+                                                                break;
+                                                            case nameof(GlobalSettings.RecordDelay):
+                                                                RecordDelay = ((GlobalSettings)s).RecordDelay;
+                                                                break;
+                                                            case nameof(GlobalSettings.ClearInputDelay):
+                                                                ClearInputDelay = ((GlobalSettings)s).ClearInputDelay;
                                                                 break;
                                                         }
                                                     };

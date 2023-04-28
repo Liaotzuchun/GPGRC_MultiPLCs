@@ -492,7 +492,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             PLC_All[i] = plc;
             var index = i;
 
-            plc.WantFocus += () => PLCIndex = index;
+            plc.WantDetail += () => PLCIndex = index;
 
             plc.CheckUser += op => CheckUser != null && CheckUser.Invoke(op);
 

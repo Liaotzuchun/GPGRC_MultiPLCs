@@ -59,6 +59,22 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         }
     }
 
+    public int ClearInputDelay
+    {
+        get => Get<int>();
+        set
+        {
+            value = value switch
+            {
+                < 30 => 30,
+                > 600 => 600,
+                _ => value
+            };
+
+            Set(value);
+        }
+    }
+
     public GlobalSettings() : base("Settings")
     {
         //CodeReaderName   = "Symbol Bar Code Scanner";
@@ -74,5 +90,6 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         Lng              = Language.TW;
         OvenCount        = 1;
         RecordDelay      = 1;
+        ClearInputDelay  = 60;
     }
 }

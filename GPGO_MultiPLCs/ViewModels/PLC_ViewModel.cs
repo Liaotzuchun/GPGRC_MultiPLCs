@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using GPGO_MultiPLCs.Models;
+using GPMVVM.Core.Helpers;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
@@ -20,7 +21,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 {
     public event Action?                                                                         ExecutingStarted;
     public event Action?                                                                         RecipeKeyInError;
-    public event Action?                                                                         WantFocus;
+    public event Action?                                                                         WantDetail;
     public event Action<(EventType type, DateTime time, string note, string tag, object value)>? EventHappened;
     public event Action<(string opid, string rackid)>?                                           CheckIn;
     public event Action<string, bool>?                                                           InvokeSECSAlarm;
@@ -33,28 +34,30 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Action<string>?                                                                 LotRemoved;
     public event Action<string>?                                                                 MachineCodeChanged;
     public event Func<BaseInfo, Task>?                                                           ExecutingFinished;
-    public event Func<string, bool>                                                              CheckUser;
+    public event Func<string, bool>?                                                             CheckUser;
     public event Func<string, PLC_Recipe?>?                                                      GetRecipe;
 
+    private readonly CountDownTimer          countDownTimer = new();
     private readonly IDialogService          Dialog;
     private readonly TaskFactory             OneScheduler = new(new StaTaskScheduler(1));
     private          bool                    isCheckin;
     private          bool                    ManualRecord;
+    private          CancellationTokenSource CheckRecipeCTS = new();
+    private          CancellationTokenSource ppCTS          = new();
     private          DateTime                OfflineTime    = DateTime.MaxValue;
-    public           CancellationTokenSource CheckRecipeCTS = new();
-
-    /// <summary>控制紀錄任務結束</summary>
-    public CancellationTokenSource CTS = new();
+    private          TextBox?                inputFocusTB;
 
     public int InputQuantityMin => 0;
     public int InputQuantityMax => 99999;
     public int InputLayerMin    => 1;
     public int InputLayerMax    => 8;
     //public event Action<PLC_Recipe> RecipeChangedbyPLC;
-    public double       Delay         { get; set; } = 1;
-    public RelayCommand LoadedCommand { get; }
-    public AsyncCommand StartCommand  { get; }
-    public AsyncCommand StopCommand   { get; }
+    public int RecordDelay { get; set; } = 1;
+    public int ClearInputDelay { get; set; } = 60;
+    public RelayCommand LoadedCommand     { get; }
+    public RelayCommand InputFocusCommand { get; }
+    public AsyncCommand StartCommand      { get; }
+    public AsyncCommand StopCommand       { get; }
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
     /// <summary>投產</summary>
@@ -63,7 +66,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public RelayCommand CheckRecipeCommand_KeyLeave { get; }
     public RelayCommand AddLotCommand               { get; }
     public RelayCommand DeleteLotCommand            { get; }
-    public RelayCommand FocusCommand                { get; }
+    public RelayCommand GoDetailCommand             { get; }
     public RelayCommand ClearOPTextCommand          { get; }
     public RelayCommand ClearPartTextCommand        { get; }
     public RelayCommand ClearLotTextCommand         { get; }
@@ -133,7 +136,30 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         set
         {
             value = value.Trim().ToUpper();
-            Set(value.Length > 12 ? value.Substring(0, 12) : value);
+
+            if (value.Length > 12)
+            {
+                value = value.Substring(0, 12);
+            }
+
+            if (CheckUser != null && !CheckUser.Invoke(value))
+            {
+                Set(string.Empty);
+                Dialog.Show(new Dictionary<Language, string>
+                            {
+                                { Language.TW, "OP權限不符" },
+                                { Language.CHS, "OP权限不符" },
+                                { Language.EN, "OP permissions error." }
+                            },
+                            DialogMsgType.Alert);
+
+                InputReFocus();
+            }
+            else
+            {
+                Set(value);
+                DelayClean();
+            }
         }
     }
 
@@ -145,6 +171,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         {
             value = value.Trim().ToUpper();
             Set(value.Length > 16 ? value.Substring(0, 16) : value);
+            DelayClean();
         }
     }
 
@@ -165,10 +192,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                 { Language.EN, "At least 10 chars" }
                             },
                             DialogMsgType.Alert);
+
+                InputReFocus();
             }
             else
             {
                 Set(value);
+                DelayClean();
             }
         }
     }
@@ -189,6 +219,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             }
 
             Set(value);
+            DelayClean();
         }
     }
 
@@ -207,6 +238,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             }
 
             Set(value);
+            DelayClean();
         }
     }
 
@@ -270,6 +302,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                  OvenInfo.ChartModel.SetFrameworkElement(el);
                                              }
                                          });
+
+        InputFocusCommand = new RelayCommand(e => inputFocusTB = e as TextBox);
 
         CheckRecipeCommand_KeyIn = new RelayCommand(async text =>
                                                     {
@@ -507,10 +541,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                        },
                                        null);
 
-        FocusCommand = new RelayCommand(_ =>
-                                        {
-                                            WantFocus?.Invoke();
-                                        });
+        GoDetailCommand = new RelayCommand(_ => WantDetail?.Invoke());
 
         ClearOPTextCommand = new RelayCommand(e =>
                                               {
@@ -742,6 +773,29 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         #endregion 註冊PLC事件
     }
 
+    private async void InputReFocus()
+    {
+        if (inputFocusTB != null)
+        {
+            await Task.Delay(60);
+            Keyboard.Focus(inputFocusTB);
+        }
+    }
+
+    private async void DelayClean()
+    {
+        if (await countDownTimer.WaitAsync(TimeSpan.FromSeconds(ClearInputDelay)))
+        {
+            inputFocusTB = null;
+            Set(string.Empty,     nameof(InputOperatorID));
+            Set(string.Empty,     nameof(InputPartID));
+            Set(string.Empty,     nameof(InputLotID));
+            Set(string.Empty,     nameof(InputRecipeName));
+            Set(InputQuantityMin, nameof(InputQuantity));
+            Set(InputLayerMin,    nameof(InputLayer));
+        }
+    }
+
     private async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe)
     {
         if (AutoMode)
@@ -829,13 +883,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     /// <param name="act">取消動作時執行的委派</param>
     private void ResetStopTokenSource(Action? act = null)
     {
-        CTS.Dispose();
+        ppCTS.Dispose();
 
-        CTS = new CancellationTokenSource();
+        ppCTS = new CancellationTokenSource();
 
         if (act != null)
         {
-            CTS.Token.Register(act);
+            ppCTS.Token.Register(act);
         }
     }
 
@@ -971,7 +1025,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         OvenInfo.StartTime = DateTime.Now;
         var nt                     = OvenInfo.StartTime;
-        var n                      = TimeSpan.FromSeconds(Delay); //! 每delay週期紀錄一次
+        var n                      = TimeSpan.FromSeconds(RecordDelay); //! 每delay週期紀錄一次
         var _ThermostatTemperature = PV_ThermostatTemperature;
         var _OvenTemperature_1     = OvenTemperature_1;
         var _OvenTemperature_2     = OvenTemperature_2;
@@ -1002,7 +1056,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         {
                                             if ((DateTime.Now - OfflineTime).TotalSeconds > 30.0)
                                             {
-                                                CTS.Cancel();
+                                                ppCTS.Cancel();
                                                 var eventval = (EventType.Alarm, DateTime.Now, "OffLine. The recoding has been aborted.", string.Empty, true);
                                                 EventHappened?.Invoke(eventval);
                                                 AddProcessEvent(eventval);
@@ -1089,7 +1143,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         await StopPP(); //! 需先確認PP已停止
 
         ResetStopTokenSource();
-        ExecutingTask = StartRecoder(CTS.Token);
+        ExecutingTask = StartRecoder(ppCTS.Token);
         _ = ExecutingTask.ContinueWith(x =>
                                        {
                                            x.Dispose();
@@ -1119,7 +1173,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         if (ExecutingTask != null && IsExecuting)
         {
-            CTS.Cancel();
+            ppCTS.Cancel();
 
             await ExecutingTask;
         }
@@ -1204,6 +1258,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public void ClearInput()
     {
+        inputFocusTB = null;
         OvenInfo.TempProducts.Clear();
         Set(string.Empty,     nameof(InputOperatorID));
         Set(string.Empty,     nameof(InputPartID));
@@ -1234,6 +1289,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
 
     #region Interface Implementations
-    public void Dispose() => CTS.Dispose();
+    public void Dispose() => ppCTS.Dispose();
     #endregion
 }

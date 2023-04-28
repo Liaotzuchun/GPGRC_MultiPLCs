@@ -126,7 +126,7 @@
                 </Viewbox>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding FocusCommand, Mode=OneTime}" />
+                        <i:InvokeCommandAction Command="{Binding GoDetailCommand, Mode=OneTime}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
@@ -213,7 +213,14 @@
                                  BorderThickness="1,1,1,1"
                                  GotKeyboardFocus="TextBox_GotKeyboardFocus"
                                  KeyDown="OPTextBox_KeyDown"
-                                 Text="{Binding InputOperatorID, Mode=TwoWay}" />
+                                 Text="{Binding InputOperatorID, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="GotKeyboardFocus">
+                                    <i:InvokeCommandAction Command="{Binding InputFocusCommand, Mode=OneTime}"
+                                                           CommandParameter="{Binding ElementName=OPTextBox, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
                     </DockPanel>
                     <Border Grid.Row="1"
                             Grid.Column="0"
@@ -255,7 +262,8 @@
                                  BorderThickness="1,0,1,1"
                                  GotKeyboardFocus="TextBox_GotKeyboardFocus"
                                  KeyDown="PartTextBox_KeyDown"
-                                 Text="{Binding InputPartID, Mode=TwoWay}" />
+                                 Text="{Binding InputPartID, Mode=TwoWay}">
+                        </TextBox>
                     </DockPanel>
                     <Border Grid.Row="1"
                             Grid.Column="1"
@@ -308,7 +316,14 @@
                                  BorderThickness="1,0,1,1"
                                  GotKeyboardFocus="TextBox_GotKeyboardFocus"
                                  KeyDown="LotTextBox_KeyDown"
-                                 Text="{Binding InputLotID, Mode=TwoWay}" />
+                                 Text="{Binding InputLotID, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="GotKeyboardFocus">
+                                    <i:InvokeCommandAction Command="{Binding InputFocusCommand, Mode=OneTime}"
+                                                           CommandParameter="{Binding ElementName=LotTextBox, Mode=OneWay}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
                     </DockPanel>
                     <Border Grid.Row="2"
                             Grid.Column="1"
