@@ -751,7 +751,7 @@
         {
             "{994432C3-9487-495D-8656-3E829A8DBDDE}:_02525E815B444185B2579E445518AD33"
             {
-            "DefaultLocation" = "8:[TARGETDIR]"
+            "DefaultLocation" = "8:C:\\GP"
             "Name" = "8:GP"
             "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
@@ -1561,7 +1561,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3182431B3E4B4768A0CD6FF00A9B439C"
             {
-            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Release\\net48\\GPGO_MultiPLCs.exe"
+            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Debug\\net48\\GPGO_MultiPLCs.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"
