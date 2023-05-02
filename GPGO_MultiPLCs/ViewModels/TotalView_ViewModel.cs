@@ -202,12 +202,14 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         PropertyChanged += (s, e) =>
                            {
-                               if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE))
+                               if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
                                {
                                    var val = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
+                                   var val2 = val && SECS_REMOTE;
                                    foreach (var plc in PLC_All)
                                    {
                                        plc.SecsIsOnline = val;
+                                       plc.SecsIsRemoteOnline = val2;
                                    }
                                }
                            };

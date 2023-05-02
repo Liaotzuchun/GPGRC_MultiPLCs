@@ -347,7 +347,7 @@
                     </Border>
                     <DockPanel Grid.Row="3"
                                Grid.Column="1"
-                               IsEnabled="{Binding IsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolNot}}"
+                               IsEnabled="{Binding SecsIsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolNot}}"
                                LastChildFill="True">
                         <Button Width="30"
                                 DockPanel.Dock="Right">
@@ -655,7 +655,7 @@
                         <Button Content="{DynamicResource 啟動}"
                                 FontSize="20"
                                 FontWeight="Bold"
-                                Visibility="{Binding IsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                                Visibility="{Binding SecsIsOnline, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding StartCommand, Mode=OneTime}" />

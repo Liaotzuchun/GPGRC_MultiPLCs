@@ -248,6 +248,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         set => Set(value);
     }
 
+    public bool SecsIsRemoteOnline
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
     public LogEvent SelectedLogEvent
     {
         set => OvenInfo.ChartModel.SetAnnotation(value);
