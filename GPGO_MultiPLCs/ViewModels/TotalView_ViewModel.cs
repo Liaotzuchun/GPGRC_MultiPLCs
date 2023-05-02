@@ -556,7 +556,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                          if (baseInfo.IsFinished)
                                          {
-                                             SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
+                                             //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
                                                              { Language.TW, "已完成烘烤！" },
@@ -566,7 +566,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          }
                                          else
                                          {
-                                             SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
+                                             //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
 
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
