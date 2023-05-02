@@ -73,11 +73,11 @@ public class GOL_SecsGem : SecsGemEquipment
                              }
                              if (r.CommandName == "GO_LOCAL")
                              {
-                                 return new RemoteCommandResponse(AxQGWrapper?.OnLineLocal() == 0 ? HCACKValule.CantPerform : HCACKValule.Acknowledge);
+                                 return new RemoteCommandResponse(AxQGWrapper?.OnLineLocal() == 0 ? HCACKValule.Acknowledge : HCACKValule.CantPerform);
                              }
                              if (r.CommandName == "GO_REMOTE")
                              {
-                                 return new RemoteCommandResponse(AxQGWrapper?.OnLineRemote() == 0 ? HCACKValule.CantPerform : HCACKValule.Acknowledge);
+                                 return new RemoteCommandResponse(AxQGWrapper?.OnLineRemote() == 0 ? HCACKValule.Acknowledge : HCACKValule.CantPerform);
                              }
 
                              return new RemoteCommandResponse(HCACKValule.CmdNotExist);
