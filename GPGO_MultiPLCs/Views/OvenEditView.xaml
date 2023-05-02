@@ -631,7 +631,7 @@
                                       FontSize="20"
                                       FontWeight="Bold"
                                       Tag="{x:Null}"
-                                      Visibility="{Binding IsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolVis}}">
+                                      Visibility="{Binding SecsIsOnline, Mode=OneWay, Converter={StaticResource BoolVis}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Checked">
                                     <i:ChangePropertyAction PropertyName="Content"

@@ -242,7 +242,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
     }
 
-    public bool IsRemoteOnline
+    public bool SecsIsOnline
     {
         get => Get<bool>();
         set => Set(value);
