@@ -567,7 +567,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          else
                                          {
                                              //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
-
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
                                                              { Language.TW, "已取消烘烤！" },
